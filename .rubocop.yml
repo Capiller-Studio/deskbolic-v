@@ -18,7 +18,9 @@ AllCops:
   Exclude:
     - "bin/**/*"
     - "db/migrate/**/*.rb"
+    - "db/migrate_shards/**/*.rb"
     - "db/schema.rb"
+    - "db/primary_de_schema.rb"
     - "log/**/*"
     - "node_modules/**/*"
     - "public/**/*"
@@ -75,11 +77,13 @@ Metrics/AbcSize:
   Max: 45
   Exclude:
     - "db/migrate/**/*.rb"
+    - "db/migrate_shards/**/*.rb"
 
 Metrics/ParameterLists:
   Max: 7
   Exclude:
     - "db/migrate/**/*.rb"
+    - "db/migrate_shards/**/*.rb"
 
 Metrics/CollectionLiteralLength: # new in 1.47
   Enabled: true
@@ -89,17 +93,20 @@ Layout/LineLength:
   Exclude:
     - "config/**/**"
     - "db/migrate/**/*.rb"
+    - "db/migrate_shards/**/*.rb"
     - "db/seed_data/**/*.rb"
 
 Metrics/MethodLength:
   Max: 35
   Exclude:
     - "db/migrate/**/*.rb"
+    - "db/migrate_shards/**/*.rb"
 
 Metrics/ModuleLength:
   Max: 130
   Exclude:
     - "db/migrate/**/*.rb"
+    - "db/migrate_shards/**/*.rb"
     - "spec/**/*_spec.rb"
 
 Metrics/ClassLength:
@@ -107,6 +114,7 @@ Metrics/ClassLength:
   Exclude:
     - "app/controllers/api/**/*.rb"
     - "db/migrate/**/*.rb"
+    - "db/migrate_shards/**/*.rb"
 
 Naming/PredicateName:
   ForbiddenPrefixes:
@@ -167,6 +175,7 @@ Style/StringChars:
 Rails/SkipsModelValidations:
   Exclude:
     - "db/migrate/**/*.rb"
+    - "db/migrate_shards/**/*.rb"
 
 Style/Documentation:
   Enabled: false
@@ -551,6 +560,7 @@ Performance/ChainArrayAllocation:
   Exclude:
     - "config/**"
     - "db/migrate/**/*.rb"
+    - "db/migrate_shards/**/*.rb"
     - "spec/**/*_spec.rb"
 
 Performance/UriDefaultParser:

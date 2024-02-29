@@ -8,21 +8,85 @@ default: &default
   timeout: 100000
 
 development:
-  <<: *default
-  database: deskbolic_development
+  primary:
+    <<: *default
+    database: deskbolic_development
+  primary_replica:
+    <<: *default
+    database: deskbolic_development
+    replica: true
+  primary_de:
+    <<: *default
+    database: deskbolic_de_development
+    migrations_paths: db/migrate_shards
+  primary_de_replica:
+    <<: *default
+    database: deskbolic_de_development
+    replica: true
 
 test:
-  <<: *default
-  database: deskbolic_test
+  primary:
+    <<: *default
+    database: deskbolic_test
+  primary_replica:
+    <<: *default
+    database: deskbolic_test
+    replica: true
+  primary_de:
+    <<: *default
+    database: deskbolic_de_test
+    migrations_paths: db/migrate_shards
+  primary_de_replica:
+    <<: *default
+    database: deskbolic_de_test
+    replica: true
 
 production:
-  <<: *default
-  database: deskbolic_production
-  username: <%= Rails.application.credentials.db_username %>
-  password: <%= Rails.application.credentials.db_password %>
+  primary:
+    <<: *default
+    database: deskbolic_production
+    username: <%= Rails.application.credentials.db_username %>
+    password: <%= Rails.application.credentials.db_password %>
+  primary_replica:
+    <<: *default
+    database: deskbolic_production
+    username: <%= Rails.application.credentials.db_username %>
+    password: <%= Rails.application.credentials.db_password %>
+    replica: true
+  primary_de:
+    <<: *default
+    database: deskbolic_de_production
+    username: <%= Rails.application.credentials.db_username %>
+    password: <%= Rails.application.credentials.db_password %>
+    migrations_paths: db/migrate_shards
+  primary_de_replica:
+    <<: *default
+    database: deskbolic_de_production
+    username: <%= Rails.application.credentials.db_username %>
+    password: <%= Rails.application.credentials.db_password %>
+    replica: true
 
 staging:
-  <<: *default
-  database: deskbolic_staging
-  username: <%= Rails.application.credentials.db_username %>
-  password: <%= Rails.application.credentials.db_password %>
+  primary:
+    <<: *default
+    database: deskbolic_staging
+    username: <%= Rails.application.credentials.db_username %>
+    password: <%= Rails.application.credentials.db_password %>
+  primary_replica:
+    <<: *default
+    database: deskbolic_staging
+    username: <%= Rails.application.credentials.db_username %>
+    password: <%= Rails.application.credentials.db_password %>
+    replica: true
+  primary_de:
+    <<: *default
+    database: deskbolic_de_staging
+    username: <%= Rails.application.credentials.db_username %>
+    password: <%= Rails.application.credentials.db_password %>
+    migrations_paths: db/migrate_shards
+  primary_de_replica:
+    <<: *default
+    database: deskbolic_de_staging
+    username: <%= Rails.application.credentials.db_username %>
+    password: <%= Rails.application.credentials.db_password %>
+    replica: true

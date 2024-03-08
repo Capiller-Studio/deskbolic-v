@@ -2,6 +2,8 @@ class CreateConversations < ActiveRecord::Migration[7.1]
   def change
     create_table :conversations, id: :uuid do |t|
       t.string   :title
+      t.integer  :source
+      t.string   :external_id
       t.jsonb    :configurations, null: false, default: {}
       t.jsonb    :data, null: false, default: {}
       t.string   :identifier, null: false
@@ -21,7 +23,8 @@ class CreateConversations < ActiveRecord::Migration[7.1]
       t.index [:account_id, :title]
       t.index [:account_id, :status]
       t.index [:account_id, :priority]
-      t.index [:account_id, :identifier]
+      t.index [:account_id, :identifier], unique: true
+      t.index [:account_id, :external_id]
       t.index [:account_id, :last_activity_at]
       t.index [:account_id, :created_at]
     end

@@ -2,6 +2,7 @@ class CreateMessages < ActiveRecord::Migration[7.1]
   def change
     create_table :messages, id: :uuid do |t|
       t.text    :content
+      t.integer :source
       t.string  :external_id
       # t.boolean :private TODO: WIP
 

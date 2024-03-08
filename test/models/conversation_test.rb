@@ -12,6 +12,7 @@
 #  last_activity_at  :datetime
 #  locale            :string
 #  priority          :integer          default("low"), not null
+#  source            :integer
 #  status            :integer          default("active"), not null
 #  status_changed_at :datetime
 #  title             :string
@@ -19,13 +20,15 @@
 #  updated_at        :datetime         not null
 #  account_id        :uuid             not null
 #  campaign_id       :uuid
+#  external_id       :string
 #  inbox_id          :uuid             not null
 #
 # Indexes
 #
 #  index_conversations_on_account_id                       (account_id)
 #  index_conversations_on_account_id_and_created_at        (account_id,created_at)
-#  index_conversations_on_account_id_and_identifier        (account_id,identifier)
+#  index_conversations_on_account_id_and_external_id       (account_id,external_id)
+#  index_conversations_on_account_id_and_identifier        (account_id,identifier) UNIQUE
 #  index_conversations_on_account_id_and_last_activity_at  (account_id,last_activity_at)
 #  index_conversations_on_account_id_and_priority          (account_id,priority)
 #  index_conversations_on_account_id_and_status            (account_id,status)

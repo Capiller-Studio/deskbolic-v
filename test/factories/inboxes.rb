@@ -16,8 +16,7 @@
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  account_id             :uuid             not null
-#  address_id             :uuid
-#  business_hour_group_id :uuid             not null
+#  business_hour_group_id :uuid
 #  channel_id             :uuid             not null
 #
 # Indexes
@@ -31,7 +30,7 @@
 #
 # Foreign Keys
 #
-#  fk_rails_...  (business_hour_group_id => business_hour_groups.id) ON DELETE => cascade
+#  fk_rails_...  (business_hour_group_id => business_hour_groups.id) ON DELETE => nullify
 #
 FactoryBot.define do
   factory :inbox do

@@ -210,6 +210,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_29_105535) do
 
   create_table "conversations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "title"
+    t.integer "source"
+    t.string "external_id"
     t.jsonb "configurations", default: {}, null: false
     t.jsonb "data", default: {}, null: false
     t.string "identifier", null: false
@@ -225,7 +227,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_29_105535) do
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["account_id", "created_at"], name: "index_conversations_on_account_id_and_created_at"
-    t.index ["account_id", "identifier"], name: "index_conversations_on_account_id_and_identifier"
+    t.index ["account_id", "external_id"], name: "index_conversations_on_account_id_and_external_id"
+    t.index ["account_id", "identifier"], name: "index_conversations_on_account_id_and_identifier", unique: true
     t.index ["account_id", "last_activity_at"], name: "index_conversations_on_account_id_and_last_activity_at"
     t.index ["account_id", "priority"], name: "index_conversations_on_account_id_and_priority"
     t.index ["account_id", "status"], name: "index_conversations_on_account_id_and_status"
@@ -236,12 +239,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_29_105535) do
   end
 
   create_table "customer_inboxes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "external_id", null: false
     t.uuid "customer_id", null: false
     t.uuid "inbox_id", null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["customer_id", "inbox_id"], name: "index_customer_inboxes_on_customer_id_and_inbox_id", unique: true
     t.index ["customer_id"], name: "index_customer_inboxes_on_customer_id"
+    t.index ["external_id"], name: "index_customer_inboxes_on_external_id"
     t.index ["inbox_id"], name: "index_customer_inboxes_on_inbox_id"
   end
 
@@ -277,7 +282,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_29_105535) do
     t.datetime "locked_at"
     t.integer "gender"
     t.date "dob"
-    t.string "contact_number"
+    t.string "full_phone_number"
     t.string "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
@@ -286,9 +291,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_29_105535) do
     t.uuid "address_id"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.index ["account_id", "contact_number"], name: "index_customers_on_account_id_and_contact_number"
     t.index ["account_id", "created_at"], name: "index_customers_on_account_id_and_created_at"
     t.index ["account_id", "email"], name: "index_customers_on_account_id_and_email", unique: true
+    t.index ["account_id", "external_id"], name: "index_customers_on_account_id_and_external_id"
+    t.index ["account_id", "full_phone_number"], name: "index_customers_on_account_id_and_full_phone_number"
     t.index ["account_id", "locale"], name: "index_customers_on_account_id_and_locale"
     t.index ["account_id", "name"], name: "index_customers_on_account_id_and_name"
     t.index ["account_id", "status"], name: "index_customers_on_account_id_and_status"
@@ -540,10 +546,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_29_105535) do
     t.string "timezone", default: "UTC", null: false
     t.string "default_locale", default: "en", null: false
     t.uuid "account_id", null: false
-    t.uuid "address_id"
     t.string "channel_type", null: false
     t.uuid "channel_id", null: false
-    t.uuid "business_hour_group_id", null: false
+    t.uuid "business_hour_group_id"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["account_id", "created_at"], name: "index_inboxes_on_account_id_and_created_at"
@@ -606,6 +611,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_29_105535) do
 
   create_table "messages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.text "content"
+    t.integer "source"
     t.string "external_id"
     t.integer "status", default: 0, null: false
     t.integer "content_type", default: 0, null: false
@@ -803,7 +809,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_29_105535) do
   add_foreign_key "identities", "identity_sources", on_delete: :cascade
   add_foreign_key "inbox_translations", "inboxes", on_delete: :cascade
   add_foreign_key "inbox_users", "inboxes", on_delete: :cascade
-  add_foreign_key "inboxes", "business_hour_groups", on_delete: :cascade
+  add_foreign_key "inboxes", "business_hour_groups", on_delete: :nullify
   add_foreign_key "messages", "conversations", on_delete: :cascade
   add_foreign_key "messages", "inboxes", on_delete: :cascade
   add_foreign_key "property_resources", "properties", on_delete: :cascade

@@ -12,6 +12,7 @@
 #  locale          :string
 #  sender_type     :string           not null
 #  sentiment       :jsonb            not null
+#  source          :integer
 #  status          :integer          default("sent"), not null
 #  visibility      :integer          default("global"), not null
 #  created_at      :datetime         not null
@@ -47,4 +48,8 @@ class Message < ShardRecord
   enum status: { sent: 0 }
   enum content_type: { text: 0 }
   enum visibility: { personal: 0, global: 1 }
+  enum source: { email: 0 }, _suffix: true
+
+  # TODO: WIP (Rough sketch to get going)
+  has_many :attachments, dependent: :destroy
 end

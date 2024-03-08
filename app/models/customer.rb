@@ -9,7 +9,6 @@
 #  confirmation_sent_at   :datetime
 #  confirmation_token     :string
 #  confirmed_at           :datetime
-#  contact_number         :string
 #  current_sign_in_at     :datetime
 #  current_sign_in_ip     :string
 #  customer_type          :integer          default("guest"), not null
@@ -20,6 +19,7 @@
 #  encrypted_password     :string           default(""), not null
 #  failed_attempts        :integer          default(0), not null
 #  first_name             :string
+#  full_phone_number      :string
 #  gender                 :integer
 #  identifier             :string
 #  last_activity_at       :datetime
@@ -48,23 +48,31 @@
 #
 # Indexes
 #
-#  index_customers_on_account_id                     (account_id)
-#  index_customers_on_account_id_and_contact_number  (account_id,contact_number)
-#  index_customers_on_account_id_and_created_at      (account_id,created_at)
-#  index_customers_on_account_id_and_email           (account_id,email) UNIQUE
-#  index_customers_on_account_id_and_locale          (account_id,locale)
-#  index_customers_on_account_id_and_name            (account_id,name)
-#  index_customers_on_account_id_and_status          (account_id,status)
-#  index_customers_on_account_id_and_username        (account_id,username) UNIQUE
-#  index_customers_on_confirmation_token             (confirmation_token) UNIQUE
-#  index_customers_on_reset_password_token           (reset_password_token) UNIQUE
-#  index_customers_on_unlock_token                   (unlock_token) UNIQUE
+#  index_customers_on_account_id                        (account_id)
+#  index_customers_on_account_id_and_created_at         (account_id,created_at)
+#  index_customers_on_account_id_and_email              (account_id,email) UNIQUE
+#  index_customers_on_account_id_and_external_id        (account_id,external_id)
+#  index_customers_on_account_id_and_full_phone_number  (account_id,full_phone_number)
+#  index_customers_on_account_id_and_locale             (account_id,locale)
+#  index_customers_on_account_id_and_name               (account_id,name)
+#  index_customers_on_account_id_and_status             (account_id,status)
+#  index_customers_on_account_id_and_username           (account_id,username) UNIQUE
+#  index_customers_on_confirmation_token                (confirmation_token) UNIQUE
+#  index_customers_on_reset_password_token              (reset_password_token) UNIQUE
+#  index_customers_on_unlock_token                      (unlock_token) UNIQUE
 #
 class Customer < ShardRecord
+  include Addressable
+
   belongs_to :account
+
+  # TODO: Fix concern
   belongs_to :address
 
   enum status: { active: 0 }
   enum gender: { male: 0, female: 1 }
   enum customer_type: { guest: 0, customer: 1 }
+
+  # TODO: WIP (Rough sketch to get going)
+  has_many :customer_inboxes, dependent: :destroy
 end

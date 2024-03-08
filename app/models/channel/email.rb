@@ -35,5 +35,8 @@ module Channel
     belongs_to :account
 
     enum status: { active: 0 }
+
+    # TODO: WIP (Rough sketch to get going)
+    has_many :inboxes, as: :channel, dependent: :destroy
   end
 end

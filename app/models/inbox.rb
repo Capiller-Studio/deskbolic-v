@@ -16,8 +16,7 @@
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  account_id             :uuid             not null
-#  address_id             :uuid
-#  business_hour_group_id :uuid             not null
+#  business_hour_group_id :uuid
 #  channel_id             :uuid             not null
 #
 # Indexes
@@ -31,12 +30,18 @@
 #
 # Foreign Keys
 #
-#  fk_rails_...  (business_hour_group_id => business_hour_groups.id) ON DELETE => cascade
+#  fk_rails_...  (business_hour_group_id => business_hour_groups.id) ON DELETE => nullify
 #
 class Inbox < ShardRecord
   belongs_to :channel, polymorphic: true
   belongs_to :account
-  belongs_to :address
+  # belongs_to :address
 
   enum status: { active: 0 }
+
+  # TODO: WIP (Rough sketch to get going)
+  has_many :customer_inboxes, dependent: :destroy
+  has_many :inbox_users, dependent: :destroy
+  has_many :users, through: :inbox_users, disable_joins: true
+  has_many :customers, through: :customer_inboxes
 end

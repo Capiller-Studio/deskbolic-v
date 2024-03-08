@@ -12,6 +12,7 @@
 #  locale          :string
 #  sender_type     :string           not null
 #  sentiment       :jsonb            not null
+#  source          :integer
 #  status          :integer          default("sent"), not null
 #  visibility      :integer          default("global"), not null
 #  created_at      :datetime         not null

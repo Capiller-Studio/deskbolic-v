@@ -34,7 +34,7 @@ class CreateCustomers < ActiveRecord::Migration[7.1]
       t.integer  :gender
       t.date     :dob
 
-      t.string   :contact_number
+      t.string   :full_phone_number
 
       t.string   :confirmation_token
       t.datetime :confirmed_at
@@ -50,7 +50,8 @@ class CreateCustomers < ActiveRecord::Migration[7.1]
       t.index [:account_id, :name]
       t.index [:account_id, :created_at]
       t.index [:account_id, :locale]
-      t.index [:account_id, :contact_number]
+      t.index [:account_id, :external_id]
+      t.index [:account_id, :full_phone_number]
       t.index [:account_id, :email],                     unique: true
       t.index [:account_id, :username],                  unique: true
       t.index :reset_password_token,      unique: true

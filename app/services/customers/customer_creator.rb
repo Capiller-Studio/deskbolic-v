@@ -24,8 +24,6 @@ module Customers
       self.customer_inbox = inbox.customer_inboxes.find_by(external_id:) if external_id.present?
       return customer_inbox.customer if customer_inbox
 
-      find_or_create_customer
-
       ActiveRecord::Base.transaction do
         find_or_create_customer
         # TODO: Logic to attach some profile-picture/avatar. Maybe something random, if we can't fetch it
@@ -80,7 +78,7 @@ module Customers
     end
 
     def create_customer_inbox
-      CustomerInboxCreator.call(
+      self.customer_inbox = CustomerInboxCreator.call(
         customer: @customer,
         inbox:,
         external_id:,

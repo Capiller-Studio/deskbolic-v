@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/LineLength
 # == Schema Information
 #
 # Table name: users
@@ -9,6 +10,7 @@
 #  confirmation_sent_at   :datetime
 #  confirmation_token     :string
 #  confirmed_at           :datetime
+#  connection_token       :string           not null
 #  current_sign_in_at     :datetime
 #  current_sign_in_ip     :string
 #  data                   :jsonb            not null
@@ -45,6 +47,7 @@
 # Indexes
 #
 #  index_users_on_confirmation_token         (confirmation_token) UNIQUE
+#  index_users_on_connection_token           (connection_token) UNIQUE
 #  index_users_on_created_at                 (created_at)
 #  index_users_on_email                      (email) UNIQUE
 #  index_users_on_locale                     (locale)
@@ -59,9 +62,12 @@
 #
 #  fk_rails_...  (address_id => addresses.id) ON DELETE => nullify
 #
+# rubocop:enable Metrics/LineLength
 class User < ApplicationRecord
   belongs_to :address
 
   enum status: { active: 0 }
   enum gender: { male: 0, female: 1 }
+
+  has_secure_token :connection_token
 end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Redis
+module RedisUtilities
   module Keys
     INBOX_AGENTS = "INBOX:%{account_id}:%{inbox_id}:AGENTS"
     PENDING_EMAIL = "PENDING_EMAIL:%{account_id}:%{id}"

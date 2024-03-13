@@ -54,4 +54,14 @@ class Conversation < ShardRecord
   has_many :conversation_members, dependent: :destroy
   has_many :members, through: :conversation_members
   has_many :messages, dependent: :destroy
+
+  after_create_commit :broadcast_conversation_creation
+
+  private
+
+  # TODO: Refactor to seperate concern
+  def broadcast_conversation_creation
+    # TODO: Broadcast event and create notification
+    # Create a worker for broadcasting events in the background
+  end
 end

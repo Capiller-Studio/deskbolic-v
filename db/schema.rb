@@ -420,10 +420,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_29_130923) do
     t.string "unconfirmed_email"
     t.string "provider"
     t.string "provider_uid"
+    t.string "connection_token", null: false
     t.uuid "address_id"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
+    t.index ["connection_token"], name: "index_users_on_connection_token", unique: true
     t.index ["created_at"], name: "index_users_on_created_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["locale"], name: "index_users_on_locale"

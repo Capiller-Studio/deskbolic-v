@@ -41,6 +41,8 @@ class CreateUsers < ActiveRecord::Migration[7.1]
       t.string :provider
       t.string :provider_uid
 
+      t.string :connection_token, null: false
+
       t.references :address, null: true,  foreign_key: { on_delete: :nullify }, type: :uuid, index: false
 
       t.timestamps default: -> { "CURRENT_TIMESTAMP" }
@@ -55,6 +57,7 @@ class CreateUsers < ActiveRecord::Migration[7.1]
       t.index :confirmation_token,        unique: true
       t.index :unlock_token,              unique: true
       t.index [:provider, :provider_uid], unique: true
+      t.index :connection_token,          unique: true
     end
   end
 end

@@ -52,4 +52,14 @@ class Message < ShardRecord
 
   # TODO: WIP (Rough sketch to get going)
   has_many :attachments, dependent: :destroy
+
+  after_create_commit :broadcast_message_creation
+
+  private
+
+  # TODO: Refactor to seperate concern
+  def broadcast_message_creation
+    # TODO: Broadcast event and create notification
+    # Create a worker for broadcasting events in the background
+  end
 end

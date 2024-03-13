@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-module Redis
+module RedisUtilities
   module Helpers
-    include Redis::Keys
+    include RedisUtilities::Keys
 
     CONNECTION_POOL = ConnectionPool.new(size: 10, timeout: 1) do
       Redis.new

@@ -1,18 +1,21 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/LineLength
 # == Schema Information
 #
 # Table name: customer_inboxes
 #
-#  id          :uuid             not null, primary key
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  customer_id :uuid             not null
-#  external_id :string           not null
-#  inbox_id    :uuid             not null
+#  id               :uuid             not null, primary key
+#  connection_token :string           not null
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  customer_id      :uuid             not null
+#  external_id      :string           not null
+#  inbox_id         :uuid             not null
 #
 # Indexes
 #
+#  index_customer_inboxes_on_connection_token          (connection_token) UNIQUE
 #  index_customer_inboxes_on_customer_id               (customer_id)
 #  index_customer_inboxes_on_customer_id_and_inbox_id  (customer_id,inbox_id) UNIQUE
 #  index_customer_inboxes_on_external_id               (external_id)
@@ -23,7 +26,11 @@
 #  fk_rails_...  (customer_id => customers.id) ON DELETE => cascade
 #  fk_rails_...  (inbox_id => inboxes.id) ON DELETE => cascade
 #
+# rubocop:enable Metrics/LineLength
 class CustomerInbox < ShardRecord
   belongs_to :customer
   belongs_to :inbox
+
+  # TODO: Would be unique system wide. We would prepend account id
+  has_secure_token :connection_token
 end

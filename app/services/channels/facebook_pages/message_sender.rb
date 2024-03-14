@@ -31,7 +31,7 @@ module Channels
       private
 
       def send_message(params)
-        response = Facebook::Messenger::Bot.deliver(params, page_id: facebook_page_channel.page_id)
+        response = Facebook::Messenger::Bot.deliver(params, page_id: facebook_page_channel.page_identifier)
         response = JSON.parse(response)
 
         return log_error(response) if response["error"].present?

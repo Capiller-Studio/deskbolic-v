@@ -18,7 +18,7 @@ module Channels
         fallback
       ].freeze
       attr_accessor :parsed_message, :account, :inbox, :sender,
-                    :conversation, :message, facebook_page_channel:
+                    :conversation, :message, :facebook_page_channel
 
       def initialize(parsed_message:, account:, inbox:, sender:, conversation:, facebook_page_channel:)
         self.parsed_message        = parsed_message

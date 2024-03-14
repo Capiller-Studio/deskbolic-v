@@ -51,7 +51,7 @@ class Message < ShardRecord
   enum source: { email: 0 }, _suffix: true
 
   # TODO: WIP (Rough sketch to get going)
-  has_many :attachments, dependent: :destroy
+  has_many :attachments, as: :resource, dependent: :destroy
 
   after_create_commit :broadcast_message_creation
 

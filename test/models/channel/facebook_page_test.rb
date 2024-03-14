@@ -5,6 +5,7 @@
 # Table name: channel_facebook_pages
 #
 #  id                   :uuid             not null, primary key
+#  access_token         :string           not null
 #  configurations       :jsonb            not null
 #  data                 :jsonb            not null
 #  instagram_identifier :string

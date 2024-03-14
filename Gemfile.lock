@@ -159,11 +159,16 @@ GEM
       responders
       warden (~> 1.2.3)
     domain_name (0.6.20240107)
+    down (5.4.1)
+      addressable (~> 2.8)
     drb (2.2.0)
       ruby2_keywords
     erubi (1.12.0)
     ethon (0.16.0)
       ffi (>= 1.15.0)
+    facebook-messenger (2.0.1)
+      httparty (~> 0.13, >= 0.13.7)
+      rack (>= 1.4.5)
     factory_bot (6.4.6)
       activesupport (>= 5.0.0)
     factory_bot_rails (6.4.3)
@@ -171,6 +176,8 @@ GEM
       railties (>= 5.0.0)
     faraday (2.9.0)
       faraday-net_http (>= 2.0, < 3.2)
+    faraday-multipart (1.0.4)
+      multipart-post (~> 2)
     faraday-net_http (3.1.0)
       net-http
     ffaker (2.23.0)
@@ -241,6 +248,12 @@ GEM
       railties (>= 6.0.0)
     json (2.7.1)
     jwt (2.7.1)
+    koala (3.5.0)
+      addressable
+      faraday
+      faraday-multipart
+      json (>= 1.8)
+      rexml
     liquid (5.4.0)
     llhttp-ffi (0.5.0)
       ffi-compiler (~> 1.0)
@@ -272,6 +285,7 @@ GEM
       i18n (>= 0.6.4, <= 2)
     msgpack (1.7.2)
     multi_xml (0.6.0)
+    multipart-post (2.4.0)
     mutex_m (0.2.0)
     net-http (0.4.1)
       uri
@@ -537,6 +551,8 @@ DEPENDENCIES
   carmen
   cssbundling-rails
   devise
+  down
+  facebook-messenger
   factory_bot_rails
   ffaker
   flag_shih_tzu
@@ -546,6 +562,7 @@ DEPENDENCIES
   invisible_captcha
   jbuilder
   jsbundling-rails
+  koala
   liquid
   maxmind-geoip2
   mjml-rails

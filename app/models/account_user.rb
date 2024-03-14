@@ -37,7 +37,7 @@
 class AccountUser < ApplicationRecord
   belongs_to :account
   belongs_to :user
-  belongs_to :invited_by
+  belongs_to :invited_by, class_name: "User", optional: true
 
   enum role: { owner: 0, agent: 1, admin: 2 }
   enum availability: { online: 0, offline: 1 }

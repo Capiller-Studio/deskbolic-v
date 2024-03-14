@@ -15,7 +15,7 @@
 #  data                   :jsonb            not null
 #  display_name           :string
 #  dob                    :date
-#  email                  :string           not null
+#  email                  :string
 #  encrypted_password     :string           default(""), not null
 #  failed_attempts        :integer          default(0), not null
 #  first_name             :string

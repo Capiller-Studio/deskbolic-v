@@ -15,7 +15,7 @@
 #  data                   :jsonb            not null
 #  display_name           :string
 #  dob                    :date
-#  email                  :string           not null
+#  email                  :string
 #  encrypted_password     :string           default(""), not null
 #  failed_attempts        :integer          default(0), not null
 #  first_name             :string
@@ -75,4 +75,6 @@ class Customer < ShardRecord
 
   # TODO: WIP (Rough sketch to get going)
   has_many :customer_inboxes, dependent: :destroy
+  has_many :conversation_members, dependent: :destroy, as: :member
+  has_many :conversations, through: :conversation_members
 end

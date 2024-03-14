@@ -5,6 +5,7 @@
 # Table name: channel_facebook_pages
 #
 #  id                   :uuid             not null, primary key
+#  access_token         :string           not null
 #  configurations       :jsonb            not null
 #  data                 :jsonb            not null
 #  instagram_identifier :string
@@ -46,6 +47,9 @@ module Channel
     ].freeze
 
     belongs_to :account
+
+    # TODO: WIP (Rough sketch to get going)
+    has_many :inboxes, as: :channel, dependent: :destroy
 
     enum status: { active: 0 }
 

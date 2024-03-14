@@ -46,6 +46,7 @@ class Account < ApplicationRecord
 
   # TODO: WIP (Rough sketch to get going)
   has_many :customers, dependent: :destroy
-  has_many :users, dependent: :destroy
+  has_many :account_users, dependent: :destroy
+  has_many :users, through: :account_users
   has_many :conversations, dependent: :destroy
 end

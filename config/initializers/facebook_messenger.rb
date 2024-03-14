@@ -6,8 +6,9 @@ class DeskbolicFacebookProvider < Facebook::Messenger::Configuration::Providers:
   # verify_token - A String describing the application's verify token.
   #
   # Returns a Boolean representing whether the verify token is valid.
-  def valid_verify_token?(verify_token)
+  def valid_verify_token?(_verify_token)
     # bot.exists?(verify_token: verify_token)
+    true
   end
 
   # Find the right application secret.
@@ -16,7 +17,9 @@ class DeskbolicFacebookProvider < Facebook::Messenger::Configuration::Providers:
   #
   # Returns a String describing the application secret.
   def app_secret_for(page_id)
-    # bot.find_by(page_id: page_id).app_secret
+    # TODO: If users will use our facebook app then this will come from the model
+    # else add it to credentials for Deskbolic app
+    # Channel::FacebookPage.find_by(page_identifier: page_id).app_secret
   end
 
   # Find the right access token.
@@ -30,7 +33,9 @@ class DeskbolicFacebookProvider < Facebook::Messenger::Configuration::Providers:
   #
   # Returns a String describing an access token.
   def access_token_for(recipient)
-    Channel::FacebookPage.find_by(page_identifier: recipient["id"]).access_token
+    Channel::FacebookPage.find_by(
+      page_identifier: recipient.is_a?(String) ? recipient : recipient["id"]
+    ).access_token
   end
 
   private
@@ -45,26 +50,29 @@ Rails.application.reloader.to_prepare do
     config.provider = DeskbolicFacebookProvider.new
   end
 
-  Facebook::Messenger::Bot.on :message do |_message|
+  Facebook::Messenger::Bot.on :message do |message|
     # TODO: Create a worker to handle new message events
 
     # For testing purpose
 
-    parsed_message = Parser::FacebookMessageParser.call(response: mesage)
-    Channel::FacebookPage.where(page_id: parsed_message.recipient_id).each do |channel|
+    message = message.to_json
+    parsed_message = Parser::FacebookMessageParser.call(response: message)
+
+    Channel::FacebookPage.where(page_identifier: parsed_message.recipient_id).each do |channel|
       Channels::FacebookPages::ConversationCreator.call(
         facebook_page_channel: channel,
         parsed_message:
       )
     end
   end
-  Facebook::Messenger::Bot.on :message_echo do |_message|
+  Facebook::Messenger::Bot.on :message_echo do |message|
     # TODO: Create a worker to handle new message events
 
     # For testing purpose
 
-    parsed_message = Parser::FacebookMessageParser.call(response: mesage)
-    Channel::FacebookPage.where(page_id: parsed_message.sender_id).each do |channel|
+    message = message.to_json
+    parsed_message = Parser::FacebookMessageParser.call(response: message)
+    Channel::FacebookPage.where(page_identifier: parsed_message.sender_id).each do |channel|
       Channels::FacebookPages::ConversationCreator.call(
         facebook_page_channel: channel,
         parsed_message:

@@ -8,7 +8,8 @@ module Channels
   module FacebookPages
     class ConversationCreator < ApplicationService
       attr_accessor :inbox, :message, :parsed_message, :event,
-                    :facebook_page_channel, :customer, :sender_id, :account
+                    :facebook_page_channel, :customer, :sender_id, :account,
+                    :conversation
 
       def initialize(facebook_page_channel:, parsed_message:, event: :message, account: nil)
         self.parsed_message        = parsed_message
@@ -38,7 +39,7 @@ module Channels
       def find_inbox
         # TODO: Logic for finding the correct inbox. Maybe: One inbox will act as default and other inboxes will
         # receive conversations/messages based on Filters
-        self.inbox = email_channel.inboxes.first
+        self.inbox = facebook_page_channel.inboxes.first
       end
 
       def find_or_create_conversation
@@ -90,7 +91,7 @@ module Channels
           conversation:,
           parsed_message:,
           sender: customer,
-          faceboox_page_channel:
+          facebook_page_channel:
         )
       end
 

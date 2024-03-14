@@ -1,7 +1,7 @@
 class CreateCustomers < ActiveRecord::Migration[7.1]
   def change
     create_table :customers, id: :uuid do |t|
-      t.string   :email, null: false
+      t.string   :email
       t.string   :username
       t.string   :first_name
       t.string   :middle_name

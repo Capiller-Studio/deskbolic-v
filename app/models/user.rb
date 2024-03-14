@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/LineLength
 # == Schema Information
 #
 # Table name: users
@@ -62,7 +61,6 @@
 #
 #  fk_rails_...  (address_id => addresses.id) ON DELETE => nullify
 #
-# rubocop:enable Metrics/LineLength
 class User < ApplicationRecord
   belongs_to :address
 

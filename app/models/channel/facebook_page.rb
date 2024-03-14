@@ -32,8 +32,39 @@
 #
 module Channel
   class FacebookPage < ApplicationRecord
+    SUBSCRIBE_FIELDS = %w[
+      messages
+      message_echoes
+      message_deliveries
+      message_reactions
+      message_reads
+      messaging_seen
+      standby
+      messaging_postbacks
+      messaging_account_linking
+      messaging_handovers
+    ].freeze
+
     belongs_to :account
 
     enum status: { active: 0 }
+
+    after_create_commit :subscribe
+    before_destroy :unsubscribe
+
+    def subscribe
+      Facebook::Messenger::Subscriptions.subscribe(
+        access_token:,
+        subscribed_fields: SUBSCRIBE_FIELDS
+      )
+    rescue StandardError => _e
+      # TODO: Error handling
+    end
+
+    def unsubscribe
+      Facebook::Messenger::Subscriptions.unsubscribe(access_token:)
+    rescue StandardError => _e
+      # TODO: Error handling
+    end
   end
 end

@@ -28,5 +28,16 @@ class Attachment < ShardRecord
 
   has_one_attached :file
 
+  #  TODO: File validations
+
   enum attachment_type: { image: 0, file: 1, video: 2, audio: 3, location: 4 }
+
+  def direct_download_url
+    return unless file.attached?
+
+    if ActiveStorage::Current.url_options.blank?
+      ActiveStorage::Current.url_options = Rails.application.routes.default_url_options
+    end
+    file.blob.url
+  end
 end

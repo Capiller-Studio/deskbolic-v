@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/LineLength
 # == Schema Information
 #
 # Table name: customer_inboxes
@@ -26,7 +25,6 @@
 #  fk_rails_...  (customer_id => customers.id) ON DELETE => cascade
 #  fk_rails_...  (inbox_id => inboxes.id) ON DELETE => cascade
 #
-# rubocop:enable Metrics/LineLength
 FactoryBot.define do
   factory :customer_inbox do
     customer { nil }

@@ -3,6 +3,7 @@ class CreateChannelFacebookPages < ActiveRecord::Migration[7.1]
     create_table :channel_facebook_pages, id: :uuid do |t|
       t.string  :page_identifier, null: false
       t.string  :instagram_identifier
+      t.string  :access_token, null: false
       t.jsonb   :tokens, null: false, default: {}
       t.string  :name
       t.jsonb   :configurations, null: false, default: {}

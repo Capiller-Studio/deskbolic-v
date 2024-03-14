@@ -101,6 +101,13 @@ gem 'groupdate'
 # Models localization
 gem 'mobility', '~> 1.3.0.rc1'
 
+# Channels
+gem 'facebook-messenger'
+gem 'koala'
+
+# For downloading files
+gem 'down'
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   # gem "debug", platforms: %i[ mri windows ]

@@ -27,6 +27,7 @@ module Customers
       ActiveRecord::Base.transaction do
         find_or_create_customer
         # TODO: Logic to attach some profile-picture/avatar. Maybe something random, if we can't fetch it
+        # params[:avatar_url] for sources like facebook
       end
 
       customer_inbox&.customer

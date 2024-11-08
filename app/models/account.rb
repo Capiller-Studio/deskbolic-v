@@ -41,6 +41,9 @@
 #  fk_rails_...  (referred_by_id => accounts.id) ON DELETE => nullify
 #
 class Account < ApplicationRecord
+  include CodeGenerator.new(prefix: "ACC", referral: true)
+  include Addressable
+  
   enum status: { active: 0 }
   enum referral_commission_type: { fixed: 0 }
 

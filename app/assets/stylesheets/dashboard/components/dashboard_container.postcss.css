@@ -1,0 +1,174 @@
+.dashboard-section {
+  width: 100%;
+  height: 100vh;
+  position: absolute;
+  right: 0;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  .dashboard-container {
+    @mixin flex-row $justify-left, $align-center;
+    .dashboard-nav {
+      height: 100vh;
+      width: 76px;
+      padding: 20px 0px;
+      border-right: 1px solid $black-5;
+      background-color: $primary-purple-50;
+      .card {
+        height: 100%;
+        text-align: center;
+        .dash-logo {
+          width: 28px;
+          height: 28px;
+          margin-bottom: 30px;
+          margin-top: 10px;
+        }
+        ul {
+          @mixin flex-column $justify-between, $align-center;
+          height: calc(100vh - 162px);
+          overflow: auto;
+          &::-webkit-scrollbar {
+            width: 5px;
+            height: 0px;
+          }
+        
+          &::-webkit-scrollbar-thumb {
+            border-radius: 6px;
+            background-color: #C3C3C3;
+          }
+          .nav-menu {
+            @mixin flex-column $justify-start, $align-center;
+            width: 100%;
+            .nav-item {
+              @mixin flex-row $justify-center, $align-center;
+              width: 100%;
+              padding: 5px 0px;
+              .nav-link {
+                @mixin flex-row $justify-center, $align-center;
+                width: 50px;
+                height: 50px;
+                border-radius: 10px;
+                .link-icon {
+                  width: 24px;
+                  height: 24px;
+                }
+              }
+              &:hover {
+                .nav-link {
+                  background-color: $black-5;
+                }
+              }
+            }
+            .dash-nav-active {
+              background-color: $black-5;
+              &:hover {
+                .nav-link {
+                  background-color: transparent;
+                }
+              }
+            }
+          }
+        }
+        .account {
+          width: 28px;
+          height: 28px;
+          margin-bottom: 20px;
+          margin-top: 20px;
+        }
+        .menu {
+          @mixin menu;
+          position: absolute;
+          width: 300px;
+          left: 60px;
+          top: 15%;
+          bottom: 50px;
+          z-index: 1000;
+          padding: 0px 16px;
+          border-radius: 18px;
+          
+          flex-direction: column;
+          
+          overflow-y: auto;
+          scroll-margin-left: 35px;
+          
+          .header {
+            @mixin flex-row $justify-left, $align-center;
+            width: 100%;
+            padding-bottom: 20px;
+            padding-top: 20px;
+            border-bottom: 1px solid $black-20;
+            /* @mixin rect-back-white; */
+            background-color: white;
+            padding-top: -16px;
+            position: sticky;
+            top: 0;
+            .user-img {
+              width: 42px;
+              height: 42px;
+            }
+            .details {
+              margin-left: 20px;
+              text-align: left;
+              p {
+                color: $black-20;
+              }
+            }
+          }
+          .account-options {
+            overflow-y: auto;
+            scroll-margin-left: 35px;
+          }
+          .menu-link {
+            padding: 16px 10px;
+            .menu-icon {
+              width: 18px;
+              height: 18px;
+              margin-right: 12px;
+            }
+            &:hover {
+              padding: 16px 10px;
+              border-radius: 10px;
+            }
+          }
+          .logout {
+            margin-top: auto;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-top: 1px solid $black-20;
+            .menu-link {
+              cursor : pointer;
+              border: none;
+              background: transparent;
+            }
+          }
+          .login {
+            @mixin flex-column $justify-center, $align-center;
+            height : 100%;
+            .menu-link {
+              cursor : pointer;
+              border: none;
+              background: transparent;
+            }
+          }
+        }
+        .menu.visible {
+          display: flex;;
+        }
+      }
+    }
+    .dashboard-body {
+      width: 100%;
+    }
+  }
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 6px;
+    background-color: #C3C3C3;
+  }
+}

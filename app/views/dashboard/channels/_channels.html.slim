@@ -1,0 +1,252 @@
+.helpdesk-section.center-wrapper
+  .helpdesk-container
+    .helpdesk-nav
+      .card
+        .header data-controller="modalToggler frameToggler"
+          = inline_svg_tag("sidebar.svg", class:"link-icon", alt:"menu")
+          p.f-reg-14 Help Desk
+          = inline_svg_tag("note_pencil.svg", class:"note-pencil-icon ml-auto", alt:"menu", data: { action: "click->modalToggler#showModal click->frameToggler#loadModal", popup_view:"_suggested_ticket_modal"})
+          = render("dashboard/shared/modal_popper")
+        .channel-header.list-header data-controller="accordion modalToggler frameToggler"
+          = inline_svg_tag("dropdown_icon.svg", class:"channel-icon", alt:"menu")
+          h4.f-reg-14 Channels
+          .toggle-menu.ml-auto data-action="click->accordion#toggle_menu"
+            = inline_svg_tag("menu.svg", class:"channel-menu ml-auto", alt:"menu")
+          .menu data-accordion-target="menu"
+            .menu-link data-action="click->modalToggler#showModal click->frameToggler#loadModal" data-popup-view="_email_channel_modal"
+              = inline_svg_tag("email.svg", class:"menu-icon", alt:"menu")
+              p.f-reg-14 Email
+              = inline_svg_tag("plus.svg", class:"menu-icon ml-auto", alt:"menu")
+            .menu-link data-action="click->modalToggler#showModal click->frameToggler#loadModal" data-popup-view="_messenger_channel_modal"
+              = inline_svg_tag("messenger.svg", class:"menu-icon", alt:"menu")
+              p.f-reg-14 Facebook
+              = inline_svg_tag("plus.svg", class:"menu-icon ml-auto", alt:"menu")
+            .menu-link
+              = inline_svg_tag("whatsapp.svg", class:"menu-icon", alt:"menu")
+              p.f-reg-14 Whatsapp
+              = inline_svg_tag("plus.svg", class:"menu-icon ml-auto", alt:"menu")
+            .menu-link
+              = inline_svg_tag("twitter.svg", class:"menu-icon", alt:"menu")
+              p.f-reg-14 Twitter
+              = inline_svg_tag("plus.svg", class:"menu-icon ml-auto", alt:"menu")
+            .menu-link
+              = inline_svg_tag("twilio.svg", class:"menu-icon", alt:"menu")
+              p.f-reg-14 Twilio
+              = inline_svg_tag("plus.svg", class:"menu-icon ml-auto", alt:"menu")
+            .menu-link
+              = inline_svg_tag("telegram.svg", class:"menu-icon", alt:"menu")
+              p.f-reg-14 Telegram
+              = inline_svg_tag("plus.svg", class:"menu-icon ml-auto", alt:"menu")
+            .menu-link
+              = inline_svg_tag("line.svg", class:"menu-icon", alt:"menu")
+              p.f-reg-14 Line
+              = inline_svg_tag("plus.svg", class:"menu-icon ml-auto", alt:"menu")
+            .menu-link
+              = inline_svg_tag("sms.svg", class:"menu-icon", alt:"menu")
+              p.f-reg-14 SMS
+              = inline_svg_tag("plus.svg", class:"menu-icon ml-auto", alt:"menu")
+            .menu-link
+              p.f-reg-14 Manage
+              = inline_svg_tag("plus.svg", class:"menu-icon ml-auto", alt:"menu")
+        ul.channel-list  data-controller="accordion modalToggler frameToggler"
+          .help-nav-menu
+            / facebook login
+            / button#login-button data-controller="facebook" data-action="click->facebook#fb_login" data-address=facebook_page_path Login with facebook            
+            / button#login-button data-controller="facebook" data-action="click->facebook#fb_logout" data-address=facebook_page_path Logout            
+            
+            / messenger inboxes
+            - @fb_channels.each do |channel|
+              li.nav-item class="" data-action="click->accordion#toggle"
+                .nav-link
+                  .link-text.conversation-padding
+                    = inline_svg_tag("vertical_bar.svg", class:"link-bar", alt:"menu")
+                    = inline_svg_tag("arrow_down.svg", class:"dropdown-icon", alt:"menu")
+                    = inline_svg_tag("messenger_badge.svg", class:"link-icon", alt:"menu")
+                    p.f-reg-14 = channel.name
+                  .back-oval-gray
+                    p.f-reg-12 = channel.inboxes.count
+              .panel data-accordion-target="panel"
+                ul.chats
+                  - channel.inboxes.each do |inbox|
+                    li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
+                      .nav-link.link data-target-id="conversations-frame" data-controller="section" data-action="click->section#toggleSection" data-url="#{conversations_path}" data-resource-id="#{inbox.id}"
+                        .link-text
+                          .conversation-name.inbox-conv
+                            = inline_svg_tag("messenger_badge.svg", class:"link-icon", alt:"menu")
+                            p.f-reg-12 = inbox.name
+                        .back-oval-gray
+                          p.f-reg-12 = inbox.conversations.current_conversations(current_user)&.count
+                  li.nav-item data-action="click->modalToggler#showModal click->frameToggler#loadModal" data-popup-view="_messenger_inbox_modal"
+                    .nav-link.link
+                      .link-text 
+                        .conversation-name.inbox-conv
+                          = inline_svg_tag("plus.svg", class:"link-icon", alt:"menu")
+                          p.f-reg-12 Add Inbox
+                        
+            / email inboxes
+            - @em_channels.each do |channel|
+              li.nav-item class="" data-action="click->accordion#toggle"
+                .nav-link
+                  .link-text.conversation-padding
+                    = inline_svg_tag("vertical_bar.svg", class:"link-bar", alt:"menu")
+                    = inline_svg_tag("arrow_down.svg", class:"dropdown-icon", alt:"menu")
+                    = inline_svg_tag("email.svg", class:"link-icon", alt:"menu")
+                    p.f-reg-14 = channel.name
+                  .back-oval-gray
+                    p.f-reg-12 = channel.inboxes.count
+              .panel data-accordion-target="panel"
+                ul.chats
+                  - channel.inboxes.each do |inbox|
+                    li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
+                      .nav-link.link data-target-id="conversations-frame" data-controller="section" data-action="click->section#toggleSection" data-url="#{conversations_path}" data-resource-id="#{inbox.id}"
+                        .link-text 
+                          .conversation-name.inbox-conv
+                            = inline_svg_tag("email.svg", class:"link-icon", alt:"menu")
+                            p.f-reg-12 = inbox.name
+                        .back-oval-gray
+                          p.f-reg-12 = inbox.conversations.current_conversations(current_user).count
+                  li.nav-item data-action="click->modalToggler#showModal click->frameToggler#loadModal" data-popup-view="_email_inbox_modal"
+                    .nav-link.link
+                      .link-text 
+                        .conversation-name.inbox-conv
+                          = inline_svg_tag("plus.svg", class:"link-icon", alt:"menu")
+                          p.f-reg-12 Add Inbox
+            tickets            
+            li.nav-item class="" data-action="click->accordion#toggle"
+              .nav-link
+                .link-text.conversation-padding
+                  = inline_svg_tag("vertical_bar.svg", class:"link-bar", alt:"menu")
+                  = inline_svg_tag("arrow_down.svg", class:"dropdown-icon", alt:"menu")
+                  = inline_svg_tag("ticket_black.svg", class:"link-icon", alt:"menu")
+                  p.f-reg-14 Ticket
+                .back-oval-gray
+                  p.f-reg-12 45
+            .panel data-accordion-target="panel"
+              ul.chats
+                li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
+                  = link_to("#", class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        = inline_svg_tag("ticket_no_background.svg", class:"link-icon", alt: "menu")
+                        p.f-reg-12 Customer
+                    .back-oval-gray
+                      p.f-reg-12 99
+                li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
+                  .nav-link
+                    .link-text
+                      .conversation-name.inbox-conv
+                        = inline_svg_tag("track.svg", class:"link-icon", alt: "menu")
+                        p.f-reg-12 Tracker
+                    .back-oval-gray
+                      p.f-reg-12 45
+                li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
+                  .nav-link
+                    .link-text
+                      .conversation-name.inbox-conv
+                        = inline_svg_tag("back_office.svg", class:"link-icon", alt: "menu")
+                        p.f-reg-12 Back Office
+                    .back-oval-gray
+                      p.f-reg-12 45
+            li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
+              = link_to("#", class: "nav-link") do
+                .link-text.conversation-padding
+                  = inline_svg_tag("vertical_bar.svg", class:"link-bar", alt:"menu")
+                  .conversation-name
+                    = inline_svg_tag("note_pencil.svg", class:"link-icon", alt:"menu")
+                    p.f-reg-14 Created by You
+                .back-oval-gray
+                  p.f-reg-12 45
+            li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
+              = link_to("#", class: "nav-link") do
+                .link-text.conversation-padding
+                  = inline_svg_tag("vertical_bar.svg", class:"link-bar", alt:"menu")
+                  .conversation-name
+                    = inline_svg_tag("clock.svg", class:"link-icon", alt:"menu")
+                    p.f-reg-14 Unassigned
+                .back-oval-gray
+                  p.f-reg-12 45
+            li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
+              = link_to("#", class: "nav-link") do
+                .link-text.conversation-padding
+                  = inline_svg_tag("vertical_bar.svg", class:"link-bar", alt:"menu")
+                  .conversation-name
+                    = inline_svg_tag("mention.svg", class:"link-icon", alt:"menu")
+                    p.f-reg-14 Mention
+                .back-oval-gray
+                  p.f-reg-12 3
+        
+        teams
+        .team-header.list-header
+          = inline_svg_tag("dropdown_icon.svg", class:"channel-icon", alt:"menu")
+          h4.f-reg-14 Teams
+          .toggle-menu.ml-auto data-action="click->accordion#toggle_menu"
+            = inline_svg_tag("menu.svg", class:"channel-menu ml-auto", alt:"menu")
+        ul.team-list
+          .help-nav-menu
+            li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
+              = link_to("#", class: "nav-link") do
+                .link-text.conversation-padding
+                  = inline_svg_tag("vertical_bar.svg", class:"link-bar", alt:"menu")
+                  .conversation-name
+                    = inline_svg_tag("users.svg", class:"link-icon", alt:"menu")
+                    p.f-reg-14 Customer
+                .back-oval-gray
+                  p.f-reg-12 45
+            li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
+              = link_to("#", class: "nav-link") do
+                .link-text.conversation-padding
+                  = inline_svg_tag("vertical_bar.svg", class:"link-bar", alt:"menu")
+                  .conversation-name
+                    = inline_svg_tag("team_technical.svg", class:"link-icon", alt:"menu")
+                    p.f-reg-14 Technical
+                .back-oval-gray
+                  p.f-reg-12 45
+            li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
+              = link_to("#", class: "nav-link") do
+                .link-text.conversation-padding
+                  = inline_svg_tag("vertical_bar.svg", class:"link-bar", alt:"menu")
+                  .conversation-name
+                    = inline_svg_tag("team_bug.svg", class:"link-icon", alt:"menu")
+                    p.f-reg-14 Bugs fixing
+                .back-oval-gray
+                  p.f-reg-12 3
+        
+        / teammates
+        .teammate-header.list-header
+          = inline_svg_tag("dropdown_icon.svg", class:"channel-icon", alt:"menu")
+          h4.f-reg-14 Teammates
+          .toggle-menu.ml-auto data-action="click->accordion#toggle_menu"
+            = inline_svg_tag("menu.svg", class:"channel-menu ml-auto", alt:"menu")
+        ul.teammate-list
+          .help-nav-menu
+            li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
+              = link_to("#", class: "nav-link") do
+                .link-text.conversation-padding
+                  = inline_svg_tag("vertical_bar.svg", class:"link-bar", alt:"menu")
+                  .conversation-name
+                    = inline_svg_tag("users.svg", class:"link-icon", alt:"menu")
+                    p.f-reg-14 Alex jhon
+                .back-oval-gray
+                  p.f-reg-12 45
+            li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
+              = link_to("#", class: "nav-link") do
+                .link-text.conversation-padding
+                  = inline_svg_tag("vertical_bar.svg", class:"link-bar", alt:"menu")
+                  .conversation-name
+                    = inline_svg_tag("chats.svg", class:"link-icon", alt:"menu")
+                    p.f-reg-14 Emilia
+                .back-oval-gray
+                  p.f-reg-12 45
+            li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
+              = link_to("#", class: "nav-link") do
+                .link-text.conversation-padding
+                  = inline_svg_tag("vertical_bar.svg", class:"link-bar", alt:"menu")
+                  .conversation-name
+                    = inline_svg_tag("mention.svg", class:"link-icon", alt:"menu")
+                    p.f-reg-14 Williams
+                .back-oval-gray
+                  p.f-reg-12 3
+    
+    .helpdesk-body
+      turbo-frame#conversations-frame[data-turbo-permanent]
+      == yield

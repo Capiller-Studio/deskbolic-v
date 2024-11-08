@@ -1,0 +1,336 @@
+@define-mixin grid-container $columns: 1fr, $rows: 1fr {
+  display: grid;
+  grid-auto-columns: 1fr;
+  grid-auto-rows: 1fr;
+  grid-template-columns: $columns;
+  grid-template-rows: $rows;
+}
+
+@define-mixin flex-column $justify, $align {
+  display: flex;
+  flex-direction: column;
+  justify-content: $justify;
+  align-items: $align;
+}
+
+@define-mixin flex-row $justify, $align {
+  display: flex;
+  flex-direction: row;
+  justify-content: $justify;
+  align-items: $align;
+}
+
+@define-mixin gap-size $value1, $value2 {
+  gap: calc($value1 * 1vw) calc($value2 * 1vw);
+  @media screen and (min-width: 1920px) {
+    gap: calc(($value1 * 1920px) / 100) calc(($value2 * 1920px) / 100);
+  }
+}
+
+@define-mixin padding-size $value1, $value2 {
+  padding: calc($value1 * 1vw) calc($value2 * 1vw);
+  @media screen and (min-width: 1920px) {
+    padding: calc(($value1 * 1920px) / 100) calc(($value2 * 1920px) / 100);
+  }
+}
+@define-mixin padding-right $value1{
+  padding-right: calc($value1 * 1vw);
+  @media screen and (min-width: 1920px) {
+    padding-right: calc(($value1 * 1920px) / 100);
+  }
+}
+@define-mixin padding-left $value1{
+  padding-left: calc($value1 * 1vw);
+  @media screen and (min-width: 1920px) {
+    padding-left: calc(($value1 * 1920px) / 100);
+  }
+}
+@define-mixin padding-top $value1{
+  padding-top: calc($value1 * 1vw);
+  @media screen and (min-width: 1920px) {
+    padding-top: calc(($value1 * 1920px) / 100);
+  }
+}
+@define-mixin padding-bottom $value1{
+  padding-bottom: calc($value1 * 1vw);
+  @media screen and (min-width: 1920px) {
+    padding-bottom: calc(($value1 * 1920px) / 100);
+  }
+}
+@define-mixin margin-size $value1, $value2 {
+  margin: calc($value1 * 1vw) calc($value2 * 1vw);
+  @media screen and (min-width: 1920px) {
+    margin: calc(($value1 * 1920px) / 100) calc(($value2 * 1920px) / 100);
+  }
+}
+@define-mixin margin-bottom $value1 {
+  margin-bottom: calc($value1 * 1vw);
+  @media screen and (min-width: 1920px) {
+    margin-bottom: calc(($value1 * 1920px) / 100);
+  }
+}
+@define-mixin margin-top $value1 {
+  margin-top: calc($value1 * 1vw);
+  @media screen and (min-width: 1920px) {
+    margin-top: calc(($value1 * 1920px) / 100);
+  }
+}
+@define-mixin margin-top-imp $value1 {
+  margin-top: calc($value1 * 1vw) !important;
+  @media screen and (min-width: 1920px) {
+    margin-top: calc(($value1 * 1920px) / 100) !important;
+  }
+}
+@define-mixin margin-left $value1 {
+  margin-left: calc($value1 * 1vw);
+  @media screen and (min-width: 1920px) {
+    margin-left: calc(($value1 * 1920px) / 100);
+  }
+}
+@define-mixin margin-right $value1 {
+  margin-right: calc($value1 * 1vw);
+  @media screen and (min-width: 1920px) {
+    margin-right: calc(($value1 * 1920px) / 100);
+  }
+}
+@define-mixin font-size $value {
+  font-size: calc($value * 1vw);
+  @media screen and (min-width: 1920px) {
+    font-size: calc(($value * 1920px) / 100);
+  }
+}
+@define-mixin background-size $value {
+  background-size: calc($value * 1vw);
+  @media screen and (min-width: 1920px) {
+    background-size: calc(($value * 1920px) / 100);
+  }
+}
+@define-mixin width-size $value {
+  width: calc($value * 1vw);
+  @media screen and (min-width: 1920px) {
+    width: calc(($value * 1920px) / 100);
+  }
+}
+@define-mixin height-size $value {
+  height: calc($value * 1vw);
+  @media screen and (min-width: 1920px) {
+    height: calc(($value * 1920px) / 100);
+  }
+}
+@define-mixin min-height $value {
+  min-height: calc($value * 1vw);
+  @media screen and (min-width: 1920px) {
+    min-height: calc(($value * 1920px) / 100);
+  }
+}
+@define-mixin line-height $value {
+  line-height: calc($value * 1vw);
+  @media screen and (min-width: 1920px) {
+    line-height: calc(($value * 1920px) / 100);
+  }
+}
+@define-mixin border-radius $value {
+  border-radius: calc($value * 1vw);
+  @media screen and (min-width: 1920px) {
+    border-radius: calc(($value * 1920px) / 100);
+  }
+}
+@define-mixin border-top-left-radius $value {
+  border-top-left-radius: calc($value * 1vw);
+  @media screen and (min-width: 1920px) {
+    border-top-left-radius: calc(($value * 1920px) / 100);
+  }
+}
+@define-mixin border-top-right-radius $value {
+  border-top-right-radius: calc($value * 1vw);
+  @media screen and (min-width: 1920px) {
+    border-top-right-radius: calc(($value * 1920px) / 100);
+  }
+}
+@define-mixin border-bottom-right-radius $value {
+  border-bottom-right-radius: calc($value * 1vw);
+  @media screen and (min-width: 1920px) {
+    border-bottom-right-radius: calc(($value * 1920px) / 100);
+  }
+}
+@define-mixin border-bottom-left-radius $value {
+  border-bottom-left-radius: calc($value * 1vw);
+  @media screen and (min-width: 1920px) {
+    border-bottom-left-radius: calc(($value * 1920px) / 100);
+  }
+}
+@define-mixin left $value {
+  left: calc($value * 1vw);
+  @media screen and (min-width: 1920px) {
+    left: calc(($value * 1920px) / 100);
+  }
+}
+@define-mixin top $value {
+  top: calc($value * 1vw);
+  @media screen and (min-width: 1920px) {
+    top: calc(($value * 1920px) / 100);
+  }
+}
+@define-mixin right $value {
+  right: calc($value * 1vw);
+  @media screen and (min-width: 1920px) {
+    right: calc(($value * 1920px) / 100);
+  }
+}
+@define-mixin bottom $value {
+  bottom: calc($value * 1vw);
+  @media screen and (min-width: 1920px) {
+    bottom: calc(($value * 1920px) / 100);
+  }
+}
+@define-mixin letter-spacing $value {
+  letter-spacing: calc($value * 1vw);
+  @media screen and (min-width: 1920px) {
+    letter-spacing: calc(($value * 1920px) / 100);
+  }
+}
+
+@define-mixin chat-nav-list {
+  @mixin flex-column $justify-start, $align-center;
+  width: 100%;
+  .nav-item {
+    @mixin flex-row $justify-between, $align-center;
+    @mixin rect-back-light-gray;
+    min-width: 100%;
+    height: 64px;
+    margin-bottom: 10px;
+    .user-img {
+      min-width: 34px;
+      min-height: 34px;
+      margin-right: 10px;
+    }
+    .nav-link {
+      @mixin flex-column $justify-between, $align-start;
+      height: 43px;
+      width: 100%;
+      h4 {
+        color: $black-80;
+      }
+      p {
+        color: $black-40;
+      }
+    }
+    .actions {
+      @mixin flex-column $justify-between, $align-end;
+      height: 40px;
+      min-width: 40px;
+      .status-tag {
+        margin-bottom: 5px;
+      }
+      .close-icon {
+        display: none;
+      }
+      p {
+        color: $black-40;
+      }
+    }
+    &:hover {
+      @mixin rect-back-gray;
+      .actions {
+        .status-tag {
+          display: none;
+        }
+        .close-icon {
+          display: inline-block;
+        }
+        p {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+@define-mixin menu {
+  display: none;
+  @mixin rect-back-white;
+  /* width: 80%;
+  position: absolute;
+  right: 0;
+  top: 50px; */
+  filter: drop-shadow(1px 1px 16px $black-10);
+  .menu-link {
+    @mixin flex-row $justify-left, $align-center;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    padding: 5px;
+    color: $black;
+    cursor: pointer;
+    p {
+      margin-left: 5px;
+    }
+    .menu-icon {
+      width: 13px;
+      height: 13px;
+    }
+    &:hover {
+      @mixin rect-back-gray-sm;
+    }
+  }
+  .all {
+    @mixin flex-row $justify-between, $align-center;
+    p {
+      margin: 0;
+    }
+  }
+}
+
+@define-mixin rect-back-black {
+  color: $white;
+  padding: 12px;
+  border-radius: 8px;
+  background-color: $black-80;
+}
+
+@define-mixin list-back-gray {
+  width: 144px;
+  border-radius: 8px;
+  background-color: $black-5;
+}
+
+@define-mixin rect-back-gray {
+  padding: 14px;
+  border-radius: 12px;
+  background-color: $black-5;
+}
+
+@define-mixin rect-back-light-gray {
+  padding: 14px;
+  border-radius: 12px;
+  background-color: $black-2;
+}
+
+@define-mixin rect-back-purple {
+  padding: 14px;
+  border-radius: 12px;
+  background-color: $primary-purple;
+}
+
+@define-mixin rect-back-blue {
+  padding: 14px;
+  border-radius: 12px;
+  background-color: $primary-blue;
+}
+
+@define-mixin rect-back-yellow {
+  padding: 14px;
+  border-radius: 12px;
+  background-color: $yellow-40;
+}
+
+@define-mixin rect-back-white {
+  padding: 8px;
+  border-radius: 8px;
+  background-color: $white;
+}
+
+@define-mixin rect-back-gray-sm {
+  padding: 5px;
+  border-radius: 8px;
+  background-color: $black-5;
+}

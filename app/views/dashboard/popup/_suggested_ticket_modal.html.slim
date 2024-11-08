@@ -1,0 +1,62 @@
+.model-content-section
+  .model-content
+    .modal-body
+      .card.search-ticket
+        button.accordian
+          .main
+            = inline_svg_tag("search.svg", alt:"menu")
+            p.f-reg-14 Search
+      .card.create-ticket data-action="click->frameToggler#loadModal" data-popup-view="_create_ticket_modal"
+        button.accordian
+          .main
+            = inline_svg_tag("ticket_no_background.svg", alt:"menu", class:"conversation-icon")
+            p.f-reg-14 Create Ticket
+          = inline_svg_tag("arrow.svg", class:"")
+      .card
+        button.accordian.inactive
+          .main
+            = inline_svg_tag("whatsapp.svg", alt:"menu", class:"conversation-icon")
+            p.f-reg-14 Whatsapp
+          = inline_svg_tag("arrow.svg", class:"")
+      .card
+        button.accordian.inactive
+          .main
+            = inline_svg_tag("messenger.svg", alt:"menu", class:"conversation-icon")
+            p.f-reg-14 Messenger
+          = inline_svg_tag("arrow.svg", class:"")
+      .card
+        button.accordian.inactive
+          .main
+            = inline_svg_tag("twitter.svg", alt:"menu", class:"conversation-icon")
+            p.f-reg-14 Twitter
+          = inline_svg_tag("arrow.svg", class:"")
+      .card
+        button.accordian.inactive
+          .main
+            = inline_svg_tag("twilio.svg", alt:"menu", class:"conversation-icon")
+            p.f-reg-14 Twilio
+          = inline_svg_tag("arrow.svg", class:"")
+      .card
+        button.accordian.inactive
+          .main
+            = inline_svg_tag("telegram.svg", alt:"menu", class:"conversation-icon")
+            p.f-reg-14 Telegram
+          = inline_svg_tag("arrow.svg", class:"")
+      .card
+        button.accordian.inactive
+          .main
+            = inline_svg_tag("line.svg", alt:"menu", class:"conversation-icon")
+            p.f-reg-14 Line
+          = inline_svg_tag("arrow.svg", class:"")
+      .card
+        button.accordian.inactive
+          .main
+            = inline_svg_tag("sms.svg", alt:"menu", class:"conversation-icon")
+            p.f-reg-14 SMS
+          = inline_svg_tag("arrow.svg", class:"")
+      .card data-action="click->frameToggler#loadModal" data-popup-view="_email_conv_modal"
+        button.accordian.inactive
+          .main
+            = inline_svg_tag("envelope.svg", alt:"menu", class:"conversation-icon")
+            p.f-reg-14 Email
+          = inline_svg_tag("arrow.svg", class:"")

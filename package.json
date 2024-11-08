@@ -5,16 +5,19 @@
     "@hotwired/stimulus": "^3.2.2",
     "@hotwired/turbo-rails": "^8.0.2",
     "autoprefixer": "^10.4.17",
+    "choices.js": "^11.0.2",
     "esbuild": "^0.20.0",
     "mjml": "^4.15.3",
     "postcss": "^8.4.35",
     "postcss-cli": "^11.0.0",
     "postcss-import": "^16.0.0",
-    "postcss-nesting": "^12.0.2"
+    "postcss-mixins": "^9.0.4",
+    "postcss-nesting": "^12.0.2",
+    "postcss-simple-vars": "^7.0.1"
   },
   "scripts": {
-    "build": "esbuild app/javascript/*.* --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets",
-    "build:css": "postcss ./app/assets/stylesheets/application.postcss.css -o ./app/assets/builds/application.css"
+    "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds --public-path=assets",
+    "build:css": "postcss ./app/assets/stylesheets/*.postcss -d ./app/assets/builds/ --ext css --minify"
   },
   "devDependencies": {
     "prettier": "^3.2.5"

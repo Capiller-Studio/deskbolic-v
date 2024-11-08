@@ -1,0 +1,15 @@
+doctype html
+html lang=I18n.locale
+  head
+    title = meta_title
+    meta content="text/html; charset=UTF-8" http-equiv="Content-Type"
+    meta[name="viewport" content="width=device-width,initial-scale=1"]
+    script[type="text/plain" data-cookiecategory="analytics"]
+    = csrf_meta_tags
+    = csp_meta_tag
+    = render("layouts/dashboard/meta_tags")
+    = favicon_link_tag(image_path("fav_icon.png"))
+    = stylesheet_link_tag "dashboard", "data-turbo-track": "reload"
+    = javascript_include_tag "dashboard", "data-turbo-track": "reload", defer: true
+  body data-controller="chat consumer" data-consumer-url="#{Rails.application.credentials.dig(Rails.env.to_sym, :actioncable, :host)}/cable" data-consumer-user="#{current_user&.id}" data-consumer-token="#{current_user&.connection_token}" 
+    == yield

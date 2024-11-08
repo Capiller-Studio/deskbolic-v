@@ -1,0 +1,153 @@
+.details-section data-controller="accordion"
+  h2.f-semi-24 Details
+  .descriptive-details
+    .agent
+      p.f-semi-14 Agent
+      .card.agent-detail
+        button.accordian data-action="click->accordion#toggle"
+          = image_tag("profile_pic.png", class:"chat-user", alt: "menu")
+          p.f-reg-14 Aman Gupta
+          = inline_svg_tag("arrow_down.svg", class:"arrow-icon ml-auto")
+        .panel data-accordion-target="panel"
+    .team
+      p.f-semi-14 Team
+      .card.team-info
+        button.accordian data-action="click->accordion#toggle"
+          = inline_svg_tag("info.svg", class:"")
+          p.f-reg-14 Technical
+          = inline_svg_tag("arrow_down.svg", class:"arrow-icon ml-auto")
+        .panel data-accordion-target="panel"
+    .card.ticket-info
+      button.accordian data-action="click->accordion#toggle"
+        p.f-reg-14 Ticket info
+        = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
+      .panel data-accordion-target="panel"
+        .section-flex 
+          h5.f-reg-14 Ticket ID: 
+          .status-tag.bg-gray.f-reg-12 #1E233
+        .section-flex 
+          h5.f-reg-14 Created: 
+          p.f-reg-14 = DateTime.current.strftime("%d %b %Y")
+        .section-flex 
+          h5.f-reg-14 Last message: 
+          p.f-reg-14 = DateTime.current.strftime("%d %b %Y")
+        .section-flex 
+          h5.f-reg-14 Status: 
+          .status-tag.bg-green.f-reg-12 Open
+        .section-flex 
+          h5.f-reg-14 Priority:
+          .status-tag.bg-red.f-reg-12 Urgent
+    .card.user-data
+      button.accordian data-action="click->accordion#toggle"
+        p.f-reg-14 User data
+        = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
+      .panel data-accordion-target="panel"
+        .user-details data-controller="accordion"
+          .user-info
+            .profile-pic
+              = image_tag("profile_pic.png", class:"img", alt:"menu")
+              p.f-reg-12 Gowen
+            = inline_svg_tag("menu.svg", class:"profile-menu",  data: { "action" => "click->accordion#toggle_menu" })
+          .menu data-accordion-target="menu"
+            = link_to("#", class: "all menu-link") do
+              p.f-reg-12 Show All
+              = inline_svg_tag("export_arrow.svg", class:"menu-icon", alt:"menu")
+            = link_to("#", class: "block menu-link") do
+              = inline_svg_tag("block.svg", class:"menu-icon", alt:"menu")
+              p.f-reg-12 Block
+            = link_to("#", class: "unsub menu-link") do
+              = inline_svg_tag("cross.svg", class:"menu-icon", alt:"menu")
+              p.f-reg-12 Unsubscribe
+        .section-flex
+          = inline_svg_tag("user_id.svg", class: "left-img")
+          h5.f-reg-12 User Id 
+          p.f-reg-12.ml-auto 1283HDJIWTD
+        .section-flex 
+          = inline_svg_tag("mail.svg", class: "left-img")
+          h5.f-reg-12 Email
+          p.f-reg-12.ml-auto mail@domain.com hbaysuc qyucbqh cwcq3vqeacdswce
+        .section-flex 
+          = inline_svg_tag("location.svg", class: "left-img")
+          h5.f-reg-12 Location
+          p.f-reg-12.ml-auto 55066 Street
+    .card.tickets
+      button.accordian data-action="click->accordion#toggle"
+        p.f-reg-14 Tickets
+        = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
+      .panel data-accordion-target="panel"
+        .section-flex
+          = inline_svg("ticket_black.svg", class: "left-img")
+          h5.f-reg-12 Customer Ticket
+          .ml-auto = inline_svg("refresh.svg")
+        .section-flex
+          = inline_svg("track.svg", class: "left-img")
+          h5.f-reg-12 Tracker Ticket
+          .ml-auto = inline_svg("plus_black.svg")
+        .section-flex
+          = inline_svg("office.svg", class: "left-img")
+          h5.f-reg-12 Back-office Ticket
+          p.f-reg-12.ml-auto = inline_svg("plus_black.svg")
+        .section-flex
+          = inline_svg("chat.svg", class: "left-img")
+          h5.f-reg-12 Side Conversation
+          .ml-auto = inline_svg("plus_black.svg")
+    .card.user-notes
+      button.accordian data-action="click->accordion#toggle"
+        p.f-reg-14 User notes
+        = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
+      .panel data-accordion-target="panel"
+        p.f-reg-12 Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+        p.f-reg-12 Lorem Ipsum is simply dummy text of the printing and 
+        p.f-reg-12 Lorem Ipsum is simply dummy.
+    .card.user-tags
+      button.accordian data-action="click->accordion#toggle"
+        p.f-reg-14 User tags
+        = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
+      .panel data-accordion-target="panel"
+        .section-flex
+          = inline_svg("tag.svg", class: "left-img")
+          h5.f-reg-12 Featured Request
+          .ml-auto = inline_svg("plus_black.svg")
+        .section-flex
+          = inline_svg("tag.svg", class: "left-img")
+          h5.f-reg-12 Featured Request
+          .ml-auto = inline_svg("plus_black.svg")
+    .card.recent-chats
+      button.accordian data-action="click->accordion#toggle"
+        p.f-reg-14 Recent chats
+        = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
+      .panel data-accordion-target="panel"
+        ul
+          .inbox-nav-menu
+            li.nav-item class=""
+              = inline_svg_tag("chat1.svg", class:"user-img", alt:"menu")
+              = link_to("#", class: "nav-link") do
+                h4.f-semi-14 ProjectFlow Pro
+                p.f-reg-12 scdbe fnjw fhbwj
+              .actions
+                = inline_svg_tag("menu.svg", class:"close-icon", alt:"menu")
+                .status-tag.bg-green.f-reg-10 open
+                = inline_svg_tag("close.svg", class:"close-icon", alt:"menu")
+                p.f-reg-10 10 Day
+                
+            li.nav-item class=""
+              = inline_svg_tag("chat1.svg", class:"user-img", alt:"menu")
+              = link_to(conversations_path, class: "nav-link") do
+                h4.f-semi-14 ProjectFlow Pro
+                p.f-reg-12 scdbe fnjw fhbwj
+              .actions
+                = inline_svg_tag("menu.svg", class:"close-icon", alt:"menu")
+                .status-tag.bg-red.f-reg-10 close
+                = inline_svg_tag("close.svg", class:"close-icon", alt:"menu")
+                p.f-reg-10 10 Day
+                
+            li.nav-item class=""
+              = inline_svg_tag("chat1.svg", class:"user-img", alt:"menu")
+              = link_to("#", class: "nav-link") do
+                h4.f-semi-14 ProjectFlow Pro
+                p.f-reg-12 scdbe fnjw fhbwj
+              .actions
+                = inline_svg_tag("menu.svg", class:"close-icon", alt:"menu")
+                .status-tag.bg-green.f-reg-10 open
+                = inline_svg_tag("close.svg", class:"close-icon", alt:"menu")
+                p.f-reg-10 10 Day

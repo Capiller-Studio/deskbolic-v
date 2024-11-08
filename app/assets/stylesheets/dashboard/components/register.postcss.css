@@ -1,0 +1,231 @@
+.user-signup-container {
+  @mixin grid-container $col2-5, $row1;
+  .form-section {
+    /* background-color: red; */
+    height: 100vh;
+    @mixin padding-size 5, 5;
+    > form, .request-response {
+      height: 100%;
+      > fieldset {
+        @mixin padding-size 5, 3;
+        /* padding: auto auto; */
+        border: none;
+        height: 100%;
+        /* @mixin flex-column $justify-center, $align-normal; */
+        .set-header {
+          @mixin flex-column $justify-center, $align-center;
+          @mixin margin-bottom 1;
+          .set-icon {
+            @mixin margin-bottom 2;
+            @mixin margin-right 0.5;
+            @mixin width-size 4;
+            @mixin height-size 4;
+          }
+          > h2 {
+            @mixin font-size 2;
+            @mixin line-height 2.5;
+            @mixin margin-bottom 0.5;
+            text-align: center;
+            font-family: $font-family-inter-semibold;
+            > span {
+              color: #778DFF;
+            }
+          }
+          > p {
+            @mixin font-size 1;
+            @mixin line-height 1.5;
+            color: $black-40;
+            text-align: center;
+            font-family: $font-family-inter-regular;
+          }
+        }
+        .form-fields {
+          .form-floating {
+            @mixin flex-column $justify-center, $align-left;
+            @mixin margin-size 1, 0;
+            .form-label {
+              @mixin font-size 0.9;
+              @mixin margin-bottom 1;
+              font-family: $font-family-inter-regular;
+            }
+            > select, .form-control {
+              @mixin padding-size 1.2, 1.2;
+              @mixin height-size 3;
+              @mixin font-size 0.9;
+              font-family: $font-family-inter-regular;
+              @mixin border-radius 0.5;
+              border: 1.9px solid $black-10;
+              &:focus{
+                outline: 0.5px solid $black-10;
+              }
+            }
+            ::placeholder {
+              @mixin font-size 1;
+              color: $black-10;
+              font-family: $font-family-inter-regular;
+            }
+          }
+          .select-choices {
+            @mixin flex-row $justify-between, $align-center;
+            @mixin margin-size 1, 0;
+            @mixin margin-bottom 2;
+            .form-floating {
+              @mixin flex-column $justify-center, $align-left;
+              width: 48%;
+              /* @mixin width-size 19; */
+              margin: 0 0;
+              /* * {
+                color: #565656;
+              } */
+              .form-label {
+                @mixin font-size 0.9;
+                
+                @mixin margin-bottom 1;
+              }
+              > select, .form-control {
+                /* @mixin padding-size 1, 2.2; */
+                @mixin padding-size 1.2, 1.2;
+                @mixin font-size 0.9;
+                @mixin border-radius 0.5;
+                border: 1.9px solid $black-10;
+              }
+              > input::-webkit-outer-spin-button, > input::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+              }
+            }
+          }
+          h2 {
+            @mixin font-size 1.2;
+            @mixin line-height 2;
+            @mixin margin-bottom 1.5;
+            font-family: $font-family-inter-semibold;
+          }
+          > p {
+            @mixin font-size 0.8;
+            @mixin line-height 1.5;
+            color: $black-40;
+            text-align: left;
+            font-family: $font-family-inter-regular;
+          }
+          .cont-btn {
+            width: 100%;
+            @mixin height-size 3;
+            @mixin margin-top 1;
+            color: $white;
+            background-color: #778DFF;
+            @mixin border-radius 0.5;
+            border: none;
+            cursor: pointer;
+            @mixin font-size 0.9;
+            @mixin line-height 2;
+            font-family: $font-family-inter-semibold;
+          }
+          
+          .radio-button-group {
+            display: flex;
+            gap: 20px;
+            @mixin margin-size 1, 0;
+          }
+          
+          .radio-button {
+            /* border: 1px solid #d1d1d1; */
+            /* padding: 20px; */
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            background-color: #f9f9f9;
+            transition: border-color 0.3s ease;
+            position: relative;
+          
+            input[type="radio"] {
+              display: none;
+            }
+          
+            label {
+              @mixin flex-row $justify-left, $align-start;
+              height: 100%;
+              width: 100%;
+              cursor: pointer;
+              @mixin padding-size 1.5, 1;
+              @mixin border-radius 1;
+              /* margin-left: 40px; // To ensure spacing between the radio button and label */
+          
+              .icon {
+                @mixin margin-top -1;
+                @mixin margin-right 0.5;
+                @mixin width-size 4;
+                @mixin height-size 4;
+              }
+              .details {
+                > h3 {
+                  @mixin font-size 1;
+                  font-weight: bold;
+                  color: $black-40;
+                  font-family: $font-family-inter-semibold;
+                }
+                
+                > p {
+                  @mixin font-size 0.7;
+                  @mixin line-height 1;
+                  @mixin margin-top 0.5;
+                  color: $black-40;
+                  font-family: $font-family-inter-regular;
+                }
+              }
+            }
+          
+            input[type="radio"]:checked + label {
+              border: 1px solid $black;
+              .icon {
+                /* color: $black; */
+                filter: brightness(0%);
+              }
+              .details {
+                > h3 {
+                  color: $black;
+                }
+                > p {
+                  color: $black;
+                }
+              }
+            }
+          }          
+        }
+      }
+    }
+  }
+  .image-section {
+    background-color: #778DFF;
+    height: 100vh;
+    position: relative;
+    @mixin padding-size 5, 5;
+    @mixin flex-column $justify-center, $align-center;
+    .register-img {
+      @mixin width-size 40;
+      @mixin height-size 25;
+      @mixin margin-bottom 3;
+    }
+    .back-img {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+    }
+    > p {
+      @mixin font-size 4;
+      @mixin line-height 5;
+      color: $white;
+      font-family: $font-family-inter-semibold;
+    }
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .user-signup-container {
+    @mixin grid-container $col1, $row1;
+    .image-section {
+      display: none;
+    }
+  }
+}

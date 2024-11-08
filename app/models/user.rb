@@ -62,10 +62,22 @@
 #  fk_rails_...  (address_id => addresses.id) ON DELETE => nullify
 #
 class User < ApplicationRecord
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable
   belongs_to :address
+  
+  has_many :account_users, dependent: :destroy
+  has_many :accounts, through: :account_users
 
   enum status: { active: 0 }
   enum gender: { male: 0, female: 1 }
 
   has_secure_token :connection_token
+  
+  def event_payload
+    {
+      id: id,
+      created_at: created_at
+    }
+  end
 end

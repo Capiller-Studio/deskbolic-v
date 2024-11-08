@@ -86,9 +86,10 @@ module Channels
       end
 
       def process_file_attachment(attachment, attachment_type)
+        url = attachment["payload"]["url"]
         tempfile = download_file(url)
         file_attachment = message.attachments.create!(
-          remote_url: attachment["payload"]["url"],
+          remote_url: url,
           account:,
           attachment_type: parse_attachment_type(attachment_type, tempfile)
         )

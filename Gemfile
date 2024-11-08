@@ -95,6 +95,9 @@ gem 'money'
 gem 'prawn'
 gem 'prawn-table'
 
+# svg-inline
+gem 'inline_svg'
+
 # Group by date query support
 gem 'groupdate'
 

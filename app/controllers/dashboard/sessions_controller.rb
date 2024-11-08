@@ -1,0 +1,73 @@
+# frozen_string_literal: true
+
+# Company: TECHBOLIC SOLUTIONS (PRIVATE) LIMITED
+# VERSION: 1.0.0
+# Website: https://techbolic.com/
+
+module Dashboard
+  class SessionsController < Devise::SessionsController
+    layout "dashboard"
+    # before_action :configure_sign_in_params, only: [:create]
+
+    # GET /resource/sign_in
+    # def new      
+    #   # if flash[:alert] == I18n.t("devise.failure.unconfirmed")
+    #   #   @unconfirmed_email = true
+    #   #   # flash[:alert] = nil
+    #   # end
+    #   # @warden_options = request.env["warden.options"] || {}
+    #   # super
+    # end
+
+    # POST /resource/sign_in
+    def create
+      user = User.find_by(email: params[:user][:email])
+
+      if user && user.valid_password?(params[:user][:password])
+        sign_in :user, user
+
+        if user.accounts.any?
+          session[:current_account_id] = user.accounts.first.id
+          redirect_to(root_url, notice: "Access granted")
+        else
+          redirect_to workspace_path, alert: "You need to create a workspace."
+        end
+      else
+        super
+      end
+    end
+
+    # DELETE /resource/sign_out
+    # def destroy
+    #   super
+    # end
+
+    # protected
+    
+    # def after_sign_out_path_for(resource_or_scope)
+    #   admin_root_path
+    # end
+
+    # If you have extra params to permit, append them to the sanitizer.
+    # def configure_sign_in_params
+    #   devise_parameter_sanitizer.permit(:sign_in, keys: [:email, :password])
+    # end
+    
+    def switch
+      account = Account.find(params[:id])
+      if current_user.accounts.include?(account)
+        session[:current_account_id] = account.id
+        redirect_to(root_url)
+      else
+        redirect_to accounts_path, alert: "You are not authorized"
+      end
+    end
+    
+    private
+  
+    # def sign_in_params
+    #   # params.require(:user).permit(:email, :password, :remember_me, :account_id)
+    #   params.permit(:email, :password, :remember_me, :account_id)
+    # end
+  end
+end

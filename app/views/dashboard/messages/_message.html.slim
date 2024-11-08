@@ -1,0 +1,29 @@
+- if message.content && message.sender_type == "Customer"
+  .user-response.response data-controller="translator" data-translator-target="response"
+    .text-content
+      .chat-user
+        = image_tag("profile_pic.png", class:"img", alt:"menu")
+      .user-text
+        .original.f-reg-14 data-translator-target="original"
+          pre = message.content
+        .translate-text
+          button.f-light-italic-10 data-action="click->translator#toggle_translate" Translate
+        .translated-text.d-none 
+          h5.f-med-10 TRANSLATION IN ENGLISH:
+          P
+            span.translation.f-light-italic-12 data-translator-target="translation"
+            | &nbsp
+            span.f-med-10.close-translation data-action="click->translator#toggle" Close
+- if message.content && message.sender_type == "User"
+  .agent-response.response data-controller="translator" data-translator-target="response"
+    .agent-text
+      .original.f-reg-14 data-translator-target="original"
+        pre = message.content
+      .translate-text
+        button.f-light-italic-10 data-action="click->translator#toggle_translate" Translate
+      .translated-text.d-none 
+        h5.f-med-10 TRANSLATION IN ENGLISH:
+        P
+          span.translation.f-light-italic-12 data-translator-target="translation"
+          | &nbsp
+          span.f-med-10.close-translation data-action="click->translator#toggle" Close

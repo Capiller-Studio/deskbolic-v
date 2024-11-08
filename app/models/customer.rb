@@ -77,4 +77,12 @@ class Customer < ShardRecord
   has_many :customer_inboxes, dependent: :destroy
   has_many :conversation_members, dependent: :destroy, as: :member
   has_many :conversations, through: :conversation_members
+  
+  
+  def event_payload
+    {
+      id: id,
+      created_at: created_at
+    }
+  end
 end

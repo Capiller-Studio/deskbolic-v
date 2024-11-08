@@ -1,0 +1,70 @@
+.email-joining-container.center-wrapper data-controller="renderer formWizard"
+  .header
+    .logo
+      = image_tag("logo.png", alt: "Deskbolic logo")
+  = form_for :user, url: "#", html: {class: "js-form-wizard form-wizard needs-validation", novalidate: true} do |f|   
+    fieldset
+      .view-workspace-container
+        .joining-card
+          .logo
+            = image_tag("deskbolic_icon_v.png", alt: "Deskbolic logo")
+          p  Lorem Ipsum is simply dummy text of the <br> printing and typesetting industry
+
+          .joining-sub-container
+            .joining-sub-card
+              .joining-header
+                = image_tag("email_join_icon.png", class: "community-logo", alt: "Email Joining Icon")
+                .community-details
+                  p.workspace-name Global Product Design
+                  p.members 200 Active Members
+              p.description Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+              button.join-btn.js-next-button.f-med-12 type="button" data-action="click->formWizard#nextStep" Join Work Space
+
+    fieldset
+      .join-workspace-container
+        .joining-card
+          = image_tag("email_join_icon.png", alt: "Community Icon",class: "community-logo")
+          p.title "Global Product Design"
+          p.members 200 Active Members
+
+          .header-line
+            p You are joining 
+            p.workspace Workspace
+
+          .form-fields
+            .name
+              .form-floating
+                  = f.label :first_name, "First Name" , class: "f-semi-14 form-label"
+                  = f.text_field :first_name, autofocus: true, class: "f-reg-14 form-control", placeholder: "First Name", disabled: true
+              .form-floating
+                  = f.label :last_name, "Last Name" , class: "f-semi-14 form-label"
+                  = f.text_field :last_name, class: "f-reg-14 form-control", placeholder: "Last Name"
+            .form-floating
+              = f.label :email ,"Your Email", class: "f-semi-14 form-label"
+              = f.email_field :email, class: "f-reg-14 form-control", placeholder: "Demo@domain.com", readonly: true
+            .form-floating
+              = f.label :password, class: "f-semi-14 form-label"
+              = f.password_field :password, class: "f-reg-14 form-control"
+            .form-floating
+              = label_tag :confirm_password,"Confirm Password", class: "f-semi-14 form-label"
+              = password_field_tag :confirm_password, "", class: "f-reg-14 form-control"
+            .actions
+              = f.submit "Join", class: "f-semi-15 button"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

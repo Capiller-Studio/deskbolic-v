@@ -1,0 +1,145 @@
+.card.conversation-card
+  .chat-section
+    .header
+      .user-details
+        - @conversation.customers.each do |customer|
+            p.f-semi-18 = customer.first_name
+      .actions data-controller="accordion"
+        = inline_svg_tag("plus.svg", class:"chat-action", alt:"menu")
+        = inline_svg_tag("star.svg", class:"chat-action", alt:"menu")
+        = inline_svg_tag("ticket.svg", class:"chat-action", alt:"menu")
+        = inline_svg_tag("bell.svg", class:"chat-action", alt:"menu")
+        = inline_svg_tag("close_black.svg", class:"chat-action", alt:"menu")
+        = inline_svg_tag("dots.svg", class:"chat-action", alt:"menu",  data: { "action" => "click->accordion#toggle_menu" })
+        .menu data-accordion-target="menu"
+          = link_to("#", class: "menu-link") do
+            = inline_svg_tag("participent.svg", class:"menu-icon", alt:"menu")
+            p.f-reg-12 Manage Participant
+          = link_to("#", class: "menu-link") do
+            = inline_svg_tag("export.svg", class:"menu-icon", alt:"menu")
+            p.f-reg-12 Export Conversation
+        
+    .conversation#oppp
+      - @messages.each do |message|
+        - if message.content && message.sender_type == "Customer"
+          .user-response.response data-controller="translator" data-translator-target="response"
+            .text-content
+              .chat-user
+                = image_tag("profile_pic.png", class:"img", alt:"menu")
+              .user-text
+                .original.f-reg-14 data-translator-target="original"
+                  pre = message.content
+                .translate-text
+                  button.f-light-italic-10 data-action="click->translator#toggle_translate" Translate
+                .translated-text.d-none 
+                  h5.f-med-10 TRANSLATION IN ENGLISH:
+                  P
+                    span.translation.f-light-italic-12 data-translator-target="translation"
+                    | &nbsp
+                    span.f-med-10.close-translation data-action="click->translator#toggle" Close
+        - if message.content && message.sender_type == "User"
+          .agent-response.response data-controller="translator" data-translator-target="response"
+            .agent-text
+              .original.f-reg-14 data-translator-target="original"
+                pre = message.content
+              .translate-text
+                button.f-light-italic-10 data-action="click->translator#toggle_translate" Translate
+              .translated-text.d-none 
+                h5.f-med-10 TRANSLATION IN ENGLISH:
+                P
+                  span.translation.f-light-italic-12 data-translator-target="translation"
+                  | &nbsp
+                  span.f-med-10.close-translation data-action="click->translator#toggle" Close
+      turbo-frame#message-frame data-controller="chat"
+      
+    .footer
+      .message-box
+        = form_with(model: Message.new, method: :post, class:"some-class") do |f|
+          .text-translation
+            .response-type 
+              button.f-semi-14.reply.active = "Reply"
+              button.f-semi-14.note = "Note"
+            .translation.f-semi-14
+              | English
+              = inline_svg_tag("violet_dropdown.svg", class:"action-btn")
+          .note-area.menu
+            = f.text_area :response, class: "form-control f-reg-14", placeholder: "Write your response for issue", required: true
+            = f.hidden_field :conversation_id, value: @conversation.id
+          .commands
+            .actions data-controller="modalToggler frameToggler"
+              .response-action
+                = inline_svg_tag("menu.svg", class:"action-btn")
+              .response-action data-controller="accordion"
+                .replies data-action="click->accordion#toggle_menu"
+                  = inline_svg_tag("reply_star.svg", class:"action-btn")
+                .menu.save-replies data-accordion-target="menu"
+                  .menu-buttons
+                    .menu-options
+                      = inline_svg_tag("star_plus.svg", alt:"menu",  data: { action: "click->modalToggler#showModal click->frameToggler#loadModal", popup_view:"_canned_response_modal" })
+                      = inline_svg_tag("setting_button.svg", alt:"menu")
+                    = inline_svg_tag("cross_button.svg", alt:"menu", data: { action: "click->accordion#toggle_menu" })
+                  .replies-options
+                    .search-bar
+                      = inline_svg_tag("search.svg", alt:"menu")
+                      p.f-reg-14 Search
+                    - @canned_responses&.each do |response|
+                      = link_to("#", class: "menu-link") do
+                        = image_tag("gold_star.png", class:"menu-icon", alt:"menu")
+                        .headings
+                          p.f-reg-14 = response.name
+                          .f-reg-10 = response.description
+              .response-action
+                = inline_svg_tag("file_attach.svg", class:"action-btn")
+              .response-action
+                = inline_svg_tag("emoji.svg", class:"size-btn")
+              .response-action
+                = inline_svg_tag("gif.svg", class:"size-btn")
+              .response-action
+                = inline_svg_tag("mic.svg", class:"action-btn")
+              .chat-gpt
+                .response-action data-controller="accordion"
+                  .paraphrase-options data-action="click->accordion#toggle_menu"
+                    = inline_svg_tag("chat_gpt.svg", class:"gpt-btn")
+                    p.f-reg-12 Rephrase
+                  .menu data-accordion-target="menu"
+                    .paraphrase-text
+                      .text
+                        | Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus veritatis odio voluptates ullam autem facilis exercitationem incidunt repellat, non ipsam. Molestias expedita, illum sapiente quia magnam facere ullam numquam voluptas!
+                      .paraphrase-commands
+                        .paraphrase-actions
+                          = inline_svg_tag("retry_transparent.svg", class:"button")
+                          = inline_svg_tag("copy.svg", class:"button")
+                        .paraphrase-buttons
+                          .keep-original
+                            p.f-reg-12 Keep Original
+                          .rephrase
+                            p.f-reg-12 Rephrase
+                .rephrase-selection data-controller="accordion"
+                  = inline_svg_tag("arrow_down_green.svg", data: { "action" => "click->accordion#toggle_menu" })
+                  .menu data-accordion-target="menu"
+                    .rephrase-options
+                      = link_to("#", class: "menu-link") do
+                        p.f-reg-12 Default
+                      = link_to("#", class: "menu-link") do
+                        p.f-reg-12 Friendly
+                      = link_to("#", class: "menu-link") do
+                        p.f-reg-12 Professional
+                      = link_to("#", class: "menu-link") do
+                        p.f-reg-12 Confident
+                      = link_to("#", class: "menu-link options") do
+                        = inline_svg_tag("arrow_down.svg", class:"menu-icon", alt:"menu")
+                        
+            .send-button data-controller="accordion modalToggler frameToggler"
+              p.f-semi-12 Send
+              .arrow-container data-action="click->accordion#toggle_menu" 
+                = inline_svg_tag("arrow_down_white.svg")
+
+              .menu data-accordion-target="menu"
+                .schedule-options 
+                  .menu-link data-action="click->modalToggler#showModal click->frameToggler#loadModal" data-popup-view="_schedule_modal"
+                    = inline_svg_tag("timer.svg",class:"option-icon")
+                    p.f-reg-14 Schedule
+                  .menu-link.send-close
+                    = inline_svg_tag("send_close.svg",class:"option-icon" ,data: { "action" => "click->accordion#toggle_menu" })       
+                    p.f-reg-14 Send and Close
+  = render "dashboard/conversations/conversation_details"

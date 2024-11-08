@@ -1,0 +1,53 @@
+.dashboard-section.center-wrapper
+  .dashboard-container
+    .dashboard-nav
+      .card
+        = image_tag("deskbolic_logo.png", class: "dash-logo", alt: "dashboard logo", height: "100%" , width: "100%")
+        ul
+          .nav-menu
+            - current_user&.accounts&.each do |account|
+              li.nav-item class="#{current_page=='help_desk' ? 'dash-nav-active' : ''}"
+                = form_with url: switch_account_path(id: account.id), method: :post, class: "switch-form" do
+                  = hidden_field_tag :id, account.id
+                  = button_tag(type: 'submit', class: 'switch-button nav-link', style: 'border: none; background: none; padding: 0;') do
+                    = image_tag('helpdesk_icon.svg', alt: 'Switch Account', class: 'switch-icon')
+            li.nav-item
+              = link_to(workspace_path, class: "nav-link") do
+                = inline_svg_tag("plus.svg", class:"link-icon", alt:"menu")
+        
+        .channel-header.list-header data-controller="accordion"
+          = image_tag("chat1.png", class: "account", alt: "dashboard logo" , width: "50%", data: { "action" => "click->accordion#toggle_menu" })
+          .menu data-accordion-target="menu"
+            - if current_user
+              .header
+                = image_tag("chat1.png", class:"user-img", alt:"menu")
+                .details
+                  h4.f-med-18 = current_user&.name
+                  p.f-med-16 = current_user&.email
+              .account-options
+                .theme.menu-link
+                  = inline_svg_tag("theme.svg", class:"menu-icon", alt:"menu")
+                  p.f-semi-14 Theme
+                  = inline_svg_tag("light_theme.svg", class:"ml-auto", alt:"menu")
+                = link_to(help_center_path, class: "menu-link") do
+                  p.f-semi-14 “Help desk” Help Center
+                = link_to(community_path, class: "menu-link") do
+                  p.f-semi-14 “Help desk” Community forum
+                = link_to(terms_path, class: "menu-link") do
+                  p.f-semi-14 Terms & policies
+                = link_to("#", class: "menu-link") do
+                  = inline_svg_tag("settings.svg", class:"menu-icon", alt:"menu")
+                  p.f-semi-14 Settings
+                
+              .logout
+                = button_to(destroy_user_session_path, class: "menu-link nav-link", method: :delete) do
+                  = inline_svg_tag("logout.svg", class:"link-icon", alt:"menu")
+                  p Sign Out
+            - else 
+              .login
+                p login Here
+                = link_to new_user_session_path, class: "menu-link nav-link" do
+                  = inline_svg_tag("logout.svg", class:"link-icon", alt:"menu")
+                  p Login
+    .dashboard-body
+      == yield

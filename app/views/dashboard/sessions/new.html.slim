@@ -1,0 +1,22 @@
+.user-login-container.center-wrapper
+  .form-section
+    .form-header
+      .logo
+        = image_tag("logo.png", alt: "deskbolic image")      
+      = link_to "Join Deskbolic", new_user_registration_path, class: "join-btn"
+  .login-container
+    .login-card
+      .f-semi-36 Welcome Back
+      p  Lorem Ipsum is simply dummy text of the <br> printing and typesetting industry.
+
+      = form_for(resource, as: resource_name, url: user_session_path) do |f|
+        .form-fields
+          .form-floating
+            = f.label :email,"Your Email" , class: "f-semi-14 form-label"
+            = f.email_field :email, class: "f-reg-14 form-control", placeholder: "Email"
+          .form-floating
+            = f.label :password,"Password", class: "f-semi-14 form-label"
+            = f.password_field :password, autocomplete: "current-password", class: "f-reg-14 form-control"
+          .actions
+            = f.submit "Continue", class: "button"
+          

@@ -40,8 +40,11 @@ class Inbox < ShardRecord
   enum status: { active: 0 }
 
   # TODO: WIP (Rough sketch to get going)
+  has_many :conversations, dependent: :destroy
   has_many :customer_inboxes, dependent: :destroy
   has_many :inbox_users, dependent: :destroy
   has_many :users, through: :inbox_users, disable_joins: true
   has_many :customers, through: :customer_inboxes
+  
+  scope :current_inboxes, ->(current_user) { joins(:inbox_users).where(inbox_users: { user: current_user }) }
 end

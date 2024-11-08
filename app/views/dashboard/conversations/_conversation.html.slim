@@ -1,0 +1,11 @@
+li.nav-item class="#{'55'=='cgh' ? 'inbox-nav-active' : ''}"
+  = image_tag("chat1.png", class:"user-img", alt:"menu")
+  / = link_to("#", class: "nav-link") do
+  .nav-link.link data-target-id="conversations-frame" data-controller="section" data-action="click->section#toggleSection" data-url="messages" data-resource-id="#{conversation.id}"
+    - conversation.customers.each do |customer|
+      h4.f-semi-14 = customer.first_name
+      p.f-reg-12 scdbe fnjw fhbwj
+  .actions
+    = inline_svg_tag("menu.svg", class:"menu-icon", alt:"menu")
+    = inline_svg_tag("close.svg", class:"close-icon", alt:"menu")
+    p.f-reg-10 10 Day

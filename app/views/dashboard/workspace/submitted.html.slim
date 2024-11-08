@@ -1,0 +1,18 @@
+.user-signup-container.center-wrapper
+  .form-section data-controller="renderer formWizard"
+    = image_tag("logo.png", class:"img", alt:"logo")
+    .request-response
+      fieldset.company-section
+        .set-header
+          = inline_svg_tag("tick.svg", class:"set-icon")
+          - if flash[:notice]
+            h2 = flash[:notice]
+          - else
+            h2 Next Steps
+        .form-fields
+          = button_to "Go to Dashboard", root_path, method: :get, class: "cont-btn js-next-button"
+      
+  .image-section
+    = image_tag("register.png", class:"register-img", alt:"image")
+    = image_tag("register-back.png", class:"back-img", alt:"image")
+    p First customer service for customers, agents, and leaders

@@ -1,0 +1,19 @@
+.model-content-section
+  .model-content
+    .modal-body
+      .card
+        button.accordian.ticket-type-search
+          .main
+            = inline_svg_tag("search_black.svg", alt:"menu")
+            p.f-reg-14 API integration
+          .cross-hover
+            = inline_svg_tag("cross_sign.svg", data: { action: "click->frameToggler#loadModal", popup_view:"_create_ticket_modal" })
+    .ticket-types
+      .card.ticket-round
+        = inline_svg_tag("ticket_round.svg", alt:"menu")
+      .card
+        p.f-semi-14 Ticket type not found
+      .card
+        button.create-ticket-type
+            p.f-reg-12 Create New Ticket Type
+            = inline_svg_tag("plus_transparent.svg", class:"")

@@ -52,16 +52,41 @@ class Conversation < ShardRecord
 
   # TODO: WIP (Rough sketch to get going)
   has_many :conversation_members, dependent: :destroy
-  has_many :members, through: :conversation_members
+  has_many :members, through: :conversation_members, source: :member, source_type: ["Customer", "User"]
+  has_many :customers, through: :conversation_members,
+                       source: :member, source_type: "Customer",
+                       class_name: "Customer"
+  has_many :users,     through: :conversation_members,
+                       source: :member, source_type: "User",
+                       class_name: "User", disable_joins: true
   has_many :messages, dependent: :destroy
+  has_many :customer_inboxes, through: :customers
 
   after_create_commit :broadcast_conversation_creation
+  
+  
+  scope :current_conversations, ->(current_user) { joins(:conversation_members).where(conversation_members: { member: current_user }) }
 
+  def event_payload
+    {
+      id: id,
+      locale: locale,
+      created_at: created_at
+    }
+  end
+  
   private
 
   # TODO: Refactor to seperate concern
   def broadcast_conversation_creation
     # TODO: Broadcast event and create notification
     # Create a worker for broadcasting events in the background
+    
+    EventBroadcastWorker.perform_async(event_payload.to_json, "conversation.created", connection_tokens)
+  end
+  
+  
+  def connection_tokens
+    customer_inboxes.pluck(:connection_token) + User.all.pluck(:connection_token)
   end
 end

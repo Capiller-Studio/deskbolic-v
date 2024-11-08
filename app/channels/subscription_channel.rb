@@ -6,7 +6,7 @@ class SubscriptionChannel < ApplicationCable::Channel
   before_subscribe :configure_connection_token
   before_subscribe :current_subscriber
 
-  def subscribed
+  def subscribed  
     # TODO: Use correct shard based on account
     stream_from(connection_token)
     track_activity
@@ -42,7 +42,7 @@ class SubscriptionChannel < ApplicationCable::Channel
     # TODO: Add Cookie and Session handling
     return if params[:user_id].blank?
 
-    @current_user ||= User.where(id: params[:id]).find_by!(connection_token:)
+    @current_user ||= User.where(id: params[:user_id]).find_by!(connection_token:)
   end
 
   def current_customer
@@ -53,7 +53,8 @@ class SubscriptionChannel < ApplicationCable::Channel
 
   def current_account
     @current_account ||= if current_user
-                           current_user.accounts.find!(params[:account_id])
+                          #  current_user.accounts.find!(params[:account_id])
+                           current_user.account_users.first.account
                          else
                            current_customer.account
                          end

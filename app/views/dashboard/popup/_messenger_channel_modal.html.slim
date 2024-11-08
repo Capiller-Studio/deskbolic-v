@@ -1,0 +1,36 @@
+.model-content-section
+  .model-content
+    .modal-header
+      h3.f-semi-18 Messenger Channel
+      = inline_svg_tag("cross_button.svg", alt:"menu", class:"conversation-icon", data: { action: "click->modalToggler#hideModal" })
+    .modal-body.channel-form
+      = form_with(url: channels_path, data: {controller: "formValidation renderer", "formValidation-target" => "form"}, html: {class: "needs-validation", novalidate: true, method: :post}) do |f|
+        .form-fields
+          = f.hidden_field :channel_type, value: "facebook_page"
+          .form-floating
+            .field-label
+              span 1
+              = f.label :name, "Enter name of channel", class: "form-label f-reg-14"
+            = f.text_field :name, autofocus: true, class: "form-control rounded-3 f-reg-14", placeholder: "Channel Name", required: true
+            / .invalid-feedback
+            /   p required
+          .form-floating
+            .field-label
+              span 2
+              = f.label :name, "Enter access token", class: "form-label f-reg-14"
+            = f.text_field :access_token, class: "form-control rounded-3 f-reg-14", placeholder: "Access token", required: true
+            / .invalid-feedback
+            /   p required
+          .form-floating
+            .field-label
+              span 3
+              = f.label :name, "Enter page ID", class: "form-label f-reg-14"
+            = f.text_field :page_identifier, class: "form-control rounded-3 f-reg-14", placeholder: "Page identifier", required: true
+            / .invalid-feedback
+            /   p required
+          / .form-floating
+          /   = f.email_field :email, class: "form-control rounded-3 f-reg-14", placeholder: "Email", required: true
+            / .invalid-feedback
+            /   p required
+        .form-actions
+          = f.submit "Create Channel", class: "submit-btn f-med-14", data: { action: "click->formValidation#validate click->modalToggler#hideModal" }

@@ -1,0 +1,34 @@
+= render("frontend/shared/profile_container", current_page: "edit_profile") do
+  .card
+    .profile-details-heading
+      | Edit Profile
+    .card-body.profile-details-info
+      = form_for(current_user, as: :user, url: user_registration_path, html: {class: "needs-validation", novalidate: true, method: :put}) do |f|
+        .row
+          .col-md-6.mb-3
+            .form-floating
+              = f.text_field :first_name, class: "form-control", placeholder: "Vorname", required: true
+              = f.label :first_name, "Vorname"
+          .col-md-6.mb-3
+            .form-floating
+              = f.text_field :last_name, class: "form-control", placeholder: "Nachname", required: true
+              = f.label :last_name, "Nachname"
+          .col-md-12.mb-3
+            .form-floating
+              = f.email_field :email, class: "form-control", autocomplete: "email", placeholder: "E-Mail", required: true
+              = f.label :email, "E-Mail"
+          .col-md-6.mb-3
+              .form-floating
+                = f.password_field :password, class: "form-control js-password-field", autocomplete: "new-password", placeholder: "Passwort", pattern: '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,60}$', autofocus: true
+                = f.label :password, "Passwort"
+                .invalid-feedback Das Passwort sollte 8-60 Zeichen lang sein und mindestens 1 Großbuchstaben, 1 Kleinbuchstaben und 1 Ziffer enthalten
+          .col-md-6.mb-3
+            .form-floating
+              = f.password_field :password_confirmation, class: "form-control js-password-confirm-field", autocomplete: "new-password", placeholder: "Kennwort bestätigen"
+              = f.label :password_confirmation, "Kennwort bestätigen"
+          .col-md-12.mb-3
+            .form-floating
+              = f.password_field :current_password, class: "form-control", autocomplete: "current-password", placeholder: "Jetziges Passwort", required: true
+              = f.label :current_password, "Jetziges Passwort"
+        .text-center.mt-3
+            = f.submit "Aktualisieren", class: "button button-xl button-rounded button-dark mx-2 float-center mt-2 w-auto"

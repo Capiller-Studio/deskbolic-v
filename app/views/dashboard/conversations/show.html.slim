@@ -1,0 +1,4 @@
+= render("dashboard/shared/dashboard_container", current_page: "help_desk") do
+  = render("dashboard/channels/channels") do
+    = render("dashboard/conversations/conversations") do
+      = render("dashboard/messages/messages", locals: { messages: @messages })

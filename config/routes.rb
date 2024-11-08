@@ -12,4 +12,47 @@ Rails.application.routes.draw do
 
   # TODO: Change route
   mount Facebook::Messenger::Server, at: "bot"
+  
+  devise_for :users, path: "",
+  path_names: { sign_in: "login", sign_out: "logout", sign_up: "register" },
+  controllers: {
+    registrations: "dashboard/registrations",
+    sessions: "dashboard/sessions",
+    confirmations: "dashboard/confirmations",
+    unlocks: "dashboard/unlocks",
+    passwords: "dashboard/passwords"
+  }
+  
+  devise_scope :user do
+    post 'sessions/switch/:id', to: 'dashboard/sessions#switch', as: :switch_account
+  end
+
+  scope module: "dashboard" do
+    root "channels#index"
+    
+    get "workspace", to: "workspace#new"
+    post "workspace", to: "workspace#create"
+    get 'workspaces/:id/submitted', to: 'workspace#submitted', as: 'submitted'
+    post :switch, to: 'sessions#switch'
+    post 'facebook_page', to: 'facebook_page#index'
+    get "terms", to: "pages#service_terms"
+    get "help-center", to: "pages#help_center"
+    get "community", to: "pages#community_forum"
+    get "email-invitation", to: "workspace#email_invitation"
+
+
+
+    resources :inbox, only: [:index]
+    resources :conversations do
+      get :append_conversation, on: :collection
+    end
+    resources :channels
+    resources :inboxes
+    resources :messages do
+      get :append_message, on: :collection
+    end
+    resources :canned_responses
+  
+    get 'popup/:step', to: 'popup#modal_popup'
+  end
 end

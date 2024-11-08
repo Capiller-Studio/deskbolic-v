@@ -55,11 +55,30 @@ class Message < ShardRecord
 
   after_create_commit :broadcast_message_creation
 
+  def event_payload
+    {
+      id: id,
+      content: content,
+      content_type: content_type,
+      locale: locale,
+      source: source,
+      visibility: visibility,
+      external_id: external_id,
+      created_at: created_at,
+      sender: sender.event_payload,
+      conversation: conversation.event_payload
+    }
+  end
+  
   private
 
   # TODO: Refactor to seperate concern
   def broadcast_message_creation
-    # TODO: Broadcast event and create notification
-    # Create a worker for broadcasting events in the background
+    # EventBroadcastWorker.perform_async("jj", "message.created", connection_tokens)
+    EventBroadcastWorker.perform_async(event_payload.to_json, "message.created", connection_tokens)
+  end
+  
+  def connection_tokens
+    conversation.customer_inboxes.pluck(:connection_token) + conversation.users.pluck(:connection_token)
   end
 end

@@ -22,6 +22,7 @@
 #  index_canned_responses_on_account_id_and_status      (account_id,status)
 #
 class CannedResponse < ShardRecord
+  include CodeGenerator.new(prefix: "CR", referral: false)
   belongs_to :account
 
   enum status: { active: 0 }

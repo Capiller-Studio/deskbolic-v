@@ -1,0 +1,230 @@
+.email-joining-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(
+    to top right,
+    rgba(119, 141, 255, 1) -100%,
+    rgba(255, 255, 255, 1) 50%,
+    rgba(119, 141, 255, 1) 200%
+  );
+
+  .header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    @mixin padding-size 2, 2;
+    width: 100%;
+    @mixin flex-row $justify-left, $align-left;
+    .logo img {
+      height: 40px;
+    }
+  }
+  > form {
+    > fieldset {
+      border: none;
+      .view-workspace-container {
+        @mixin flex-column $justify-center, $align-center;
+        width: 500px;
+        
+        .joining-card {
+          background-color: white;
+          padding: 50px;
+          box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.08);
+          border-radius: 16px;
+          text-align: center;
+          width: 100%;
+          .logo img {
+            height: 80px;
+          }
+          p {
+            font-size: 14px;
+            font-family: $font-family-inter-regular;
+            color: $black-40;
+            line-height: 25px;
+            @mixin margin-bottom 2;
+          }
+
+          .joining-sub-container {
+            @mixin flex-column $justify-center, $align-center;
+            width: 400px;
+            .joining-sub-card {
+              background-color: white;
+              padding: 25px;
+              border: 1.5px solid $black-10;
+              border-radius: 16px;
+              width: 100%;
+              .joining-header {
+                @mixin flex-row $justify-left, $align-center;
+                margin-bottom: 15px;
+                .community-logo {
+                  height: 60px;
+                  @mixin margin-right 1;
+                  align-self: center;
+                }
+                .community-details {
+                  @mixin flex-column $justify-center, $align-start;
+                  width: 100%;
+
+                  .workspace-name {
+                    font-size: 16px;
+                    font-family: $font-family-jakarta-semibold;
+                    color: $black-80;
+                    margin-bottom: 10px;
+                  }
+                  .members {
+                    font-size: 14px;
+                    font-family: $font-family-inter-regular;
+                    color: $black-40;
+                    margin-bottom: 0;
+                  }
+                }
+              }
+              .description {
+                font-size: 14px;
+                font-family: $font-family-inter-regular;
+                color: $black-40;
+                text-align: left;
+                @mixin margin-bottom 1;
+              }
+              .join-btn {
+                @mixin flex-column $justify-center, $align-center;
+                background-color: #778dff;
+                cursor: pointer;
+                color: white;
+                border: none;
+                width: 100%;
+                padding: 15px 20px;
+                border-radius: 8px;
+                text-decoration: none;
+                transition: background-color 0.3s ease;
+                &:hover {
+                  background-color: #4d6aff;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    > fieldset {
+      .join-workspace-container {
+        @mixin flex-column $justify-center, $align-center;
+        width: 620px;
+        .joining-card {
+          background-color: white;
+          padding: 40px 40px;
+          box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.08);
+          border-radius: 16px;
+          text-align: center;
+          width: 100%;
+          .community-logo {
+            height: 70px;
+            @mixin margin-bottom 1;
+          }
+          .title {
+            font-size: 16px;
+            font-family: $font-family-jakarta-semibold;
+            color: $black-80;
+            @mixin margin-bottom 0.8;
+          }
+          .members {
+            color: $black-40;
+            font-family: $font-family-inter-regular;
+            font-size: 14px;
+            @mixin margin-bottom 1;
+          }
+          .header-line {
+            @mixin flex-row $justify-center, $align-center;
+            @mixin margin-bottom 2;
+            p {
+              font-size: 22px;
+              font-family: $font-family-inter-semibold;
+              margin: 20px 0;
+              color: $black-80;
+            }
+            .workspace {
+              color: #778dff;
+              @mixin margin-left 0.3;
+            }
+          }
+          .form-fields {
+            @mixin flex-column $justify-center, $align-normal;
+            gap: 20px;
+            width: 100%;
+            .form-floating {
+              position: relative;
+              width: 100%;
+              .form-label {
+                color: $black-80;
+                @mixin margin-bottom 0.5;
+                display: flex;
+              }
+              .form-control {
+                width: 100%;
+                padding: 18px;
+                border: 1.9px solid $black-10;
+                border-radius: 8px;
+                color: $black;
+                transition: border-color 0.2s;
+                &:focus {
+                  outline: 0.5px solid $black-10;
+                }
+              }
+              ::placeholder {
+                font-size: 14px;
+                color: $black-20;
+                font-family: $font-family-inter-regular;
+              }
+            }
+            .name {
+              @mixin flex-row $justify-between, $align-center;
+              .form-floating {
+                position: relative;
+                width: 48%;
+                .form-label {
+                  @mixin margin-bottom 0.5;
+                  color: $black-80;
+                  display: flex;
+                }
+                .form-control {
+                  width: 100%;
+                  padding: 18px;
+                  border: 1.9px solid $black-10;
+                  border-radius: 8px;
+                  color: $black;
+                  transition: border-color 0.2s;
+                  &:focus {
+                    outline: 0.5px solid $black-10;
+                  }
+                }
+              }
+            }
+    
+            .actions {
+              @mixin flex-column $justify-center, $align-center;
+              @mixin margin-top 1;
+              .button {
+                width: 100%;
+                padding: 18px;
+                background-color: #778dff;
+                color: white;
+                cursor: pointer;
+                border-radius: 8px;
+                border: none;
+                transition: background-color 0.3s ease;
+              }
+    
+              .button:hover {
+                background-color: #4d6aff;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+

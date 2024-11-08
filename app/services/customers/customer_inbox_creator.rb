@@ -24,7 +24,7 @@ module Customers
     private
 
     def find_external_id
-      inbox.channel_type.underscore.parameterize(separator: "_")
+      send("#{inbox.channel_type.underscore.parameterize(separator: "_")}_external_id")
     end
 
     def channel_email_external_id
@@ -48,6 +48,10 @@ module Customers
 
     def channel_web_widget_external_id
       channel_api_external_id
+    end
+    
+    def channel_facebook_page_external_id
+      customer.external_id
     end
 
     def create_customer_inbox

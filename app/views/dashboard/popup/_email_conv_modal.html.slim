@@ -3,112 +3,61 @@
     .modal-header
       h3 = "New Conversation"
       = inline_svg_tag("cross_button.svg", alt:"menu", class:"conversation-icon", data: { action: "click->modalToggler#hideModal" })
-    .modal-body
-      .headers
-        .sub-headers
-          .conversation-type data-controller="accordion"
-            .types.f-semi-14 data-action="click->accordion#toggle_menu"
-              | Email
-              = inline_svg_tag("violet_dropdown.svg", class:"action-btn")
-            .menu data-accordion-target="menu"
-              = link_to("#", class: "menu-link") do
-                = inline_svg_tag("whatsapp.svg", alt:"menu", class:"menu-icon")
-                p.f-reg-14 Whatsapp
-              = link_to("#", class: "menu-link") do
-                = inline_svg_tag("messenger.svg", alt:"menu", class:"menu-icon")
-                p.f-reg-14 Messenger
-              = link_to("#", class: "menu-link") do
-                = inline_svg_tag("twitter.svg", alt:"menu", class:"menu-icon")
-                p.f-reg-14 Twitter
-              = link_to("#", class: "menu-link") do
-                = inline_svg_tag("twilio.svg", alt:"menu", class:"menu-icon")
-                p.f-reg-14 Twilio
-              = link_to("#", class: "menu-link") do
-                = inline_svg_tag("telegram.svg", alt:"menu", class:"menu-icon")
-                p.f-reg-14 Telegram
-              = link_to("#", class: "menu-link") do
-                = inline_svg_tag("line.svg", alt:"menu", class:"menu-icon")
-                p.f-reg-14 Line
-              = link_to("#", class: "menu-link") do
-                = inline_svg_tag("sms.svg", alt:"menu", class:"menu-icon")
-                p.f-reg-14 SMS
-              = link_to("#", class: "menu-link") do
-                = inline_svg_tag("envelope.svg", alt:"menu", class:"menu-icon")
-                p.f-reg-14 Email
-          .from
-            h6.f-semi-14 = "From"
-          .to
-            h6.f-semi-14 = "To"
-          .subject
-            h6.f-semi-14 = "Subject"
-        .sub-fields 
-          .field
-            .user-details data-controller="accordion"
-              .user-info
-                .profile-pic
-                  = image_tag("profile_pic.png", class:"img", alt:"menu")
-                  p.f-reg-12 Gowen
-                = inline_svg_tag("menu.svg", class:"profile-menu",  data: { "action" => "click->accordion#toggle_menu" })
-              .menu data-accordion-target="menu"
-                = link_to("#", class: "all menu-link") do
-                  p.f-reg-12 Show All
-                  = inline_svg_tag("export_arrow.svg", class:"menu-icon", alt:"menu")
-                = link_to("#", class: "block menu-link") do
-                  = inline_svg_tag("block.svg", class:"menu-icon", alt:"menu")
-                  p.f-reg-12 Block
-                = link_to("#", class: "unsub menu-link") do
-                  = inline_svg_tag("cross.svg", class:"menu-icon", alt:"menu")
-                  p.f-reg-12 Unsubscribe
-          .field
-          .field.subject.f-reg-14 = "Enter your subject"
-
-      .message-box
-        = form_with(url: "#", method: :post, class:"note-area menu") do |f|
-          = f.text_area :response, class: "form-control f-reg-14", placeholder: "Write your response for issue", required: true
-        .commands
-          .actions
-            button
-              = inline_svg_tag("menu.svg", class:"action-btn")
-            button
-              = inline_svg_tag("file_attach.svg", class:"action-btn")
-            button
-              = inline_svg_tag("emoji.svg", class:"size-btn")
-            button
-              = inline_svg_tag("gif.svg", class:"size-btn")
-            button
-              = inline_svg_tag("mic.svg", class:"action-btn")
-            .chat-gpt
-              button data-controller="accordion"
-                .paraphrase-options data-action="click->accordion#toggle_menu"
-                  = inline_svg_tag("chat_gpt.svg", class:"gpt-btn")
-                  p.f-reg-12 Rephrase
-                .menu data-accordion-target="menu"
-                  .paraphrase-text
-                    .text
-                      | Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus veritatis odio voluptates ullam autem facilis exercitationem incidunt repellat, non ipsam. Molestias expedita, illum sapiente quia magnam facere ullam numquam voluptas!
-                    .paraphrase-commands
-                      .paraphrase-actions
-                        = inline_svg_tag("retry_transparent.svg", class:"button")
-                        = inline_svg_tag("copy.svg", class:"button")
-                      .paraphrase-buttons
-                        .keep-original
-                          p.f-reg-12 Keep Original
-                        .rephrase
-                          p.f-reg-12 Rephrase
-              .rephrase-selection data-controller="accordion"
-                = inline_svg_tag("arrow_down_green.svg", data: { "action" => "click->accordion#toggle_menu" })
-                .menu data-accordion-target="menu"
-                  .rephrase-options
-                    = link_to("#", class: "menu-link") do
-                      p.f-reg-12 Default
-                    = link_to("#", class: "menu-link") do
-                      p.f-reg-12 Friendly
-                    = link_to("#", class: "menu-link") do
-                      p.f-reg-12 Professional
-                    = link_to("#", class: "menu-link") do
-                      p.f-reg-12 Confident
-                    = link_to("#", class: "menu-link options") do
-                      = inline_svg_tag("arrow_down.svg", class:"menu-icon", alt:"menu")
-          button.send-button
-            p.f-semi-12 Send
-            = inline_svg_tag("arrow_down_white.svg")
+    .modal-body.email-con
+      = form_with(url: "#", data: {controller: "formValidation renderer", "formValidation-target" => "form"}, html: {class: "needs-validation", novalidate: true, method: :post}) do |f|
+        .form-fields
+          .form-floating.channel-select
+            p.f-semi-14.to = "To"
+            = select_tag :customer_id, options_for_select(current_account.customers.map { |c| [c.name, c.id] }),{ class: "f-reg-14 field form-control ", data: { controller: "select" },required: true}
+          .form-floating.channel-select
+            p.f-semi-14.channel = "Channel"
+            = select_tag :channel_id, options_for_select(Channel::Email.where(account: current_account).all.map { |c| [c.name, c.id] }),{ class: "f-reg-14 field form-control", data: { controller: "select" },required: true}
+          .message-box
+            = f.text_area :response, class: "f-reg-14  note-area form-control", placeholder: "Write your response for issue", required: true
+            .commands
+              / .actions
+              /   button
+              /     = inline_svg_tag("menu.svg", class:"action-btn")
+              /   button
+              /     = inline_svg_tag("file_attach.svg", class:"action-btn")
+              /   button
+              /     = inline_svg_tag("emoji.svg", class:"size-btn")
+              /   button
+              /     = inline_svg_tag("gif.svg", class:"size-btn")
+              /   button
+              /     = inline_svg_tag("mic.svg", class:"action-btn")
+              /   .chat-gpt
+              /     button data-controller="accordion"
+              /       .paraphrase-options data-action="click->accordion#toggle_menu"
+              /         = inline_svg_tag("chat_gpt.svg", class:"gpt-btn")
+              /         p.f-reg-12 Rephrase
+              /       .menu data-accordion-target="menu"
+              /         .paraphrase-text
+              /           .text
+              /             | Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus veritatis odio voluptates ullam autem facilis exercitationem incidunt repellat, non ipsam. Molestias expedita, illum sapiente quia magnam facere ullam numquam voluptas!
+              /           .paraphrase-commands
+              /             .paraphrase-actions
+              /               = inline_svg_tag("retry_transparent.svg", class:"button")
+              /               = inline_svg_tag("copy.svg", class:"button")
+              /             .paraphrase-buttons
+              /               .keep-original
+              /                 p.f-reg-12 Keep Original
+              /               .rephrase
+              /                 p.f-reg-12 Rephrase
+              /     .rephrase-selection data-controller="accordion"
+              /       = inline_svg_tag("arrow_down_green.svg", data: { "action" => "click->accordion#toggle_menu" })
+              /       .menu data-accordion-target="menu"
+              /         .rephrase-options
+              /           = link_to("#", class: "menu-link") do
+              /             p.f-reg-12 Default
+              /           = link_to("#", class: "menu-link") do
+              /             p.f-reg-12 Friendly
+              /           = link_to("#", class: "menu-link") do
+              /             p.f-reg-12 Professional
+              /           = link_to("#", class: "menu-link") do
+              /             p.f-reg-12 Confident
+              /           = link_to("#", class: "menu-link options") do
+              /             = inline_svg_tag("arrow_down.svg", class:"menu-icon", alt:"menu")
+              .send-button
+                = f.submit "Send",class: "f-semi-12 button",data: { action: "click->formValidation#validate click->modalToggler#hideModal" }
+                / = inline_svg_tag("arrow_down_white.svg")

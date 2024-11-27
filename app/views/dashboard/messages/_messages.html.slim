@@ -57,8 +57,8 @@
         = form_with(model: Message.new, method: :post, class:"some-class") do |f|
           .text-translation
             .response-type 
-              button.f-semi-14.reply.active = "Reply"
-              button.f-semi-14.note = "Note"
+              button.f-semi-14.reply.active Reply
+              button.f-semi-14.note Note
             .translation.f-semi-14
               | English
               = inline_svg_tag("violet_dropdown.svg", class:"action-btn")
@@ -130,7 +130,7 @@
                         = inline_svg_tag("arrow_down.svg", class:"menu-icon", alt:"menu")
                         
             .send-button data-controller="accordion modalToggler frameToggler"
-              p.f-semi-12 Send
+              = f.submit "Send", class: "f-semi-12"
               .arrow-container data-action="click->accordion#toggle_menu" 
                 = inline_svg_tag("arrow_down_white.svg")
 

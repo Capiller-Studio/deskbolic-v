@@ -1,40 +1,40 @@
-.model-content-section
-  .model-content.ticket-commands
-    .modal-body
-      .card.search-ticket
-        .back data-action="click->frameToggler#loadModal" data-popup-view="_suggested_ticket_modal"
-          = inline_svg_tag("arrow_left.svg", class:"arrow")
-        button.accordian data-action="click->frameToggler#loadModal" data-popup-view="_search_ticket_modal"
-          .main
-            = inline_svg_tag("search.svg", alt:"menu")
-            p.f-reg-14 Search Ticket
-        / .panel data-accordion-target="panel"
-      .card
-        button.accordian.inactive
-          .main
-            = image_tag("alert.png", alt:"menu")
-            p.f-reg-14 Bug report
-          .highlights
-            p.f-reg-14 Customer Ticket
-            = inline_svg_tag("ticket_black.svg", class:"")
-      .card
-        button.accordian.inactive
-          .main
-            = image_tag("blub.png", alt:"menu")
-            p.f-reg-14 Feature request
-          .highlights
-            p.f-reg-14 Tracker Ticket
-            = inline_svg_tag("track.svg", class:"")
-      .card
-        button.accordian.inactive
-          .main
-            = image_tag("work_done.png", alt:"menu")
-            p.f-reg-14 Internal task
-          .highlights
-            p.f-reg-14 Back-office Ticket
-            = inline_svg_tag("office.svg", class:"")
-      .card.manage-ticket
-        button.accordian
-          .main
-            = inline_svg_tag("setting.svg", alt:"menu")
-            p.f-reg-14 Manage Tickets
+/ .model-content-section
+/   .model-content.ticket-commands
+/     .modal-body
+/       .card.search-ticket
+/         .back data-action="click->frameToggler#loadModal" data-popup-view="_suggested_ticket_modal"
+/           = inline_svg_tag("arrow_left.svg", class:"arrow")
+/         button.accordian data-action="click->frameToggler#loadModal" data-popup-view="_search_ticket_modal"
+/           .main
+/             = inline_svg_tag("search.svg", alt:"menu")
+/             p.f-reg-14 Search Ticket
+/         / .panel data-accordion-target="panel"
+/       .card
+/         button.accordian.inactive data-action="click->frameToggler#loadModal" data-popup-view="_customer_ticket_modal"
+/           .main
+/             = image_tag("alert.png", alt:"menu")
+/             p.f-reg-14 Bug report
+/           .highlights
+/             p.f-reg-14 Customer Ticket
+/             = inline_svg_tag("ticket_black.svg", class:"")
+/       .card
+/         button.accordian.inactive data-action="click->frameToggler#loadModal" data-popup-view="_tracker_ticket_modal"
+/           .main
+/             = image_tag("blub.png", alt:"menu")
+/             p.f-reg-14 Feature request
+/           .highlights
+/             p.f-reg-14 Tracker Ticket
+/             = inline_svg_tag("track.svg", class:"")
+/       .card
+/         button.accordian.inactive data-action="click->frameToggler#loadModal" data-popup-view="_back_office_ticket_modal"
+/           .main
+/             = image_tag("work_done.png", alt:"menu")
+/             p.f-reg-14 Internal task
+/           .highlights
+/             p.f-reg-14 Back-office Ticket
+/             = inline_svg_tag("office.svg", class:"")
+/       .card.manage-ticket
+/         button.accordian
+/           .main
+/             = inline_svg_tag("setting.svg", alt:"menu")
+/             p.f-reg-14 Manage Tickets

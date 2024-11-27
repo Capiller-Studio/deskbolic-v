@@ -32,7 +32,7 @@
         .card {
           @mixin flex-column $justify-left, $align-normal;
           width: 100%;
-          
+
           .accordian {
             @mixin flex-row $justify-between, $align-center;
             padding: 10px;
@@ -125,329 +125,9 @@
             padding-bottom: 15px;
           }
         }
-        .conversation-type {
-        }
-        .headers {
-          @mixin flex-row $justify-center, $align-start;
-          .sub-headers {
-            @mixin flex-column $justify-center, $align-start;
-            margin-left: 18px;
-            position: relative;
-            color: $black-40;
-            .conversation-type {
-              height: 48px;
-              padding-top: 13px;
-              width: 100%;
-              .types {
-                .action-btn {
-                  margin-left: 3px;
-                }
-              }
-              .menu {
-                @mixin menu;
-                width: 150px;
-                position: absolute;
-                left: 0;
-                top: 38px;
-                z-index: 1;
-                animation: fadeInOut 0.3s ease-in-out;
-                .menu-link {
-                  padding: 7px 5px;
-                  .menu-icon {
-                    width: 20px;
-                    height: 20px;
-                  }
-                  p {
-                    margin-left: 10px; 
-                  }
-                  &:hover {
-                    padding: 7px 5px;
-                  }
-                }
-              }
-              .menu.visible {
-                display: block;
-              }
-            }
-            .from {
-              height: 48px;
-              padding-top: 13px;
-              width: 100%;
-            }
-            .to {
-              height: 48px;
-              padding-top: 23px;
-              width: 100%;
-            }
-            .subject {
-              height: 48px;
-              padding-top: 33px;
-              width: 100%;
-            }
-          }
-          .sub-fields {
-            @mixin flex-column $justify-center, $align-start;
-            margin-top: 48px;
-            margin-left: 10px;
-            gap: 10px;
-            .field {
-              width: 206px;
-              height: 48px;
-              background-color: $primary-purple;
-              border-radius: 10px;
-              padding: 6px;
-              .user-details {
-                position: relative;
-                /* margin-bottom: 15px; */
-                .user-info {
-                  @mixin flex-row $justify-between, $align-center;
-                  /* @mixin rect-back-white; */
-                  padding: 6.5px 8px;
-                  border-radius: 8px;
-                  background-color: $white;
-                  margin-top: -1px;
-                  filter: drop-shadow(1px 1px 16px $black-10);
-                  .profile-pic {
-                    @mixin flex-row $justify-left, $align-center;
-                    .img {
-                      margin-right: 5px;
-                      width: 25px;
-                      height: 25px;
-                    }
-                    p {
-                    }
-                  }
-                  .profile-menu {
-                    height: 10px;
-                  }
-                }
-                .menu {
-                  @mixin menu;
-                  width: 100%;
-                  position: absolute;
-                  right: 0;
-                  top: 45px;
-                  animation: fadeInOut 0.3s ease-in-out;
-                }
-                .menu.visible {
-                  display: block;
-                }
-              }
-            }
-            .subject {
-              width: 600px;
-              line-height: 35px;
-              color: $black-20;
-              padding-left: 12px;
-            }
-          }
-        }
-        .message-box {
-          @mixin flex-column $justify-between, $align-center;
-          width: 100%;
-          .note-area {
-            width: 100%;
-            height: 300px;
-            .form-control {
-              width: 100%;
-              height: 100%;
-
-              border-style: none;
-              padding: 20px;
-              padding-top: 12px;
-              padding-bottom: 0px;
-              resize: none;
-              &:focus {
-                outline: none;
-              }
-              &::-webkit-scrollbar {
-                width: 5px;
-              }
-              &::-webkit-scrollbar-thumb {
-                border-radius: 6px;
-                background-color: #c3c3c3;
-              }
-            }
-          }
-          .commands {
-            padding: 15px;
-            padding-top: 0px;
-            padding-bottom: 5px;
-            background: #ffffff;
-            width: 100%;
-            border-radius: 0px 0px 10px 10px;
-            @mixin flex-row $justify-between, $align-center;
-            .actions {
-              @mixin flex-row $justify-between, $align-center;
-              gap: 7px;
-              height: 35px;
-              button {
-                padding: 5px;
-                background: transparent;
-                border: none;
-                .action-btn {
-                  width: 22px;
-                  height: 22px;
-                }
-                .size-btn {
-                  width: 25px;
-                  height: 25px;
-                }
-                &:hover {
-                  background: $black-5;
-                  border-radius: 10px;
-                  cursor: pointer;
-                }
-              }
-              .chat-gpt {
-                @mixin flex-row $justify-between, $align-center;
-                gap: 5px;
-                cursor: pointer;
-                background: $color-light-green;
-                border-radius: 20px;
-                padding: 0px 8px;
-                position: relative;
-                .gpt-btn {
-                  width: 20px;
-                  height: 20px;
-                }
-                button {
-                  padding: 0;
-                  .paraphrase-options {
-                    @mixin flex-row $justify-between, $align-center;
-                    gap: 5px;
-                    p {
-                      color: $color-green;
-                      margin-right: -6px;
-                    }
-                  }
-                  &:hover {
-                    background: transparent;
-                  }
-                  .menu {
-                    @mixin menu;
-                    position: absolute;
-                    left: 30px;
-                    bottom: 50px;
-                    animation: fadeInOut 0.3s ease-in-out;
-                    .paraphrase-text {
-                      @mixin flex-column $justify-between,
-                        $align-center;
-                      .text {
-                        width: 350px;
-                        height: 150px;
-                        padding: 15px 18px;
-                        color: $black-20;
-                        overflow: auto;
-                        text-align: left;
-                        &::-webkit-scrollbar {
-                          width: 5px;
-                          height: 5px;
-                        }
-                        &::-webkit-scrollbar-thumb {
-                          border-radius: 6px;
-                          background-color: #c3c3c3;
-                        }
-                      }
-                      .paraphrase-commands {
-                        width: 100%;
-                        @mixin flex-row $justify-between,
-                          $align-center;
-                        border-top: 2px solid $black-5;
-                        padding-top: 10px;
-                        .paraphrase-actions {
-                          @mixin flex-row $justify-between,
-                            $align-center;
-                          gap: 10px;
-                          margin-left: 10px;
-                          .button {
-                            width: 25px;
-                            height: 23px;
-                          }
-                        }
-                        .paraphrase-buttons {
-                          @mixin flex-row $justify-between,
-                            $align-center;
-                          gap: 10px;
-                          margin-right: 10px;
-                          text-align: center;
-                          .keep-original {
-                            border: 2px solid $black-80;
-                            border-radius: 9px;
-                            color: $black-80;
-                            width: 90px;
-                            text-wrap: nowrap;
-                            padding: 5px;
-                          }
-                          .rephrase {
-                            border: 2px solid $black-80;
-                            border-radius: 9px;
-                            background: $black-80;
-                            color: $white;
-                            width: 90px;
-                            text-wrap: nowrap;
-                            padding: 5px;
-                          }
-                        }
-                      }
-                    }
-                  }
-                  .menu.visible {
-                    display: block;
-                  }
-                }
-                .rephrase-selection {
-                  .menu {
-                    @mixin menu;
-                    position: absolute;
-                    left: 30px;
-                    bottom: 50px;
-                    animation: fadeInOut 0.3s ease-in-out;
-                    .rephrase-options {
-                      .menu-link {
-                        width: 90px;
-                        padding: 6px 3px;
-                        margin: 0;
-                        p {
-                          color: $black;
-                        }
-                        .menu-icon {
-                          width: 100%;
-                          height: 25px;
-                        }
-                        &:hover {
-                          padding: 6px 3px;
-                        }
-                      }
-                      .options {
-                        justify-content: center;
-                        padding: 0;
-                        &:hover {
-                          padding: 0;
-                        }
-                      }
-                    }
-                  }
-                  .menu.visible {
-                    display: block;
-                  }
-                }
-              }
-            }
-            .send-button {
-              background: $black-80;
-              color: $white;
-              cursor: pointer;
-              @mixin flex-row $justify-between, $align-center;
-              gap: 15px;
-              padding: 9px 12px;
-              border: none;
-              border-radius: 10px;
-            }
-          }
-        }
       }
-      .canned-response-modal, .channel-form {
+      .canned-response-modal,
+      .channel-form {
         @mixin flex-column $justify-center, $align-start;
         gap: 7px;
         width: 500px;
@@ -479,7 +159,7 @@
                 height: 50px;
                 border-radius: 8px;
                 border: 1.9px solid $primary-purple;
-                &:focus{
+                &:focus {
                   outline: 0.5px solid $primary-purple;
                 }
               }
@@ -521,6 +201,494 @@
       }
       .channel-form {
         width: 400px;
+      }
+
+      .add-customer-container {
+        @mixin flex-row $justify-between, $align-start;
+        .left-panel {
+          /* width: 600px; */
+          width:100%;
+          padding: 20px;
+          height: 100%;
+          @mixin flex-column $justify-between, $align-start;
+          border-right: 1px solid $black-20;
+          margin-bottom: -10px;
+          .add-customer {
+            @mixin flex-row $justify-center, $align-center;
+            .plus-icon {
+              margin-right: 5px;
+            }
+            .add-tag {
+              color: $black-40;
+              margin-right: 10px;
+            }
+            .customer {
+              .choices {
+                width: 300px;
+                background-color: $purple-50;
+                border: none;
+  
+              }
+              .choices__item--selectable {
+                color: $black; 
+                font-family: $font-family-inter-regular;           
+              }
+            }
+          }
+          .message-box {
+            @mixin flex-column $justify-between, $align-center;
+            margin-top: 15px;
+            .note-area {
+              width: 500px;
+              height: 400px;
+              border: 2px solid $black-10;
+              padding-top: 12px;
+              padding-left: 12px;
+              border-radius: 10px;
+              resize: none;
+              &:focus {
+                outline: none;
+              }
+              &::-webkit-scrollbar {
+                width: 5px;
+              }
+              &::-webkit-scrollbar-thumb {
+                border-radius: 6px;
+                background-color: #c3c3c3;
+              }
+            }
+
+            .commands {
+              margin-top: 10px;
+              width: 100%;
+              border-radius: 0px 0px 10px 10px;
+              @mixin flex-row $justify-end, $align-center;
+              .send-button {
+                background: $black-80;
+                cursor: pointer;
+                @mixin flex-row $justify-between, $align-center;
+                gap: 15px;
+                padding: 9px 15px;
+                border: none;
+                border-radius: 10px;
+                p {
+                  color: $white;
+                }
+                .button {
+                  background: transparent;
+                  color: white;
+                  border: none;
+                  cursor: pointer;
+                }
+              }
+            }
+            ::placeholder {
+              color: $black-20;
+            }
+          }
+        }
+        .right-panel {
+          width:100%;
+          @mixin flex-column $justify-between, $align-start;
+          padding: 20px;
+          height: 100%;
+          .team {
+            @mixin flex-row $justify-center, $align-normal;
+            margin-top: 20px;
+            .team-label {
+              height: 48px;
+              padding-top: 13px;
+              color: $black-40;
+              margin-right: 30px;
+            }
+            .choices {
+              width: 250px;
+              background-color: $purple-50;
+              border: 2px solid transparent;
+
+            }
+            .choices__item--selectable {
+              color: $black; 
+              font-family: $font-family-inter-regular;           
+            }
+          }
+          .choices {
+            width:100%;
+            background-color: transparent;
+            border: none;
+            padding-left: 0px;
+            .choices__inner {
+              padding-left: 10px;
+            }
+            .choices__list--single {
+              padding-left: 0px;
+            }
+
+          }
+          .choices__item--selectable {
+            color: $black; 
+            font-family: $font-family-inter-semibold; 
+          }
+         
+
+          .form-fields {
+            @mixin flex-column $justify-center, $align-normal;
+            gap: 20px;
+            width: 100%;
+            margin-top: 20px;
+            .form-floating {
+              position: relative;
+              width: 100%;
+              .form-label {
+                color: $black-80;
+                @mixin margin-bottom 0.5;
+                display: flex;
+              }
+              .form-control {
+                width: 100%;
+                padding: 15px;
+                border: 2px solid $purple-50;
+                border-radius: 8px;
+                background-color: $purple-50;
+                color: $black;
+                transition: border-color 0.2s;
+                &:focus {
+                  outline: 0.5px solid $black-10;
+                }
+              }
+              .note-area {
+                height: 190px;
+                border: 2px solid $purple-50;
+                padding-top: 12px;
+                padding-left: 12px;
+                border-radius: 10px;
+
+                resize: none;
+                &:focus {
+                  outline: none;
+                }
+                &::-webkit-scrollbar {
+                  width: 5px;
+                }
+                &::-webkit-scrollbar-thumb {
+                  border-radius: 6px;
+                  background-color: #c3c3c3;
+                }
+              }
+              ::placeholder {
+                font-size: 14px;
+                color: $black-20;
+                font-family: $font-family-inter-regular;
+              }
+            }
+          }
+        }
+      }
+
+      .email-con {
+        width: 700px;
+        .form-fields {
+          @mixin flex-column $justify-between, $align-start;
+          gap: 15px;
+          padding: 15px;
+          .form-floating {
+            @mixin flex-row $justify-between, $align-start;
+            .from {
+              height: 48px;
+              padding-top: 13px;
+              color: $black-40;
+              margin-right: 30px;
+            }
+            .to {
+              height: 48px;
+              padding-top: 13px;
+              color: $black-40;
+              margin-right: 50px;
+            }
+            .channel {
+              height: 48px;
+              padding-top: 13px;
+              color: $black-40;
+              margin-right: 10px;
+            }
+            .subject {
+              color: $black-40;
+              padding-top: 13px;
+
+              margin-right: 15px;
+              height: 48px;
+            }
+
+            .field {
+              width: 250px;
+              height: 48px;
+              background-color: $purple-50;
+              border-radius: 10px;
+              border: 2px solid transparent;
+              outline: none;
+              padding: 6px;
+              /* .user-details {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                
+                .user-info {
+                  display: flex;
+                  align-items: center;
+                  background-color: $white;
+                  padding: 3.5px 8px;
+                  border-radius: 8px;
+                  box-shadow: 0px 4px 10px $black-10;
+                  width: 100%;
+                  filter: drop-shadow(1px 1px 16px $black-10);
+                  
+                  .profile-pic {
+                    display: flex;
+                    align-items: center;
+                    margin-right: 5px;
+                    
+                    .img {
+                      width: 25px;
+                      height: 25px;
+                      border-radius: 50%; 
+                      object-fit: cover;
+                    }
+                  }
+                  
+                  p {
+                    font-size: 14px;
+                    color: $black-80;
+                  }
+                }
+              } */
+            }
+            .choices {
+              width: 250px;
+              background-color: $purple-50;
+              border: 2px solid transparent;
+            }
+            /* .subject-field {
+              border-radius: 10px;
+              width: 600px;
+              height: 48px;
+              border: 2px solid transparent;
+              outline: none;
+              color: $black-80;
+              padding: 6px;
+              padding-left: 12px;
+            }
+            ::placeholder {
+              color: $black-20;
+            } */
+          }
+          .message-box {
+            @mixin flex-column $justify-between, $align-center;
+            .note-area {
+              width: 670px;
+              height: 250px;
+              border: 2px solid $black-10;
+              padding-top: 12px;
+              padding-left: 12px;
+              border-radius: 10px;
+
+              resize: none;
+              &:focus {
+                outline: none;
+              }
+              &::-webkit-scrollbar {
+                width: 5px;
+              }
+              &::-webkit-scrollbar-thumb {
+                border-radius: 6px;
+                background-color: #c3c3c3;
+              }
+            }
+            .commands {
+              padding: 0px;
+              margin-top: 10px;
+              background: #ffffff;
+              width: 100%;
+              border-radius: 0px 0px 10px 10px;
+              /* @mixin flex-row $justify-between, $align-center; */
+              @mixin flex-row $justify-end, $align-center;
+
+              /* .actions {
+                @mixin flex-row $justify-between, $align-center;
+                gap: 7px;
+                height: 35px;
+                button {
+                  padding: 5px;
+                  background: transparent;
+                  border: none;
+                  .action-btn {
+                    width: 22px;
+                    height: 22px;
+                  }
+                  .size-btn {
+                    width: 25px;
+                    height: 25px;
+                  }
+                  &:hover {
+                    background: $black-5;
+                    border-radius: 10px;
+                    cursor: pointer;
+                  }
+                }
+                .chat-gpt {
+                  @mixin flex-row $justify-between, $align-center;
+                  gap: 5px;
+                  cursor: pointer;
+                  background: $color-light-green;
+                  border-radius: 20px;
+                  padding: 0px 8px;
+                  position: relative;
+                  .gpt-btn {
+                    width: 20px;
+                    height: 20px;
+                  }
+                  button {
+                    padding: 0;
+                    padding: 8px 0px;
+                    .paraphrase-options {
+                      @mixin flex-row $justify-between, $align-center;
+                      gap: 5px;
+                      p {
+                        color: $color-green;
+                        margin-right: -6px;
+                      }
+                    }
+                    &:hover {
+                      background: transparent;
+                    }
+                    .menu {
+                      @mixin menu;
+                      position: absolute;
+                      left: 30px;
+                      bottom: 50px;
+                      animation: fadeInOut 0.3s ease-in-out;
+                      .paraphrase-text {
+                        @mixin flex-column $justify-between, $align-center;
+                        .text {
+                          width: 350px;
+                          height: 150px;
+                          padding: 15px 18px;
+                          color: $black-20;
+                          overflow: auto;
+                          text-align: left;
+                          &::-webkit-scrollbar {
+                            width: 5px;
+                            height: 5px;
+                          }
+                          &::-webkit-scrollbar-thumb {
+                            border-radius: 6px;
+                            background-color: #c3c3c3;
+                          }
+                        }
+                        .paraphrase-commands {
+                          width: 100%;
+                          @mixin flex-row $justify-between, $align-center;
+                          border-top: 2px solid $black-5;
+                          padding-top: 10px;
+                          .paraphrase-actions {
+                            @mixin flex-row $justify-between, $align-center;
+                            gap: 10px;
+                            margin-left: 10px;
+                            .button {
+                              width: 25px;
+                              height: 23px;
+                            }
+                          }
+                          .paraphrase-buttons {
+                            @mixin flex-row $justify-between, $align-center;
+                            gap: 10px;
+                            margin-right: 10px;
+
+                            text-align: center;
+                            .keep-original {
+                              border: 2px solid $black-80;
+                              border-radius: 9px;
+                              color: $black-80;
+                              width: 90px;
+                              text-wrap: nowrap;
+                              padding: 5px;
+                            }
+                            .rephrase {
+                              border: 2px solid $black-80;
+                              border-radius: 9px;
+                              background: $black-80;
+                              color: $white;
+                              width: 90px;
+                              text-wrap: nowrap;
+                              padding: 5px;
+                            }
+                          }
+                        }
+                      }
+                    }
+                    .menu.visible {
+                      display: block;
+                    }
+                  }
+                  .rephrase-selection {
+                    .menu {
+                      @mixin menu;
+                      position: absolute;
+                      left: 30px;
+                      bottom: 50px;
+                      animation: fadeInOut 0.3s ease-in-out;
+                      .rephrase-options {
+                        .menu-link {
+                          width: 90px;
+                          padding: 6px 3px;
+                          margin: 0;
+                          p {
+                            color: $black;
+                          }
+                          .menu-icon {
+                            width: 100%;
+                            height: 25px;
+                          }
+                          &:hover {
+                            padding: 6px 3px;
+                          }
+                        }
+                        .options {
+                          justify-content: center;
+                          padding: 0;
+                          &:hover {
+                            padding: 0;
+                          }
+                        }
+                      }
+                    }
+                    .menu.visible {
+                      display: block;
+                    }
+                  }
+                }
+              } */
+              .send-button {
+                background: $black-80;
+                cursor: pointer;
+                @mixin flex-row $justify-between, $align-center;
+                gap: 15px;
+                padding: 9px 15px;
+                border: none;
+                border-radius: 10px;
+                p {
+                  color: $white;
+                }
+                .button {
+                  background: transparent;
+                  color: white;
+                  border: none;
+                  cursor: pointer;
+                }
+              }
+            }
+          }
+        }
       }
       .schedule-modal {
         .datetime-container {
@@ -639,6 +807,7 @@
         @mixin flex-row $justify-between, $align-center;
         width: 750px;
         padding: 2px 15px 9px 29px;
+
         margin-left: -10px;
         margin-right: -10px;
         border-bottom: 1px solid $black-20;
@@ -649,7 +818,7 @@
         .card {
           @mixin flex-column $justify-left, $align-normal;
           width: 100%;
-          
+
           .accordian {
             @mixin flex-row $justify-between, $align-center;
             padding: 10px;
@@ -775,7 +944,7 @@
                     height: 20px;
                   }
                   p {
-                    margin-left: 10px; 
+                    margin-left: 10px;
                   }
                   &:hover {
                     padding: 7px 5px;
@@ -813,6 +982,7 @@
               background-color: $primary-purple;
               border-radius: 10px;
               padding: 6px;
+              /* border: none; */
               .user-details {
                 position: relative;
                 /* margin-bottom: 15px; */
@@ -948,8 +1118,7 @@
                     bottom: 50px;
                     animation: fadeInOut 0.3s ease-in-out;
                     .paraphrase-text {
-                      @mixin flex-column $justify-between,
-                        $align-center;
+                      @mixin flex-column $justify-between, $align-center;
                       .text {
                         width: 350px;
                         height: 150px;
@@ -968,13 +1137,11 @@
                       }
                       .paraphrase-commands {
                         width: 100%;
-                        @mixin flex-row $justify-between,
-                          $align-center;
+                        @mixin flex-row $justify-between, $align-center;
                         border-top: 2px solid $black-5;
                         padding-top: 10px;
                         .paraphrase-actions {
-                          @mixin flex-row $justify-between,
-                            $align-center;
+                          @mixin flex-row $justify-between, $align-center;
                           gap: 10px;
                           margin-left: 10px;
                           .button {
@@ -983,8 +1150,7 @@
                           }
                         }
                         .paraphrase-buttons {
-                          @mixin flex-row $justify-between,
-                            $align-center;
+                          @mixin flex-row $justify-between, $align-center;
                           gap: 10px;
                           margin-right: 10px;
                           text-align: center;

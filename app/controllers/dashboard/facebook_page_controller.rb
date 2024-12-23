@@ -4,13 +4,11 @@ module Dashboard
   class FacebookPageController < DashboardController
     def index
       access_token = params[:accessToken]
-      
-      client = Koala::Facebook::OAuth.new("1094575161783844", "6d329c722851dc658b4c5a0feed57c36")
-      # client = Koala::Facebook::OAuth.new("2098895393814444", "123f45ee129e4069d1af082fbededa3b")
-      response = client.exchange_access_token_info(access_token)
 
-      client = Koala::Facebook::API.new(response['access_token'])
-      client.get_connections('me', 'accounts')      
+      @client = Koala::Facebook::API.new(access_token)
+      @pages = @client.get_connections('me', 'accounts')      
+
+      render turbo_stream: turbo_stream.append("facebook-page-frame", partial: "dashboard/popup/facebook_pages_modal", locals: { pages: @pages }) if @pages
     end
     # def show; end
   end

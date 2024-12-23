@@ -16,6 +16,9 @@ module Channels
 
     def call
       create_channel if channel_type.present?
+      true
+    rescue
+      false
     end
 
     private
@@ -33,10 +36,20 @@ module Channels
     end
 
     def facebook_page_channel
-      Channel::FacebookPage.create!(
+      existing_channel = Channel::FacebookPage.find_by(account: current_account, page_identifier: JSON.parse(channel_params[:page_data])["id"])
+      if existing_channel
+        raise("Invalid Record")
+      end
+      
+      channel = Channel::FacebookPage.create!(
         name: channel_params[:name],  
-        access_token: channel_params[:access_token], 
-        page_identifier: channel_params[:page_identifier],
+        access_token: JSON.parse(channel_params[:page_data])["access_token"], 
+        page_identifier: JSON.parse(channel_params[:page_data])["id"],
+        account: current_account
+      )
+      
+      channel.inboxes.create!(
+        name: JSON.parse(inbox_params[:page_data])["name"],
         account: current_account
       )
     end  

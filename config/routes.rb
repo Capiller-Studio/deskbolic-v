@@ -52,6 +52,15 @@ Rails.application.routes.draw do
       get :append_message, on: :collection
     end
     resources :canned_responses
+    resources :notes
+    
+    resources :settings, only: [:index] do
+      collection do
+        get :macros
+        get :tickets
+        get :people
+      end
+    end
   
     get 'popup/:step', to: 'popup#modal_popup'
   end

@@ -25,6 +25,9 @@
         margin-left: -10px;
         margin-right: -10px;
         border-bottom: 1px solid $black-20;
+        .m-close {
+          cursor: pointer;
+        }
       }
       .modal-body {
         @mixin flex-column $justify-center, $align-start;
@@ -180,6 +183,7 @@
             @mixin flex-row $justify-right, $align-center;
             margin-top: 40px;
             .button {
+              cursor: pointer;
               width: 65px;
               padding: 10px 10px;
               margin-right: 10px;
@@ -189,7 +193,7 @@
               background-color: $black-5;
             }
             .submit-btn {
-              /* width: 65px; */
+              cursor: pointer;
               padding: 10px 10px;
               border-radius: 8px;
               border: none;
@@ -824,10 +828,12 @@
         @mixin flex-row $justify-between, $align-center;
         width: 750px;
         padding: 2px 15px 9px 29px;
-
         margin-left: -10px;
         margin-right: -10px;
         border-bottom: 1px solid $black-20;
+        .m-close {
+          cursor: pointer;
+        }
       }
       .modal-body {
         @mixin flex-column $justify-center, $align-start;

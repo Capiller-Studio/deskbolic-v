@@ -287,6 +287,11 @@
   background-color: $black-80;
 }
 
+@define-mixin rect-back-primary {
+  border-radius: 8px;
+  background-color: $primary-light;
+}
+
 @define-mixin list-back-gray {
   width: 144px;
   border-radius: 8px;

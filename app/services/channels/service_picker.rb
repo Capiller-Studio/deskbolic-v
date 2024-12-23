@@ -12,9 +12,7 @@ module Channels
       self.conversation      = conversation
       self.channel           = conversation.inbox.channel
       self.inbox             = conversation.inbox
-      # find customer_inbox here
-      # self.customer_inbox    = find_customer_inbox 
-      self.customer_inbox    = CustomerInbox.last
+      self.customer_inbox    = find_customer_inbox 
       self.message           = message
     end
 
@@ -48,7 +46,7 @@ module Channels
     end
     
     def find_customer_inbox
-      CustomerInbox.where(customer_id: conversation.conversation_members.last.member_id).first
+      CustomerInbox.where(customer_id: conversation.conversation_members.where(member_type: "Customer").last.member_id).first
     end
   end
 end

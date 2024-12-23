@@ -2,7 +2,7 @@
   .model-content
     .modal-header
       h3 New Conversation
-      = inline_svg_tag("cross_button.svg", alt:"menu", class:"conversation-icon", data: { action: "click->modalToggler#hideModal" })
+      = inline_svg_tag("cross_button.svg", alt:"menu", class:"conversation-icon m-close", data: { action: "click->modalToggler#hideModal" })
     .modal-body.email-con
       = form_with(url: "#", data: {controller: "formValidation renderer", "formValidation-target" => "form"}, html: {class: "needs-validation", novalidate: true, method: :post}) do |f|
         .form-fields
@@ -28,7 +28,7 @@
               /     = inline_svg_tag("mic.svg", class:"action-btn")
               /   .chat-gpt
               /     button data-controller="accordion"
-              /       .paraphrase-options data-action="click->accordion#toggle_menu"
+              /       .paraphrase-options data-action="click->accordion#toggleMenu"
               /         = inline_svg_tag("chat_gpt.svg", class:"gpt-btn")
               /         p.f-reg-12 Rephrase
               /       .menu data-accordion-target="menu"
@@ -45,7 +45,7 @@
               /               .rephrase
               /                 p.f-reg-12 Rephrase
               /     .rephrase-selection data-controller="accordion"
-              /       = inline_svg_tag("arrow_down_green.svg", data: { "action" => "click->accordion#toggle_menu" })
+              /       = inline_svg_tag("arrow_down_green.svg", data: { "action" => "click->accordion#toggleMenu" })
               /       .menu data-accordion-target="menu"
               /         .rephrase-options
               /           = link_to("#", class: "menu-link") do

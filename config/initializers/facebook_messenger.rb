@@ -20,7 +20,9 @@ class DeskbolicFacebookProvider < Facebook::Messenger::Configuration::Providers:
     # TODO: If users will use our facebook app then this will come from the model
     # else add it to credentials for Deskbolic app
     # Channel::FacebookPage.find_by(page_identifier: page_id).app_secret
+    # test-app
     "6d329c722851dc658b4c5a0feed57c36"
+    # deskbolic
     # "123f45ee129e4069d1af082fbededa3b"
   end
 

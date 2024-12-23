@@ -1,0 +1,114 @@
+.helpdesk-section.center-wrapper
+  .helpdesk-container
+    .helpdesk-nav
+      .card
+        .header data-controller="modalToggler frameToggler"
+          p.f-reg-14 Settings
+          = render("dashboard/shared/modal_popper")
+        ul.channel-list  data-controller="accordion modalToggler frameToggler"
+          .help-nav-menu
+            / general            
+            li.nav-item class="" data-action="click->accordion#toggle"
+              .nav-link
+                .link-text.conversation-padding
+                  = inline_svg_tag("arrow_down.svg", class:"st-dropdown-icon", alt:"menu")
+                  p.f-reg-14 General
+            .st-panel data-accordion-target="panel"
+              ul.chats
+                li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
+                  = link_to("#", class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12 Customer
+                li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
+                  = link_to("#", class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12 Tracker
+                li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
+                  = link_to("#", class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12 Back Office
+            / data
+            li.nav-item class="" data-action="click->accordion#toggle"
+              .nav-link
+                .link-text.conversation-padding
+                  = inline_svg_tag("arrow_down.svg", class:"st-dropdown-icon", alt:"menu")
+                  p.f-reg-14 Data
+            .st-panel data-accordion-target="panel"
+              ul.chats
+                li.nav-item class="#{"#"=='' ? 'active' : ''}"
+                  = link_to("#", class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12 Tags
+                li.nav-item class="#{"#"=='' ? 'active' : ''}"
+                  = link_to("#", class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12 People Segments
+                li.nav-item class="#{"#"=='' ? 'active' : ''}"
+                  = link_to("#", class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12 Company Segments
+                li.nav-item class="#{"#"=='' ? 'active' : ''}"
+                  = link_to("#", class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12 People data
+                li.nav-item class="#{"#"=='' ? 'active' : ''}"
+                  = link_to("#", class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12 Company data
+                li.nav-item class="#{"#"=='' ? 'active' : ''}"
+                  = link_to("#", class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12 Conversation data
+                li.nav-item class="#{"#"=='' ? 'active' : ''}"
+                  = link_to("#", class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12 Custom object data
+                li.nav-item class="#{"#"=='' ? 'active' : ''}"
+                  = link_to("#", class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12 Ticket types
+                li.nav-item class="#{"#"=='' ? 'active' : ''}"
+                  = link_to("#", class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12 Qualification settings
+                li.nav-item class="#{current_page == 'macros' ? 'st-list-active' : ''}"
+                  = link_to(macros_settings_path, class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12 Macros (Saved replies)
+                li.nav-item class="#{"#"=='' ? 'active' : ''}"
+                  = link_to("#", class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12 Events
+                li.nav-item class="#{"#"=='' ? 'active' : ''}"
+                  = link_to("#", class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12 Import history
+                li.nav-item class="#{"#"=='' ? 'active' : ''}"
+                  = link_to("#", class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12 Deleting people data
+                li.nav-item class="#{"#"=='' ? 'active' : ''}"
+                  = link_to("#", class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12 Data export
+
+    .helpdesk-body.settings-body
+      turbo-frame#conversations-frame[data-turbo-permanent]
+      == yield

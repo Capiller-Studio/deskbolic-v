@@ -1,0 +1,171 @@
+.settings-body {
+  .macros-body {
+    h2.f-semi-18 {
+      padding: 20px;
+      border-bottom: 1px solid $black-5;
+    }
+    .macros-container {
+      @mixin flex-row $justify-between, $align-start;
+      padding: 20px;
+      .macros-section {
+        width: 100%;
+        form {
+          .form-floating {
+            @mixin flex-row $justify-start, $align-center;
+            @mixin rect-back-gray;
+            border-radius: 16px !important;
+            padding: 15px !important;
+            width: 100%;
+            .search-icon {
+              margin-right: 5px;
+            }
+            .form-field {
+              border: none;
+              background: transparent;
+              width: 100%;
+              outline: none;
+            }
+          }
+        }
+        .macros-slider {
+          height: calc(100vh - 180px);
+          overflow-y: auto;
+          scroll-margin-left: 5px;
+          margin-top: 20px;
+          .macro-container {
+            @mixin rect-back-primary;
+            min-width: 400px;
+            padding: 24px;
+            margin-bottom: 20px;
+            border-radius: 16px;
+            .macro-header {
+              @mixin flex-row $justify-between, $align-center;
+              margin-bottom: 10px;
+              .macro-title {
+                @mixin flex-row $justify-start, $align-center;
+                .macro-icon {
+                  margin-right: 10px;
+                  width: 22px;
+                  height: 22px;
+                }
+                .f-reg-14 {
+                  font-size: 16px;
+                  line-height: 24px;
+                }
+              }
+              .edit-icon {
+                margin-left: auto;
+                width: 40px;
+                height: 40px;
+                cursor: pointer;
+              }
+            }
+            p {
+              color: $black-40;
+              font-size: 16px;
+              line-height: 24px;
+            }
+          }
+          .macro-form-section {
+            form {
+              .form-fields {
+                .form-floating {
+                  background: transparent;
+                  border-radius: 0px;
+                  padding: 0px !important;
+                  width: 100%;
+                  .title-field {
+                    width: 100%;
+                    padding: 15px;
+                    margin-bottom: 10px;
+                    border: 1px solid $black-5;
+                    outline: none;
+                    border-radius: 12px;
+                  }
+                  .text-area-field {
+                    width: 100%;
+                    min-width: 100%;
+                    resize: none;
+                    height: 200px;
+                    padding: 15px;
+                    margin-bottom: 10px;
+                    border: 1px solid $black-5;
+                    outline: none;
+                    border-radius: 12px;
+                  }
+                }
+              }
+              .form-actions {
+                @mixin flex-row $justify-end, $align-center;
+                margin-top: 10px;
+                .btn-delete {
+                  @mixin flex-row $justify-around, $align-center;
+                  padding: 8px;
+                  border-radius: 8px;
+                  border: none;
+                  color: $red-70;
+                  background-color: $red-5;
+                  .del-icon {
+                    margin-right: 2px;
+                  }
+                }
+                .btn-update {
+                  margin-left: 10px;
+                  padding: 8px;
+                  color: $white;
+                  background-color: $black;
+                  border-radius: 8px;
+                  border: none;
+                }
+              }
+            }
+          }
+          &::-webkit-scrollbar {
+            width: 5px;
+          }
+          &::-webkit-scrollbar-thumb {
+            border-radius: 6px;
+            background-color: #C3C3C3;
+          }
+        }
+      }
+      .macros-list {
+        width: 300px;
+        margin-left: 20px;
+        .new-macro {
+          @mixin flex-row $justify-around, $align-center;
+          width: 150px;
+          padding: 8px;
+          border-radius: 8px;
+          float: right;
+          background-color: $black;
+          cursor: pointer;
+          .plus-icon {
+            width: 16px;
+            height: 16px;
+          }
+          span {
+            color: $white;
+          }
+        }
+        .list {
+          margin-top: 60px;
+          p.f-reg-14 {
+            @mixin flex-row $justify-start, $align-center;
+            @mixin rect-back-primary;
+            width: 300px;
+            min-width: 200px;
+            padding: 16px 20px;
+            margin: 10px 0px;
+            border-radius: 12px;
+            .macro-icon {
+              margin-right: 5px;
+              width: 18px;
+              height: 18px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

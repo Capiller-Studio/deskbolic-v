@@ -5,8 +5,8 @@
       p.f-semi-14 Agent
       .card.agent-detail
         button.accordian data-action="click->accordion#toggle"
-          = image_tag("profile_pic.png", class:"chat-user", alt: "menu")
-          p.f-reg-14 Aman Gupta
+          = image_tag("profile_icon.png", class:"chat-user", alt: "menu")
+          p.f-reg-14 = current_user.first_name
           = inline_svg_tag("arrow_down.svg", class:"arrow-icon ml-auto")
         .panel data-accordion-target="panel"
     .team
@@ -47,7 +47,7 @@
             .profile-pic
               = image_tag("profile_pic.png", class:"img", alt:"menu")
               p.f-reg-12 Gowen
-            = inline_svg_tag("menu.svg", class:"profile-menu",  data: { "action" => "click->accordion#toggle_menu" })
+            = inline_svg_tag("menu.svg", class:"profile-menu",  data: { "action" => "click->accordion#toggleMenu" })
           .menu data-accordion-target="menu"
             = link_to("#", class: "all menu-link") do
               p.f-reg-12 Show All
@@ -93,12 +93,19 @@
           .ml-auto = inline_svg("plus_black.svg")
     .card.user-notes
       button.accordian data-action="click->accordion#toggle"
-        p.f-reg-14 User notes
+        p.f-reg-14.mr-auto User notes
+        = inline_svg_tag("plus_black.svg", class:"plus-icon", data: { action: "click->accordion#toggleNote"})
         = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
-      .panel data-accordion-target="panel"
-        p.f-reg-12 Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-        p.f-reg-12 Lorem Ipsum is simply dummy text of the printing and 
-        p.f-reg-12 Lorem Ipsum is simply dummy.
+      .panel.notes-panel data-accordion-target="panel"
+        - @notes.each do |note|
+          p.f-reg-12 = note.content
+      .panel.note-panel data-accordion-target="npanel"
+        .new-note
+          = text_area_tag :content, "", class: "note-field f-reg-12", placeholder: "Add new note"
+          .actions
+            = inline_svg_tag("plus_black.svg", class:"note-btn cancel-note", data: { action: "click->accordion#toggleNote"})
+            = inline_svg_tag("plus.svg", class:"note-btn add-note", data: { action: "click->accordion#addNote"})
+            
     .card.user-tags
       button.accordian data-action="click->accordion#toggle"
         p.f-reg-14 User tags
@@ -112,7 +119,7 @@
           = inline_svg("tag.svg", class: "left-img")
           h5.f-reg-12 Featured Request
           .ml-auto = inline_svg("plus_black.svg")
-    .card.recent-chats
+    / .card.recent-chats
       button.accordian data-action="click->accordion#toggle"
         p.f-reg-14 Recent chats
         = inline_svg_tag("arrow_down.svg", class:"arrow-icon")

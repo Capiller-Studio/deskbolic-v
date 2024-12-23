@@ -34,6 +34,7 @@ module Dashboard
       
       @messages = @conversation.messages
       @canned_responses = CannedResponse.where(account: current_account).all
+      @notes = Note.where(account: current_account, user: current_user).all
     
       respond_to do |format|
         format.turbo_stream do

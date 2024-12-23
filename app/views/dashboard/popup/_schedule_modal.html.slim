@@ -2,7 +2,7 @@
   .model-content
     .modal-header 
       .f-semi-14 Set Schedule
-      = inline_svg_tag("cross_button.svg", alt:"menu", class:"conversation-icon", data: { action: "click->modalToggler#hideModal" })
+      = inline_svg_tag("cross_button.svg", alt:"menu", class:"conversation-icon m-close", data: { action: "click->modalToggler#hideModal" })
     .modal-body.schedule-modal
       .datetime-container
         = form_with(url:"#", method: :post) do |form|

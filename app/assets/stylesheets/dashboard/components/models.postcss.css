@@ -21,7 +21,7 @@
       animation: fadeInOut 0.8s ease;
       .modal-header {
         @mixin flex-row $justify-between, $align-center;
-        padding: 10px 20px;
+        padding: 10px 30px;
         margin-left: -10px;
         margin-right: -10px;
         border-bottom: 1px solid $black-20;
@@ -411,13 +411,13 @@
             } */
             .to {
               height: 48px;
-              padding-top: 13px;
+              padding-top: 16px;
               color: $black-40;
               margin-right: 50px;
             }
             .channel {
               height: 48px;
-              padding-top: 13px;
+              padding-top: 16px;
               color: $black-40;
               margin-right: 10px;
             }
@@ -712,6 +712,7 @@
         }
       }
       .schedule-modal {
+        @mixin flex-column $justify-center, $align-center;
         .datetime-container {
           @mixin flex-row $justify-center, $align-center;
           width: 100%;
@@ -721,6 +722,7 @@
             @mixin rect-back-gray;
             margin-right: 30px;
             border: none;
+            width: 180px;
             outline: none;
 
             p {
@@ -730,6 +732,7 @@
           .time-box {
             border: none;
             outline: none;
+            width: 120px;
             @mixin rect-back-gray;
             p {
               color: $black;
@@ -737,34 +740,30 @@
           }
         }
         .schedule-buttons {
-          @mixin flex-row $justify-between, $align-center;
+          @mixin flex-row $justify-right, $align-center;
           gap: 10px;
-          margin-right: 10px;
+          margin-right: 15px;
           margin-top: 5px;
+          margin-bottom: 5px;
           margin-left: auto;
           text-align: center;
           .cancel {
-            border: 2px solid $black-60;
+            border: 1.5px solid $black-20;
             border-radius: 9px;
             cursor: pointer;
-            width: 80px;
+            background: transparent;
             text-wrap: nowrap;
-            padding: 7px;
-            p {
-              color: $black;
-            }
+            padding: 7px 10px;
           }
           .set-schedule {
-            border: 2px solid $black-80;
+            border: 1.5px solid $black-80;
             border-radius: 9px;
             background: $black-80;
             width: 100px;
             cursor: pointer;
             text-wrap: nowrap;
-            padding: 7px;
-            p {
-              color: $white;
-            }
+            color:white;
+            padding: 7px 10px;
           }
         }
       }

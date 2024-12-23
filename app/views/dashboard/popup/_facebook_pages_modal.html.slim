@@ -1,0 +1,22 @@
+.model.modal-popper-container data-controller="modalToggler frameToggler" data-modalToggler-target="model" style="display: block;"
+  .model-content-section
+    .model-content
+      .modal-header
+        h3.f-semi-18 Facebook Pages
+        = inline_svg_tag("cross_button.svg", alt:"menu", class:"conversation-icon m-close", data: { action: "click->modalToggler#hideModal" })
+      .modal-body.channel-form
+        = form_with(url: channels_path, data: {controller: "formValidation renderer", "formValidation-target" => "form", turbo: false}, html: {class: "needs-validation", novalidate: true, method: :post}) do |f|
+          .form-fields
+            = f.hidden_field :channel_type, value: "facebook_page"
+            .form-floating
+              .field-label
+                span 1
+                = f.label :name, "Enter name of channel", class: "form-label f-reg-14"
+              = f.text_field :name, autofocus: true, class: "form-control rounded-3 f-reg-14", placeholder: "Channel Name", required: true
+            .form-floating.channel-select
+              .field-label
+                span 2
+                = f.label :page_data, "Select Page", class: "form-label f-reg-14"
+              = select_tag :page_data, options_for_select(@pages.map { |page| [page["name"], page.to_json] }), { data: { controller: "select" }}
+          .form-actions
+            = f.submit "Create Channel", class: "submit-btn f-med-14", data: { action: "click->formValidation#validate click->modalToggler#hideModal" }

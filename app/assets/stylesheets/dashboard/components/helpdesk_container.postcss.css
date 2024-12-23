@@ -26,6 +26,9 @@
             color: $black-40;
             margin-left: 5px;
           }
+          .note-pencil-icon {
+            cursor: pointer;
+          }
         }
         .help-p {
           margin-top: 30px;
@@ -108,6 +111,9 @@
                   .dropdown-icon {
                     rotate: -90deg;
                   }
+                  .st-dropdown-icon {
+                    rotate: 0deg;
+                  }
                   .link-icon {
                     width: 16px;
                     height: 16px;
@@ -130,6 +136,15 @@
                 }
               }
             }
+            .st-list-active {
+              .nav-link {
+                @mixin list-back-gray;
+                width: 100%;
+                .back-oval-gray {
+                  background-color: transparent;
+                }
+              }
+            }
             .panel {
               width: 100%;
               overflow: hidden;
@@ -139,6 +154,14 @@
             .panel.visible { 
               opacity: 1; 
               display: block; 
+            }
+            .st-panel {
+              width: 100%;
+              overflow: hidden;
+            }  
+            .st-panel.visible { 
+              opacity: 0; 
+              display: none; 
             }
             .help-nav-active, .active-accordian {
               .nav-link {
@@ -151,6 +174,10 @@
                   .dropdown-icon {
                     transition: all 0.15s;
                     rotate: 0deg;
+                  }
+                  .st-dropdown-icon {
+                    transition: all 0.15s;
+                    rotate: -90deg;
                   }
                 }
                 .conversation-padding {

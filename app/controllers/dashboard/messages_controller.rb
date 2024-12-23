@@ -7,9 +7,14 @@ module Dashboard
       @conversation = Conversation.find(params[:message][:conversation_id])
       
       if !@response.blank?
-        @message = @conversation.messages.create!(content: @response, inbox: @conversation.inbox, account: @conversation.account, sender: User.last)
+        @message = @conversation.messages.create!(content: @response, inbox: @conversation.inbox, account: @conversation.account, sender: current_user)
         
         Channels::ServicePicker.call(conversation: @conversation, message: @message)
+      end
+      
+      respond_to do |format|
+        format.js { render js: "document.querySelector('.response-area').value = '';" }
+        format.html { redirect_to request.referrer }
       end
     end
     

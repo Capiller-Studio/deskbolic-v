@@ -1,0 +1,24 @@
+= render("dashboard/shared/dashboard_container", current_page: "macros") do
+  = render("dashboard/settings/settings_sidebar", current_page: "macros") do
+    .macros-body 
+      h2.f-semi-18 
+        | Replies for 
+        = current_account.name
+      .macros-container data-controller="modalToggler frameToggler"
+        .macros-section
+          = form_tag(macros_settings_path, method: :get, class: "filter-form") do
+            .form-floating
+              = inline_svg_tag("search.svg", class:"search-icon", alt:"menu")
+              = text_field_tag :search, params[:search], placeholder: "search", class: "form-field f-reg-14"
+          .macros-slider
+            - @canned_responses.each do |response|
+              = render 'dashboard/canned_responses/canned_response', response: response
+        .macros-list
+          .new-macro data-action="click->modalToggler#showModal click->frameToggler#loadModal" data-popup-view="_canned_response_modal"
+            = inline_svg_tag("plus_white.svg", class:"plus-icon", alt:"menu")
+            span.f-semi-14 Add new reply
+          .list
+            - @canned_responses.each do |response|
+              p.f-reg-14 
+                = image_tag("gold_star.png", class:"macro-icon", alt:"menu")
+                span = response.name

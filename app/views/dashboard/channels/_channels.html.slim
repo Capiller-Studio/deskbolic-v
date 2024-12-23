@@ -7,10 +7,11 @@
           p.f-reg-14 Help Desk
           = inline_svg_tag("note_pencil.svg", class:"note-pencil-icon ml-auto", alt:"menu", data: { action: "click->modalToggler#showModal click->frameToggler#loadModal", popup_view:"_suggested_ticket_modal"})
           = render("dashboard/shared/modal_popper")
+          turbo-frame#facebook-page-frame
         .channel-header.list-header data-controller="accordion modalToggler frameToggler"
           = inline_svg_tag("dropdown_icon.svg", class:"channel-icon", alt:"menu")
           h4.f-reg-14 Channels
-          .toggle-menu.ml-auto data-action="click->accordion#toggle_menu"
+          .toggle-menu.ml-auto data-action="click->accordion#toggleMenu"
             = inline_svg_tag("menu.svg", class:"channel-menu ml-auto", alt:"menu")
           .menu data-accordion-target="menu"
             .menu-link data-action="click->modalToggler#showModal click->frameToggler#loadModal" data-popup-view="_email_channel_modal"
@@ -76,7 +77,7 @@
                             p.f-reg-12 = inbox.name
                         .back-oval-gray
                           p.f-reg-12 = inbox.conversations.current_conversations(current_user)&.count
-                  li.nav-item data-action="click->modalToggler#showModal click->frameToggler#loadModal" data-popup-view="_messenger_inbox_modal"
+                  / li.nav-item data-action="click->modalToggler#showModal click->frameToggler#loadModal" data-popup-view="_messenger_inbox_modal"
                     .nav-link.link
                       .link-text 
                         .conversation-name.inbox-conv
@@ -105,13 +106,13 @@
                             p.f-reg-12 = inbox.name
                         .back-oval-gray
                           p.f-reg-12 = inbox.conversations.current_conversations(current_user).count
-                  li.nav-item data-action="click->modalToggler#showModal click->frameToggler#loadModal" data-popup-view="_email_inbox_modal"
+                  / li.nav-item data-action="click->modalToggler#showModal click->frameToggler#loadModal" data-popup-view="_email_inbox_modal"
                     .nav-link.link
                       .link-text 
                         .conversation-name.inbox-conv
                           = inline_svg_tag("plus.svg", class:"link-icon", alt:"menu")
                           p.f-reg-12 Add Inbox
-            tickets            
+            / tickets            
             li.nav-item class="" data-action="click->accordion#toggle"
               .nav-link
                 .link-text.conversation-padding
@@ -175,11 +176,11 @@
                 .back-oval-gray
                   p.f-reg-12 3
         
-        teams
+        / teams
         .team-header.list-header
           = inline_svg_tag("dropdown_icon.svg", class:"channel-icon", alt:"menu")
           h4.f-reg-14 Teams
-          .toggle-menu.ml-auto data-action="click->accordion#toggle_menu"
+          .toggle-menu.ml-auto data-action="click->accordion#toggleMenu"
             = inline_svg_tag("menu.svg", class:"channel-menu ml-auto", alt:"menu")
         ul.team-list
           .help-nav-menu
@@ -215,7 +216,7 @@
         .teammate-header.list-header
           = inline_svg_tag("dropdown_icon.svg", class:"channel-icon", alt:"menu")
           h4.f-reg-14 Teammates
-          .toggle-menu.ml-auto data-action="click->accordion#toggle_menu"
+          .toggle-menu.ml-auto data-action="click->accordion#toggleMenu"
             = inline_svg_tag("menu.svg", class:"channel-menu ml-auto", alt:"menu")
         ul.teammate-list
           .help-nav-menu

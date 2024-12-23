@@ -1,0 +1,14 @@
+= turbo_frame_tag "response_#{response.id}" do
+  .macro-container
+    .macro-form-section
+      = form_with(model: response, url: canned_response_path(response), method: :patch, data: { turbo_frame: "response_#{response.id}" }) do |f|
+        .form-fields
+          .form-floating
+            = f.text_field :name, autofocus: true, class: "form-control rounded-3 f-reg-14 title-field", placeholder: "Add title", required: true
+          .form-floating
+            = f.text_area :description, class: "form-control f-reg-14 text-area-field", placeholder: "Add message", required: true
+        .form-actions
+          = link_to(canned_response_path(response.id), class: "btn f-semi-14 btn-delete", data: { turbo_method: :delete })
+            = inline_svg_tag("delete_red.svg", class: "del-icon")
+            | Delete reply
+          = f.submit "Update", class: "btn f-semi-14 btn-update"

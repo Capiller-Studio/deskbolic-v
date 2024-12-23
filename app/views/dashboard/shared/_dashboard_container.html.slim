@@ -16,7 +16,7 @@
                 = inline_svg_tag("plus.svg", class:"link-icon", alt:"menu")
         
         .channel-header.list-header data-controller="accordion"
-          = image_tag("chat1.png", class: "account", alt: "dashboard logo" , width: "50%", data: { "action" => "click->accordion#toggle_menu" })
+          = image_tag("chat1.png", class: "account", alt: "dashboard logo" , width: "50%", data: { "action" => "click->accordion#toggleMenu" })
           .menu data-accordion-target="menu"
             - if current_user
               .header
@@ -35,7 +35,7 @@
                   p.f-semi-14 “Help desk” Community forum
                 = link_to(terms_path, class: "menu-link") do
                   p.f-semi-14 Terms & policies
-                = link_to("#", class: "menu-link") do
+                = link_to(settings_path, class: "menu-link", data: { turbo: false }) do
                   = inline_svg_tag("settings.svg", class:"menu-icon", alt:"menu")
                   p.f-semi-14 Settings
                 
@@ -46,7 +46,7 @@
             - else 
               .login
                 p login Here
-                = link_to new_user_session_path, class: "menu-link nav-link" do
+                = link_to new_user_ses sion_path, class: "menu-link nav-link" do
                   = inline_svg_tag("logout.svg", class:"link-icon", alt:"menu")
                   p Login
     .dashboard-body

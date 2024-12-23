@@ -47,7 +47,7 @@
       .user-response {
         @mixin flex-row $justify-left, $align-center;
         width: 60%;
-        margin-bottom: 20px;
+        padding-bottom: 20px;
         .text-content {
           @mixin flex-row $justify-left, $align-start;
           .chat-user {
@@ -115,7 +115,7 @@
         @mixin flex-row $justify-right, $align-center;
         float: right;
         width: 60%;
-        margin-bottom: 20px;
+        padding-bottom: 20px;
         .agent-text {
           @mixin flex-column $justify-right, $align-start;
           .f-reg-14 {
@@ -272,16 +272,20 @@
                   border-radius: 10px;
                   cursor: pointer;
                 }
-                .menu {
+                
+                .save-replies {
+                  height: 370px;
+                }
+                .menu.save-replies {
                   @mixin menu;
                   position: absolute;
                   left: -17px;
                   bottom: 50px;
+                  height: 370px;
                   animation: fadeInOut 0.3s ease-in-out;
                   .menu-buttons {
                     @mixin flex-row $justify-between, $align-center;
                     padding: 7px 17px;
-                    margin-bottom: 15px;
                     border-bottom: 1.5px solid $black-10;
                     margin-left: -8px;
                     margin-right: -8px;
@@ -289,122 +293,106 @@
                       @mixin flex-row $justify-between, $align-center;
                       gap: 10px;
                     }
+                    .m-btn {
+                      cursor: pointer;
+                      width: 28px;
+                      height: 28px;
+                    }
                   }
-                  .replies-options {
-                    margin: 0px 13px;
-                    .search-bar {
-                      @mixin flex-row $justify-left, $align-start;
-                      padding: 8px;
-                      background: $black-5;
-                      border-radius: 10px;
-                      margin-bottom: 13px;
-                      svg {
-                        align-self: center;
+                  .panels {
+                    @mixin flex-row $justify-between, $align-left;
+                    .left-panel {
+                      width: 350px;
+                      height: 300px;
+                      padding: 15px;
+                      margin: 0px 13px;
+                      position: relative;
+                      overflow-y: scroll;
+                      .menu-link {
+                        padding: 8px 12px;
+                        margin: 0;
+                        border-radius: 7px;
+                        .headings {
+                          @mixin flex-column $justify-left, $align-start;
+                          margin-left: 10px;
+                          p {
+                            margin-left: 0px;
+                            color: $black;
+                          }
+                          .f-reg-10 {
+                            color: $black-40;
+                            display: -webkit-box;
+                            -webkit-line-clamp: 2;
+                            -webkit-box-orient: vertical;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                          }
+                        }
+                        .menu-icon {
+                          /* width: 100%; */
+                          width: 20px;
+                          height: 20px;
+                          align-self: start;
+                        }
+                        &:hover {
+                          background: #f1f4ff;
+                          padding: 8px 12px;
+                        }
                       }
-                      p {
-                        margin-left: 5px;
-                        color: $black-40;
+                      .menu-link::after {
+                        content: url("round_arrow.svg");
+                        position: absolute;
+                        right: 15px;
+                      }
+                      .options {
+                        justify-content: center;
+                        padding: 0;
+                        &:hover {
+                          padding: 0;
+                        }
+                      }
+                      .options::after {
+                        content: "";
+                        position: block;
                       }
                     }
-                    .menu-link {
-                      /* width: 90px; */
-                      padding: 8px 12px;
-                      margin: 0;
-                      border-radius: 7px;
-                      .headings {
-                        @mixin flex-column $justify-left, $align-start;
-                        margin-left: 10px;
-                        p {
-                          margin-left: 0px;
-                          color: $black;
+                    .right-panel {
+                      display: none;
+                      width: 350px;
+                      height: 300px;
+                      padding: 30px;
+                      border-left: 1.5px solid $black-10;
+                      .response-description {
+                        height: 200px;
+                        overflow-y: scroll;
+                        .response-title {
+                          
                         }
-                        .f-reg-10 {
+                        .response-text {
                           color: $black-40;
                         }
                       }
-                      .menu-icon {
-                        /* width: 100%; */
-                        width: 20px;
-                        height: 20px;
-                        align-self: start;
-                      }
-                      &:hover {
-                        background: #f1f4ff;
-                        padding: 8px 12px;
-                      }
-                    }
-                    .menu-link::after {
-                      content: url("round_arrow.svg");
-                      position: absolute;
-                      right: 15px;
-                    }
-                    .options {
-                      justify-content: center;
-                      padding: 0;
-                      &:hover {
-                        padding: 0;
+                      .canned-submit {
+                        float: right;
+                        cursor: pointer;
+                        background: $black-80;
+                        color: $white;
+                        padding: 8px 11px;
+                        margin-top: 30px;
+                        border: none;
+                        border-radius: 10px;
                       }
                     }
-                    .options::after {
-                      content: "";
-                      position: block;
+                    .right-panel.visible {
+                      display: block;
                     }
                   }
-                }
-                .save-replies {
-                  width: 350px;
-                  height: 370px;
                 }
                 .menu.visible {
                   display: block;
+                  cursor: default;
                 }
               }
-              /* .quick-reply {
-                @mixin flex-row $justify-between, $align-center;
-                gap: 3px;
-                cursor: pointer;
-                background: $black-5;
-                border-radius: 20px;
-                padding: 8px 10px;
-                p {
-                  color: $black-80;
-                }
-                .reply-btn {
-                  width: 25px;
-                  height: 25px;
-                }
-              } */
-              /* .menu {
-                @mixin menu;
-                width: 300px;
-                left: 60px;
-                top: -300px;
-                bottom: 50px;
-                z-index: 1000;
-                padding: 0px 16px;
-                border-radius: 18px;
-                
-                flex-direction: column;
-                
-                overflow-y: auto;
-                scroll-margin-left: 35px;
-                
-                .menu-link {
-                  padding: 16px 10px;
-                  .menu-icon {
-                    width: 18px;
-                    height: 18px;
-                    margin-right: 12px;
-                  }
-                  &:hover {
-                    padding: 16px 10px;
-                    border-radius: 10px;
-                  }
-                }
-              }
-              .menu.visible {
-                display: flex;;
-              } */
               .chat-gpt {
                 @mixin flex-row $justify-between, $align-center;
                 gap: 5px;
@@ -590,6 +578,7 @@
                 background: unset;
                 border: unset;
                 color: inherit;
+                cursor: pointer;
               }
               .menu.visible {
                 display: block;
@@ -618,6 +607,14 @@
         @mixin flex-column $justify-left, $align-normal;
         > p {
           margin-bottom: 10px;
+        }
+        .agent-detail {
+          .accordian {
+            .chat-user {
+              width: 24px;
+              height: 24px;
+            }
+          }
         }
       }
       .card {
@@ -746,13 +743,44 @@
       .user-notes {
         button.accordian {
           @mixin rect-back-yellow;
+          .plus-icon {
+            width: 15px;
+            height: 15px;
+          }
         }
         .panel {
           background: none;
           padding: 0px;
-          p {
+          p, .new-note {
             @mixin rect-back-yellow;
             margin-bottom: 10px;
+          }
+          p:last-child, .new-note {
+            margin-bottom: 0px;
+          }
+          .new-note {
+            .note-field {
+              border: none;
+              border-bottom: 1px solid $black-10;
+              border-radius: 8px;
+              padding: 10px;
+              margin-bottom: 10px;
+              width: 100%;
+              outline: none;
+              resize: none;
+              background-color: transparent;
+            }
+            .actions {
+              @mixin flex-row $justify-end, $align-center;
+              .note-btn {
+                width: 15px;
+                height: 15px;
+              } 
+              .cancel-note {
+                margin-right: 3px;
+                rotate: 45deg;
+              }
+            }
           }
         }
       }

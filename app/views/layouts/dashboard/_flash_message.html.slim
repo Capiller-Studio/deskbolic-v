@@ -1,0 +1,5 @@
+- flash.each do |message_type, message|
+  - next if message.blank?
+  div class="alert-#{flash_alert_type(message_type)} admin-flash-container center-wrapper"
+    .message 
+      = message

@@ -10,7 +10,7 @@
         = inline_svg_tag("ticket.svg", class:"chat-action", alt:"menu")
         = inline_svg_tag("bell.svg", class:"chat-action", alt:"menu")
         = inline_svg_tag("close_black.svg", class:"chat-action", alt:"menu")
-        = inline_svg_tag("dots.svg", class:"chat-action", alt:"menu",  data: { "action" => "click->accordion#toggle_menu" })
+        = inline_svg_tag("dots.svg", class:"chat-action", alt:"menu",  data: { "action" => "click->accordion#toggleMenu" })
         .menu data-accordion-target="menu"
           = link_to("#", class: "menu-link") do
             = inline_svg_tag("participent.svg", class:"menu-icon", alt:"menu")
@@ -41,7 +41,7 @@
           .agent-response.response data-controller="translator" data-translator-target="response"
             .agent-text
               .original.f-reg-14 data-translator-target="original"
-                pre = message.content
+                = message.content
               .translate-text
                 button.f-light-italic-10 data-action="click->translator#toggle_translate" Translate
               .translated-text.d-none 
@@ -54,7 +54,7 @@
       
     .footer
       .message-box
-        = form_with(model: Message.new, method: :post, class:"some-class") do |f|
+        = form_with(model: Message.new, method: :post, class:"some-class", remote: true) do |f|
           .text-translation
             .response-type 
               button.f-semi-14.reply.active Reply
@@ -63,31 +63,35 @@
               | English
               = inline_svg_tag("violet_dropdown.svg", class:"action-btn")
           .note-area.menu
-            = f.text_area :response, class: "form-control f-reg-14", placeholder: "Write your response for issue", required: true
+            = f.text_area :response, class: "form-control f-reg-14 response-area", placeholder: "Write your response for issue", required: true
             = f.hidden_field :conversation_id, value: @conversation.id
           .commands
             .actions data-controller="modalToggler frameToggler"
               .response-action
                 = inline_svg_tag("menu.svg", class:"action-btn")
               .response-action data-controller="accordion"
-                .replies data-action="click->accordion#toggle_menu"
+                .replies data-action="click->accordion#toggleMenu"
                   = inline_svg_tag("reply_star.svg", class:"action-btn")
                 .menu.save-replies data-accordion-target="menu"
                   .menu-buttons
                     .menu-options
-                      = inline_svg_tag("star_plus.svg", alt:"menu",  data: { action: "click->modalToggler#showModal click->frameToggler#loadModal", popup_view:"_canned_response_modal" })
-                      = inline_svg_tag("setting_button.svg", alt:"menu")
-                    = inline_svg_tag("cross_button.svg", alt:"menu", data: { action: "click->accordion#toggle_menu" })
-                  .replies-options
-                    .search-bar
-                      = inline_svg_tag("search.svg", alt:"menu")
-                      p.f-reg-14 Search
-                    - @canned_responses&.each do |response|
-                      = link_to("#", class: "menu-link") do
-                        = image_tag("gold_star.png", class:"menu-icon", alt:"menu")
-                        .headings
-                          p.f-reg-14 = response.name
-                          .f-reg-10 = response.description
+                      = inline_svg_tag("star_plus.svg", class:"m-btn", alt:"menu",  data: { action: "click->modalToggler#showModal click->frameToggler#loadModal", popup_view:"_canned_response_modal" })
+                      = link_to(macros_settings_path, class: "", data: { turbo: false}) do
+                        = inline_svg_tag("setting_button.svg", class:"m-btn", alt:"menu")
+                    = image_tag("cross_btn.png", class:"m-btn", alt:"menu", data: { action: "click->accordion#toggleMenu" })
+                  .panels
+                    .left-panel
+                      - @canned_responses&.each do |response|
+                        .menu-link data-action="click->accordion#togglePanel" data-title="#{response.name}" data-description="#{response.description}"
+                          = image_tag("gold_star.png", class:"menu-icon", alt:"menu")
+                          .headings
+                            p.f-reg-14 = response.name
+                            p.f-reg-10 = response.description
+                    .right-panel data-accordion-target="panel"
+                      .response-description data-accordion-target="response"
+                        p.f-semi-18.response-title
+                        p.f-reg-14.response-text
+                      .canned-submit.f-semi-12 type="button" data-action="click->accordion#switchResponse" Add
               .response-action
                 = inline_svg_tag("file_attach.svg", class:"action-btn")
               .response-action
@@ -98,7 +102,7 @@
                 = inline_svg_tag("mic.svg", class:"action-btn")
               .chat-gpt
                 .response-action data-controller="accordion"
-                  .paraphrase-options data-action="click->accordion#toggle_menu"
+                  .paraphrase-options data-action="click->accordion#toggleMenu"
                     = inline_svg_tag("chat_gpt.svg", class:"gpt-btn")
                     p.f-reg-12 Rephrase
                   .menu data-accordion-target="menu"
@@ -115,7 +119,7 @@
                           .rephrase
                             p.f-reg-12 Rephrase
                 .rephrase-selection data-controller="accordion"
-                  = inline_svg_tag("arrow_down_green.svg", data: { "action" => "click->accordion#toggle_menu" })
+                  = inline_svg_tag("arrow_down_green.svg", data: { "action" => "click->accordion#toggleMenu" })
                   .menu data-accordion-target="menu"
                     .rephrase-options
                       = link_to("#", class: "menu-link") do
@@ -131,7 +135,7 @@
                         
             .send-button data-controller="accordion modalToggler frameToggler"
               = f.submit "Send", class: "f-semi-12"
-              .arrow-container data-action="click->accordion#toggle_menu" 
+              .arrow-container data-action="click->accordion#toggleMenu" 
                 = inline_svg_tag("arrow_down_white.svg")
 
               .menu data-accordion-target="menu"
@@ -140,6 +144,6 @@
                     = inline_svg_tag("timer.svg",class:"option-icon")
                     p.f-reg-14 Schedule
                   .menu-link.send-close
-                    = inline_svg_tag("send_close.svg",class:"option-icon" ,data: { "action" => "click->accordion#toggle_menu" })       
+                    = inline_svg_tag("send_close.svg",class:"option-icon" ,data: { "action" => "click->accordion#toggleMenu" })       
                     p.f-reg-14 Send and Close
   = render "dashboard/conversations/conversation_details"

@@ -2,7 +2,7 @@
   .model-content
     .modal-header
       h3.f-semi-18 Messenger Inbox
-      = inline_svg_tag("cross_button.svg", alt:"menu", class:"conversation-icon", data: { action: "click->modalToggler#hideModal" })
+      = inline_svg_tag("cross_button.svg", alt:"menu", class:"conversation-icon m-close", data: { action: "click->modalToggler#hideModal" })
     .modal-body.channel-form
       = form_with(url: inboxes_path, data: {controller: "formValidation renderer", "formValidation-target" => "form"}, html: {class: "needs-validation", novalidate: true, method: :post}) do |f|
         .form-fields
@@ -16,6 +16,6 @@
             .field-label
               span 2
               = f.label :channel_id, "Select Channel", class: "form-label f-reg-14"
-            = select_tag :channel_id, options_for_select(Channel::FacebookPage.where(account: current_account).all.map { |c| [c.name, c.id] }), data: { controller: "select" } 
+            = select_tag :channel_id, options_for_select(Channel::FacebookPage.where(account: current_account).all.map { |c| [c.name, c.id] }), { class: "yoyo", data: { controller: "select" }} 
         .form-actions
           = f.submit "Create Inbox", class: "submit-btn f-med-14", data: { action: "click->formValidation#validate click->modalToggler#hideModal" }

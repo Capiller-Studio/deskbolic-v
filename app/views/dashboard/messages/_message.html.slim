@@ -5,7 +5,7 @@
         = image_tag("profile_pic.png", class:"img", alt:"menu")
       .user-text
         .original.f-reg-14 data-translator-target="original"
-          pre = message.content
+          = message.content
         .translate-text
           button.f-light-italic-10 data-action="click->translator#toggle_translate" Translate
         .translated-text.d-none 
@@ -18,7 +18,7 @@
   .agent-response.response data-controller="translator" data-translator-target="response"
     .agent-text
       .original.f-reg-14 data-translator-target="original"
-        pre = message.content
+        = message.content
       .translate-text
         button.f-light-italic-10 data-action="click->translator#toggle_translate" Translate
       .translated-text.d-none 

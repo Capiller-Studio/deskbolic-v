@@ -8,9 +8,13 @@ module Dashboard
     end
     
     def create
-      Channels::ChannelCreator.call(channel_type: params[:channel_type], channel_params: params, current_account: current_account)
+      response = Channels::ChannelCreator.call(channel_type: params[:channel_type], channel_params: params, current_account: current_account)
       
-      redirect_back(fallback_location: root_path, notice: "Channel Created!")
+      if response
+        redirect_to(request.referrer, notice: "Channel Created!")
+      else
+        redirect_to(request.referrer, alert: "Channel Already Exists!")
+      end
     end
     
   end

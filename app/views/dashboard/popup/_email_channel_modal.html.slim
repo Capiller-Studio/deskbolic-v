@@ -2,7 +2,7 @@
   .model-content
     .modal-header
       h3.f-semi-18 Email Channel
-      = inline_svg_tag("cross_button.svg", alt:"menu", class:"conversation-icon", data: { action: "click->modalToggler#hideModal" })
+      = inline_svg_tag("cross_button.svg", alt:"menu", class:"conversation-icon m-close", data: { action: "click->modalToggler#hideModal" })
     .modal-body.channel-form
       = form_with(url: channels_path, data: {controller: "formValidation renderer", "formValidation-target" => "form"}, html: {class: "needs-validation", novalidate: true, method: :post}) do |f|
         .form-fields

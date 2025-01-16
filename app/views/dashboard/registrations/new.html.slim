@@ -1,7 +1,7 @@
 .user-signup-container.center-wrapper
-  .form-section data-controller="renderer formWizard"
+  .form-section 
     = image_tag("logo.png", class:"img", alt:"logo")
-    = form_for(@session_user || resource, as: resource_name, url: registration_path(resource_name), html: {class: "js-form-wizard form-wizard needs-validation", novalidate: true}) do |f| 
+    = form_for(@session_user || resource, as: resource_name, url: registration_path(resource_name), data: {controller: "formValidation renderer formWizard", "formValidation-target" => "form"}, html: {class: "js-form-wizard form-wizard needs-validation", novalidate: true, method: :post}) do |f| 
       fieldset
         .set-header
           h2 Create Account
@@ -16,7 +16,7 @@
               = f.text_field :last_name, class: "form-control", placeholder: "Last Name", required: true
           .form-floating
             = f.label :email, class: "form-label"
-            = f.email_field :email, class: "form-control", placeholder: "john@doe.com"
+            = f.email_field :email, class: "form-control", placeholder: "john@doe.com", required: true
           button.cont-btn.js-next-button type="button" data-action="click->formWizard#nextStep" Continue
 
       fieldset
@@ -26,13 +26,13 @@
         .form-fields
           .form-floating
             = f.label :password, class: "form-label"
-            = f.password_field :password, autocomplete: "current-password", class: "form-control", disabled: true
+            = f.password_field :password, class: "form-control", disabled: true, required: true
           / .form-floating
           /   = f.label :password, class: "form-label"
           /   = f.password_field :password, autocomplete: "current-password", class: "form-control", disabled: true
           / button.cont-btn.js-next-button type="button" Continue
           / button.cont-btn.js-next-button type="button" data-action="click->formWizard#nextStep click->renderer#add" Continue
-          = f.submit "Continue", class: "cont-btn"
+          = f.submit "Continue", class: "cont-btn", data: { action: "click->formValidation#validate" }
       
   .image-section
     = image_tag("register.png", class:"register-img", alt:"image")

@@ -6,6 +6,7 @@
 
 module Dashboard
   class RegistrationsController < Devise::RegistrationsController
+    layout "dashboard"
     # invisible_captcha only: :create, honeypot: :gift_vcode, scope: :user
     # skip_before_action :require_no_authentication, only: [:new, :create]
     # before_action :require_no_authentication, only: [:new, :create]

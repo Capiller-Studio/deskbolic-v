@@ -39,16 +39,16 @@
   .login-container {
     @mixin flex-column $justify-center, $align-center;
     width: 100%;
-    max-width: 600px;
+    max-width: 500px;
     .login-card {
       background-color: white;
-      padding: 120px 40px;
+      padding: 80px 40px;
       box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.08);
       border-radius: 16px;
       text-align: center;
       width: 100%;
       p {
-        font-size: 16px;
+        font-size: 15px;
         font-family: $font-family-inter-regular;
         color: $black-40;
         line-height: 25px;     
@@ -69,7 +69,7 @@
           }
           .form-control {
             width: 100%;
-            padding: 18px;
+            padding: 15px;
             border: 1.9px solid $black-10;    
             border-radius: 8px;
             color: $black;
@@ -89,7 +89,7 @@
           @mixin margin-top 1;
           .button {
             width: 100%;
-            padding: 18px;
+            padding: 15px;
             background-color: #778dff;
             color: white;
             cursor: pointer;
@@ -112,6 +112,7 @@
   .user-login-container.center-wrapper {
     .form-section {
       .form-header {
+        @mixin padding-size 5, 3;
         .logo img {
           height: 35px;
         }
@@ -124,14 +125,12 @@
       }
     }
     .login-container {
-      max-width: 500px;
+      max-width: 400px;
       .login-card {
-        padding: 120px 40px;
-        h2 {
-          font-size: 32px;
-        }
+        padding: 50px 40px;
         p {
           font-size: 14px;
+          @mixin margin-bottom 5;
         }
 
         .form-fields {
@@ -140,7 +139,7 @@
               font-size: 14px;
             }
             .form-control {
-              padding: 18px;
+              padding: 12px;
 
               font-size: 14px;
 
@@ -153,7 +152,7 @@
           }
           .actions {
             .button {
-              padding: 18px;
+              padding: 12px;
 
               font-size: 14px;
             }

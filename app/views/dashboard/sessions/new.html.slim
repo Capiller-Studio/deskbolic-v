@@ -6,17 +6,17 @@
       = link_to "Join Deskbolic", new_user_registration_path, class: "join-btn"
   .login-container
     .login-card
-      .f-semi-36 Welcome Back
+      .f-semi-32 Welcome Back
       p  Lorem Ipsum is simply dummy text of the <br> printing and typesetting industry.
 
-      = form_for(resource, as: resource_name, url: user_session_path) do |f|
+      = form_for(resource, as: resource_name, url: user_session_path, data: {controller: "formValidation renderer", "formValidation-target" => "form"}, html: {class: "needs-validation", novalidate: true, method: :post}) do |f|
         .form-fields
           .form-floating
             = f.label :email,"Your Email" , class: "f-semi-14 form-label"
-            = f.email_field :email, class: "f-reg-14 form-control", placeholder: "Email"
+            = f.email_field :email, class: "f-reg-14 form-control", placeholder: "Email",required: true
           .form-floating
             = f.label :password,"Password", class: "f-semi-14 form-label"
-            = f.password_field :password, autocomplete: "current-password", class: "f-reg-14 form-control"
+            = f.password_field :password, autocomplete: "current-password", class: "f-reg-14 form-control",required:true
           .actions
-            = f.submit "Continue", class: "button"
+            = f.submit "Continue", class: "button", data: { action: "click->formValidation#validate" }
           

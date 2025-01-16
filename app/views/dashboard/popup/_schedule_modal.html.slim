@@ -4,12 +4,15 @@
       .f-semi-14 Set Schedule
       = inline_svg_tag("cross_button.svg", alt:"menu", class:"conversation-icon m-close", data: { action: "click->modalToggler#hideModal" })
     .modal-body.schedule-modal
-      .datetime-container
-        = form_with(url:"#", method: :post) do |form|
-          = form.date_field(:date, required: true, class: "date-box")
-          = form.time_field(:time, required: true, class: "time-box")
-      .schedule-buttons
-        .cancel data-action="click->modalToggler#hideModal"
-          p.f-reg-12 Cancel
-        .set-schedule
-          p.f-reg-12 Set Schedule
+      = form_with(url:"#", method: :post) do |form|
+        .datetime-container   
+          = form.date_field(:date, required: true, class: "date-box form-control")
+          = form.time_field(:time, required: true, class: "time-box form-control")
+        .schedule-buttons
+          button.cancel type="button" data-action="click->modalToggler#hideModal" Cancel
+          = form.submit "Set Schedule", class: "set-schedule", data: { action: "click->formValidation#validate" }
+          / button.set-schedule type="button" data-action="click->formValidation#validate " Set Schedule
+          / .cancel data-action="click->modalToggler#hideModal"
+          /   p.f-reg-12 Cancel
+          / .set-schedule
+          /   p.f-reg-12 Set Schedule

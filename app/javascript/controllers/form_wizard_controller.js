@@ -16,6 +16,7 @@ export default class extends Controller {
   ];
 
   nextStep(event) {
+    
     event.preventDefault();
     const currentFs = event.currentTarget.closest("fieldset");
     const form = event.currentTarget.closest("form");
@@ -33,6 +34,21 @@ export default class extends Controller {
     nextFs.querySelectorAll("input").forEach(input => input.disabled = false);
     
     this.roleRadioTargets.forEach(radio => radio.dispatchEvent(new Event("change")));
+    this.animateFieldset(currentFs, nextFs);
+  }
+
+  nextEmailStep(event) {
+    
+    event.preventDefault();
+    const currentFs = event.currentTarget.closest("fieldset");
+    
+    let nextFs = currentFs.nextElementSibling;
+    while (nextFs && nextFs.style.display === 'none') {
+      nextFs = nextFs.nextElementSibling;
+    }
+    
+    nextFs.querySelectorAll("input").forEach(input => input.disabled = false);
+    // this.roleRadioTargets.forEach(radio => radio.dispatchEvent(new Event("change")));
     this.animateFieldset(currentFs, nextFs);
   }
 

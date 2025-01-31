@@ -6,7 +6,7 @@
         = current_account.name
       .macros-container data-controller="modalToggler frameToggler"
         .macros-section
-          = form_tag(macros_settings_path, method: :get, class: "filter-form") do
+          = form_tag(canned_responses_settings_path, method: :get, class: "filter-form") do
             .form-floating
               = inline_svg_tag("search.svg", class:"search-icon", alt:"menu")
               = text_field_tag :search, params[:search], placeholder: "search", class: "form-field f-reg-14"

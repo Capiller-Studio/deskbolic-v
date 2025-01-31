@@ -4,12 +4,17 @@
       h3.f-semi-18 Create a new reply
       = inline_svg_tag("cross_button.svg", alt:"menu", class:"conversation-icon m-close", data: { action: "click->modalToggler#hideModal" })
     .modal-body.canned-response-modal
-      = form_with(model: CannedResponse.new, data: {controller: "formValidation renderer", "formValidation-target" => "form"}, html: {class: "needs-validation", novalidate: true, method: :post}) do |f|
+      = form_with(model: CannedResponse.new, data: {controller: "formValidation renderer accordion", "formValidation-target" => "form"}, html: {class: "needs-validation", novalidate: true, method: :post}) do |f|
         .form-fields
           .form-floating
             = f.text_field :name, autofocus: true, class: "form-control rounded-3 f-reg-14", placeholder: "Add title", required: true
+          .tags-list
+            - tags = [ { name: 'customer_name', value: '{{ customer.name }}' }, { name: 'customer_email', value: '{{ customer.email }}' }, { name: 'customer_first_name', value: '{{ customer.first_name }}' } ]
+            - tags.each do |tag|
+              .tag data-value=tag[:value] data-action="click->accordion#addTag" 
+                = tag[:name]
           .form-floating
-            = f.text_area :description, class: "form-control f-reg-14", placeholder: "Add message", required: true
+            = f.text_area :description, class: "form-control f-reg-14", placeholder: "Hi {{ customer.name }} how may i assist you?", data: { accordion_target: "response" }, required: true
         .form-actions
           button.button.f-med-14 type="button" data-action="click->modalToggler#hideModal" Cancel
           = f.submit "Save", class: "submit-btn f-med-14", data: { action: "click->formValidation#validate click->modalToggler#hideModal" }

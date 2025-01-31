@@ -1,0 +1,12 @@
+= turbo_frame_tag "note_#{note.id}" do
+  .note-container
+    .note-form-section
+      = form_with(model: note, url: note_path(note), method: :patch, data: { turbo_frame: "note_#{note.id}" }) do |f|
+        .form-fields
+          .form-floating
+            = f.text_area :content, autofocus: true, class: "form-control f-reg-14 text-area-field", placeholder: "Add message", required: true
+        .form-actions
+          = link_to(note_path(note.id), class: "btn f-semi-14 btn-delete", data: { turbo_method: :delete })
+            = image_tag("delete_icon.png", class:"del-icon", alt:"menu")
+          = button_tag type: "submit", class: "btn f-semi-14 btn-update" do
+            = image_tag("update_note.png", class: "edit-icon", alt: "menu")

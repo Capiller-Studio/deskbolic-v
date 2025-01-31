@@ -6,7 +6,7 @@ module Dashboard
       
     end
 
-    def macros
+    def canned_responses
       @canned_responses      = CannedResponse.where(account: current_account).all
       @canned_responses      = @canned_responses.where("name ILIKE ?", "%#{params[:search]}%") if params[:search].present?
     end

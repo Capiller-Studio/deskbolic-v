@@ -25,7 +25,7 @@
           .user-response.response data-controller="translator" data-translator-target="response"
             .text-content
               .chat-user
-                = image_tag("profile_pic.png", class:"img", alt:"menu")
+                = image_tag("profile_icon.png", class:"img", alt:"menu")
               .user-text
                 .original.f-reg-14 data-translator-target="original"
                   pre = message.content
@@ -76,17 +76,19 @@
                   .menu-buttons
                     .menu-options
                       = inline_svg_tag("star_plus.svg", class:"m-btn", alt:"menu",  data: { action: "click->modalToggler#showModal click->frameToggler#loadModal", popup_view:"_canned_response_modal" })
-                      = link_to(macros_settings_path, class: "", data: { turbo: false}) do
+                      = link_to(canned_responses_settings_path, class: "", data: { turbo: false}) do
                         = inline_svg_tag("setting_button.svg", class:"m-btn", alt:"menu")
                     = image_tag("cross_btn.png", class:"m-btn", alt:"menu", data: { action: "click->accordion#toggleMenu" })
                   .panels
                     .left-panel
                       - @canned_responses&.each do |response|
-                        .menu-link data-action="click->accordion#togglePanel" data-title="#{response.name}" data-description="#{response.description}"
+                        - liquid_template = Liquid::Template.parse(response.description)
+                        - rendered_content = liquid_template.render({ 'customer' => JSON.parse(@conversation.customers.first.to_json) })
+                        .menu-link data-action="click->accordion#togglePanel" data-title="#{response.name}" data-description="#{rendered_content}"
                           = image_tag("gold_star.png", class:"menu-icon", alt:"menu")
                           .headings
                             p.f-reg-14 = response.name
-                            p.f-reg-10 = response.description
+                            p.f-reg-10 = rendered_content
                     .right-panel data-accordion-target="panel"
                       .response-description data-accordion-target="response"
                         p.f-semi-18.response-title

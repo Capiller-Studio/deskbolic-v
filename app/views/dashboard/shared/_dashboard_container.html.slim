@@ -16,19 +16,19 @@
                 = inline_svg_tag("plus.svg", class:"link-icon", alt:"menu")
         
         .channel-header.list-header data-controller="accordion"
-          = image_tag("chat1.png", class: "account", alt: "dashboard logo" , width: "50%", data: { "action" => "click->accordion#toggleMenu" })
+          = image_tag("profile_icon.png", class: "account", alt: "dashboard logo" , width: "50%", data: { "action" => "click->accordion#toggleMenu" })
           .menu data-accordion-target="menu"
             - if current_user
               .header
-                = image_tag("chat1.png", class:"user-img", alt:"menu")
+                = image_tag("profile_icon.png", class:"user-img", alt:"menu")
                 .details
                   h4.f-med-18 = current_user&.name
                   p.f-med-16 = current_user&.email
               .account-options
-                .theme.menu-link
-                  = inline_svg_tag("theme.svg", class:"menu-icon", alt:"menu")
-                  p.f-semi-14 Theme
-                  = inline_svg_tag("light_theme.svg", class:"ml-auto", alt:"menu")
+                / .theme.menu-link
+                /   = inline_svg_tag("theme.svg", class:"menu-icon", alt:"menu")
+                /   p.f-semi-14 Theme
+                /   = inline_svg_tag("light_theme.svg", class:"ml-auto", alt:"menu")
                 = link_to(help_center_path, class: "menu-link") do
                   p.f-semi-14 “Help desk” Help Center
                 = link_to(community_path, class: "menu-link") do

@@ -6,7 +6,7 @@ module Dashboard
       @canned_response = CannedResponse.new(canned_response_params)
       @canned_response.account_id = current_account.id
 
-      @canned_response.save
+      redirect_to(request.referrer) if @canned_response.save
     end
     
     def edit
@@ -17,7 +17,7 @@ module Dashboard
       @response = CannedResponse.find(params[:id])
       if @response.update(canned_response_params)
         respond_to do |format|
-          format.html { redirect_to macros_settings_path, notice: "Macro updated successfully." }
+          format.html { redirect_to canned_responses_settings_path, notice: "Macro updated successfully." }
           format.turbo_stream { render turbo_stream: turbo_stream.replace("response_#{@response.id}", partial: "dashboard/canned_responses/canned_response", locals: { response: @response }) }
         end
       else
@@ -31,7 +31,7 @@ module Dashboard
     
       respond_to do |format|
         format.turbo_stream { render turbo_stream: turbo_stream.remove("response_#{@response.id}") }
-        format.html { redirect_to macros_settings_path, notice: "Macro deleted successfully." }
+        format.html { redirect_to canned_responses_settings_path, notice: "Macro deleted successfully." }
       end
     end
 

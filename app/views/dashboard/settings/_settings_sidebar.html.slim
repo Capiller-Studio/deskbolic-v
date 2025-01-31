@@ -84,10 +84,10 @@
                       .conversation-name.inbox-conv
                         p.f-reg-12 Qualification settings
                 li.nav-item class="#{current_page == 'macros' ? 'st-list-active' : ''}"
-                  = link_to(macros_settings_path, class: "nav-link") do
+                  = link_to(canned_responses_settings_path, class: "nav-link") do
                     .link-text
                       .conversation-name.inbox-conv
-                        p.f-reg-12 Macros (Saved replies)
+                        p.f-reg-12 Canned responses
                 li.nav-item class="#{"#"=='' ? 'active' : ''}"
                   = link_to("#", class: "nav-link") do
                     .link-text

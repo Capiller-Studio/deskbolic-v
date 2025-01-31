@@ -178,6 +178,21 @@
                 font-family: $font-family-inter-regular;
               }
             }
+            .tags-list {
+              @mixin flex-row $justify-left, $align-center;
+              margin: 10px 0;
+              margin-bottom: 10px;
+              .tag {
+                @mixin rect-back-primary;
+                cursor: pointer;
+                border-radius: 18px;
+                border: 1.9px solid $primary-purple;
+                padding: 8px 8px;
+                font-size: 12px;
+                margin-right: 5px;
+                font-family: $font-family-inter-regular;
+              }
+            }
           }
           .form-actions {
             @mixin flex-row $justify-right, $align-center;

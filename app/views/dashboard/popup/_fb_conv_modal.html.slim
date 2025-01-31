@@ -1,0 +1,20 @@
+.model-content-section
+  .model-content
+    .modal-header
+      h3 New Conversation
+      = inline_svg_tag("cross_button.svg", alt:"menu", class:"conversation-icon m-close", data: { action: "click->modalToggler#hideModal" })
+    .modal-body.fb-con.email-con
+      = form_with(url: conversations_path, data: {controller: "formValidation renderer", "formValidation-target" => "form"}, html: {class: "needs-validation", novalidate: true, method: :post}) do |f|
+        .form-fields
+          = f.hidden_field :conversation_source, value: "facebook_message"
+          .form-floating.channel-select
+            p.f-semi-14.to To
+            = select_tag :customer_id, options_for_select(current_account.customers.map { |c| [c.name, c.id] }),{ class: "f-reg-14 field form-control ", data: { controller: "select" },required: true, include_blank: "Select a customer"}
+          .form-floating.channel-select
+            p.f-semi-14.channel Channel
+            = select_tag :channel_id, options_for_select(Channel::FacebookPage.where(account: current_account).all.map { |c| [c.name, c.id] }),{ class: "f-reg-14 field form-control", data: { controller: "select" },required: true,include_blank: "Select a channel"}
+          .message-box
+            = f.text_area :response, class: "f-reg-14  note-area form-control", placeholder: "Write your response for issue", required: true
+            .commands
+              .send-button
+                = f.submit "Send",class: "f-semi-12 button",data: { action: "click->formValidation#validate click->modalToggler#hideModal" }

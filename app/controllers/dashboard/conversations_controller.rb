@@ -3,8 +3,6 @@
 module Dashboard
   class ConversationsController < DashboardController
     def index
-      authorize(Conversation)
-      
       @em_channels = Channel::Email.where(account: current_account).all
       @fb_channels = Channel::FacebookPage.where(account: current_account).all
       
@@ -22,6 +20,22 @@ module Dashboard
         end
         format.html
       end
+    end
+    
+    def create
+      channel   = Channel::FacebookPage.find(params[:channel_id])
+      customer  = Customer.find(params[:customer_id])
+      message   = params[:response] 
+      
+      conversation_source = params[:conversation_source] 
+      
+      Conversations::ConversationCreator.call(
+        channel: channel, 
+        message: message,
+        sender: current_user,
+        customer: customer,
+        conversation_source: conversation_source
+      )
     end
     
     def show

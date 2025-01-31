@@ -28,18 +28,26 @@ module Channels
     end
 
     def email_channel
-      Channel::Email.create!(
+      existing_channel = Channel::Email.find_by(account: current_account, email: channel_params[:email])
+      
+      raise("Invalid Record") if existing_channel
+      
+      channel = Channel::Email.create!(
         name: channel_params[:name],
         email: channel_params[:email],
+        account: current_account
+      )
+      
+      channel.inboxes.create!(
+        name: channel_params[:name],
         account: current_account
       )
     end
 
     def facebook_page_channel
       existing_channel = Channel::FacebookPage.find_by(account: current_account, page_identifier: JSON.parse(channel_params[:page_data])["id"])
-      if existing_channel
-        raise("Invalid Record")
-      end
+      
+      raise("Invalid Record") if existing_channel
       
       channel = Channel::FacebookPage.create!(
         name: channel_params[:name],  
@@ -49,7 +57,7 @@ module Channels
       )
       
       channel.inboxes.create!(
-        name: JSON.parse(inbox_params[:page_data])["name"],
+        name: JSON.parse(channel_params[:page_data])["name"],
         account: current_account
       )
     end  

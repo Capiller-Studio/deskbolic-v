@@ -77,6 +77,20 @@ export default class extends Controller {
     });
   }
   
+  addTag(event) {
+    const tagValue = event.currentTarget.dataset.value;
+    const textarea = this.responseTarget;
+    const cursorPos = textarea.selectionStart;
+
+    const textBefore = textarea.value.substring(0, cursorPos);
+    const textAfter = textarea.value.substring(cursorPos);
+    textarea.value = `${textBefore}${tagValue}${textAfter}`;
+
+    textarea.selectionStart = textarea.selectionEnd = cursorPos + tagValue.length;
+
+    textarea.focus();
+  }
+  
   toggleMenu() {
     this.menuTarget.classList.toggle('visible');
   }

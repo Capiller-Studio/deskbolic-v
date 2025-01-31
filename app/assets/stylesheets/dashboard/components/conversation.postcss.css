@@ -53,6 +53,10 @@
           .chat-user {
             margin-right: 10px;
             margin-top: 10px;
+            .img {
+              width: 34px;
+              height: 34px;
+            }
           }
           .user-text {
             @mixin flex-column $justify-right, $align-end;
@@ -751,7 +755,7 @@
         .panel {
           background: none;
           padding: 0px;
-          p, .new-note {
+          p, .new-note, .note-edit {
             @mixin rect-back-yellow;
             margin-bottom: 10px;
           }
@@ -773,12 +777,60 @@
             .actions {
               @mixin flex-row $justify-end, $align-center;
               .note-btn {
-                width: 15px;
-                height: 15px;
+                width: 22px;
+                height: 22px;
               } 
               .cancel-note {
                 margin-right: 3px;
-                rotate: 45deg;
+              }
+            }
+          }
+          .note-edit {
+            @mixin flex-row $justify-between, $align-center;
+            .btn {
+              margin-left: auto;
+              align-self: end;
+              .edit-icon {
+                width: 20px;
+                height: 20px;
+              }
+            }
+          }
+          .note-container {
+            margin-bottom: 10px;
+            .note-form-section {
+              @mixin rect-back-yellow;
+              .form-fields {
+                .form-floating {
+                  .text-area-field {
+                    border: none;
+                    border-bottom: 1px solid $black-10;
+                    border-radius: 8px;
+                    padding: 10px;
+                    margin-bottom: 10px;
+                    width: 100%;
+                    outline: none;
+                    resize: none;
+                    background-color: transparent;
+                  }
+                }
+              }
+              .form-actions {
+                text-align: end;
+                .btn-delete {
+                  .del-icon {
+                    width: 22px;
+                    height: 22px;
+                  }
+                }
+                .btn-update {
+                  background: none;
+                  border: none;
+                  .edit-icon {
+                    width: 22px;
+                    height: 22px;
+                  }
+                }
               }
             }
           }

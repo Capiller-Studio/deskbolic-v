@@ -28,11 +28,11 @@
       fieldset.agent-section
         .set-header
           h2 Workspace
-          p Let's Create account for enter into Deskbolic Website.
+          p Let's Create account to enter Deskbolic.
         .form-fields
           .form-floating
             = f.label :email, class: "form-label"
-            = select_tag :email, options_for_select(@accounts.map { |a| [a.name, a.email] }), data: {controller: "select"}
+            = select_tag :email, options_for_select(@accounts.map { |a| [a.name, a.email] }), data: {controller: "select"}, required: true
           = f.submit "Send Request", class: "cont-btn js-next-button"
       
       fieldset.agent-section

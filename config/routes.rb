@@ -56,7 +56,7 @@ Rails.application.routes.draw do
     
     resources :settings, only: [:index] do
       collection do
-        get :macros
+        get :canned_responses
         get :tickets
         get :people
       end

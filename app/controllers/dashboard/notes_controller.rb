@@ -11,5 +11,32 @@ module Dashboard
         render json: { success: false }
       end
     end
+    
+    def edit
+      @note = Note.find(params[:id])
+    end
+  
+    def update
+      @note = Note.find(params[:id])
+      if @note.update(content: params[:note][:content])
+        respond_to do |format|
+          format.html { redirect_to notes_path, notice: "Note updated successfully." }
+          format.turbo_stream { render turbo_stream: turbo_stream.replace("note_#{@note.id}", partial: "dashboard/notes/note", locals: { note: @note }) }
+        end
+      else
+        render :edit
+      end
+    end
+    
+    def destroy
+      @note = Note.find(params[:id])
+      @note.destroy
+    
+      respond_to do |format|
+        format.html { redirect_to notes_path, notice: "Note deleted successfully." }
+        format.turbo_stream { render turbo_stream: turbo_stream.remove("note_#{@note.id}") }
+      end
+    end
+    
   end
 end

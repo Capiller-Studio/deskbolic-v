@@ -25,6 +25,7 @@ module Dashboard
       account = Account.new
       account.update(
         name: params[:account][:name],
+        email: current_user.email,
         data: { "company-name" => params[:company_name], "workspace-size" => params[:workspace_size] }
       )
       account.users << current_user

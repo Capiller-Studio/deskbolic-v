@@ -10,7 +10,7 @@
           .inbox-nav-menu
             - @conversations.each do |conversation|
               li.nav-item class="#{'55'=='cgh' ? 'inbox-nav-active' : ''}"
-                = image_tag("chat1.png", class:"user-img", alt:"menu")
+                = image_tag("profile_icon.png", class:"user-img", alt:"menu")
                 .nav-link.link data-target-id="conversations-frame" data-controller="section" data-action="click->section#toggleSection" data-url="#{conversation_path(conversation.id)}" data-resource-id="#{conversation.id}"
                   - conversation.customers.each do |customer|
                     h4.f-semi-14 = customer.first_name

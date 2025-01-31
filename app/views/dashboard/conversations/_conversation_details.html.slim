@@ -98,13 +98,13 @@
         = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
       .panel.notes-panel data-accordion-target="panel"
         - @notes.each do |note|
-          p.f-reg-12 = note.content
+          = render 'dashboard/notes/note', note: note
       .panel.note-panel data-accordion-target="npanel"
         .new-note
           = text_area_tag :content, "", class: "note-field f-reg-12", placeholder: "Add new note"
           .actions
-            = inline_svg_tag("plus_black.svg", class:"note-btn cancel-note", data: { action: "click->accordion#toggleNote"})
-            = inline_svg_tag("plus.svg", class:"note-btn add-note", data: { action: "click->accordion#addNote"})
+            = image_tag("delete_note.png", class:"note-btn cancel-note", data: { action: "click->accordion#toggleNote"}, alt:"cancel")
+            = image_tag("update_note.png", class:"note-btn add-note", data: { action: "click->accordion#addNote"}, alt: "Add")
             
     .card.user-tags
       button.accordian data-action="click->accordion#toggle"

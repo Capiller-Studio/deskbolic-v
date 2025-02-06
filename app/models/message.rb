@@ -4,24 +4,25 @@
 #
 # Table name: messages
 #
-#  id              :uuid             not null, primary key
-#  configurations  :jsonb            not null
-#  content         :text
-#  content_type    :integer          default("text"), not null
-#  data            :jsonb            not null
-#  locale          :string
-#  sender_type     :string           not null
-#  sentiment       :jsonb            not null
-#  source          :integer
-#  status          :integer          default("sent"), not null
-#  visibility      :integer          default("global"), not null
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  account_id      :uuid             not null
-#  conversation_id :uuid             not null
-#  external_id     :string
-#  inbox_id        :uuid             not null
-#  sender_id       :uuid             not null
+#  id                   :uuid             not null, primary key
+#  configurations       :jsonb            not null
+#  content              :text
+#  content_type         :integer          default("text"), not null
+#  data                 :jsonb            not null
+#  locale               :string
+#  sender_type          :string           not null
+#  sentiment            :jsonb            not null
+#  source               :integer
+#  status               :integer          default("sent"), not null
+#  visibility           :integer          default("global"), not null
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  account_id           :uuid             not null
+#  conversation_id      :uuid             not null
+#  external_id          :string
+#  external_reply_to_id :string
+#  inbox_id             :uuid             not null
+#  sender_id            :uuid             not null
 #
 # Indexes
 #
@@ -57,19 +58,19 @@ class Message < ShardRecord
 
   def event_payload
     {
-      id: id,
-      content: content,
-      content_type: content_type,
-      locale: locale,
-      source: source,
-      visibility: visibility,
-      external_id: external_id,
-      created_at: created_at,
+      id:,
+      content:,
+      content_type:,
+      locale:,
+      source:,
+      visibility:,
+      external_id:,
+      created_at:,
       sender: sender.event_payload,
       conversation: conversation.event_payload
     }
   end
-  
+
   private
 
   # TODO: Refactor to seperate concern
@@ -77,7 +78,7 @@ class Message < ShardRecord
     # EventBroadcastWorker.perform_async("jj", "message.created", connection_tokens)
     EventBroadcastWorker.perform_async(event_payload.to_json, "message.created", connection_tokens)
   end
-  
+
   def connection_tokens
     conversation.customer_inboxes.pluck(:connection_token) + conversation.users.pluck(:connection_token)
   end

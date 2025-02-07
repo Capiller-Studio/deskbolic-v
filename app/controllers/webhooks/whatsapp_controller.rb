@@ -11,6 +11,7 @@ module Webhooks
     def index
       Rails.logger.info("Webhooks::Whatsapp=> headers: #{headers} params: #{params}")
 
+      params = JSON.parse(params.to_unsafe_h.to_json)
       Webhooks::WhatsappEventListenWorker.perform_async(params)
 
       head(:ok)

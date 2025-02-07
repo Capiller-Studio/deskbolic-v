@@ -22,7 +22,7 @@
               = inline_svg_tag("messenger.svg", class:"menu-icon", alt:"menu")
               p.f-reg-14 Facebook
               = inline_svg_tag("plus.svg", class:"menu-icon ml-auto", alt:"menu")
-            .menu-link
+            .menu-link data-action="click->modalToggler#showModal click->frameToggler#loadModal" data-popup-view="_whatsapp_channel_modal"
               = inline_svg_tag("whatsapp.svg", class:"menu-icon", alt:"menu")
               p.f-reg-14 Whatsapp
               = inline_svg_tag("plus.svg", class:"menu-icon ml-auto", alt:"menu")
@@ -83,6 +83,29 @@
                         .conversation-name.inbox-conv
                           = inline_svg_tag("plus.svg", class:"link-icon", alt:"menu")
                           p.f-reg-12 Add Inbox
+            
+            / whatsapp inboxes
+            - @wa_channels.each do |channel|
+              li.nav-item class="" data-action="click->accordion#toggle"
+                .nav-link
+                  .link-text.conversation-padding
+                    = inline_svg_tag("vertical_bar.svg", class:"link-bar", alt:"menu")
+                    = inline_svg_tag("arrow_down.svg", class:"dropdown-icon", alt:"menu")
+                    = inline_svg_tag("whatsapp_badge.svg", class:"link-icon", alt:"menu")
+                    p.f-reg-14 = channel.name
+                  .back-oval-gray
+                    p.f-reg-12 = channel.inboxes&.count
+              .panel data-accordion-target="panel"
+                ul.chats
+                  - channel.inboxes&.each do |inbox|
+                    li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
+                      .nav-link.link data-target-id="conversations-frame" data-controller="section" data-action="click->section#toggleSection" data-url="#{conversations_path}" data-resource-id="#{inbox.id}"
+                        .link-text
+                          .conversation-name.inbox-conv
+                            = inline_svg_tag("whatsapp_badge.svg", class:"link-icon", alt:"menu")
+                            p.f-reg-12 = inbox.name
+                        .back-oval-gray
+                          p.f-reg-12 = inbox.conversations.current_conversations(current_user)&.count
                         
             / email inboxes
             - @em_channels.each do |channel|

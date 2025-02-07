@@ -18,7 +18,7 @@ module Webhooks
       return unless channel.cloud_api?
 
       Channels::Whatsapp::CloudApi::EventListner.call(whatsapp_channel: channel,
-                                                      params:).perform
+                                                      params: params).perform
     end
 
     private

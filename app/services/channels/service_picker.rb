@@ -33,6 +33,7 @@ module Channels
     end
 
     def channel_whatsapp_service
+      Channels::Whatsapp::CloudApi::MessageSender.call(whatsapp_channel: channel, customer: customer_inbox.customer, message: message)
     end
 
     def channel_api_service

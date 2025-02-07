@@ -42,5 +42,7 @@ module Channel
 
     enum status: { active: 0 }
     enum service: { cloud_api: 0 }
+
+    has_many :inboxes, as: :channel, dependent: :destroy
   end
 end

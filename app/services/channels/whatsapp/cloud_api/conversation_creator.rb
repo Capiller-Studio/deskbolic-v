@@ -13,12 +13,13 @@ module Channels
 
         attr_accessor :inbox, :message, :parsed_params,
                       :whatsapp_channel, :customer, :sender_id, :account,
-                      :conversation
+                      :conversation, :message_type
 
         def initialize(whatsapp_channel:, parsed_params:, account: nil)
           self.parsed_params        = parsed_params
           self.whatsapp_channel     = whatsapp_channel
           self.account              = account || whatsapp_channel.account
+          self.message_type         = find_message_type
         end
 
         def call
@@ -66,7 +67,7 @@ module Channels
         def lock_message_creation
           return if parsed_params.try(:[], :messages).blank?
       
-          RedisUtilities::Helpers.set(message_creation_lock_key, true, expiry: true)
+          RedisUtilities::Helpers.set(message_creation_lock_key, 1, expiry: 1)
         end
       
         def unlock_message_creation
@@ -77,13 +78,13 @@ module Channels
           @message_creation_lock_key ||=
           format(
             RedisUtilities::Keys::MESSAGE_CREATION_LOCK,
-            account_id: account.id
+            account_id: account.id,
             id: parsed_params[:messages].first[:id]
           )
         end
 
-        def message_type
-          @message_type ||= parsed_params[:messages].first[:type]
+        def find_message_type
+          self.message_type ||= parsed_params[:messages].first[:type]
         end
 
         def find_or_create_customer
@@ -94,8 +95,8 @@ module Channels
           customer_data = parsed_params[:contacts]&.first || {}
 
           self.customer = Customers::CustomerCreator.call(
-            account:,
-            inbox:,
+            account: account,
+            inbox: inbox,
             external_id: customer_data["wa_id"],
             full_phone_number: "+#{parsed_params[:messages].first[:from]}",
             params: {
@@ -112,13 +113,13 @@ module Channels
 
         def find_conversation
           # TODO: We shouldn't add messages to resolved conversations. So we would need to add flags per channel or inboxes to handle all cases
-          self.conversation = customer.conversations.where(inbox:).find_by(account:)
+          self.conversation = customer.conversations.where(inbox: inbox).find_by(account: account)
         end
 
         def create_conversation
           # TODO: Fix placeholder identifier
           self.conversation = account.conversations.create!(
-            inbox:,
+            inbox: inbox,
             source: :whatsapp,
             identifier: SecureRandom.uuid,
             data: {}
@@ -126,18 +127,19 @@ module Channels
         end
 
         def find_or_create_conversation_memeber
-          conversation.conversation_members.find_or_create_by!(conversation:, member: customer, account:)
+          conversation.conversation_members.find_or_create_by!(conversation: conversation, member: customer, account: account)
         end
-
+        
 
         def create_message
           MessageCreator.call(
-            account:,
-            inbox:,
-            conversation:,
+            account: account,
+            inbox: inbox,
+            conversation: conversation,
             parsed_message: parsed_params,
             sender: customer,
-            whatsapp_channel:
+            whatsapp_channel: whatsapp_channel,
+            message_type: message_type
           )
         end
       end

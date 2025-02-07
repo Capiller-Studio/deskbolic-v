@@ -10,7 +10,7 @@ module Channels
       class EventListner < ApplicationService
         attr_accessor :inbox, :message, :parsed_message, :event,
                       :facebook_page_channel, :customer, :sender_id, :account,
-                      :conversation
+                      :conversation, :parsed_params, :whatsapp_channel, :params
 
         def initialize(whatsapp_channel:, params:, account: nil)
           self.whatsapp_channel = whatsapp_channel
@@ -24,9 +24,9 @@ module Channels
             process_statuses
           elsif parsed_params.try(:[], :messages).present?
             ConversationCreator.call(
-              whatsapp_channel:,
-              parsed_params:,
-              account:
+              whatsapp_channel: whatsapp_channel,
+              parsed_params: parsed_params,
+              account: account
             )
           end
         rescue StandardError => _e

@@ -1,7 +1,11 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
-class Dashboard::TicketControllerTest < ActionDispatch::IntegrationTest
-  # test "the truth" do
-  #   assert true
-  # end
+module Dashboard
+  class TicketControllerTest < ActionDispatch::IntegrationTest
+    # test "the truth" do
+    #   assert true
+    # end
+  end
 end

@@ -17,7 +17,7 @@ Rails.application.routes.draw do
     get "whatsapp/:account_id/:channel_id", to: "whatsapp#hub"
     post "whatsapp/:account_id/:channel_id", to: "whatsapp#index"
   end
-  
+
   devise_for :users, path: "",
   path_names: { sign_in: "login", sign_out: "logout", sign_up: "register" },
   controllers: {
@@ -27,19 +27,19 @@ Rails.application.routes.draw do
     unlocks: "dashboard/unlocks",
     passwords: "dashboard/passwords"
   }
-  
+
   devise_scope :user do
-    post 'sessions/switch/:id', to: 'dashboard/sessions#switch', as: :switch_account
+    post "sessions/switch/:id", to: "dashboard/sessions#switch", as: :switch_account
   end
 
   scope module: "dashboard" do
     root "channels#index"
-    
+
     get "workspace", to: "workspace#new"
     post "workspace", to: "workspace#create"
-    get 'workspaces/:id/submitted', to: 'workspace#submitted', as: 'submitted'
-    post :switch, to: 'sessions#switch'
-    post 'facebook_page', to: 'facebook_page#index'
+    get "workspaces/:id/submitted", to: "workspace#submitted", as: "submitted"
+    post :switch, to: "sessions#switch"
+    post "facebook_page", to: "facebook_page#index"
     get "terms", to: "pages#service_terms"
     get "help-center", to: "pages#help_center"
     get "community", to: "pages#community_forum"
@@ -47,7 +47,7 @@ Rails.application.routes.draw do
 
 
 
-    resources :inbox, only: [:index]
+    resources :inbox, only: [ :index ]
     resources :conversations do
       get :append_conversation, on: :collection
     end
@@ -58,15 +58,15 @@ Rails.application.routes.draw do
     end
     resources :canned_responses
     resources :notes
-    
-    resources :settings, only: [:index] do
+
+    resources :settings, only: [ :index ] do
       collection do
         get :canned_responses
         get :tickets
         get :people
       end
     end
-  
-    get 'popup/:step', to: 'popup#modal_popup'
+
+    get "popup/:step", to: "popup#modal_popup"
   end
 end

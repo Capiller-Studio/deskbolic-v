@@ -62,7 +62,7 @@ Rails.application.reloader.to_prepare do
     message = message.to_json
     parsed_message = Parser::FacebookMessageParser.call(response: message)
 
-    Channel::FacebookPage.where(page_identifier: parsed_message.recipient_id).each do |channel|
+    Channel::FacebookPage.where(page_identifier: parsed_message.recipient_id).find_each do |channel|
       Channels::FacebookPages::ConversationCreator.call(
         facebook_page_channel: channel,
         parsed_message:
@@ -76,7 +76,7 @@ Rails.application.reloader.to_prepare do
 
     message = message.to_json
     parsed_message = Parser::FacebookMessageParser.call(response: message)
-    Channel::FacebookPage.where(page_identifier: parsed_message.sender_id).each do |channel|
+    Channel::FacebookPage.where(page_identifier: parsed_message.sender_id).find_each do |channel|
       Channels::FacebookPages::ConversationCreator.call(
         facebook_page_channel: channel,
         parsed_message:

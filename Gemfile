@@ -2,13 +2,16 @@
 
 source "https://rubygems.org"
 
-ruby "3.3.0"
+ruby "3.4.1"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 7.1.3"
+gem "rails", ">= 8.0.1"
 
-# The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
-gem "sprockets-rails"
+# The modern asset pipeline for Rails [https://github.com/rails/propshaft]
+gem "propshaft"
+
+# Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
+gem "rubocop-rails-omakase", require: false
 
 # Use postgresql as the database for Active Record
 gem "pg", "~> 1.1"
@@ -27,6 +30,12 @@ gem "stimulus-rails"
 
 # Bundle and process CSS [https://github.com/rails/cssbundling-rails]
 gem "cssbundling-rails"
+
+# Shared backend
+# For production
+# gem 'core', git: "git@github.com:deskbolic/core.git"
+# For development
+gem 'core', path: "../core"
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
@@ -119,12 +128,12 @@ group :development, :test do
   gem 'pry-rails' # use pry for Rails console
   gem 'awesome_print'
 
-  gem 'rubocop', '1.49.0', require: false
-  gem 'rubocop-rails', '2.18.0', require: false
-  gem 'rubocop-minitest', '0.29.0', require: false
+  gem 'rubocop', '1.71.0', require: false
+  gem 'rubocop-rails', '2.29.1', require: false
+  gem 'rubocop-minitest', '0.36.0', require: false
   gem 'rubocop-thread_safety', '0.5.1', require: false
-  gem 'rubocop-performance', '1.16.0', require: false
-  gem 'rubocop-capybara', '2.17.1', require: false
+  gem 'rubocop-performance', '1.23.0', require: false
+  gem 'rubocop-capybara', '2.21.0', require: false
 
   gem 'slim_lint', '0.24.0', require: false
 

@@ -57,7 +57,7 @@ module Utilities
       return {} if user_ids.blank?
 
       user_availabilities = RedisUtilities::Helpers.hash_multi_get(availability_key(account_id), user_ids)
-      user_ids.map.with_index { |id, index| [id, (user_availabilities[index] || "online")] }.to_h
+      user_ids.map.with_index { |id, index| [ id, (user_availabilities[index] || "online") ] }.to_h
     end
 
     def self.available_user_ids(account_id)

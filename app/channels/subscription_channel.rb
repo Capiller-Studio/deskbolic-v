@@ -6,7 +6,7 @@ class SubscriptionChannel < ApplicationCable::Channel
   before_subscribe :configure_connection_token
   before_subscribe :current_subscriber
 
-  def subscribed  
+  def subscribed
     # TODO: Use correct shard based on account
     stream_from(connection_token)
     track_activity
@@ -53,11 +53,11 @@ class SubscriptionChannel < ApplicationCable::Channel
 
   def current_account
     @current_account ||= if current_user
-                          #  current_user.accounts.find!(params[:account_id])
+                           #  current_user.accounts.find!(params[:account_id])
                            current_user.account_users.first.account
-                         else
+    else
                            current_customer.account
-                         end
+    end
   end
 
   def track_activity

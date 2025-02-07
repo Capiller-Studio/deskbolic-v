@@ -1,3 +1,6 @@
+# Omakase Ruby styling for Rails
+inherit_gem: { rubocop-rails-omakase: rubocop.yml }
+
 require:
   - rubocop-rails
   - rubocop-minitest
@@ -6,7 +9,7 @@ require:
   - rubocop-capybara
 
 AllCops:
-  TargetRubyVersion: 3.2.2
+  TargetRubyVersion: 3.4.1
   DisplayCopNames: true
   Include:
     - "**/*.rb"
@@ -294,7 +297,7 @@ Style/ArrayIntersect: # new in 1.40
 Style/ComparableClamp: # new in 1.44
   Enabled: true
 Style/ConcatArrayLiterals: # new in 1.41
-  Enabled: true
+  Enabled: false
 Style/DataInheritance: # new in 1.49
   Enabled: true
 Style/DirEmpty: # new in 1.48
@@ -748,4 +751,27 @@ Capybara/SpecificActions: # new in 2.14
 Capybara/SpecificFinders: # new in 2.13
   Enabled: true
 Capybara/SpecificMatcher: # new in 2.12
+  Enabled: true
+
+
+
+Rails/DangerousColumnNames: # new in 2.21
+  Enabled: true
+Rails/EnumSyntax: # new in 2.26
+  Enabled: true
+Rails/EnvLocal: # new in 2.22
+  Enabled: true
+Rails/MultipleRoutePaths: # new in 2.29
+  Enabled: true
+Rails/RedundantActiveRecordAllMethod: # new in 2.21
+  Enabled: true
+Rails/SelectMap: # new in 2.21
+  Enabled: true
+Rails/StrongParametersExpect: # new in 2.29
+  Enabled: true
+Rails/ThreeStateBooleanColumn: # new in 2.19
+  Enabled: true
+Rails/UnusedRenderContent: # new in 2.21
+  Enabled: true
+Rails/WhereRange: # new in 2.25
   Enabled: true

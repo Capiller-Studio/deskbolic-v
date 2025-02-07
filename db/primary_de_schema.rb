@@ -615,6 +615,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_29_105535) do
     t.text "content"
     t.integer "source"
     t.string "external_id"
+    t.string "external_reply_to_id"
     t.integer "status", default: 0, null: false
     t.integer "content_type", default: 0, null: false
     t.integer "visibility", default: 1, null: false

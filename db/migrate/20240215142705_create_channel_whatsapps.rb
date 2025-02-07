@@ -7,7 +7,11 @@ class CreateChannelWhatsapps < ActiveRecord::Migration[7.1]
       t.string  :full_phone_number, null: false
       t.jsonb   :configurations, default: {}, null: false
       t.jsonb   :data, default: {}, null: false
-      t.integer :service
+      t.integer :service, null: false, default: Channel::Whatsapp.services[:cloud_api]
+      t.string  :webhook_secret
+      t.string  :api_key
+      t.string  :phone_number_id
+      t.string  :business_account_id
       t.integer :status, default: Channel::Whatsapp.statuses[:active], null: false
 
       t.references :account, null: false, foreign_key: { on_delete: :cascade }, type: :uuid, index: true

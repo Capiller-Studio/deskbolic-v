@@ -306,7 +306,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_29_130923) do
     t.string "full_phone_number", null: false
     t.jsonb "configurations", default: {}, null: false
     t.jsonb "data", default: {}, null: false
-    t.integer "service"
+    t.integer "service", default: 0, null: false
+    t.string "webhook_secret"
+    t.string "api_key"
+    t.string "phone_number_id"
+    t.string "business_account_id"
     t.integer "status", default: 0, null: false
     t.uuid "account_id", null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false

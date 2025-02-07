@@ -8,5 +8,10 @@ module RedisUtilities
     CUSTOMERS_ACTIVITY = "CUSTOMERS:%{account_id}:ACTIVITY"
     USERS_ACTIVITY = "USERS:%{account_id}:ACTIVITY"
     EMAIL_LOCK = "EMAIL_LOCK:%{account_id}:%{id}"
+
+    AUTHORIZATION_ERROR_COUNT = "AUTHORIZATION_ERROR_COUNT:%{resource_name}:%{resource_id}"
+    REAUTHORIZATION_REQUIRED =  "REAUTHORIZATION_REQUIRED:%{resource_name}:%{resource_id}"
+
+    MESSAGE_CREATION_LOCK = "MESSAGE_CREATION_LOCK:%{account_id}:%{id}"
   end
 end

@@ -4,18 +4,22 @@
 #
 # Table name: channel_whatsapps
 #
-#  id                :uuid             not null, primary key
-#  configurations    :jsonb            not null
-#  data              :jsonb            not null
-#  full_phone_number :string           not null
-#  name              :string
-#  phone_code        :string
-#  phone_number      :string
-#  service           :integer
-#  status            :integer          default("active"), not null
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
-#  account_id        :uuid             not null
+#  id                  :uuid             not null, primary key
+#  api_key             :string
+#  configurations      :jsonb            not null
+#  data                :jsonb            not null
+#  full_phone_number   :string           not null
+#  name                :string
+#  phone_code          :string
+#  phone_number        :string
+#  service             :integer          default("cloud_api"), not null
+#  status              :integer          default("active"), not null
+#  webhook_secret      :string
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  account_id          :uuid             not null
+#  business_account_id :string
+#  phone_number_id     :string
 #
 # Indexes
 #
@@ -32,8 +36,11 @@
 #
 module Channel
   class Whatsapp < ApplicationRecord
+    include Reauthorizable
+
     belongs_to :account
 
     enum status: { active: 0 }
+    enum service: { cloud_api: 0 }
   end
 end

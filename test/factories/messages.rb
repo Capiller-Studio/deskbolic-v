@@ -1,27 +1,29 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/LineLength
 # == Schema Information
 #
 # Table name: messages
 #
-#  id              :uuid             not null, primary key
-#  configurations  :jsonb            not null
-#  content         :text
-#  content_type    :integer          default("text"), not null
-#  data            :jsonb            not null
-#  locale          :string
-#  sender_type     :string           not null
-#  sentiment       :jsonb            not null
-#  source          :integer
-#  status          :integer          default("sent"), not null
-#  visibility      :integer          default("global"), not null
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  account_id      :uuid             not null
-#  conversation_id :uuid             not null
-#  external_id     :string
-#  inbox_id        :uuid             not null
-#  sender_id       :uuid             not null
+#  id                   :uuid             not null, primary key
+#  configurations       :jsonb            not null
+#  content              :text
+#  content_type         :integer          default("text"), not null
+#  data                 :jsonb            not null
+#  locale               :string
+#  sender_type          :string           not null
+#  sentiment            :jsonb            not null
+#  source               :integer
+#  status               :integer          default("sent"), not null
+#  visibility           :integer          default("global"), not null
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  account_id           :uuid             not null
+#  conversation_id      :uuid             not null
+#  external_id          :string
+#  external_reply_to_id :string
+#  inbox_id             :uuid             not null
+#  sender_id            :uuid             not null
 #
 # Indexes
 #
@@ -39,6 +41,7 @@
 #  fk_rails_...  (conversation_id => conversations.id) ON DELETE => cascade
 #  fk_rails_...  (inbox_id => inboxes.id) ON DELETE => cascade
 #
+# rubocop:enable Metrics/LineLength
 FactoryBot.define do
   factory :message do
     content { "MyText" }

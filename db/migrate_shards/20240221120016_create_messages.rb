@@ -4,6 +4,7 @@ class CreateMessages < ActiveRecord::Migration[7.1]
       t.text    :content
       t.integer :source
       t.string  :external_id
+      t.string  :external_reply_to_id
       # t.boolean :private TODO: WIP
 
       # t.integer :message_type, null: false, default: Message.message_types[] TODO: WIP

@@ -44,14 +44,14 @@ module Channels
       private
 
       def create_message
-        # TODO: Handle parsed_message.reply_to_mid
-        # Convert external id to Array
+        # TODO: Convert external id to Array
         self.message = conversation.messages.create!(
           account:,
           sender:,
           content: parsed_message.content,
           inbox:,
           external_id: parsed_message.mid,
+          external_reply_to_id: parsed_message.reply_to_mid,
           data: {}
         )
       end

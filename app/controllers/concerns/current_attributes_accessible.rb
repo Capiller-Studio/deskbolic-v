@@ -13,8 +13,8 @@ module CurrentAttributesAccessible
     Current.user       = current_user
     Current.account    = configure_account
   end
-  
+
   def configure_account
-    Current.account ? Current.account : current_user&.accounts&.order(:created_at)&.first   
+    Current.account ? Current.account : current_user&.accounts&.order(:created_at)&.first
   end
 end

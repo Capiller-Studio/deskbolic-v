@@ -11,7 +11,7 @@ Bundler.require(*Rails.groups)
 module Deskbolic
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 7.1
+    config.load_defaults 8.0
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
@@ -20,6 +20,7 @@ module Deskbolic
 
     config.i18n.available_locales = %i[en de es fr ur hi ar zh]
     config.i18n.default_locale = :en
+    config.i18n.fallbacks = true
 
     # Configuration for the application, engines, and railties goes here.
     #

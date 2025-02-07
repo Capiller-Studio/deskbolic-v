@@ -10,7 +10,7 @@ module Dashboard
     # invisible_captcha only: :create, honeypot: :gift_vcode, scope: :user
     # skip_before_action :require_no_authentication, only: [:new, :create]
     # before_action :require_no_authentication, only: [:new, :create]
-    before_action :configure_sign_up_params, only: [:create]
+    before_action :configure_sign_up_params, only: [ :create ]
 
     # before_action :configure_account_update_params, only: [:update]
 
@@ -23,18 +23,18 @@ module Dashboard
     def create
       build_resource(sign_up_params.merge)
       resource.address = Address.create
-      
+
       if resource.save
-        set_flash_message! :notice, :signed_up
+        set_flash_message!(:notice, :signed_up)
         sign_up(resource_name, resource)
-        respond_with resource, location: after_sign_up_path_for(resource)
+        respond_with(resource, location: after_sign_up_path_for(resource))
       else
-        clean_up_passwords resource
+        clean_up_passwords(resource)
         set_minimum_password_length
-        respond_with resource
+        respond_with(resource)
       end
     end
-    
+
     # GET /resource/edit
     # def edit
     #   super
@@ -84,11 +84,12 @@ module Dashboard
     # def require_no_authentication
     #   redirect_to workspace_path if current_user
     # end
-    
+
     # If you have extra params to permit, append them to the sanitizer.
     def configure_sign_up_params
       # devise_parameter_sanitizer.permit(:sign_up, keys: [:attribute])
-      devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name, :last_name, :account_id, :remember_me, :password])
+      devise_parameter_sanitizer.permit(:sign_up,
+keys: %i[first_name last_name account_id remember_me password])
     end
 
     # If you have extra params to permit, append them to the sanitizer.
@@ -103,7 +104,6 @@ module Dashboard
 
     # The path used after sign up for inactive accounts.
     def after_inactive_sign_up_path_for(_resource)
-      
     end
   end
 end

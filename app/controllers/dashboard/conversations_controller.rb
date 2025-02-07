@@ -5,6 +5,7 @@ module Dashboard
     def index
       @em_channels = Channel::Email.where(account: current_account).all
       @fb_channels = Channel::FacebookPage.where(account: current_account).all
+      @wa_channels = Channel::Whatsapp.where(account: current_account).all
       
       @inbox = Inbox.find(params[:resource_id])
       @conversations = @inbox.conversations.where(account: current_account)
@@ -41,6 +42,7 @@ module Dashboard
     def show
       @em_channels = Channel::Email.where(account: current_account).all
       @fb_channels = Channel::FacebookPage.where(account: current_account).all
+      @wa_channels = Channel::Whatsapp.where(account: current_account).all
       
       @conversation = Conversation.find(params[:resource_id])
       @conversations = @conversation.inbox.conversations.where(account: current_account)

@@ -5,6 +5,7 @@ module Dashboard
     def index
       @em_channels = Channel::Email.where(account: current_account).all
       @fb_channels = Channel::FacebookPage.where(account: current_account).all
+      @wa_channels = Channel::Whatsapp.where(account: current_account).all
     end
     
     def create

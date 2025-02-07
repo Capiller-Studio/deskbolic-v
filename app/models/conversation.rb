@@ -48,7 +48,7 @@ class Conversation < ShardRecord
 
   enum status: { active: 0 }
   enum priority: { low: 0, medium: 1, high: 2 }
-  enum source: { email: 0, facebook_message: 1 }, _suffix: true
+  enum source: { email: 0, facebook_message: 1 , whatsapp: 2 }, _suffix: true
 
   # TODO: WIP (Rough sketch to get going)
   has_many :conversation_members, dependent: :destroy

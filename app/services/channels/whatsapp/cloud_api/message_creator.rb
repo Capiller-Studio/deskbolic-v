@@ -100,7 +100,7 @@ module Channels
           return if attachment_file.blank?
 
           message.attachments.new(
-            account:,
+            account: account,
             attachment_type: parse_attachment_type(message_type),
             file: {
               io: attachment_file,
@@ -114,7 +114,7 @@ module Channels
           location = parsed_message[:messages].first["location"]
           location_name = location["name"] ? "#{location['name']}, #{location['address']}" : ""
           message.attachments.new(
-            account:,
+            account: account,
             attachment_type: parse_attachment_type(message_type),
             latitude: location["latitude"],
             longitude: location["longitude"],
@@ -128,7 +128,7 @@ module Channels
 
           contact_params[:phones].each do |phone|
             message.attachments.new(
-              account:,
+              account: account,
               attachment_type: parse_attachment_type(message_type),
               alt_title: phone[:phone].to_s
             )
@@ -139,10 +139,9 @@ module Channels
           # TODO: Convert external id to Array
           self.message = conversation.messages.build(
             content: message_content(message_params),
-            account:,
-            inbox:,
-            message_type: :incoming,
-            sender:,
+            account: account,
+            inbox: inbox,
+            sender: sender,
             external_id: message_params[:id].to_s,
             external_reply_to_id: message_params["context"]&.[]("id")
           )

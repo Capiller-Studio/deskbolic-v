@@ -60,6 +60,27 @@ module Channels
         name: JSON.parse(channel_params[:page_data])["name"],
         account: current_account
       )
-    end  
+    end 
+    
+    def whatsapp_channel
+      existing_channel = Channel::Whatsapp.find_by(account: current_account, phone_number_id: channel_params[:phone_number_id])
+      
+      raise("Invalid Record") if existing_channel
+      
+      channel = Channel::Whatsapp.create!(
+        name: channel_params[:name],  
+        api_key: channel_params[:api_key], 
+        full_phone_number: channel_params[:full_phone_number],
+        phone_number_id: channel_params[:phone_number_id],
+        business_account_id: channel_params[:business_account_id],
+        account: current_account,
+        service: :cloud_api
+      )
+      
+      channel.inboxes.create!(
+        name: channel_params[:name],
+        account: current_account
+      )
+    end 
   end
 end

@@ -50,6 +50,11 @@ Rails.application.routes.draw do
     resources :inbox, only: [ :index ]
     resources :conversations do
       get :append_conversation, on: :collection
+      member do
+        patch :snooz_conversation
+        patch :close_conversation
+        post  :assign_member
+      end
     end
     resources :channels
     resources :inboxes

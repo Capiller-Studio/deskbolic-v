@@ -708,6 +708,24 @@
         button.accordian,
         .panel {
           @mixin rect-back-blue;
+          .section-flex {
+            @mixin flex-row $justify-between, $align-center;
+            h5.f-reg-12 {
+              color: $black-80;
+            }
+            .menu-icon {
+              margin-left: auto;
+              margin-right: 10px;
+            }
+            form {
+              .assign-btn {
+                text-align: left;
+                background: none;
+                border: none;
+                cursor: pointer;
+              }
+            }
+          }
         }
         button.accordian {
           p {
@@ -730,6 +748,16 @@
       }
       .user-data {
         .panel {
+          .user-details {
+            .user-info {
+              .profile-pic {
+                .img {
+                  width: 24px;
+                  height: 24px;
+                }
+              }
+            }
+          }
           .section-flex {
             margin-top: 15px;
           }

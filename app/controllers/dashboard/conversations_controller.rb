@@ -11,6 +11,8 @@ module Dashboard
       @conversations = @inbox.conversations.where(account: current_account)
       @conversations = @conversations.current_conversations(current_user)
 
+      @conversations = params[:status].present? ? @conversations.where(status: params[:status]) : @conversations.where(status: :active)
+      
       respond_to do |format|
         format.turbo_stream do
           render(turbo_stream: turbo_stream.update(
@@ -29,7 +31,8 @@ module Dashboard
       @wa_channels = Channel::Whatsapp.where(account: current_account).all
 
       @conversation = Conversation.find(params[:resource_id])
-      @conversations = @conversation.inbox.conversations.where(account: current_account)
+      @inbox = @conversation.inbox
+      @conversations = @conversation.inbox.conversations.where(account: current_account).where(status: @conversation.status)
       @conversations = @conversations.current_conversations(current_user)
 
       @messages = @conversation.messages
@@ -63,6 +66,27 @@ module Dashboard
       )
     end
 
+    def snooz_conversation
+      @conversation = Conversation.find(params[:id])
+      @conversation.update(
+        status: :snoozed,
+        data: { "snoozed_until" => params[:snooze_until] }
+      )
+      redirect_to conversations_path(resource_id: @conversation.inbox_id)
+    end
+    
+    def close_conversation
+      @conversation = Conversation.find(params[:id])
+      @conversation.update(status: :closed)
+      redirect_to conversations_path(resource_id: @conversation.inbox_id)
+    end
+    
+    def assign_member
+      @conversation = Conversation.find(params[:id])
+      @conversation.conversation_members.create(member: current_user, account: current_account)
+
+      redirect_to(request.referer)
+    end
 
     def append_conversation
       @conversation = Conversation.find(params[:id])

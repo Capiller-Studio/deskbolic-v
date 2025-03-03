@@ -4,11 +4,11 @@
       .user-details
         - @conversation.customers.each do |customer|
             p.f-semi-18 = customer.first_name
-      .actions data-controller="accordion"
+      .actions data-controller="accordion conversations"
         = inline_svg_tag("plus.svg", class:"chat-action", alt:"menu")
         = inline_svg_tag("star.svg", class:"chat-action", alt:"menu")
         = inline_svg_tag("ticket.svg", class:"chat-action", alt:"menu")
-        = inline_svg_tag("bell.svg", class:"chat-action", alt:"menu")
+        = inline_svg_tag("bell.svg", class:"chat-action", alt:"menu", data: { action: "click->conversations#open" })
         = inline_svg_tag("close_black.svg", class:"chat-action", alt:"menu")
         = inline_svg_tag("dots.svg", class:"chat-action", alt:"menu",  data: { "action" => "click->accordion#toggleMenu" })
         .menu data-accordion-target="menu"
@@ -19,6 +19,7 @@
             = inline_svg_tag("export.svg", class:"menu-icon", alt:"menu")
             p.f-reg-12 Export Conversation
         
+        = render "dashboard/conversations/snooz_conv_modal"
     .conversation#oppp
       - @messages.each do |message|
         - if message.content && message.sender_type == "Customer"

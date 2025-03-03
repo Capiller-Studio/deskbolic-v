@@ -392,6 +392,43 @@
     border: 1.9px solid $primary-purple;
   }
 }
+.con-statuses {
+  margin-top: 15px;
+  .choices {
+    font-size: 14px;
+    font-family: $font-family-inter-regular;
+    color: #565656;
+    height: 36px;
+    width: fit-content;
+    text-align: left;
+    border-radius: 10px;
+    border: 1.9px solid $primary-purple;
+    .choices__inner {
+      padding: 0px 10px !important;
+    }
+  }
+  .choices__item--selectable {
+    font-size: 14px;
+    font-family: $font-family-inter-regular;
+    background: transparent;
+    color: #565656;
+    padding: 5px 5px;
+    padding-left: 1px;
+    text-align: left;
+  }
+  .choices[data-type*=select-one]::after {
+    border-color: #92929D transparent transparent transparent;
+  }
+  .choices[data-type*=select-one].is-open::after {
+    border-color: transparent transparent #92929D transparent;
+  }
+  .choices__list--dropdown, .choices__list[aria-expanded] {
+    width: 200px;
+    background-color: white;
+    border-radius: 10px;
+    border: 1.9px solid $primary-purple;
+  }
+}
 .quote-request {
   .choices {
     @mixin font-size 1;

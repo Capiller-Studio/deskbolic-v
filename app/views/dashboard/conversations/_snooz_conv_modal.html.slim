@@ -1,0 +1,12 @@
+.modal-popper-container data-conversations-target="modal" style="display: none;"
+  .model-content-section 
+    .model-content
+      .modal-header
+        h3.f-semi-18 Snooze Conversation
+        = inline_svg_tag("cross_button.svg", alt:"menu", class:"conversation-icon m-close", data: { action: "click->conversations#close" })
+      .modal-body.snooz-conv-modal
+        = form_with url: snooz_conversation_conversation_path(@conversation), method: :patch do |f|
+          .card
+            p.f-reg-14 Snooze Until
+            = f.datetime_field :snooze_until, class: "form-control", placeholder: "Pick a date & time", required: true
+            button.f-semi-14.apply-btn type="submit" data-action="click->conversations#close" Apply

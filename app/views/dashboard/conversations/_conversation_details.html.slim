@@ -6,9 +6,19 @@
       .card.agent-detail
         button.accordian data-action="click->accordion#toggle"
           = image_tag("profile_icon.png", class:"chat-user", alt: "menu")
-          p.f-reg-14 = current_user.first_name
+          - if assigned_conversation
+            p.f-reg-14 = current_user.display_name
+          - else 
+            p.f-reg-14 Unassigned
           = inline_svg_tag("arrow_down.svg", class:"arrow-icon ml-auto")
         .panel data-accordion-target="panel"
+          .section-flex
+            h5.f-reg-12 Assignee
+            = inline_svg_tag("agent_icon.svg", class:"menu-icon", alt:"menu")
+            - if assigned_conversation
+              p.f-reg-12 = current_user.display_name
+            - else
+              = button_to("Assign to me", assign_member_conversation_path(@conversation), method: :post, class: "assign-btn f-reg-12")
     .team
       p.f-semi-14 Team
       .card.team-info
@@ -39,14 +49,14 @@
           .status-tag.bg-red.f-reg-12 Urgent
     .card.user-data
       button.accordian data-action="click->accordion#toggle"
-        p.f-reg-14 User data
+        p.f-reg-14 Customer data
         = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
       .panel data-accordion-target="panel"
         .user-details data-controller="accordion"
           .user-info
             .profile-pic
-              = image_tag("profile_pic.png", class:"img", alt:"menu")
-              p.f-reg-12 Gowen
+              = image_tag("profile_icon.png", class:"img", alt:"menu")
+              p.f-reg-12 = @conversation.customers.first.display_name
             = inline_svg_tag("menu.svg", class:"profile-menu",  data: { "action" => "click->accordion#toggleMenu" })
           .menu data-accordion-target="menu"
             = link_to("#", class: "all menu-link") do
@@ -60,16 +70,16 @@
               p.f-reg-12 Unsubscribe
         .section-flex
           = inline_svg_tag("user_id.svg", class: "left-img")
-          h5.f-reg-12 User Id 
-          p.f-reg-12.ml-auto 1283HDJIWTD
+          h5.f-reg-12 Customer Id 
+          p.f-reg-12.ml-auto = @conversation.customers.first.id.last(10)
         .section-flex 
           = inline_svg_tag("mail.svg", class: "left-img")
           h5.f-reg-12 Email
-          p.f-reg-12.ml-auto mail@domain.com hbaysuc qyucbqh cwcq3vqeacdswce
+          p.f-reg-12.ml-auto = @conversation.customers.first.email
         .section-flex 
           = inline_svg_tag("location.svg", class: "left-img")
           h5.f-reg-12 Location
-          p.f-reg-12.ml-auto 55066 Street
+          p.f-reg-12.ml-auto = @conversation.customers.first.address.address1
     .card.tickets
       button.accordian data-action="click->accordion#toggle"
         p.f-reg-14 Tickets

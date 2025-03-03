@@ -17,6 +17,7 @@ import RendererController from "./renderer_controller"
 import FormWizardController from "./form_wizard_controller"
 import SelectController from "./select_controller"
 import FormValidationController from "./form_validation_controller"
+import ConversationsController from "./conversations_controller"
 
 application.register("accordion", AccordionController)
 application.register("frameToggler", FrameTogglerController)
@@ -32,3 +33,4 @@ application.register("renderer", RendererController)
 application.register("formWizard", FormWizardController)
 application.register("select", SelectController)
 application.register("formValidation", FormValidationController)
+application.register("conversations", ConversationsController)

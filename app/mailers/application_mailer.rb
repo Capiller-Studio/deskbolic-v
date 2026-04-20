@@ -1,6 +1,12 @@
 # frozen_string_literal: true
 
 class ApplicationMailer < ActionMailer::Base
-  default from: "from@example.com"
+  default from: -> { default_from_address }
   layout "mailer"
+
+  private
+
+  def default_from_address
+    Rails.application.credentials.dig(:mailer, :from) || "noreply@deskbolic.com"
+  end
 end

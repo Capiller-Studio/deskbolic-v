@@ -1,0 +1,23 @@
+/ SLA breach alert notification
+p
+  | Hi #{@user.display_name || @user.email},
+
+p style="color: #d32f2f; font-weight: bold;"
+  | ⚠ SLA Breach Alert
+
+p
+  | An SLA policy has been breached for the following conversation:
+
+p
+  strong Conversation:
+  |  ##{@conversation.identifier}
+
+- if @conversation.inbox
+  p
+    strong Inbox:
+    |  #{@conversation.inbox.name}
+
+hr
+
+p style="color: #999; font-size: 12px;"
+  | You are receiving this because of your notification preferences.

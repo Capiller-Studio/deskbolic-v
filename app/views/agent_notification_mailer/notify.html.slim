@@ -1,0 +1,20 @@
+/ Agent notification email — general notification
+p
+  | Hi #{@user.display_name || @user.email},
+
+p = t("notifications.events.#{@notification.event}")
+
+- if @resource.respond_to?(:identifier)
+  p
+    strong Conversation:
+    |  ##{@resource.identifier}
+
+- if @resource.respond_to?(:inbox)
+  p
+    strong Inbox:
+    |  #{@resource.inbox.name}
+
+hr
+
+p style="color: #999; font-size: 12px;"
+  | You are receiving this because of your notification preferences.

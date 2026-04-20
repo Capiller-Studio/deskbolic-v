@@ -2,20 +2,30 @@
 
 module ApplicationCable
   class Connection < ActionCable::Connection::Base
-    # identified_by :current_subscriber
+    identified_by :current_user, :current_customer
 
-    # rescue_from StandardError, with: :handle_exception
+    def connect
+      self.current_user = find_user
+      self.current_customer = find_customer
 
-    # def connect
-    #   self.current_subscriber = find_subscriber
-    # end
+      reject_unauthorized_connection unless current_user || current_customer
+    end
 
-    # private
+    private
 
-    # def find_subscriber
-    # end
+    def find_user
+      token = request.params[:user_token]
+      return unless token.present?
 
-    # def handle_exception(e)
-    # end
+      User.find_by(connection_token: token)
+    end
+
+    def find_customer
+      token = request.params[:customer_token]
+      return unless token.present?
+
+      customer_inbox = CustomerInbox.find_by(connection_token: token)
+      customer_inbox&.customer
+    end
   end
 end

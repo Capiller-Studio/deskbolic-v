@@ -16,6 +16,15 @@ Rails.application.routes.draw do
   namespace :webhooks do
     get "whatsapp/:account_id/:channel_id", to: "whatsapp#hub"
     post "whatsapp/:account_id/:channel_id", to: "whatsapp#index"
+
+    namespace :sms do
+      post "twilio/:account_id/:channel_id", to: "twilio#create"
+      post "signalwire/:account_id/:channel_id", to: "signalwire#create"
+      post "aws_sns/:account_id/:channel_id", to: "aws_sns#create"
+    end
+
+    post "paddle", to: "paddle#create"
+    post "stripe", to: "stripe#create"
   end
 
   devise_for :users, path: "",

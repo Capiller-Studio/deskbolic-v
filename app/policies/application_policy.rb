@@ -1,11 +1,51 @@
 # frozen_string_literal: true
 
 class ApplicationPolicy
-  attr_reader :account, :record
+  attr_reader :user, :account, :record, :account_user
 
-  def initialize(account, record)
-    @account = account
-    @record =  record
+  def initialize(user, record)
+    @user = user
+    @record = record
+    @account = Current.account
+    @account_user = @account&.account_users&.find_by(user: @user)
+  end
+
+  protected
+
+  def can?(permission_string)
+    return false unless account_user
+    account_user.can?(permission_string, resource: record)
+  end
+
+  def owner?
+    account_user&.owner?
+  end
+
+  def account_feature_enabled?(feature)
+    account&.feature_enabled?(feature)
+  end
+
+  def account_within_limit?(resource, strict: true)
+    return true if account.nil?
+    !account.limit_reached?(resource, strict: strict)
+  end
+
+  # Unified Access Check
+  def authorized?(permission, feature: nil, limit: nil)
+    # 1. User Role Check
+    return false unless can?(permission)
+
+    # 2. Account Feature Check
+    return false if feature && !account_feature_enabled?(feature)
+
+    # 3. Usage Limit Check
+    if limit
+      # Monthly resources usually allow "Soft Blocks"
+      is_monthly = limit.to_s.include?("monthly")
+      return false unless account_within_limit?(limit, strict: !is_monthly)
+    end
+
+    true
   end
 
   def index?

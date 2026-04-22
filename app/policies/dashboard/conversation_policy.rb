@@ -3,9 +3,23 @@
 module Dashboard
   class ConversationPolicy < ApplicationPolicy
     def index?
-      # return !record.where.not(account: account).exists? if record.is_a?(ActiveRecord::Relation)
+      can?("conversations.read")
+    end
 
-      true
+    def show?
+      can?("conversations.read")
+    end
+
+    def create?
+      authorized?("conversations.write", limit: :conversations_monthly)
+    end
+
+    def update?
+      can?("conversations.write")
+    end
+
+    def destroy?
+      can?("conversations.delete")
     end
 
 

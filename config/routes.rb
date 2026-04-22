@@ -10,8 +10,10 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
 
+  get "r/:referral_code", to: "affiliates#track", as: :referral
+
   # TODO: Change route
-  mount Facebook::Messenger::Server, at: "bot"
+  mount Facebook::Messenger::Server, at: "webhooks/facebook"
 
   namespace :webhooks do
     get "whatsapp/:account_id/:channel_id", to: "whatsapp#hub"

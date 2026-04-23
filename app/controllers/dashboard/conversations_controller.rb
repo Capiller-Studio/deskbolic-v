@@ -6,10 +6,13 @@ module Dashboard
       @em_channels = Channel::Email.where(account: current_account).all
       @fb_channels = Channel::FacebookPage.where(account: current_account).all
       @wa_channels = Channel::Whatsapp.where(account: current_account).all
+      @ww_channels = Channel::WebWidget.where(account: current_account).all
 
       @inbox = Inbox.find(params[:resource_id])
       @conversations = @inbox.conversations.where(account: current_account)
-      @conversations = @conversations.current_conversations(current_user)
+      @conversations = @conversations.current_conversations(current_user).or(@conversations.not_assigned_to_user)
+      # @conversations = @conversations.assigned_to_user_or_unassigned(current_user)
+
 
       @conversations = params[:status].present? ? @conversations.where(status: params[:status]) : @conversations.where(status: :active)
       
@@ -29,6 +32,7 @@ module Dashboard
       @em_channels = Channel::Email.where(account: current_account).all
       @fb_channels = Channel::FacebookPage.where(account: current_account).all
       @wa_channels = Channel::Whatsapp.where(account: current_account).all
+      @ww_channels = Channel::WebWidget.where(account: current_account).all
 
       @conversation = Conversation.find(params[:resource_id])
       @inbox = @conversation.inbox

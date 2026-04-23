@@ -10,8 +10,17 @@ module Dashboard
       @canned_responses      = @canned_responses.where("name ILIKE ?",
 "%#{params[:search]}%") if params[:search].present?
     end
-
-    def tickets
+    
+    def office_timings; end
+    
+    def team_inboxes
+      @teams = current_account.teams.all
     end
+    
+    def roles; end
+    
+    def messenger; end
+    
+    def tickets; end
   end
 end

@@ -1,0 +1,57 @@
+= render("dashboard/shared/dashboard_container", current_page: "agent-test") do
+  = render("dashboard/agent/agent_sidebar", current_page: "agent-test") do
+    .agent-body-section.agent-guidance-body data-controller="modalToggler frameToggler"
+      .agent-header.agent-guidance-header
+        h2.f-semi-18 Guidance
+      .agent-container.agent-guidance-container
+        .guidance-section
+          .guidance-header
+            h3.f-semi-18 All Guidance (0/100)
+            .tag.f-reg-12 Not Enabled
+            .tag.f-reg-12.ml-auto Cancel
+            .tag.f-reg-12
+              = inline_svg_tag("grey_tick.svg", class:"tag-icon", alt:"menu")
+              | Save
+            .tag.f-reg-12 
+              = inline_svg_tag("play.svg", class:"tag-icon", alt:"menu")
+              | Enabled
+          .guidance-list
+            / = render 'dashboard/guidance/instruction', response: response
+            .agent-instruction
+              = inline_svg_tag("msg_icon.svg", class:"icon", alt:"icon")
+              .inst-details
+                h4.f-semi-16 Communication Style
+                p.f-reg-12 Specific vocabulary and terminology fin should use
+              = link_to("#", class:"member-action new-action") do
+                = inline_svg_tag("grey_plus.svg", class:"plus-icon", alt:"menu")
+                span.f-semi-12 New 
+            .agent-instruction
+              = inline_svg_tag("msg_icon.svg", class:"icon", alt:"icon")
+              .inst-details
+                h4.f-semi-16 Context and clarification
+                p.f-reg-12 Follow-up questions fin should ask, to ensure accurate answers
+              = link_to("#", class:"member-action new-action") do
+                = inline_svg_tag("grey_plus.svg", class:"plus-icon", alt:"menu")
+                span.f-semi-12 New 
+            .agent-instruction
+              = inline_svg_tag("msg_icon.svg", class:"icon", alt:"icon")
+              .inst-details
+                h4.f-semi-16 Handover and `escalation`
+                p.f-reg-12 How to handle cases that should be routed straight  to you team
+              = link_to("#", class:"member-action new-action") do
+                = inline_svg_tag("grey_plus.svg", class:"plus-icon", alt:"menu")
+                span.f-semi-12 New 
+        .widget-section
+          .w-header
+            = image_tag("avatar1.png", class:"avatar-icon avatar1", alt:"menu")
+            = image_tag("avatar2.png", class:"avatar-icon avatar2", alt:"menu")
+            = image_tag("avatar3.png", class:"avatar-icon avatar3", alt:"menu")
+            h3.f-semi-16 Messages
+          .customer-text
+            = image_tag("bot.png", class:"customer-icon", alt:"menu")
+            p.f-reg-14 Hallo, ich bin FitBot! 👋 Ich bin dein persönlicher Sportassistent. Wie kann ich dir helfen?
+          .message-box
+            p.f-reg-14 message...
+            = inline_svg_tag("file_attach.svg", class:"resp-icon", alt:"icon")
+            = inline_svg_tag("emoji.svg", class:"resp-icon", alt:"icon")
+            = inline_svg_tag("gif.svg", class:"resp-icon", alt:"icon")

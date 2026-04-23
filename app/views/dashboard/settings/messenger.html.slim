@@ -1,0 +1,78 @@
+= render("dashboard/shared/dashboard_container", current_page: "") do
+  = render("dashboard/settings/settings_sidebar", current_page: "") do
+    .body-section.st-messenger-body
+      .st-header.st-messenger-header
+        h2.f-semi-18 Messenger
+        .tabs
+          .f-reg-14 Web
+          .f-reg-14 Mobile SDKs 
+          .f-reg-14 Conversation  
+          .f-reg-14 General 
+          .f-reg-14.active Install 
+      .st-container.st-messenger-container data-controller="modalToggler frameToggler"
+        .messenger-section
+          .messenger-header
+            .tabs
+              .tab.active
+                = image_tag("avatar1.png", class:"tab-icon", alt:"icon")
+                .f-semi-14 Install for web
+              .tab
+                = image_tag("avatar1.png", class:"tab-icon", alt:"icon")
+                .f-semi-14 Install for mobile
+          .messenger-description
+            .title-bar
+              = inline_svg_tag("tick.svg", class:"tag-icon", alt:"menu")
+              .title
+                h3.f-semi-16 Install the messenger on your site or app
+                p.f-reg-12 The messenger helps you support your customers and  learn more about them. 
+            .steps data-controller="modalToggler frameToggler"
+              .tech-stack
+                .tech-header 
+                  span 1
+                  h3.f-semi-16 Choose how to install the messenger
+                .technologies
+                  .tech
+                    = inline_svg_tag("code_snipet.svg", class:"tech-icon", alt:"icon")
+                    .f-semi-14 Code Snipet
+                  .tech
+                    = inline_svg_tag("react.svg", class:"tech-icon", alt:"icon")
+                    .f-semi-14 React
+                  .tech
+                    = inline_svg_tag("angular.svg", class:"tech-icon", alt:"icon")
+                    .f-semi-14 Angular 
+                  .tech
+                    = inline_svg_tag("vue.svg", class:"tech-icon", alt:"icon")
+                    .f-semi-14 Vue 
+                  .tech
+                    = inline_svg_tag("ember.svg", class:"tech-icon", alt:"icon")
+                    .f-semi-14 Ember
+                  .tech
+                    = inline_svg_tag("wordpress.svg", class:"tech-icon", alt:"icon")
+                    .f-semi-14 Wordpress 
+                  .tech
+                    = inline_svg_tag("gtm.svg", class:"tech-icon", alt:"icon")
+                    .f-semi-14 Google Tag Manager
+                  .tech
+                    = inline_svg_tag("shopify.svg", class:"tech-icon", alt:"icon")
+                    .f-semi-14 Shopify 
+                  .tech
+                    = inline_svg_tag("segment.svg", class:"tech-icon", alt:"icon")
+                    .f-semi-14 Segment
+                p.f-reg-14
+                  | Need help? Ask a teammate, like an engineer, to complete the installation, 
+                  span data-action="click->modalToggler#showModal click->frameToggler#loadModal" data-popup-view="_invite_teammate_modal" invite teammates.
+              .config-stack
+                .config-header.tech-header
+                  span 2
+                  h3.f-semi-16 Configure your code snippet
+                .tabs
+                  .tab.active
+                    .f-semi-14 For users with logins
+                    .f-reg-12 install the messenger for logged-in users. The messenger will show info like customer names and previous conversations across devices
+                  .tab
+                    .f-semi-14 For website visitors logins
+                    .f-reg-12 install the messenger for anonymous website visitors who are’t logged-in. Conversation will be saved in the browser via cookie
+                .user-options
+                  .tab.active
+                    .f-semi-14 For users with logins
+                    .f-reg-12 Turn on user traffic to start accepting user request from your messenger. Do this before your install the messenger to avoid failed request

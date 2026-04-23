@@ -18,6 +18,9 @@ Rails.application.routes.draw do
   namespace :webhooks do
     get "whatsapp/:account_id/:channel_id", to: "whatsapp#hub"
     post "whatsapp/:account_id/:channel_id", to: "whatsapp#index"
+    
+    get "widget/:account_id/:channel_id", to: "widget#hub"
+    post "widget/:account_id/:channel_id", to: "widget#index"
 
     namespace :sms do
       post "twilio/:account_id/:channel_id", to: "twilio#create"
@@ -55,6 +58,7 @@ Rails.application.routes.draw do
     get "help-center", to: "pages#help_center"
     get "community", to: "pages#community_forum"
     get "email-invitation", to: "workspace#email_invitation"
+    get "new-role", to: "roles#new"
 
 
 
@@ -74,12 +78,34 @@ Rails.application.routes.draw do
     end
     resources :canned_responses
     resources :notes
+    resources :teams
+    resources :roles
+
+    namespace :help_center do
+      resources :articles
+    end
 
     resources :settings, only: [ :index ] do
       collection do
         get :canned_responses
+        get :office_timings
+        get :team_inboxes
+        get :roles
+        get :messenger
+        get :teammates
         get :tickets
         get :people
+      end
+    end
+    
+    resources :agent, only: [ :index ] do
+      collection do
+        get :test
+        get :fin_test
+        get :guidance
+        get :task
+        get :workflow
+        get :topics
       end
     end
 

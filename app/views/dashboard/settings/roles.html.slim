@@ -1,0 +1,105 @@
+= render("dashboard/shared/dashboard_container", current_page: "roles") do
+  = render("dashboard/settings/settings_sidebar", current_page: "roles") do
+    .body-section.roles-body.team-inboxes-body data-controller="modalToggler frameToggler"
+      .roles-header.team-inboxes-header
+        .topbar
+          h2.f-semi-18 Roles
+          / .new-inbox
+          /   span.f-reg-14 New Role
+          /   = inline_svg_tag("plus_white.svg", class:"plus-icon", alt:"menu")
+          = link_to(new_role_path, class:"new-inbox") do
+            span.f-reg-14 New Role
+            = inline_svg_tag("plus_white.svg", class:"plus-icon", alt:"menu")
+        .header-options
+          .tabs
+            = link_to("Teammates", "#", class: "tab f-reg-16")
+            / .tab.f-reg-16.active-tab Teammates
+            = link_to("Invited", "#", class: "tab f-reg-16")
+            / .tab.f-reg-16.active-tab Invited
+            / = link_to("Roles", roles_settings_path, class: "tab f-reg-16")
+            .tab.f-reg-16.active-tab Roles
+            = link_to("Activity Logs", "#", class: "tab f-reg-16")
+            / .tab.f-reg-16.active-tab Activity Logs
+      .roles-container
+        .roles-section
+          .card
+            .card-header
+              h4.f-semi-16 Sales
+              = inline_svg_tag("settings.svg", class:"card-icon", alt:"icon")
+            p.f-reg-14 Slaes can be access and use the inbox apps and proactive support for messaging customer. They cannot edit articles or delete conversation Copilot access.
+            .card-footer
+              = image_tag("avatar1.png", class:"avatar-icon avatar1", alt:"menu")
+              = image_tag("avatar2.png", class:"avatar-icon avatar2", alt:"menu")
+              = image_tag("avatar3.png", class:"avatar-icon avatar3", alt:"menu")
+              .new-teammates
+                = inline_svg_tag("plus_blue.svg", class:"plus-icon", alt:"menu")
+                span.f-reg-12 Add Teammates
+          .card
+            .card-header
+              h4.f-semi-16 Support Managers
+              = inline_svg_tag("settings.svg", class:"card-icon", alt:"icon")
+            p.f-reg-14 Slaes can be access and use the inbox apps and proactive support for messaging customer. They cannot edit articles or delete conversation Copilot access.
+            .card-footer
+              = image_tag("avatar1.png", class:"avatar-icon avatar1", alt:"menu")
+              = image_tag("avatar2.png", class:"avatar-icon avatar2", alt:"menu")
+              = image_tag("avatar3.png", class:"avatar-icon avatar3", alt:"menu")
+              .new-teammates
+                = inline_svg_tag("plus_blue.svg", class:"plus-icon", alt:"menu")
+                span.f-reg-12 Add Teammates
+          .card
+            .card-header
+              h4.f-semi-16 Support Agents
+              = inline_svg_tag("settings.svg", class:"card-icon", alt:"icon")
+            p.f-reg-14 Slaes can be access and use the inbox apps and proactive support for messaging customer. They cannot edit articles or delete conversation Copilot access.
+            .card-footer
+              = image_tag("avatar1.png", class:"avatar-icon avatar1", alt:"menu")
+              = image_tag("avatar2.png", class:"avatar-icon avatar2", alt:"menu")
+              = image_tag("avatar3.png", class:"avatar-icon avatar3", alt:"menu")
+              .new-teammates
+                = inline_svg_tag("plus_blue.svg", class:"plus-icon", alt:"menu")
+                span.f-reg-12 Add Teammates
+          .card
+            .card-header
+              h4.f-semi-16 Super User
+              = inline_svg_tag("settings.svg", class:"card-icon", alt:"icon")
+            p.f-reg-14 Slaes can be access and use the inbox apps and proactive support for messaging customer. They cannot edit articles or delete conversation Copilot access.
+            .card-footer
+              = image_tag("avatar1.png", class:"avatar-icon avatar1", alt:"menu")
+              = image_tag("avatar2.png", class:"avatar-icon avatar2", alt:"menu")
+              = image_tag("avatar3.png", class:"avatar-icon avatar3", alt:"menu")
+              .new-teammates
+                = inline_svg_tag("plus_blue.svg", class:"plus-icon", alt:"menu")
+                span.f-reg-12 Add Teammates
+          .card
+            .card-header
+              h4.f-semi-16  Basic Access
+              = inline_svg_tag("settings.svg", class:"card-icon", alt:"icon")
+            p.f-reg-14 Slaes can be access and use the inbox apps and proactive support for messaging customer. They cannot edit articles or delete conversation Copilot access.
+            .card-footer
+              = image_tag("avatar1.png", class:"avatar-icon avatar1", alt:"menu")
+              = image_tag("avatar2.png", class:"avatar-icon avatar2", alt:"menu")
+              = image_tag("avatar3.png", class:"avatar-icon avatar3", alt:"menu")
+              .new-teammates
+                = inline_svg_tag("plus_blue.svg", class:"plus-icon", alt:"menu")
+                span.f-reg-12 Add Teammates
+          .card
+            .card-header
+              h4.f-semi-16  Customer Access
+              = inline_svg_tag("settings.svg", class:"card-icon", alt:"icon")
+            p.f-reg-14 Slaes can be access and use the inbox apps and proactive support for messaging customer. They cannot edit articles or delete conversation Copilot access.
+            .card-footer
+              = image_tag("avatar1.png", class:"avatar-icon avatar1", alt:"menu")
+              = image_tag("avatar2.png", class:"avatar-icon avatar2", alt:"menu")
+              = image_tag("avatar3.png", class:"avatar-icon avatar3", alt:"menu")
+              .new-teammates
+                = inline_svg_tag("plus_blue.svg", class:"plus-icon", alt:"menu")
+                span.f-reg-12 Add Teammates
+        
+        / .roles-empity
+        /   .empity-section
+        /     = image_tag("empity_tag.png", class:"empity-tag", alt:"img")
+        /     h3.f-semi-24 You have created any roles yet
+        /     p.f-reg-14 Create your first role to get started
+        /     .new-inbox
+        /       span.f-reg-14 New Role
+        /       = inline_svg_tag("plus_white.svg", class:"plus-icon", alt:"menu")

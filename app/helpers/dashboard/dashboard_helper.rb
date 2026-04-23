@@ -12,10 +12,20 @@ module Dashboard
       "alert" => "blue",
       "notice" => "yellow"
     }.freeze
-    DEFAULT_FLASH_CLASS = "dark"
+    STATUS_CLASS_MAPPING = {
+      "active" => "green",
+      "offline" => "gray"
+    }.freeze
+    
+    DEFAULT_FLASH_CLASS = "green"
+    DEFAULT_STATUS_CLASS = "green"
 
     def flash_alert_type(message_type)
       FLASH_CLASS_MAPPING[message_type] || DEFAULT_FLASH_CLASS
+    end
+    
+    def member_status_class(status)
+      STATUS_CLASS_MAPPING[status] || DEFAULT_STATUS_CLASS
     end
   end
 end

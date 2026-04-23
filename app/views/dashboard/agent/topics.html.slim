@@ -1,0 +1,151 @@
+= render("dashboard/shared/dashboard_container", current_page: "agent-test") do
+  = render("dashboard/agent/agent_sidebar", current_page: "agent-test") do
+    .agent-body-section.agent-topic-body
+      .agent-header.agent-workflow-header.agent-topic-header
+        .topbar
+          h2.f-semi-18 Topic Explorer
+        .header-options
+          = image_tag("calender.png", class:"link-icon", alt:"image")
+          .f-reg-14 Jun 4, 2025 - Jul 1, 2025
+          .tag
+            = inline_svg_tag("plus_black.svg", class:"btn-icon")
+            .f-reg-14 Add Filter
+      .agent-body.agent-topic-container data-controller="accordion modalToggler frameToggler"
+        h3.f-semi-14 10 highest volume topics
+        .topics-container
+          .topics-grid
+            .topic-row1
+              .topic
+                .f-semi-14 Messenger Setup
+                .detailed
+                  .f-reg-12 1.306 conversation
+                  = inline_svg_tag("arrow_export.svg", class:"btn-icon")
+                .f-reg-12 80.9% CX Score
+              .topic
+                .f-semi-14 Messenger Setup
+                .detailed
+                  .f-reg-12 1.306 conversation
+                  = inline_svg_tag("arrow_export.svg", class:"btn-icon")
+                .f-reg-12 80.9% CX Score
+              .topic
+                .f-semi-14 Messenger Setup
+                .detailed
+                  .f-reg-12 1.306 conversation
+                  = inline_svg_tag("arrow_export.svg", class:"btn-icon")
+                .f-reg-12 80.9% CX Score
+            .topic-row2
+              .topic-col1
+                .topic
+                  .f-semi-14 Messenger Setup
+                  .detailed
+                    .f-reg-12 1.306 conversation
+                    = inline_svg_tag("arrow_export.svg", class:"btn-icon")
+                  .f-reg-12 80.9% CX Score
+                .topic
+                  .f-semi-14 Messenger Setup
+                  .detailed
+                    .f-reg-12 1.306 conversation
+                    = inline_svg_tag("arrow_export.svg", class:"btn-icon")
+                  .f-reg-12 80.9% CX Score
+              .topic-col2
+                .row1
+                  .topic
+                    .f-semi-14 Messenger Setup
+                    .f-reg-12 1.306 conversation
+                    .f-reg-12 80.9% CX Score
+                  .topic
+                    .f-semi-14 Messenger Setup
+                    .f-reg-12 1.306 conversation
+                    .f-reg-12 80.9% CX Score
+                  .topic
+                    .f-semi-14 Messenger Setup
+                    .f-reg-12 1.306 conversation
+                    .f-reg-12 80.9% CX Score
+                .row2
+                  .topic
+                    .f-semi-14 Messenger Setup
+                    .detailed
+                      .f-reg-12 1.306 conversation
+                      = inline_svg_tag("arrow_export.svg", class:"btn-icon")
+                    .f-reg-12 80.9% CX Score
+                  .topic
+                    .f-semi-14 Messenger Setup
+                    .detailed
+                      .f-reg-12 1.306 conversation
+                      = inline_svg_tag("arrow_export.svg", class:"btn-icon")
+                    .f-reg-12 80.9% CX Score
+            .progress 
+              .f-semi-14 79%
+              .bar 
+              .f-semi-14 79%
+          .topics-list
+            .topic-stats
+              p.f-semi-12 Messenger Setup
+              = image_tag("chart1.png", class:"chart-img", alt:"image")
+              = image_tag("chart2.png", class:"chart-img", alt:"image")
+              = image_tag("chart3.png", class:"chart-img", alt:"image")
+            .topic-stats
+              p.f-semi-12 Fin Features
+              = image_tag("chart1.png", class:"chart-img", alt:"image")
+              = image_tag("chart2.png", class:"chart-img", alt:"image")
+              = image_tag("chart3.png", class:"chart-img", alt:"image")
+            .topic-stats
+              p.f-semi-12 Surveys
+              = image_tag("chart1.png", class:"chart-img", alt:"image")
+              = image_tag("chart2.png", class:"chart-img", alt:"image")
+              = image_tag("chart3.png", class:"chart-img", alt:"image")
+            .topic-stats
+              p.f-semi-12 Fin Agent
+              = image_tag("chart1.png", class:"chart-img", alt:"image")
+              = image_tag("chart2.png", class:"chart-img", alt:"image")
+              = image_tag("chart3.png", class:"chart-img", alt:"image")
+            .topic-stats
+              p.f-semi-12 Conversation data
+              = image_tag("chart1.png", class:"chart-img", alt:"image")
+              = image_tag("chart2.png", class:"chart-img", alt:"image")
+              = image_tag("chart3.png", class:"chart-img", alt:"image")
+            .topic-stats
+              p.f-semi-12 Fin Agent
+              = image_tag("chart1.png", class:"chart-img", alt:"image")
+              = image_tag("chart2.png", class:"chart-img", alt:"image")
+              = image_tag("chart3.png", class:"chart-img", alt:"image")
+            .progress 
+              .f-semi-14 79%
+              .bar 
+              .f-semi-14 79%
+
+        / .flow-card
+        /   = image_tag("flow_action.png", class:"link-icon avatar", alt:"image")
+        /   h4.f-semi-14 Trigger
+        /   h3.f-semi-16 Cancel Subscription
+        /   p.f-reg-14 Use this when a customer asks to  cancel a subscription
+        /   .
+        /   h4.f-semi-14 Channel
+        /   .tag 
+        /     = inline_svg_tag("users.svg", class:"btn-icon")
+        /     p.f-reg-14 Web and Zendesk Messaging
+        /   .tag.live-btn 
+        /     = inline_svg_tag("plus_black.svg", class:"btn-icon")
+        /     p.f-reg-14 1 More
+        / = image_tag("link_sm.png", class:"link-sm", alt:"image")
+        / .flow-card
+        /   h4.f-semi-14 Path
+        /   = image_tag("flow_action.png", class:"link-icon avatar", alt:"image")
+        /   h4.f-semi-14 Instructions
+        /   p.f-reg-14 Ask the suer which subscription they want to cancel
+        /   p.f-reg-14 -Subscription A...
+        /   .
+        /   h4.f-semi-14 If unable to complete
+        /   h4.f-semi-12 Once Complete
+        /   = image_tag("virus.png", class:"link-icon avatar", alt:"image")
+        /   p.f-reg-14 Ask if it helped
+        / = image_tag("link_lg.png", class:"link-lg", alt:"image")
+        / .flow-card
+        /   h4.f-semi-14 B.Path
+        /   .tag 
+        /     p.f-reg-14 unable to complete
+        /   h4.f-semi-12 Once Complete
+        /   .tag.live-btn 
+        /     = inline_svg_tag("users.svg", class:"btn-icon")
+        /     p.f-reg-14 Fin hands over
+

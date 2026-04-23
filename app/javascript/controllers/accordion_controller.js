@@ -15,9 +15,11 @@ export default class extends Controller {
     if (panel.classList.contains('visible')) {
       panel.classList.toggle('visible');
       panel.previousElementSibling.classList.remove("active-accordian");
+      panel.parentElement.classList.remove("active-config-item");
     } else {
       panel.classList.toggle('visible'); 
       panel.previousElementSibling.classList.add("active-accordian");
+      panel.parentElement.classList.add("active-config-item");
     }
   }
   

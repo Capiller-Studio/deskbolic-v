@@ -1,0 +1,174 @@
+= render("dashboard/shared/dashboard_container", current_page: "agent-test") do
+  = render("dashboard/agent/agent_sidebar", current_page: "agent-test") do
+    .agent-body-section.agent-test-body data-controller="modalToggler frameToggler"
+      .agent-header.agent-test-header
+        h2.f-semi-18 Allergies Questions Testing
+        = link_to("#", class:"member-action manage-action") do
+          span.f-reg-14 Manage
+          = inline_svg_tag("plus_black.svg", class:"plus-icon", alt:"menu")
+        = link_to("#", class:"member-action new-action") do
+          span.f-reg-14 New Role
+          = inline_svg_tag("plus_white.svg", class:"plus-icon", alt:"menu")
+      .agent-container.questions-container
+        .questions-section
+          h3.f-med-16 48 Questions
+          .table-scroll-wrapper
+            table
+              thead
+                tr
+                  th.f-semi-14 
+                    | Questions
+                    = inline_svg_tag("arrow_down_gray.svg", class:"down-icon", alt:"arrow")
+                  th.f-semi-14 
+                    | Answer Status
+                    = inline_svg_tag("arrow_down_gray.svg", class:"down-icon", alt:"arrow")
+                  th.f-semi-14 
+                    | Answer Rating
+                    = inline_svg_tag("arrow_down_gray.svg", class:"down-icon", alt:"arrow")
+              tbody
+                tr
+                  td.f-reg-14 Is there a cure or long-term solution for severe allergies?
+                  td.f-reg-14 
+                    = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:"tick")
+                  td 
+                    / .status-tag class="bg-#{member_status_class(member.status)}" 
+                    /   .bullet
+                    /   span.f-reg-12 = member.status.upcase
+                    .status-tag.bg-green
+                      .bullet
+                      span.f-reg-12 Active
+                tr
+                  td.f-reg-14 Can I self-diagnose an allergy?
+                  td.f-reg-14 
+                    = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:"tick")
+                  td
+                    .status-tag.bg-green
+                      .bullet
+                      span.f-reg-12 Active
+                tr
+                  td.f-reg-14 What should I tell my GP about my symptoms?
+                  td.f-reg-14 
+                    = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:"tick")
+                  td
+                    .status-tag.bg-green
+                      .bullet
+                      span.f-reg-12 Active
+                tr
+                  td.f-reg-14 Can allergies be life-threatening?
+                  td.f-reg-14 
+                    = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:"tick")
+                  td
+                    .status-tag.bg-green
+                      .bullet
+                      span.f-reg-12 Active
+                tr
+                  td.f-reg-14 Are seasonal allergies different from other types?
+                  td.f-reg-14 
+                    = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:"tick")
+                  td
+                    .status-tag.bg-green
+                      .bullet
+                      span.f-reg-12 Active
+                tr
+                  td.f-reg-14 Can I be allergic to more than one thing?
+                  td.f-reg-14 
+                    = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:"tick")
+                  td
+                    .status-tag.bg-green
+                      .bullet
+                      span.f-reg-12 Active
+                tr
+                  td.f-reg-14 How can I avoid allergens in daily life?
+                  td.f-reg-14 
+                    = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:"tick")
+                  td
+                    .status-tag.bg-green
+                      .bullet
+                      span.f-reg-12 Active
+                tr
+                  td.f-reg-14 Should I carry an EDIPen rf lye had a severe reaction in the past?
+                  td.f-reg-14 
+                    = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:"tick")
+                  td
+                    .status-tag.bg-green
+                      .bullet
+                      span.f-reg-12 Active
+                tr
+                  td.f-reg-14 Can children outgrow allergies?
+                  td.f-reg-14 
+                    = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:"tick")
+                  td
+                    .status-tag.bg-green
+                      .bullet
+                      span.f-reg-12 Active
+                tr
+                  td.f-reg-14 What is an allergy management plan?
+                  td.f-reg-14 
+                    = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:"tick")
+                  td
+                    .status-tag.bg-green
+                      .bullet
+                      span.f-reg-12 Active
+                tr
+                  td.f-reg-14 Can avoiding allergens help reduce symptoms?
+                  td.f-reg-14 
+                    = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:"tick")
+                  td
+                    .status-tag.bg-green
+                      .bullet
+                      span.f-reg-12 Active
+                tr
+                  td.f-reg-14 How does desensitisation help manage allergies?
+                  td.f-reg-14 
+                    = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:"tick")
+                  td
+                    .status-tag.bg-green
+                      .bullet
+                      span.f-reg-12 Active
+                tr
+                  td.f-reg-14 Who should administer immunotherapy?
+                  td.f-reg-14 
+                    = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:"tick")
+                  td
+                    .status-tag.bg-green
+                      .bullet
+                      span.f-reg-12 Active
+  
+        .answer-section data-controller="accordion"
+          .ans-header
+            h3.f-semi-14 Evaluate Answer
+            / = inline_svg_tag("arrow_down.svg", class:"st-dropdown-icon", alt:"menu")
+            / = inline_svg_tag("arrow_down.svg", class:"st-dropdown-icon", alt:"menu")
+          p.f-reg-12.client-question Is there a cure or long-term solution for severe allergies?
+          p.f-reg-12.agent-answer Al Agent While there isn't a definitive cure for severe allergies, we can provide information on long-term management strategies. Treatments for allergies include avoiding allergens when Possible, using medications like antihistamines and steroid creams, and in some cases, emergency medicines for severe reactions. For long-term solutions, immunotherapy has advanced significantly. This treatment involves carefully exposing you to allergens over time, helping your body build tolerance. Customized sublingual tablets are becoming more precise and widely available for this purpose. Its important to note that the effectiveness of treatments can vary from person to person. For the most appropriate advice tailored to your specific situation, we strongly recommend consulting with a qualified healthcare professional or allergist. They can provide a comprehensive allergy management plan based on your individual needs and symptoms. 
+          
+          h3.f-semi-14 This Answer Uses:
+          
+          button.accordian data-action="click->accordion#toggle"
+            p.f-semi-12 Content (2)
+            = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
+          .panel data-accordion-target="panel"
+            .section-flex 
+              = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:"tick")
+              h5.f-med-10 Hay fever Allergis in  2025: what you need to know.
+            .section-flex 
+              = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:"tick")
+              h5.f-med-10 Allegies-Updated
+            .section-flex 
+              = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:"tick")
+              h5.f-med-10 What is hayfever
+              
+          button.accordian data-action="click->accordion#toggle"
+            p.f-semi-12 Guidance (3)
+            = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
+          .panel data-accordion-target="panel"
+            .section-flex 
+              = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:"tick")
+              h5.f-med-10 Hay fever Allergis in  2025: what you need to know.
+            .section-flex 
+              = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:"tick")
+              h5.f-med-10 Allegies-Updated
+            .section-flex 
+              = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:"tick")
+              h5.f-med-10 What is hayfever
+

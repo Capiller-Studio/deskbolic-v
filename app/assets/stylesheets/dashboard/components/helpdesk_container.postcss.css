@@ -79,6 +79,7 @@
           .help-nav-menu {
             @mixin flex-column $justify-start, $align-center;
             width: 100%;
+            /* padding-top: 20px; */
             .nav-item {
               @mixin flex-row $justify-center, $align-center;
               width: 100%;

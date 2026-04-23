@@ -38,6 +38,12 @@
   font-family: $font-family-inter-semibold;
 }
 
+.f-semi-12 {
+  font-size: 12px;
+  line-height: 20px;
+  font-family: $font-family-inter-semibold;
+}
+
 /* h5 */
 .f-reg-12 {
   font-size: 12px;
@@ -127,34 +133,52 @@
 /* status tags */
 
 .status-tag {
-  padding: 2px 5px;
-  border-radius: 10px;
+  padding: 4px 8px;
+  border-radius: 20px;
   width: fit-content;
 }
 .bg-yellow, .alert-yellow {
   color: #E3A008;
   background-color: #FDFDEA;
+  .bullet {
+    background-color: #E3A008;
+  }
 }
 .bg-green, .alert-green {
   color: #0E9F6E;
   background-color: #F3FAF7;
+  .bullet {
+    background-color: #0E9F6E;
+  }
 }
 .bg-red, .alert-red {
   color: #F05252;
   background-color: #FDF2F2;
+  .bullet {
+    background-color: #F05252;
+  }
 }
 .bg-purple, .alert-blue {
   color: $purple;
   background-color: #F6F5FF;
+  .bullet {
+    background-color: $purple;
+  }
 }
 .bg-blue {
   color: #3F83F8;
   background-color: #EBF5FF;
+  .bullet {
+    background-color: #3F83F8;
+  }
 }
 
 .bg-gray {
   color: $black-80;
   background-color: $black-5;
+  .bullet {
+    background-color: $black-80;
+  }
 }
 
 /* keyframes */

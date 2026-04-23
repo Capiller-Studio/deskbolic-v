@@ -1,0 +1,89 @@
+= render("dashboard/shared/dashboard_container", current_page: "office-timings") do
+  = render("dashboard/settings/settings_sidebar", current_page: "office-timings") do
+    .body-section.office-timings-body
+      h2.f-semi-18 
+        | Office hours 
+        / = current_account.name
+      .office-timings-container data-controller="modalToggler frameToggler"
+        .office-timings-section
+          h3.f-semi-18 Default office hours
+          p.f-reg-14 These apply to all conversations in your workspace.
+          .office-hours
+            / = form_with(url: "#", data: {controller: "formValidation renderer", "formValidation-target" => "form"}, html: {class: "needs-validation", novalidate: true, method: :post, remote: true}) do |f|
+            .field-group
+              label.switch
+                = check_box_tag 'toggle', 'on', true, class:'toggle-input'
+                span.slider
+              span.title.f-semi-14 Monday
+              .time-limit.from-time
+                p From 
+                = time_field_tag 'from_time', '09:00', class: 'timepicker right'
+              .time-limit.to-time
+                p To
+                = time_field_tag 'to_time', '09:00', class: 'timepicker right'
+            .field-group
+              label.switch
+                = check_box_tag 'toggle', 'on', true, class:'toggle-input'
+                span.slider
+              span.title.f-semi-14 Tuesday
+              .time-limit.from-time
+                p From
+                = time_field_tag 'from_time', '09:00', class: 'timepicker right'
+              .time-limit.to-time
+                p To
+                = time_field_tag 'to_time', '09:00', class: 'timepicker right'
+            .field-group
+              label.switch
+                = check_box_tag 'toggle', 'on', true, class:'toggle-input'
+                span.slider
+              span.title.f-semi-14 Wednesday
+              .time-limit.from-time
+                p From
+                = time_field_tag 'from_time', '09:00', class: 'timepicker right'
+              .time-limit.to-time
+                p To
+                = time_field_tag 'to_time', '09:00', class: 'timepicker right'
+            .field-group
+              label.switch
+                = check_box_tag 'toggle', 'on', true, class:'toggle-input'
+                span.slider
+              span.title.f-semi-14 Thursday
+              .time-limit.from-time
+                p From
+                = time_field_tag 'from_time', '09:00', class: 'timepicker right'
+              .time-limit.to-time
+                p To
+                = time_field_tag 'to_time', '09:00', class: 'timepicker right'
+            .field-group
+              label.switch
+                = check_box_tag 'toggle', 'on', true, class:'toggle-input'
+                span.slider
+              span.title.f-semi-14 Friday
+              .time-limit.from-time
+                p From
+                = time_field_tag 'from_time', '09:00', class: 'timepicker right'
+              .time-limit.to-time
+                p To
+                = time_field_tag 'to_time', '09:00', class: 'timepicker right'
+            .field-group
+              label.switch
+                = check_box_tag 'toggle', 'on', true, class:'toggle-input'
+                span.slider
+              span.title.f-semi-14 Saturday
+              .time-limit.from-time
+                p From
+                = time_field_tag 'from_time', '09:00', class: 'timepicker right'
+              .time-limit.to-time
+                p To
+                = time_field_tag 'to_time', '09:00', class: 'timepicker right'
+            .field-group
+              label.switch
+                = check_box_tag 'toggle', 'on', true, class:'toggle-input'
+                span.slider
+              span.title.f-semi-14 Sunday
+              .time-limit.from-time
+                p From
+                = time_field_tag 'from_time', '09:00', class: 'timepicker right'
+              .time-limit.to-time
+                p To
+                = time_field_tag 'to_time', '09:00', class: 'timepicker right'

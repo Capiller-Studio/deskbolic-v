@@ -5,6 +5,9 @@
         = image_tag("deskbolic_logo.png", class: "dash-logo", alt: "dashboard logo", height: "100%" , width: "100%")
         ul
           .nav-menu
+            li.nav-item
+              = link_to(agent_index_path, class: "nav-link") do
+                = image_tag('ai_agent.png', alt: 'AI Agent', class: 'link-icon')
             - current_user&.accounts&.each do |account|
               li.nav-item class="#{current_page=='help_desk' ? 'dash-nav-active' : ''}"
                 = form_with url: switch_account_path(id: account.id), method: :post, class: "switch-form" do

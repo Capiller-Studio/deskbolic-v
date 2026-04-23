@@ -1,0 +1,59 @@
+= render("dashboard/shared/dashboard_container", current_page: "agent-test") do
+  = render("dashboard/agent/agent_sidebar", current_page: "agent-test") do
+    .agent-body-section.agent-workflow-body
+      .agent-header.agent-workflow-header
+        .topbar
+          h2.f-semi-18 Cancel subscription
+          .actions
+            = form_with url: "#", method: :get, local: true do
+              .form-floating.translate-statuses
+                = select_tag :status, options_for_select([['Let fin decide', 'let fin decide'], ['Informal', 'informal'], ['Formal', 'formal']], params[:status]), class: "con-statuses", data: { controller: "select" }
+            button data-action="click->accordion#toggle"
+              = inline_svg_tag("play_black.svg", class:"btn-icon")
+              p.f-reg-14 Preview
+            button data-action="click->accordion#toggle"
+              p.f-reg-14 Save
+              = inline_svg_tag("black_tick.svg", class:"btn-icon")
+            button.live-btn data-action="click->accordion#toggle"
+              = inline_svg_tag("play_white.svg", class:"btn-icon")
+              p.f-reg-14 Set Live
+        .header-options
+          .tags
+            .tag.f-reg-16 Workflow
+            .tag.f-reg-16 Path Analysis
+          .workflow-overview.f-semi-14 Overview
+      .agent-body.agent-workflow-container data-controller="accordion modalToggler frameToggler"
+        .flow-card
+          = image_tag("flow_action.png", class:"link-icon avatar", alt:"image")
+          h4.f-semi-14 Trigger
+          h3.f-semi-16 Cancel Subscription
+          p.f-reg-14 Use this when a customer asks to  cancel a subscription
+          .
+          h4.f-semi-14 Channel
+          .tag 
+            = inline_svg_tag("users.svg", class:"btn-icon")
+            p.f-reg-14 Web and Zendesk Messaging
+          .tag.live-btn 
+            = inline_svg_tag("plus_black.svg", class:"btn-icon")
+            p.f-reg-14 1 More
+        = image_tag("link_sm.png", class:"link-sm", alt:"image")
+        .flow-card
+          h4.f-semi-14 Path
+          = image_tag("flow_action.png", class:"link-icon avatar", alt:"image")
+          h4.f-semi-14 Instructions
+          p.f-reg-14 Ask the suer which subscription they want to cancel
+          p.f-reg-14 -Subscription A...
+          .
+          h4.f-semi-14 If unable to complete
+          h4.f-semi-12 Once Complete
+          = image_tag("virus.png", class:"link-icon avatar", alt:"image")
+          p.f-reg-14 Ask if it helped
+        = image_tag("link_lg.png", class:"link-lg", alt:"image")
+        .flow-card
+          h4.f-semi-14 B.Path
+          .tag 
+            p.f-reg-14 unable to complete
+          h4.f-semi-12 Once Complete
+          .tag.live-btn 
+            = inline_svg_tag("users.svg", class:"btn-icon")
+            p.f-reg-14 Fin hands over

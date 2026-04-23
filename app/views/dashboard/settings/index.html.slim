@@ -1,2 +1,123 @@
 = render("dashboard/shared/dashboard_container", current_page: "help_desk") do
   = render("dashboard/settings/settings_sidebar", current_page: "") do
+    .body-section.st-home-body
+      h2.f-semi-18 Home
+      .st-home-container data-controller="modalToggler frameToggler"
+        .st-home-section
+        
+          / workspace
+          h3 Workspace
+          .cards.workspace-cards
+            = link_to("#", class:"card") do
+              = inline_svg_tag("general.svg", class:"card-icon", alt:"icon")
+              .card-desc
+                h4.f-semi-14  General
+                p.f-reg-12 Set your workspace name, time zone, language, and more.
+            = link_to("#", class:"card") do
+              = inline_svg_tag("general.svg", class:"card-icon", alt:"icon")
+              .card-desc
+                h4.f-semi-14  Billing
+                p.f-reg-12 Manage your subscription and payment details.
+            = link_to(roles_settings_path, class:"card") do
+              = inline_svg_tag("general.svg", class:"card-icon", alt:"icon")
+              .card-desc
+                h4.f-semi-14  Teammates
+                p.f-reg-12 Manage or invite teammates and see all activity logs.
+            = link_to(office_timings_settings_path, class:"card") do
+              = inline_svg_tag("general.svg", class:"card-icon", alt:"icon")
+              .card-desc
+                h4.f-semi-14  Office Hours
+                p.f-reg-12 Choose your office hours to manage customer expectation.
+            = link_to("#", class:"card") do
+              = inline_svg_tag("general.svg", class:"card-icon", alt:"icon")
+              .card-desc
+                h4.f-semi-14  Security
+                p.f-reg-12 Configure all security settings for your workspace and data.
+                
+          / help center
+          h3 Help Center
+          .cards.help-center-cards
+            = link_to(help_center_articles_path, class:"card") do
+              = inline_svg_tag("green_book.svg", class:"card-icon", alt:"icon")
+              .card-desc
+                h4.f-semi-14  Help Center
+                p.f-reg-12 Add to or configure the content in this help center
+            = link_to("#", class:"card") do
+              = inline_svg_tag("green_grid.svg", class:"card-icon", alt:"icon")
+              .card-desc
+                h4.f-semi-14  All Help Center
+                p.f-reg-12 Manage all help centers created for this workspace.
+            = link_to(roles_settings_path, class:"card") do
+              = inline_svg_tag("green_plus.svg", class:"card-icon", alt:"icon")
+              .card-desc
+                h4.f-semi-14  New Help Center
+                / p.f-reg-12 Add new help center.
+            
+              
+          / channels
+          h3 Channels
+          .cards.channels-cards
+            = link_to(messenger_settings_path, class:"card") do
+              = inline_svg_tag("general.svg", class:"card-icon", alt:"icon")
+              .card-desc
+                h4.f-semi-14  Messenger
+                p.f-reg-12 install and customize your messenger on web and mobile.
+            = link_to("#", class:"card") do
+              = inline_svg_tag("general.svg", class:"card-icon", alt:"icon")
+              .card-desc
+                h4.f-semi-14  Email
+                p.f-reg-12 Mange forwarding, domains, and customization.
+            = link_to("#", class:"card") do
+              = inline_svg_tag("general.svg", class:"card-icon", alt:"icon")
+              .card-desc
+                h4.f-semi-14  Phone
+                p.f-reg-12 Setup and manage phone and messenger calls.
+            = link_to("#", class:"card") do
+              = inline_svg_tag("general.svg", class:"card-icon", alt:"icon")
+              .card-desc
+                h4.f-semi-14  Switch
+                p.f-reg-12 Move Customers from phone to chat conversations.
+            = link_to("#", class:"card") do
+              = inline_svg_tag("general.svg", class:"card-icon", alt:"icon")
+              .card-desc
+                h4.f-semi-14  SMS
+                p.f-reg-12 Control SMS conversations and set quiet hours by time zone.
+            = link_to("#", class:"card") do
+              = inline_svg_tag("general.svg", class:"card-icon", alt:"icon")
+              .card-desc
+                h4.f-semi-14  Social Channels
+                p.f-reg-12 Manage Whatsapp and other social channels.
+                
+          / helpdesk
+          h3 Helpdesk
+          .cards.helpdesk-cards
+            = link_to("#", class:"card") do
+              = inline_svg_tag("general.svg", class:"card-icon", alt:"icon")
+              .card-desc
+                h4.f-semi-14  Teams
+                p.f-reg-12 Create teams so group of teammates can work together.
+            = link_to("#", class:"card") do
+              = inline_svg_tag("general.svg", class:"card-icon", alt:"icon")
+              .card-desc
+                h4.f-semi-14  Assignments
+                p.f-reg-12 Assign conversation to control workloads across teams.
+            = link_to("#", class:"card") do
+              = inline_svg_tag("general.svg", class:"card-icon", alt:"icon")
+              .card-desc
+                h4.f-semi-14  Macros
+                p.f-reg-12 Edit, Create, Export or delete your macros.
+            = link_to("#", class:"card") do
+              = inline_svg_tag("general.svg", class:"card-icon", alt:"icon")
+              .card-desc
+                h4.f-semi-14  Switch
+                p.f-reg-12 Move Customers from phone to chat conversations.
+            = link_to("#", class:"card") do
+              = inline_svg_tag("general.svg", class:"card-icon", alt:"icon")
+              .card-desc
+                h4.f-semi-14  SMS
+                p.f-reg-12 Control SMS conversations and set quiet hours by time zone.
+            = link_to("#", class:"card") do
+              = inline_svg_tag("general.svg", class:"card-icon", alt:"icon")
+              .card-desc
+                h4.f-semi-14  Social Channels
+                p.f-reg-12 Manage Whatsapp and other social channels.

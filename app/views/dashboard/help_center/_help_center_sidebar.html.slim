@@ -1,0 +1,41 @@
+.helpdesk-section.center-wrapper
+  .helpdesk-container
+    .helpdesk-nav
+      .card
+        .header data-controller="modalToggler frameToggler"
+          p.f-reg-14 Help Center
+          = render("dashboard/shared/modal_popper")
+        ul.channel-list.h-center-sidebar  data-controller="accordion modalToggler frameToggler"
+          .help-nav-menu
+            span ARTICLES
+            li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
+              = link_to("#", class: "nav-link") do
+                .link-text
+                  .conversation-name.inbox-conv
+                    p.f-reg-12 All Articles
+            li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
+              = link_to("#", class: "nav-link") do
+                .link-text
+                  .conversation-name.inbox-conv
+                    p.f-reg-12 Published
+            li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
+              = link_to("#", class: "nav-link") do
+                .link-text
+                  .conversation-name.inbox-conv
+                    p.f-reg-12 Draft
+
+            p ARTICLES
+            li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
+              = link_to("#", class: "nav-link") do
+                .link-text
+                  .conversation-name.inbox-conv
+                    p.f-reg-12 Collections
+            li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
+              = link_to("#", class: "nav-link") do
+                .link-text
+                  .conversation-name.inbox-conv
+                    p.f-reg-12 Settings
+
+    .helpdesk-body.h-center-body
+      turbo-frame#conversations-frame[data-turbo-permanent]
+      == yield

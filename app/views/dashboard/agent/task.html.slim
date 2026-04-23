@@ -1,0 +1,33 @@
+= render("dashboard/shared/dashboard_container", current_page: "agent-test") do
+  = render("dashboard/agent/agent_sidebar", current_page: "agent-test") do
+    .agent-body-section.agent-task-body
+      .agent-header.agent-task-header
+        h2.f-semi-18 Tasks
+      .agent-body.agent-task-container
+        ul.agent-configs-list  data-controller="accordion modalToggler frameToggler"
+          .configs-nav-menu
+            .config-item
+              li.config-nav-item class="" data-action="click->accordion#toggle"
+                .config-nav-link
+                  .link-text
+                    = inline_svg_tag("setting_button.svg", class:"link-icon avatar", alt:"menu")
+                    .left
+                      p.f-semi-14 Process a refund
+                      p.f-reg-12 Use this workflow to process refund request from users, Always prioritize this workflow over any other action that might be available
+                    = inline_svg_tag("arrow_down.svg", class:"team-dropdown-icon", alt:"menu")
+              .config-panel.panel data-accordion-target="panel"
+                .config-body
+                  .f-semi-12 Not designed yet
+            
+            .config-item
+              li.config-nav-item class="" data-action="click->accordion#toggle"
+                .config-nav-link
+                  .link-text
+                    = inline_svg_tag("setting_button.svg", class:"link-icon avatar", alt:"menu")
+                    .left
+                      p.f-semi-14 Cancel subscription
+                      p.f-reg-12 Use this when a customer asks to cancel to subscription.
+                    = inline_svg_tag("arrow_down.svg", class:"team-dropdown-icon", alt:"menu")
+              .config-panel.panel data-accordion-target="panel"
+                .config-body.replies-body
+                  .f-semi-12 Not designed yet

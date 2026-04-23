@@ -130,6 +130,7 @@
         }
       }
       .canned-response-modal,
+      .team-inbox-modal,
       .channel-form {
         @mixin flex-column $justify-center, $align-start;
         gap: 7px;
@@ -156,6 +157,9 @@
                 .form-label {
                   margin-left: 10px;
                 }
+                .reg-label {
+                  margin-left: 0px;
+                }
               }
               .form-control {
                 padding: 10px 10px;
@@ -177,6 +181,11 @@
                 color: $black-40;
                 font-family: $font-family-inter-regular;
               }
+            }
+            .f-reg-12 {
+              text-align: left;
+              margin-top: -20px;
+              color: $black-40;
             }
             .tags-list {
               @mixin flex-row $justify-left, $align-center;
@@ -207,13 +216,19 @@
               color: $black;
               background-color: $black-5;
             }
-            .submit-btn {
+            .submit-btn, .btn-cancel {
               cursor: pointer;
               padding: 10px 10px;
               border-radius: 8px;
               border: none;
               color: $white;
               background-color: $black;
+            }
+            .btn-cancel {
+              color: $black;
+              background-color: $black-5;
+              line-height: 20px;
+              margin-right: 10px;
             }
           }
         }
@@ -223,6 +238,69 @@
       }
       .snooz-conv-modal {
         padding: 20px 10px;
+      }
+      .team-inbox-modal {
+        > form {
+          width: 100%;
+          .form-fields {
+            .dropzone {
+              @mixin flex-row $justify-center, $align-center;
+              width: auto;
+              height: 180px;
+              background: transparent;
+              border-radius: 12px;
+              border: 1px dashed $black-20;
+              .dz-message {
+                /* @mixin margin-size 2, 2; */
+                > p {
+                  /* @mixin font-size 1; */
+                  @mixin margin-bottom 1;
+                  /* font-family: $font-family-jakarta-light; */
+                }
+                .img-paper {
+                  @mixin width-size 3;
+                  @mixin margin-bottom 1;
+                }
+              }
+              .form-check {
+                .d-none {
+                  display: none;
+                }
+              }
+            }
+            .form-group {
+              text-align: left;
+              .group-label {
+                color: $black-80;
+              }
+              .user-list {
+                margin-top: 15px;
+                .form-check {
+                  @mixin flex-row $justify-start, $align-center;
+                  .form-check-input {
+                    
+                  }
+                  .form-check-label {
+                    @mixin flex-row $justify-around, $align-center;
+                    width: 100%;
+                    span {
+                      color: $black-80;
+                    }
+                    .status-tag {
+                      @mixin flex-row $justify-center, $align-center;
+                      .bullet {
+                        width: 6px;
+                        height: 6px;
+                        border-radius: 6px;
+                        margin-right: 5px;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
 
       .add-customer-container {

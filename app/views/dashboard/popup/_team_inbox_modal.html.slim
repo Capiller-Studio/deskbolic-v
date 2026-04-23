@@ -1,0 +1,32 @@
+.model-content-section
+  .model-content
+    .modal-header
+      h3.f-semi-18 New Team Inbox
+      = inline_svg_tag("cross_button.svg", alt:"menu", class:"conversation-icon m-close", data: { action: "click->modalToggler#hideModal" })
+    .modal-body.team-inbox-modal
+      = form_with(model: Team.new, data: {controller: "formValidation renderer accordion", "formValidation-target" => "form"}, html: {class: "needs-validation", novalidate: true, method: :post}) do |f|
+        .form-fields
+          .dropzone.upload-paper.dropzone-default.dz-clickable data-controller="dropzone" data-dropzone-max-file-size="1" data-dropzone-max-files="1" data-dropzone-accepted-files=".jpeg,.jpg,.png"
+            = f.file_field :avatar, direct_upload: true, "data-dropzone-target" => "input"
+            .dropzone-msg.dz-message.needsclick
+              / = inline_svg_tag("plus_black.svg", class: "img-paper", alt:"cloud image")
+            .form-check style="min-height: 0;"
+              input.d-none type="checkbox" value="" data-dropzone-target='doneCheck' required=true
+              .invalid-feedback size exceeded
+          .form-floating
+            = f.text_field :name, autofocus: true, class: "form-control rounded-3 f-reg-14", placeholder: "Add title", required: true
+          .form-group
+            label.group-label.f-med-14.mb-2 Add Member
+            .user-list
+              - current_account.users.all.each do |user|
+                .form-check
+                  = check_box_tag "team[user_ids][]", user.id, false, id: "user_#{user.id}", class: "form-check-input"
+                  = label_tag "user_#{user.id}", class: "form-check-label d-flex justify-content-between align-items-center gap-2" do
+                    span.f-reg-12 = user.first_name
+                    span.f-reg-12.text-muted = user.email
+                    .status-tag class="bg-#{member_status_class(user.status)}" 
+                      .bullet
+                      span.f-reg-12 = user.status.capitalize
+        .form-actions
+          button.button.f-med-14 type="button" data-action="click->modalToggler#hideModal" Cancel
+          = f.submit "Save", class: "submit-btn f-med-14", data: { action: "click->formValidation#validate click->modalToggler#hideModal" }

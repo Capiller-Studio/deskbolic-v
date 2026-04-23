@@ -5,8 +5,16 @@
         .header data-controller="modalToggler frameToggler"
           p.f-reg-14 Settings
           = render("dashboard/shared/modal_popper")
-        ul.channel-list  data-controller="accordion modalToggler frameToggler"
+        ul.channel-list.st-sidebar  data-controller="accordion modalToggler frameToggler"
           .help-nav-menu
+            / Home
+            li.nav-item class="" data-action="click->accordion#toggle"
+              .nav-link
+                = link_to(settings_path, class: "nav-link") do
+                  .link-text
+                    .conversation-name.inbox-conv
+                      p.f-reg-14 Home
+
             / general            
             li.nav-item class="" data-action="click->accordion#toggle"
               .nav-link
@@ -30,6 +38,24 @@
                     .link-text
                       .conversation-name.inbox-conv
                         p.f-reg-12 Back Office
+            / inboxes            
+            li.nav-item class="" data-action="click->accordion#toggle"
+              .nav-link
+                .link-text.conversation-padding
+                  = inline_svg_tag("arrow_down.svg", class:"st-dropdown-icon", alt:"menu")
+                  p.f-reg-14 Inboxes
+            .st-panel data-accordion-target="panel"
+              ul.chats
+                li.nav-item class="#{current_page == 'team-inboxes' ? 'st-list-active' : ''}"
+                  = link_to(team_inboxes_settings_path, class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12 Team Inboxes
+                / li.nav-item class="#{current_page == 'roles' ? 'st-list-active' : ''}"
+                /   = link_to(roles_settings_path, class: "nav-link") do
+                /     .link-text
+                /       .conversation-name.inbox-conv
+                /         p.f-reg-12 Roles
             / data
             li.nav-item class="" data-action="click->accordion#toggle"
               .nav-link
@@ -88,6 +114,11 @@
                     .link-text
                       .conversation-name.inbox-conv
                         p.f-reg-12 Canned responses
+                li.nav-item class="#{current_page == 'office-timings' ? 'st-list-active' : ''}"
+                  = link_to(office_timings_settings_path, class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12 Office Hours
                 li.nav-item class="#{"#"=='' ? 'active' : ''}"
                   = link_to("#", class: "nav-link") do
                     .link-text

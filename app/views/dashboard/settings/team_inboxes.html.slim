@@ -1,0 +1,194 @@
+= render("dashboard/shared/dashboard_container", current_page: "team-inboxes") do
+  = render("dashboard/settings/settings_sidebar", current_page: "team-inboxes") do
+    .body-section.team-inboxes-body data-controller="modalToggler frameToggler"
+      .team-inboxes-header
+        h2.f-semi-18 Team Inboxes
+        .new-inbox data-action="click->modalToggler#showModal click->frameToggler#loadModal" data-popup-view="_team_inbox_modal"
+          span.f-reg-14 Add new inbox
+          = inline_svg_tag("plus_white.svg", class:"plus-icon", alt:"menu")
+      .team-inboxes-body
+        ul.team-inboxes-list  data-controller="accordion modalToggler frameToggler"
+          .teams-nav-menu
+            - @teams.each do |team|            
+              li.team-nav-item class="" data-action="click->accordion#toggle"
+                .team-nav-link
+                  .link-text
+                    = image_tag(team.avatar, class:"team-icon", alt:"menu")
+                    .left
+                      p.f-reg-14 = team.name.upcase
+                      span.f-reg-12 = "#{team.team_users.count} members"
+                    = inline_svg_tag("arrow_down.svg", class:"team-dropdown-icon", alt:"menu")
+              .members-panel.panel data-accordion-target="panel"
+                .members-header
+                  h3.f-semi-18 Team Members
+                  .new-member data-action="click->modalToggler#showModal click->frameToggler#loadModal" data-popup-view="_team_inbox_modal"
+                    span.f-reg-14 New Team Member
+                    = inline_svg_tag("plus_white.svg", class:"plus-icon", alt:"menu")
+                ul.members-list
+                  table.index-section
+                    thead
+                      tr
+                        th.f-semi-14 User
+                        th.f-semi-14 Status
+                        th.f-semi-14 Email
+                        th.f-semi-14 Permission
+                        th.f-semi-14 
+                    tbody
+                      - team.team_users.each do |user|
+                        tr
+                          td.name-wrapper 
+                            .avatar.f-reg-14 JD
+                            .name.f-semi-14 John Doe
+                          td 
+                            .status-tag class="bg-#{member_status_class(member.status)}" 
+                              .bullet
+                              span.f-reg-12 = member.status.upcase
+                            / .status-tag.bg-green
+                            /   .bullet
+                            /   span.f-reg-12 Active
+                          td.f-reg-14 = user.email
+                          td.f-reg-14 Complete Access
+                          td.actions
+                            = inline_svg_tag("edit.svg", class:"link-icon", alt:"record")
+                            = inline_svg_tag("delete_red.svg", class:"link-icon", alt:"record")
+                        / tr
+                        /   td.name-wrapper 
+                        /     .avatar.f-reg-14 JD
+                        /     .name.f-semi-14 John Doe
+                        /   td 
+                        /     / .status-tag class="bg-#{member_status_class(member.status)}" 
+                        /     /   .bullet
+                        /     /   span.f-reg-12 = member.status.upcase
+                        /     .status-tag.bg-gray
+                        /       .bullet
+                        /       span.f-reg-12 Offline
+                        /   td.f-reg-14 john@mail.com
+                        /   td.f-reg-14 Complete Access
+                        /   td.actions
+                        /     = inline_svg_tag("edit.svg", class:"link-icon", alt:"record")
+                        /     = inline_svg_tag("delete_red.svg", class:"link-icon", alt:"record")
+                        / tr
+                        /   td.name-wrapper 
+                        /     .avatar.f-reg-14 JD
+                        /     .name.f-semi-14 John Doe
+                        /   td 
+                        /     / .status-tag class="bg-#{member_status_class(member.status)}" 
+                        /     /   .bullet
+                        /     /   span.f-reg-12 = member.status.upcase
+                        /     .status-tag.bg-gray
+                        /       .bullet
+                        /       span.f-reg-12 Offline
+                        /   td.f-reg-14 john@mail.com
+                        /   td.f-reg-14 Complete Access
+                        /   td.actions
+                        /     = inline_svg_tag("edit.svg", class:"link-icon", alt:"record")
+                        /     = inline_svg_tag("delete_red.svg", class:"link-icon", alt:"record")
+                        / tr
+                        /   td.name-wrapper 
+                        /     .avatar.f-reg-14 JD
+                        /     .name.f-semi-14 John Doe
+                        /   td 
+                        /     / .status-tag class="bg-#{member_status_class(member.status)}" 
+                        /     /   .bullet
+                        /     /   span.f-reg-12 = member.status.upcase
+                        /     .status-tag.bg-green
+                        /       .bullet
+                        /       span.f-reg-12 Active
+                        /   td.f-reg-14 john@mail.com
+                        /   td.f-reg-14 Complete Access
+                        /   td.actions
+                        /     = inline_svg_tag("edit.svg", class:"link-icon", alt:"record")
+                        /     = inline_svg_tag("delete_red.svg", class:"link-icon", alt:"record")
+                .members-footer 
+                  span.f-reg-14 Delete Team Inbox
+                  
+              / sales            
+              / li.team-nav-item class="" data-action="click->accordion#toggle"
+              /   .team-nav-link
+              /     .link-text
+              /       .left
+              /         p.f-reg-14 Marketing
+              /         span.f-reg-12 6 members
+              /       = inline_svg_tag("arrow_down.svg", class:"team-dropdown-icon", alt:"menu")
+              / .members-panel.panel data-accordion-target="panel"
+              /   .members-header
+              /     h3.f-semi-18 Team Members
+              /     .new-member data-action="click->modalToggler#showModal click->frameToggler#loadModal" data-popup-view="_team_inbox_modal"
+              /       span.f-reg-14 New Team Member
+              /       = inline_svg_tag("plus_white.svg", class:"plus-icon", alt:"menu")
+              /   ul.members-list
+                  / table.index-section
+                  /   thead
+                  /     tr
+                  /       th.f-semi-14 User
+                  /       th.f-semi-14 Status
+                  /       th.f-semi-14 Email
+                  /       th.f-semi-14 Permission
+                  /       th.f-semi-14 
+                  /   tbody
+                  /     tr
+                  /       td.name-wrapper 
+                  /         .avatar.f-reg-14 JD
+                  /         .name.f-semi-14 John Doe
+                  /       td 
+                  /         / .status-tag class="bg-#{member_status_class(member.status)}" 
+                  /         /   .bullet
+                  /         /   span.f-reg-12 = member.status.upcase
+                  /         .status-tag.bg-green
+                  /           .bullet
+                  /           span.f-reg-12 Active
+                  /       td.f-reg-14 john@mail.com
+                  /       td.f-reg-14 Complete Access
+                  /       td.actions
+                  /         = inline_svg_tag("edit.svg", class:"link-icon", alt:"record")
+                  /         = inline_svg_tag("delete_red.svg", class:"link-icon", alt:"record")
+                  /     tr
+                  /       td.name-wrapper 
+                  /         .avatar.f-reg-14 JD
+                  /         .name.f-semi-14 John Doe
+                  /       td 
+                  /         / .status-tag class="bg-#{member_status_class(member.status)}" 
+                  /         /   .bullet
+                  /         /   span.f-reg-12 = member.status.upcase
+                  /         .status-tag.bg-gray
+                  /           .bullet
+                  /           span.f-reg-12 Offline
+                  /       td.f-reg-14 john@mail.com
+                  /       td.f-reg-14 Complete Access
+                  /       td.actions
+                  /         = inline_svg_tag("edit.svg", class:"link-icon", alt:"record")
+                  /         = inline_svg_tag("delete_red.svg", class:"link-icon", alt:"record")
+                  /     tr
+                  /       td.name-wrapper 
+                  /         .avatar.f-reg-14 JD
+                  /         .name.f-semi-14 John Doe
+                  /       td 
+                  /         / .status-tag class="bg-#{member_status_class(member.status)}" 
+                  /         /   .bullet
+                  /         /   span.f-reg-12 = member.status.upcase
+                  /         .status-tag.bg-gray
+                  /           .bullet
+                  /           span.f-reg-12 Offline
+                  /       td.f-reg-14 john@mail.com
+                  /       td.f-reg-14 Complete Access
+                  /       td.actions
+                  /         = inline_svg_tag("edit.svg", class:"link-icon", alt:"record")
+                  /         = inline_svg_tag("delete_red.svg", class:"link-icon", alt:"record")
+                  /     tr
+                  /       td.name-wrapper 
+                  /         .avatar.f-reg-14 JD
+                  /         .name.f-semi-14 John Doe
+                  /       td 
+                  /         / .status-tag class="bg-#{member_status_class(member.status)}" 
+                  /         /   .bullet
+                  /         /   span.f-reg-12 = member.status.upcase
+                  /         .status-tag.bg-green
+                  /           .bullet
+                  /           span.f-reg-12 Active
+                  /       td.f-reg-14 john@mail.com
+                  /       td.f-reg-14 Complete Access
+                  /       td.actions
+                  /         = inline_svg_tag("edit.svg", class:"link-icon", alt:"record")
+                  /         = inline_svg_tag("delete_red.svg", class:"link-icon", alt:"record")
+              /   .members-footer 
+              /     span.f-reg-14 Delete Team Inbox

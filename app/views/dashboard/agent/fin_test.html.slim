@@ -1,0 +1,49 @@
+= render("dashboard/shared/dashboard_container", current_page: "agent-test") do
+  = render("dashboard/agent/agent_sidebar", current_page: "agent-test") do
+    .agent-body-section.fin-test-body
+      .agent-header.fin-test-header
+        h2.f-semi-18 Batch test Fin’s answers to go live with confidence
+      .agent-body.fin-test-container
+        .topbar
+          .left
+            h3.f-semi-18 Fin Testing 
+            = inline_svg_tag("arrow_down_black.svg", class:"st-dropdown-icon", alt:"menu")
+          .right
+            = inline_svg_tag("edit.svg", class:"st-dropdown-icon", alt:"menu")
+            h3.f-semi-14 Manage 
+        .up-status
+          p.f-reg-14 Update a minute ago by 
+          = inline_svg_tag("profile_pic.svg", class:"st-dropdown-icon", alt:"menu")
+          p.f-reg-14 Matthew Attard 
+        .labels 
+          p.f-reg-14 Testing as
+          .label.bg-white
+            = inline_svg_tag("new_user.svg", class:"lab-icon", alt:"menu")
+            h3.f-semi-14 Preview User 
+          .label
+            = inline_svg_tag("info.svg", class:"lab-icon", alt:"menu")
+            h3.f-semi-14 Answer status is any 
+          .label
+            = inline_svg_tag("star_black.svg", class:"lab-icon", alt:"menu")
+            h3.f-semi-14 Answer rating is any 
+        .fin-test-body 
+          = inline_svg_tag("question.svg", class:"icon", alt:"menu")
+          h3.f-semi-18 There group has no questions
+          p.f-reg-14 Start testing by adding questions for Fin to answer
+          .question-menu data-controller="accordion modalToggler frameToggler"
+            .q-text.f-reg-14 Add Questions
+            .toggle-menu data-action="click->accordion#toggleMenu"
+              = inline_svg_tag("arrow_down_white.svg", class:"st-dropdown-icon", alt:"menu")
+            .menu data-accordion-target="menu"
+              h4.f-semi-14 Inbox
+              hr
+              .menu-link.f-semi-14 Generate from past conversations
+              .menu-link.f-semi-14 data-action="click->modalToggler#showModal click->frameToggler#loadModal" data-popup-view="_topic_questions_modal" Generate by topics
+              hr
+              h4.f-semi-14 Others
+              .menu-link.f-semi-14 Upload a CV
+              .menu-link.f-semi-14 Add Question
+              hr
+              .menu-link-btn 
+                = inline_svg_tag("plus.svg", class:"menu-icon", alt:"menu")
+                .menu-link.f-semi-14 Create a new group

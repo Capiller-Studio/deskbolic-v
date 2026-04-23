@@ -1,0 +1,133 @@
+.charging-station-file{
+  min-height:0px;
+}
+
+.dropzone {
+  &.dz-drag-hover {
+    border: green dashed 2px;
+    .dz-message {
+      opacity: 0.9;
+    }
+  }
+  .dropzone-msg {
+    .img-paper{
+      max-height: 70px;
+    }
+  }
+  .dz-preview {
+    position: relative;
+    .dz-image {
+      @mixin flex-column $justify-center, $align-center;
+      width: 130px;
+      height: 130px;
+      border: 1px dashed $black-20;
+      border-radius: 65px;
+      img {
+        width: 120px;
+        height: 120px;
+        border-radius: 60px;
+      }
+    }
+    .dz-details, .dz-progress, .dz-success-mark, .dz-error-mark {
+      display:none;
+    }
+    .dz-error-message {
+      position: absolute;
+      margin-top: -20px;
+      top: 0;
+      left: 0;
+      right: 0;
+    }
+    .dz-remove {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin-bottom: -20px;
+    }
+  }
+  /* .dz-image-preview {
+    @mixin width-size 8;
+    @mixin margin-size 1, 1;
+    .dz-image {
+      @mixin height-size 8;
+      @mixin width-size 8;
+      > img {
+        width: 100%;
+      }
+    }
+  } */
+  .dz-preview.dz-image-preview {
+    background: none;
+  }
+}
+
+.upload-paper {
+  padding: 0;
+  border: none;
+  border-radius: 30px;
+  background-color: #f2f2f2;
+}
+
+@media screen and (max-width: 991px) {
+  .dropzone {
+    @mixin height-size 20;
+    .dz-preview {
+      @mixin width-size 15;
+      .dz-image {
+        @mixin height-size 15;
+        @mixin width-size 15;
+      }
+      .dz-details {
+        .dz-size {
+          @mixin font-size 1.5;
+        }
+        .dz-filename {
+          @mixin font-size 1.5;
+        }
+      }
+      .dz-remove {
+        @mixin font-size 1.5;
+      }
+    }
+    .dz-image-preview {
+      @mixin width-size 15;
+      .dz-image {
+        @mixin height-size 15;
+        @mixin width-size 15;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .dropzone {
+    @mixin height-size 30;
+    .dz-preview {
+      @mixin width-size 25;
+      min-height: 50px;
+      .dz-image {
+        @mixin height-size 25;
+        @mixin width-size 25;
+      }
+      .dz-details {
+        .dz-size {
+          @mixin font-size 2.5;
+        }
+        .dz-filename {
+          @mixin font-size 2.5;
+        }
+      }
+      .dz-remove {
+        @mixin font-size 2.5;
+      }
+    }
+    .dz-image-preview {
+      @mixin width-size 25;
+      .dz-image {
+        @mixin height-size 25;
+        @mixin width-size 25;
+      }
+    }
+  }
+}

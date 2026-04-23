@@ -339,3 +339,19 @@
   border-radius: 8px;
   background-color: $black-5;
 }
+
+@define-mixin member-action-btn {
+  @mixin flex-row $justify-between, $align-center;
+  background: $black;
+  padding: 4px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  .plus-icon {
+    margin-left: 5px;
+    width: 12px;
+    height: 12px;
+  }
+  span.f-reg-14 {
+    color: $white;
+  }
+}

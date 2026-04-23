@@ -6,9 +6,13 @@ module Dashboard
       @em_channels = Channel::Email.where(account: current_account).all
       @fb_channels = Channel::FacebookPage.where(account: current_account).all
       @wa_channels = Channel::Whatsapp.where(account: current_account).all
+      @ww_channels = Channel::WebWidget.where(account: current_account).all
     end
 
     def create
+      
+      binding.pry
+      
       response = Channels::ChannelCreator.call(channel_type: params[:channel_type], channel_params: params,
 current_account: current_account)
 

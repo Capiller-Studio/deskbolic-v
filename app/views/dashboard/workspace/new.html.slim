@@ -37,6 +37,7 @@
       
       fieldset.agent-section
         .set-header
+          
           = inline_svg_tag("tick.svg", class:"set-icon") 
           h2 Request sent
         .form-fields
@@ -60,7 +61,7 @@
             = f.text_field :name, autofocus: true, class: "form-control", placeholder: "WorkSpace Name", required: true, disabled: true
           .form-floating
             = label_tag :workspace_size, "Workspace Size", class: "form-label"
-            = select_tag :workspace_size, options_for_select([["1-9", "1-9"], ["10-30", "10-30"], ["50+", "50+"]]), data: {controller: "select"} 
+            = select_tag :workspace_size, options_for_select([["1-9", "1-9"], ["10-30", "10-30"], ["50+", "50+"]]), data: {controller: "select"}
           p Let's Create account for enter into Deskbolic Website. ate account for enter into Deskbolic Website.
           = f.submit "Create New Workspace", class: "cont-btn js-next-button"
       

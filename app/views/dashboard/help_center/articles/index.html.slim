@@ -1,0 +1,30 @@
+= render("dashboard/shared/dashboard_container", current_page: "") do
+  = render("dashboard/help_center/help_center_sidebar", current_page: "") do
+    .body-section.st-messenger-body
+      .st-header.st-messenger-header
+        h2.f-semi-18 Messenger
+        .tabs
+          .f-reg-14 Web
+          .f-reg-14 Mobile SDKs 
+          .f-reg-14 Conversation  
+          .f-reg-14 General 
+          .f-reg-14.active Install 
+      .st-container.st-messenger-container data-controller="modalToggler frameToggler"
+        .messenger-section
+          .messenger-header
+            .tabs
+              .tab.active
+                = image_tag("avatar1.png", class:"tab-icon", alt:"icon")
+                .f-semi-14 Install for web
+              .tab
+                = image_tag("avatar1.png", class:"tab-icon", alt:"icon")
+                .f-semi-14 Install for mobile
+          .messenger-description
+            .title-bar
+              = inline_svg_tag("tick.svg", class:"tag-icon", alt:"menu")
+              .title
+                h3.f-semi-16 Install the messenger on your site or app
+                p.f-reg-12 The messenger helps you support your customers and  learn more about them. 
+            .steps data-controller="modalToggler frameToggler"
+              .tech-stack
+                

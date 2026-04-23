@@ -1,0 +1,128 @@
+.helpdesk-section.center-wrapper
+  .helpdesk-container
+    .helpdesk-nav
+      .card
+        .header data-controller="modalToggler frameToggler"
+          p.f-reg-14 AI Agent
+          = render("dashboard/shared/modal_popper")
+        ul.channel-list.st-sidebar  data-controller="accordion modalToggler frameToggler"
+          .help-nav-menu
+            / Home
+            li.nav-item class="" data-action="click->accordion#toggle"
+              .nav-link
+                = link_to(agent_index_path, class: "nav-link") do
+                  .link-text
+                    .conversation-name.inbox-conv
+                      p.f-reg-14 Home
+            / Analyse            
+            li.nav-item class="" data-action="click->accordion#toggle"
+              .nav-link
+                .link-text.conversation-padding
+                  = inline_svg_tag("arrow_down.svg", class:"st-dropdown-icon", alt:"menu")
+                  p.f-reg-14 Analyse
+            .st-panel data-accordion-target="panel"
+              ul.chats
+                li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
+                  = link_to("#", class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12 Performance
+                li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
+                  = link_to("#", class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12 Optimize
+                li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
+                  = link_to(topics_agent_index_path, class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12 Topics Explorer
+                li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
+                  = link_to("#", class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12 Conversation
+            
+            / Train            
+            li.nav-item class="" data-action="click->accordion#toggle"
+              .nav-link
+                .link-text.conversation-padding
+                  = inline_svg_tag("arrow_down.svg", class:"st-dropdown-icon", alt:"menu")
+                  p.f-reg-14 Train
+            .st-panel data-accordion-target="panel"
+              ul.chats
+                li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
+                  = link_to("#", class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12 Content
+                li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
+                  = link_to(guidance_agent_index_path, class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12 Guidance
+                li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
+                  = link_to("#", class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12 Custom Answers
+                li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
+                  = link_to("#", class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12 Profiles
+                li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
+                  = link_to(task_agent_index_path, class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12 Task
+            
+            / / Test
+            / li.nav-item class="" data-action="click->accordion#toggle"
+            /   .nav-link
+            /     = link_to(test_agent_index_path, class: "nav-link") do
+            /       .link-text
+            /         .conversation-name.inbox-conv
+            /           p.f-reg-14 Test
+            / Test
+            li.nav-item class="" data-action="click->accordion#toggle"
+              .nav-link
+                .link-text.conversation-padding
+                  = inline_svg_tag("arrow_down.svg", class:"st-dropdown-icon", alt:"menu")
+                  p.f-reg-14 Test
+            .st-panel data-accordion-target="panel"
+              ul.chats
+                li.nav-item class="#{"#"=='' ? 'active' : ''}"
+                  = link_to(test_agent_index_path, class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12 Testing
+                li.nav-item class="#{"#"=='' ? 'active' : ''}"
+                  = link_to(fin_test_agent_index_path, class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12 Fin Testing
+            / Deploye
+            li.nav-item class="" data-action="click->accordion#toggle"
+              .nav-link
+                .link-text.conversation-padding
+                  = inline_svg_tag("arrow_down.svg", class:"st-dropdown-icon", alt:"menu")
+                  p.f-reg-14 Deploye
+            .st-panel data-accordion-target="panel"
+              ul.chats
+                li.nav-item class="#{"#"=='' ? 'active' : ''}"
+                  = link_to("#", class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12 Tags
+            / Workflows
+            li.nav-item class="" data-action="click->accordion#toggle"
+              .nav-link
+                = link_to(workflow_agent_index_path, class: "nav-link") do
+                  .link-text
+                    .conversation-name.inbox-conv
+                      p.f-reg-14 Workflows
+
+    .helpdesk-body.agent-body
+      turbo-frame#conversations-frame[data-turbo-permanent]
+      == yield

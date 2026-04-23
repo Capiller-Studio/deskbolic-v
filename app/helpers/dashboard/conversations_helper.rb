@@ -7,7 +7,7 @@
 module Dashboard
   module ConversationsHelper
     def assigned_conversation
-      @conversation.conversation_members.any? { |member| member.member_type == "User" }
+      @conversation.conversation_members.exists?(member_type: "User")
     end
   end
 end

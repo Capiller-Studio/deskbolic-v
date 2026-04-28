@@ -10,11 +10,35 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_02_29_105535) do
+ActiveRecord::Schema[8.0].define(version: 2026_04_22_000011) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
   enable_extension "pgcrypto"
+
+  create_table "access_account_user_roles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "account_id", null: false
+    t.uuid "account_user_id", null: false
+    t.uuid "role_id", null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["account_id"], name: "index_access_account_user_roles_on_account_id"
+    t.index ["account_user_id", "role_id"], name: "idx_acc_user_role_composite"
+    t.index ["created_at"], name: "index_access_account_user_roles_on_created_at"
+    t.index ["role_id"], name: "index_access_account_user_roles_on_role_id"
+  end
+
+  create_table "access_roles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "account_id", null: false
+    t.string "name", null: false
+    t.jsonb "permissions", default: {}, null: false
+    t.boolean "is_system", default: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["account_id", "name"], name: "index_access_roles_on_account_id_and_name"
+    t.index ["account_id"], name: "index_access_roles_on_account_id"
+    t.index ["created_at"], name: "index_access_roles_on_created_at"
+  end
 
   create_table "attachment_translations", force: :cascade do |t|
     t.string "alt_title"
@@ -33,6 +57,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_02_29_105535) do
     t.float "latitude"
     t.float "longitude"
     t.string "extension"
+    t.jsonb "data", default: {}, null: false
     t.string "resource_type", null: false
     t.uuid "resource_id", null: false
     t.uuid "account_id", null: false
@@ -181,6 +206,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_02_29_105535) do
   create_table "conversation_members", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.datetime "last_activity_at"
     t.datetime "last_seen_at"
+    t.integer "role", default: 0, null: false
     t.uuid "account_id", null: false
     t.uuid "conversation_id", null: false
     t.string "member_type", null: false
@@ -189,6 +215,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_02_29_105535) do
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["account_id"], name: "index_conversation_members_on_account_id"
     t.index ["conversation_id", "member_id"], name: "index_conversation_members_on_conversation_id_and_member_id", unique: true
+    t.index ["conversation_id", "role"], name: "index_conversation_members_on_conversation_id_and_role"
     t.index ["conversation_id"], name: "index_conversation_members_on_conversation_id"
     t.index ["member_type", "member_id"], name: "index_conversation_members_on_member"
   end
@@ -305,6 +332,26 @@ ActiveRecord::Schema[8.0].define(version: 2024_02_29_105535) do
     t.index ["confirmation_token"], name: "index_customers_on_confirmation_token", unique: true
     t.index ["reset_password_token"], name: "index_customers_on_reset_password_token", unique: true
     t.index ["unlock_token"], name: "index_customers_on_unlock_token", unique: true
+  end
+
+  create_table "email_template_layout_translations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.text "body"
+    t.string "locale", null: false
+    t.uuid "email_template_layout_id", null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["email_template_layout_id", "locale"], name: "idx_email_layout_translations_on_layout_id_and_locale", unique: true
+    t.index ["email_template_layout_id"], name: "idx_on_email_template_layout_id_412d4e8613"
+    t.index ["locale"], name: "index_email_template_layout_translations_on_locale"
+  end
+
+  create_table "email_template_layouts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name"
+    t.uuid "account_id", null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["account_id", "name"], name: "index_email_template_layouts_on_account_id_and_name"
+    t.index ["account_id"], name: "index_email_template_layouts_on_account_id"
   end
 
   create_table "email_template_translations", force: :cascade do |t|
@@ -479,13 +526,13 @@ ActiveRecord::Schema[8.0].define(version: 2024_02_29_105535) do
     t.string "external_id"
     t.string "administration_url"
     t.jsonb "configurations", default: {}, null: false
-    t.jsonb "headers", default: {}, null: false
-    t.jsonb "response_mapping", default: {}, null: false
-    t.jsonb "params", default: {}, null: false
+    t.jsonb "custom_attributes", default: {}, null: false
+    t.jsonb "raw_response", default: {}, null: false
+    t.integer "identity_type", default: 0, null: false
     t.uuid "account_id", null: false
     t.uuid "address_id"
     t.uuid "customer_id", null: false
-    t.uuid "identity_source_id", null: false
+    t.uuid "identity_source_id"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["account_id", "created_at"], name: "index_identities_on_account_id_and_created_at"
@@ -559,6 +606,18 @@ ActiveRecord::Schema[8.0].define(version: 2024_02_29_105535) do
     t.index ["account_id"], name: "index_inboxes_on_account_id"
     t.index ["business_hour_group_id"], name: "index_inboxes_on_business_hour_group_id"
     t.index ["channel_type", "channel_id"], name: "index_inboxes_on_channel"
+  end
+
+  create_table "integrations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "account_id", null: false
+    t.integer "provider", null: false
+    t.jsonb "settings", default: {}
+    t.boolean "active", default: true
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["account_id", "provider"], name: "index_integrations_on_account_id_and_provider", unique: true
+    t.index ["account_id"], name: "index_integrations_on_account_id"
+    t.index ["created_at"], name: "index_integrations_on_created_at"
   end
 
   create_table "labels", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -742,6 +801,18 @@ ActiveRecord::Schema[8.0].define(version: 2024_02_29_105535) do
     t.index ["resource_type", "resource_id"], name: "index_related_resources_on_resource"
   end
 
+  create_table "sla_inboxes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "account_id", null: false
+    t.uuid "sla_policy_id", null: false
+    t.uuid "inbox_id", null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["account_id"], name: "index_sla_inboxes_on_account_id"
+    t.index ["inbox_id"], name: "index_sla_inboxes_on_inbox_id"
+    t.index ["sla_policy_id", "inbox_id"], name: "index_sla_inboxes_on_sla_policy_id_and_inbox_id", unique: true
+    t.index ["sla_policy_id"], name: "index_sla_inboxes_on_sla_policy_id"
+  end
+
   create_table "sla_policies", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
     t.float "response_time_limit"
@@ -787,6 +858,33 @@ ActiveRecord::Schema[8.0].define(version: 2024_02_29_105535) do
     t.index ["account_id"], name: "index_teams_on_account_id"
   end
 
+  create_table "webhook_deliveries", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "integration_id", null: false
+    t.string "event_name", null: false
+    t.string "endpoint_url", null: false
+    t.jsonb "request_payload", default: {}
+    t.integer "status", default: 0
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["created_at"], name: "index_webhook_deliveries_on_created_at"
+    t.index ["event_name"], name: "index_webhook_deliveries_on_event_name"
+    t.index ["integration_id"], name: "index_webhook_deliveries_on_integration_id"
+    t.index ["status"], name: "index_webhook_deliveries_on_status"
+  end
+
+  create_table "webhook_delivery_attempts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "webhook_delivery_id", null: false
+    t.integer "attempt_number", default: 1, null: false
+    t.integer "http_status"
+    t.text "response_body"
+    t.text "error_trace"
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["created_at"], name: "index_webhook_delivery_attempts_on_created_at"
+    t.index ["webhook_delivery_id"], name: "index_webhook_delivery_attempts_on_webhook_delivery_id"
+  end
+
+  add_foreign_key "access_account_user_roles", "access_roles", column: "role_id", on_delete: :cascade
   add_foreign_key "attachment_translations", "attachments", on_delete: :cascade
   add_foreign_key "business_hour_translations", "business_hours", on_delete: :cascade
   add_foreign_key "business_hours", "business_hour_groups", on_delete: :cascade
@@ -802,6 +900,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_02_29_105535) do
   add_foreign_key "conversations", "inboxes", on_delete: :cascade
   add_foreign_key "customer_inboxes", "customers", on_delete: :cascade
   add_foreign_key "customer_inboxes", "inboxes", on_delete: :cascade
+  add_foreign_key "email_template_layout_translations", "email_template_layouts", on_delete: :cascade
   add_foreign_key "email_template_translations", "email_templates", on_delete: :cascade
   add_foreign_key "help_center_article_translations", "help_center_articles", column: "article_id", on_delete: :cascade
   add_foreign_key "help_center_articles", "help_center_portals", column: "portal_id", on_delete: :cascade
@@ -816,5 +915,9 @@ ActiveRecord::Schema[8.0].define(version: 2024_02_29_105535) do
   add_foreign_key "messages", "conversations", on_delete: :cascade
   add_foreign_key "messages", "inboxes", on_delete: :cascade
   add_foreign_key "property_resources", "properties", on_delete: :cascade
+  add_foreign_key "sla_inboxes", "inboxes", on_delete: :cascade
+  add_foreign_key "sla_inboxes", "sla_policies", on_delete: :cascade
   add_foreign_key "team_users", "teams", on_delete: :cascade
+  add_foreign_key "webhook_deliveries", "integrations", on_delete: :cascade
+  add_foreign_key "webhook_delivery_attempts", "webhook_deliveries", on_delete: :cascade
 end

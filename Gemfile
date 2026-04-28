@@ -84,6 +84,7 @@ gem 'ancestry'
 
 # Search
 gem 'searchkick'
+gem 'elasticsearch'
 
 # JSON Optimization
 gem 'oj'

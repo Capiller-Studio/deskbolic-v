@@ -18,7 +18,10 @@ development:
   primary_de:
     <<: *default
     database: deskbolic_de_development
-    migrations_paths: db/migrate_shards
+    migrations_paths:
+      - db/migrate_shards
+      - <%= Core::Engine.root.join("db/migrate_shards") %>
+    database_tasks: true
   primary_de_replica:
     <<: *default
     database: deskbolic_de_development
@@ -35,7 +38,10 @@ test:
   primary_de:
     <<: *default
     database: deskbolic_de_test
-    migrations_paths: db/migrate_shards
+    migrations_paths:
+      - db/migrate_shards
+      - <%= Core::Engine.root.join("db/migrate_shards") %>
+    database_tasks: true
   primary_de_replica:
     <<: *default
     database: deskbolic_de_test
@@ -58,7 +64,10 @@ production:
     database: deskbolic_de_production
     username: <%= Rails.application.credentials.db_username %>
     password: <%= Rails.application.credentials.db_password %>
-    migrations_paths: db/migrate_shards
+    migrations_paths:
+      - db/migrate_shards
+      - <%= Core::Engine.root.join("db/migrate_shards") %>
+    database_tasks: true
   primary_de_replica:
     <<: *default
     database: deskbolic_de_production
@@ -83,7 +92,10 @@ staging:
     database: deskbolic_de_staging
     username: <%= Rails.application.credentials.db_username %>
     password: <%= Rails.application.credentials.db_password %>
-    migrations_paths: db/migrate_shards
+    migrations_paths:
+      - db/migrate_shards
+      - <%= Core::Engine.root.join("db/migrate_shards") %>
+    database_tasks: true
   primary_de_replica:
     <<: *default
     database: deskbolic_de_staging

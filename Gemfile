@@ -111,9 +111,6 @@ gem 'inline_svg'
 # Group by date query support
 gem 'groupdate'
 
-# Models localization
-gem 'mobility', '~> 1.3.0.rc1'
-
 # Channels
 gem 'facebook-messenger'
 gem 'koala'

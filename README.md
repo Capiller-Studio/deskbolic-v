@@ -9,6 +9,7 @@ The repository is organized into several key components:
 - **`core`**: A shared Rails Engine containing the core business logic, models, and shared services (e.g., seeding, message creation).
 - **`deskbolic`**: The main user dashboard application for agents, accounts, and affiliates to manage conversations and settings.
 - **`console`**: The internal administration panel for managing system users, accounts, and affiliates.
+- **`gateway`**: The high-performance API service for external developers and mobile applications.
 - **`portal`**: The public-facing Help Center/Knowledge Base application.
 - **`widget`**: The live chat widget backend and frontend assets that get embedded on customer websites.
 
@@ -56,6 +57,7 @@ Each application has its own encrypted credentials. You must create the `credent
 cp core/config/credentials.yml.enc.sample core/config/credentials.yml.enc
 cp deskbolic/config/credentials.yml.enc.sample deskbolic/config/credentials.yml.enc
 cp console/config/credentials.yml.enc.sample console/config/credentials.yml.enc
+cp gateway/config/credentials.yml.enc.sample gateway/config/credentials.yml.enc
 cp portal/config/credentials.yml.enc.sample portal/config/credentials.yml.enc
 cp widget/config/credentials.yml.enc.sample widget/config/credentials.yml.enc
 ```
@@ -122,6 +124,12 @@ PORT=3002 bin/dev
 ```bash
 cd console
 PORT=3003 bin/dev
+```
+
+**Gateway Service (gateway)** - [http://localhost:3004](http://localhost:3004)
+```bash
+cd gateway
+PORT=3004 bin/rails server
 ```
 
 The `bin/dev` command uses `Procfile.dev` to start the Rails server, AnyCable RPC server, and JS/CSS build watchers.

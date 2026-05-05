@@ -5,10 +5,9 @@ export default class extends Controller {
   static targets = ["messages", "conveersations"]
 
   connect() {
-    this.url = this.data.get("url")
     this.userId = this.data.get("user")
     this.token = this.data.get("token")
-    this.consumer = createConsumer(`${this.url}`)
+    this.consumer = createConsumer()
     
     this.subscription = this.consumer.subscriptions.create({
       channel: "SubscriptionChannel",

@@ -6,4 +6,5 @@ test:
 
 production:
   adapter: any_cable
-  channel_prefix: deskbolic_production
+  url: <%= ENV.fetch("ANYCABLE_REDIS_URL") { "redis://localhost:6379/2" } %>
+  channel_prefix: deskbolic

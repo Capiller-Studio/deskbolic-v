@@ -19,8 +19,8 @@ The repository is organized into several key components:
 
 Ensure you have the following installed on your system:
 
-- **Ruby 3.4.1** (Managed via [rvm](https://rvm.io/) or [rbenv](https://github.com/rbenv/rbenv))
-- **Node.js 20.x or 21.x**
+- **Ruby 4.0.3** (Managed via [rbenv](https://github.com/rbenv/rbenv))
+- **Node.js 25.9.0** (Managed via [nvm](https://github.com/nvm-sh/nvm))
 - **Yarn** (Classic or Berry)
 - **PostgreSQL** (v14+)
 - **Redis** (Used for Sidekiq and ActionCable/AnyCable)
@@ -39,14 +39,37 @@ cd deskbolic
 ```
 
 ### 2. Ruby & Node Setup
-If you are using RVM:
+We use the latest high-performance stack. Since Ruby 4.0.3 is not yet available in RVM, we have transitioned to **rbenv** as our primary manager for this project, while keeping RVM available for legacy work.
+
+#### Ruby Setup (rbenv)
+1. **Disable RVM by default**: Comment out RVM initialization in your terminal profiles (`~/.zshrc`, `~/.bash_profile`, etc.).
+2. **Configure Shell**: Add the following to your `~/.zshrc` (or equivalent):
+   ```bash
+   # Rbenv Initialization
+   export PATH="$HOME/.rbenv/bin:$PATH"
+   eval "$(rbenv init - zsh)"
+   typeset -U path
+
+   # Legacy RVM access (for older projects)
+   alias use_rvm='source "$HOME/.rvm/scripts/rvm"'
+   ```
+3. **Install & Use Ruby 4.0.3**:
+   ```bash
+   rbenv install 4.0.3
+   rbenv local 4.0.3
+   ```
+
+#### Node.js Setup (nvm)
+We require **Node v25.9.0**.
 ```bash
-rvm install 3.4.1
-rvm use 3.4.1
+nvm install 25.9.0
+nvm alias default 25.9.0
+nvm use default
 ```
-Install JS dependencies:
+
+#### Dependencies
+Install JS dependencies in each application directory:
 ```bash
-# Run this in each application directory (core, deskbolic, portal, widget)
 yarn install
 ```
 
@@ -139,9 +162,9 @@ The `bin/dev` command uses `Procfile.dev` to start the Rails server, AnyCable RP
 ## Environment & Tooling
 
 ### Ruby Version Management
-We use **Ruby 3.4.1**. Ensure your local manager is configured:
-- **RVM**: `rvm use 3.4.1` (or `rvm install 3.4.1` if missing)
-- **rbenv**: `rbenv local 3.4.1`
+We use **Ruby 4.0.3**.
+- **rbenv**: `rbenv install 4.0.3` (Ensure you've run `rbenv init`)
+- **Legacy Projects**: Run `use_rvm` to activate RVM for older repos.
 
 ### JavaScript & Assets
 - **Yarn**: Use `yarn install` in each directory.

@@ -173,6 +173,55 @@
         }
       }
 
+      .msg-attachments {
+        margin-top: 6px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .msg-attachment-img {
+        .attachment-image {
+          max-width: 100%;
+          max-height: 200px;
+          border-radius: 12px;
+          object-fit: cover;
+          cursor: pointer;
+          transition: opacity 0.2s;
+
+          &:hover { opacity: 0.9; }
+        }
+      }
+
+      .msg-attachment-file {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 12px;
+        background: rgba(0, 0, 0, 0.04);
+        border-radius: 10px;
+        text-decoration: none;
+        color: #334155;
+        font-size: 13px;
+        transition: background 0.15s;
+
+        &:hover {
+          background: rgba(0, 0, 0, 0.08);
+        }
+
+        .file-icon {
+          font-size: 16px;
+        }
+
+        .file-name {
+          font-family: $font-family-inter-regular;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          max-width: 150px;
+        }
+      }
+
       &::-webkit-scrollbar {
         width: 5px;
       }

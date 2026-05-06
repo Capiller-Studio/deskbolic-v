@@ -39,7 +39,7 @@ module Dashboard
       @conversations = @conversation.inbox.conversations.where(account: current_account).where(status: @conversation.status)
       @conversations = @conversations.current_conversations(current_user)
 
-      @messages = @conversation.messages
+      @messages = @conversation.messages.includes(:attachments)
       @canned_responses = CannedResponse.where(account: current_account).all
       @notes = Note.where(account: current_account, user: current_user).all
 
@@ -87,7 +87,7 @@ module Dashboard
     
     def assign_member
       @conversation = Conversation.find(params[:id])
-      @conversation.conversation_members.create(member: current_user, account: current_account)
+      @conversation.conversation_members.create(member: current_user, account: current_account, role: :assignee)
 
       redirect_to(request.referer)
     end

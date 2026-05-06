@@ -1,29 +1,52 @@
-- if message.content && message.sender_type == "Customer"
+- if message.sender_type == "Customer"
   .user-response.response data-controller="translator" data-translator-target="response"
     .text-content
       .chat-user
         = image_tag("profile_icon.png", class:"img", alt:"menu")
       .user-text
+        - if message.content.present?
+          .original.f-reg-14 data-translator-target="original"
+            = message.content
+          .translate-text
+            button.f-light-italic-10 data-action="click->translator#toggle_translate" Translate
+          .translated-text.d-none
+            h5.f-med-10 TRANSLATION IN ENGLISH:
+            p
+              span.translation.f-light-italic-12 data-translator-target="translation"
+              |  
+              span.f-med-10.close-translation data-action="click->translator#toggle" Close
+        - if message.attachments.any?
+          .msg-attachments
+            - message.attachments.each do |attachment|
+              - if attachment.image? && attachment.file.attached?
+                .msg-attachment-img
+                  = image_tag(attachment.file, class: "attachment-image")
+              - elsif attachment.file.attached?
+                a.msg-attachment-file href=rails_blob_path(attachment.file, disposition: "attachment") target="_blank"
+                  span.file-icon 📄
+                  span.file-name = attachment.file.filename
+
+- if message.sender_type == "User"
+  .agent-response.response data-controller="translator" data-translator-target="response"
+    .agent-text
+      - if message.content.present?
         .original.f-reg-14 data-translator-target="original"
           = message.content
         .translate-text
           button.f-light-italic-10 data-action="click->translator#toggle_translate" Translate
-        .translated-text.d-none 
+        .translated-text.d-none
           h5.f-med-10 TRANSLATION IN ENGLISH:
-          P
+          p
             span.translation.f-light-italic-12 data-translator-target="translation"
-            | &nbsp
+            |  
             span.f-med-10.close-translation data-action="click->translator#toggle" Close
-- if message.content && message.sender_type == "User"
-  .agent-response.response data-controller="translator" data-translator-target="response"
-    .agent-text
-      .original.f-reg-14 data-translator-target="original"
-        = message.content
-      .translate-text
-        button.f-light-italic-10 data-action="click->translator#toggle_translate" Translate
-      .translated-text.d-none 
-        h5.f-med-10 TRANSLATION IN ENGLISH:
-        P
-          span.translation.f-light-italic-12 data-translator-target="translation"
-          | &nbsp
-          span.f-med-10.close-translation data-action="click->translator#toggle" Close
+      - if message.attachments.any?
+        .msg-attachments
+          - message.attachments.each do |attachment|
+            - if attachment.image? && attachment.file.attached?
+              .msg-attachment-img
+                = image_tag(attachment.file, class: "attachment-image")
+            - elsif attachment.file.attached?
+              a.msg-attachment-file href=rails_blob_path(attachment.file, disposition: "attachment") target="_blank"
+                span.file-icon 📄
+                span.file-name = attachment.file.filename

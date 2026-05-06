@@ -26,10 +26,9 @@ export default class extends Controller {
       nextFs = nextFs.nextElementSibling;
     }
     
-    currentFs.classList.add("was-validated");
-    if (!form.checkValidity()) {
-      return;
-    }
+    const isValid = [...currentFs.querySelectorAll("input, select, textarea")]
+      .every(input => input.checkValidity());
+    if (!isValid || !nextFs) return;
 
     nextFs.querySelectorAll("input").forEach(input => input.disabled = false);
     

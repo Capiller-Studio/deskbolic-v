@@ -1,0 +1,8 @@
+= render("dashboard/shared/dashboard_container", current_page: "settings") do
+  .cf-header
+    .cf-badge-blue EDITING FIELD
+    h2.f-semi-28 style="color: #0f172a;" = @custom_field.key
+    p.f-reg-14 style="color: #64748b;" Modify translations, visibility, and constraints for this global field.
+
+  .cf-wrapper
+    = render "form", custom_field: @custom_field

@@ -1,0 +1,38 @@
+= render("dashboard/shared/dashboard_container", current_page: "help_desk") do
+  .builder-header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;"
+    .title-area
+      h2.f-semi-24 Form Builder: #{@resource.name}
+      p.f-reg-14.text-muted Drag and drop fields to reorder or add them to your contact form.
+    = link_to "Back to Channels", channels_path, class: "btn-secondary"
+
+  .builder-grid style="display: grid; grid-template-columns: 1fr 300px; gap: 30px;"
+    / Current Form Fields
+    .form-preview style="background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 25px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);"
+      h3.f-semi-18 style="margin-bottom: 20px; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px;" Form Structure
+      
+      .drop-zone data-controller="sortable" data-sortable-url=sort_field_resources_path(resource_type: @resource.class.name, resource_id: @resource.id)
+        - if @associated_fields.empty?
+          .empty-state style="text-align: center; padding: 40px; color: #94a3b8; border: 2px dashed #f1f5f9; border-radius: 8px;"
+            p No fields added yet. Add fields from the right to add them.
+        - @associated_fields.each do |resource|
+          .field-card data-id=resource.custom_field_id style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;"
+            .field-info
+              span.f-semi-14 = resource.custom_field.key
+              span.badge style="margin-left: 8px; background: #e2e8f0; color: #475569; font-size: 10px; padding: 2px 6px; border-radius: 4px;" = resource.custom_field.field_type.titleize
+            .field-actions
+              = link_to field_resource_path(resource.custom_field_id, resource_type: @resource.class.name, resource_id: @resource.id), method: :delete, data: { turbo_method: :delete }, style: "color: #ef4444;"
+                = inline_svg_tag("trash.svg", style: "width: 16px;")
+
+    / Available Fields Sidebar
+    .available-fields style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px;"
+      h3.f-semi-16 style="margin-bottom: 15px;" Available Fields
+      .fields-list
+        - @available_fields.each do |field|
+          .available-field-card data-id=field.id style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px; margin-bottom: 8px; cursor: pointer; display: flex; align-items: center; gap: 10px;"
+            = link_to field_resources_path(custom_field_id: field.id, resource_type: @resource.class.name, resource_id: @resource.id), method: :post, data: { turbo_method: :post }, style: "text-decoration: none; color: inherit; display: flex; align-items: center; gap: 10px; width: 100%;"
+              = inline_svg_tag("plus.svg", style: "width: 14px; color: #2563eb;")
+              span.f-reg-14 = field.key
+            
+      .sidebar-footer style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #e2e8f0;"
+        = link_to new_custom_field_path, class: "btn-primary", style: "width: 100%; font-size: 13px; text-align: center; text-decoration: none; display: block;"
+          + Create New Field

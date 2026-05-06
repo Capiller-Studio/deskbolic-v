@@ -1,0 +1,47 @@
+= render("dashboard/shared/dashboard_container", current_page: "settings") do
+  .cf-index-header
+    .cf-title-area
+      h2.f-semi-32 style="color: #0f172a; letter-spacing: -0.5px;" Custom Fields
+      p.f-reg-16 style="color: #64748b; margin-top: 4px;" Master data attributes for personalized customer experiences.
+    = link_to new_custom_field_path, class: "cf-btn-primary cf-flex-center"
+      | + Create New Field
+
+  .cf-grid-3
+    - @custom_fields.each do |field|
+      .cf-field-card
+        .cf-card-header
+          .cf-key-area
+            span.f-semi-18 style="color: #1e293b; display: block;" = field.key
+            span.cf-badge = field.entity_type.titleize
+          .cf-card-actions
+            = link_to edit_custom_field_path(field), class: "cf-card-action-link"
+              = inline_svg_tag("edit.svg", style: "width: 18px;")
+            = link_to custom_field_path(field), method: :delete, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "cf-card-action-link"
+              = inline_svg_tag("trash.svg", style: "width: 18px;")
+        
+        .cf-card-body
+          .cf-info-row
+            span.f-reg-13 style="color: #64748b;" Input Type
+            span.f-semi-13 style="color: #1e293b;" = field.field_type.titleize
+          
+          .cf-info-row
+            span.f-reg-13 style="color: #64748b;" Required
+            - if field.required?
+              span.cf-badge-red Yes
+            - else
+              span.f-reg-13 style="color: #94a3b8;" No
+
+          .cf-info-row
+            span.f-reg-13 style="color: #64748b;" Searchable
+            - if field.searchable?
+              span.cf-badge-green Yes
+            - else
+              span.f-reg-13 style="color: #94a3b8;" No
+
+        .cf-card-footer
+          span.f-reg-12 style="color: #94a3b8;" 
+            | Created #{time_ago_in_words(field.created_at)} ago
+          - if field.translations.any?
+            .cf-locales-container
+              - field.translations.pluck(:locale).each do |locale|
+                span.cf-locale-badge = locale

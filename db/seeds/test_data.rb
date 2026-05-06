@@ -91,4 +91,7 @@ conv2 = account.conversations.create!(customer: customer, inbox: inbox2, status:
 conv1.messages.create!(content: "Help with sales!", account: account, sender: customer, inbox: inbox1)
 conv2.messages.create!(content: "My server is down!", account: account, sender: customer, inbox: inbox2)
 
+puts "Seeding Contact Form..."
+Seeds::ContactFormSeeder.seed(account)
+
 puts "Seeding Completed Successfully! 🚀"

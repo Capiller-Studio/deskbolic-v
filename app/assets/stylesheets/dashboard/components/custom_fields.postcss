@@ -1,0 +1,348 @@
+.cf-card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  margin-bottom: 32px;
+}
+
+.cf-section {
+  margin-bottom: 32px;
+}
+
+.cf-section-title {
+  margin-bottom: 24px;
+  color: #1e293b;
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 12px;
+}
+
+.cf-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.cf-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.cf-label {
+  display: block;
+  margin-bottom: 8px;
+  color: #475569;
+}
+
+.cf-input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+}
+
+.cf-input:disabled {
+  background: #f8fafc;
+  color: #94a3b8;
+}
+
+.cf-select {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  appearance: none;
+  background-color: #fff;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23475569'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+}
+
+.cf-tabs-container {
+  border: 1px solid #f1f5f9;
+  border-radius: 12px;
+  overflow: visible;
+}
+
+.cf-tabs-header {
+  display: flex;
+  background: #f8fafc;
+  padding: 8px;
+  gap: 4px;
+  border-bottom: 1px solid #f1f5f9;
+  border-radius: 12px 12px 0 0;
+}
+
+.cf-tab-link {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #64748b;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cf-tab-link.active {
+  background: #fff !important;
+  color: #0f172a !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.cf-tab-link:hover:not(.active) {
+  background: #f1f5f9;
+  color: #1e293b;
+}
+
+.cf-tab-panel {
+  animation: cfFadeIn 0.3s ease-out;
+}
+
+.cf-options-section {
+  margin-top: 24px;
+  padding: 20px;
+  background: #f8fafc;
+  border-radius: 12px;
+  border: 1px dashed #e2e8f0;
+}
+
+.cf-option-row {
+  display: grid;
+  grid-template-columns: 1fr 2fr 40px;
+  gap: 12px;
+  margin-bottom: 12px;
+  align-items: center;
+}
+
+.cf-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: flex-end;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.cf-btn-secondary {
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-weight: 500;
+  text-decoration: none;
+  color: #475569;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  display: inline-block;
+}
+
+.cf-btn-primary {
+  padding: 12px 32px;
+  border-radius: 10px;
+  font-weight: 600;
+  background: #0f172a;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  min-width: 160px;
+  display: inline-block;
+}
+
+@keyframes cfFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.cf-index-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 40px;
+}
+
+.cf-field-card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  transition: all 0.2s;
+}
+
+.cf-field-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+.cf-badge {
+  background: #f1f5f9;
+  color: #475569;
+  padding: 2px 10px;
+  border-radius: 99px;
+  font-size: 11px;
+  font-weight: 600;
+  display: inline-block;
+  margin-top: 6px;
+}
+
+.cf-badge-red {
+  background: #fef2f2;
+  color: #ef4444;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.cf-badge-green {
+  background: #f0fdf4;
+  color: #16a34a;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.cf-wrapper {
+  overflow-y: auto;
+  height: calc(100vh - 100px);
+  padding-bottom: 100px;
+  padding-right: 20px;
+}
+
+.cf-hidden {
+  display: none !important;
+}
+
+.cf-title-area {
+  /* For .title-area */
+}
+
+.cf-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.cf-card-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.cf-card-action-link {
+  color: #94a3b8;
+  transition: color 0.2s;
+}
+
+.cf-card-action-link:hover {
+  color: #ef4444; /* or 64748b */
+}
+
+.cf-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cf-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cf-card-footer {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cf-locales-container {
+  display: flex;
+  gap: 4px;
+}
+
+.cf-locale-badge {
+  background: #e0f2fe;
+  color: #0369a1;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.cf-flex-center {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cf-header {
+  margin-bottom: 32px;
+}
+
+.cf-badge-blue {
+  background: #e0f2fe;
+  color: #0369a1;
+  padding: 4px 12px;
+  border-radius: 99px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  display: inline-block;
+}
+
+.cf-hint-text {
+  margin-top: 6px;
+}
+
+.cf-half-select {
+  max-width: 48%;
+}
+
+.cf-tabs-content {
+  padding: 24px;
+}
+
+.cf-options-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.cf-options-title {
+  color: #1e293b;
+  margin: 0;
+}
+
+.cf-btn-small {
+  padding: 6px 12px;
+  font-size: 12px;
+}
+
+.cf-btn-icon {
+  color: #ef4444;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.cf-icon-18 {
+  width: 18px;
+}

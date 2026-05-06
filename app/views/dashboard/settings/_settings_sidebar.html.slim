@@ -69,6 +69,11 @@
                     .link-text
                       .conversation-name.inbox-conv
                         p.f-reg-12 Tags
+                li.nav-item class="#{current_page == 'custom-fields' ? 'st-list-active' : ''}"
+                  = link_to(custom_fields_path, class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12 Custom Fields
                 li.nav-item class="#{"#"=='' ? 'active' : ''}"
                   = link_to("#", class: "nav-link") do
                     .link-text

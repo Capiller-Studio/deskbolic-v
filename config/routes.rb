@@ -80,6 +80,11 @@ Rails.application.routes.draw do
     resources :notes
     resources :teams
     resources :roles
+    resources :custom_fields
+    resources :field_resources, only: [:create, :destroy] do
+      post :sort, on: :collection
+    end
+    get "custom_fields_builder/:resource_type/:resource_id", to: "custom_fields_builder#show", as: :custom_fields_builder
 
     namespace :help_center do
       resources :articles
@@ -97,6 +102,8 @@ Rails.application.routes.draw do
         get :people
       end
     end
+    
+    resources :custom_fields
     
     resources :agent, only: [ :index ] do
       collection do

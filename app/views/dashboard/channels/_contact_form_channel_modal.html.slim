@@ -1,0 +1,45 @@
+.modal-bg data-frameToggler-target="modalBg"
+  .modal-container data-frameToggler-target="modalContainer"
+    = form_with(url: channels_path, method: :post, local: true, class: "new-channel-form") do |f|
+      = f.hidden_field :channel_type, value: "contact_form"
+      .modal-header
+        h3.f-semi-18 Create Contact Form
+        = inline_svg_tag("cross.svg", class:"cross-icon", alt:"menu", data: { action: "click->frameToggler#hideModal" })
+      .modal-body
+        .form-group
+          = f.label :name, "Form Name", class: "f-semi-14"
+          = f.text_field :name, class: "form-control", placeholder: "e.g. Sales Inquiry", required: true
+          
+        .form-group
+          = f.label :submit_redirect_url, "Redirect URL on Submit (Optional)", class: "f-semi-14"
+          = f.text_field :submit_redirect_url, class: "form-control", placeholder: "https://yourwebsite.com/thank-you"
+
+        .form-group
+          = f.label :notification_emails, "Notification Emails (Comma separated)", class: "f-semi-14"
+          = f.text_field :notification_emails, class: "form-control", placeholder: "sales@example.com, support@example.com"
+
+        .form-group
+          = f.label :success_message_i18n_key, "Success Message Key", class: "f-semi-14"
+          = f.text_field :success_message_i18n_key, class: "form-control", placeholder: "contact_form.success", value: "contact_form.success"
+
+        .form-group
+          label.checkbox-container
+            = f.check_box :require_login, value: "true"
+            span.checkmark
+            span.f-reg-14 Require User Login
+
+        .form-group
+          label.checkbox-container
+            = f.check_box :allow_attachments, value: "true", checked: true
+            span.checkmark
+            span.f-reg-14 Allow Attachments
+
+        .form-group
+          label.checkbox-container
+            = f.check_box :send_confirmation_email, value: "true", checked: true
+            span.checkmark
+            span.f-reg-14 Send Confirmation Email to Customer
+
+      .modal-footer
+        = button_tag "Cancel", type: "button", class: "btn-secondary", data: { action: "click->frameToggler#hideModal" }
+        = f.submit "Create Form", class: "btn-primary"

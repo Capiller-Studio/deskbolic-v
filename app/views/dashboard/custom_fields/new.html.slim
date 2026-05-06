@@ -1,0 +1,7 @@
+= render("dashboard/shared/dashboard_container", current_page: "settings") do
+  .cf-header
+    h2.f-semi-28 style="color: #0f172a;" Create Custom Field
+    p.f-reg-14 style="color: #64748b;" Define a new global attribute for your customers or conversations.
+
+  .cf-wrapper
+    = render "form", custom_field: @custom_field

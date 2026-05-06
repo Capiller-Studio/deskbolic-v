@@ -30,6 +30,10 @@
               = inline_svg_tag("refresh.svg", class:"menu-icon", alt:"menu")
               p.f-reg-14 Widget
               = inline_svg_tag("plus.svg", class:"menu-icon ml-auto", alt:"menu")
+            .menu-link data-action="click->modalToggler#showModal click->frameToggler#loadModal" data-popup-view="_contact_form_channel_modal"
+              = inline_svg_tag("note_pencil.svg", class:"menu-icon", alt:"menu")
+              p.f-reg-14 Contact Form
+              = inline_svg_tag("plus.svg", class:"menu-icon ml-auto", alt:"menu")
             .menu-link
               = inline_svg_tag("twitter.svg", class:"menu-icon", alt:"menu")
               p.f-reg-14 Twitter
@@ -162,6 +166,33 @@
                             p.f-reg-12 = inbox.name
                         .back-oval-gray
                           p.f-reg-12 = inbox.conversations.current_conversations(current_user).or(inbox.conversations.not_assigned_to_user)&.count
+
+            / contact-form inboxes
+            - @cf_channels&.each do |channel|
+              li.nav-item class="" data-action="click->accordion#toggle"
+                .nav-link
+                  .link-text.conversation-padding
+                    = inline_svg_tag("vertical_bar.svg", class:"link-bar", alt:"menu")
+                    = inline_svg_tag("arrow_down.svg", class:"dropdown-icon", alt:"menu")
+                    = inline_svg_tag("note_pencil.svg", class:"link-icon", alt:"menu")
+                    p.f-reg-14 = channel.name
+                  .back-oval-gray
+                    p.f-reg-12 = channel.inboxes&.count
+              .panel data-accordion-target="panel"
+                ul.chats
+                  - channel.inboxes&.each do |inbox|
+                    li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
+                      .nav-link.link data-target-id="conversations-frame" data-controller="section" data-action="click->section#toggleSection" data-url="#{conversations_path}" data-resource-id="#{inbox.id}"
+                        .link-text
+                          .conversation-name.inbox-conv
+                            = inline_svg_tag("note_pencil.svg", class:"link-icon", alt:"menu")
+                            p.f-reg-12 = inbox.name
+                        .back-oval-gray
+                          p.f-reg-12 = inbox.conversations.current_conversations(current_user).or(inbox.conversations.not_assigned_to_user)&.count
+                    li.nav-item style="padding-left: 30px; margin-top: -5px; margin-bottom: 10px;"
+                      = link_to custom_fields_builder_path(resource_type: 'Channel::ContactForm', resource_id: channel.id), class: "f-reg-12", style: "color: #2563eb; text-decoration: none; display: flex; align-items: center; gap: 5px;"
+                        = inline_svg_tag("settings.svg", style: "width: 12px;")
+                        | Form Builder
             / tickets            
             li.nav-item class="" data-action="click->accordion#toggle"
               .nav-link

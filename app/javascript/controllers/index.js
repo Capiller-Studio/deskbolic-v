@@ -38,3 +38,9 @@ application.register("select", SelectController)
 application.register("choices", ChoicesController)
 application.register("formValidation", FormValidationController)
 application.register("conversations", ConversationsController)
+
+import CustomFieldOptionsController from "./custom_field_options_controller"
+application.register("custom-field-options", CustomFieldOptionsController)
+
+import LocaleTabsController from "./locale_tabs_controller"
+application.register("locale-tabs", LocaleTabsController)

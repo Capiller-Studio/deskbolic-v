@@ -216,23 +216,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_04_000002) do
     t.index ["account_id"], name: "index_canned_responses_on_account_id"
   end
 
-  create_table "channel_contact_forms", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "account_id", null: false
-    t.jsonb "configurations", default: {}, null: false
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.integer "flags", default: 0, null: false
-    t.string "name"
-    t.uuid "portal_id"
-    t.string "secret", null: false
-    t.integer "status", default: 0, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.index ["account_id", "created_at"], name: "index_channel_contact_forms_on_account_id_and_created_at"
-    t.index ["account_id", "status"], name: "index_channel_contact_forms_on_account_id_and_status"
-    t.index ["account_id"], name: "index_channel_contact_forms_on_account_id"
-    t.index ["portal_id"], name: "index_channel_contact_forms_on_portal_id"
-    t.index ["secret"], name: "index_channel_contact_forms_on_secret", unique: true
-  end
-
   create_table "chat_bot_inboxes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "chat_bot_id", null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
@@ -1004,7 +987,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_04_000002) do
   add_foreign_key "campaign_translations", "campaigns", on_delete: :cascade
   add_foreign_key "campaigns", "email_templates", on_delete: :nullify
   add_foreign_key "canned_response_translations", "canned_responses", on_delete: :cascade
-  add_foreign_key "channel_contact_forms", "help_center_portals", column: "portal_id", on_delete: :nullify
   add_foreign_key "chat_bot_inboxes", "chat_bots", on_delete: :cascade
   add_foreign_key "chat_bot_inboxes", "inboxes", on_delete: :cascade
   add_foreign_key "conversation_members", "conversations", on_delete: :cascade

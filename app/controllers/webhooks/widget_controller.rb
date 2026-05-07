@@ -9,9 +9,6 @@ module Webhooks
     # skip_before_action :verify_authenticity_token, only: :index
 
     def index
-      
-      binding.pry
-      
       # Rails.logger.info("Webhooks::Whatsapp=> headers: #{headers} params: #{params}")
 
       # native_params = JSON.parse(params.to_unsafe_h.to_json)
@@ -21,9 +18,6 @@ module Webhooks
     end
 
     def hub
-      
-      binding.pry
-      
       # if valid_secret?(params["hub.verify_token"])
       #   render(json: params["hub.challenge"])
       # else

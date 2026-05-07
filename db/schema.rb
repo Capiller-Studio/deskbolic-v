@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_30_000007) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_21_000006) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -230,23 +230,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_30_000007) do
     t.index ["status"], name: "index_channel_apis_on_status"
   end
 
-  create_table "channel_contact_forms", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "account_id", null: false
-    t.jsonb "configurations", default: {}, null: false
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.integer "flags", default: 0, null: false
-    t.string "name"
-    t.uuid "portal_id"
-    t.string "secret", null: false
-    t.integer "status", default: 0, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.index ["account_id", "created_at"], name: "index_channel_contact_forms_on_account_id_and_created_at"
-    t.index ["account_id", "status"], name: "index_channel_contact_forms_on_account_id_and_status"
-    t.index ["account_id"], name: "index_channel_contact_forms_on_account_id"
-    t.index ["portal_id"], name: "index_channel_contact_forms_on_portal_id"
-    t.index ["secret"], name: "index_channel_contact_forms_on_secret", unique: true
-  end
-
   create_table "channel_emails", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "account_id", null: false
     t.jsonb "configurations", default: {}, null: false
@@ -459,6 +442,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_30_000007) do
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["created_at"], name: "index_exchange_rates_on_created_at"
     t.index ["from_currency", "to_currency"], name: "index_exchange_rates_on_from_currency_and_to_currency", unique: true
+  end
+
+  create_table "global_routings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "account_id", null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.string "route_type", null: false
+    t.string "route_value", null: false
+    t.string "shard_key", null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["account_id"], name: "index_global_routings_on_account_id"
+    t.index ["route_type", "route_value"], name: "index_global_routings_on_type_and_value", unique: true
   end
 
   create_table "payment_methods", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -684,6 +678,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_30_000007) do
   add_foreign_key "channel_whatsapps", "accounts", on_delete: :cascade
   add_foreign_key "country_translations", "countries", on_delete: :cascade
   add_foreign_key "domains", "accounts", on_delete: :cascade
+  add_foreign_key "global_routings", "accounts", on_delete: :cascade
   add_foreign_key "payment_methods", "accounts", on_delete: :cascade
   add_foreign_key "plan_translations", "plans", on_delete: :cascade
   add_foreign_key "state_translations", "states", on_delete: :cascade

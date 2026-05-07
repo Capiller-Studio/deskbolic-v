@@ -7,7 +7,12 @@ module Dashboard
       @conversation = Conversation.find(params[:message][:conversation_id])
 
       if @response.present?
-        @conversation.assign_member(current_user, current_account)
+        unless @conversation.conversation_members.assignees.exists?
+          @conversation.conversation_members.find_or_create_by(member: current_user, member_type: "User") do |conversation_member|
+            conversation_member.account = current_account
+            conversation_member.role = :assignee
+          end
+        end
         
         @message = @conversation.messages.create!(content: @response, inbox: @conversation.inbox,
 account: @conversation.account, sender: current_user)

@@ -8,7 +8,8 @@ class ConversationReplyMailer < ApplicationMailer
     @message = message
     @account = conversation.account
     @inbox = conversation.inbox
-    @channel = @inbox.channel
+    # Priority: Conversation outbound_channel > Inbox channel
+    @channel = conversation.outbound_channel || @inbox.channel
 
     configure_smtp_settings if @channel.respond_to?(:smtp_enabled?) && @channel.smtp_enabled?
 

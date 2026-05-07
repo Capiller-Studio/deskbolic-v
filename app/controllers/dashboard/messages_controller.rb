@@ -17,7 +17,7 @@ module Dashboard
         @message = @conversation.messages.create!(content: @response, inbox: @conversation.inbox,
 account: @conversation.account, sender: current_user)
 
-        Channels::ServicePicker.call(conversation: @conversation, message: @message)
+        Messages::DeliveryWorker.perform_async(@message.account_id, @message.id)
       end
 
       respond_to do |format|

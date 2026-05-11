@@ -1,0 +1,25 @@
+= render("dashboard/shared/dashboard_container", current_page: "settings") do
+  .auto-index-header
+    .auto-title-area
+      h2.f-semi-32 = t(".title")
+      p.f-reg-16 = t(".description")
+    = link_to new_automation_path, class: "auto-btn-primary"
+      | + #{t(".new_automation")}
+
+  .auto-tabs
+    = link_to automations_path, class: "auto-tab #{params[:type].blank? ? 'active' : ''}"
+      = t(".tab_all")
+    = link_to automations_path(type: :event_trigger), class: "auto-tab #{params[:type] == 'event_trigger' ? 'active' : ''}"
+      = t(".tab_event_triggers")
+    = link_to automations_path(type: :time_trigger), class: "auto-tab #{params[:type] == 'time_trigger' ? 'active' : ''}"
+      = t(".tab_time_triggers")
+
+  - if @automations.any?
+    .auto-list data-controller="sortable" data-sortable-url-value="#{reorder_automations_path}"
+      - @automations.each do |automation|
+        = render("dashboard/automations/automation", automation: automation)
+  - else
+    .auto-empty-state
+      .auto-empty-icon ⚡
+      h3.f-semi-18 = t(".empty_title")
+      p.f-reg-14 = t(".empty_description")

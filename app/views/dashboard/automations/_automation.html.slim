@@ -1,0 +1,28 @@
+div id="automation_#{automation.id}" class="auto-card #{automation.inactive? ? 'inactive' : ''}" data-sortable-target="item" data-id="#{automation.id}" draggable="true"
+  .auto-drag-handle data-action="dragstart->sortable#dragStart dragend->sortable#dragEnd" data-sortable-target="handle"
+    | ⠿
+
+  .auto-card-info
+    .auto-card-name = automation.name
+    .auto-card-meta
+      - if automation.event_trigger?
+        span.auto-badge.badge-event = t("dashboard.automations.types.event_trigger")
+      - elsif automation.time_trigger?
+        span.auto-badge.badge-time = t("dashboard.automations.types.time_trigger")
+      - if automation.event_name.present?
+        span.auto-card-event = t("dashboard.automations.events.#{automation.event_name.tr('.', '_')}", default: automation.event_name)
+      - if automation.description.present?
+        span.auto-card-event — #{truncate(automation.description, length: 60)}
+
+  .auto-card-actions
+    = button_to toggle_automation_path(automation), method: :patch, class: "auto-toggle #{automation.active? ? 'active' : ''}", data: { turbo_frame: "_top" }
+
+    = link_to edit_automation_path(automation), class: "auto-action-btn", title: "Edit"
+      | ✎
+
+    = button_to duplicate_automation_path(automation), method: :post, class: "auto-action-btn", title: "Duplicate"
+      | ⧉
+
+    - unless automation.is_system?
+      = button_to automation_path(automation), method: :delete, class: "auto-action-btn danger", title: "Delete", data: { turbo_confirm: "Are you sure you want to delete this automation?" }
+        | ✕

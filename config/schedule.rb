@@ -33,3 +33,14 @@ end
 every 1.day, at: "2:00 am" do
   runner "TrialExpirationWorker.perform_async"
 end
+
+# --- Automations ---
+# Evaluate time-trigger automations (e.g., "hours since last activity > 24")
+every 1.hour do
+  runner "Automations::TimeTriggerWorker.perform_async"
+end
+
+# Clean up automation execution logs older than 90 days
+every 1.day, at: "3:00 am" do
+  runner "Automations::ExecutionCleanupWorker.perform_async"
+end

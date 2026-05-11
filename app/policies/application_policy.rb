@@ -48,6 +48,10 @@ class ApplicationPolicy
     true
   end
 
+  public
+
+  # --- Pundit Action Methods (must be public) ---
+
   def index?
     false
   end

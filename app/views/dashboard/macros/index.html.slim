@@ -1,0 +1,43 @@
+= render("dashboard/shared/dashboard_container", current_page: "settings") do
+  .auto-index-header
+    .auto-title-area
+      h2.f-semi-32 = t(".title")
+      p.f-reg-16 = t(".description")
+    = link_to new_macro_path, class: "auto-btn-primary"
+      | + #{t(".new_macro")}
+
+  .auto-tabs
+    = link_to macros_path, class: "auto-tab active"
+      = t(".tab_personal")
+    = link_to macros_path(scope: :shared), class: "auto-tab"
+      = t(".tab_shared")
+
+  - if @macros.any?
+    .auto-list
+      - @macros.each do |macro|
+        div id="macro_#{macro.id}" class="auto-card"
+          .auto-card-info
+            .auto-card-name = macro.name
+            .auto-card-meta
+              - if macro.account_wide?
+                span.auto-badge.badge-macro Account-wide
+              - elsif macro.personal?
+                span.auto-badge.badge-event Personal
+              - elsif macro.team?
+                span.auto-badge.badge-time Team
+              - if macro.description.present?
+                span.auto-card-event = truncate(macro.description, length: 80)
+              span.auto-card-event
+                | #{macro.actions&.length || 0} action(s)
+
+          .auto-card-actions
+            = link_to edit_macro_path(macro), class: "auto-action-btn", title: "Edit"
+              | ✎
+            - unless macro.is_system?
+              = button_to macro_path(macro), method: :delete, class: "auto-action-btn danger", title: "Delete", data: { turbo_confirm: "Are you sure?" }
+                | ✕
+  - else
+    .auto-empty-state
+      .auto-empty-icon 🎯
+      h3.f-semi-18 = t(".empty_title")
+      p.f-reg-14 = t(".empty_description")

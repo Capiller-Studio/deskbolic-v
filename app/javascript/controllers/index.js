@@ -44,3 +44,9 @@ application.register("custom-field-options", CustomFieldOptionsController)
 
 import LocaleTabsController from "./locale_tabs_controller"
 application.register("locale-tabs", LocaleTabsController)
+
+import AutomationBuilderController from "./automation_builder_controller"
+application.register("automation-builder", AutomationBuilderController)
+
+import SortableController from "./sortable_controller"
+application.register("sortable", SortableController)

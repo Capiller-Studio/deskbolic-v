@@ -74,6 +74,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_21_000006) do
     t.datetime "referral_paid_at"
     t.decimal "referred_by_commission", precision: 10, scale: 2
     t.uuid "referred_by_id"
+    t.string "shard_key", default: "de", null: false
     t.integer "status", default: 0, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["created_at"], name: "index_accounts_on_created_at"
@@ -209,183 +210,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_21_000006) do
     t.index ["affiliate_profile_id"], name: "index_affiliate_referrals_on_affiliate_profile_id"
     t.index ["created_at"], name: "index_affiliate_referrals_on_created_at"
     t.index ["status"], name: "index_affiliate_referrals_on_status"
-  end
-
-  create_table "channel_apis", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "account_id", null: false
-    t.jsonb "configurations", default: {}, null: false
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.jsonb "data", default: {}, null: false
-    t.string "name"
-    t.integer "status", default: 0, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.jsonb "webhook_configurations", default: {}, null: false
-    t.string "webhook_password"
-    t.string "webhook_secret", null: false
-    t.string "webhook_url"
-    t.string "webhook_username"
-    t.index ["account_id", "created_at"], name: "index_channel_apis_on_account_id_and_created_at"
-    t.index ["account_id", "name"], name: "index_channel_apis_on_account_id_and_name"
-    t.index ["account_id"], name: "index_channel_apis_on_account_id"
-    t.index ["status"], name: "index_channel_apis_on_status"
-  end
-
-  create_table "channel_emails", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "account_id", null: false
-    t.jsonb "configurations", default: {}, null: false
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.string "email"
-    t.string "forward_email"
-    t.jsonb "imap_configurations", default: {}, null: false
-    t.string "name"
-    t.integer "service"
-    t.jsonb "smtp_configurations", default: {}, null: false
-    t.integer "status", default: 0, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.index ["account_id", "created_at"], name: "index_channel_emails_on_account_id_and_created_at"
-    t.index ["account_id", "name"], name: "index_channel_emails_on_account_id_and_name"
-    t.index ["account_id"], name: "index_channel_emails_on_account_id"
-    t.index ["email"], name: "index_channel_emails_on_email", unique: true
-    t.index ["forward_email"], name: "index_channel_emails_on_forward_email", unique: true
-    t.index ["status"], name: "index_channel_emails_on_status"
-  end
-
-  create_table "channel_facebook_pages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "access_token", null: false
-    t.uuid "account_id", null: false
-    t.jsonb "configurations", default: {}, null: false
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.jsonb "data", default: {}, null: false
-    t.string "instagram_identifier"
-    t.string "name"
-    t.string "page_identifier", null: false
-    t.integer "status", default: 0, null: false
-    t.jsonb "tokens", default: {}, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.index ["account_id", "created_at"], name: "index_channel_facebook_pages_on_account_id_and_created_at"
-    t.index ["account_id", "name"], name: "index_channel_facebook_pages_on_account_id_and_name"
-    t.index ["account_id", "page_identifier"], name: "index_channel_facebook_pages_on_account_id_and_page_identifier", unique: true
-    t.index ["account_id"], name: "index_channel_facebook_pages_on_account_id"
-    t.index ["instagram_identifier"], name: "index_channel_facebook_pages_on_instagram_identifier"
-    t.index ["page_identifier"], name: "index_channel_facebook_pages_on_page_identifier"
-    t.index ["status"], name: "index_channel_facebook_pages_on_status"
-  end
-
-  create_table "channel_lines", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "account_id", null: false
-    t.jsonb "configurations", default: {}, null: false
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.string "line_identifier", null: false
-    t.string "name"
-    t.string "secret", null: false
-    t.integer "status", default: 0, null: false
-    t.string "token", null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.index ["account_id", "created_at"], name: "index_channel_lines_on_account_id_and_created_at"
-    t.index ["account_id", "name"], name: "index_channel_lines_on_account_id_and_name"
-    t.index ["account_id"], name: "index_channel_lines_on_account_id"
-    t.index ["line_identifier"], name: "index_channel_lines_on_line_identifier", unique: true
-    t.index ["status"], name: "index_channel_lines_on_status"
-  end
-
-  create_table "channel_short_messages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "account_id", null: false
-    t.jsonb "configurations", default: {}, null: false
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.jsonb "data", default: {}, null: false
-    t.string "full_phone_number"
-    t.string "name"
-    t.string "phone_code"
-    t.string "phone_number"
-    t.integer "service", default: 0, null: false
-    t.string "service_identifier"
-    t.integer "short_message_type", default: 0, null: false
-    t.integer "status", default: 0, null: false
-    t.jsonb "tokens", default: {}, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.index ["account_id", "created_at"], name: "index_channel_short_messages_on_account_id_and_created_at"
-    t.index ["account_id", "name"], name: "index_channel_short_messages_on_account_id_and_name"
-    t.index ["account_id"], name: "index_channel_short_messages_on_account_id"
-    t.index ["full_phone_number"], name: "index_channel_short_messages_on_full_phone_number", unique: true
-    t.index ["service", "service_identifier"], name: "index_channel_short_messages_on_service_and_service_identifier", unique: true
-    t.index ["status"], name: "index_channel_short_messages_on_status"
-  end
-
-  create_table "channel_telegrams", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "account_id", null: false
-    t.jsonb "configurations", default: {}, null: false
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.string "name"
-    t.integer "status", default: 0, null: false
-    t.string "token", null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.index ["account_id", "created_at"], name: "index_channel_telegrams_on_account_id_and_created_at"
-    t.index ["account_id", "name"], name: "index_channel_telegrams_on_account_id_and_name"
-    t.index ["account_id"], name: "index_channel_telegrams_on_account_id"
-    t.index ["status"], name: "index_channel_telegrams_on_status"
-    t.index ["token"], name: "index_channel_telegrams_on_token", unique: true
-  end
-
-  create_table "channel_twitter_profiles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "account_id", null: false
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.boolean "handle_tweets", default: true, null: false
-    t.string "name"
-    t.string "profile_identifier", null: false
-    t.integer "status", default: 0, null: false
-    t.jsonb "tokens", default: {}, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.index ["account_id", "created_at"], name: "index_channel_twitter_profiles_on_account_id_and_created_at"
-    t.index ["account_id", "name"], name: "index_channel_twitter_profiles_on_account_id_and_name"
-    t.index ["account_id", "profile_identifier"], name: "idx_on_account_id_profile_identifier_4a1bc813e6", unique: true
-    t.index ["account_id"], name: "index_channel_twitter_profiles_on_account_id"
-    t.index ["profile_identifier"], name: "index_channel_twitter_profiles_on_profile_identifier"
-    t.index ["status"], name: "index_channel_twitter_profiles_on_status"
-  end
-
-  create_table "channel_web_widgets", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "account_id", null: false
-    t.jsonb "configurations", default: {}, null: false
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.jsonb "data", default: {}, null: false
-    t.integer "flags", default: 0, null: false
-    t.string "name"
-    t.uuid "portal_id"
-    t.string "secret", null: false
-    t.integer "status", default: 0, null: false
-    t.jsonb "ui_configurations", default: {}, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.string "website_url"
-    t.index ["account_id", "created_at"], name: "index_channel_web_widgets_on_account_id_and_created_at"
-    t.index ["account_id", "name"], name: "index_channel_web_widgets_on_account_id_and_name"
-    t.index ["account_id"], name: "index_channel_web_widgets_on_account_id"
-    t.index ["portal_id"], name: "index_channel_web_widgets_on_portal_id"
-    t.index ["status"], name: "index_channel_web_widgets_on_status"
-    t.index ["website_url"], name: "index_channel_web_widgets_on_website_url"
-  end
-
-  create_table "channel_whatsapps", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "account_id", null: false
-    t.string "api_key"
-    t.string "business_account_id"
-    t.jsonb "configurations", default: {}, null: false
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.jsonb "data", default: {}, null: false
-    t.string "full_phone_number", null: false
-    t.string "name"
-    t.string "phone_code"
-    t.string "phone_number"
-    t.string "phone_number_id"
-    t.integer "service", default: 0, null: false
-    t.integer "status", default: 0, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.string "webhook_secret"
-    t.index ["account_id", "created_at"], name: "index_channel_whatsapps_on_account_id_and_created_at"
-    t.index ["account_id", "name"], name: "index_channel_whatsapps_on_account_id_and_name"
-    t.index ["account_id"], name: "index_channel_whatsapps_on_account_id"
-    t.index ["full_phone_number"], name: "index_channel_whatsapps_on_full_phone_number", unique: true
-    t.index ["service"], name: "index_channel_whatsapps_on_service"
-    t.index ["status"], name: "index_channel_whatsapps_on_status"
   end
 
   create_table "countries", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -667,15 +491,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_21_000006) do
   add_foreign_key "affiliate_profiles", "users", on_delete: :cascade
   add_foreign_key "affiliate_referrals", "accounts", on_delete: :cascade
   add_foreign_key "affiliate_referrals", "affiliate_profiles", on_delete: :cascade
-  add_foreign_key "channel_apis", "accounts", on_delete: :cascade
-  add_foreign_key "channel_emails", "accounts", on_delete: :cascade
-  add_foreign_key "channel_facebook_pages", "accounts", on_delete: :cascade
-  add_foreign_key "channel_lines", "accounts", on_delete: :cascade
-  add_foreign_key "channel_short_messages", "accounts", on_delete: :cascade
-  add_foreign_key "channel_telegrams", "accounts", on_delete: :cascade
-  add_foreign_key "channel_twitter_profiles", "accounts", on_delete: :cascade
-  add_foreign_key "channel_web_widgets", "accounts", on_delete: :cascade
-  add_foreign_key "channel_whatsapps", "accounts", on_delete: :cascade
   add_foreign_key "country_translations", "countries", on_delete: :cascade
   add_foreign_key "domains", "accounts", on_delete: :cascade
   add_foreign_key "global_routings", "accounts", on_delete: :cascade

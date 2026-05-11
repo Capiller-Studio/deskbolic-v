@@ -1,0 +1,75 @@
+= render("dashboard/shared/dashboard_container", current_page: "settings") do
+  .auto-index-header
+    .auto-title-area
+      h2.f-semi-32 = t(".title")
+      p.f-reg-16 = t(".description")
+
+  / Filter tabs
+  .auto-tabs
+    = link_to automation_executions_path, class: "auto-tab #{params[:status].blank? && params[:triggered_by].blank? ? 'active' : ''}"
+      = t(".filter_all")
+    = link_to automation_executions_path(status: :success), class: "auto-tab #{params[:status] == 'success' ? 'active' : ''}"
+      = t(".filter_success")
+    = link_to automation_executions_path(status: :failed), class: "auto-tab #{params[:status] == 'failed' ? 'active' : ''}"
+      = t(".filter_failed")
+    .auto-tab style="border: none; width: 1px; background: #e2e8f0; padding: 0; margin: 0 8px;"
+    = link_to automation_executions_path(triggered_by: :event), class: "auto-tab #{params[:triggered_by] == 'event' ? 'active' : ''}"
+      = t(".filter_event")
+    = link_to automation_executions_path(triggered_by: :schedule), class: "auto-tab #{params[:triggered_by] == 'schedule' ? 'active' : ''}"
+      = t(".filter_schedule")
+    = link_to automation_executions_path(triggered_by: :manual), class: "auto-tab #{params[:triggered_by] == 'manual' ? 'active' : ''}"
+      = t(".filter_manual")
+
+  - if @executions.any?
+    table.auto-exec-table
+      thead
+        tr
+          th Name
+          th Type
+          th Status
+          th Triggered By
+          th Duration
+          th Executed At
+      tbody
+        - @executions.each do |exec|
+          tr
+            td
+              - if exec.executable
+                = exec.executable.name
+              - else
+                span style="color: #94a3b8; font-style: italic;" (deleted)
+            td
+              - if exec.executable_type == "Automation"
+                span.auto-badge.badge-event Automation
+              - else
+                span.auto-badge.badge-macro Macro
+            td
+              - if exec.success?
+                span.auto-badge.badge-success = t("dashboard.automation_executions.statuses.success")
+              - else
+                span.auto-badge.badge-failed = t("dashboard.automation_executions.statuses.failed")
+            td
+              span.auto-badge
+                - if exec.event?
+                  | ⚡ #{t("dashboard.automation_executions.triggered_by.event")}
+                - elsif exec.schedule?
+                  | 🕐 #{t("dashboard.automation_executions.triggered_by.schedule")}
+                - else
+                  | 👤 #{t("dashboard.automation_executions.triggered_by.manual")}
+            td
+              span.auto-exec-duration
+                - if exec.execution_duration_ms
+                  | #{exec.execution_duration_ms}ms
+                - else
+                  | —
+            td = l(exec.executed_at, format: :short) if exec.executed_at
+
+    / Pagination
+    - if defined?(pagy) && @pagy
+      div style="margin-top: 20px; text-align: center;"
+        == pagy_nav(@pagy)
+  - else
+    .auto-empty-state
+      .auto-empty-icon 📊
+      h3.f-semi-18 = t(".empty_title")
+      p.f-reg-14 = t(".empty_description")

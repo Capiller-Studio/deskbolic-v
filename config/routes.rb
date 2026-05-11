@@ -90,6 +90,23 @@ Rails.application.routes.draw do
       resources :articles
     end
 
+    resources :automations do
+      member do
+        patch :toggle
+        post :duplicate
+      end
+      collection do
+        patch :reorder
+        get :lookups
+      end
+    end
+    resources :macros, except: [:show] do
+      member do
+        post :execute
+      end
+    end
+    resources :automation_executions, only: [:index]
+
     resources :settings, only: [ :index ] do
       collection do
         get :canned_responses

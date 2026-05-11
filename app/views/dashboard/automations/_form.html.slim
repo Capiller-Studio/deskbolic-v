@@ -1,0 +1,79 @@
+= form_with(model: automation, url: (automation.persisted? ? automation_path(automation) : automations_path), data: { controller: "automation-builder" }) do |f|
+  / --- Name & Description ---
+  .auto-section
+    .auto-section-header
+      span.auto-section-icon 📝
+      | Details
+    .auto-section-body
+      .auto-row style="flex-direction: column; align-items: stretch; gap: 16px;"
+        div
+          label.f-semi-13 style="display: block; margin-bottom: 6px; color: #334155;" Name
+          = f.text_field :name, class: "auto-row", placeholder: "e.g. Auto-assign VIP conversations", style: "width: 100%; padding: 10px 14px; border: 1px solid #e2e8f0; border-radius: 8px;"
+        div
+          label.f-semi-13 style="display: block; margin-bottom: 6px; color: #334155;" Description (optional)
+          = f.text_area :description, class: "auto-row", rows: 2, placeholder: "What does this automation do?", style: "width: 100%; padding: 10px 14px; border: 1px solid #e2e8f0; border-radius: 8px; resize: vertical;"
+
+  / --- Trigger Section ---
+  .auto-section
+    .auto-section-header
+      span.auto-section-icon.trigger ⚡
+      = t("dashboard.automations.builder.trigger_section")
+    .auto-section-body
+      .auto-row
+        div style="flex: 1;"
+          label.f-semi-13 style="display: block; margin-bottom: 6px; color: #334155;" = t("dashboard.automations.builder.type_label")
+          = f.select :automation_type, options_for_select([["Event Trigger", "event_trigger"], ["Time Trigger", "time_trigger"]], automation.automation_type), {}, class: "auto-row", style: "width: 100%;", data: { action: "change->automation-builder#typeChanged" }
+        div style="flex: 1;"
+          label.f-semi-13 style="display: block; margin-bottom: 6px; color: #334155;" = t("dashboard.automations.builder.event_label")
+          = f.select :event_name, options_for_select(event_options_for_type(automation.automation_type), automation.event_name), { include_blank: "Select event..." }, class: "auto-row", style: "width: 100%;", data: { "automation-builder-target": "eventSelect", action: "change->automation-builder#eventChanged" }
+
+  / --- Conditions Section ---
+  .auto-section
+    .auto-section-header
+      span.auto-section-icon.condition 🔍
+      = t("dashboard.automations.builder.conditions_section")
+    .auto-section-body data-automation-builder-target="conditionsContainer"
+      / Top-level operator
+      .auto-group-header
+        = t("dashboard.automations.builder.match_label")
+        = select_tag "automation[conditions][operator]", options_for_select([["ALL", "AND"], ["ANY", "OR"]], automation.conditions.dig("operator") || "AND"), class: "auto-row", style: "width: auto; padding: 4px 28px 4px 10px;"
+        | of the following condition groups:
+
+      / Condition groups rendered by Stimulus
+      div data-automation-builder-target="conditionGroups"
+        - groups = automation.conditions.dig("groups") || [{}]
+        - groups.each_with_index do |group, gi|
+          = render("dashboard/automations/condition_group", group: group, group_index: gi)
+
+      button.auto-add-group-btn type="button" data-action="click->automation-builder#addConditionGroup"
+        | + #{t("dashboard.automations.builder.add_condition_group")}
+
+  / --- Actions Section ---
+  .auto-section
+    .auto-section-header
+      span.auto-section-icon.action 🚀
+      = t("dashboard.automations.builder.actions_section")
+    .auto-section-body data-automation-builder-target="actionsContainer"
+      div data-automation-builder-target="actionRows"
+        - actions = automation.actions.presence || [{}]
+        - actions.each_with_index do |action, ai|
+          = render("dashboard/automations/action_row", action: action, action_index: ai)
+
+      button.auto-add-btn type="button" data-action="click->automation-builder#addAction"
+        | + #{t("dashboard.automations.builder.add_action")}
+
+    / Options
+    .auto-options
+      = f.check_box :stop_processing, { data: { "automation-builder-target": "stopProcessing" } }, "1", "0"
+      label for="automation_stop_processing"
+        = t("dashboard.automations.builder.stop_processing")
+        small = t("dashboard.automations.builder.stop_processing_hint")
+
+  / --- Hidden fields for JSON serialization ---
+  = f.hidden_field :conditions, value: automation.conditions.to_json, data: { "automation-builder-target": "conditionsField" }
+  = f.hidden_field :actions, value: automation.actions.to_json, data: { "automation-builder-target": "actionsField" }
+
+  / --- Footer ---
+  .auto-form-footer
+    = link_to t("dashboard.automations.builder.cancel"), automations_path, class: "auto-btn-secondary"
+    = f.submit t("dashboard.automations.builder.save"), class: "auto-btn-primary"

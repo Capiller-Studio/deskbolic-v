@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_04_000002) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_11_000001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -71,9 +71,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_04_000002) do
 
   create_table "automation_executions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "account_id", null: false
-    t.uuid "automation_id", null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.text "error_message"
+    t.uuid "executable_id", null: false
+    t.string "executable_type", null: false
     t.jsonb "executed_actions", default: [], null: false
     t.datetime "executed_at", null: false
     t.integer "execution_duration_ms"
@@ -86,15 +87,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_04_000002) do
     t.index ["account_id", "status"], name: "index_automation_executions_on_account_id_and_status"
     t.index ["account_id", "triggered_by"], name: "index_automation_executions_on_account_id_and_triggered_by"
     t.index ["account_id"], name: "index_automation_executions_on_account_id"
-    t.index ["automation_id", "executed_at"], name: "idx_automation_executions_timeline"
-    t.index ["automation_id"], name: "index_automation_executions_on_automation_id"
+    t.index ["executable_type", "executable_id", "executed_at"], name: "idx_automation_executions_executable_timeline"
+    t.index ["executable_type", "executable_id"], name: "idx_automation_executions_executable"
     t.index ["resource_type", "resource_id"], name: "index_automation_executions_on_resource_type_and_resource_id"
   end
 
   create_table "automations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "account_id", null: false
     t.jsonb "actions", default: [], null: false
-    t.integer "automation_type", default: 0, null: false
+    t.integer "automation_type", default: 1, null: false
     t.jsonb "conditions", default: {}, null: false
     t.jsonb "configurations", default: {}, null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
@@ -106,14 +107,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_04_000002) do
     t.integer "position"
     t.integer "status", default: 0, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.uuid "user_id"
     t.index ["account_id", "automation_type", "event_name", "status"], name: "idx_automations_event_lookup"
     t.index ["account_id", "automation_type", "status", "position"], name: "idx_automations_execution_order"
     t.index ["account_id", "created_at"], name: "index_automations_on_account_id_and_created_at"
     t.index ["account_id", "is_system"], name: "index_automations_on_account_id_and_is_system"
     t.index ["account_id", "name"], name: "index_automations_on_account_id_and_name"
     t.index ["account_id"], name: "index_automations_on_account_id"
-    t.index ["user_id"], name: "index_automations_on_user_id"
   end
 
   create_table "business_hour_groups", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -241,6 +240,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_04_000002) do
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.integer "flags", default: 0, null: false
     t.string "name"
+    t.uuid "outbound_channel_id"
+    t.string "outbound_channel_type"
     t.uuid "portal_id"
     t.string "secret", null: false
     t.integer "status", default: 0, null: false
@@ -248,6 +249,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_04_000002) do
     t.index ["account_id", "created_at"], name: "index_channel_contact_forms_on_account_id_and_created_at"
     t.index ["account_id", "status"], name: "index_channel_contact_forms_on_account_id_and_status"
     t.index ["account_id"], name: "index_channel_contact_forms_on_account_id"
+    t.index ["outbound_channel_type", "outbound_channel_id"], name: "index_channel_contact_forms_on_outbound_channel"
     t.index ["portal_id"], name: "index_channel_contact_forms_on_portal_id"
     t.index ["secret"], name: "index_channel_contact_forms_on_secret", unique: true
   end
@@ -489,6 +491,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_04_000002) do
     t.uuid "inbox_id", null: false
     t.datetime "last_activity_at"
     t.string "locale"
+    t.uuid "outbound_channel_id"
+    t.string "outbound_channel_type"
     t.integer "priority", default: 0, null: false
     t.integer "source"
     t.integer "status", default: 0, null: false
@@ -505,6 +509,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_04_000002) do
     t.index ["account_id"], name: "index_conversations_on_account_id"
     t.index ["campaign_id"], name: "index_conversations_on_campaign_id"
     t.index ["inbox_id"], name: "index_conversations_on_inbox_id"
+    t.index ["outbound_channel_type", "outbound_channel_id"], name: "index_conversations_on_outbound_channel"
   end
 
   create_table "custom_field_resources", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -542,6 +547,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_04_000002) do
     t.integer "field_type", default: 0, null: false
     t.integer "flags", default: 0, null: false
     t.string "key", null: false
+    t.string "mapped_to"
     t.integer "position"
     t.boolean "required", default: false, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
@@ -977,22 +983,24 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_04_000002) do
 
   create_table "macros", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "account_id", null: false
-    t.jsonb "actions", default: {}, null: false
+    t.jsonb "actions", default: [], null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.jsonb "events", default: {}, null: false
-    t.integer "macro_type", default: 0, null: false
-    t.boolean "managed", default: false, null: false
-    t.string "name"
+    t.text "description"
+    t.integer "flags", default: 0, null: false
+    t.boolean "is_system", default: false, null: false
+    t.string "name", null: false
+    t.uuid "scopeable_id"
+    t.string "scopeable_type"
     t.integer "status", default: 0, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.uuid "user_id", null: false
-    t.index ["account_id", "created_at"], name: "index_macros_on_account_id_and_created_at"
-    t.index ["account_id", "macro_type"], name: "index_macros_on_account_id_and_macro_type"
-    t.index ["account_id", "managed"], name: "index_macros_on_account_id_and_managed"
+    t.integer "visibility", default: 0, null: false
+    t.index ["account_id", "is_system"], name: "index_macros_on_account_id_and_is_system"
     t.index ["account_id", "name"], name: "index_macros_on_account_id_and_name"
+    t.index ["account_id", "scopeable_type", "scopeable_id"], name: "idx_macros_scopeable"
     t.index ["account_id", "status"], name: "index_macros_on_account_id_and_status"
+    t.index ["account_id", "visibility"], name: "index_macros_on_account_id_and_visibility"
     t.index ["account_id"], name: "index_macros_on_account_id"
-    t.index ["user_id"], name: "index_macros_on_user_id"
+    t.index ["created_at"], name: "index_macros_on_created_at"
   end
 
   create_table "mentions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -1021,6 +1029,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_04_000002) do
     t.string "external_reply_to_id"
     t.uuid "inbox_id", null: false
     t.string "locale"
+    t.uuid "outbound_channel_id"
+    t.string "outbound_channel_type"
     t.uuid "sender_id", null: false
     t.string "sender_type", null: false
     t.jsonb "sentiment", default: {}, null: false
@@ -1035,6 +1045,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_04_000002) do
     t.index ["conversation_id", "status"], name: "index_messages_on_conversation_id_and_status"
     t.index ["conversation_id"], name: "index_messages_on_conversation_id"
     t.index ["inbox_id"], name: "index_messages_on_inbox_id"
+    t.index ["outbound_channel_type", "outbound_channel_id"], name: "index_messages_on_outbound_channel"
     t.index ["sender_type", "sender_id"], name: "index_messages_on_sender"
   end
 
@@ -1195,13 +1206,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_04_000002) do
 
   add_foreign_key "access_account_user_roles", "access_roles", column: "role_id", on_delete: :cascade
   add_foreign_key "attachment_translations", "attachments", on_delete: :cascade
-  add_foreign_key "automation_executions", "automations", on_delete: :cascade
   add_foreign_key "business_hour_translations", "business_hours", on_delete: :cascade
   add_foreign_key "business_hours", "business_hour_groups", on_delete: :cascade
   add_foreign_key "campaign_translations", "campaigns", on_delete: :cascade
   add_foreign_key "campaigns", "email_templates", on_delete: :nullify
   add_foreign_key "canned_response_translations", "canned_responses", on_delete: :cascade
-  add_foreign_key "channel_contact_forms", "help_center_portals", column: "portal_id", on_delete: :nullify
   add_foreign_key "chat_bot_inboxes", "chat_bots", on_delete: :cascade
   add_foreign_key "chat_bot_inboxes", "inboxes", on_delete: :cascade
   add_foreign_key "conversation_members", "conversations", on_delete: :cascade

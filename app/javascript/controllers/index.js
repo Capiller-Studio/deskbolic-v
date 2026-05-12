@@ -20,6 +20,7 @@ import SelectController from "./select_controller"
 import ChoicesController from "./choices_controller"
 import FormValidationController from "./form_validation_controller"
 import ConversationsController from "./conversations_controller"
+import MessageFormController from "./message_form_controller"
 
 application.register("accordion", AccordionController)
 application.register("dropzone", DropzoneController)
@@ -38,6 +39,7 @@ application.register("select", SelectController)
 application.register("choices", ChoicesController)
 application.register("formValidation", FormValidationController)
 application.register("conversations", ConversationsController)
+application.register("message-form", MessageFormController)
 
 import CustomFieldOptionsController from "./custom_field_options_controller"
 application.register("custom-field-options", CustomFieldOptionsController)

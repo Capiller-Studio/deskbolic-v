@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_21_000006) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_12_000001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -370,6 +370,22 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_21_000006) do
     t.index ["plan_id"], name: "index_subscriptions_on_plan_id"
     t.index ["status"], name: "index_subscriptions_on_status"
     t.index ["trial_end_at"], name: "index_subscriptions_on_trial_end_at"
+  end
+
+  create_table "system_logs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "account_id"
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.string "event_key", null: false
+    t.integer "log_level", default: 0, null: false
+    t.text "message"
+    t.jsonb "metadata", default: {}, null: false
+    t.jsonb "payload", default: {}, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["account_id", "created_at"], name: "index_system_logs_on_account_and_created_at"
+    t.index ["account_id"], name: "index_system_logs_on_account_id"
+    t.index ["event_key", "created_at"], name: "index_system_logs_on_event_key_and_created_at"
+    t.index ["event_key"], name: "index_system_logs_on_event_key"
+    t.index ["log_level"], name: "index_system_logs_on_log_level"
   end
 
   create_table "transactions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

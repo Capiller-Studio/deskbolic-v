@@ -41,6 +41,29 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_11_000001) do
     t.index ["created_at"], name: "index_access_roles_on_created_at"
   end
 
+  create_table "activities", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "account_id", null: false
+    t.uuid "actor_id"
+    t.string "actor_type"
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.jsonb "event_data", default: {}, null: false
+    t.string "event_key", null: false
+    t.jsonb "metadata", default: {}, null: false
+    t.jsonb "object_changes", default: {}, null: false
+    t.jsonb "object_snapshot", default: {}, null: false
+    t.uuid "trackable_id", null: false
+    t.string "trackable_type", null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["account_id", "created_at"], name: "index_activities_on_account_id_and_created_at"
+    t.index ["account_id"], name: "index_activities_on_account_id"
+    t.index ["actor_type", "actor_id"], name: "index_activities_on_actor"
+    t.index ["event_key"], name: "index_activities_on_event_key"
+    t.index ["object_changes"], name: "index_activities_on_object_changes_gin", using: :gin
+    t.index ["object_snapshot"], name: "index_activities_on_object_snapshot_gin", using: :gin
+    t.index ["trackable_type", "trackable_id", "created_at"], name: "index_activities_on_trackable_and_created_at"
+    t.index ["trackable_type", "trackable_id"], name: "index_activities_on_trackable"
+  end
+
   create_table "attachment_translations", force: :cascade do |t|
     t.string "alt_title"
     t.uuid "attachment_id", null: false
@@ -88,8 +111,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_11_000001) do
     t.index ["account_id", "triggered_by"], name: "index_automation_executions_on_account_id_and_triggered_by"
     t.index ["account_id"], name: "index_automation_executions_on_account_id"
     t.index ["executable_type", "executable_id", "executed_at"], name: "idx_automation_executions_executable_timeline"
-    t.index ["executable_type", "executable_id"], name: "idx_automation_executions_executable"
-    t.index ["resource_type", "resource_id"], name: "index_automation_executions_on_resource_type_and_resource_id"
+    t.index ["executable_type", "executable_id"], name: "index_automation_executions_on_executable"
+    t.index ["resource_type", "resource_id"], name: "index_automation_executions_on_resource"
   end
 
   create_table "automations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -1001,6 +1024,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_11_000001) do
     t.index ["account_id", "visibility"], name: "index_macros_on_account_id_and_visibility"
     t.index ["account_id"], name: "index_macros_on_account_id"
     t.index ["created_at"], name: "index_macros_on_created_at"
+    t.index ["scopeable_type", "scopeable_id"], name: "index_macros_on_scopeable"
   end
 
   create_table "mentions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

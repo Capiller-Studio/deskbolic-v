@@ -12,6 +12,9 @@ module CurrentAttributesAccessible
   def configure_attributes
     Current.user       = current_user
     Current.account    = configure_account
+    Current.ip_address = request.remote_ip
+    Current.user_agent = request.user_agent
+    Current.request_id = request.request_id
   end
 
   def configure_account

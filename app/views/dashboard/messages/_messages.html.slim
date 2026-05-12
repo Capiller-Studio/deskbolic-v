@@ -78,7 +78,7 @@
       
     .footer
       .message-box
-        = form_with(model: Message.new, method: :post, class:"some-class", remote: true) do |f|
+        = form_with(model: Message.new, method: :post, class:"some-class", remote: true, data: { controller: "message-form", action: "turbo:submit-end->message-form#clear ajax:success->message-form#clear" }) do |f|
           .text-translation
             .response-type 
               button.f-semi-14.reply.active Reply
@@ -87,7 +87,8 @@
               | English
               = inline_svg_tag("violet_dropdown.svg", class:"action-btn")
           .note-area.menu
-            = f.text_area :response, class: "form-control f-reg-14 response-area", placeholder: "Write your response for issue", required: true
+            #file-preview-container data-message-form-target="preview" style="display: flex; gap: 8px; padding: 10px 20px 0; overflow-x: auto;"
+            = f.text_area :response, class: "form-control f-reg-14 response-area", placeholder: "Write your response for issue", data: { "message-form-target" => "textarea" }
             = f.hidden_field :conversation_id, value: @conversation.id
           .commands
             .actions data-controller="modalToggler frameToggler"
@@ -119,45 +120,48 @@
                         p.f-reg-14.response-text
                       .canned-submit.f-semi-12 type="button" data-action="click->accordion#switchResponse" Add
               .response-action
-                = inline_svg_tag("file_attach.svg", class:"action-btn")
+                label for="message_attachments" style="cursor: pointer; margin-bottom: 0;"
+                  = inline_svg_tag("file_attach.svg", class:"action-btn")
+                = f.file_field :attachments, multiple: true, id: "message_attachments", style: "display: none;", accept: "image/*,video/*,.pdf,.doc,.docx,.txt,.zip", data: { action: "change->message-form#previewFiles", "message-form-target" => "input" }
               .response-action
-                = inline_svg_tag("emoji.svg", class:"size-btn")
+                #emoji-picker-container.de-emoji-picker data-message-form-target="emojiPicker" style="display: none;"
+                = inline_svg_tag("emoji.svg", class:"size-btn", data: { action: "click->message-form#toggleEmojiPicker" }, style: "cursor: pointer;")
               .response-action
                 = inline_svg_tag("gif.svg", class:"size-btn")
               .response-action
                 = inline_svg_tag("mic.svg", class:"action-btn")
-              .chat-gpt
-                .response-action data-controller="accordion"
-                  .paraphrase-options data-action="click->accordion#toggleMenu"
-                    = inline_svg_tag("chat_gpt.svg", class:"gpt-btn")
-                    p.f-reg-12 Rephrase
-                  .menu data-accordion-target="menu"
-                    .paraphrase-text
-                      .text
-                        | Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus veritatis odio voluptates ullam autem facilis exercitationem incidunt repellat, non ipsam. Molestias expedita, illum sapiente quia magnam facere ullam numquam voluptas!
-                      .paraphrase-commands
-                        .paraphrase-actions
-                          = inline_svg_tag("retry_transparent.svg", class:"button")
-                          = inline_svg_tag("copy.svg", class:"button")
-                        .paraphrase-buttons
-                          .keep-original
-                            p.f-reg-12 Keep Original
-                          .rephrase
-                            p.f-reg-12 Rephrase
-                .rephrase-selection data-controller="accordion"
-                  = inline_svg_tag("arrow_down_green.svg", data: { "action" => "click->accordion#toggleMenu" })
-                  .menu data-accordion-target="menu"
-                    .rephrase-options
-                      = link_to("#", class: "menu-link") do
-                        p.f-reg-12 Default
-                      = link_to("#", class: "menu-link") do
-                        p.f-reg-12 Friendly
-                      = link_to("#", class: "menu-link") do
-                        p.f-reg-12 Professional
-                      = link_to("#", class: "menu-link") do
-                        p.f-reg-12 Confident
-                      = link_to("#", class: "menu-link options") do
-                        = inline_svg_tag("arrow_down.svg", class:"menu-icon", alt:"menu")
+              / .chat-gpt
+              /   .response-action data-controller="accordion"
+              /     .paraphrase-options data-action="click->accordion#toggleMenu"
+              /       = inline_svg_tag("chat_gpt.svg", class:"gpt-btn")
+              /       p.f-reg-12 Rephrase
+              /     .menu data-accordion-target="menu"
+              /       .paraphrase-text
+              /         .text
+              /           | Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus veritatis odio voluptates ullam autem facilis exercitationem incidunt repellat, non ipsam. Molestias expedita, illum sapiente quia magnam facere ullam numquam voluptas!
+              /         .paraphrase-commands
+              /           .paraphrase-actions
+              /             = inline_svg_tag("retry_transparent.svg", class:"button")
+              /             = inline_svg_tag("copy.svg", class:"button")
+              /           .paraphrase-buttons
+              /             .keep-original
+              /               p.f-reg-12 Keep Original
+              /             .rephrase
+              /               p.f-reg-12 Rephrase
+              /   .rephrase-selection data-controller="accordion"
+              /     = inline_svg_tag("arrow_down_green.svg", data: { "action" => "click->accordion#toggleMenu" })
+              /     .menu data-accordion-target="menu"
+              /       .rephrase-options
+              /         = link_to("#", class: "menu-link") do
+              /           p.f-reg-12 Default
+              /         = link_to("#", class: "menu-link") do
+              /           p.f-reg-12 Friendly
+              /         = link_to("#", class: "menu-link") do
+              /           p.f-reg-12 Professional
+              /         = link_to("#", class: "menu-link") do
+              /           p.f-reg-12 Confident
+              /         = link_to("#", class: "menu-link options") do
+              /           = inline_svg_tag("arrow_down.svg", class:"menu-icon", alt:"menu")
                         
             .send-button data-controller="accordion modalToggler frameToggler"
               = f.submit "Send", class: "f-semi-12"

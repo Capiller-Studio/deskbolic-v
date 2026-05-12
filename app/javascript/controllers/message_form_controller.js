@@ -19,11 +19,15 @@ export default class extends Controller {
   connect() {
     this.renderEmojis()
     this.boundCloseOnOutsideClick = this.closeOnOutsideClick.bind(this)
+    this.boundClear = () => this.clear()
     document.addEventListener("click", this.boundCloseOnOutsideClick)
+    document.addEventListener("deskbolic:message-sent", this.boundClear)
   }
 
   disconnect() {
     document.removeEventListener("click", this.boundCloseOnOutsideClick)
+    document.removeEventListener("deskbolic:message-sent", this.boundClear)
+    this.stopRecording()
   }
 
   // --- Emoji Logic ---
@@ -34,7 +38,7 @@ export default class extends Controller {
   }
 
   closeOnOutsideClick(event) {
-    if (this.emojiPickerOpen && !this.emojiPickerTarget.contains(event.target)) {
+    if (this.emojiPickerOpen && !this.emojiPickerTarget.contains(event.target) && !event.target.closest("[data-action*='message-form#toggleEmojiPicker']")) {
       this.emojiPickerOpen = false
       this.emojiPickerTarget.style.display = "none"
     }
@@ -87,18 +91,27 @@ export default class extends Controller {
   }
 
   async startRecording() {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.MediaRecorder) {
+      this.showError("Voice recording is not supported in this browser")
+      return
+    }
+
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
       this.mediaRecorder = new MediaRecorder(stream)
       this.audioChunks = []
 
       this.mediaRecorder.ondataavailable = (event) => {
-        this.audioChunks.push(event.data)
+        if (event.data && event.data.size > 0) this.audioChunks.push(event.data)
       }
 
       this.mediaRecorder.onstop = () => {
-        const audioBlob = new Blob(this.audioChunks, { type: 'audio/webm' })
-        const file = new File([audioBlob], `voice-message-${Date.now()}.webm`, { type: 'audio/webm' })
+        if (!this.audioChunks.length) return
+
+        const type = this.mediaRecorder.mimeType || "audio/webm"
+        const extension = type.includes("mp4") ? "m4a" : "webm"
+        const audioBlob = new Blob(this.audioChunks, { type })
+        const file = new File([audioBlob], `voice-message-${Date.now()}.${extension}`, { type })
         this.addFile(file)
         
         // Stop all tracks
@@ -110,7 +123,7 @@ export default class extends Controller {
       this.updateVoiceUI(true)
     } catch (err) {
       console.error("Error accessing microphone:", err)
-      alert("Could not access microphone. Please check permissions.")
+      this.showError("Microphone permission is required to record voice")
     }
   }
 
@@ -125,6 +138,7 @@ export default class extends Controller {
   updateVoiceUI(recording) {
     if (this.hasVoiceBtnTarget) {
       this.voiceBtnTarget.classList.toggle("recording", recording)
+      this.voiceBtnTarget.title = recording ? "Stop recording" : "Record voice"
     }
     if (this.hasRecordingIndicatorTarget) {
       this.recordingIndicatorTarget.style.display = recording ? "flex" : "none"
@@ -132,6 +146,11 @@ export default class extends Controller {
   }
 
   // --- File Logic ---
+  openFilePicker(event) {
+    event.preventDefault()
+    this.inputTarget.click()
+  }
+
   previewFiles() {
     if (this.inputTarget.files && this.inputTarget.files.length > 0) {
       const newFiles = Array.from(this.inputTarget.files)
@@ -162,6 +181,8 @@ export default class extends Controller {
 
   renderPreviews() {
     this.previewTarget.innerHTML = ""
+    this.previewTarget.classList.toggle("visible", this.selectedFiles.length > 0)
+
     this.selectedFiles.forEach((file, index) => {
       const chip = document.createElement("div")
       chip.className = "de-file-chip"
@@ -196,10 +217,31 @@ export default class extends Controller {
     })
   }
 
+  showError(message) {
+    this.previewTarget.innerHTML = ""
+    this.previewTarget.classList.add("visible")
+
+    const error = document.createElement("div")
+    error.className = "composer-error"
+    error.textContent = message
+    this.previewTarget.appendChild(error)
+
+    clearTimeout(this.errorTimer)
+    this.errorTimer = setTimeout(() => {
+      if (this.previewTarget.contains(error)) {
+        this.previewTarget.innerHTML = ""
+        this.previewTarget.classList.remove("visible")
+      }
+    }, 4000)
+  }
+
   clear() {
     this.selectedFiles = []
     if (this.hasInputTarget) this.inputTarget.value = ""
-    if (this.hasPreviewTarget) this.previewTarget.innerHTML = ""
+    if (this.hasPreviewTarget) {
+      this.previewTarget.innerHTML = ""
+      this.previewTarget.classList.remove("visible")
+    }
     if (this.hasTextareaTarget) this.textareaTarget.value = ""
     this.stopRecording()
   }

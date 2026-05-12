@@ -23,7 +23,7 @@ account: @conversation.account, sender: current_user)
       end
 
       respond_to do |format|
-        format.js { render(js: "document.querySelector('.response-area').value = ''; if(document.querySelector('#message_attachments')) { document.querySelector('#message_attachments').value = ''; } if(document.querySelector('#file-preview-container')) { document.querySelector('#file-preview-container').innerHTML = ''; }") }
+        format.js { render(js: "document.querySelector('.response-area').value = ''; document.dispatchEvent(new CustomEvent('deskbolic:message-sent'));") }
         format.html { redirect_to(request.referer) }
       end
     end

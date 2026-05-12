@@ -42,7 +42,10 @@
                 - if message.attachments.any?
                   .msg-attachments
                     - message.attachments.each do |attachment|
-                      - if attachment.image? && attachment.file.attached?
+                      - if attachment.audio? && attachment.file.attached?
+                        .msg-attachment-audio
+                          audio controls=true preload="metadata" src=rails_blob_path(attachment.file)
+                      - elsif attachment.image? && attachment.file.attached?
                         .msg-attachment-img
                           = image_tag(attachment.file, class: "attachment-image")
                       - elsif attachment.file.attached?
@@ -67,29 +70,37 @@
               - if message.attachments.any?
                 .msg-attachments
                   - message.attachments.each do |attachment|
-                    - if attachment.image? && attachment.file.attached?
+                    - if attachment.audio? && attachment.file.attached?
+                      .msg-attachment-audio
+                        audio controls=true preload="metadata" src=rails_blob_path(attachment.file)
+                    - elsif attachment.image? && attachment.file.attached?
                       .msg-attachment-img
                         = image_tag(attachment.file, class: "attachment-image")
                     - elsif attachment.file.attached?
                       a.msg-attachment-file href=rails_blob_path(attachment.file, disposition: "attachment") target="_blank"
                         span.file-icon 📄
                         span.file-name = attachment.file.filename
-      turbo-frame#message-frame data-controller="chat"
+      turbo-frame#message-frame
       
     .footer
-      .message-box
-        = form_with(model: Message.new, method: :post, class:"some-class", remote: true, data: { controller: "message-form", action: "turbo:submit-end->message-form#clear ajax:success->message-form#clear" }) do |f|
+      .message-box data-controller="message-form"
+        = form_with(model: Message.new, method: :post, class:"some-class", remote: true, multipart: true) do |f|
           .text-translation
             .response-type 
-              button.f-semi-14.reply.active Reply
-              button.f-semi-14.note Note
+              button.f-semi-14.reply.active type="button" Reply
+              button.f-semi-14.note type="button" Note
             .translation.f-semi-14
               | English
               = inline_svg_tag("violet_dropdown.svg", class:"action-btn")
           .note-area.menu
-            #file-preview-container data-message-form-target="preview" style="display: flex; gap: 8px; padding: 10px 20px 0; overflow-x: auto;"
-            = f.text_area :response, class: "form-control f-reg-14 response-area", placeholder: "Write your response for issue", data: { "message-form-target" => "textarea" }
+            .attachment-preview data-message-form-target="preview"
+            .de-emoji-picker data-message-form-target="emojiPicker" style="display: none;"
+            .recording-indicator data-message-form-target="recordingIndicator" style="display: none;"
+              .pulse-dot
+              span.f-reg-12 Recording voice...
+            = f.text_area :response, class: "form-control f-reg-14 response-area", placeholder: "Write your response for issue", data: { message_form_target: "textarea" }
             = f.hidden_field :conversation_id, value: @conversation.id
+            = f.file_field :attachments, multiple: true, class: "message-attachments-input", accept: "image/*,video/*,audio/*,.pdf,.doc,.docx,.txt,.zip", data: { message_form_target: "input", action: "change->message-form#previewFiles" }
           .commands
             .actions data-controller="modalToggler frameToggler"
               .response-action
@@ -119,16 +130,13 @@
                         p.f-semi-18.response-title
                         p.f-reg-14.response-text
                       .canned-submit.f-semi-12 type="button" data-action="click->accordion#switchResponse" Add
-              .response-action
-                label for="message_attachments" style="cursor: pointer; margin-bottom: 0;"
-                  = inline_svg_tag("file_attach.svg", class:"action-btn")
-                = f.file_field :attachments, multiple: true, id: "message_attachments", style: "display: none;", accept: "image/*,video/*,.pdf,.doc,.docx,.txt,.zip", data: { action: "change->message-form#previewFiles", "message-form-target" => "input" }
-              .response-action
-                #emoji-picker-container.de-emoji-picker data-message-form-target="emojiPicker" style="display: none;"
-                = inline_svg_tag("emoji.svg", class:"size-btn", data: { action: "click->message-form#toggleEmojiPicker" }, style: "cursor: pointer;")
+              button.response-action type="button" data-action="click->message-form#openFilePicker" title="Attach image or file"
+                = inline_svg_tag("file_attach.svg", class:"action-btn")
+              button.response-action type="button" data-action="click->message-form#toggleEmojiPicker" title="Add emoji"
+                = inline_svg_tag("emoji.svg", class:"size-btn")
               .response-action
                 = inline_svg_tag("gif.svg", class:"size-btn")
-              .response-action
+              button.response-action type="button" data-action="click->message-form#toggleVoiceRecording" data-message-form-target="voiceBtn" title="Record voice"
                 = inline_svg_tag("mic.svg", class:"action-btn")
               / .chat-gpt
               /   .response-action data-controller="accordion"

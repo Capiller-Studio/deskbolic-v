@@ -18,7 +18,10 @@
         - if message.attachments.any?
           .msg-attachments
             - message.attachments.each do |attachment|
-              - if attachment.image? && attachment.file.attached?
+              - if attachment.audio? && attachment.file.attached?
+                .msg-attachment-audio
+                  audio controls=true preload="metadata" src=rails_blob_path(attachment.file)
+              - elsif attachment.image? && attachment.file.attached?
                 .msg-attachment-img
                   = image_tag(attachment.file, class: "attachment-image")
               - elsif attachment.file.attached?
@@ -43,7 +46,10 @@
       - if message.attachments.any?
         .msg-attachments
           - message.attachments.each do |attachment|
-            - if attachment.image? && attachment.file.attached?
+            - if attachment.audio? && attachment.file.attached?
+              .msg-attachment-audio
+                audio controls=true preload="metadata" src=rails_blob_path(attachment.file)
+            - elsif attachment.image? && attachment.file.attached?
               .msg-attachment-img
                 = image_tag(attachment.file, class: "attachment-image")
             - elsif attachment.file.attached?

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_11_000001) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_12_000001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -520,6 +520,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_11_000001) do
     t.integer "source"
     t.integer "status", default: 0, null: false
     t.datetime "status_changed_at"
+    t.uuid "team_id"
     t.string "title"
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["account_id", "created_at"], name: "index_conversations_on_account_id_and_created_at"
@@ -533,6 +534,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_11_000001) do
     t.index ["campaign_id"], name: "index_conversations_on_campaign_id"
     t.index ["inbox_id"], name: "index_conversations_on_inbox_id"
     t.index ["outbound_channel_type", "outbound_channel_id"], name: "index_conversations_on_outbound_channel"
+    t.index ["team_id"], name: "index_conversations_on_team_id"
   end
 
   create_table "custom_field_resources", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -930,6 +932,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_11_000001) do
     t.index ["account_id"], name: "index_identity_sources_on_account_id"
   end
 
+  create_table "inbox_teams", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.uuid "inbox_id", null: false
+    t.uuid "team_id", null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["inbox_id", "team_id"], name: "index_inbox_teams_on_inbox_id_and_team_id", unique: true
+    t.index ["inbox_id"], name: "index_inbox_teams_on_inbox_id"
+    t.index ["team_id"], name: "index_inbox_teams_on_team_id"
+  end
+
   create_table "inbox_translations", force: :cascade do |t|
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.text "greetings"
@@ -1175,6 +1187,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_11_000001) do
 
   create_table "team_users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.integer "role", default: 0, null: false
     t.uuid "team_id", null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.uuid "user_id", null: false
@@ -1187,6 +1200,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_11_000001) do
   create_table "teams", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "account_id", null: false
     t.boolean "auto_assign", default: true, null: false
+    t.jsonb "configurations", default: {}, null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.text "description"
     t.integer "flags", default: 0, null: false
@@ -1258,6 +1272,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_11_000001) do
   add_foreign_key "help_center_redirects", "help_center_portals", column: "portal_id", on_delete: :cascade
   add_foreign_key "identities", "customers", on_delete: :cascade
   add_foreign_key "identities", "identity_sources", on_delete: :cascade
+  add_foreign_key "inbox_teams", "inboxes", on_delete: :cascade
+  add_foreign_key "inbox_teams", "teams", on_delete: :cascade
   add_foreign_key "inbox_translations", "inboxes", on_delete: :cascade
   add_foreign_key "inbox_users", "inboxes", on_delete: :cascade
   add_foreign_key "inboxes", "business_hour_groups", on_delete: :nullify

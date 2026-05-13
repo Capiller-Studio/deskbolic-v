@@ -78,7 +78,12 @@ Rails.application.routes.draw do
     end
     resources :canned_responses
     resources :notes
-    resources :teams
+    resources :teams do
+      member do
+        post :add_member
+        delete :remove_member
+      end
+    end
     resources :roles
     resources :custom_fields
     resources :field_resources, only: [:create, :destroy] do

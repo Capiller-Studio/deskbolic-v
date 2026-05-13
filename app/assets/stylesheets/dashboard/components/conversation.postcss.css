@@ -193,6 +193,15 @@
         }
       }
 
+      .msg-attachment-audio {
+        audio {
+          width: 240px;
+          max-width: 100%;
+          height: 36px;
+          display: block;
+        }
+      }
+
       .msg-attachment-file {
         display: inline-flex;
         align-items: center;
@@ -384,7 +393,7 @@
         margin-top: 0px;
         border: 1px solid $black-5;
         border-radius: 10px;
-        height: 200px;
+        /* height: 200px; */
         filter: drop-shadow(1px 1px 7px $black-10);
         .some-class {
           width: 100%;
@@ -422,9 +431,7 @@
           .note-area {
             width: 100%;
             height: 60%;
-            #file-preview-container {
-              background: white;
-            }
+            position: relative;
             .form-control {
               width: 100%;
               height: 100%;
@@ -444,6 +451,92 @@
                 border-radius: 6px;
                 background-color: #c3c3c3;
               }
+            }
+            .message-attachments-input {
+              display: none;
+            }
+            .attachment-preview {
+              display: none;
+              align-items: center;
+              gap: 8px;
+              padding: 8px 14px 0px;
+              overflow-x: auto;
+              scrollbar-width: thin;
+            }
+            .attachment-preview.visible {
+              display: flex;
+            }
+            .attachment-chip {
+              @mixin flex-row $justify-start, $align-center;
+              gap: 6px;
+              max-width: 170px;
+              padding: 5px 8px;
+              border-radius: 8px;
+              background: #f1f4ff;
+              color: $black-80;
+              flex-shrink: 0;
+            }
+            .attachment-thumb {
+              width: 28px;
+              height: 28px;
+              object-fit: cover;
+              border-radius: 6px;
+            }
+            .attachment-audio-badge {
+              flex-shrink: 0;
+              padding: 5px 7px;
+              border-radius: 6px;
+              background: rgba(119, 141, 255, 0.14);
+              color: $secondary-purple;
+              font-family: $font-family-inter-medium;
+              font-size: 11px;
+            }
+            .attachment-name {
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              font-family: $font-family-inter-regular;
+              font-size: 12px;
+            }
+            .emoji-picker {
+              display: none;
+              position: absolute;
+              left: 14px;
+              bottom: 4px;
+              width: 270px;
+              max-height: 160px;
+              overflow-y: auto;
+              padding: 10px;
+              background: $white;
+              border: 1px solid $black-10;
+              border-radius: 10px;
+              box-shadow: 0px 8px 24px $black-10;
+              z-index: 10;
+            }
+            .emoji-picker.visible {
+              display: grid;
+              grid-template-columns: repeat(8, 1fr);
+              gap: 4px;
+            }
+            .emoji-option {
+              width: 28px;
+              height: 28px;
+              padding: 0;
+              border: none;
+              border-radius: 6px;
+              background: transparent;
+              cursor: pointer;
+              font-size: 18px;
+              line-height: 1;
+              &:hover {
+                background: #f1f4ff;
+              }
+            }
+            .composer-error {
+              width: 100%;
+              color: #b00020;
+              font-family: $font-family-inter-regular;
+              font-size: 12px;
             }
           }
           .commands {
@@ -475,6 +568,10 @@
                   background: $black-5;
                   border-radius: 10px;
                   cursor: pointer;
+                }
+                &.is-recording {
+                  background: rgba(239, 68, 68, 0.12);
+                  border-radius: 10px;
                 }
                 
                 .save-replies {

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_12_000001) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_15_000002) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -32,24 +32,41 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_12_000001) do
     t.index ["token_type"], name: "index_access_tokens_on_token_type"
   end
 
+  create_table "account_invitations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "account_id", null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.string "email", null: false
+    t.datetime "expires_at", null: false
+    t.uuid "invited_by_id"
+    t.uuid "role_ids", default: [], null: false, array: true
+    t.integer "status", default: 0, null: false
+    t.string "token", null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["account_id"], name: "index_account_invitations_on_account_id"
+    t.index ["email"], name: "index_account_invitations_on_email"
+    t.index ["invited_by_id"], name: "index_account_invitations_on_invited_by_id"
+    t.index ["status"], name: "index_account_invitations_on_status"
+    t.index ["token"], name: "index_account_invitations_on_token", unique: true
+  end
+
   create_table "account_users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "account_id", null: false
-    t.integer "availability", default: 1, null: false
+    t.integer "availability", default: 0, null: false
     t.datetime "availability_changed_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.uuid "invited_by_id"
     t.datetime "last_activity_at"
-    t.integer "role", default: 1, null: false
+    t.boolean "owner", default: false, null: false
     t.integer "status", default: 0, null: false
     t.datetime "status_changed_at"
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.uuid "user_id", null: false
+    t.index ["account_id", "owner"], name: "index_account_users_on_account_id_and_owner", unique: true, where: "(owner = true)"
     t.index ["account_id", "user_id"], name: "index_account_users_on_account_id_and_user_id", unique: true
     t.index ["account_id"], name: "index_account_users_on_account_id"
     t.index ["availability"], name: "index_account_users_on_availability"
     t.index ["created_at"], name: "index_account_users_on_created_at"
     t.index ["invited_by_id"], name: "index_account_users_on_invited_by_id"
-    t.index ["role"], name: "index_account_users_on_role"
     t.index ["status"], name: "index_account_users_on_status"
     t.index ["user_id"], name: "index_account_users_on_user_id"
   end
@@ -240,21 +257,26 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_12_000001) do
 
   create_table "domains", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "account_id", null: false
-    t.jsonb "configurations", default: {}, null: false
+    t.string "cname_target", default: ""
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.boolean "managed", default: false, null: false
+    t.integer "dns_status", default: 0, null: false
+    t.datetime "dns_verified_at"
+    t.integer "domain_type", default: 0, null: false
+    t.datetime "last_checked_at"
     t.string "name", default: ""
-    t.boolean "require_ssl", default: true, null: false
     t.datetime "ssl_added_at"
+    t.datetime "ssl_expires_at"
+    t.integer "ssl_status", default: 0, null: false
     t.integer "status", default: 0, null: false
-    t.boolean "system_provided", default: false, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.string "value", null: false
     t.index ["account_id", "created_at"], name: "index_domains_on_account_id_and_created_at"
+    t.index ["account_id", "domain_type"], name: "index_domains_on_account_id_and_domain_type"
     t.index ["account_id"], name: "index_domains_on_account_id"
-    t.index ["managed"], name: "index_domains_on_managed"
+    t.index ["dns_status"], name: "index_domains_on_dns_status"
+    t.index ["domain_type"], name: "index_domains_on_domain_type"
+    t.index ["ssl_status"], name: "index_domains_on_ssl_status"
     t.index ["status"], name: "index_domains_on_status"
-    t.index ["system_provided"], name: "index_domains_on_system_provided"
     t.index ["value"], name: "index_domains_on_value", unique: true
   end
 
@@ -325,6 +347,61 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_12_000001) do
     t.index ["name"], name: "index_plans_on_name", unique: true
     t.index ["position"], name: "index_plans_on_position"
     t.index ["status"], name: "index_plans_on_status"
+  end
+
+  create_table "platform_comments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "commentable_id", null: false
+    t.string "commentable_type", null: false
+    t.text "content", null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.uuid "staff_id", null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["commentable_type", "commentable_id"], name: "index_platform_comments_on_commentable"
+    t.index ["staff_id"], name: "index_platform_comments_on_staff_id"
+  end
+
+  create_table "platform_roles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.string "identifier", null: false
+    t.string "name", null: false
+    t.jsonb "permissions", default: {}, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["identifier"], name: "index_platform_roles_on_identifier", unique: true
+    t.index ["name"], name: "index_platform_roles_on_name"
+  end
+
+  create_table "platform_staff_roles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.uuid "role_id", null: false
+    t.uuid "staff_id", null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["role_id"], name: "index_platform_staff_roles_on_role_id"
+    t.index ["staff_id", "role_id"], name: "index_platform_staff_roles_on_staff_id_and_role_id", unique: true
+    t.index ["staff_id"], name: "index_platform_staff_roles_on_staff_id"
+  end
+
+  create_table "platform_staffs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "current_sign_in_at"
+    t.string "current_sign_in_ip"
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.integer "failed_attempts", default: 0, null: false
+    t.datetime "last_sign_in_at"
+    t.string "last_sign_in_ip"
+    t.datetime "locked_at"
+    t.string "name", null: false
+    t.datetime "remember_created_at"
+    t.datetime "reset_password_sent_at"
+    t.string "reset_password_token"
+    t.integer "sign_in_count", default: 0, null: false
+    t.integer "status", default: 0, null: false
+    t.string "unlock_token"
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["email"], name: "index_platform_staffs_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_platform_staffs_on_reset_password_token", unique: true
+    t.index ["status"], name: "index_platform_staffs_on_status"
+    t.index ["unlock_token"], name: "index_platform_staffs_on_unlock_token", unique: true
   end
 
   create_table "state_translations", force: :cascade do |t|
@@ -490,6 +567,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_12_000001) do
     t.index ["account_id"], name: "index_wallets_on_account_id", unique: true
   end
 
+  add_foreign_key "account_invitations", "accounts", on_delete: :cascade
+  add_foreign_key "account_invitations", "users", column: "invited_by_id", on_delete: :nullify
   add_foreign_key "account_users", "accounts", on_delete: :cascade
   add_foreign_key "account_users", "users", column: "invited_by_id", on_delete: :nullify
   add_foreign_key "account_users", "users", on_delete: :cascade
@@ -512,6 +591,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_12_000001) do
   add_foreign_key "global_routings", "accounts", on_delete: :cascade
   add_foreign_key "payment_methods", "accounts", on_delete: :cascade
   add_foreign_key "plan_translations", "plans", on_delete: :cascade
+  add_foreign_key "platform_comments", "platform_staffs", column: "staff_id", on_delete: :cascade
+  add_foreign_key "platform_staff_roles", "platform_roles", column: "role_id", on_delete: :cascade
+  add_foreign_key "platform_staff_roles", "platform_staffs", column: "staff_id", on_delete: :cascade
   add_foreign_key "state_translations", "states", on_delete: :cascade
   add_foreign_key "states", "countries", on_delete: :cascade
   add_foreign_key "subscriptions", "accounts", on_delete: :cascade

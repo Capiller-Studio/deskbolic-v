@@ -29,12 +29,12 @@
 FactoryBot.define do
   factory :help_center_portal, class: "HelpCenter::Portal" do
     name { "MyString" }
-    configurations { "" }
-    locales { "MyString" }
-    locale { "MyString" }
-    status { 1 }
-    account { nil }
+    configurations { {} }
+    locales { ["en"] }
+    default_locale { "en" }
+    status { :active }
+    account
     flags { 1 }
-    domain { nil }
+    domain
   end
 end

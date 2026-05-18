@@ -91,6 +91,12 @@ Rails.application.routes.draw do
     end
     get "custom_fields_builder/:resource_type/:resource_id", to: "custom_fields_builder#show", as: :custom_fields_builder
 
+    resources :domains do
+      member do
+        post :verify_dns
+      end
+    end
+
     namespace :help_center do
       resources :articles
     end

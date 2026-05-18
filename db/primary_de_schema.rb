@@ -32,10 +32,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_12_000001) do
   create_table "access_roles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "account_id", null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.string "identifier", null: false
     t.boolean "is_system", default: false
     t.string "name", null: false
     t.jsonb "permissions", default: {}, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["account_id", "identifier"], name: "index_access_roles_on_account_id_and_identifier", unique: true
     t.index ["account_id", "name"], name: "index_access_roles_on_account_id_and_name"
     t.index ["account_id"], name: "index_access_roles_on_account_id"
     t.index ["created_at"], name: "index_access_roles_on_created_at"
@@ -1044,9 +1046,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_12_000001) do
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.uuid "mentioned_id", null: false
     t.string "mentioned_type", null: false
+    t.datetime "read_at"
     t.uuid "resource_id", null: false
     t.string "resource_type", null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["account_id", "mentioned_id", "read_at"], name: "index_mentions_on_account_user_read"
     t.index ["account_id"], name: "index_mentions_on_account_id"
     t.index ["mentioned_type", "mentioned_id"], name: "index_mentions_on_mentioned"
     t.index ["resource_id", "resource_type", "mentioned_id", "mentioned_type"], name: "index_mentions_on_unique_record", unique: true

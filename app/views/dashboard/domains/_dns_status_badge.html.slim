@@ -1,0 +1,17 @@
+- case domain.dns_status
+- when "dns_verified"
+  .status-tag.bg-green
+    .bullet
+    span.f-reg-12 = t("dashboard.domains.dns_status_badge.dns_verified")
+- when "dns_pending"
+  .status-tag.bg-yellow
+    .bullet
+    span.f-reg-12 = t("dashboard.domains.dns_status_badge.dns_pending")
+- when "dns_failed"
+  .status-tag.bg-red
+    .bullet
+    span.f-reg-12 = t("dashboard.domains.dns_status_badge.dns_failed")
+- else
+  .status-tag.bg-gray
+    .bullet
+    span.f-reg-12 = t("dashboard.domains.dns_status_badge.dns_unverified")

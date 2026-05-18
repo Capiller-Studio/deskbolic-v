@@ -1,0 +1,21 @@
+- case domain.ssl_status
+- when "ssl_active"
+  .status-tag.bg-green
+    .bullet
+    span.f-reg-12 = t("dashboard.domains.ssl_status_badge.ssl_active")
+- when "ssl_pending"
+  .status-tag.bg-yellow
+    .bullet
+    span.f-reg-12 = t("dashboard.domains.ssl_status_badge.ssl_pending")
+- when "ssl_expired"
+  .status-tag.bg-red
+    .bullet
+    span.f-reg-12 = t("dashboard.domains.ssl_status_badge.ssl_expired")
+- when "ssl_failed"
+  .status-tag.bg-red
+    .bullet
+    span.f-reg-12 = t("dashboard.domains.ssl_status_badge.ssl_failed")
+- else
+  .status-tag.bg-gray
+    .bullet
+    span.f-reg-12 = t("dashboard.domains.ssl_status_badge.ssl_none")

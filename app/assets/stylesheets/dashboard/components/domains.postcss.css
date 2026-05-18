@@ -1,0 +1,392 @@
+/* Domains Management Page */
+.settings-body {
+  .domains-body {
+    .domains-header {
+      @mixin flex-row $justify-between, $align-center;
+      padding: 20px;
+      border-bottom: 1px solid $black-5;
+      h2.f-semi-18 {
+        padding: 0px;
+        border-bottom: none;
+      }
+      .new-domain-btn {
+        @mixin flex-row $justify-around, $align-center;
+        padding: 8px 16px;
+        border-radius: 8px;
+        background-color: $black;
+        cursor: pointer;
+        gap: 8px;
+        text-decoration: none;
+        .plus-icon {
+          width: 16px;
+          height: 16px;
+        }
+        span {
+          color: $white;
+        }
+      }
+      .back-link {
+        color: $black-40;
+        text-decoration: none;
+        &:hover {
+          color: $black-80;
+        }
+      }
+    }
+
+    .alert {
+      margin: 16px 20px 0;
+      padding: 12px 16px;
+      border-radius: 8px;
+    }
+
+    .domains-section {
+      padding: 24px 20px;
+      border-bottom: 1px solid $black-5;
+
+      h3.f-semi-14 {
+        margin-bottom: 4px;
+      }
+      .section-desc {
+        color: $black-40;
+        margin-bottom: 16px;
+      }
+
+      /* Domain card for subdomain */
+      .domain-card {
+        @mixin flex-row $justify-between, $align-center;
+        border: 1px solid $black-10;
+        border-radius: 12px;
+        padding: 20px;
+        background-color: $white;
+
+        &:hover {
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        .domain-info {
+          @mixin flex-column $justify-start, $align-left;
+          gap: 8px;
+
+          .domain-value {
+            @mixin flex-row $justify-start, $align-center;
+            gap: 12px;
+            p.f-semi-14 {
+              color: $black;
+            }
+            .domain-label {
+              color: $black-40;
+            }
+          }
+          .domain-meta {
+            @mixin flex-row $justify-start, $align-center;
+            gap: 8px;
+            flex-wrap: wrap;
+            .status-tag {
+              @mixin flex-row $justify-center, $align-center;
+              .bullet {
+                width: 6px;
+                height: 6px;
+                border-radius: 6px;
+                margin-right: 5px;
+              }
+            }
+          }
+        }
+        .domain-actions {
+          @mixin flex-row $justify-end, $align-center;
+          gap: 8px;
+          .action-link {
+            cursor: pointer;
+            .link-icon {
+              width: 16px;
+              height: 16px;
+            }
+          }
+        }
+      }
+
+      .domain-empty {
+        border: 1px dashed $black-10;
+        border-radius: 12px;
+        padding: 30px;
+        text-align: center;
+        p.f-reg-14 {
+          color: $black-80;
+          margin-bottom: 4px;
+        }
+        p.f-reg-12 {
+          color: $black-40;
+          margin-bottom: 12px;
+        }
+        .add-domain-link {
+          color: $secondary-purple;
+          text-decoration: underline;
+          font-family: $font-family-inter-semibold;
+          font-size: 14px;
+        }
+      }
+
+      /* Custom domains table */
+      > table.index-section {
+        width: 100%;
+        border-radius: 12px;
+        border: 1px solid $black-10;
+        border-collapse: separate;
+        overflow: hidden;
+        > thead {
+          > tr {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+            border-bottom: 2px solid #E9EFF4;
+            background-color: $white;
+            padding: 14px 24px;
+            > th {
+              @mixin flex-column $justify-center, $align-left;
+              text-align: left;
+              color: $black;
+            }
+          }
+        }
+        > tbody {
+          width: 100%;
+          > tr {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+            border-bottom: 1px solid #E9EFF4;
+            background-color: $white;
+            padding: 12px 24px;
+            &:last-child {
+              border-bottom: none;
+            }
+            &:hover {
+              background-color: $black-5;
+            }
+            > td {
+              @mixin flex-column $justify-center, $align-left;
+              .domain-value-cell {
+                p.f-semi-14 {
+                  color: $black;
+                }
+                .domain-label {
+                  color: $black-40;
+                  margin-top: 2px;
+                }
+              }
+              .status-tag {
+                @mixin flex-row $justify-center, $align-center;
+                .bullet {
+                  width: 6px;
+                  height: 6px;
+                  border-radius: 6px;
+                  margin-right: 5px;
+                }
+              }
+              .text-muted {
+                color: $black-40;
+              }
+            }
+            .actions {
+              @mixin flex-row $justify-end, $align-center;
+              gap: 8px;
+              .action-link {
+                cursor: pointer;
+                .link-icon {
+                  width: 16px;
+                  height: 16px;
+                }
+              }
+              .verify-btn {
+                .link-icon {
+                  opacity: 0.7;
+                  &:hover {
+                    opacity: 1;
+                  }
+                }
+              }
+              .delete-btn {
+                .link-icon {
+                  &:hover {
+                    transform: scale(1.1);
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    /* CNAME Instructions */
+    .cname-instructions {
+      .instruction-steps {
+        @mixin flex-column $justify-start, $align-left;
+        gap: 20px;
+        .step {
+          @mixin flex-row $justify-start, $align-start;
+          gap: 16px;
+          .step-number {
+            @mixin flex-row $justify-center, $align-center;
+            width: 32px;
+            height: 32px;
+            min-width: 32px;
+            border-radius: 50%;
+            background-color: $black-5;
+            span {
+              color: $black-80;
+            }
+          }
+          .step-content {
+            p.f-semi-14 {
+              margin-bottom: 4px;
+            }
+            p.f-reg-12 {
+              color: $black-40;
+              margin-bottom: 8px;
+            }
+          }
+        }
+      }
+
+      .cname-record {
+        @mixin flex-row $justify-start, $align-center;
+        gap: 24px;
+        background-color: $black-5;
+        border-radius: 8px;
+        padding: 12px 16px;
+        margin-top: 8px;
+        .cname-field {
+          @mixin flex-column $justify-start, $align-left;
+          gap: 2px;
+          .cname-label {
+            color: $black-40;
+          }
+        }
+      }
+    }
+
+    /* Form styles */
+    .domain-form-container {
+      padding: 24px 20px;
+      max-width: 700px;
+
+      .domain-status-overview {
+        border: 1px solid $black-10;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 24px;
+
+        .status-row {
+          @mixin flex-row $justify-start, $align-center;
+          gap: 16px;
+          padding: 8px 0;
+          border-bottom: 1px solid $black-5;
+          &:last-child {
+            border-bottom: none;
+          }
+          > span.f-semi-12 {
+            width: 140px;
+            color: $black-40;
+          }
+          .status-tag {
+            @mixin flex-row $justify-center, $align-center;
+            .bullet {
+              width: 6px;
+              height: 6px;
+              border-radius: 6px;
+              margin-right: 5px;
+            }
+          }
+        }
+      }
+
+      .domain-form {
+        .form-section {
+          margin-bottom: 24px;
+          h3.f-semi-14 {
+            margin-bottom: 16px;
+          }
+          .form-group {
+            margin-bottom: 16px;
+            label {
+              display: block;
+              margin-bottom: 6px;
+              color: $black-80;
+            }
+            .form-input {
+              width: 100%;
+              padding: 12px 16px;
+              border: 1px solid $black-10;
+              border-radius: 8px;
+              font-size: 14px;
+              font-family: $font-family-inter-regular;
+              outline: none;
+              &:focus {
+                border-color: $primary-purple;
+              }
+            }
+            .form-hint {
+              color: $black-40;
+              margin-top: 4px;
+            }
+          }
+        }
+
+        .cname-info-box {
+          background-color: $black-5;
+          border-radius: 12px;
+          padding: 20px;
+          .cname-record {
+            @mixin flex-row $justify-start, $align-center;
+            gap: 24px;
+            background-color: $white;
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin: 12px 0;
+            .cname-field {
+              @mixin flex-column $justify-start, $align-left;
+              gap: 2px;
+              .cname-label {
+                color: $black-40;
+              }
+            }
+          }
+        }
+
+        .form-actions {
+          @mixin flex-row $justify-start, $align-center;
+          gap: 12px;
+          margin-top: 24px;
+          .btn-primary {
+            padding: 10px 24px;
+            border-radius: 8px;
+            border: none;
+            background-color: $black;
+            color: $white;
+            font-family: $font-family-inter-semibold;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            &:hover {
+              opacity: 0.9;
+            }
+          }
+          .btn-secondary {
+            padding: 10px 24px;
+            border-radius: 8px;
+            border: 1px solid $black-10;
+            background-color: $white;
+            color: $black-80;
+            font-family: $font-family-inter-regular;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            &:hover {
+              background-color: $black-5;
+            }
+          }
+        }
+      }
+    }
+  }
+}

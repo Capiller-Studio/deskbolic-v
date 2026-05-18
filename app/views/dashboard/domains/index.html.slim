@@ -1,0 +1,128 @@
+= render("dashboard/shared/dashboard_container", current_page: "domains") do
+  = render("dashboard/settings/settings_sidebar", current_page: "domains") do
+    .body-section.domains-body
+      .domains-header
+        h2.f-semi-18 = t("dashboard.domains.index.title")
+        = link_to(new_domain_path, class: "new-domain-btn") do
+          span.f-reg-14 = t("dashboard.domains.index.add_custom_domain")
+          = inline_svg_tag("plus_white.svg", class: "plus-icon", alt: "add")
+
+      - if flash[:notice]
+        .alert.alert-green
+          p.f-reg-12 = flash[:notice]
+      - if flash[:alert]
+        .alert.alert-red
+          p.f-reg-12 = flash[:alert]
+
+      / System Subdomain Section
+      .domains-section
+        h3.f-semi-14 = t("dashboard.domains.index.system_subdomain.title")
+        p.f-reg-12.section-desc = t("dashboard.domains.index.system_subdomain.description")
+
+        - if @subdomain
+          .domain-card
+            .domain-info
+              .domain-value
+                p.f-semi-14 = @subdomain.value
+                - if @subdomain.name.present? && @subdomain.name != @subdomain.subdomain_slug
+                  span.f-reg-12.domain-label = @subdomain.name
+              .domain-meta
+                .status-tag class="bg-green"
+                  .bullet
+                  span.f-reg-12 = t("dashboard.domains.index.system_subdomain.active")
+                .status-tag class="bg-green"
+                  .bullet
+                  span.f-reg-12 = t("dashboard.domains.index.system_subdomain.ssl_active")
+                - if @subdomain.portal.present?
+                  .status-tag class="bg-blue"
+                    .bullet
+                    span.f-reg-12 = t("dashboard.domains.index.system_subdomain.portal_label", name: @subdomain.portal.name)
+                - else
+                  .status-tag class="bg-gray"
+                    .bullet
+                    span.f-reg-12 = t("dashboard.domains.index.system_subdomain.no_portal")
+            .domain-actions
+              = link_to edit_domain_path(@subdomain), class: "action-link"
+                = inline_svg_tag("edit.svg", class: "link-icon", alt: "edit")
+        - else
+          .domain-empty
+            p.f-reg-12 = t("dashboard.domains.index.system_subdomain.empty")
+
+      / Custom Domains Section
+      .domains-section
+        h3.f-semi-14 = t("dashboard.domains.index.custom_domains.title")
+        p.f-reg-12.section-desc = t("dashboard.domains.index.custom_domains.description")
+
+        - if @custom_domains.any?
+          table.index-section
+            thead
+              tr
+                th.f-semi-14 = t("dashboard.domains.index.table.domain")
+                th.f-semi-14 = t("dashboard.domains.index.table.dns_status")
+                th.f-semi-14 = t("dashboard.domains.index.table.ssl_status")
+                th.f-semi-14 = t("dashboard.domains.index.table.portal")
+                th.f-semi-14 = t("dashboard.domains.index.table.actions")
+            tbody
+              - @custom_domains.each do |domain|
+                tr
+                  td
+                    .domain-value-cell
+                      p.f-semi-14 = domain.value
+                      - if domain.name.present?
+                        span.f-reg-12.domain-label = domain.name
+                  td
+                    = render "dashboard/domains/dns_status_badge", domain: domain
+                  td
+                    = render "dashboard/domains/ssl_status_badge", domain: domain
+                  td
+                    - if domain.portal.present?
+                      span.f-reg-12 = domain.portal.name
+                    - else
+                      span.f-reg-12.text-muted = t("dashboard.domains.index.custom_domains.unattached")
+                  td.actions
+                    - unless domain.dns_verified?
+                      = link_to verify_dns_domain_path(domain), method: :post, class: "action-link verify-btn", title: "Verify DNS"
+                        = inline_svg_tag("refresh.svg", class: "link-icon", alt: "verify")
+                    = link_to edit_domain_path(domain), class: "action-link", title: "Edit"
+                      = inline_svg_tag("edit.svg", class: "link-icon", alt: "edit")
+                    - unless domain.portal.present?
+                      = link_to domain_path(domain), method: :delete, data: { confirm: "Are you sure you want to delete this domain?" }, class: "action-link delete-btn", title: "Delete"
+                        = inline_svg_tag("delete_red.svg", class: "link-icon", alt: "delete")
+        - else
+          .domain-empty
+            p.f-reg-14 = t("dashboard.domains.index.custom_domains.empty_title")
+            p.f-reg-12 = t("dashboard.domains.index.custom_domains.empty_description")
+            = link_to t("dashboard.domains.index.custom_domains.add_first"), new_domain_path, class: "add-domain-link"
+
+      / CNAME Instructions
+      .domains-section.cname-instructions
+        h3.f-semi-14 = t("dashboard.domains.index.cname_instructions.title")
+        .instruction-steps
+          .step
+            .step-number
+              span.f-semi-14 1
+            .step-content
+              p.f-semi-14 = t("dashboard.domains.index.cname_instructions.step_1_title")
+              p.f-reg-12 = t("dashboard.domains.index.cname_instructions.step_1_desc")
+          .step
+            .step-number
+              span.f-semi-14 2
+            .step-content
+              p.f-semi-14 = t("dashboard.domains.index.cname_instructions.step_2_title")
+              p.f-reg-12 = t("dashboard.domains.index.cname_instructions.step_2_desc")
+              .cname-record
+                .cname-field
+                  span.f-reg-12.cname-label = t("dashboard.domains.index.cname_instructions.cname_type")
+                  span.f-semi-12 CNAME
+                .cname-field
+                  span.f-reg-12.cname-label = t("dashboard.domains.index.cname_instructions.cname_host")
+                  span.f-semi-12 = t("dashboard.domains.index.cname_instructions.cname_host_value")
+                .cname-field
+                  span.f-reg-12.cname-label = t("dashboard.domains.index.cname_instructions.cname_target")
+                  span.f-semi-12 = Domain::CNAME_TARGET
+          .step
+            .step-number
+              span.f-semi-14 3
+            .step-content
+              p.f-semi-14 = t("dashboard.domains.index.cname_instructions.step_3_title")
+              p.f-reg-12 = t("dashboard.domains.index.cname_instructions.step_3_desc")

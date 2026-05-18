@@ -15,6 +15,14 @@
                     .conversation-name.inbox-conv
                       p.f-reg-14 Home
 
+            / Domains
+            li.nav-item class="#{current_page == 'domains' ? 'st-list-active' : ''}" data-action="click->accordion#toggle"
+              .nav-link
+                = link_to(domains_path, class: "nav-link") do
+                  .link-text
+                    .conversation-name.inbox-conv
+                      p.f-reg-14 = t("dashboard.domains.sidebar.label")
+
             / general            
             li.nav-item class="" data-action="click->accordion#toggle"
               .nav-link

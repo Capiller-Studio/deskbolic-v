@@ -658,7 +658,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_12_000001) do
 
   create_table "email_template_layout_translations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.text "body"
+    t.text "compiled_html"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.jsonb "design", default: {}
+    t.text "draft_body"
+    t.jsonb "draft_design", default: {}
     t.uuid "email_template_layout_id", null: false
     t.string "locale", null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
@@ -678,7 +682,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_12_000001) do
 
   create_table "email_template_translations", force: :cascade do |t|
     t.text "body"
+    t.text "compiled_html"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.jsonb "design", default: {}
+    t.text "draft_body"
+    t.jsonb "draft_design", default: {}
     t.uuid "email_template_id", null: false
     t.string "locale", null: false
     t.string "subject"
@@ -692,10 +700,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_12_000001) do
   create_table "email_templates", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "account_id", null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.uuid "email_template_layout_id"
     t.string "name"
+    t.integer "status", default: 0, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["account_id", "name"], name: "index_email_templates_on_account_id_and_name"
     t.index ["account_id"], name: "index_email_templates_on_account_id"
+    t.index ["email_template_layout_id"], name: "index_email_templates_on_email_template_layout_id"
   end
 
   create_table "filters", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

@@ -132,7 +132,28 @@ Rails.application.routes.draw do
     end
     
     resources :custom_fields
-    
+
+    resources :email_templates, only: [:index, :edit, :update] do
+      member do
+        post :publish
+        post :discard_draft
+        get :preview
+        post :send_test
+        get :variables
+        post :copy_locale
+      end
+    end
+
+    resources :email_template_layouts, only: [:index, :edit, :update] do
+      member do
+        post :publish
+        post :discard_draft
+        get :preview
+        post :copy_locale
+      end
+    end
+
+    resources :attachments, only: [:show, :create, :destroy]
     resources :agent, only: [ :index ] do
       collection do
         get :test

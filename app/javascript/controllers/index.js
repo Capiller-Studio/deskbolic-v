@@ -52,3 +52,6 @@ application.register("automation-builder", AutomationBuilderController)
 
 import SortableController from "./sortable_controller"
 application.register("sortable", SortableController)
+
+import EmailBuilderController from "./email_builder_controller"
+application.register("email-builder", EmailBuilderController)

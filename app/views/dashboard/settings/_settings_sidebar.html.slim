@@ -23,6 +23,14 @@
                     .conversation-name.inbox-conv
                       p.f-reg-14 = t("dashboard.domains.sidebar.label")
 
+            / Email Templates
+            li.nav-item class="#{current_page == 'email_templates' ? 'st-list-active' : ''}" data-action="click->accordion#toggle"
+              .nav-link
+                = link_to(email_templates_path, class: "nav-link") do
+                  .link-text
+                    .conversation-name.inbox-conv
+                      p.f-reg-14 = t("dashboard.email_templates.sidebar.label")
+
             / general            
             li.nav-item class="" data-action="click->accordion#toggle"
               .nav-link

@@ -1,0 +1,117 @@
+.eb-editor data-controller="email-builder" data-email-builder-update-url-value=email_template_layout_path(@email_template_layout, format: :json) data-email-builder-publish-url-value=publish_email_template_layout_path(@email_template_layout) data-email-builder-discard-url-value=discard_draft_email_template_layout_path(@email_template_layout) data-email-builder-preview-url-value=preview_email_template_layout_path(@email_template_layout) data-email-builder-send-test-url-value="" data-email-builder-upload-url-value=attachments_path(resource_type: 'EmailTemplateLayout', resource_id: @email_template_layout.id) data-email-builder-copy-locale-url-value=copy_locale_email_template_layout_path(@email_template_layout) data-email-builder-design-value=@draft_design.to_json data-email-builder-draft-body-value=@draft_body data-email-builder-variables-value="{}" data-email-builder-csrf-token-value=form_authenticity_token data-email-builder-has-unpublished-changes-value=@has_unpublished_changes data-email-builder-locale-value=@locale
+
+  /! ─── Top Toolbar ───
+  .eb-toolbar
+    = link_to email_template_layouts_path, class: "eb-toolbar__back"
+      svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        polyline points="15 18 9 12 15 6"
+
+    .eb-toolbar__title
+      = @email_template_layout.name
+      - if @has_unpublished_changes
+        span.eb-badge.eb-badge--draft#eb-draft-badge = t("dashboard.email_builder.draft")
+
+    .eb-toolbar__divider
+
+    - language_names = { "en" => "English", "de" => "German", "es" => "Spanish", "fr" => "French", "ur" => "Urdu", "hi" => "Hindi", "ar" => "Arabic", "zh" => "Chinese" }
+    - active_locales = @email_template_layout.translations.map(&:locale)
+    - available_locales = I18n.available_locales.map(&:to_s)
+    - addable_locales = available_locales - active_locales
+
+    /! Locale Selector
+    .eb-toolbar__group
+      label.eb-toolbar__label = t("dashboard.email_builder.locale")
+      select.eb-toolbar__select data-action="change->email-builder#changeLocale"
+        - active_locales.each do |loc|
+          option value=loc selected=(@locale == loc)
+            = language_names[loc] || loc.upcase
+            
+      - if addable_locales.any?
+        .eb-toolbar__add-locale
+          button.eb-btn.eb-btn--ghost.eb-btn--icon type="button" data-action="click->email-builder#toggleAddLocaleMenu" title=t("dashboard.email_builder.add_locale", default: "Add Locale")
+            svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              line x1="12" y1="5" x2="12" y2="19"
+              line x1="5" y1="12" x2="19" y2="12"
+          .eb-toolbar__copy-menu data-email-builder-target="addLocaleMenu"
+            - addable_locales.each do |loc|
+              button.eb-toolbar__copy-menu-item type="button" data-action="click->email-builder#addLocale" data-locale=loc
+                = "+ #{language_names[loc] || loc.upcase}"
+
+    /! Copy from Locale
+    - copyable_locales = active_locales - [@locale]
+    - if copyable_locales.any?
+      .eb-toolbar__copy-locale
+        button.eb-btn.eb-btn--ghost type="button" data-action="click->email-builder#toggleCopyMenu"
+          svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            rect x="9" y="9" width="13" height="13" rx="2" ry="2"
+            path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+          = t("dashboard.email_builder.copy_locale")
+        .eb-toolbar__copy-menu data-email-builder-target="copyMenu"
+          - copyable_locales.each do |loc|
+            button.eb-toolbar__copy-menu-item type="button" data-action="click->email-builder#copyFromLocale" data-source-locale=loc
+              = t("dashboard.email_builder.copy_from", from_locale: language_names[loc] || loc.upcase)
+
+    .eb-toolbar__divider
+
+    /! Device Toggle
+    .eb-toolbar__devices
+      button.eb-toolbar__device.eb-toolbar__device--active type="button" data-action="click->email-builder#toggleDevice" data-device="Desktop" title="Desktop"
+        svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          rect x="2" y="3" width="20" height="14" rx="2"
+          line x1="8" y1="21" x2="16" y2="21"
+          line x1="12" y1="17" x2="12" y2="21"
+      button.eb-toolbar__device type="button" data-action="click->email-builder#toggleDevice" data-device="Mobile" title="Mobile"
+        svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          rect x="5" y="2" width="14" height="20" rx="2"
+          line x1="12" y1="18" x2="12.01" y2="18"
+
+    .eb-toolbar__divider
+
+    /! Action Buttons
+    .eb-toolbar__group
+      button.eb-btn.eb-btn--outline type="button" data-action="click->email-builder#preview"
+        svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"
+          circle cx="12" cy="12" r="3"
+        = t("dashboard.email_builder.preview")
+
+      - if @has_unpublished_changes
+        button.eb-btn.eb-btn--danger#eb-discard-btn type="button" data-action="click->email-builder#discardDraft"
+          = t("dashboard.email_builder.discard")
+        button.eb-btn.eb-btn--success#eb-publish-btn type="button" data-action="click->email-builder#publish"
+          = t("dashboard.email_builder.publish")
+
+      button.eb-btn.eb-btn--primary#eb-save-btn type="button" data-action="click->email-builder#save" data-default-text=t('dashboard.email_builder.save_draft') data-saving-text=t('dashboard.email_builder.saving')
+        = t("dashboard.email_builder.save_draft")
+
+  /! ─── Main Content ───
+  .eb-main
+    .eb-canvas data-email-builder-target="canvas"
+
+    .eb-sidebar
+      .eb-sidebar__tabs
+        button.eb-sidebar__tab.eb-sidebar__tab--active type="button" data-tab="blocks" data-action="click->email-builder#switchTab"
+          = t("dashboard.email_builder.blocks")
+        button.eb-sidebar__tab type="button" data-tab="settings" data-action="click->email-builder#switchTab"
+          = t("dashboard.email_builder.settings", default: "Settings")
+        button.eb-sidebar__tab type="button" data-tab="styles" data-action="click->email-builder#switchTab"
+          = t("dashboard.email_builder.styles")
+
+      .eb-sidebar__panel.eb-sidebar__panel--active data-panel="blocks" data-email-builder-target="blocksPanel"
+      .eb-sidebar__panel data-panel="settings" data-email-builder-target="settingsPanel"
+      .eb-sidebar__panel data-panel="styles" data-email-builder-target="stylesPanel"
+
+  /! ─── Preview Modal ───
+  .eb-modal data-email-builder-target="previewModal"
+    .eb-modal__backdrop data-action="click->email-builder#closePreview"
+    .eb-modal__content
+      .eb-modal__header
+        h3.eb-modal__title = t("dashboard.email_builder.layout_preview")
+        button.eb-modal__close type="button" data-action="click->email-builder#closePreview"
+          svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            line x1="18" y1="6" x2="6" y2="18"
+            line x1="6" y1="6" x2="18" y2="18"
+      .eb-modal__body
+        iframe.eb-preview__frame data-email-builder-target="previewFrame"
+
+  div data-email-builder-target="toastContainer"

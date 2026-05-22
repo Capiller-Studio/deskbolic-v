@@ -18,7 +18,7 @@ gem "turbo-rails"
 gem "stimulus-rails"
 gem "cssbundling-rails"
 gem "slim-rails"
-gem "mjml-rails"
+# gem "mjml-rails"
 gem "actionpack-page_caching"
 gem "invisible_captcha"
 

@@ -2,19 +2,28 @@
   .user-response.response data-controller="translator" data-translator-target="response"
     .text-content
       .chat-user
-        = image_tag("profile_icon.png", class:"img", alt:"menu")
+        - customer = message.sender
+        - if customer.avatar.attached?
+          = image_tag(customer.avatar, class:"img", alt:"menu")
+        - else
+          .img.avatar-fallback.customer-message-initials-avatar.f-reg-12 class=avatar_fallback_color_class(customer.name || customer.display_name)
+            = (customer.name || customer.display_name)&.first&.upcase || "?"
       .user-text
         - if message.content.present?
-          .original.f-reg-14 data-translator-target="original"
-            = message.content
-          .translate-text
-            button.f-light-italic-10 data-action="click->translator#toggle_translate" Translate
-          .translated-text.d-none
-            h5.f-med-10 TRANSLATION IN ENGLISH:
-            p
-              span.translation.f-light-italic-12 data-translator-target="translation"
-              |  
-              span.f-med-10.close-translation data-action="click->translator#toggle" Close
+          - if single_emoji_message?(message.content)
+            .original.single-emoji-message data-translator-target="original"
+              = message.content.strip
+          - else
+            .original.f-reg-14 data-translator-target="original"
+              = message.content
+            .translate-text
+              button.f-light-italic-10 data-action="click->translator#toggle_translate" Translate
+            .translated-text.d-none
+              h5.f-med-10 TRANSLATION IN ENGLISH:
+              p
+                span.translation.f-light-italic-12 data-translator-target="translation"
+                |  
+                span.f-med-10.close-translation data-action="click->translator#toggle" Close
         - if message.attachments.any?
           .msg-attachments
             - message.attachments.each do |attachment|
@@ -33,16 +42,20 @@
   .agent-response.response data-controller="translator" data-translator-target="response"
     .agent-text
       - if message.content.present?
-        .original.f-reg-14 data-translator-target="original"
-          = message.content
-        .translate-text
-          button.f-light-italic-10 data-action="click->translator#toggle_translate" Translate
-        .translated-text.d-none
-          h5.f-med-10 TRANSLATION IN ENGLISH:
-          p
-            span.translation.f-light-italic-12 data-translator-target="translation"
-            |  
-            span.f-med-10.close-translation data-action="click->translator#toggle" Close
+        - if single_emoji_message?(message.content)
+          .original.single-emoji-message data-translator-target="original"
+            = message.content.strip
+        - else
+          .original.f-reg-14 data-translator-target="original"
+            = message.content
+          .translate-text
+            button.f-light-italic-10 data-action="click->translator#toggle_translate" Translate
+          .translated-text.d-none
+            h5.f-med-10 TRANSLATION IN ENGLISH:
+            p
+              span.translation.f-light-italic-12 data-translator-target="translation"
+              |  
+              span.f-med-10.close-translation data-action="click->translator#toggle" Close
       - if message.attachments.any?
         .msg-attachments
           - message.attachments.each do |attachment|

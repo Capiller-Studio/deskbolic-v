@@ -269,3 +269,73 @@ en:
         ssl_none: "No SSL"
       sidebar:
         label: "Domains"
+    email_templates:
+      index:
+        title: "Email Templates"
+        subtitle: "Customize your outgoing email templates with the drag & drop builder."
+        tab_templates: "Templates"
+        tab_layouts: "Layouts"
+        badge_draft: "Draft"
+        badge_active: "Active"
+        badge_inactive: "Inactive"
+        default_description: "Customize this email template to match your brand."
+        last_modified: "Modified %{time} ago"
+        edit_design: "Edit Design"
+        empty_title: "No email templates"
+        empty_description: "Email templates will be created when you set up your account."
+      sidebar:
+        label: "Email Templates"
+    email_template_layouts:
+      index:
+        title: "Email Layouts"
+        subtitle: "Layouts wrap around your templates providing consistent headers and footers."
+        tab_templates: "Templates"
+        tab_layouts: "Layouts"
+        badge_draft: "Draft"
+        layout_description: "Shared layout with header, content area, and footer."
+        last_modified: "Modified %{time} ago"
+        edit_design: "Edit Design"
+        empty_title: "No layouts"
+        empty_description: "No email layouts have been created yet."
+    email_builder:
+      # Editor toolbar
+      draft: "Draft"
+      locale: "Locale"
+      layout: "Layout"
+      no_layout: "No Layout"
+      preview: "Preview"
+      send_test: "Send Test"
+      save_draft: "Save Draft"
+      saving: "Saving..."
+      publish: "Publish"
+      discard: "Discard"
+      # Sidebar tabs
+      blocks: "Blocks"
+      styles: "Styles"
+      variables: "Variables"
+      # Modal
+      email_preview: "Email Preview"
+      layout_preview: "Layout Preview"
+      # Toast messages
+      draft_saved: "Draft saved successfully."
+      published: "Template published. Live emails now use this design."
+      draft_discarded: "Draft changes discarded."
+      locale_copied: "Content copied from %{from} to %{to}. Save to keep changes."
+      copy_from: "Copy from %{from_locale}"
+      copy_locale: "Copy Locale"
+      test_prefix: "TEST"
+      test_sent: "Test email sent to %{email}."
+      # Template descriptions
+      template_descriptions:
+        conversation_reply: "Sent to customers when an agent replies to their conversation."
+        agent_notification: "Notification sent to agents about new events and assignments."
+        welcome_email: "Welcome email sent to newly registered users."
+        password_reset: "Password reset instructions sent to users."
+        email_verification: "Email address verification for new accounts."
+        team_invitation: "Invitation email sent when adding new team members."
+      # Sample data for preview
+      sample:
+        message_content: "Thank you for reaching out! We've reviewed your request and have a solution for you. Please follow the steps below and let us know if you need further assistance."
+        conversation_subject: "Help with my account"
+        event_title: "New conversation assigned"
+        event_description: "A new conversation has been assigned to you in the Support inbox."

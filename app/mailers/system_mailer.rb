@@ -3,6 +3,14 @@
 class SystemMailer < ApplicationMailer
   layout "mailer"
 
+  # Send a test email with pre-compiled HTML body.
+  # Used by the email template builder's "Send Test" feature.
+  def test_template(to:, subject:, body:)
+    mail(to: to, subject: subject) do |format|
+      format.html { render html: body.html_safe }
+    end
+  end
+
   # Stub for future system emails: invoices, marketing, alerts
   # Example:
   # def invoice(account, invoice)

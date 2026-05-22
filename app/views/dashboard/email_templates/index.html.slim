@@ -1,0 +1,35 @@
+= render("dashboard/shared/dashboard_container", current_page: "email_templates") do
+  = render("dashboard/settings/settings_sidebar", current_page: "email_templates") do
+    .eb-templates
+      .eb-templates__header
+        div
+          h2.eb-templates__title = t("dashboard.email_templates.index.title")
+          p.eb-templates__subtitle = t("dashboard.email_templates.index.subtitle")
+        .eb-templates__nav
+          = link_to email_templates_path, class: "eb-btn eb-btn--primary"
+            = t("dashboard.email_templates.index.tab_templates")
+          = link_to email_template_layouts_path, class: "eb-btn eb-btn--outline"
+            = t("dashboard.email_templates.index.tab_layouts")
+
+      - if @email_templates.any?
+        .eb-templates__grid
+          - @email_templates.each do |template|
+            .eb-card
+              .eb-card__body
+                .eb-card__header
+                  h3.eb-card__name = template.name.titleize
+                  .eb-card__badges
+                    - if template.has_unpublished_changes?
+                      span.eb-badge.eb-badge--draft = t("dashboard.email_templates.index.badge_draft")
+                    span class="eb-badge eb-badge--#{template.status}"
+                      = t("dashboard.email_templates.index.badge_#{template.status}")
+                p.eb-card__description = t("dashboard.email_builder.template_descriptions.#{template.name}", default: t("dashboard.email_templates.index.default_description"))
+
+              .eb-card__footer
+                span.eb-card__meta = t("dashboard.email_templates.index.last_modified", time: time_ago_in_words(template.updated_at))
+                = link_to edit_email_template_path(template), class: "eb-btn eb-btn--primary"
+                  = t("dashboard.email_templates.index.edit_design")
+      - else
+        .auto-empty-state
+          h3.f-semi-18 = t("dashboard.email_templates.index.empty_title")
+          p.f-reg-14 = t("dashboard.email_templates.index.empty_description")

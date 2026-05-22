@@ -98,7 +98,13 @@ Rails.application.routes.draw do
     end
 
     namespace :help_center do
-      resources :articles
+      resources :articles do
+        member do
+          post :publish
+          post :discard_draft
+          post :copy_locale
+        end
+      end
     end
 
     resources :automations do

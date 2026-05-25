@@ -15,8 +15,8 @@ module Dashboard
           end
         end
         
-        @message = @conversation.messages.create!(content: @response, inbox: @conversation.inbox,
-account: @conversation.account, sender: current_user)
+        @message = @conversation.messages.create!(content: @response,inbox: @conversation.inbox,
+        account: @conversation.account,sender: current_user,source: @conversation.source)
 
         create_attachments(@attachments) if @attachments.present?
         Messages::DeliveryWorker.perform_async(@message.account_id, @message.id)

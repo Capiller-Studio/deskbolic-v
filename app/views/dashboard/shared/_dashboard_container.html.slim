@@ -19,11 +19,19 @@
                 = inline_svg_tag("plus.svg", class:"link-icon", alt:"menu")
         
         .channel-header.list-header data-controller="accordion"
-          = image_tag("profile_icon.png", class: "account", alt: "dashboard logo" , width: "50%", data: { "action" => "click->accordion#toggleMenu" })
+          - if current_user&.avatar&.attached?
+            = image_tag(current_user.avatar, class: "account dashboard-account-avatar", alt: "dashboard logo", data: { "action" => "click->accordion#toggleMenu" })
+          - else
+            .account.dashboard-account-avatar.avatar-fallback.dashboard-account-initials.f-reg-12 class=avatar_fallback_color_class(current_user&.display_name || current_user&.first_name || current_user&.email) data-action="click->accordion#toggleMenu"
+              = (current_user&.display_name || current_user&.first_name || current_user&.email)&.first&.upcase || "?"
           .menu data-accordion-target="menu"
             - if current_user
               .header
-                = image_tag("profile_icon.png", class:"user-img", alt:"menu")
+                - if current_user.avatar.attached?
+                  = image_tag(current_user.avatar, class:"user-img", alt:"menu")
+                - else
+                  .user-img.avatar-fallback.dashboard-user-initials.f-reg-14 class=avatar_fallback_color_class(current_user.display_name || current_user.first_name || current_user.email)
+                    = (current_user.display_name || current_user.first_name || current_user.email)&.first&.upcase || "?"
                 .details
                   h4.f-med-18 = current_user&.name
                   p.f-med-16 = current_user&.email

@@ -7,6 +7,9 @@ export default class extends Controller {
   showModal() {
     const model = document.querySelector(".model");
     model.style.display = "block"
+    document.querySelectorAll(".menu[data-accordion-target='menu']").forEach(menu => {
+      menu.style.display = "none";
+    });
 
     document.addEventListener('click', e => {
       if(model.firstChild === e.target) {
@@ -27,5 +30,15 @@ export default class extends Controller {
 
   hideModal() {
     this.modelTarget.style.display = "none"
+    document.querySelectorAll(".menu[data-accordion-target='menu']").forEach(menu => {
+      menu.style.display = "";
+    });
+  }
+
+  closeOnOutsideClick(event) {
+    const contentBox = this.modelTarget.querySelector(".model-content");
+    if (contentBox && !contentBox.contains(event.target)) {
+      this.hideModal();
+    }
   }
 }

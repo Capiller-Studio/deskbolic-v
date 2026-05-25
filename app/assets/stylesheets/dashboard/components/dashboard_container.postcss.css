@@ -73,10 +73,25 @@
           }
         }
         .account {
+          @mixin flex-row $justify-center, $align-center;
           width: 28px;
           height: 28px;
           margin-bottom: 20px;
           margin-top: 20px;
+          border-radius: 50%;
+          object-fit: cover;
+          cursor: pointer;
+        }
+        .dashboard-account-initials {
+          font-size: 12px;
+          line-height: 1;
+        }
+        .dashboard-account-avatar {
+          @mixin flex-row $justify-center, $align-center;
+          width: 34px;
+          height: 34px;
+          margin-left: auto;
+          margin-right: auto;
         }
         .menu {
           @mixin menu;
@@ -106,8 +121,16 @@
             position: sticky;
             top: 0;
             .user-img {
+              @mixin flex-row $justify-center, $align-center;
               width: 42px;
               height: 42px;
+              border-radius: 50%;
+              object-fit: cover;
+              flex-shrink: 0;
+            }
+            .dashboard-user-initials {
+              font-size: 14px;
+              line-height: 1;
             }
             .details {
               margin-left: 20px;

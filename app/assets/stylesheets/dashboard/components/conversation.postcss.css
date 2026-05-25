@@ -56,10 +56,32 @@
             .img {
               width: 34px;
               height: 34px;
+              border-radius: 50%;
+              object-fit: cover;
+            }
+            .customer-message-initials-avatar {
+              @mixin flex-row $justify-center, $align-center;
+              font-size: 12px;
+              line-height: 1;
             }
           }
           .user-text {
             @mixin flex-column $justify-right, $align-end;
+            .single-emoji-message {
+              background: transparent;
+              padding: 0;
+              width: 120px;
+              height: 120px;
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              align-self: flex-start;
+              font-size: 88px;
+              line-height: 1;
+              border-radius: 0;
+              box-shadow: none;
+              font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+            }
             .f-reg-14 {
               @mixin rect-back-gray;
             }
@@ -122,6 +144,21 @@
         padding-bottom: 20px;
         .agent-text {
           @mixin flex-column $justify-right, $align-start;
+          .single-emoji-message {
+            background: transparent;
+            padding: 0;
+            width: 120px;
+            height: 120px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            align-self: flex-end;
+            font-size: 88px;
+            line-height: 1;
+            border-radius: 0;
+            box-shadow: none;
+            font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+          }
           .f-reg-14 {
             @mixin rect-back-purple;
           }
@@ -914,6 +951,13 @@
             .chat-user {
               width: 24px;
               height: 24px;
+              border-radius: 50%;
+              object-fit: cover;
+            }
+            .agent-initials-avatar {
+              @mixin flex-row $justify-center, $align-center;
+              font-size: 10px;
+              line-height: 1;
             }
           }
         }
@@ -953,7 +997,7 @@
               color: $black-40;
             }
             p {
-              max-width: 50%;
+              /* max-width: 50%;  */
               color: $black-80;
               display: -webkit-box;
               -webkit-line-clamp: 1;
@@ -1011,8 +1055,19 @@
               color: $black-80;
             }
             .menu-icon {
+              width: 18px;
+              height: 18px;
               margin-left: auto;
               margin-right: 10px;
+            }
+            .agent-panel-avatar {
+              border-radius: 50%;
+              object-fit: cover;
+            }
+            .agent-initials-avatar {
+              @mixin flex-row $justify-center, $align-center;
+              font-size: 9px;
+              line-height: 1;
             }
             form {
               .assign-btn {
@@ -1051,6 +1106,14 @@
                 .img {
                   width: 24px;
                   height: 24px;
+                  border-radius: 50%;
+                  object-fit: cover;
+                  margin-right: 5px;
+                }
+                .customer-initials-avatar {
+                  @mixin flex-row $justify-center, $align-center;
+                  font-size: 10px;
+                  line-height: 1;
                 }
               }
             }

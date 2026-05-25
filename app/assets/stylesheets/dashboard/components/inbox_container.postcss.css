@@ -78,7 +78,14 @@
               .user-img {
                 width: 34px;
                 height: 34px;
-                margin-right: 10px;
+                border-radius: 50%;
+                object-fit: cover;
+                flex-shrink: 0;
+              }
+              .customer-list-initials-avatar {
+                @mixin flex-row $justify-center, $align-center;
+                font-size: 12px;
+                line-height: 1;
               }
               .nav-link {
                 @mixin flex-column $justify-between, $align-normal;

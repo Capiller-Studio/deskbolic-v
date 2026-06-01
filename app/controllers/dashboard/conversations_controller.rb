@@ -87,7 +87,7 @@ module Dashboard
     
     def assign_member
       @conversation = Conversation.find(params[:id])
-      @conversation.conversation_members.create(member: current_user, account: current_account, role: :assignee)
+      @conversation.assign!(current_user)
 
       redirect_to(request.referer)
     end

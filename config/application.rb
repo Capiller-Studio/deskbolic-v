@@ -18,7 +18,7 @@ module Deskbolic
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w[assets tasks])
 
-    config.i18n.available_locales = %i[en de es fr ur hi ar zh]
+    config.i18n.available_locales = Core::SUPPORTED_LOCALES
     config.i18n.default_locale = :en
     config.i18n.fallbacks = true
 

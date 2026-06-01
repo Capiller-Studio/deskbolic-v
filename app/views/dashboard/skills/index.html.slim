@@ -1,0 +1,44 @@
+= render("dashboard/shared/dashboard_container", current_page: "settings") do
+  .ap-index-header
+    .ap-title-area
+      h2.f-semi-32 = t(".title")
+      p.f-reg-16 = t(".description")
+
+  .ap-tabs
+    = link_to skills_path, class: "ap-tab #{params[:type].blank? ? 'active' : ''}"
+      = t(".tab_all")
+    - Skill.skill_types.each_key do |skill_type|
+      = link_to skills_path(type: skill_type), class: "ap-tab #{params[:type] == skill_type ? 'active' : ''}"
+        = t("dashboard.skills.types.#{skill_type}")
+
+  / ── Inline Create / Edit Form ──
+  .sk-form-panel
+    = render("dashboard/skills/form", skill: @skill)
+
+  / ── Skills List ──
+  - if @skills.any?
+    .sk-list
+      - @skills.each do |skill|
+        .sk-card id="skill_#{skill.id}"
+          .sk-card-body
+            .sk-card-info
+              h4.f-semi-14.sk-card-name = skill.name
+              - if skill.description.present?
+                p.f-reg-12.sk-card-desc = truncate(skill.description, length: 60)
+
+            .sk-card-meta
+              .sk-type-badge class="sk-type-#{skill.skill_type}"
+                = t("dashboard.skills.types.#{skill.skill_type}")
+
+              .sk-status-dot class="#{skill.active? ? 'active' : 'inactive'}"
+
+            .sk-card-actions
+              = link_to edit_skill_path(skill), class: "ap-action-btn", title: "Edit"
+                | ✏️
+              = link_to skill_path(skill), method: :delete, class: "ap-action-btn ap-action-delete", data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, title: "Delete"
+                | 🗑️
+  - else
+    .ap-empty-state
+      .ap-empty-icon 🎯
+      h3.f-semi-18 = t(".empty_title")
+      p.f-reg-14 = t(".empty_description")

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_12_000001) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_30_000004) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -64,6 +64,43 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_12_000001) do
     t.index ["object_snapshot"], name: "index_activities_on_object_snapshot_gin", using: :gin
     t.index ["trackable_type", "trackable_id", "created_at"], name: "index_activities_on_trackable_and_created_at"
     t.index ["trackable_type", "trackable_id"], name: "index_activities_on_trackable"
+  end
+
+  create_table "assignment_policies", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "account_id", null: false
+    t.uuid "business_hour_group_id"
+    t.jsonb "conditions", default: {}, null: false
+    t.jsonb "configurations", default: {}, null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.text "description"
+    t.integer "flags", default: 0, null: false
+    t.integer "idle_timeout_minutes"
+    t.integer "max_conversations_per_agent"
+    t.string "name", null: false
+    t.integer "position"
+    t.boolean "prioritize_by_conversation_priority", default: false, null: false
+    t.boolean "reassign_on_offline", default: false, null: false
+    t.boolean "respect_business_hours", default: false, null: false
+    t.integer "status", default: 0, null: false
+    t.integer "strategy", default: 0, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["account_id", "created_at"], name: "index_assignment_policies_on_account_id_and_created_at"
+    t.index ["account_id", "name"], name: "index_assignment_policies_on_account_id_and_name"
+    t.index ["account_id", "status", "position"], name: "idx_ap_execution_order"
+    t.index ["account_id"], name: "index_assignment_policies_on_account_id"
+    t.index ["business_hour_group_id"], name: "index_assignment_policies_on_business_hour_group_id"
+  end
+
+  create_table "assignment_policy_inboxes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "account_id", null: false
+    t.uuid "assignment_policy_id", null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.uuid "inbox_id", null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["account_id"], name: "index_assignment_policy_inboxes_on_account_id"
+    t.index ["assignment_policy_id", "inbox_id"], name: "idx_ap_inbox_unique", unique: true
+    t.index ["assignment_policy_id"], name: "index_assignment_policy_inboxes_on_assignment_policy_id"
+    t.index ["inbox_id"], name: "index_assignment_policy_inboxes_on_inbox_id"
   end
 
   create_table "attachment_translations", force: :cascade do |t|
@@ -687,6 +724,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_12_000001) do
     t.jsonb "design", default: {}
     t.text "draft_body"
     t.jsonb "draft_design", default: {}
+    t.string "draft_subject"
     t.uuid "email_template_id", null: false
     t.string "locale", null: false
     t.string "subject"
@@ -741,6 +779,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_12_000001) do
     t.uuid "article_id", null: false
     t.text "content"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.text "draft_content"
+    t.string "draft_title"
     t.string "locale", null: false
     t.text "meta_description"
     t.string "meta_keywords", default: [], null: false, array: true
@@ -765,6 +805,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_12_000001) do
     t.integer "flags", default: 0, null: false
     t.uuid "portal_id", null: false
     t.integer "position"
+    t.uuid "primary_category_id"
     t.integer "status", default: 0, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.integer "views_count", default: 0, null: false
@@ -778,6 +819,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_12_000001) do
     t.index ["portal_id", "status"], name: "index_help_center_articles_on_portal_id_and_status"
     t.index ["portal_id", "visibility"], name: "index_help_center_articles_on_portal_id_and_visibility"
     t.index ["portal_id"], name: "index_help_center_articles_on_portal_id"
+    t.index ["primary_category_id"], name: "index_help_center_articles_on_primary_category_id"
   end
 
   create_table "help_center_categories", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -785,14 +827,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_12_000001) do
     t.string "ancestry"
     t.integer "ancestry_depth", default: 0, null: false
     t.integer "children_count", default: 0, null: false
-    t.string "code", null: false
     t.jsonb "configurations", default: {}, null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.boolean "featured", default: false, null: false
     t.integer "flags", default: 0, null: false
     t.string "icon_key"
-    t.string "identifier", null: false
-    t.string "permalink", null: false
     t.uuid "portal_id", null: false
     t.integer "position"
     t.integer "status", default: 0, null: false
@@ -801,10 +839,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_12_000001) do
     t.index ["account_id"], name: "index_help_center_categories_on_account_id"
     t.index ["portal_id", "ancestry"], name: "index_help_center_categories_on_portal_id_and_ancestry"
     t.index ["portal_id", "created_at"], name: "index_help_center_categories_on_portal_id_and_created_at"
-    t.index ["portal_id", "featured"], name: "index_help_center_categories_on_portal_id_and_featured"
     t.index ["portal_id", "flags"], name: "index_help_center_categories_on_portal_id_and_flags"
-    t.index ["portal_id", "identifier"], name: "index_help_center_categories_on_portal_id_and_identifier", unique: true
-    t.index ["portal_id", "permalink"], name: "index_help_center_categories_on_portal_id_and_permalink", unique: true
     t.index ["portal_id", "position"], name: "index_help_center_categories_on_portal_id_and_position"
     t.index ["portal_id", "status"], name: "index_help_center_categories_on_portal_id_and_status"
     t.index ["portal_id", "visibility"], name: "index_help_center_categories_on_portal_id_and_visibility"
@@ -833,8 +868,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_12_000001) do
     t.string "meta_keywords", default: [], null: false, array: true
     t.text "meta_title"
     t.string "name"
+    t.string "slug"
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["category_id", "locale"], name: "idx_on_category_id_locale_d331d52f3b", unique: true
+    t.index ["category_id", "slug"], name: "idx_on_category_id_slug_4dabbf4c72"
     t.index ["category_id"], name: "index_help_center_category_translations_on_category_id"
     t.index ["locale"], name: "index_help_center_category_translations_on_locale"
     t.index ["name", "locale"], name: "index_help_center_category_translations_on_name_and_locale"
@@ -1172,6 +1209,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_12_000001) do
     t.index ["resource_type", "resource_id"], name: "index_related_resources_on_resource"
   end
 
+  create_table "skills", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "account_id", null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.text "description"
+    t.string "name", null: false
+    t.integer "skill_type", default: 0, null: false
+    t.integer "status", default: 0, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["account_id", "name"], name: "index_skills_on_account_id_and_name", unique: true
+    t.index ["account_id", "skill_type"], name: "index_skills_on_account_id_and_skill_type"
+    t.index ["account_id"], name: "index_skills_on_account_id"
+  end
+
   create_table "sla_inboxes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "account_id", null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
@@ -1231,6 +1281,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_12_000001) do
     t.index ["account_id"], name: "index_teams_on_account_id"
   end
 
+  create_table "user_skills", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "account_id", null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.integer "proficiency", default: 1, null: false
+    t.uuid "skill_id", null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.uuid "user_id", null: false
+    t.index ["account_id"], name: "index_user_skills_on_account_id"
+    t.index ["skill_id"], name: "index_user_skills_on_skill_id"
+    t.index ["user_id", "skill_id"], name: "idx_user_skill_unique", unique: true
+    t.index ["user_id"], name: "index_user_skills_on_user_id"
+  end
+
   create_table "webhook_deliveries", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.string "endpoint_url", null: false
@@ -1258,6 +1321,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_12_000001) do
   end
 
   add_foreign_key "access_account_user_roles", "access_roles", column: "role_id", on_delete: :cascade
+  add_foreign_key "assignment_policies", "business_hour_groups", on_delete: :nullify
+  add_foreign_key "assignment_policy_inboxes", "assignment_policies", on_delete: :cascade
+  add_foreign_key "assignment_policy_inboxes", "inboxes", on_delete: :cascade
   add_foreign_key "attachment_translations", "attachments", on_delete: :cascade
   add_foreign_key "business_hour_translations", "business_hours", on_delete: :cascade
   add_foreign_key "business_hours", "business_hour_groups", on_delete: :cascade
@@ -1279,6 +1345,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_12_000001) do
   add_foreign_key "email_template_translations", "email_templates", on_delete: :cascade
   add_foreign_key "help_center_article_reactions", "help_center_articles", column: "article_id", on_delete: :cascade
   add_foreign_key "help_center_article_translations", "help_center_articles", column: "article_id", on_delete: :cascade
+  add_foreign_key "help_center_articles", "help_center_categories", column: "primary_category_id", on_delete: :nullify
   add_foreign_key "help_center_articles", "help_center_portals", column: "portal_id", on_delete: :cascade
   add_foreign_key "help_center_categories", "help_center_portals", column: "portal_id", on_delete: :cascade
   add_foreign_key "help_center_category_resources", "help_center_categories", column: "category_id", on_delete: :cascade
@@ -1297,6 +1364,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_12_000001) do
   add_foreign_key "sla_inboxes", "inboxes", on_delete: :cascade
   add_foreign_key "sla_inboxes", "sla_policies", on_delete: :cascade
   add_foreign_key "team_users", "teams", on_delete: :cascade
+  add_foreign_key "user_skills", "skills", on_delete: :cascade
   add_foreign_key "webhook_deliveries", "integrations", on_delete: :cascade
   add_foreign_key "webhook_delivery_attempts", "webhook_deliveries", on_delete: :cascade
 end

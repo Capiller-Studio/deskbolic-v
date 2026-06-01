@@ -1,0 +1,59 @@
+/ Policy card for the index list — rendered inside the sortable container.
+/ Uses a turbo_frame for inline toggle updates.
+- strategy_class = "ap-strategy-#{policy.strategy}"
+- strategy_icons = { "round_robin" => "🔄", "load_balanced" => "⚖️", "skills_based" => "🎯", "manual" => "✋" }
+
+div.ap-card id="policy_#{policy.id}" data-sortable-id="#{policy.id}"
+  .ap-card-handle data-sortable-target="handle"
+    = inline_svg_tag("drag_handle.svg", class: "ap-drag-icon", alt: "drag") rescue "⠿"
+
+  .ap-card-body
+    .ap-card-top
+      .ap-card-info
+        h3.f-semi-16.ap-card-name = policy.name
+        - if policy.description.present?
+          p.f-reg-13.ap-card-desc = truncate(policy.description, length: 80)
+
+      .ap-card-actions
+        .ap-status-badge class="#{policy.active? ? 'ap-badge-active' : 'ap-badge-inactive'}"
+          = policy.active? ? t("dashboard.assignment_policies.status.active") : t("dashboard.assignment_policies.status.inactive")
+
+        = link_to toggle_assignment_policy_path(policy), method: :patch, class: "ap-toggle-btn", data: { turbo_method: :patch }, title: (policy.active? ? "Deactivate" : "Activate")
+          .ap-toggle-switch class="#{policy.active? ? 'on' : 'off'}"
+
+        = link_to edit_assignment_policy_path(policy), class: "ap-action-btn", title: "Edit"
+          | ✏️
+
+        = link_to assignment_policy_path(policy), method: :delete, class: "ap-action-btn ap-action-delete", data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete this policy?" }, title: "Delete"
+          | 🗑️
+
+    .ap-card-meta
+      .ap-strategy-badge class="#{strategy_class}"
+        span.ap-strategy-icon = strategy_icons[policy.strategy] || "📋"
+        span = t("dashboard.assignment_policies.strategies.#{policy.strategy}")
+
+      - if policy.max_conversations_per_agent.present?
+        .ap-meta-tag
+          span.ap-meta-icon 📊
+          span = "Max #{policy.max_conversations_per_agent}/agent"
+
+      - if policy.respect_business_hours?
+        .ap-meta-tag
+          span.ap-meta-icon 🕐
+          span Business hours
+
+      - if policy.reassign_on_offline?
+        .ap-meta-tag
+          span.ap-meta-icon 🔁
+          span Auto-reassign
+
+      - if policy.prioritize_by_conversation_priority?
+        .ap-meta-tag
+          span.ap-meta-icon ⚡
+          span Priority routing
+
+      .ap-meta-inboxes
+        - inbox_count = policy.inboxes.size
+        - if inbox_count > 0
+          span.ap-meta-icon 📥
+          span = "#{inbox_count} #{inbox_count == 1 ? 'inbox' : 'inboxes'}"

@@ -1,0 +1,7 @@
+= render("dashboard/shared/dashboard_container", current_page: "settings") do
+  .ap-form-container
+    .ap-form-header
+      = link_to assignment_policies_path, class: "ap-back-link"
+        | ← Back to Policies
+      h2.f-semi-24 = t(".title")
+    = render("dashboard/assignment_policies/form", policy: @policy)

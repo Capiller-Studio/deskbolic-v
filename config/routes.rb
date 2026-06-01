@@ -86,6 +86,15 @@ Rails.application.routes.draw do
     end
     resources :roles
     resources :custom_fields
+    resources :assignment_policies do
+      member do
+        patch :toggle
+      end
+      collection do
+        patch :reorder
+      end
+    end
+    resources :skills, except: [:show]
     resources :field_resources, only: [:create, :destroy] do
       post :sort, on: :collection
     end

@@ -1,0 +1,75 @@
+= render("dashboard/shared/dashboard_container", current_page: "settings") do
+  .ap-form-container
+    .ap-form-header
+      = link_to assignment_policies_path, class: "ap-back-link"
+        | ← Back to Policies
+      h2.f-semi-24 = @policy.name
+
+    .ap-section
+      .ap-section-header
+        span.ap-section-icon 📝
+        = t("dashboard.assignment_policies.form.details_section")
+      .ap-section-body
+        .ap-detail-row
+          span.f-semi-13.ap-detail-label = t("dashboard.assignment_policies.form.name_label")
+          span.f-reg-13 = @policy.name
+
+        - if @policy.description.present?
+          .ap-detail-row
+            span.f-semi-13.ap-detail-label = t("dashboard.assignment_policies.form.description_label")
+            span.f-reg-13 = @policy.description
+
+    .ap-section
+      .ap-section-header
+        span.ap-section-icon ⚡
+        = t("dashboard.assignment_policies.form.strategy_section")
+      .ap-section-body
+        .ap-strategy-badge class="ap-strategy-#{@policy.strategy}"
+          span = t("dashboard.assignment_policies.strategies.#{@policy.strategy}_icon")
+          span = t("dashboard.assignment_policies.strategies.#{@policy.strategy}")
+        p.f-reg-13 style="margin-top: 8px; color: #64748b;"
+          = t("dashboard.assignment_policies.strategies.#{@policy.strategy}_desc")
+
+    .ap-section
+      .ap-section-header
+        span.ap-section-icon ⚙️
+        = t("dashboard.assignment_policies.form.options_section")
+      .ap-section-body
+        .ap-options-grid
+          - if @policy.max_conversations_per_agent.present?
+            .ap-detail-row
+              span.ap-meta-icon 📊
+              span.f-reg-13 = "#{t('dashboard.assignment_policies.form.max_conversations_label')}: #{@policy.max_conversations_per_agent}"
+
+          - if @policy.respect_business_hours?
+            .ap-detail-row
+              span.ap-meta-icon 🕐
+              span.f-reg-13 = t("dashboard.assignment_policies.form.respect_business_hours")
+              - if @policy.business_hour_group.present?
+                span.f-reg-12 style="color: #94a3b8; margin-left: 8px;"
+                  = "(#{@policy.business_hour_group.name})"
+
+          - if @policy.reassign_on_offline?
+            .ap-detail-row
+              span.ap-meta-icon 🔁
+              span.f-reg-13 = t("dashboard.assignment_policies.form.reassign_on_offline")
+
+          - if @policy.prioritize_by_conversation_priority?
+            .ap-detail-row
+              span.ap-meta-icon ⚡
+              span.f-reg-13 = t("dashboard.assignment_policies.form.prioritize_label")
+
+    - if @policy.inboxes.any?
+      .ap-section
+        .ap-section-header
+          span.ap-section-icon 📥
+          = t("dashboard.assignment_policies.form.inboxes_section")
+        .ap-section-body
+          .ap-checkbox-grid
+            - @policy.inboxes.each do |inbox|
+              .ap-meta-tag
+                span = inbox.name
+
+    .ap-form-footer
+      = link_to t("dashboard.assignment_policies.form.cancel"), assignment_policies_path, class: "ap-btn-secondary"
+      = link_to "Edit", edit_assignment_policy_path(@policy), class: "ap-btn-primary"

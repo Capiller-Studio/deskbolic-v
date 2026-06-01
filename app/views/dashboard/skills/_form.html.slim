@@ -1,0 +1,22 @@
+/ Inline form for creating/editing skills
+- url = skill.persisted? ? skill_path(skill) : skills_path
+- method = skill.persisted? ? :patch : :post
+
+= form_with(model: skill, url: url, method: method, class: "sk-form") do |f|
+  .sk-form-fields
+    div.sk-form-field
+      label.f-semi-13.ap-label = t("dashboard.skills.form.name_label")
+      = f.text_field :name, class: "ap-input", placeholder: t("dashboard.skills.form.name_placeholder"), id: "skill-name"
+
+    div.sk-form-field
+      label.f-semi-13.ap-label = t("dashboard.skills.form.type_label")
+      = f.select :skill_type, options_for_select(Skill.skill_types.keys.map { |st| [t("dashboard.skills.types.#{st}"), st] }, skill.skill_type), {}, class: "ap-select", id: "skill-type"
+
+    div.sk-form-field.sk-form-field-wide
+      label.f-semi-13.ap-label = t("dashboard.skills.form.description_label")
+      = f.text_field :description, class: "ap-input", placeholder: t("dashboard.skills.form.description_placeholder"), id: "skill-description"
+
+  .sk-form-actions
+    - if skill.persisted?
+      = link_to t("dashboard.skills.form.cancel"), skills_path, class: "ap-btn-secondary ap-btn-sm"
+    = f.submit(skill.persisted? ? t("dashboard.skills.form.save") : t("dashboard.skills.index.new_skill"), class: "ap-btn-primary ap-btn-sm", id: "skill-submit")

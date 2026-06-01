@@ -67,6 +67,16 @@
                     .link-text
                       .conversation-name.inbox-conv
                         p.f-reg-12 Team Inboxes
+                li.nav-item class="#{current_page == 'assignment-policies' ? 'st-list-active' : ''}"
+                  = link_to(assignment_policies_path, class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12 = t("dashboard.assignment_policies.sidebar.label")
+                li.nav-item class="#{current_page == 'skills' ? 'st-list-active' : ''}"
+                  = link_to(skills_path, class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12 = t("dashboard.skills.sidebar.label")
                 / li.nav-item class="#{current_page == 'roles' ? 'st-list-active' : ''}"
                 /   = link_to(roles_settings_path, class: "nav-link") do
                 /     .link-text

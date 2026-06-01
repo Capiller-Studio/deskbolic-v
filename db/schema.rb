@@ -172,6 +172,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_15_000002) do
     t.decimal "amount", precision: 10, scale: 2, null: false
     t.integer "commission_type", default: 0
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.string "currency", null: false
     t.decimal "exchange_rate", precision: 10, scale: 6, default: "1.0"
     t.decimal "original_amount", precision: 10, scale: 2, null: false
     t.uuid "original_commission_id"
@@ -188,25 +189,46 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_15_000002) do
     t.index ["transaction_record_id"], name: "index_affiliate_commissions_on_transaction_record_id"
   end
 
+  create_table "affiliate_payout_batches", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.jsonb "data", default: {}
+    t.string "external_id"
+    t.datetime "funded_at"
+    t.string "name"
+    t.integer "status", default: 0, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["created_at"], name: "index_affiliate_payout_batches_on_created_at"
+    t.index ["external_id"], name: "index_affiliate_payout_batches_on_external_id"
+    t.index ["status"], name: "index_affiliate_payout_batches_on_status"
+  end
+
   create_table "affiliate_payouts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "affiliate_profile_id", null: false
     t.decimal "amount", precision: 10, scale: 2, null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.string "currency", null: false
     t.jsonb "data", default: {}
+    t.string "external_id"
+    t.uuid "payout_batch_id"
+    t.integer "provider", default: 0, null: false
     t.integer "status", default: 0
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["affiliate_profile_id"], name: "index_affiliate_payouts_on_affiliate_profile_id"
     t.index ["created_at"], name: "index_affiliate_payouts_on_created_at"
+    t.index ["external_id"], name: "index_affiliate_payouts_on_external_id"
+    t.index ["payout_batch_id"], name: "index_affiliate_payouts_on_payout_batch_id"
     t.index ["status"], name: "index_affiliate_payouts_on_status"
   end
 
   create_table "affiliate_profiles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.jsonb "bank_account_data", default: {}
     t.decimal "commission_rate", precision: 5, scale: 2
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.string "currency", default: "USD", null: false
     t.integer "holding_days"
     t.decimal "max_earnings_per_account", precision: 10, scale: 2
+    t.jsonb "payment_details", default: {}
+    t.integer "payment_method_type", default: 0
+    t.boolean "payouts_enabled", default: false, null: false
     t.string "referral_code", null: false
     t.integer "tenure_months"
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
@@ -335,7 +357,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_15_000002) do
     t.decimal "annual_price", precision: 10, scale: 2, default: "0.0", null: false
     t.decimal "base_price", precision: 10, scale: 2, default: "0.0", null: false
     t.jsonb "configurations", default: {}, null: false
-    t.boolean "contact_us", default: false, null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.string "currency", limit: 4, default: "USD", null: false
     t.jsonb "limits", default: {}, null: false
@@ -344,9 +365,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_15_000002) do
     t.integer "status", default: 0, null: false
     t.integer "trial_days", default: 0, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.index ["name"], name: "index_plans_on_name", unique: true
+    t.integer "visibility", default: 0, null: false
+    t.index ["name", "currency"], name: "index_plans_on_name_and_currency", unique: true
     t.index ["position"], name: "index_plans_on_position"
     t.index ["status"], name: "index_plans_on_status"
+    t.index ["visibility"], name: "index_plans_on_visibility"
   end
 
   create_table "platform_comments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -431,12 +454,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_15_000002) do
     t.integer "billing_cycle", default: 0, null: false
     t.datetime "cancelled_at"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.string "currency", limit: 4, default: "USD", null: false
     t.datetime "current_period_end"
     t.datetime "current_period_start"
     t.jsonb "data", default: {}, null: false
     t.string "external_id"
     t.uuid "plan_id", null: false
     t.integer "provider", default: 0, null: false
+    t.integer "quantity", default: 1, null: false
     t.integer "status", default: 0, null: false
     t.datetime "trial_end_at"
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
@@ -474,6 +499,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_15_000002) do
     t.jsonb "data", default: {}, null: false
     t.string "description"
     t.string "external_id"
+    t.uuid "original_transaction_id"
     t.integer "provider", default: 0, null: false
     t.integer "status", default: 0, null: false
     t.uuid "subscription_id"
@@ -483,6 +509,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_15_000002) do
     t.index ["code"], name: "index_transactions_on_code", unique: true
     t.index ["created_at"], name: "index_transactions_on_created_at"
     t.index ["external_id"], name: "index_transactions_on_external_id"
+    t.index ["original_transaction_id"], name: "index_transactions_on_original_transaction_id"
     t.index ["status"], name: "index_transactions_on_status"
     t.index ["subscription_id"], name: "index_transactions_on_subscription_id"
     t.index ["transaction_type"], name: "index_transactions_on_transaction_type"
@@ -582,6 +609,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_15_000002) do
   add_foreign_key "affiliate_commissions", "affiliate_profiles", on_delete: :cascade
   add_foreign_key "affiliate_commissions", "affiliate_referrals", on_delete: :cascade
   add_foreign_key "affiliate_commissions", "transactions", column: "transaction_record_id", on_delete: :cascade
+  add_foreign_key "affiliate_payouts", "affiliate_payout_batches", column: "payout_batch_id", on_delete: :nullify
   add_foreign_key "affiliate_payouts", "affiliate_profiles", on_delete: :cascade
   add_foreign_key "affiliate_profiles", "users", on_delete: :cascade
   add_foreign_key "affiliate_referrals", "accounts", on_delete: :cascade
@@ -600,6 +628,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_15_000002) do
   add_foreign_key "subscriptions", "plans", on_delete: :restrict
   add_foreign_key "transactions", "accounts", on_delete: :cascade
   add_foreign_key "transactions", "subscriptions", on_delete: :nullify
+  add_foreign_key "transactions", "transactions", column: "original_transaction_id", on_delete: :nullify
   add_foreign_key "users", "addresses", on_delete: :nullify
   add_foreign_key "wallet_transactions", "accounts", on_delete: :cascade
   add_foreign_key "wallet_transactions", "wallets", on_delete: :cascade

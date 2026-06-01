@@ -7,7 +7,7 @@
 module Dashboard
   module ConversationsHelper
     def assigned_conversation
-      @conversation.conversation_members.exists?(member_type: "User")
+      @conversation.assigned?
     end
 
     def single_emoji_message?(content)

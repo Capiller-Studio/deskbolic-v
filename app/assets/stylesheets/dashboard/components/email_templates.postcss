@@ -1,0 +1,64 @@
+/* ─── Forms ──────────────────────────────────────────────────────────── */
+.eb-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.eb-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.eb-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--eb-text-primary);
+}
+
+.eb-form-input {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 14px;
+  color: var(--eb-text-primary);
+  background-color: var(--eb-bg-primary);
+  border: 1px solid var(--eb-border);
+  border-radius: var(--eb-radius-md);
+  transition: all var(--eb-transition);
+  font-family: inherit;
+  outline: none;
+}
+
+.eb-form-input:hover {
+  border-color: var(--eb-text-muted);
+}
+
+.eb-form-input:focus {
+  border-color: var(--eb-border-focus);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.eb-form-input::placeholder {
+  color: var(--eb-text-muted);
+}
+
+.eb-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  padding-right: 40px;
+}
+
+.eb-form-actions {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 8px;
+}
+
+.eb-card__actions {
+  display: flex;
+  gap: 8px;
+}

@@ -1,0 +1,14 @@
+= render("dashboard/shared/dashboard_container", current_page: "csat_surveys") do
+  = render("dashboard/settings/settings_sidebar", current_page: "csat_surveys") do
+    .eb-templates
+      .eb-templates__header
+        div
+          h2.eb-templates__title = "Create CSAT Survey"
+          p.eb-templates__subtitle = "Configure your custom customer satisfaction survey"
+        .eb-templates__nav
+          = link_to csat_surveys_path, class: "eb-btn eb-btn--outline"
+            = "Back"
+
+      .eb-card
+        .eb-card__body
+          = render "form", survey: @csat_survey

@@ -1,0 +1,21 @@
+.ap-list-item id="sla_policy_#{policy.id}"
+  .ap-item-drag-handle = inline_svg_tag("drag_dots.svg")
+  .ap-item-content
+    .ap-item-header
+      h3.f-semi-16 = policy.name
+    p.f-reg-13.ap-item-desc = policy.description
+    .ap-item-meta
+      .ap-meta-badge
+        span.ap-meta-icon ⏱️
+        = "First response: #{policy.initial_response_time_limit ? (policy.initial_response_time_limit / 60).to_i.to_s + 'm' : 'None'}"
+      - if policy.inboxes.any?
+        .ap-meta-badge
+          span.ap-meta-icon 📥
+          = "#{policy.inboxes.size} Inboxes"
+      - if policy.during_working_hours?
+        .ap-meta-badge
+          span.ap-meta-icon 🕐
+          | Business Hours
+  .ap-item-actions
+    = link_to t(".edit", default: "Edit"), edit_sla_policy_path(policy), class: "ap-btn-secondary ap-btn-sm"
+    = button_to t(".delete", default: "Delete"), sla_policy_path(policy), method: :delete, data: { turbo_confirm: t(".confirm_delete", default: "Are you sure?") }, class: "ap-btn-danger ap-btn-sm"

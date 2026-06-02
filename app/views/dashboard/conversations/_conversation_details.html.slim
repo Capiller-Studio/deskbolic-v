@@ -58,6 +58,34 @@
         .section-flex 
           h5.f-reg-14 Priority:
           .status-tag.bg-red.f-reg-12 Urgent
+    
+    - if current_account.feature_enabled?(:sla)
+      - active_sla = @conversation.conversation_slas.active.first
+      - if active_sla
+        .card.sla-info
+          button.accordian data-action="click->accordion#toggle"
+            p.f-reg-14 SLA Status
+            = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
+          .panel data-accordion-target="panel"
+            .section-flex
+              h5.f-reg-14 Next target: 
+              p.f-reg-14 = active_sla.target_next_response_at&.strftime("%d %b %H:%M") || "N/A"
+
+    - if current_account.feature_enabled?(:csat) && @conversation.resolved?
+      - csat_response = @conversation.csat_survey_responses.last
+      - if csat_response
+        .card.csat-info
+          button.accordian data-action="click->accordion#toggle"
+            p.f-reg-14 CSAT Rating
+            = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
+          .panel data-accordion-target="panel"
+            .section-flex
+              h5.f-reg-14 Rating: 
+              - if csat_response.rating
+                p.f-reg-14 = "#{csat_response.rating} / 5"
+              - else
+                p.f-reg-14 Pending
+                
     .card.user-data
       button.accordian data-action="click->accordion#toggle"
         p.f-reg-14 Customer data

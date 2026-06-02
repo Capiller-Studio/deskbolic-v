@@ -1,0 +1,31 @@
+<mjml>
+  <mj-head>
+    <mj-title>How did we do?</mj-title>
+    <mj-attributes>
+      <mj-all font-family="Arial, sans-serif" />
+    </mj-attributes>
+  </mj-head>
+  <mj-body background-color="#f4f4f4">
+    <mj-section background-color="#ffffff" padding="20px">
+      <mj-column>
+        <mj-text font-size="20px" font-weight="bold" color="#333333">
+          How did we do?
+        </mj-text>
+        <mj-text font-size="16px" color="#333333">
+          Hello <%= @conversation.customers.first&.name %>,
+        </mj-text>
+        <mj-text font-size="16px" color="#333333">
+          How would you rate the support you received from <%= @message.sender&.name %>?
+        </mj-text>
+        
+        <mj-button href="<%= \"#{Rails.env.development? || Rails.env.test? ? 'http' : 'https'}://csat.#{ENV.fetch('PORTAL_HOST', 'deskbolic.com')}/#{@conversation.locale || @conversation.customers.first&.locale || I18n.default_locale}/#{@message.csat_response_id || @message.data['csat_response_id']}\" %>" background-color="#4a90d9" color="white" border-radius="4px" font-size="16px" font-weight="bold">
+          Rate your experience
+        </mj-button>
+        
+        <mj-text font-size="14px" color="#999999" padding-top="20px">
+          Thank you for your feedback!
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

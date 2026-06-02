@@ -14,7 +14,11 @@ class ConversationReplyMailer < ApplicationMailer
     configure_smtp_settings if @channel.respond_to?(:smtp_enabled?) && @channel.smtp_enabled?
 
     # Try DB template (Liquid), fall back to mailer view
-    template = EmailTemplate.for_account(@account, EmailTemplate::CONVERSATION_REPLY)
+    template = if @message.input_csat? && @message.csat_survey_response&.csat_survey
+      @message.csat_survey_response.csat_survey.email_template
+    else
+      @inbox.conversation_reply_template
+    end
 
     if template
       rendered_subject = template.render_subject(liquid_variables)
@@ -32,7 +36,9 @@ class ConversationReplyMailer < ApplicationMailer
         format.html { render html: rendered_body.html_safe }
       end
     else
-      # Falls back to app/views/conversation_reply_mailer/reply.html.slim
+      # Falls back to app/views/conversation_reply_mailer/reply.html.slim or csat_survey.html.erb
+      view_name = @message.input_csat? ? "csat_survey" : "reply"
+      
       mail(
         to: customer_email,
         from: reply_from_address,
@@ -41,7 +47,9 @@ class ConversationReplyMailer < ApplicationMailer
         message_id: message_header_id,
         in_reply_to: in_reply_to_header,
         references: references_header
-      )
+      ) do |format|
+        format.html { render "conversation_reply_mailer/#{view_name}" }
+      end
     end
   end
 

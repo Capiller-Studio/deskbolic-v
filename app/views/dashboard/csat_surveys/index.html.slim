@@ -1,0 +1,38 @@
+= render("dashboard/shared/dashboard_container", current_page: "csat_surveys") do
+  = render("dashboard/settings/settings_sidebar", current_page: "csat_surveys") do
+    .eb-templates
+      .eb-templates__header
+        div
+          h2.eb-templates__title = "CSAT Surveys"
+          p.eb-templates__subtitle = "Create and manage custom Customer Satisfaction surveys."
+        .eb-templates__nav
+          = link_to new_csat_survey_path, class: "eb-btn eb-btn--primary"
+            = "Create Custom Survey"
+
+      - if @csat_surveys.any?
+        .eb-templates__grid
+          - @csat_surveys.each do |survey|
+            .eb-card
+              .eb-card__body
+                .eb-card__header
+                  h3.eb-card__name = survey.name
+                p.eb-card__description
+                  strong Prompt: 
+                  = survey.prompt.presence || "How would you rate the support you received?"
+                  br
+                  - if survey.email_template
+                    span.eb-badge.eb-badge--active = "Uses: #{survey.email_template.name}"
+                  - else
+                    span.eb-badge.eb-badge--inactive = "Uses: System Default Mail"
+
+              .eb-card__footer
+                span.eb-card__meta = "Last updated #{time_ago_in_words(survey.updated_at)} ago"
+                .eb-card__actions
+                  = link_to edit_csat_survey_path(survey), class: "eb-btn eb-btn--primary"
+                    = "Edit"
+                  = link_to csat_survey_path(survey), data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete this survey?" }, class: "eb-btn eb-btn--danger ml-2"
+                    = "Delete"
+      - else
+        .auto-empty-state
+          h3.f-semi-18 = "No custom surveys found"
+          p.f-reg-14 = "Create your first custom CSAT survey to collect tailored feedback."

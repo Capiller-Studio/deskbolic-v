@@ -14,6 +14,14 @@ module Dashboard
       authorized?("email_templates.manage", feature: :custom_email_templates_enabled)
     end
 
+    def create?
+      authorized?("email_templates.manage", feature: :custom_email_templates_enabled)
+    end
+
+    def destroy?
+      authorized?("email_templates.manage", feature: :custom_email_templates_enabled)
+    end
+
     def publish?
       authorized?("email_templates.manage", feature: :custom_email_templates_enabled)
     end

@@ -11,7 +11,7 @@ class AgentNotificationMailer < ApplicationMailer
     @resource = notification.resource
 
     locale = @user.locale || I18n.default_locale
-    template = EmailTemplate.for_account(@account, EmailTemplate::AGENT_NOTIFICATION)
+    template = EmailTemplate.for_account(@account, "agent_notification")
 
     if template
       I18n.with_locale(locale) do

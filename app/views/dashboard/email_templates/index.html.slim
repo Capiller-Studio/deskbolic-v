@@ -6,7 +6,9 @@
           h2.eb-templates__title = t("dashboard.email_templates.index.title")
           p.eb-templates__subtitle = t("dashboard.email_templates.index.subtitle")
         .eb-templates__nav
-          = link_to email_templates_path, class: "eb-btn eb-btn--primary"
+          = link_to new_email_template_path, class: "eb-btn eb-btn--primary"
+            = "Create Custom Template"
+          = link_to email_templates_path, class: "eb-btn eb-btn--outline"
             = t("dashboard.email_templates.index.tab_templates")
           = link_to email_template_layouts_path, class: "eb-btn eb-btn--outline"
             = t("dashboard.email_templates.index.tab_layouts")
@@ -27,8 +29,11 @@
 
               .eb-card__footer
                 span.eb-card__meta = t("dashboard.email_templates.index.last_modified", time: time_ago_in_words(template.updated_at))
-                = link_to edit_email_template_path(template), class: "eb-btn eb-btn--primary"
-                  = t("dashboard.email_templates.index.edit_design")
+                .eb-card__actions
+                  = link_to edit_email_template_path(template), class: "eb-btn eb-btn--primary"
+                    = t("dashboard.email_templates.index.edit_design")
+                  = link_to email_template_path(template), data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete this template?" }, class: "eb-btn eb-btn--danger"
+                    = "Delete"
       - else
         .auto-empty-state
           h3.f-semi-18 = t("dashboard.email_templates.index.empty_title")

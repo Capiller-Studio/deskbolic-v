@@ -1,0 +1,83 @@
+= form_with(model: policy, url: (policy.persisted? ? sla_policy_path(policy) : sla_policies_path), data: { controller: "sla-policy" }) do |f|
+  
+  / ── Details Section ──
+  .ap-section
+    .ap-section-header
+      span.ap-section-icon 📝
+      = t(".details_section", default: "Policy Details")
+    .ap-section-body
+      .ap-form-row style="flex-direction: column; align-items: stretch; gap: 16px;"
+        div
+          label.f-semi-13.ap-label = t(".name_label", default: "Policy Name")
+          = f.text_field :name, class: "ap-input", placeholder: t(".name_placeholder", default: "e.g., VIP Customers SLA"), required: true
+        div
+          label.f-semi-13.ap-label = t(".description_label", default: "Description")
+          = f.text_area :description, class: "ap-input ap-textarea", rows: 2
+
+  / ── Targets Section ──
+  .ap-section
+    .ap-section-header
+      span.ap-section-icon 🎯
+      = t(".targets_section", default: "SLA Targets")
+    .ap-section-body
+      .ap-form-row style="flex-direction: column; align-items: stretch; gap: 16px;"
+        
+        / First Response
+        div
+          label.f-semi-13.ap-label = t(".first_response_label", default: "First Response Time")
+          .ap-combined-input style="display: flex; gap: 8px;"
+            - fr_val = policy.initial_response_time_limit ? (policy.initial_response_time_limit >= 86400 ? policy.initial_response_time_limit / 86400 : (policy.initial_response_time_limit >= 3600 ? policy.initial_response_time_limit / 3600 : policy.initial_response_time_limit / 60)).to_i : nil
+            - fr_unit = policy.initial_response_time_limit ? (policy.initial_response_time_limit >= 86400 ? 'days' : (policy.initial_response_time_limit >= 3600 ? 'hours' : 'minutes')) : 'minutes'
+            = number_field_tag "sla_policy[initial_response_value]", fr_val, class: "ap-input", style: "flex: 1;", min: 1, placeholder: "e.g., 15"
+            = select_tag "sla_policy[initial_response_unit]", options_for_select([['Minutes', 'minutes'], ['Hours', 'hours'], ['Days', 'days']], fr_unit), class: "ap-select", style: "flex: 1;"
+        
+        / Next Response
+        div
+          label.f-semi-13.ap-label = t(".next_response_label", default: "Next Response Time")
+          .ap-combined-input style="display: flex; gap: 8px;"
+            - nr_val = policy.response_time_limit ? (policy.response_time_limit >= 86400 ? policy.response_time_limit / 86400 : (policy.response_time_limit >= 3600 ? policy.response_time_limit / 3600 : policy.response_time_limit / 60)).to_i : nil
+            - nr_unit = policy.response_time_limit ? (policy.response_time_limit >= 86400 ? 'days' : (policy.response_time_limit >= 3600 ? 'hours' : 'minutes')) : 'minutes'
+            = number_field_tag "sla_policy[response_value]", nr_val, class: "ap-input", style: "flex: 1;", min: 1
+            = select_tag "sla_policy[response_unit]", options_for_select([['Minutes', 'minutes'], ['Hours', 'hours'], ['Days', 'days']], nr_unit), class: "ap-select", style: "flex: 1;"
+
+        / Resolution
+        div
+          label.f-semi-13.ap-label = t(".resolution_label", default: "Resolution Time")
+          .ap-combined-input style="display: flex; gap: 8px;"
+            - res_val = policy.resolution_time_limit ? (policy.resolution_time_limit >= 86400 ? policy.resolution_time_limit / 86400 : (policy.resolution_time_limit >= 3600 ? policy.resolution_time_limit / 3600 : policy.resolution_time_limit / 60)).to_i : nil
+            - res_unit = policy.resolution_time_limit ? (policy.resolution_time_limit >= 86400 ? 'days' : (policy.resolution_time_limit >= 3600 ? 'hours' : 'minutes')) : 'minutes'
+            = number_field_tag "sla_policy[resolution_value]", res_val, class: "ap-input", style: "flex: 1;", min: 1
+            = select_tag "sla_policy[resolution_unit]", options_for_select([['Minutes', 'minutes'], ['Hours', 'hours'], ['Days', 'days']], res_unit), class: "ap-select", style: "flex: 1;"
+
+  / ── Inboxes Section ──
+  .ap-section
+    .ap-section-header
+      span.ap-section-icon 📥
+      = t(".inboxes_section", default: "Apply to Inboxes")
+    .ap-section-body
+      p.ap-hint style="margin-bottom: 12px;" = t(".all_inboxes_hint", default: "Select which inboxes this SLA policy applies to.")
+      .ap-checkbox-grid
+        - @inboxes.each do |inbox|
+          label.ap-checkbox-item id="inbox-#{inbox.id}"
+            = check_box_tag "sla_policy[inbox_ids][]", inbox.id, policy.inbox_ids.include?(inbox.id), class: "ap-checkbox"
+            span.f-reg-13 = inbox.name
+
+  / ── Business Hours Section ──
+  .ap-section
+    .ap-section-header
+      span.ap-section-icon 🕐
+      = t(".business_hours_section", default: "Business Hours")
+    .ap-section-body
+      .ap-form-row
+        .ap-toggle-row
+          = f.check_box :during_working_hours, class: "ap-checkbox", data: { action: "change->sla-policy#toggleBusinessHours", "sla-policy-target": "businessHoursToggle" }, id: "policy-bh-toggle"
+          label.f-reg-13 for="policy-bh-toggle" = t(".during_working_hours", default: "Only track SLA targets during business hours")
+
+      .ap-conditional-field data-sla-policy-target="businessHoursField" style="#{policy.during_working_hours? ? '' : 'display: none;'}"
+        label.f-semi-13.ap-label = t(".business_hour_group_label", default: "Select Business Hours Schedule")
+        = f.select :business_hour_group_id, options_from_collection_for_select(@business_hour_groups, :id, :name, policy.business_hour_group_id), { include_blank: "Select a schedule" }, class: "ap-select", id: "policy-bh-group"
+
+  / ── Footer ──
+  .ap-form-footer
+    = link_to t(".cancel", default: "Cancel"), sla_policies_path, class: "ap-btn-secondary"
+    = f.submit t(".save", default: "Save SLA Policy"), class: "ap-btn-primary"

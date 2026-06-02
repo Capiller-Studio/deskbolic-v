@@ -2,11 +2,55 @@
 
 module Dashboard
   class EmailTemplatesController < DashboardController
-    before_action :set_email_template, only: %i[edit update publish discard_draft preview send_test variables copy_locale]
+    before_action :set_email_template, only: %i[edit update publish discard_draft preview send_test variables copy_locale destroy]
 
     def index
       authorize EmailTemplate
-      @email_templates = Current.account.email_templates.system_templates.includes(:translations)
+      @email_templates = Current.account.email_templates.includes(:translations)
+    end
+
+    def new
+      authorize EmailTemplate
+      @email_template = EmailTemplate.new
+    end
+
+    def create
+      authorize EmailTemplate
+      
+      name = params.dig(:email_template, :name)
+      template_type = params.dig(:email_template, :template_type)
+
+      @email_template = EmailTemplates::Creator.call(
+        account: Current.account,
+        name: name,
+        template_type: template_type
+      )
+
+      respond_to do |format|
+        format.html { redirect_to edit_email_template_path(@email_template), notice: "Template created successfully." }
+        format.json { render json: { success: true, redirect_url: edit_email_template_path(@email_template) } }
+      end
+    rescue StandardError => e
+      respond_to do |format|
+        format.html { redirect_to email_templates_path, alert: e.message }
+        format.json { render json: { success: false, errors: [e.message] }, status: :unprocessable_entity }
+      end
+    end
+
+    def destroy
+      authorize @email_template
+
+      @email_template.destroy!
+
+      respond_to do |format|
+        format.html { redirect_to email_templates_path, notice: I18n.t("dashboard.email_builder.deleted") }
+        format.json { render json: { success: true, message: I18n.t("dashboard.email_builder.deleted") } }
+      end
+    rescue StandardError => e
+      respond_to do |format|
+        format.html { redirect_to email_templates_path, alert: e.message }
+        format.json { render json: { success: false, errors: [e.message] }, status: :unprocessable_entity }
+      end
     end
 
     def edit
@@ -84,7 +128,7 @@ module Dashboard
         )
 
         # Render with sample variables for preview
-        sample_vars = sample_variables_for(@email_template.name)
+        sample_vars = sample_variables_for(@email_template.template_type)
         rendered = Liquid::Template.parse(compiled_html).render(sample_vars)
 
         render json: { html: rendered }
@@ -106,7 +150,7 @@ module Dashboard
           draft_mjml, layout_body: layout_body
         )
 
-        sample_vars = sample_variables_for(@email_template.name)
+        sample_vars = sample_variables_for(@email_template.template_type)
         rendered = Liquid::Template.parse(compiled_html).render(sample_vars)
         target_translation = @email_template.translations.find { |t| t.locale.to_s == locale.to_s }
         subject = target_translation&.draft_subject.presence || target_translation&.subject || @email_template.subject.presence || @email_template.name.titleize
@@ -162,7 +206,7 @@ module Dashboard
       }
 
       case template_name
-      when EmailTemplate::CONVERSATION_REPLY
+      when "conversation_reply"
         base.merge(
           "customer" => { "name" => "John Doe", "email" => "john@example.com" },
           "agent"    => { "name" => current_user.display_name || "Agent", "email" => current_user.email },
@@ -170,32 +214,40 @@ module Dashboard
           "conversation" => { "subject" => I18n.t("dashboard.email_builder.sample.conversation_subject"), "identifier" => "CONV-1234" },
           "inbox"    => { "name" => "Support" }
         )
-      when EmailTemplate::AGENT_NOTIFICATION
+      when "agent_notification"
         base.merge(
           "agent" => { "name" => current_user.display_name || "Agent", "email" => current_user.email },
           "event" => { "title" => I18n.t("dashboard.email_builder.sample.event_title"), "description" => I18n.t("dashboard.email_builder.sample.event_description") },
           "conversation" => { "identifier" => "CONV-1234" },
           "inbox" => { "name" => "Support" }
         )
-      when EmailTemplate::WELCOME_EMAIL
+      when "welcome_email"
         base.merge(
           "user" => { "name" => current_user.display_name || "User", "email" => current_user.email }
         )
-      when EmailTemplate::PASSWORD_RESET
+      when "password_reset"
         base.merge(
           "user"       => { "name" => current_user.display_name || "User", "email" => current_user.email },
           "reset_link" => "#"
         )
-      when EmailTemplate::EMAIL_VERIFICATION
+      when "email_verification"
         base.merge(
           "user"              => { "name" => current_user.display_name || "User", "email" => current_user.email },
           "verification_link" => "#"
         )
-      when EmailTemplate::TEAM_INVITATION
+      when "team_invitation"
         base.merge(
           "inviter"     => { "name" => current_user.display_name || "Admin" },
           "team"        => { "name" => "Support Team" },
           "invite_link" => "#"
+        )
+      when "csat_survey"
+        base.merge(
+          "customer"     => { "name" => "John Doe", "email" => "john@example.com" },
+          "agent"        => { "name" => current_user.display_name || "Agent", "email" => current_user.email },
+          "conversation" => { "subject" => I18n.t("dashboard.email_builder.sample.conversation_subject", default: "Sample Subject"), "identifier" => "CONV-1234" },
+          "inbox"        => { "name" => "Support" },
+          "csat"         => { "survey_url" => "#" }
         )
       else
         base

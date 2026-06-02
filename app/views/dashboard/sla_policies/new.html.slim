@@ -1,0 +1,7 @@
+= render("dashboard/shared/dashboard_container", current_page: "settings") do
+  .ap-index-header
+    .ap-title-area
+      h2.f-semi-32 = t(".title", default: "New SLA Policy")
+      p.f-reg-16 = t(".description", default: "Define targets to ensure your team responds to customers on time.")
+  
+  = render "form", policy: @policy

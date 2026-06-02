@@ -1,0 +1,22 @@
+= render("dashboard/shared/dashboard_container", current_page: "settings") do
+  .ap-index-header
+    .ap-title-area
+      h2.f-semi-32 = t("settings.csat.title", default: "Customer Satisfaction (CSAT)")
+      p.f-reg-16 = t("settings.csat.description", default: "Automatically send surveys to customers after a conversation is resolved.")
+
+  .ap-section style="margin-top: 32px; max-width: 800px;"
+    = form_with url: settings_csat_path, method: :patch, local: true do |f|
+      .ap-section-header
+        span.ap-section-icon ⭐
+        = t("settings.csat.configuration", default: "CSAT Configuration")
+      .ap-section-body
+        .ap-form-row
+          .ap-toggle-row
+            = f.check_box :csat_enabled, { checked: current_account.feature_enabled?(:csat), class: "ap-checkbox", id: "csat-toggle" }, "true", "false"
+            label.f-semi-14 for="csat-toggle" style="margin-left: 8px;" = t("settings.csat.enable_label", default: "Enable CSAT Surveys")
+            
+        p.f-reg-13 style="margin-top: 12px; color: #666;"
+          = t("settings.csat.info_text", default: "When enabled, customers will receive a rating prompt natively in the chat widget or via email link after their ticket status is changed to Resolved.")
+          
+      .ap-form-footer
+        = f.submit t("settings.csat.save", default: "Save Settings"), class: "ap-btn-primary"

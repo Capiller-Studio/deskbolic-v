@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_30_000004) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_02_010530) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -576,6 +576,50 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_30_000004) do
     t.index ["team_id"], name: "index_conversations_on_team_id"
   end
 
+  create_table "csat_survey_responses", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "account_id", null: false
+    t.text "content"
+    t.uuid "conversation_id", null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.uuid "csat_survey_id"
+    t.uuid "customer_id", null: false
+    t.uuid "message_id"
+    t.integer "rating"
+    t.integer "status", default: 0, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["account_id", "rating"], name: "index_csat_survey_responses_on_account_id_and_rating"
+    t.index ["account_id", "status"], name: "index_csat_survey_responses_on_account_id_and_status"
+    t.index ["account_id"], name: "index_csat_survey_responses_on_account_id"
+    t.index ["conversation_id"], name: "index_csat_survey_responses_on_conversation_id"
+    t.index ["csat_survey_id"], name: "index_csat_survey_responses_on_csat_survey_id"
+    t.index ["customer_id"], name: "index_csat_survey_responses_on_customer_id"
+    t.index ["message_id"], name: "index_csat_survey_responses_on_message_id"
+  end
+
+  create_table "csat_survey_translations", force: :cascade do |t|
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.uuid "csat_survey_id", null: false
+    t.string "locale", null: false
+    t.string "portal_feedback_label"
+    t.text "portal_subtitle"
+    t.string "portal_title"
+    t.string "prompt"
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["csat_survey_id", "locale"], name: "index_csat_translations_on_survey_and_locale", unique: true
+    t.index ["csat_survey_id"], name: "index_csat_survey_translations_on_csat_survey_id"
+    t.index ["locale"], name: "index_csat_survey_translations_on_locale"
+  end
+
+  create_table "csat_surveys", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "account_id", null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.uuid "email_template_id"
+    t.string "name", null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["account_id"], name: "index_csat_surveys_on_account_id"
+    t.index ["email_template_id"], name: "index_csat_surveys_on_email_template_id"
+  end
+
   create_table "custom_field_resources", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.jsonb "configurations", default: {}, null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
@@ -1023,6 +1067,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_30_000004) do
     t.string "channel_type", null: false
     t.jsonb "configurations", default: {}, null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.uuid "csat_survey_id"
     t.string "default_locale", default: "en", null: false
     t.string "display_name"
     t.integer "flags", default: 0, null: false
@@ -1036,6 +1081,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_30_000004) do
     t.index ["account_id"], name: "index_inboxes_on_account_id"
     t.index ["business_hour_group_id"], name: "index_inboxes_on_business_hour_group_id"
     t.index ["channel_type", "channel_id"], name: "index_inboxes_on_channel"
+    t.index ["csat_survey_id"], name: "index_inboxes_on_csat_survey_id"
   end
 
   create_table "integrations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -1337,6 +1383,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_30_000004) do
   add_foreign_key "conversation_slas", "sla_policies", on_delete: :cascade
   add_foreign_key "conversations", "campaigns", on_delete: :nullify
   add_foreign_key "conversations", "inboxes", on_delete: :cascade
+  add_foreign_key "csat_survey_responses", "conversations", on_delete: :cascade
+  add_foreign_key "csat_survey_responses", "csat_surveys", on_delete: :nullify
+  add_foreign_key "csat_survey_responses", "customers", on_delete: :cascade
+  add_foreign_key "csat_survey_responses", "messages", on_delete: :nullify
+  add_foreign_key "csat_survey_translations", "csat_surveys", on_delete: :cascade
+  add_foreign_key "csat_surveys", "email_templates", on_delete: :nullify
   add_foreign_key "custom_field_resources", "custom_fields", on_delete: :cascade
   add_foreign_key "custom_field_translations", "custom_fields", on_delete: :cascade
   add_foreign_key "customer_inboxes", "customers", on_delete: :cascade
@@ -1359,6 +1411,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_30_000004) do
   add_foreign_key "inbox_translations", "inboxes", on_delete: :cascade
   add_foreign_key "inbox_users", "inboxes", on_delete: :cascade
   add_foreign_key "inboxes", "business_hour_groups", on_delete: :nullify
+  add_foreign_key "inboxes", "csat_surveys", on_delete: :nullify
   add_foreign_key "messages", "conversations", on_delete: :cascade
   add_foreign_key "messages", "inboxes", on_delete: :cascade
   add_foreign_key "sla_inboxes", "inboxes", on_delete: :cascade

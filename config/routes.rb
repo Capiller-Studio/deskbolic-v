@@ -148,7 +148,7 @@ Rails.application.routes.draw do
     
     resources :custom_fields
 
-    resources :email_templates, only: [:index, :edit, :update] do
+    resources :email_templates, only: [:index, :new, :create, :edit, :update, :destroy] do
       member do
         post :publish
         post :discard_draft
@@ -158,6 +158,8 @@ Rails.application.routes.draw do
         post :copy_locale
       end
     end
+
+    resources :csat_surveys
 
     resources :email_template_layouts, only: [:index, :edit, :update] do
       member do

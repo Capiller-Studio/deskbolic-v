@@ -1,0 +1,27 @@
+= form_with(model: survey, url: (survey.persisted? ? csat_survey_path(survey) : csat_surveys_path), local: true) do |f|
+  .form-group.mb-4
+    = f.label :name, "Survey Name"
+    = f.text_field :name, class: "form-control", required: true, placeholder: "e.g. Support Feedback"
+
+  .form-group.mb-4
+    = f.label :prompt, "Email Prompt (Inside the email)"
+    = f.text_field :prompt, class: "form-control", placeholder: "e.g. How would you rate the support you received?"
+
+  .form-group.mb-4
+    = f.label :portal_title, "Portal Title (On the feedback page)"
+    = f.text_field :portal_title, class: "form-control", placeholder: "e.g. How did we do?"
+
+  .form-group.mb-4
+    = f.label :portal_subtitle, "Portal Subtitle"
+    = f.text_field :portal_subtitle, class: "form-control", placeholder: "e.g. We'd love to hear your feedback on your recent support experience."
+
+  .form-group.mb-4
+    = f.label :portal_feedback_label, "Feedback Textbox Label"
+    = f.text_field :portal_feedback_label, class: "form-control", placeholder: "e.g. Tell us more (Optional)"
+
+  .form-group.mb-4
+    = f.label :email_template_id, "Assigned Email Template (Optional)"
+    = f.collection_select :email_template_id, Current.account.email_templates.where(template_type: :csat_survey), :id, :name, { include_blank: "Use System Default Design" }, class: "form-control"
+
+  .form-group.mt-4
+    = f.submit "Save Survey", class: "eb-btn eb-btn--primary"

@@ -34,10 +34,26 @@
       p.f-semi-14 Team
       .card.team-info
         button.accordian data-action="click->accordion#toggle"
-          = inline_svg_tag("info.svg", class:"")
-          p.f-reg-14 Technical
-          = inline_svg_tag("arrow_down.svg", class:"arrow-icon ml-auto")
+          - if assigned_team
+            = inline_svg_tag("users.svg", class: "team-card-icon")
+            p.f-reg-14 = assigned_team.name
+          - else
+            = inline_svg_tag("users.svg", class: "team-card-icon")
+            p.f-reg-14 Assign
+          = inline_svg_tag("arrow_down.svg", class: "arrow-icon ml-auto")
+
         .panel data-accordion-target="panel"
+          - if assigned_team
+            .assigned-team-row
+              = inline_svg_tag("users.svg", class: "team-card-icon")
+              p.f-reg-12 = assigned_team.name
+              = button_to("Unassign", unassign_team_conversation_path(@conversation), method: :post, class: "unassign-btn f-reg-12")
+          - else
+            - @teams.each do |team|
+              .team-row
+                = inline_svg_tag("users.svg", class: "team-card-icon")
+                p.f-reg-12 = team.name
+                = button_to("Assign", assign_team_conversation_path(@conversation, team_id: team.id), method: :post, class: "assign-btn assign-team-btn f-reg-12")
     .card.ticket-info
       button.accordian data-action="click->accordion#toggle"
         p.f-reg-14 Ticket info

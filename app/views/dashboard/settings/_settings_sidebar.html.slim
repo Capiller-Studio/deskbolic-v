@@ -77,6 +77,11 @@
                     .link-text
                       .conversation-name.inbox-conv
                         p.f-reg-12 = t("dashboard.skills.sidebar.label")
+                li.nav-item class="#{current_page == 'teams' ? 'st-list-active' : ''}"
+                  = link_to(teams_path, class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12 Teams
                 / li.nav-item class="#{current_page == 'roles' ? 'st-list-active' : ''}"
                 /   = link_to(roles_settings_path, class: "nav-link") do
                 /     .link-text

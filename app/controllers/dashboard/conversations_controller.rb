@@ -7,6 +7,9 @@ module Dashboard
       @fb_channels = Channel::FacebookPage.where(account: current_account).all
       @wa_channels = Channel::Whatsapp.where(account: current_account).all
       @ww_channels = Channel::WebWidget.where(account: current_account).all
+      @cf_channels = Channel::ContactForm.where(account: current_account).all
+      @teams = current_account.teams.includes(:team_users).order(:name)
+      @team_users = @teams.flat_map(&:team_users).reject { |tu| tu.user_id == current_user.id }.uniq(&:user_id)
 
       @inbox = Inbox.find(params[:resource_id])
       @conversations = @inbox.conversations.where(account: current_account)
@@ -33,11 +36,14 @@ module Dashboard
       @fb_channels = Channel::FacebookPage.where(account: current_account).all
       @wa_channels = Channel::Whatsapp.where(account: current_account).all
       @ww_channels = Channel::WebWidget.where(account: current_account).all
+      @cf_channels = Channel::ContactForm.where(account: current_account).all
+      @teams = current_account.teams.includes(:team_users).order(:name)
+      @team_users = @teams.flat_map(&:team_users).reject { |tu| tu.user_id == current_user.id }.uniq(&:user_id)
 
       @conversation = Conversation.find(params[:resource_id])
       @inbox = @conversation.inbox
       @conversations = @conversation.inbox.conversations.where(account: current_account).where(status: @conversation.status)
-      @conversations = @conversations.current_conversations(current_user)
+      @conversations = @conversations.current_conversations(current_user).or(@conversations.not_assigned_to_user)
 
       @messages = @conversation.messages.includes(:attachments)
       @canned_responses = CannedResponse.where(account: current_account).all
@@ -89,6 +95,21 @@ module Dashboard
       @conversation = Conversation.find(params[:id])
       @conversation.assign!(current_user)
 
+      redirect_to(request.referer)
+    end
+
+    def assign_team
+      @conversation = current_account.conversations.find(params[:id])
+      team = current_account.teams.find(params[:team_id])
+      @conversation.update!(team: team)
+
+      redirect_to(request.referer)
+    end
+
+    def unassign_team
+      @conversation = current_account.conversations.find(params[:id])
+      @conversation.update!(team: nil)
+      
       redirect_to(request.referer)
     end
 

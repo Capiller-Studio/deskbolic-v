@@ -19,9 +19,9 @@ module Dashboard
         params: team_create_params
       )
 
-      redirect_back(fallback_location: dashboard_teams_path, notice: "Team created successfully")
+      redirect_to teams_path, notice: "Team created successfully"
     rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved => e
-      redirect_back(fallback_location: dashboard_teams_path, alert: e.message)
+      redirect_back(fallback_location: teams_path, alert: e.message)
     end
 
     def update
@@ -30,17 +30,17 @@ module Dashboard
         params: team_update_params
       )
 
-      redirect_back(fallback_location: dashboard_team_path(@team), notice: "Team updated successfully")
+      redirect_to teams_path, notice: "Team updated successfully"
     rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved => e
-      redirect_back(fallback_location: dashboard_team_path(@team), alert: e.message)
+      redirect_back(fallback_location: teams_path, alert: e.message)
     end
 
     def destroy
       Teams::DestroyService.call(team: @team)
 
-      redirect_to dashboard_teams_path, notice: "Team deleted successfully"
+      redirect_to teams_path, notice: "Team deleted successfully"
     rescue ActiveRecord::RecordNotSaved => e
-      redirect_back(fallback_location: dashboard_teams_path, alert: e.message)
+      redirect_back(fallback_location: teams_path, alert: e.message)
     end
 
     def add_member
@@ -49,9 +49,9 @@ module Dashboard
         params: { action: :add, user_id: params[:user_id], role: params[:role] }
       )
 
-      redirect_back(fallback_location: dashboard_team_path(@team), notice: "Member added")
+      redirect_back(fallback_location: team_path(@team), notice: "Member added")
     rescue ActiveRecord::RecordInvalid => e
-      redirect_back(fallback_location: dashboard_team_path(@team), alert: e.message)
+      redirect_back(fallback_location: team_path(@team), alert: e.message)
     end
 
     def remove_member
@@ -60,9 +60,9 @@ module Dashboard
         params: { action: :remove, user_id: params[:user_id] }
       )
 
-      redirect_back(fallback_location: dashboard_team_path(@team), notice: "Member removed")
+      redirect_back(fallback_location: team_path(@team), notice: "Member removed")
     rescue ActiveRecord::RecordNotFound
-      redirect_back(fallback_location: dashboard_team_path(@team), alert: "Member not found")
+      redirect_back(fallback_location: team_path(@team), alert: "Member not found")
     end
 
     private

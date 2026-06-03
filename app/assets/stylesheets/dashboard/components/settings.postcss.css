@@ -363,9 +363,19 @@
           }
           .card-footer {
             @mixin flex-row $justify-start, $align-center;
+            border-bottom: 1px solid $black-5;
+            padding-bottom: 10px;
             .avatar-icon {
               width: 30px;
               height: 30px;
+            }
+            .customer-list-initials-avatar {
+              @mixin flex-row $justify-center, $align-center;
+              width: 30px;
+              height: 30px;
+              font-size: 12px;
+              line-height: 1;
+              border-radius: 50%;
             }
             .avatar2 {
               margin-left: -12px;
@@ -383,6 +393,19 @@
               }
               span.f-reg-12 {
                 color: $secondary-purple;
+              }
+            }
+          }
+          .card-status {
+            @mixin flex-row $justify-between, $align-center;
+            margin-top: 10px;
+            .status-tag {
+              @mixin flex-row $justify-center, $align-center;
+              .bullet {
+                width: 10px;
+                height: 10px;
+                border-radius: 10px;
+                margin-right: 5px;
               }
             }
           }

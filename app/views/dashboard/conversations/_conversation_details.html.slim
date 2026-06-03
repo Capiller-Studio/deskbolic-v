@@ -101,6 +101,17 @@
                 p.f-reg-14 = "#{csat_response.rating} / 5"
               - else
                 p.f-reg-14 Pending
+
+    - if current_account.feature_enabled?(:identity_sources) && customer.identities.any?
+      .card.identity-info
+        button.accordian data-action="click->accordion#toggle"
+          p.f-reg-14 Verified Identities
+          = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
+        .panel data-accordion-target="panel"
+          - customer.identities.includes(:identity_source).each do |identity|
+            .section-flex style="margin-bottom: 8px; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px;"
+              h5.f-reg-14 = identity.identity_source&.name || identity.identity_type.titleize
+              p.f-reg-14.ml-auto = identity.identifier
                 
     .card.user-data
       button.accordian data-action="click->accordion#toggle"

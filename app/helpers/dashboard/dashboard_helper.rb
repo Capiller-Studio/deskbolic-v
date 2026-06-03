@@ -14,7 +14,9 @@ module Dashboard
     }.freeze
     STATUS_CLASS_MAPPING = {
       "active" => "green",
-      "offline" => "gray"
+      "offline" => "gray",
+      "inactive" => "red",
+      "archived" => "gray"
     }.freeze
     
     DEFAULT_FLASH_CLASS = "green"
@@ -25,6 +27,10 @@ module Dashboard
     end
     
     def member_status_class(status)
+      STATUS_CLASS_MAPPING[status] || DEFAULT_STATUS_CLASS
+    end
+
+    def team_status_class(status)
       STATUS_CLASS_MAPPING[status] || DEFAULT_STATUS_CLASS
     end
   end

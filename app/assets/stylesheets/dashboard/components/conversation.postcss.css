@@ -577,9 +577,7 @@
             }
           }
           .commands {
-            padding: 15px;
-            padding-top: 0px;
-            padding-bottom: 10px;
+            padding: 10px 15px;
             background: #ffffff;
             width: 100%;
             border-radius: 0px 0px 10px 10px;
@@ -864,16 +862,16 @@
             }
             .send-button {
               @mixin flex-row $justify-between, $align-center;
-              gap: 15px;
+              gap: 8px;
               cursor: pointer;
               background: $black-80;
               color: $white;
-              padding: 12px 11px;
+              padding: 8px 11px;
               border: none;
               border-radius: 10px;
               .arrow-container{
-                height:15px;
-               }
+                margin-bottom: 3px;
+              }
               .menu {
                 @mixin menu;
                 position: absolute;
@@ -908,7 +906,6 @@
                     &:hover {
                       background-color: $black-80;
                     }
-                   
                   }
                 }
               }
@@ -1090,6 +1087,92 @@
         button.accordian,
         .panel {
           @mixin rect-back-purple;
+          .team-card-icon {
+            width: 18px;
+            height: 18px;
+          }
+          .team-row {
+            @mixin flex-row $justify-between, $align-center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: background 0.15s;
+            position: relative;
+
+            &:hover {
+              background: #f5f5f5;
+              .assign-team-btn {
+                opacity: 1;
+              }
+            }
+            form {
+              margin-left: auto;
+            }
+            .assign-team-btn {
+              opacity: 0;
+              margin-left: auto;
+              transition: opacity 0.15s;
+              background: #111;
+              color: #fff;
+              border: none;
+              border-radius: 6px;
+              padding: 4px 10px;
+              font-size: 12px;
+              cursor: pointer;
+
+              &:hover { opacity: 0.85; }
+            }
+          }
+          .assigned-team-row {
+            @mixin flex-row $justify-between, $align-center;
+            gap: 8px;
+            padding: 8px 12px;
+            form {
+              margin-left: auto;
+            }
+            .unassign-btn {
+              background: none;
+              border: none;
+              cursor: pointer;
+              padding: 2px;
+              border-radius: 4px;
+              display: flex;
+              align-items: center;
+              opacity: 0.4;
+              transition: opacity 0.15s;
+
+              &:hover { opacity: 1; }
+            }
+          }
+          .team-avatar-placeholder {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            flex-shrink: 0;
+          }
+          .section-flex {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .unassign-btn {
+              background: none;
+              border: none;
+              cursor: pointer;
+              padding: 2px;
+              border-radius: 4px;
+              display: flex;
+              align-items: center;
+              opacity: 0.4;
+              transition: opacity 0.15s;
+
+              &:hover { opacity: 1; }
+            }
+          }
         }
         button.accordian {
           p {

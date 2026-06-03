@@ -1,0 +1,44 @@
+= render("dashboard/shared/dashboard_container", current_page: "teams") do
+  = render("dashboard/settings/settings_sidebar", current_page: "teams") do
+    .body-section.roles-body.team-inboxes-body data-controller="modalToggler frameToggler"
+      .roles-header.team-inboxes-header
+        .topbar
+          h2.f-semi-18 Teams
+          .new-inbox data-action="click->modalToggler#showModal click->frameToggler#loadModal" data-popup-view="_team_modal" style="cursor: pointer;"
+            span.f-reg-14 New Team
+            = inline_svg_tag("plus_white.svg", class:"plus-icon", alt:"menu")
+        .header-options
+          .f-reg-16 Manage all Team and users and their team access
+      .roles-container
+        - if @teams.any?
+          .roles-section data-controller="modalToggler frameToggler"
+            - @teams.each do |team|
+              .card
+                .card-header
+                  h4.f-semi-16 = team.name
+                  = inline_svg_tag("settings.svg", class: "card-icon", alt: "icon", data: { action: "click->modalToggler#showModal click->frameToggler#loadModal", popup_view: "_team_modal", item_id: team.id }, style: "cursor: pointer;")
+                p.f-reg-14 = team.description.presence || "No description provided."
+                .card-footer
+                  - team.users.limit(3).each_with_index do |team_user, idx|
+                    - if team_user.avatar.attached?
+                      = image_tag(team_user.avatar, class: "avatar-icon avatar#{idx+1}", alt: team_user.display_name)
+                    - else
+                      .avatar-icon.avatar-fallback.customer-list-initials-avatar.f-reg-12 class="avatar#{idx+1} #{avatar_fallback_color_class(team_user.display_name)}"
+                        = (team_user.display_name)&.first&.upcase
+                  .new-teammates data-action="click->modalToggler#showModal click->frameToggler#loadModal" data-popup-view="_team_modal" data-item-id=team.id style="cursor: pointer;"
+                    = inline_svg_tag("plus_blue.svg", class:"plus-icon", alt:"menu")
+                    span.f-reg-12 Add Teammates
+                .card-status
+                  span.f-reg-12 = team.created_at.strftime("%b %d, %Y")
+                  .status-tag class="bg-#{team_status_class(team.status)}" 
+                    .bullet
+                    span.f-reg-12 = team.status.capitalize
+        - else
+          .roles-empity
+            .empity-section
+              = image_tag("empity_tag.png", class:"empity-tag", alt:"img")
+              h3.f-semi-24 You have not created any teams yet
+              p.f-reg-14 Create your first team to get started
+              .new-inbox data-action="click->modalToggler#showModal click->frameToggler#loadModal" data-popup-view="_team_modal" style="margin-top: 16px; cursor: pointer;"
+                span.f-reg-14 New Team
+                = inline_svg_tag("plus_white.svg", class:"plus-icon", alt:"menu")

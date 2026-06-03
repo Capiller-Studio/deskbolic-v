@@ -69,6 +69,8 @@ Rails.application.routes.draw do
         patch :snooz_conversation
         patch :close_conversation
         post  :assign_member
+        post  :assign_team
+        post  :unassign_team
       end
     end
     resources :channels
@@ -85,6 +87,7 @@ Rails.application.routes.draw do
       end
     end
     resources :roles
+    resources :teams
     resources :custom_fields
     resources :assignment_policies do
       member do

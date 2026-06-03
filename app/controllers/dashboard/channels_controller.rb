@@ -8,6 +8,8 @@ module Dashboard
       @wa_channels = Channel::Whatsapp.where(account: current_account).all
       @ww_channels = Channel::WebWidget.where(account: current_account).all
       @cf_channels = Channel::ContactForm.where(account: current_account).all
+      @teams = current_account.teams.includes(:team_users).order(:name)
+      @team_users = @teams.flat_map(&:team_users).reject { |tu| tu.user_id == current_user.id }.uniq(&:user_id)
     end
 
     def create

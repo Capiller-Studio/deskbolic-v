@@ -37,7 +37,7 @@
           color: $black-40;
           text-align: left;
         }
-        .list-header {
+        .list-header, .team-header {
           @mixin flex-row $justify-between, $align-center;
           margin-top: 28px;
           margin-bottom: 8px;
@@ -72,6 +72,10 @@
           .menu.visible {
             display: block;
           }
+        }
+        .teams-header {
+          @mixin flex-row $justify-left, $align-center;
+          padding-left: 15px;
         }
         ul {
           @mixin flex-column $justify-between, $align-center;
@@ -119,6 +123,14 @@
                     width: 16px;
                     height: 16px;
                     margin-right: 5px;
+                  }
+                  .customer-list-initials-avatar {
+                    @mixin flex-row $justify-center, $align-center;
+                    width: 22px;
+                    height: 22px;
+                    font-size: 10px;
+                    line-height: 1;
+                    border-radius: 50%;
                   }
                 }
               }

@@ -10,6 +10,10 @@ module Dashboard
       @conversation.assigned?
     end
 
+    def assigned_team
+      @conversation.team
+    end
+
     def single_emoji_message?(content)
       text = content.to_s.strip
       return false if text.blank?

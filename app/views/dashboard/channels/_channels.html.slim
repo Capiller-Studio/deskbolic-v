@@ -258,76 +258,36 @@
                   p.f-reg-12 3
         
         / teams
-        .team-header.list-header
-          = inline_svg_tag("dropdown_icon.svg", class:"channel-icon", alt:"menu")
+        .teams-header.list-header
           h4.f-reg-14 Teams
-          .toggle-menu.ml-auto data-action="click->accordion#toggleMenu"
-            = inline_svg_tag("menu.svg", class:"channel-menu ml-auto", alt:"menu")
-        ul.team-list
+        ul.teams-list.channel-list
           .help-nav-menu
-            li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
-              = link_to("#", class: "nav-link") do
-                .link-text.conversation-padding
-                  = inline_svg_tag("vertical_bar.svg", class:"link-bar", alt:"menu")
-                  .conversation-name
+            - @teams.each do |team|
+              li.nav-item class=""
+                .nav-link
+                  .link-text.conversation-padding
                     = inline_svg_tag("users.svg", class:"link-icon", alt:"menu")
-                    p.f-reg-14 Customer
-                .back-oval-gray
-                  p.f-reg-12 45
-            li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
-              = link_to("#", class: "nav-link") do
-                .link-text.conversation-padding
-                  = inline_svg_tag("vertical_bar.svg", class:"link-bar", alt:"menu")
-                  .conversation-name
-                    = inline_svg_tag("team_technical.svg", class:"link-icon", alt:"menu")
-                    p.f-reg-14 Technical
-                .back-oval-gray
-                  p.f-reg-12 45
-            li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
-              = link_to("#", class: "nav-link") do
-                .link-text.conversation-padding
-                  = inline_svg_tag("vertical_bar.svg", class:"link-bar", alt:"menu")
-                  .conversation-name
-                    = inline_svg_tag("team_bug.svg", class:"link-icon", alt:"menu")
-                    p.f-reg-14 Bugs fixing
-                .back-oval-gray
-                  p.f-reg-12 3
-        
+                    p.f-reg-14 = team.name
+                  .back-oval-gray
+                    p.f-reg-12 = team.team_users.count
+
         / teammates
-        .teammate-header.list-header
-          = inline_svg_tag("dropdown_icon.svg", class:"channel-icon", alt:"menu")
+        .teams-header.list-header
           h4.f-reg-14 Teammates
-          .toggle-menu.ml-auto data-action="click->accordion#toggleMenu"
-            = inline_svg_tag("menu.svg", class:"channel-menu ml-auto", alt:"menu")
-        ul.teammate-list
+        ul.teams-list.channel-list
           .help-nav-menu
-            li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
-              = link_to("#", class: "nav-link") do
-                .link-text.conversation-padding
-                  = inline_svg_tag("vertical_bar.svg", class:"link-bar", alt:"menu")
-                  .conversation-name
-                    = inline_svg_tag("users.svg", class:"link-icon", alt:"menu")
-                    p.f-reg-14 Alex jhon
-                .back-oval-gray
-                  p.f-reg-12 45
-            li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
-              = link_to("#", class: "nav-link") do
-                .link-text.conversation-padding
-                  = inline_svg_tag("vertical_bar.svg", class:"link-bar", alt:"menu")
-                  .conversation-name
-                    = inline_svg_tag("chats.svg", class:"link-icon", alt:"menu")
-                    p.f-reg-14 Emilia
-                .back-oval-gray
-                  p.f-reg-12 45
-            li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
-              = link_to("#", class: "nav-link") do
-                .link-text.conversation-padding
-                  = inline_svg_tag("vertical_bar.svg", class:"link-bar", alt:"menu")
-                  .conversation-name
-                    = inline_svg_tag("mention.svg", class:"link-icon", alt:"menu")
-                    p.f-reg-14 Williams
-                .back-oval-gray
-                  p.f-reg-12 3
+            - @team_users.each do |team_user|
+              li.nav-item class=""
+                .nav-link
+                  .link-text.conversation-padding
+                    - if team_user.user.avatar&.attached?
+                      = image_tag(team_user.user.avatar, class:"link-icon", alt:"img")
+                    - else
+                      .link-icon.avatar-fallback.customer-list-initials-avatar.f-reg-12 class=avatar_fallback_color_class(team_user.user.display_name)
+                        = (team_user.user.display_name)&.first&.upcase
+                    p.f-reg-14 = team_user.user.display_name
+                  .back-oval-gray
+                    p.f-reg-12 = team_user.user.teams.count
     
     .helpdesk-body
       turbo-frame#conversations-frame[data-turbo-permanent]

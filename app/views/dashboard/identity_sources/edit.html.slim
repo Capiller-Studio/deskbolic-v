@@ -1,0 +1,7 @@
+= render("dashboard/shared/dashboard_container", current_page: "settings") do
+  .ap-form-container
+    .ap-form-header
+      = link_to t("dashboard.identity_sources.form.back"), identity_sources_path, class: "ap-back-link"
+      h2.f-semi-24 style="color: #0f172a; margin-top: 12px;" = t("dashboard.identity_sources.edit.title")
+    
+    = render "form", identity_source: @identity_source

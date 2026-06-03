@@ -12,6 +12,11 @@ Rails.application.routes.draw do
 
   get "r/:referral_code", to: "affiliates#track", as: :referral
 
+  # TODO: remove later, this route is just for testing indentity sources module in development.
+  if Rails.env.development?
+    match "test_api/identity_endpoint", to: "test_api#identity_endpoint", via: [:get, :post]
+  end
+
   # TODO: Change route
   mount Facebook::Messenger::Server, at: "webhooks/facebook"
 
@@ -146,6 +151,12 @@ Rails.application.routes.draw do
         get :teammates
         get :tickets
         get :people
+      end
+    end
+    
+    resources :identity_sources, except: [:show] do
+      collection do
+        match :test_connection, via: [:post, :patch]
       end
     end
     

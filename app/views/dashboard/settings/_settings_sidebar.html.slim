@@ -145,6 +145,11 @@
                     .link-text
                       .conversation-name.inbox-conv
                         p.f-reg-12 Qualification settings
+                li.nav-item class="#{current_page == 'identity-sources' ? 'st-list-active' : ''}"
+                  = link_to(identity_sources_path, class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12 = t("dashboard.identity_sources.sidebar.label")
                 li.nav-item class="#{current_page == 'macros' ? 'st-list-active' : ''}"
                   = link_to(canned_responses_settings_path, class: "nav-link") do
                     .link-text

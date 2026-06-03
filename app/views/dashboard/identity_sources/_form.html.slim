@@ -1,0 +1,138 @@
+= form_with(model: identity_source, class: "ap-form-container", data: { controller: "key-value-builder", key_value_builder_test_url_value: test_connection_identity_sources_path }) do |f|
+  - if identity_source.errors.any?
+    .ap-error-summary
+      h3 = t("dashboard.identity_sources.form.error_heading", count: identity_source.errors.count)
+      ul
+        - identity_source.errors.full_messages.each do |message|
+          li = message
+
+  .ap-section
+    .ap-section-header
+      span.ap-section-icon 📝
+      = t("dashboard.identity_sources.form.details_section", default: "Details")
+    .ap-section-body
+      .ap-form-row style="flex-direction: column; align-items: stretch; gap: 16px;"
+        div
+          = f.label :name, t("dashboard.identity_sources.form.name"), class: "ap-label"
+          = f.text_field :name, class: "ap-input", required: true, placeholder: t("dashboard.identity_sources.form.name_placeholder")
+
+        div
+          = f.label :description, t("dashboard.identity_sources.form.description"), class: "ap-label"
+          = f.text_area :description, class: "ap-input ap-textarea", rows: 3, placeholder: t("dashboard.identity_sources.form.description_placeholder")
+
+  .ap-section
+    .ap-section-header
+      span.ap-section-icon 🔗
+      = t("dashboard.identity_sources.form.source_section", default: "Source Details")
+    .ap-section-body
+      .ap-form-row style="flex-direction: column; align-items: stretch; gap: 16px;"
+        div
+          = f.label :source_type, t("dashboard.identity_sources.form.source_type"), class: "ap-label"
+          = f.select :source_type, IdentitySource.source_types.keys.map { |k| [k.titleize, k] }, {}, class: "ap-select"
+
+        div
+          = f.label :source_url, t("dashboard.identity_sources.form.source_url"), class: "ap-label"
+          = f.text_field :source_url, class: "ap-input", required: true, placeholder: "https://api.example.com/identities/{{ customer.email }}", data: { "key-value-builder-target": "valueInput", "action": "focus->key-value-builder#setFocus" }
+          p.f-reg-12 style="color: #64748b; margin-top: 4px;" = t("dashboard.identity_sources.form.liquid_help")
+          
+          .ap-variables-picker style="margin-top: 12px; padding: 10px; background: #f8fafc; border-radius: 8px;"
+            p.f-semi-13 style="margin-bottom: 8px; color: #334155;" = t("dashboard.identity_sources.form.insert_variable", default: "Insert Variable:")
+            .ap-variables-chips style="display: flex; gap: 6px; flex-wrap: wrap;"
+              - ["{{ customer.email }}", "{{ customer.phone_number }}", "{{ customer.name }}"].each do |var|
+                button.ap-btn-secondary.ap-btn-sm type="button" data-action="mousedown->key-value-builder#preventFocus click->key-value-builder#insertVariable" data-variable=var style="font-family: monospace; font-size: 12px; padding: 4px 8px;" = var
+
+  .ap-section
+    .ap-section-header
+      span.ap-section-icon 📋
+      = t("dashboard.identity_sources.form.headers")
+    .ap-section-body
+      .ap-kv-builder data-key-value-builder-target="container"
+        - identity_source.headers.each_with_index do |(k, v), index|
+          .kv-row style="display: flex; gap: 8px; margin-bottom: 8px;"
+            = text_field_tag "identity_source[headers][#{index}][key]", k, class: "ap-input", placeholder: "Key", style: "flex: 1;"
+            = text_field_tag "identity_source[headers][#{index}][value]", v, class: "ap-input", placeholder: "Value", style: "flex: 2;", data: { "key-value-builder-target": "valueInput", "action": "focus->key-value-builder#setFocus" }
+            button.ap-btn-secondary type="button" data-action="click->key-value-builder#removeRow" style="flex-shrink: 0; padding: 0 12px;" &times;
+      
+      template data-key-value-builder-target="template"
+        .kv-row style="display: flex; gap: 8px; margin-bottom: 8px;"
+          = text_field_tag "identity_source[headers][NEW_RECORD][key]", nil, class: "ap-input", placeholder: "Key", style: "flex: 1;"
+          = text_field_tag "identity_source[headers][NEW_RECORD][value]", nil, class: "ap-input", placeholder: "Value", style: "flex: 2;", data: { "key-value-builder-target": "valueInput", "action": "focus->key-value-builder#setFocus" }
+          button.ap-btn-secondary type="button" data-action="click->key-value-builder#removeRow" style="flex-shrink: 0; padding: 0 12px;" &times;
+      
+      button.ap-btn-secondary type="button" data-action="click->key-value-builder#addRow" = t("dashboard.identity_sources.form.add_header")
+
+      .ap-variables-picker style="margin-top: 16px; padding: 12px; background: #f8fafc; border-radius: 8px;"
+        p.f-semi-13 style="margin-bottom: 8px; color: #334155;" = t("dashboard.identity_sources.form.insert_variable", default: "Insert Variable:")
+        .ap-variables-chips style="display: flex; gap: 6px; flex-wrap: wrap;"
+          - ["{{ customer.email }}", "{{ customer.phone_number }}", "{{ customer.name }}"].each do |var|
+            button.ap-btn-secondary.ap-btn-sm type="button" data-action="mousedown->key-value-builder#preventFocus click->key-value-builder#insertVariable" data-variable=var style="font-family: monospace; font-size: 12px; padding: 4px 8px;" = var
+
+  .ap-section
+    .ap-section-header
+      span.ap-section-icon 🎛️
+      = t("dashboard.identity_sources.form.params")
+    .ap-section-body
+      .ap-kv-builder data-key-value-builder-target="container"
+        - identity_source.params.each_with_index do |(k, v), index|
+          .kv-row style="display: flex; gap: 8px; margin-bottom: 8px;"
+            = text_field_tag "identity_source[params][#{index}][key]", k, class: "ap-input", placeholder: "Key", style: "flex: 1;"
+            = text_field_tag "identity_source[params][#{index}][value]", v, class: "ap-input", placeholder: "Value", style: "flex: 2;", data: { "key-value-builder-target": "valueInput", "action": "focus->key-value-builder#setFocus" }
+            button.ap-btn-secondary type="button" data-action="click->key-value-builder#removeRow" style="flex-shrink: 0; padding: 0 12px;" &times;
+      
+      template data-key-value-builder-target="template"
+        .kv-row style="display: flex; gap: 8px; margin-bottom: 8px;"
+          = text_field_tag "identity_source[params][NEW_RECORD][key]", nil, class: "ap-input", placeholder: "Key", style: "flex: 1;"
+          = text_field_tag "identity_source[params][NEW_RECORD][value]", nil, class: "ap-input", placeholder: "Value", style: "flex: 2;", data: { "key-value-builder-target": "valueInput", "action": "focus->key-value-builder#setFocus" }
+          button.ap-btn-secondary type="button" data-action="click->key-value-builder#removeRow" style="flex-shrink: 0; padding: 0 12px;" &times;
+      
+      button.ap-btn-secondary type="button" data-action="click->key-value-builder#addRow" = t("dashboard.identity_sources.form.add_param")
+
+      .ap-variables-picker style="margin-top: 16px; padding: 12px; background: #f8fafc; border-radius: 8px;"
+        p.f-semi-13 style="margin-bottom: 8px; color: #334155;" = t("dashboard.identity_sources.form.insert_variable", default: "Insert Variable:")
+        .ap-variables-chips style="display: flex; gap: 6px; flex-wrap: wrap;"
+          - ["{{ customer.email }}", "{{ customer.phone_number }}", "{{ customer.name }}"].each do |var|
+            button.ap-btn-secondary.ap-btn-sm type="button" data-action="mousedown->key-value-builder#preventFocus click->key-value-builder#insertVariable" data-variable=var style="font-family: monospace; font-size: 12px; padding: 4px 8px;" = var
+
+  .ap-section
+    .ap-section-header
+      span.ap-section-icon 🔄
+      = t("dashboard.identity_sources.form.response_mapping", default: "Response Mapping")
+    .ap-section-body
+      p.f-reg-13 style="color: #64748b; margin-bottom: 16px;" = t("dashboard.identity_sources.form.response_mapping_desc", default: "Map JSON response paths (e.g., data.user.id) to Deskbolic customer attributes.")
+      datalist id="deskbolic-identity-attributes"
+        option value="first_name"
+        option value="middle_name"
+        option value="last_name"
+        option value="name"
+        option value="identifier"
+        option value="external_id"
+        option value="administration_url"
+        
+      .ap-kv-builder data-key-value-builder-target="container"
+        - identity_source.response_mapping.each_with_index do |(k, v), index|
+          .kv-row style="display: flex; gap: 8px; margin-bottom: 8px;"
+            = text_field_tag "identity_source[response_mapping][#{index}][key]", k, class: "ap-input", placeholder: "JSON Path (e.g., data.user.id)", style: "flex: 1;"
+            = text_field_tag "identity_source[response_mapping][#{index}][value]", v, list: "deskbolic-identity-attributes", class: "ap-input", placeholder: "Deskbolic Attribute (e.g., external_id)", style: "flex: 1;"
+            button.ap-btn-secondary type="button" data-action="click->key-value-builder#removeRow" style="flex-shrink: 0; padding: 0 12px;" &times;
+      
+      template data-key-value-builder-target="template"
+        .kv-row style="display: flex; gap: 8px; margin-bottom: 8px;"
+          = text_field_tag "identity_source[response_mapping][NEW_RECORD][key]", nil, class: "ap-input", placeholder: "JSON Path (e.g., data.user.id)", style: "flex: 1;"
+          = text_field_tag "identity_source[response_mapping][NEW_RECORD][value]", nil, list: "deskbolic-identity-attributes", class: "ap-input", placeholder: "Deskbolic Attribute (e.g., external_id)", style: "flex: 1;"
+          button.ap-btn-secondary type="button" data-action="click->key-value-builder#removeRow" style="flex-shrink: 0; padding: 0 12px;" &times;
+      
+      button.ap-btn-secondary type="button" data-action="click->key-value-builder#addRow" = t("dashboard.identity_sources.form.add_mapping", default: "+ Add Mapping")
+
+      .ap-variables-picker style="margin-top: 16px; padding: 12px; background: #f8fafc; border-radius: 8px;"
+        p.f-semi-13 style="margin-bottom: 8px; color: #334155;" = t("dashboard.identity_sources.form.insert_variable", default: "Insert Variable:")
+        .ap-variables-chips style="display: flex; gap: 6px; flex-wrap: wrap;"
+          - ["{{ customer.email }}", "{{ customer.phone_number }}", "{{ customer.name }}"].each do |var|
+            button.ap-btn-secondary.ap-btn-sm type="button" data-action="mousedown->key-value-builder#preventFocus click->key-value-builder#insertVariable" data-variable=var style="font-family: monospace; font-size: 12px; padding: 4px 8px;" = var
+
+  .ap-form-actions style="display: flex; gap: 12px; margin-top: 24px; align-items: center;"
+    = f.submit t("dashboard.identity_sources.form.save"), class: "ap-btn-primary"
+    
+    button.ap-btn-secondary type="button" data-action="click->key-value-builder#testRun"
+      = t("dashboard.identity_sources.form.test_run", default: "Test Connection")
+      
+  .ap-test-result data-key-value-builder-target="testResult" style="margin-top: 16px; display: none;"

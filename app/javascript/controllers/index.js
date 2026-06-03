@@ -55,3 +55,6 @@ application.register("sortable", SortableController)
 
 import EmailBuilderController from "./email_builder_controller"
 application.register("email-builder", EmailBuilderController)
+
+import KeyValueBuilderController from "./key_value_builder_controller"
+application.register("key-value-builder", KeyValueBuilderController)

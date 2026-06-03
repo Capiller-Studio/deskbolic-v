@@ -128,6 +128,43 @@ en:
     assignment_policies:
       sidebar:
         label: "Assignment Policies"
+    identity_sources:
+      sidebar:
+        label: "Identity Sources"
+      index:
+        title: "Identity Sources"
+        description: "Configure external webhooks and APIs to fetch and verify customer identities automatically."
+        create_button: "Create Identity Source"
+        delete_confirm: "Are you sure you want to delete this identity source? This action cannot be undone."
+        url_label: "Endpoint URL"
+        headers_label: "Configured Headers"
+        params_label: "Configured Params"
+        created: "Created"
+        ago: "ago"
+      new:
+        title: "New Identity Source"
+      edit:
+        title: "Edit Identity Source"
+      form:
+        back: "← Back to Identity Sources"
+        error_heading: "Please fix the following %{count} errors:"
+        name: "Name"
+        name_placeholder: "e.g., Internal CRM Verifier"
+        description: "Description"
+        description_placeholder: "What does this identity source do?"
+        source_type: "Source Type"
+        source_url: "Source URL"
+        liquid_help: "You can use dynamic variables like {{ customer.email }} in the URL, headers, and params."
+        headers: "Request Headers"
+        add_header: "+ Add Header"
+        params: "Request Parameters"
+        add_param: "+ Add Parameter"
+        save: "Save Identity Source"
+        test_run: "Test Connection"
+      created: "Identity source was successfully created."
+      updated: "Identity source was successfully updated."
+      deleted: "Identity source was successfully deleted."
+    assignment_policies:
       index:
         title: "Assignment Policies"
         description: "Configure how conversations are automatically routed and assigned to agents."

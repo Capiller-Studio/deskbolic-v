@@ -1,0 +1,140 @@
+/* Subscription & Billing UI Components */
+
+.ap-subscription-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: var(--ap-bg-light);
+  padding: 24px;
+}
+
+.ap-subscription-container {
+  max-width: 1024px;
+  width: 100%;
+}
+
+.ap-subscription-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.ap-subscription-title {
+  color: var(--ap-text-dark);
+  margin-bottom: 8px;
+}
+
+.ap-subscription-subtitle {
+  color: var(--ap-text-muted);
+}
+
+.ap-subscription-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.ap-subscription-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: transform 0.2s, box-shadow 0.2s;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1);
+  overflow: hidden;
+  border: 1px solid var(--ap-border-color);
+}
+
+.ap-subscription-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+}
+
+.ap-subscription-card-body {
+  padding: 32px;
+  flex-grow: 1;
+}
+
+.ap-subscription-plan-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.ap-subscription-plan-name {
+  color: var(--ap-text-dark);
+}
+
+.ap-subscription-trial-badge {
+  background-color: #e0e7ff;
+  color: #3730a3;
+}
+
+.ap-subscription-price-row {
+  display: flex;
+  align-items: baseline;
+  margin-top: 16px;
+  margin-bottom: 24px;
+}
+
+.ap-subscription-price {
+  font-size: 40px;
+  color: var(--ap-text-dark);
+}
+
+.ap-subscription-period {
+  color: var(--ap-text-muted);
+  margin-left: 4px;
+}
+
+.ap-subscription-desc {
+  color: var(--ap-text-muted);
+  margin-bottom: 24px;
+}
+
+.ap-subscription-features {
+  margin-top: 24px;
+}
+
+.ap-subscription-feature-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.ap-subscription-feature-icon {
+  width: 20px;
+  height: 20px;
+  color: var(--ap-success);
+  flex-shrink: 0;
+}
+
+.ap-subscription-feature-text {
+  color: var(--ap-text-muted);
+}
+
+.ap-subscription-footer {
+  padding: 24px;
+  background-color: var(--ap-bg-light);
+  border-top: 1px solid var(--ap-border-color);
+}
+
+.ap-subscription-form-group {
+  margin-bottom: 16px;
+}
+
+.ap-subscription-label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--ap-text-dark);
+}
+
+.ap-subscription-submit {
+  width: 100%;
+  justify-content: center;
+  padding: 10px 16px;
+  font-size: 14px;
+}

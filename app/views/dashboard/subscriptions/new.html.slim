@@ -1,0 +1,42 @@
+div.ap-subscription-page
+  div.ap-subscription-container
+    div.ap-subscription-header
+      h2.f-semi-24.ap-subscription-title = I18n.t("dashboard.billing.choose_plan", default: "Choose Your Plan")
+      p.f-reg-16.ap-subscription-subtitle = I18n.t("dashboard.billing.choose_plan_subtitle", default: "Select the perfect plan to get started with your workspace.")
+
+    .ap-subscription-grid
+      - @available_plans.each do |plan|
+        .ap-subscription-card.ap-card
+          .ap-subscription-card-body
+            .ap-subscription-plan-header
+              h3.f-semi-20.ap-subscription-plan-name = plan.display_name
+              - if plan.trial_days.positive?
+                span.ap-strategy-badge.ap-subscription-trial-badge
+                  = I18n.t("dashboard.billing.day_trial", days: plan.trial_days, default: "%{days} Day Trial")
+                  
+            .ap-subscription-price-row
+              span.f-semi-24.ap-subscription-price = number_to_currency(plan.base_price, unit: plan.currency.upcase + " ")
+              span.f-semi-14.ap-subscription-period
+                = I18n.t("dashboard.billing.per_month", default: "/mo")
+              
+            p.f-reg-14.ap-subscription-desc
+              = plan.description
+
+            ul.ap-subscription-features
+              - if plan.min_users > 0
+                li.ap-subscription-feature-item
+                  svg.ap-subscription-feature-icon aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+                    path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"
+                  span.f-reg-14.ap-subscription-feature-text
+                    = I18n.t("dashboard.billing.minimum_seats_required", count: plan.min_users, default: "Minimum %{count} seats required")
+
+          div.ap-subscription-footer
+            = form_with url: subscriptions_path, method: :post do |f|
+              = f.hidden_field :plan_id, value: plan.id
+              
+              div.ap-subscription-form-group
+                = f.label :quantity, I18n.t("dashboard.billing.number_of_seats", default: "Number of Seats"), class: "f-semi-14 ap-subscription-label"
+                - max_seats_val = plan.unlimited?(:users_max) ? nil : plan.max_users
+                = f.number_field :quantity, value: [plan.min_users, 1].max, min: [plan.min_users, 1].max, max: max_seats_val, class: "ap-input", style: "width: 100%;"
+                  
+              = f.submit I18n.t("dashboard.billing.select_plan", default: "Select Plan"), class: "ap-btn-primary ap-subscription-submit"

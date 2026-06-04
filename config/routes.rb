@@ -141,6 +141,24 @@ Rails.application.routes.draw do
     end
     resources :automation_executions, only: [:index]
 
+    resource :billing, only: [:show], as: :dashboard_billing do
+      post :dismiss_warning
+    end
+    resources :subscriptions, only: [:new, :create, :update] do
+      member do
+        post :cancel
+        post :resume
+      end
+    end
+    resources :payment_methods, only: [:new, :create, :destroy] do
+      collection do
+        get :setup_intent
+      end
+    end
+    resource :wallet, only: [] do
+      post :topup
+    end
+
     resources :settings, only: [ :index ] do
       collection do
         get :canned_responses

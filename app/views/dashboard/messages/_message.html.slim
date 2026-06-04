@@ -6,8 +6,8 @@
         - if customer.avatar.attached?
           = image_tag(customer.avatar, class:"img", alt:"menu")
         - else
-          .img.avatar-fallback.customer-message-initials-avatar.f-reg-12 class=avatar_fallback_color_class(customer.name || customer.display_name)
-            = (customer.name || customer.display_name)&.first&.upcase || "?"
+          .img.avatar-fallback.customer-message-initials-avatar.f-reg-12 class=avatar_fallback_color_class(full_name(customer))
+            = initials(customer)
       .user-text
         - if message.content.present?
           - if single_emoji_message?(message.content)

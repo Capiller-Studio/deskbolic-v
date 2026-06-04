@@ -3,8 +3,8 @@
     .header
       .user-details
         - @conversation.customers.each do |customer|
-            p.f-semi-18 = customer.first_name
-      .actions data-controller="accordion conversations"
+            p.f-semi-18 = full_name(customer)
+      / .actions data-controller="accordion conversations"
         = inline_svg_tag("plus.svg", class:"chat-action", alt:"menu")
         = inline_svg_tag("star.svg", class:"chat-action", alt:"menu")
         = inline_svg_tag("ticket.svg", class:"chat-action", alt:"menu")
@@ -30,8 +30,8 @@
                 - if customer.avatar.attached?
                   = image_tag(customer.avatar, class:"img", alt:"menu")
                 - else
-                  .img.avatar-fallback.customer-message-initials-avatar.f-reg-12 class=avatar_fallback_color_class(customer.name || customer.display_name)
-                    = (customer.name || customer.display_name)&.first&.upcase || "?"
+                  .img.avatar-fallback.customer-message-initials-avatar.f-reg-12 class=avatar_fallback_color_class(full_name(customer))
+                    = initials(customer)
               .user-text
                 - if message.content.present?
                   - if single_emoji_message?(message.content)
@@ -97,11 +97,11 @@
       
     .footer
       .message-box data-controller="message-form"
-        = form_with(model: Message.new, method: :post, class:"some-class", remote: true, multipart: true) do |f|
+        = form_with(model: Message.new, method: :post, class:"msg-form", remote: true, multipart: true) do |f|
           .text-translation
             .response-type 
               button.f-semi-14.reply.active type="button" Reply
-              button.f-semi-14.note type="button" Note
+              / button.f-semi-14.note type="button" Note
             .translation.f-semi-14
               | English
               = inline_svg_tag("violet_dropdown.svg", class:"action-btn")
@@ -116,7 +116,7 @@
             = f.file_field :attachments, multiple: true, class: "message-attachments-input", accept: "image/*,video/*,audio/*,.pdf,.doc,.docx,.txt,.zip", data: { message_form_target: "input", action: "change->message-form#previewFiles" }
           .commands
             .actions data-controller="modalToggler frameToggler"
-              .response-action
+              / .response-action
                 = inline_svg_tag("menu.svg", class:"action-btn")
               .response-action data-controller="accordion"
                 .replies data-action="click->accordion#toggleMenu"

@@ -43,8 +43,8 @@
                       - if user.avatar.attached?
                         = image_tag(user.avatar, class: "user-avatar", alt: user.display_name)
                       - else
-                        .user-avatar.avatar-fallback.customer-list-initials-avatar.f-reg-12 class=avatar_fallback_color_class(user.display_name)
-                          = user.display_name&.first&.upcase
+                        .user-avatar.avatar-fallback.customer-list-initials-avatar.f-reg-12 class=avatar_fallback_color_class(full_name(user))
+                          = initials(user)
                       .user-details
                         span.f-semi-14.user-name = user.display_name
                         span.f-reg-12.user-email = user.email

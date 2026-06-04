@@ -10,8 +10,8 @@
             - if current_user.avatar.attached?
               = image_tag(current_user.avatar, class:"chat-user", alt: "menu")
             - else
-              .chat-user.avatar-fallback.agent-initials-avatar.f-reg-12 class=avatar_fallback_color_class(current_user.display_name || current_user.first_name || current_user.email)
-                = (current_user.display_name || current_user.first_name || current_user.email)&.first&.upcase || "?"
+              .chat-user.avatar-fallback.agent-initials-avatar.f-reg-12 class=avatar_fallback_color_class(full_name(current_user))
+                = initials(current_user)
             p.f-reg-14 = current_user.display_name
           - else 
             = image_tag("profile_icon.png", class:"chat-user", alt: "menu")
@@ -24,8 +24,8 @@
               - if current_user.avatar.attached?
                 = image_tag(current_user.avatar, class:"menu-icon agent-panel-avatar", alt:"menu")
               - else
-                .menu-icon.avatar-fallback.agent-panel-avatar.agent-initials-avatar.f-reg-12 class=avatar_fallback_color_class(current_user.display_name || current_user.first_name || current_user.email)
-                  = (current_user.display_name || current_user.first_name || current_user.email)&.first&.upcase || "?"
+                .menu-icon.avatar-fallback.agent-panel-avatar.agent-initials-avatar.f-reg-12 class=avatar_fallback_color_class(full_name(current_user))
+                  = initials(current_user)
               p.f-reg-12 = current_user.display_name
             - else
               = inline_svg_tag("agent_icon.svg", class:"menu-icon", alt:"menu")
@@ -54,26 +54,26 @@
                 = inline_svg_tag("users.svg", class: "team-card-icon")
                 p.f-reg-12 = team.name
                 = button_to("Assign", assign_team_conversation_path(@conversation, team_id: team.id), method: :post, class: "assign-btn assign-team-btn f-reg-12")
-    .card.ticket-info
-      button.accordian data-action="click->accordion#toggle"
-        p.f-reg-14 Ticket info
-        = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
-      .panel data-accordion-target="panel"
-        .section-flex 
-          h5.f-reg-14 Ticket ID: 
-          .status-tag.bg-gray.f-reg-12 #1E233
-        .section-flex 
-          h5.f-reg-14 Created: 
-          p.f-reg-14 = DateTime.current.strftime("%d %b %Y")
-        .section-flex 
-          h5.f-reg-14 Last message: 
-          p.f-reg-14 = DateTime.current.strftime("%d %b %Y")
-        .section-flex 
-          h5.f-reg-14 Status: 
-          .status-tag.bg-green.f-reg-12 Open
-        .section-flex 
-          h5.f-reg-14 Priority:
-          .status-tag.bg-red.f-reg-12 Urgent
+    / .card.ticket-info
+    /   button.accordian data-action="click->accordion#toggle"
+    /     p.f-reg-14 Ticket info
+    /     = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
+    /   .panel data-accordion-target="panel"
+    /     .section-flex 
+    /       h5.f-reg-14 Ticket ID: 
+    /       .status-tag.bg-gray.f-reg-12 #1E233
+    /     .section-flex 
+    /       h5.f-reg-14 Created: 
+    /       p.f-reg-14 = DateTime.current.strftime("%d %b %Y")
+    /     .section-flex 
+    /       h5.f-reg-14 Last message: 
+    /       p.f-reg-14 = DateTime.current.strftime("%d %b %Y")
+    /     .section-flex 
+    /       h5.f-reg-14 Status: 
+    /       .status-tag.bg-green.f-reg-12 Open
+    /     .section-flex 
+    /       h5.f-reg-14 Priority:
+    /       .status-tag.bg-red.f-reg-12 Urgent
     
     - if current_account.feature_enabled?(:sla)
       - active_sla = @conversation.conversation_slas.active.first
@@ -124,8 +124,8 @@
               - if customer.avatar.attached?
                 = image_tag(customer.avatar, class:"img", alt:"menu")
               - else
-                .img.avatar-fallback.customer-initials-avatar.f-reg-12 class=avatar_fallback_color_class(customer.name || customer.display_name)
-                  = (customer.name || customer.display_name)&.first&.upcase || "?"
+                .img.avatar-fallback.customer-initials-avatar.f-reg-12 class=avatar_fallback_color_class(full_name(customer))
+                  = initials(customer)
               p.f-reg-12 = customer.name || customer.display_name
             = inline_svg_tag("menu.svg", class:"profile-menu",  data: { "action" => "click->accordion#toggleMenu" })
           .menu data-accordion-target="menu"
@@ -154,27 +154,27 @@
           / = inline_svg_tag("location.svg", class: "left-img")
           h5.f-reg-12 Status
           .status-tag.bg-green.f-reg-12 = @conversation.status.titleize
-    .card.tickets
-      button.accordian data-action="click->accordion#toggle"
-        p.f-reg-14 Tickets
-        = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
-      .panel data-accordion-target="panel"
-        .section-flex
-          = inline_svg("ticket_black.svg", class: "left-img")
-          h5.f-reg-12 Customer Ticket
-          .ml-auto = inline_svg("refresh.svg")
-        .section-flex
-          = inline_svg("track.svg", class: "left-img")
-          h5.f-reg-12 Tracker Ticket
-          .ml-auto = inline_svg("plus_black.svg")
-        .section-flex
-          = inline_svg("office.svg", class: "left-img")
-          h5.f-reg-12 Back-office Ticket
-          p.f-reg-12.ml-auto = inline_svg("plus_black.svg")
-        .section-flex
-          = inline_svg("chat.svg", class: "left-img")
-          h5.f-reg-12 Side Conversation
-          .ml-auto = inline_svg("plus_black.svg")
+    / .card.tickets
+    /   button.accordian data-action="click->accordion#toggle"
+    /     p.f-reg-14 Tickets
+    /     = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
+    /   .panel data-accordion-target="panel"
+    /     .section-flex
+    /       = inline_svg("ticket_black.svg", class: "left-img")
+    /       h5.f-reg-12 Customer Ticket
+    /       .ml-auto = inline_svg("refresh.svg")
+    /     .section-flex
+    /       = inline_svg("track.svg", class: "left-img")
+    /       h5.f-reg-12 Tracker Ticket
+    /       .ml-auto = inline_svg("plus_black.svg")
+    /     .section-flex
+    /       = inline_svg("office.svg", class: "left-img")
+    /       h5.f-reg-12 Back-office Ticket
+    /       p.f-reg-12.ml-auto = inline_svg("plus_black.svg")
+    /     .section-flex
+    /       = inline_svg("chat.svg", class: "left-img")
+    /       h5.f-reg-12 Side Conversation
+    /       .ml-auto = inline_svg("plus_black.svg")
     .card.user-notes
       button.accordian data-action="click->accordion#toggle"
         p.f-reg-14.mr-auto User notes
@@ -190,19 +190,19 @@
             = image_tag("delete_note.png", class:"note-btn cancel-note", data: { action: "click->accordion#toggleNote"}, alt:"cancel")
             = image_tag("update_note.png", class:"note-btn add-note", data: { action: "click->accordion#addNote"}, alt: "Add")
             
-    .card.user-tags
-      button.accordian data-action="click->accordion#toggle"
-        p.f-reg-14 User tags
-        = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
-      .panel data-accordion-target="panel"
-        .section-flex
-          = inline_svg("tag.svg", class: "left-img")
-          h5.f-reg-12 Featured Request
-          .ml-auto = inline_svg("plus_black.svg")
-        .section-flex
-          = inline_svg("tag.svg", class: "left-img")
-          h5.f-reg-12 Featured Request
-          .ml-auto = inline_svg("plus_black.svg")
+    / .card.user-tags
+    /   button.accordian data-action="click->accordion#toggle"
+    /     p.f-reg-14 User tags
+    /     = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
+    /   .panel data-accordion-target="panel"
+    /     .section-flex
+    /       = inline_svg("tag.svg", class: "left-img")
+    /       h5.f-reg-12 Featured Request
+    /       .ml-auto = inline_svg("plus_black.svg")
+    /     .section-flex
+    /       = inline_svg("tag.svg", class: "left-img")
+    /       h5.f-reg-12 Featured Request
+    /       .ml-auto = inline_svg("plus_black.svg")
     / .card.recent-chats
       button.accordian data-action="click->accordion#toggle"
         p.f-reg-14 Recent chats

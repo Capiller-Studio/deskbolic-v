@@ -8,5 +8,15 @@ module Dashboard
 
       "avatar-fallback-#{index + 1}"
     end
+
+    def full_name(resource)
+      [resource.first_name, resource.middle_name, resource.last_name].compact_blank.join(" ").presence || 
+        resource.name.presence || resource.display_name.presence
+    end
+
+    def initials(resource)
+      return "?" if full_name(resource).blank?
+      full_name(resource).first.upcase
+    end
   end
 end

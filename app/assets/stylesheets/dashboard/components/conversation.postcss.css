@@ -2,6 +2,9 @@
   @mixin flex-row $justify-between, $align-center;
   height: 100vh;
   .chat-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     min-width: 400px;
     width: 100%;
     height: 100%;
@@ -297,7 +300,7 @@
       .de-file-thumb {
         width: 32px;
         height: 32px;
-        background-color: #CBD5E1;
+        background-color: #ffffff;
         border-radius: 6px;
         display: flex;
         align-items: center;
@@ -424,15 +427,16 @@
     }
 
     .footer {
+      margin-top: auto;
       .message-box {
         @mixin flex-column $justify-between, $align-center;
         margin: 20px;
         margin-top: 0px;
         border: 1px solid $black-5;
         border-radius: 10px;
-        /* height: 200px; */
+        height: fit-content;
         filter: drop-shadow(1px 1px 7px $black-10);
-        .some-class {
+        .msg-form {
           width: 100%;
           height: 100%;
           .text-translation {
@@ -466,12 +470,13 @@
           }
 
           .note-area {
+            display: flex;
+            flex-direction: column;
             width: 100%;
-            height: 60%;
             position: relative;
             .form-control {
               width: 100%;
-              height: 100%;
+              height: 100px;
 
               border-style: none;
               padding: 20px;
@@ -496,12 +501,19 @@
               display: none;
               align-items: center;
               gap: 8px;
-              padding: 8px 14px 0px;
+              padding: 20px 10px;
               overflow-x: auto;
               scrollbar-width: thin;
+              background: #ffffff;
             }
             .attachment-preview.visible {
               display: flex;
+              flex-wrap: wrap;
+            }
+            .recording-indicator {
+              align-items: center;
+              padding: 10px 20px;
+              background-color: white;
             }
             .attachment-chip {
               @mixin flex-row $justify-start, $align-center;
@@ -866,11 +878,16 @@
               cursor: pointer;
               background: $black-80;
               color: $white;
-              padding: 8px 11px;
               border: none;
               border-radius: 10px;
+              z-index: 1000;
               .arrow-container{
                 margin-bottom: 3px;
+                padding: 8px 0px;
+                padding-right: 10px;
+                padding-bottom: 11px;
+                border-top-right-radius: 10px;
+                border-bottom-right-radius: 10px;
               }
               .menu {
                 @mixin menu;
@@ -914,6 +931,10 @@
                 border: unset;
                 color: inherit;
                 cursor: pointer;
+                padding: 8px 0px;
+                padding-left: 10px;
+                border-top-left-radius: 10px;
+                border-bottom-left-radius: 10px;
               }
               .menu.visible {
                 display: block;

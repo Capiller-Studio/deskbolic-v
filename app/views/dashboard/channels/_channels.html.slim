@@ -27,11 +27,11 @@
               p.f-reg-14 Whatsapp
               = inline_svg_tag("plus.svg", class:"menu-icon ml-auto", alt:"menu")
             .menu-link data-action="click->modalToggler#showModal click->frameToggler#loadModal" data-popup-view="_widget_channel_modal"
-              = inline_svg_tag("refresh.svg", class:"menu-icon", alt:"menu")
+              = inline_svg_tag("widget.svg", class:"menu-icon", alt:"menu")
               p.f-reg-14 Widget
               = inline_svg_tag("plus.svg", class:"menu-icon ml-auto", alt:"menu")
             .menu-link data-action="click->modalToggler#showModal click->frameToggler#loadModal" data-popup-view="_contact_form_channel_modal"
-              = inline_svg_tag("note_pencil.svg", class:"menu-icon", alt:"menu")
+              = inline_svg_tag("contact_form.svg", class:"menu-icon", alt:"menu")
               p.f-reg-14 Contact Form
               = inline_svg_tag("plus.svg", class:"menu-icon ml-auto", alt:"menu")
             .menu-link
@@ -67,11 +67,11 @@
             - @fb_channels.each do |channel|
               li.nav-item class="" data-action="click->accordion#toggle"
                 .nav-link
-                  .link-text.conversation-padding
+                  .link-text
                     = inline_svg_tag("vertical_bar.svg", class:"link-bar", alt:"menu")
                     = inline_svg_tag("arrow_down.svg", class:"dropdown-icon", alt:"menu")
                     = inline_svg_tag("messenger_badge.svg", class:"link-icon", alt:"menu")
-                    p.f-reg-14 = channel.name
+                    p.f-reg-14 title=channel.name style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px;" = channel.name
                   .back-oval-gray
                     p.f-reg-12 = channel.inboxes.count
               .panel data-accordion-target="panel"
@@ -80,27 +80,21 @@
                     li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
                       .nav-link.link data-target-id="conversations-frame" data-controller="section" data-action="click->section#toggleSection" data-url="#{conversations_path}" data-resource-id="#{inbox.id}"
                         .link-text
-                          .conversation-name.inbox-conv
+                          .inbox-name
                             = inline_svg_tag("messenger_badge.svg", class:"link-icon", alt:"menu")
-                            p.f-reg-12 = inbox.name
+                            p.f-reg-12 title=inbox.name style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px;" = inbox.name
                         .back-oval-gray
                           p.f-reg-12 = inbox.conversations.current_conversations(current_user).or(inbox.conversations.not_assigned_to_user)&.count
-                  / li.nav-item data-action="click->modalToggler#showModal click->frameToggler#loadModal" data-popup-view="_messenger_inbox_modal"
-                    .nav-link.link
-                      .link-text 
-                        .conversation-name.inbox-conv
-                          = inline_svg_tag("plus.svg", class:"link-icon", alt:"menu")
-                          p.f-reg-12 Add Inbox
             
             / whatsapp inboxes
             - @wa_channels.each do |channel|
               li.nav-item class="" data-action="click->accordion#toggle"
                 .nav-link
-                  .link-text.conversation-padding
+                  .link-text
                     = inline_svg_tag("vertical_bar.svg", class:"link-bar", alt:"menu")
                     = inline_svg_tag("arrow_down.svg", class:"dropdown-icon", alt:"menu")
                     = inline_svg_tag("whatsapp_badge.svg", class:"link-icon", alt:"menu")
-                    p.f-reg-14 = channel.name
+                    p.f-reg-14 title=channel.name style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px;" = channel.name
                   .back-oval-gray
                     p.f-reg-12 = channel.inboxes&.count
               .panel data-accordion-target="panel"
@@ -109,9 +103,9 @@
                     li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
                       .nav-link.link data-target-id="conversations-frame" data-controller="section" data-action="click->section#toggleSection" data-url="#{conversations_path}" data-resource-id="#{inbox.id}"
                         .link-text
-                          .conversation-name.inbox-conv
+                          .inbox-name
                             = inline_svg_tag("whatsapp_badge.svg", class:"link-icon", alt:"menu")
-                            p.f-reg-12 = inbox.name
+                            p.f-reg-12 title=inbox.name style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px;" = inbox.name
                         .back-oval-gray
                           p.f-reg-12 = inbox.conversations.current_conversations(current_user).or(inbox.conversations.not_assigned_to_user)&.count
                         
@@ -119,11 +113,11 @@
             - @em_channels.each do |channel|
               li.nav-item class="" data-action="click->accordion#toggle"
                 .nav-link
-                  .link-text.conversation-padding
+                  .link-text
                     = inline_svg_tag("vertical_bar.svg", class:"link-bar", alt:"menu")
                     = inline_svg_tag("arrow_down.svg", class:"dropdown-icon", alt:"menu")
                     = inline_svg_tag("email.svg", class:"link-icon", alt:"menu")
-                    p.f-reg-14 = channel.name
+                    p.f-reg-14 title=channel.name style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px;" = channel.name
                   .back-oval-gray
                     p.f-reg-12 = channel.inboxes.count
               .panel data-accordion-target="panel"
@@ -132,9 +126,9 @@
                     li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
                       .nav-link.link data-target-id="conversations-frame" data-controller="section" data-action="click->section#toggleSection" data-url="#{conversations_path}" data-resource-id="#{inbox.id}"
                         .link-text 
-                          .conversation-name.inbox-conv
+                          .inbox-name
                             = inline_svg_tag("email.svg", class:"link-icon", alt:"menu")
-                            p.f-reg-12 = inbox.name
+                            p.f-reg-12 title=inbox.name style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px;" = inbox.name
                         .back-oval-gray
                           p.f-reg-12 = inbox.conversations.current_conversations(current_user).count
                   / li.nav-item data-action="click->modalToggler#showModal click->frameToggler#loadModal" data-popup-view="_email_inbox_modal"
@@ -148,11 +142,11 @@
             - @ww_channels&.each do |channel|
               li.nav-item class="" data-action="click->accordion#toggle"
                 .nav-link
-                  .link-text.conversation-padding
+                  .link-text
                     = inline_svg_tag("vertical_bar.svg", class:"link-bar", alt:"menu")
                     = inline_svg_tag("arrow_down.svg", class:"dropdown-icon", alt:"menu")
-                    = inline_svg_tag("refresh.svg", class:"link-icon", alt:"menu")
-                    p.f-reg-14 = channel.name
+                    = inline_svg_tag("widget.svg", class:"link-icon", alt:"menu")
+                    p.f-reg-14 title=channel.name style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px;" = channel.name
                   .back-oval-gray
                     p.f-reg-12 = channel.inboxes&.count
               .panel data-accordion-target="panel"
@@ -161,9 +155,9 @@
                     li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
                       .nav-link.link data-target-id="conversations-frame" data-controller="section" data-action="click->section#toggleSection" data-url="#{conversations_path}" data-resource-id="#{inbox.id}"
                         .link-text
-                          .conversation-name.inbox-conv
-                            = inline_svg_tag("refresh.svg", class:"link-icon", alt:"menu")
-                            p.f-reg-12 = inbox.name
+                          .inbox-name
+                            = inline_svg_tag("widget.svg", class:"link-icon", alt:"menu")
+                            p.f-reg-12 title=inbox.name style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px;" = inbox.name
                         .back-oval-gray
                           p.f-reg-12 = inbox.conversations.current_conversations(current_user).or(inbox.conversations.not_assigned_to_user)&.count
 
@@ -171,11 +165,11 @@
             - @cf_channels&.each do |channel|
               li.nav-item class="" data-action="click->accordion#toggle"
                 .nav-link
-                  .link-text.conversation-padding
+                  .link-text
                     = inline_svg_tag("vertical_bar.svg", class:"link-bar", alt:"menu")
                     = inline_svg_tag("arrow_down.svg", class:"dropdown-icon", alt:"menu")
-                    = inline_svg_tag("note_pencil.svg", class:"link-icon", alt:"menu")
-                    p.f-reg-14 = channel.name
+                    = inline_svg_tag("contact_form.svg", class:"link-icon", alt:"menu")
+                    p.f-reg-14 title=channel.name style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px;" = channel.name
                   .back-oval-gray
                     p.f-reg-12 = channel.inboxes&.count
               .panel data-accordion-target="panel"
@@ -183,89 +177,92 @@
                   - channel.inboxes&.each do |inbox|
                     li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
                       .nav-link.link data-target-id="conversations-frame" data-controller="section" data-action="click->section#toggleSection" data-url="#{conversations_path}" data-resource-id="#{inbox.id}"
+                        .link-text style="width: 100%; justify-content: space-between;"
+                          .inbox-name
+                            = inline_svg_tag("contact_form.svg", class:"link-icon", alt:"menu")
+                            p.f-reg-12 title=inbox.name style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px;" = inbox.name
+                          .back-oval-gray
+                            p.f-reg-12 = inbox.conversations.current_conversations(current_user).or(inbox.conversations.not_assigned_to_user)&.count
+                    li.nav-item style="padding-left: 0px; margin-top: -5px; margin-bottom: 10px;"
+                      .nav-link.link data-target-id="conversations-frame" data-controller="section" data-action="click->section#toggleSection" data-url="#{conversations_path}" data-resource-id="#{inbox.id}"
                         .link-text
-                          .conversation-name.inbox-conv
-                            = inline_svg_tag("note_pencil.svg", class:"link-icon", alt:"menu")
-                            p.f-reg-12 = inbox.name
-                        .back-oval-gray
-                          p.f-reg-12 = inbox.conversations.current_conversations(current_user).or(inbox.conversations.not_assigned_to_user)&.count
-                    li.nav-item style="padding-left: 30px; margin-top: -5px; margin-bottom: 10px;"
-                      = link_to custom_fields_builder_path(resource_type: 'Channel::ContactForm', resource_id: channel.id), class: "f-reg-12", style: "color: #2563eb; text-decoration: none; display: flex; align-items: center; gap: 5px;"
-                        = inline_svg_tag("settings.svg", style: "width: 12px;")
-                        | Form Builder
+                          = link_to custom_fields_builder_path(resource_type: 'Channel::ContactForm', resource_id: channel.id), title:"Form Builder", class: "f-reg-12", style: "color: #2563eb; text-decoration: none; display: flex; align-items: center; gap: 5px; padding-left: 18px;"
+                            = inline_svg_tag("settings.svg", style: "width: 12px;")
+                            | Form Builder
             / tickets            
-            li.nav-item class="" data-action="click->accordion#toggle"
-              .nav-link
-                .link-text.conversation-padding
-                  = inline_svg_tag("vertical_bar.svg", class:"link-bar", alt:"menu")
-                  = inline_svg_tag("arrow_down.svg", class:"dropdown-icon", alt:"menu")
-                  = inline_svg_tag("ticket_black.svg", class:"link-icon", alt:"menu")
-                  p.f-reg-14 Ticket
-                .back-oval-gray
-                  p.f-reg-12 45
-            .panel data-accordion-target="panel"
-              ul.chats
-                li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
-                  = link_to("#", class: "nav-link") do
-                    .link-text
-                      .conversation-name.inbox-conv
-                        = inline_svg_tag("ticket_no_background.svg", class:"link-icon", alt: "menu")
-                        p.f-reg-12 Customer
-                    .back-oval-gray
-                      p.f-reg-12 99
-                li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
-                  .nav-link
-                    .link-text
-                      .conversation-name.inbox-conv
-                        = inline_svg_tag("track.svg", class:"link-icon", alt: "menu")
-                        p.f-reg-12 Tracker
-                    .back-oval-gray
-                      p.f-reg-12 45
-                li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
-                  .nav-link
-                    .link-text
-                      .conversation-name.inbox-conv
-                        = inline_svg_tag("back_office.svg", class:"link-icon", alt: "menu")
-                        p.f-reg-12 Back Office
-                    .back-oval-gray
-                      p.f-reg-12 45
-            li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
-              = link_to("#", class: "nav-link") do
-                .link-text.conversation-padding
-                  = inline_svg_tag("vertical_bar.svg", class:"link-bar", alt:"menu")
-                  .conversation-name
-                    = inline_svg_tag("note_pencil.svg", class:"link-icon", alt:"menu")
-                    p.f-reg-14 Created by You
-                .back-oval-gray
-                  p.f-reg-12 45
-            / li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
-            /   = link_to("#", class: "nav-link") do
-            /     .link-text.conversation-padding
+            / li.nav-item class="" data-action="click->accordion#toggle"
+            /   .nav-link
+            /     .link-text
             /       = inline_svg_tag("vertical_bar.svg", class:"link-bar", alt:"menu")
-            /       .conversation-name
-            /         = inline_svg_tag("clock.svg", class:"link-icon", alt:"menu")
-            /         p.f-reg-14 Unassigned
+            /       = inline_svg_tag("arrow_down.svg", class:"dropdown-icon", alt:"menu")
+            /       = inline_svg_tag("ticket_black.svg", class:"link-icon", alt:"menu")
+            /       p.f-reg-14 Ticket
             /     .back-oval-gray
             /       p.f-reg-12 45
-            li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
-              = link_to("#", class: "nav-link") do
-                .link-text.conversation-padding
-                  = inline_svg_tag("vertical_bar.svg", class:"link-bar", alt:"menu")
-                  .conversation-name
-                    = inline_svg_tag("mention.svg", class:"link-icon", alt:"menu")
-                    p.f-reg-14 Mention
-                .back-oval-gray
-                  p.f-reg-12 3
+            / .panel data-accordion-target="panel"
+            /   ul.chats
+            /     li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
+            /       = link_to("#", class: "nav-link") do
+            /         .link-text
+            /           .inbox-name
+            /             = inline_svg_tag("ticket_no_background.svg", class:"link-icon", alt: "menu")
+            /             p.f-reg-12 Customer
+            /         .back-oval-gray
+            /           p.f-reg-12 99
+            /     li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
+            /       .nav-link
+            /         .link-text
+            /           .inbox-name
+            /             = inline_svg_tag("track.svg", class:"link-icon", alt: "menu")
+            /             p.f-reg-12 Tracker
+            /         .back-oval-gray
+            /           p.f-reg-12 45
+            /     li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
+            /       .nav-link
+            /         .link-text
+            /           .inbox-name
+            /             = inline_svg_tag("back_office.svg", class:"link-icon", alt: "menu")
+            /             p.f-reg-12 Back Office
+            /         .back-oval-gray
+            /           p.f-reg-12 45
+            / li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
+            /   = link_to("#", class: "nav-link") do
+            /     .link-text
+            /       = inline_svg_tag("vertical_bar.svg", class:"link-bar", alt:"menu")
+            /       .inbox-name
+            /         = inline_svg_tag("note_pencil.svg", class:"link-icon", alt:"menu")
+            /         p.f-reg-14 Created by You
+            /     .back-oval-gray
+            /       p.f-reg-12 45
+            / / li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
+            / /   = link_to("#", class: "nav-link") do
+            / /     .link-text
+            / /       = inline_svg_tag("vertical_bar.svg", class:"link-bar", alt:"menu")
+            / /       .inbox-name
+            / /         = inline_svg_tag("clock.svg", class:"link-icon", alt:"menu")
+            / /         p.f-reg-14 Unassigned
+            / /     .back-oval-gray
+            / /       p.f-reg-12 45
+            / li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
+            /   = link_to("#", class: "nav-link") do
+            /     .link-text
+            /       = inline_svg_tag("vertical_bar.svg", class:"link-bar", alt:"menu")
+            /       .inbox-name
+            /         = inline_svg_tag("mention.svg", class:"link-icon", alt:"menu")
+            /         p.f-reg-14 Mention
+            /     .back-oval-gray
+            /       p.f-reg-12 3
         
         / teams
         .teams-header.list-header
+          = inline_svg_tag("dropdown_icon.svg", class:"channel-icon", alt:"menu")
           h4.f-reg-14 Teams
         ul.teams-list.channel-list
           .help-nav-menu
             - @teams.each do |team|
               li.nav-item class=""
-                .nav-link
-                  .link-text.conversation-padding
+                .nav-link.pad-link
+                  .link-text
                     = inline_svg_tag("users.svg", class:"link-icon", alt:"menu")
                     p.f-reg-14 = team.name
                   .back-oval-gray
@@ -273,13 +270,14 @@
 
         / teammates
         .teams-header.list-header
+          = inline_svg_tag("dropdown_icon.svg", class:"channel-icon", alt:"menu")
           h4.f-reg-14 Teammates
         ul.teams-list.channel-list
           .help-nav-menu
             - @team_users.each do |team_user|
               li.nav-item class=""
-                .nav-link
-                  .link-text.conversation-padding
+                .nav-link.pad-link
+                  .link-text
                     - if team_user.user.avatar&.attached?
                       = image_tag(team_user.user.avatar, class:"link-icon", alt:"img")
                     - else

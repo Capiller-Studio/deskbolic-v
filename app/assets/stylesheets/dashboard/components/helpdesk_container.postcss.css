@@ -5,7 +5,7 @@
     @mixin flex-row $justify-left, $align-center;
     .helpdesk-nav {
       height: 100vh;
-      min-width: 221px;
+      min-width: 251px;
       border-right: 1px solid $black-5;
       background-color: $primary-light;
       overflow-y: auto;
@@ -17,7 +17,7 @@
         .header {
           @mixin flex-row $justify-between, $align-center;
           height: 60px;
-          padding: 10px 24px;
+          padding: 10px 10px;
           border-bottom: 1px solid $primary-purple-50;
           .link-icon {
             
@@ -33,7 +33,7 @@
         .help-p {
           margin-top: 30px;
           margin-bottom: 20px;
-          padding: 0px 20px;
+          padding: 0px 10px;
           color: $black-40;
           text-align: left;
         }
@@ -41,7 +41,7 @@
           @mixin flex-row $justify-between, $align-center;
           margin-top: 28px;
           margin-bottom: 8px;
-          padding: 0px 20px;
+          padding: 0px 10px;
           .channel-icon {
             margin-left: 10px;
             width: 7px;
@@ -79,7 +79,7 @@
         }
         ul {
           @mixin flex-column $justify-between, $align-center;
-          padding: 0px 20px;
+          padding: 0px 10px;
           .help-nav-menu {
             @mixin flex-column $justify-start, $align-center;
             width: 100%;
@@ -99,6 +99,14 @@
                 .link-text {
                   @mixin flex-row $justify-left, $align-center;
                   padding-left: 5px;
+                  .inbox-name {
+                    @mixin flex-row $justify-left, $align-center;
+                    padding-left: 16px;
+                    .link-icon {
+                      width: 14px;
+                      height: 14px;
+                    }
+                  }
                   .conversation-name {
                     @mixin flex-row $justify-left, $align-center;
                     padding-left: 21px;
@@ -133,6 +141,9 @@
                     border-radius: 50%;
                   }
                 }
+              }
+              .pad-link {
+                padding-left: 6px;
               }
               .back-oval-gray {
                 p {

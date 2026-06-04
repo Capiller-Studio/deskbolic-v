@@ -23,8 +23,8 @@
                     - if team_user.avatar.attached?
                       = image_tag(team_user.avatar, class: "avatar-icon avatar#{idx+1}", alt: team_user.display_name)
                     - else
-                      .avatar-icon.avatar-fallback.customer-list-initials-avatar.f-reg-12 class="avatar#{idx+1} #{avatar_fallback_color_class(team_user.display_name)}"
-                        = (team_user.display_name)&.first&.upcase
+                      .avatar-icon.avatar-fallback.customer-list-initials-avatar.f-reg-12 class="avatar#{idx+1} #{avatar_fallback_color_class(full_name(team_user))}"
+                        = initials(team_user)
                   .new-teammates data-action="click->modalToggler#showModal click->frameToggler#loadModal" data-popup-view="_team_modal" data-item-id=team.id style="cursor: pointer;"
                     = inline_svg_tag("plus_blue.svg", class:"plus-icon", alt:"menu")
                     span.f-reg-12 Add Teammates

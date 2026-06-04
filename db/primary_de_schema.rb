@@ -532,6 +532,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_02_010530) do
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.uuid "sla_policy_id", null: false
     t.integer "status", default: 0, null: false
+    t.datetime "target_first_response_at"
+    t.datetime "target_next_response_at"
+    t.datetime "target_resolution_at"
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["account_id", "created_at"], name: "index_conversation_slas_on_account_id_and_created_at"
     t.index ["account_id", "status"], name: "index_conversation_slas_on_account_id_and_status"
@@ -539,10 +542,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_02_010530) do
     t.index ["conversation_id", "sla_policy_id"], name: "index_conversation_slas_on_conversation_id_and_sla_policy_id", unique: true
     t.index ["conversation_id"], name: "index_conversation_slas_on_conversation_id"
     t.index ["sla_policy_id"], name: "index_conversation_slas_on_sla_policy_id"
+    t.index ["target_first_response_at"], name: "index_conversation_slas_on_target_first_response_at"
+    t.index ["target_next_response_at"], name: "index_conversation_slas_on_target_next_response_at"
+    t.index ["target_resolution_at"], name: "index_conversation_slas_on_target_resolution_at"
   end
 
   create_table "conversations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "account_id", null: false
+    t.uuid "assignee_id"
     t.uuid "campaign_id"
     t.jsonb "configurations", default: {}, null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
@@ -570,6 +577,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_02_010530) do
     t.index ["account_id", "status"], name: "index_conversations_on_account_id_and_status"
     t.index ["account_id", "title"], name: "index_conversations_on_account_id_and_title"
     t.index ["account_id"], name: "index_conversations_on_account_id"
+    t.index ["assignee_id"], name: "index_conversations_on_assignee_id"
     t.index ["campaign_id"], name: "index_conversations_on_campaign_id"
     t.index ["inbox_id"], name: "index_conversations_on_inbox_id"
     t.index ["outbound_channel_type", "outbound_channel_id"], name: "index_conversations_on_outbound_channel"
@@ -785,6 +793,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_02_010530) do
     t.uuid "email_template_layout_id"
     t.string "name"
     t.integer "status", default: 0, null: false
+    t.integer "template_type"
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["account_id", "name"], name: "index_email_templates_on_account_id_and_name"
     t.index ["account_id"], name: "index_email_templates_on_account_id"
@@ -1066,12 +1075,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_02_010530) do
     t.uuid "channel_id", null: false
     t.string "channel_type", null: false
     t.jsonb "configurations", default: {}, null: false
+    t.uuid "conversation_reply_template_id"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.uuid "csat_survey_id"
     t.string "default_locale", default: "en", null: false
     t.string "display_name"
     t.integer "flags", default: 0, null: false
     t.string "name", default: "", null: false
+    t.boolean "primary_inbox", default: false, null: false
     t.integer "status", default: 0, null: false
     t.string "timezone", default: "UTC", null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
@@ -1081,6 +1092,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_02_010530) do
     t.index ["account_id"], name: "index_inboxes_on_account_id"
     t.index ["business_hour_group_id"], name: "index_inboxes_on_business_hour_group_id"
     t.index ["channel_type", "channel_id"], name: "index_inboxes_on_channel"
+    t.index ["channel_type", "channel_id"], name: "index_inboxes_on_channel_primary", unique: true, where: "(primary_inbox = true)"
+    t.index ["conversation_reply_template_id"], name: "index_inboxes_on_conversation_reply_template_id"
     t.index ["csat_survey_id"], name: "index_inboxes_on_csat_survey_id"
   end
 
@@ -1282,6 +1295,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_02_010530) do
 
   create_table "sla_policies", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "account_id", null: false
+    t.uuid "business_hour_group_id"
     t.jsonb "configurations", default: {}, null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.text "description"
@@ -1294,6 +1308,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_02_010530) do
     t.index ["account_id", "created_at"], name: "index_sla_policies_on_account_id_and_created_at"
     t.index ["account_id", "name"], name: "index_sla_policies_on_account_id_and_name"
     t.index ["account_id"], name: "index_sla_policies_on_account_id"
+    t.index ["business_hour_group_id"], name: "index_sla_policies_on_business_hour_group_id"
   end
 
   create_table "team_users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -1412,10 +1427,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_02_010530) do
   add_foreign_key "inbox_users", "inboxes", on_delete: :cascade
   add_foreign_key "inboxes", "business_hour_groups", on_delete: :nullify
   add_foreign_key "inboxes", "csat_surveys", on_delete: :nullify
+  add_foreign_key "inboxes", "email_templates", column: "conversation_reply_template_id", on_delete: :nullify
   add_foreign_key "messages", "conversations", on_delete: :cascade
   add_foreign_key "messages", "inboxes", on_delete: :cascade
   add_foreign_key "sla_inboxes", "inboxes", on_delete: :cascade
   add_foreign_key "sla_inboxes", "sla_policies", on_delete: :cascade
+  add_foreign_key "sla_policies", "business_hour_groups", on_delete: :nullify
   add_foreign_key "team_users", "teams", on_delete: :cascade
   add_foreign_key "user_skills", "skills", on_delete: :cascade
   add_foreign_key "webhook_deliveries", "integrations", on_delete: :cascade

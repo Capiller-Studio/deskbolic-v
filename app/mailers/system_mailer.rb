@@ -11,16 +11,17 @@ class SystemMailer < ApplicationMailer
     end
   end
 
-  # Stub for future system emails: invoices, marketing, alerts
-  # Example:
-  # def invoice(account, invoice)
-  #   @account = account
-  #   @invoice = invoice
-  #   mail(to: @account.email, subject: "Your Invoice ##{@invoice.number}")
-  # end
-  #
-  # def welcome(user)
-  #   @user = user
-  #   mail(to: @user.email, subject: "Welcome to Deskbolic!")
-  # end
+  def subscription_reminder(account)
+    @account = account
+    @subscription = account.active_subscription || account.subscriptions.order(created_at: :desc).first
+    
+    mail(to: @account.email, subject: I18n.t("mailers.system_mailer.subscription_reminder.subject", default: "Action Required: Your Deskbolic subscription trial is ending soon"))
+  end
+
+  def subscription_past_due(account)
+    @account = account
+    @subscription = account.subscriptions.order(created_at: :desc).first
+    
+    mail(to: @account.email, subject: I18n.t("mailers.system_mailer.subscription_past_due.subject", default: "Action Required: Your Deskbolic subscription is past due"))
+  end
 end

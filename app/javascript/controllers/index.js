@@ -58,3 +58,18 @@ application.register("email-builder", EmailBuilderController)
 
 import KeyValueBuilderController from "./key_value_builder_controller"
 application.register("key-value-builder", KeyValueBuilderController)
+
+import StripeElementsController from "./stripe_elements_controller"
+application.register("stripe-elements", StripeElementsController)
+
+import WalletTopupController from "./wallet_topup_controller"
+application.register("wallet-topup", WalletTopupController)
+
+import ModalController from "./modal_controller"
+application.register("modal", ModalController)
+
+import BillingWarningController from "./billing_warning_controller"
+application.register("billing-warning", BillingWarningController)
+
+import PlanSelectorController from "./plan_selector_controller"
+application.register("plan-selector", PlanSelectorController)

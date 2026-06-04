@@ -13,5 +13,6 @@ html lang=I18n.locale
     = stylesheet_link_tag "dashboard", "data-turbo-track": "reload"
     = javascript_include_tag "dashboard", "data-turbo-track": "reload", defer: true
   body data-controller="chat consumer" data-consumer-user="#{current_user&.id}" data-consumer-token="#{current_user&.connection_token}" 
+    = render("layouts/dashboard/billing_warning_banner")
     = render("layouts/dashboard/flash_message")
     == yield

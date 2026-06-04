@@ -1,0 +1,360 @@
+/* Billing Module Components */
+
+/* Layout & General */
+.ap-billing-layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.ap-billing-main {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.ap-billing-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.ap-billing-section-card {
+  border-left: 4px solid var(--ap-primary);
+  overflow: visible;
+}
+
+.ap-billing-card-body {
+  padding: 24px;
+}
+
+.ap-billing-card-top {
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.ap-billing-section-title {
+  color: var(--ap-text-dark);
+}
+
+.ap-billing-section-subtitle {
+  color: var(--ap-text-muted);
+}
+
+/* Badges */
+.ap-billing-badge-danger {
+  background-color: var(--ap-danger-light);
+  color: var(--ap-danger);
+  padding: 6px 12px;
+  font-weight: 600;
+}
+
+.ap-billing-badge-warning {
+  background-color: var(--ap-warning-light);
+  color: var(--ap-warning);
+  padding: 6px 12px;
+  font-weight: 600;
+}
+
+/* Plan Details */
+.ap-billing-plan-details {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  background-color: var(--ap-bg-light);
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+
+.ap-billing-detail-label {
+  text-transform: uppercase;
+  color: var(--ap-text-muted);
+  letter-spacing: 0.5px;
+}
+
+.ap-billing-detail-value {
+  color: var(--ap-text-dark);
+  margin-top: 4px;
+}
+
+.ap-billing-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+/* Modals */
+.ap-billing-modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 50;
+  align-items: center;
+  justify-content: center;
+}
+
+.ap-billing-modal-content {
+  background-color: #fff;
+  border-radius: 12px;
+  max-width: 90vw;
+  box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+}
+
+.ap-billing-modal-content.large {
+  width: 600px;
+}
+
+.ap-billing-modal-content.medium {
+  width: 500px;
+}
+
+.ap-billing-modal-content.small {
+  width: 400px;
+}
+
+.ap-billing-modal-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--ap-border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ap-billing-modal-body {
+  padding: 24px;
+}
+
+.ap-billing-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+/* Plan Grid */
+.ap-billing-plan-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.ap-billing-plan-card {
+  border: 2px solid var(--ap-border-color);
+  border-radius: 8px;
+  padding: 16px;
+  height: 100%;
+  transition: border-color 0.2s ease;
+}
+
+.ap-billing-plan-price {
+  color: var(--ap-text-muted);
+  margin: 8px 0;
+}
+
+.ap-billing-plan-desc {
+  color: #94a3b8;
+}
+
+/* Forms */
+.ap-billing-form-group {
+  margin-bottom: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--ap-border-color);
+}
+
+.ap-billing-form-label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--ap-text-dark);
+}
+
+.ap-billing-form-hint {
+  color: var(--ap-text-muted);
+  margin-bottom: 16px;
+}
+
+.ap-billing-form-input {
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+/* Wallet */
+.ap-billing-wallet-header {
+  color: var(--ap-text-dark);
+  margin-bottom: 16px;
+}
+
+.ap-billing-wallet-balance-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ap-billing-wallet-label {
+  color: var(--ap-text-muted);
+}
+
+.ap-billing-wallet-amount {
+  color: var(--ap-text-dark);
+}
+
+.ap-billing-topup-presets {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+/* Payment Methods */
+.ap-billing-pm-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.ap-billing-pm-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid var(--ap-border-color);
+  border-radius: 8px;
+}
+
+.ap-billing-pm-details {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ap-billing-pm-icon {
+  background-color: var(--ap-bg-light);
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.ap-billing-pm-brand {
+  color: var(--ap-text-dark);
+}
+
+.ap-billing-pm-expiry {
+  color: var(--ap-text-muted);
+}
+
+.ap-billing-pm-remove {
+  color: var(--ap-danger);
+}
+
+.ap-billing-pm-empty {
+  color: var(--ap-text-muted);
+  margin-bottom: 16px;
+}
+
+.ap-billing-stripe-element {
+  margin-bottom: 24px;
+  min-height: 200px;
+}
+
+.ap-billing-pm-add-btn {
+  width: 100%;
+  justify-content: center;
+}
+
+/* Transactions Table */
+.ap-billing-tx-card {
+  margin-top: 24px;
+}
+
+.ap-billing-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.ap-billing-th {
+  padding: 12px 0;
+  color: var(--ap-text-muted);
+}
+
+.ap-billing-tr {
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.ap-billing-td {
+  padding: 16px 0;
+}
+
+/* Warning Banner */
+.ap-billing-warning-banner {
+  background: linear-gradient(90deg, #1e3a8a, #3b82f6);
+  color: white;
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.ap-billing-warning-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ap-billing-warning-icon {
+  font-size: 20px;
+}
+
+.ap-billing-warning-title {
+  margin: 0;
+  color: white;
+}
+
+.ap-billing-warning-text {
+  margin: 0;
+  color: #bfdbfe;
+}
+
+.ap-billing-warning-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.ap-billing-warning-btn {
+  background-color: white;
+  color: #1e3a8a;
+  border: none;
+  font-size: 13px;
+  padding: 6px 12px;
+}
+
+.ap-billing-warning-dismiss {
+  background: transparent;
+  border: none;
+  color: #bfdbfe;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.ap-billing-btn-danger-outline {
+  margin-left: auto;
+  color: #dc2626;
+  border-color: #fca5a5;
+  background-color: #fef2f2;
+}
+
+.ap-billing-btn-secondary-outline {
+  background-color: #fff;
+  border: 1px solid var(--ap-border-color);
+  color: var(--ap-text-dark);
+}

@@ -12,13 +12,13 @@
           How did we do?
         </mj-text>
         <mj-text font-size="16px" color="#333333">
-          Hello <%= @conversation.customers.first&.name %>,
+          Hello [[ERB= @conversation.customers.first&.name ]],
         </mj-text>
         <mj-text font-size="16px" color="#333333">
-          How would you rate the support you received from <%= @message.sender&.name %>?
+          How would you rate the support you received from [[ERB= @message.sender&.name ]]?
         </mj-text>
         
-        <mj-button href="<%= \"#{Rails.env.development? || Rails.env.test? ? 'http' : 'https'}://csat.#{ENV.fetch('PORTAL_HOST', 'deskbolic.com')}/#{@conversation.locale || @conversation.customers.first&.locale || I18n.default_locale}/#{@message.csat_response_id || @message.data['csat_response_id']}\" %>" background-color="#4a90d9" color="white" border-radius="4px" font-size="16px" font-weight="bold">
+        <mj-button href="[[ERB= @csat_survey_url ]]" background-color="#4a90d9" color="white" border-radius="4px" font-size="16px" font-weight="bold">
           Rate your experience
         </mj-button>
         
@@ -29,3 +29,4 @@
     </mj-section>
   </mj-body>
 </mjml>
+

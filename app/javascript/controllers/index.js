@@ -73,3 +73,6 @@ application.register("billing-warning", BillingWarningController)
 
 import PlanSelectorController from "./plan_selector_controller"
 application.register("plan-selector", PlanSelectorController)
+
+import EmailChannelController from "./email_channel_controller"
+application.register("email-channel", EmailChannelController)

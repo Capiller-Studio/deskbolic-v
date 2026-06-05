@@ -4,10 +4,40 @@ class ApplicationMailbox < ActionMailbox::Base
   # Route replies first, then new conversations as fallback.
   # Spam/auto-reply emails are bounced before reaching any mailbox.
   routing(
+    ->(inbound_email) { verification_email?(inbound_email) } => :verification,
+    ->(inbound_email) { forwarding_confirmation?(inbound_email) } => :conversation,
     ->(inbound_email) { spam_or_auto_reply?(inbound_email) } => :bounce,
     ->(inbound_email) { reply_email?(inbound_email) } => :reply,
     ->(inbound_email) { new_conversation?(inbound_email) } => :conversation
   )
+
+  def self.verification_email?(inbound_email)
+    mail = inbound_email.mail
+    
+    # Must be originally sent by our system's channel domain
+    return false unless mail.from&.any? { |address| address.end_with?("@helpbolic.com") }
+
+    # Must match the verification token subject format
+    return false unless mail.subject.to_s.match?(/Deskbolic Forwarding Verification: \[.+?\]/)
+
+    # Additionally, verify that at least one recipient is registered in GlobalRouting
+    all_recipients = mail.to.to_a + mail.cc.to_a + mail.bcc.to_a + [mail["X-Original-To"]&.value]
+    all_recipients.compact.map(&:downcase).uniq.any? do |recipient|
+      GlobalRouting.exists?(route_type: "forward_email", route_value: recipient)
+    end
+  end
+
+  def self.forwarding_confirmation?(inbound_email)
+    mail = inbound_email.mail
+
+    # Gmail Forwarding Confirmation
+    return true if mail.from&.any? { |addr| addr.match?(/forwarding-noreply@google\.com/i) }
+
+    # Generic Forwarding Confirmations (Outlook/Microsoft/Yahoo)
+    return true if mail.subject.to_s.match?(/forwarding confirmation/i)
+
+    false
+  end
 
   # Detect auto-generated emails, bounces, out-of-office replies etc.
   def self.spam_or_auto_reply?(inbound_email)

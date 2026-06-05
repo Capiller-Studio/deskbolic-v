@@ -13,13 +13,17 @@ module Dashboard
     end
 
     def create
-      response = Channels::ChannelCreator.call(channel_type: params[:channel_type], channel_params: params,
-current_account: current_account)
+      creator = Channels::ChannelCreator.new(
+        channel_type: params[:channel_type],
+        channel_params: params,
+        current_account: current_account
+      )
 
-      if response
+      if creator.call
         redirect_to(request.referer, notice: "Channel Created!")
       else
-        redirect_to(request.referer, alert: "Channel Already Exists!")
+        error_msg = creator.channel&.errors&.full_messages&.join(', ') || "Failed to create channel"
+        redirect_to(request.referer, alert: error_msg)
       end
     end
   end

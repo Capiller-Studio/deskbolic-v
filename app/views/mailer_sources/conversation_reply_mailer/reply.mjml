@@ -1,0 +1,72 @@
+<mjml>
+  <mj-head>
+    <mj-attributes>
+      <mj-all font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" />
+      <mj-text font-size="15px" line-height="1.6" color="#334155" />
+      <mj-section padding="0px" />
+    </mj-attributes>
+    <mj-style>
+      .body-section { background: #ffffff; border-radius: 12px; overflow: hidden; }
+      .agent-name { font-weight: 600; color: #0f172a; }
+      .message-block { background: #f8fafc; border-radius: 10px; border-left: 3px solid #778dff; }
+      .footer-text { color: #94a3b8; font-size: 12px; }
+      a { color: #4338ca; text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      @media (prefers-color-scheme: dark) {
+        .body-section { background: #1e293b !important; }
+        .message-block { background: #0f172a !important; border-left-color: #6366f1 !important; }
+      }
+    </mj-style>
+  </mj-head>
+
+  <mj-body background-color="#f1f5f9">
+    <!-- Spacer -->
+    <mj-section padding="20px 0 0 0"></mj-section>
+
+    <!-- Header -->
+    <mj-section css-class="body-section" padding="28px 32px 16px 32px" background-color="#ffffff">
+      <mj-column>
+        <mj-text font-size="16px" font-weight="700" color="#0f172a" padding="0">
+          [[ERB= @inbox_name ]]
+        </mj-text>
+        <mj-divider border-width="1px" border-color="#e2e8f0" padding="12px 0 0 0" />
+      </mj-column>
+    </mj-section>
+
+    <!-- Agent Info -->
+    <mj-section background-color="#ffffff" padding="16px 32px 8px 32px">
+      <mj-column>
+        <mj-text padding="0">
+          <span class="agent-name">[[ERB= @agent_name ]]</span>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- Message Content -->
+    <mj-section background-color="#ffffff" padding="8px 32px 24px 32px">
+      <mj-column>
+        <mj-text css-class="message-block" padding="16px 20px">
+          [[ERB== @content ]]
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- Reply CTA -->
+    <mj-section background-color="#ffffff" padding="0 32px 28px 32px">
+      <mj-column>
+        <mj-text font-size="13px" color="#64748b" padding="0">
+          Reply directly to this email to continue the conversation.
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- Footer -->
+    <mj-section padding="16px 32px 28px 32px">
+      <mj-column>
+        <mj-text css-class="footer-text" align="center" padding="0">
+          Powered by <a href="https://helpbolic.com" target="_blank" style="color: #64748b; text-decoration: underline;">Helpbolic</a>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

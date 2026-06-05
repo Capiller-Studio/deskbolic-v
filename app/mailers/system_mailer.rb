@@ -11,6 +11,18 @@ class SystemMailer < ApplicationMailer
     end
   end
 
+  def forward_email_verification(email_channel)
+    @email_channel = email_channel
+    @account = email_channel.account
+
+    # The subject contains the unique token which ActionMailbox will extract
+    subject = "Deskbolic Forwarding Verification: [#{@email_channel.forward_email_token}]"
+    
+    # Send it TO the custom email address the user wants to forward
+    # It should eventually reach the system's generated forward_email address
+    mail(to: email_channel.email, from: "no-reply@helpbolic.com", subject: subject)
+  end
+
   def subscription_reminder(account)
     @account = account
     @subscription = account.active_subscription || account.subscriptions.order(created_at: :desc).first

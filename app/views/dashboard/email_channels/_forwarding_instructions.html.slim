@@ -1,0 +1,80 @@
+.ec-forwarding-panel
+  h3.f-semi-18 = t("dashboard.email_channels.forwarding.title")
+  p = t("dashboard.email_channels.forwarding.description")
+
+  / ─── Forward Email Address ───
+  .ec-forwarding-address
+    span.ec-forwarding-address-label = t("dashboard.email_channels.forwarding.your_forwarding_address")
+    span.ec-forwarding-address-value data-email-channel-target="forwardEmail" = email_channel.forward_email
+    button.ec-copy-btn data-action="click->email-channel#copyForwardEmail" data-email=email_channel.forward_email
+      | 📋 #{t("dashboard.email_channels.forwarding.copy")}
+
+  / ─── Forwarding Status ───
+  .ec-forwarding-status
+    - if email_channel.configurations&.dig("forwarding_verified")
+      .ec-badge.ec-badge-verified
+        span.ec-badge-icon ✓
+        span = t("dashboard.email_channels.forwarding.verified")
+    - else
+      .ec-badge.ec-badge-pending
+        span.ec-badge-icon ⏳
+        span = t("dashboard.email_channels.forwarding.not_verified")
+      button.ec-test-btn.ec-btn-sm data-action="click->email-channel#verifyForwarding" data-url=verify_forwarding_email_channel_path(email_channel) data-email-channel-target="verifyBtn" style="margin-left: 8px;"
+        | 🔍 #{t("dashboard.email_channels.forwarding.verify")}
+
+  / ─── Provider Tabs ───
+  h4.f-semi-14 style="margin-bottom: 12px; color: #334155;" = t("dashboard.email_channels.forwarding.instructions_title")
+
+  .ec-tabs
+    button.ec-tab.ec-tab--active data-action="click->email-channel#selectTab" data-tab="gmail" = t("dashboard.email_channels.forwarding.gmail_title")
+    button.ec-tab data-action="click->email-channel#selectTab" data-tab="outlook" = t("dashboard.email_channels.forwarding.outlook_title")
+    button.ec-tab data-action="click->email-channel#selectTab" data-tab="yahoo" = t("dashboard.email_channels.forwarding.yahoo_title")
+    button.ec-tab data-action="click->email-channel#selectTab" data-tab="other" = t("dashboard.email_channels.forwarding.other_title")
+
+  / ─── Gmail ───
+  .ec-tab-content.ec-tab-content--active data-tab-content="gmail"
+    ol.ec-steps
+      li.ec-step
+        span.ec-step-text = t("dashboard.email_channels.forwarding.gmail_step_1")
+      li.ec-step
+        span.ec-step-text = t("dashboard.email_channels.forwarding.gmail_step_2")
+      li.ec-step
+        span.ec-step-text = t("dashboard.email_channels.forwarding.gmail_step_3")
+      li.ec-step
+        span.ec-step-text = t("dashboard.email_channels.forwarding.gmail_step_4")
+
+  / ─── Outlook ───
+  .ec-tab-content data-tab-content="outlook"
+    ol.ec-steps
+      li.ec-step
+        span.ec-step-text = t("dashboard.email_channels.forwarding.outlook_step_1")
+      li.ec-step
+        span.ec-step-text = t("dashboard.email_channels.forwarding.outlook_step_2")
+      li.ec-step
+        span.ec-step-text = t("dashboard.email_channels.forwarding.outlook_step_3")
+      li.ec-step
+        span.ec-step-text = t("dashboard.email_channels.forwarding.outlook_step_4")
+
+  / ─── Yahoo ───
+  .ec-tab-content data-tab-content="yahoo"
+    ol.ec-steps
+      li.ec-step
+        span.ec-step-text = t("dashboard.email_channels.forwarding.yahoo_step_1")
+      li.ec-step
+        span.ec-step-text = t("dashboard.email_channels.forwarding.yahoo_step_2")
+      li.ec-step
+        span.ec-step-text = t("dashboard.email_channels.forwarding.yahoo_step_3")
+      li.ec-step
+        span.ec-step-text = t("dashboard.email_channels.forwarding.yahoo_step_4")
+
+  / ─── Other ───
+  .ec-tab-content data-tab-content="other"
+    ol.ec-steps
+      li.ec-step
+        span.ec-step-text = t("dashboard.email_channels.forwarding.other_step_1")
+      li.ec-step
+        span.ec-step-text = t("dashboard.email_channels.forwarding.other_step_2")
+      li.ec-step
+        span.ec-step-text = t("dashboard.email_channels.forwarding.other_step_3")
+      li.ec-step
+        span.ec-step-text = t("dashboard.email_channels.forwarding.other_step_4")

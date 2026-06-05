@@ -44,3 +44,9 @@ end
 every 1.day, at: "3:00 am" do
   runner "Automations::ExecutionCleanupWorker.perform_async"
 end
+
+# --- Integrations & Channels ---
+# Poll IMAP servers for incoming emails for active email channels
+every 2.minutes do
+  runner "ImapFetchWorker.perform_async"
+end

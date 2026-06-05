@@ -321,7 +321,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_02_010530) do
     t.jsonb "configurations", default: {}, null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.string "email"
+    t.integer "flags", default: 0, null: false
     t.string "forward_email"
+    t.string "forward_email_token"
+    t.datetime "forwarding_verified_at"
     t.jsonb "imap_configurations", default: {}, null: false
     t.string "name"
     t.integer "service"
@@ -332,6 +335,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_02_010530) do
     t.index ["account_id", "name"], name: "index_channel_emails_on_account_id_and_name"
     t.index ["account_id"], name: "index_channel_emails_on_account_id"
     t.index ["email"], name: "index_channel_emails_on_email", unique: true
+    t.index ["flags"], name: "index_channel_emails_on_flags"
     t.index ["forward_email"], name: "index_channel_emails_on_forward_email", unique: true
     t.index ["status"], name: "index_channel_emails_on_status"
   end

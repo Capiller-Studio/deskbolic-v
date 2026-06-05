@@ -177,6 +177,14 @@ Rails.application.routes.draw do
         match :test_connection, via: [:post, :patch]
       end
     end
+
+    resources :email_channels, except: [:show] do
+      member do
+        post :test_smtp
+        post :test_imap
+        post :verify_forwarding
+      end
+    end
     
     resources :custom_fields
 

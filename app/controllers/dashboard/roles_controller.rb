@@ -2,51 +2,75 @@
 
 module Dashboard
   class RolesController < DashboardController
-    
-    def new
-      
+    before_action :set_role, only: [:edit, :update, :destroy]
+
+    def index
+      authorize ::Access::Role
+      @system_roles = current_account.roles.system_roles.order(:name)
+      @custom_roles = current_account.roles.custom_roles.order(:name)
     end
-    
+
+    def new
+      authorize ::Access::Role
+      @role = ::Access::Role.new
+    end
+
     def edit
-      @response = CannedResponse.find(params[:id])
+      authorize @role
     end
 
     def create
-      @canned_response = CannedResponse.new(canned_response_params)
-      @canned_response.account_id = current_account.id
+      authorize ::Access::Role
+      @role = current_account.roles.build(role_params)
 
-      redirect_to(request.referer) if @canned_response.save
+      if @role.save
+        redirect_to roles_path, notice: I18n.t("dashboard.roles.create.success", default: "Role created successfully.")
+      else
+        render :new, status: :unprocessable_entity
+      end
     end
 
-
     def update
-      @response = CannedResponse.find(params[:id])
-      if @response.update(canned_response_params)
-        respond_to do |format|
-          format.html { redirect_to(canned_responses_settings_path, notice: "Macro updated successfully.") }
-          format.turbo_stream do
- render(turbo_stream: turbo_stream.replace("response_#{@response.id}",
-partial: "dashboard/canned_responses/canned_response", locals: { response: @response })) end
-        end
+      authorize @role
+      if @role.update(role_params)
+        redirect_to roles_path, notice: I18n.t("dashboard.roles.update.success", default: "Role updated successfully.")
       else
-        render(:edit)
+        render :edit, status: :unprocessable_entity
       end
     end
 
     def destroy
-      @response = CannedResponse.find(params[:id])
-      @response.destroy
-
-      respond_to do |format|
-        format.turbo_stream { render(turbo_stream: turbo_stream.remove("response_#{@response.id}")) }
-        format.html { redirect_to(canned_responses_settings_path, notice: "Macro deleted successfully.") }
+      authorize @role
+      
+      if @role.system_provided?
+        redirect_to roles_path, alert: I18n.t("dashboard.roles.destroy.system_role", default: "System roles cannot be deleted.")
+      elsif @role.destroy
+        redirect_to roles_path, notice: I18n.t("dashboard.roles.destroy.success", default: "Role deleted successfully.")
+      else
+        redirect_to roles_path, alert: I18n.t("dashboard.roles.destroy.error", default: "Failed to delete role.")
       end
     end
 
     private
 
-    def canned_response_params
-      params.expect(canned_response: [ :name, :description ])
+    def set_role
+      @role = current_account.roles.find(params[:id])
+    end
+
+    def role_params
+      rp = params.require(:access_role).permit(:name, :permissions).to_h
+      
+      if rp["permissions"].is_a?(String) && rp["permissions"].present?
+        begin
+          rp["permissions"] = JSON.parse(rp["permissions"])
+        rescue JSON::ParserError
+          rp["permissions"] = {}
+        end
+      else
+        rp["permissions"] = {}
+      end
+      
+      rp
     end
   end
 end

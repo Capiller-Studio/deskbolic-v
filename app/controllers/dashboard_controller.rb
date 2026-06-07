@@ -9,6 +9,8 @@ class DashboardController < ActionController::Base
   include CurrentAttributesAccessible
   include Pagy::Backend
 
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+
   layout "dashboard"
 
   helper_method :current_account
@@ -23,6 +25,14 @@ class DashboardController < ActionController::Base
 
   def authorize(record, query = nil)
     super([ :dashboard, record ], query)
+  end
+
+  def policy(record)
+    super([ :dashboard, record ])
+  end
+
+  def policy_scope(scope)
+    super([ :dashboard, scope ])
   end
 
   private
@@ -58,4 +68,24 @@ class DashboardController < ActionController::Base
       end
     end
   end
+
+  def user_not_authorized(exception)
+    policy = exception.policy
+
+    # If the policy failed due to a feature or limit, re-route it to the premium handlers
+    if policy.respond_to?(:authorization_failure_reason)
+      case policy.authorization_failure_reason
+      when :feature_not_enabled
+        flash[:alert] = I18n.t("dashboard.billing.feature_not_enabled", feature: policy.authorization_failure_feature.to_s.humanize.titleize, default: "The feature '%{feature}' is not available on your current plan. Please upgrade to access it.")
+        return redirect_to dashboard_billing_path
+      when :limit_reached
+        flash[:alert] = I18n.t("dashboard.billing.limit_reached", limit: policy.authorization_failure_limit.to_s.humanize.titleize, default: "You have reached your limit for '%{limit}'. Please upgrade your plan for more capacity.")
+        return redirect_to dashboard_billing_path
+      end
+    end
+
+    flash[:error] = I18n.t("dashboard.authorization.not_authorized", default: "You are not authorized to perform this action.")
+    redirect_back(fallback_location: root_path)
+  end
+
 end

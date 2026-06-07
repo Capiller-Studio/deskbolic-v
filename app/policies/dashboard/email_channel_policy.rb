@@ -3,7 +3,7 @@
 module Dashboard
   class EmailChannelPolicy < ApplicationPolicy
     def index?
-      true
+      authorized?("inboxes.read")
     end
 
     def new?
@@ -11,7 +11,7 @@ module Dashboard
     end
 
     def create?
-      true
+      authorized?("inboxes.write")
     end
 
     def edit?
@@ -19,23 +19,23 @@ module Dashboard
     end
 
     def update?
-      true
+      authorized?("inboxes.write")
     end
 
     def destroy?
-      true
+      authorized?("inboxes.delete")
     end
 
     def test_smtp?
-      true
+      authorized?("inboxes.write")
     end
 
     def test_imap?
-      true
+      authorized?("inboxes.write")
     end
 
     def verify_forwarding?
-      true
+      authorized?("inboxes.write")
     end
   end
 end

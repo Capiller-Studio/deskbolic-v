@@ -1,0 +1,37 @@
+= form_with model: role, url: role.new_record? ? roles_path : role_path(role), local: true, data: { controller: "role-permissions" }, class: "ec-form" do |f|
+  - if role.errors.any?
+    .ec-form-errors
+      h4 = t("dashboard.roles.form.errors_found", count: role.errors.count, default: "%{count} errors prohibited this role from being saved:")
+      ul
+        - role.errors.full_messages.each do |msg|
+          li = msg
+
+  .ec-form-group
+    = f.label :name, t("dashboard.roles.form.name_label", default: "Role Name"), class: "ec-label"
+    = f.text_field :name, class: "ec-input", placeholder: "e.g., Billing Manager", disabled: role.system_provided?
+
+  / We use a hidden field to store the serialized JSON string from Stimulus
+  = f.hidden_field :permissions, data: { role_permissions_target: "jsonOutput" }
+
+  h3.f-semi-20.ec-roles-matrix-title = t("dashboard.roles.form.permissions_matrix", default: "Permissions Matrix")
+  p.f-reg-14.ec-roles-matrix-desc = t("dashboard.roles.form.permissions_desc", default: "Toggle the granular permissions below for this role.")
+
+  .ec-permissions-matrix
+    .ec-pm-header
+      .ec-pm-header-col Resource
+      .ec-pm-header-col Permissions
+      
+    - ::Access::Role::PERMISSION_SCHEMA.each do |resource, actions|
+      .ec-pm-row
+        .ec-pm-resource = resource.humanize.titleize
+        .ec-toggles-row
+          - actions.each do |action|
+            - is_checked = role.permissions.dig(resource, action) == true || role.permissions.dig(resource, action) == "true"
+            label.ec-toggle-label
+              input.ec-toggle-input type="checkbox" checked=is_checked disabled=role.system_provided? data-role-permissions-target="checkbox" data-action="change->role-permissions#toggle" data-resource=resource data-permission-action=action
+              span = action.humanize.titleize
+
+  .ec-form-actions.ec-form-actions-roles
+    - unless role.system_provided?
+      = f.submit t("dashboard.roles.form.save", default: "Save Role"), class: "ec-btn-primary"
+    = link_to t("dashboard.roles.form.cancel", default: "Cancel"), roles_path, class: "ec-btn-secondary"

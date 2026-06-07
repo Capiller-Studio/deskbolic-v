@@ -30,25 +30,36 @@ class ApplicationPolicy
     !account.limit_reached?(resource, strict: strict)
   end
 
+
   # Unified Access Check
   def authorized?(permission, feature: nil, limit: nil)
     # 1. User Role Check
     return false unless can?(permission)
 
     # 2. Account Feature Check
-    return false if feature && !account_feature_enabled?(feature)
+    if feature && !account_feature_enabled?(feature)
+      @authorization_failure_reason = :feature_not_enabled
+      @authorization_failure_feature = feature
+      return false
+    end
 
     # 3. Usage Limit Check
     if limit
       # Monthly resources usually allow "Soft Blocks"
       is_monthly = limit.to_s.include?("monthly")
-      return false unless account_within_limit?(limit, strict: !is_monthly)
+      unless account_within_limit?(limit, strict: !is_monthly)
+        @authorization_failure_reason = :limit_reached
+        @authorization_failure_limit = limit
+        return false
+      end
     end
 
     true
   end
 
   public
+
+  attr_reader :authorization_failure_reason, :authorization_failure_feature, :authorization_failure_limit
 
   # --- Pundit Action Methods (must be public) ---
 

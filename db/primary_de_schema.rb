@@ -33,9 +33,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_02_010530) do
     t.uuid "account_id", null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.string "identifier", null: false
-    t.boolean "is_system", default: false
     t.string "name", null: false
     t.jsonb "permissions", default: {}, null: false
+    t.boolean "system_provided", default: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["account_id", "identifier"], name: "index_access_roles_on_account_id_and_identifier", unique: true
     t.index ["account_id", "name"], name: "index_access_roles_on_account_id_and_name"

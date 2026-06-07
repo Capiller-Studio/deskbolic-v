@@ -17,8 +17,7 @@ module Dashboard
       @teams = current_account.teams.all
     end
     
-    def roles; end
-    
+
     def messenger; end
     
     def tickets; end

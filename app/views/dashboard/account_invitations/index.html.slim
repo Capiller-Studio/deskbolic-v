@@ -1,0 +1,32 @@
+= render("dashboard/shared/dashboard_container", current_page: "settings") do
+  = render("dashboard/settings/settings_sidebar", current_page: "users") do
+    .eb-templates
+      = render "dashboard/shared/users_tabs"
+      
+      - if @invitations.any?
+        .eb-templates__grid style="margin-top: 2rem;"
+          - @invitations.each do |invitation|
+            .eb-card
+              .eb-card__body
+                .eb-card__header
+                  h3.eb-card__name = invitation.email
+                  .eb-card__badges
+                    span.eb-badge.eb-badge--draft Pending
+                p.eb-card__description = t("dashboard.invitations.index.invited_by", name: invitation.invited_by.name || invitation.invited_by.email, default: "Invited by %{name}")
+                
+                div style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;"
+                  - Access::Role.where(id: invitation.role_ids).each do |role|
+                    span.ec-meta-tag style="background: #f1f5f9; padding: 4px 8px; border-radius: 4px; font-size: 12px; color: #475569;" = role.name
+
+              .eb-card__footer
+                span.eb-card__meta = t("dashboard.invitations.index.sent", time: time_ago_in_words(invitation.created_at))
+                .eb-card__actions
+                  = link_to invitation_path(invitation), data: { turbo_method: :delete, turbo_confirm: t("dashboard.invitations.index.revoke_confirm", default: "Are you sure you want to revoke this invitation?") }, class: "eb-btn eb-btn--danger"
+                    | 🗑️ Revoke
+      - else
+        .auto-empty-state style="margin-top: 2rem;"
+          .ec-empty-icon ✉️
+          h3.f-semi-18 = t("dashboard.invitations.index.empty_title", default: "No Pending Invitations")
+          p.f-reg-14 = t("dashboard.invitations.index.empty_description", default: "You don't have any pending invitations.")
+          = link_to new_invitation_path, class: "ec-btn-primary ec-btn-sm", style: "margin-top: 1rem;"
+            | + #{t("dashboard.invitations.new.title", default: "Invite Teammate")}

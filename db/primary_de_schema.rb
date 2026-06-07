@@ -433,14 +433,32 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_02_010530) do
     t.index ["status"], name: "index_channel_twitter_profiles_on_status"
   end
 
+  create_table "channel_web_widget_translations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.string "launcher_text"
+    t.string "locale", null: false
+    t.string "pre_chat_subtitle"
+    t.string "pre_chat_title"
+    t.string "reply_time_text"
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.uuid "web_widget_id", null: false
+    t.string "welcome_tagline"
+    t.string "welcome_title"
+    t.index ["web_widget_id", "locale"], name: "index_cwwt_on_widget_and_locale", unique: true
+  end
+
   create_table "channel_web_widgets", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "account_id", null: false
     t.jsonb "configurations", default: {}, null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.jsonb "data", default: {}, null: false
+    t.string "default_locale", default: "en", null: false
+    t.uuid "fallback_channel_id"
+    t.string "fallback_channel_type"
     t.integer "flags", default: 0, null: false
     t.string "name"
     t.uuid "portal_id"
+    t.uuid "pre_chat_form_id"
     t.string "secret", null: false
     t.integer "status", default: 0, null: false
     t.jsonb "ui_configurations", default: {}, null: false
@@ -449,7 +467,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_02_010530) do
     t.index ["account_id", "created_at"], name: "index_channel_web_widgets_on_account_id_and_created_at"
     t.index ["account_id", "name"], name: "index_channel_web_widgets_on_account_id_and_name"
     t.index ["account_id"], name: "index_channel_web_widgets_on_account_id"
+    t.index ["fallback_channel_type", "fallback_channel_id"], name: "index_web_widgets_on_fallback_channel"
     t.index ["portal_id"], name: "index_channel_web_widgets_on_portal_id"
+    t.index ["pre_chat_form_id"], name: "index_channel_web_widgets_on_pre_chat_form_id"
     t.index ["status"], name: "index_channel_web_widgets_on_status"
     t.index ["website_url"], name: "index_channel_web_widgets_on_website_url"
   end
@@ -1395,6 +1415,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_02_010530) do
   add_foreign_key "campaign_translations", "campaigns", on_delete: :cascade
   add_foreign_key "campaigns", "email_templates", on_delete: :nullify
   add_foreign_key "canned_response_translations", "canned_responses", on_delete: :cascade
+  add_foreign_key "channel_web_widget_translations", "channel_web_widgets", column: "web_widget_id"
   add_foreign_key "chat_bot_inboxes", "chat_bots", on_delete: :cascade
   add_foreign_key "chat_bot_inboxes", "inboxes", on_delete: :cascade
   add_foreign_key "conversation_members", "conversations", on_delete: :cascade

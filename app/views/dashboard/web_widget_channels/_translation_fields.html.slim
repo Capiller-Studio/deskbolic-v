@@ -1,0 +1,35 @@
+.ww-translation-block
+  = f.hidden_field :_destroy
+  
+  button.ww-remove-btn type="button" data-action="click->web-widget-translations#removeTranslation" title="Remove Translation" &times;
+  
+  .ec-form-row.ww-locale-row
+    div
+      label.ec-label Language
+      - display_name = f.object.locale.present? ? I18n.t("languages.#{f.object.locale.to_s.downcase.strip}", default: f.object.locale.to_s.upcase) : "NEW_LOCALE_LABEL"
+      = text_field_tag nil, display_name, class: "ec-input ww-locale-display", readonly: true
+      = f.hidden_field :locale, class: "ww-locale-hidden"
+  
+  .ec-form-row.ww-translation-row
+    div
+      label.ec-label Welcome Title
+      = f.text_field :welcome_title, class: "ec-input ww-translation-input", placeholder: t('dashboard.web_widget_channels.translations.eg_welcome_title')
+    div
+      label.ec-label Welcome Tagline
+      = f.text_field :welcome_tagline, class: "ec-input ww-translation-input", placeholder: t('dashboard.web_widget_channels.translations.eg_welcome_tagline')
+
+  .ec-form-row.ww-translation-row
+    div
+      label.ec-label Launcher Text
+      = f.text_field :launcher_text, class: "ec-input ww-translation-input", placeholder: t('dashboard.web_widget_channels.translations.eg_launcher_text')
+    div
+      label.ec-label Reply Time Text
+      = f.text_field :reply_time_text, class: "ec-input ww-translation-input", placeholder: t('dashboard.web_widget_channels.translations.eg_reply_time_text')
+      
+  .ec-form-row
+    div
+      label.ec-label Pre-Chat Title
+      = f.text_field :pre_chat_title, class: "ec-input ww-translation-input", placeholder: t('dashboard.web_widget_channels.translations.eg_pre_chat_title')
+    div
+      label.ec-label Pre-Chat Subtitle
+      = f.text_field :pre_chat_subtitle, class: "ec-input ww-translation-input", placeholder: t('dashboard.web_widget_channels.translations.eg_pre_chat_subtitle')

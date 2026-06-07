@@ -34,5 +34,6 @@ module Deskbolic
     config.middleware.use Rack::Deflater
 
     config.active_storage.routes_prefix = "/secure_storage"
+    config.active_storage.variant_processor = :vips
   end
 end

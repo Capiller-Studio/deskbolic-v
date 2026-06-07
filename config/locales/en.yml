@@ -1,4 +1,12 @@
 en:
+  languages:
+    en: "English"
+    fr: "French"
+    es: "Spanish"
+    de: "German"
+    pt-br: "Portuguese (Brazil)"
+    ko: "Korean"
+    ar: "Arabic"
   meta:
     title: "DESKBOLIC"
     description: ""
@@ -164,6 +172,59 @@ en:
       created: "Identity source was successfully created."
       updated: "Identity source was successfully updated."
       deleted: "Identity source was successfully deleted."
+    web_widget_channels:
+      translations:
+        eg_welcome_title: "e.g. Welcome!"
+        eg_welcome_tagline: "e.g. How can we help you?"
+        eg_launcher_text: "e.g. Chat with us"
+        eg_reply_time_text: "e.g. Typically replies in a few minutes"
+        eg_pre_chat_title: "e.g. Tell us about yourself"
+        eg_pre_chat_subtitle: "e.g. We will get back to you shortly."
+      index:
+        title: "Web Widgets"
+        description: "Configure your website chat widgets, appearance, and routing rules."
+        new_channel: "New Web Widget"
+        empty_title: "No web widgets yet"
+        empty_description: "Create your first web widget to start chatting with your website visitors."
+        inboxes_count:
+          one: "%{count} Inbox"
+          other: "%{count} Inboxes"
+        delete_confirm: "Are you sure? This will permanently delete this web widget and all associated inboxes."
+        created_ago: "Created %{time} ago"
+      new:
+        title: "New Web Widget"
+      edit:
+        title: "Edit Web Widget"
+      form:
+        back: "← Back to Web Widgets"
+        error_heading: "Please fix the following errors:"
+        basic_section: "Basic Details"
+        appearance_section: "Appearance & Branding"
+        integrations_section: "Module Integrations"
+        behaviors_section: "Widget Behaviors"
+        name_label: "Internal Name"
+        name_placeholder: "e.g., Marketing Site Widget"
+        website_url_label: "Website URL"
+        website_url_placeholder: "e.g., https://yourcompany.com"
+        theme_color_label: "Theme Color"
+        welcome_title_label: "Welcome Title"
+        welcome_title_placeholder: "e.g., Hi there 👋"
+        welcome_tagline_label: "Welcome Tagline"
+        welcome_tagline_placeholder: "e.g., We typically reply in a few minutes"
+        position_label: "Widget Position"
+        position_bottom_right: "Bottom Right"
+        position_bottom_left: "Bottom Left"
+        hide_branding_label: "Hide Deskbolic Branding"
+        portal_label: "Help Center Integration"
+        contact_form_label: "Contact Form Integration"
+        anonymous_allowed_label: "Allow Anonymous Messages"
+        pre_chat_form_enabled_label: "Require Pre-chat Form"
+        save: "Save Widget"
+        update: "Update Widget"
+        cancel: "Cancel"
+      created: "Web Widget was successfully created."
+      updated: "Web Widget was successfully updated."
+      deleted: "Web Widget was successfully deleted."
     email_channels:
       sidebar:
         label: "Email Channels"

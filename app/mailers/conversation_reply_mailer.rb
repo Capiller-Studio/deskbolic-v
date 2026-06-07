@@ -14,13 +14,13 @@ class ConversationReplyMailer < ApplicationMailer
   #
   # Reply-To:
   #   - Uses forward_email domain when available for proper threading
-  def reply(conversation, message)
+  def reply(conversation, message, fallback_channel = nil)
     @conversation = conversation
     @message = message
     @account = conversation.account
     @inbox = conversation.inbox
-    # Priority: Conversation outbound_channel > Inbox channel
-    @channel = conversation.outbound_channel || @inbox.channel
+    # Priority: Fallback param > Conversation outbound_channel > Inbox channel
+    @channel = fallback_channel || conversation.outbound_channel || @inbox.channel
 
     configure_smtp_settings if @channel.respond_to?(:smtp_enabled?) && @channel.smtp_enabled?
 
@@ -137,10 +137,8 @@ class ConversationReplyMailer < ApplicationMailer
   def reply_to_address
     domain = if @channel.respond_to?(:forward_email_domain) && @channel.forward_email_domain.present?
       @channel.forward_email_domain
-    elsif @channel.respond_to?(:email) && @channel.email.present?
-      @channel.email.split("@").last
     else
-      helpbolic_from_address.split("@").last
+      "#{@conversation.account.identifier.downcase}.helpbolic.com"
     end
 
     "reply+#{@conversation.identifier}@#{domain}"

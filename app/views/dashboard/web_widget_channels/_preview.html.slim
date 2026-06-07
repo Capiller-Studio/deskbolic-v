@@ -1,0 +1,84 @@
+.ww-preview-wrapper data-controller="web-widget-preview"
+  .ww-preview-header
+    h3.f-semi-16 Live Preview
+    p.f-reg-14.text-muted See how your widget will appear to customers.
+    
+  .ww-preview-device
+    .ww-preview-screen
+      / Chat Iframe
+      .ww-iframe-wrapper
+        iframe src="#{ENV['WIDGET_APP_URL']}/w/#{current_account.id}/#{web_widget_channel.id}?preview=true" data-web-widget-preview-target="iframe"
+
+      / Launcher Button
+      .ww-preview-launcher data-web-widget-preview-target="launcher"
+        .ww-preview-launcher-icon
+          - if web_widget_channel.launcher_icon.attached?
+            = image_tag web_widget_channel.scaled_launcher_icon, class: "ww-custom-logo", data: { "web-widget-preview-target" => "logoImg" }, style: "width: 100%; height: 100%; object-fit: cover; border-radius: 50%;"
+          - else
+            svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ww-default-logo" data-web-widget-preview-target="logoSvg" style="color: white;"
+              path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+
+style
+  | .ww-preview-wrapper * { box-sizing: border-box; }
+  | .ww-preview-wrapper {
+  |   background: #fff;
+  |   border: 1px solid #e2e8f0;
+  |   border-radius: 12px;
+  |   padding: 24px;
+  |   box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  |   width: 100%;
+  | }
+  | .ww-preview-header { margin-bottom: 24px; }
+  | .ww-preview-device {
+  |   background: #f8fafc;
+  |   border: 8px solid #cbd5e1;
+  |   border-radius: 24px;
+  |   height: 500px;
+  |   position: relative;
+  |   overflow: hidden;
+  |   box-sizing: border-box;
+  | }
+  | .ww-preview-screen {
+  |   height: 100%;
+  |   position: relative;
+  |   background: #fff;
+  |   overflow: hidden;
+  | }
+  | .ww-iframe-wrapper {
+  |   position: absolute;
+  |   bottom: 80px;
+  |   left: 16px;
+  |   width: 270px;
+  |   height: 400px;
+  |   border-radius: 14px;
+  |   overflow: hidden;
+  |   box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.15);
+  | }
+  | .ww-iframe-wrapper iframe {
+  |   width: 400px;
+  |   height: 593px;
+  |   transform: scale(0.675);
+  |   transform-origin: top left;
+  |   border: none;
+  |   background: transparent;
+  | }
+
+  | .ww-preview-launcher {
+  |   position: absolute;
+  |   bottom: 20px;
+  |   right: 20px;
+  |   width: 48px;
+  |   height: 48px;
+  |   background: var(--ww-theme-color, #0f172a);
+  |   border-radius: 50%;
+  |   display: flex;
+  |   align-items: center;
+  |   justify-content: center;
+  |   box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  |   transition: background 0.2s ease, transform 0.2s ease;
+  |   cursor: pointer;
+  | }
+  | .ww-preview-launcher:hover { transform: scale(1.05); }
+  | .ww-preview-launcher-icon { color: white; display: flex; align-items: center; justify-content: center; }
+  | .ww-preview-launcher-icon svg { width: 24px; height: 24px; fill: white; }
+  | .ww-preview-launcher-icon img { width: 100%; height: 100%; object-fit: contain; border-radius: 50%; }

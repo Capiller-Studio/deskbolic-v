@@ -1,0 +1,208 @@
+- url = web_widget_channel.persisted? ? web_widget_channel_path(web_widget_channel) : web_widget_channels_path
+- method = web_widget_channel.persisted? ? :patch : :post
+
+= form_with(model: web_widget_channel, scope: :web_widget_channel, url: url, method: method, data: { controller: "web-widget-channel" }) do |f|
+  - if web_widget_channel.errors.any?
+    .ec-error-summary
+      h3 = t("dashboard.web_widget_channels.form.error_heading")
+      ul
+        - web_widget_channel.errors.full_messages.each do |message|
+          li = message
+
+  / ─── Basic Details & Inbox ───
+  .ec-section.ec-section--always-open
+    .ec-section-header
+      .ec-section-title
+        span.ec-section-icon 📝
+        span.ec-section-label = t("dashboard.web_widget_channels.form.basic_section")
+    .ec-section-body
+      .ec-form-row
+        div
+          = f.label :name, t("dashboard.web_widget_channels.form.name_label"), class: "ec-label"
+          = f.text_field :name, class: "ec-input", required: true, placeholder: t("dashboard.web_widget_channels.form.name_placeholder")
+        div
+          = f.label :website_url, t("dashboard.web_widget_channels.form.website_url_label"), class: "ec-label"
+          = f.text_field :website_url, class: "ec-input", placeholder: t("dashboard.web_widget_channels.form.website_url_placeholder")
+
+      .ec-form-row
+        div
+          = f.label :default_locale, "Default Locale", class: "ec-label"
+          = f.select :default_locale, Core::SUPPORTED_LOCALES.map { |l| [I18n.t("languages.#{l.to_s.downcase}", default: l.to_s.upcase), l] }, {}, class: "ec-select"
+
+      - if web_widget_channel.primary_inbox
+        .ec-section style="margin-top: 24px; padding: 16px; background: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 0;"
+          h3.f-semi-16 style="margin-bottom: 8px;" Inbox Settings
+          p.f-reg-14.text-muted style="margin-bottom: 16px;" Configure customer satisfaction surveys, SLA policies, and custom reply templates.
+          
+          = f.fields_for :primary_inbox do |inbox_f|
+            .ec-toggle-row style="margin-bottom: 16px; display: flex; gap: 24px;"
+              div style="display: flex; align-items: center; gap: 8px;"
+                span.ec-toggle-label Enable CSAT Surveys
+                label.ec-toggle
+                  = inbox_f.check_box :csat_survey_enabled
+                  span.ec-toggle-slider
+              div style="display: flex; align-items: center; gap: 8px;"
+                span.ec-toggle-label Auto Assign Conversations
+                label.ec-toggle
+                  = inbox_f.check_box :auto_assign
+                  span.ec-toggle-slider
+            
+            .ec-form-row
+              div
+                = inbox_f.label :csat_survey_id, "CSAT Survey", class: "ec-label"
+                = inbox_f.collection_select :csat_survey_id, current_account.csat_surveys, :id, :name, { include_blank: "Default System Survey" }, class: "ec-select"
+
+              div
+                = inbox_f.label :conversation_reply_template_id, "Custom Reply Template", class: "ec-label"
+                = inbox_f.collection_select :conversation_reply_template_id, current_account.email_templates, :id, :name, { include_blank: "Default Mailer View" }, class: "ec-select"
+            
+            .ec-form-row
+              div
+                = inbox_f.label :business_hour_group_id, "Business Hours", class: "ec-label"
+                = inbox_f.collection_select :business_hour_group_id, current_account.business_hour_groups, :id, :name, { include_blank: "Always Online (24/7)" }, class: "ec-select"
+              div
+
+            .ec-form-row
+              div
+                = inbox_f.label :sla_policy_ids, "SLA Policies", class: "ec-label"
+                = inbox_f.collection_select :sla_policy_ids, current_account.sla_policies, :id, :name, {}, { multiple: true, class: "ec-select" }
+
+  / ─── Appearance & Branding ───
+  .ec-section data-web-widget-channel-target="appearanceSection"
+    .ec-section-header data-action="click->web-widget-channel#toggleSection"
+      .ec-section-title
+        span.ec-section-icon 🎨
+        span.ec-section-label = t("dashboard.web_widget_channels.form.appearance_section")
+      span.ec-section-chevron ▼
+    .ec-section-body
+      .ec-form-row
+        div
+          label.ec-label = t("dashboard.web_widget_channels.form.theme_color_label")
+          .ww-color-picker-row
+            = color_field_tag "web_widget_channel[ui_configurations][theme_color]", web_widget_channel.ui_configurations&.dig("theme_color") || "#0f172a", class: "ww-color-swatch", data: { "web-widget-channel-target": "colorSwatch", "action": "input->web-widget-channel#syncColor" }
+            = text_field_tag "web_widget_channel[ui_configurations][theme_color]", web_widget_channel.ui_configurations&.dig("theme_color") || "#0f172a", class: "ec-input", style: "flex: 1;", data: { "web-widget-channel-target": "colorInput", "action": "input->web-widget-channel#syncSwatch" }
+        div
+          label.ec-label = t("dashboard.web_widget_channels.form.position_label")
+          = select_tag "web_widget_channel[ui_configurations][position]", options_for_select([[t("dashboard.web_widget_channels.form.position_bottom_right"), "right"], [t("dashboard.web_widget_channels.form.position_bottom_left"), "left"]], web_widget_channel.ui_configurations&.dig("position") || "right"), class: "ec-select"
+
+      .ec-toggle-row style="margin-top: 24px; position: relative;"
+        span.ec-toggle-label Custom Branding
+        label.ec-toggle
+          - if current_account.custom_branding_enabled?
+            = hidden_field_tag "web_widget_channel[custom_branding]", "0"
+            = check_box_tag "web_widget_channel[custom_branding]", "1", web_widget_channel.custom_branding, data: { action: "change->web-widget-channel#toggleCustomBranding" }
+            span.ec-toggle-slider
+          - else
+            = check_box_tag "locked_branding", "0", false, disabled: true
+            span.ec-toggle-slider style="background-color: #e2e8f0; cursor: not-allowed;"
+            span style="font-size: 11px; color: #ef4444; margin-left: 8px; position: absolute; right: -100px; top: 2px;" 🔒 Upgrade Plan
+
+      - if current_account.custom_branding_enabled?
+        .custom-branding-fields data-web-widget-channel-target="customBrandingFields" style="display: #{web_widget_channel.custom_branding ? 'block' : 'none'}; padding-top: 8px;"
+          .ec-form-row style="margin-top: 16px; display: flex; gap: 16px;"
+            div style="flex: 1;"
+              label.ec-label Widget Header Logo
+              .dropzone.upload-paper.dropzone-default.dz-clickable data-controller="dropzone" data-dropzone-max-file-size="2" data-dropzone-max-files="1" data-dropzone-accepted-files=".jpeg,.jpg,.png,.svg" style="margin-top: 8px; padding: 16px; border: 2px dashed #cbd5e1; border-radius: 8px; text-align: center;"
+                = f.file_field :logo, direct_upload: true, "data-dropzone-target" => "input"
+                .dropzone-msg.dz-message.needsclick
+                  h3.f-semi-14.text-muted Drop logo here or click to upload.
+              - if web_widget_channel.logo.attached?
+                .mt-2
+                  = image_tag web_widget_channel.scaled_logo, style: "height: 40px; border-radius: 8px;"
+            
+            div style="flex: 1;"
+              label.ec-label Chat Bubble Icon (Launcher)
+              .dropzone.upload-paper.dropzone-default.dz-clickable data-controller="dropzone" data-dropzone-max-file-size="2" data-dropzone-max-files="1" data-dropzone-accepted-files=".jpeg,.jpg,.png,.svg" style="margin-top: 8px; padding: 16px; border: 2px dashed #cbd5e1; border-radius: 8px; text-align: center;"
+                = f.file_field :launcher_icon, direct_upload: true, "data-dropzone-target" => "input"
+                .dropzone-msg.dz-message.needsclick
+                  h3.f-semi-14.text-muted Drop icon here or click to upload.
+              - if web_widget_channel.launcher_icon.attached?
+                .mt-2
+                  = image_tag web_widget_channel.scaled_launcher_icon, style: "height: 40px; width: 40px; border-radius: 50%; object-fit: cover;"
+          
+          .ec-form-row style="margin-top: 16px;"
+            div style="width: 100%;"
+              label.ec-label Custom Footer Text
+              = text_field_tag "web_widget_channel[ui_configurations][footer_text]", web_widget_channel.ui_configurations&.dig("footer_text"), class: "ec-input", placeholder: "e.g. Powered by Acme Corp"
+
+  / ─── Module Integrations ───
+  .ec-section data-web-widget-channel-target="integrationsSection"
+    .ec-section-header data-action="click->web-widget-channel#toggleSection"
+      .ec-section-title
+        span.ec-section-icon 🧩
+        span.ec-section-label = t("dashboard.web_widget_channels.form.integrations_section")
+      span.ec-section-chevron ▼
+    .ec-section-body
+      .ec-form-row
+        div
+          = f.label :portal_id, t("dashboard.web_widget_channels.form.portal_label"), class: "ec-label"
+          = f.collection_select :portal_id, @portals, :id, :name, { include_blank: "No Help Center Linked" }, class: "ec-select"
+        div
+          label.ec-label Pre-Chat Form
+          = f.collection_select :pre_chat_form_id, @contact_forms, :id, :name, { include_blank: "No Pre-Chat Form Linked" }, class: "ec-select"
+      .ec-form-row style="margin-top: 16px;"
+        div
+          label.ec-label Offline Email Channel
+          = f.hidden_field :fallback_channel_type, value: "Channel::Email"
+          = f.collection_select :fallback_channel_id, @email_channels, :id, :name, { include_blank: "No Email Channel Linked" }, class: "ec-select"
+        div
+
+  / ─── Widget Behaviors ───
+  .ec-section data-web-widget-channel-target="behaviorsSection"
+    .ec-section-header data-action="click->web-widget-channel#toggleSection"
+      .ec-section-title
+        span.ec-section-icon ⚙️
+        span.ec-section-label = t("dashboard.web_widget_channels.form.behaviors_section")
+      span.ec-section-chevron ▼
+    .ec-section-body
+      .ec-toggle-row
+        span.ec-toggle-label = t("dashboard.web_widget_channels.form.anonymous_allowed_label")
+        label.ec-toggle
+          = f.check_box :anonymous_allowed
+          span.ec-toggle-slider
+
+      .ec-toggle-row
+        span.ec-toggle-label Enforce Secure Identity (HMAC)
+        label.ec-toggle
+          = check_box_tag "web_widget_channel[secure_identity_enforced]", "1", web_widget_channel.secure_identity_enforced?
+          span.ec-toggle-slider
+
+  / ─── Translations ───
+  .ec-section data-web-widget-channel-target="translationsSection"
+    .ec-section-header data-action="click->web-widget-channel#toggleSection"
+      .ec-section-title
+        span.ec-section-icon 🌐
+        span.ec-section-label Translations
+      span.ec-section-chevron ▼
+    .ec-section-body data-controller="web-widget-translations"
+      p.text-muted style="margin-bottom: 16px; font-size: 13px;" Provide localized strings for your web widget. These will automatically override the default locale based on the customer's browser.
+      
+      .ww-translations-container data-web-widget-translations-target="container"
+        = f.fields_for :translations do |tf|
+          = render "dashboard/web_widget_channels/translation_fields", f: tf
+
+      template data-web-widget-translations-target="template"
+        = f.fields_for :translations, Channel::WebWidgetTranslation.new, child_index: 'NEW_RECORD' do |tf|
+          = render "dashboard/web_widget_channels/translation_fields", f: tf
+      
+      - current_locales = web_widget_channel.translations.reject(&:marked_for_destruction?).map(&:locale).map(&:to_s)
+      - available_locales = Core::SUPPORTED_LOCALES.map(&:to_s) - current_locales
+      - available_locales_options = available_locales.map { |l| [I18n.t("languages.#{l.downcase}", default: l.upcase), l] }
+      
+      .ww-add-locale-wrapper style="margin-top: 16px; display: flex; gap: 8px; align-items: center;"
+        = select_tag "new_locale", options_for_select(available_locales_options), include_blank: "Select Language...", class: "ec-select", data: { "web-widget-translations-target": "localeSelect" }, style: "width: 200px;"
+        button.ec-btn-secondary type="button" data-action="click->web-widget-translations#addTranslation" style="display: inline-flex; align-items: center; gap: 6px;" 
+          span +
+          | Add Language
+
+  / ─── Installation & Setup ───
+  - if web_widget_channel.persisted?
+    = render "dashboard/web_widget_channels/installation", web_widget_channel: web_widget_channel
+
+  / ─── Form Actions ───
+  .ec-form-actions
+    - if web_widget_channel.persisted?
+      = f.submit t("dashboard.web_widget_channels.form.update"), class: "ec-btn-primary"
+    - else
+      = f.submit t("dashboard.web_widget_channels.form.save"), class: "ec-btn-primary"
+    = link_to t("dashboard.web_widget_channels.form.cancel"), web_widget_channels_path, class: "ec-btn-secondary"

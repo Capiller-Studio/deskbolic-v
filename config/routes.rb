@@ -186,6 +186,8 @@ Rails.application.routes.draw do
       end
     end
     
+    resources :web_widget_channels, except: [:show]
+    
     resources :custom_fields
 
     resources :email_templates, only: [:index, :new, :create, :edit, :update, :destroy] do

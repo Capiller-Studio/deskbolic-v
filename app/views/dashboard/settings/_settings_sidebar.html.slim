@@ -72,6 +72,11 @@
                     .link-text
                       .conversation-name.inbox-conv
                         p.f-reg-12 Email Channels
+                li.nav-item class="#{current_page == 'web-widget-channels' ? 'st-list-active' : ''}"
+                  = link_to(web_widget_channels_path, class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12 Web Widget Channels
                 li.nav-item class="#{current_page == 'assignment-policies' ? 'st-list-active' : ''}"
                   = link_to(assignment_policies_path, class: "nav-link") do
                     .link-text

@@ -357,14 +357,14 @@
 }
 
 .ec-section-body {
-  padding: 0 24px 24px;
+  padding: 0 24px 0;
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.4s ease, padding 0.3s ease;
 }
 
 .ec-section--open .ec-section-body {
-  max-height: 800px;
+  max-height: 2000px;
   padding: 8px 24px 24px;
 }
 

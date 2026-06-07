@@ -1,0 +1,66 @@
+= render("dashboard/shared/dashboard_container", current_page: "settings") do
+  = render("dashboard/settings/settings_sidebar", current_page: "web-widget-channels") do
+    .ec-index-header
+      .ec-title-area
+        h2.f-semi-32 = t("dashboard.web_widget_channels.index.title")
+        p.f-reg-16 = t("dashboard.web_widget_channels.index.description")
+      = link_to new_web_widget_channel_path, class: "ec-btn-primary"
+        | + #{t("dashboard.web_widget_channels.index.new_channel")}
+
+    .ec-list
+      - if @web_widget_channels.any?
+        - @web_widget_channels.each do |channel|
+          div.ec-card id=dom_id(channel)
+            .ec-card-top
+              .ec-card-info
+                h3.f-semi-16 = channel.name
+                p.ec-card-email = channel.website_url.presence || "Any website"
+              .ec-card-actions
+                = link_to edit_web_widget_channel_path(channel), class: "ec-action-btn", title: "Edit"
+                  | ✏️
+                = link_to web_widget_channel_path(channel), method: :delete, class: "ec-action-btn ec-action-delete", data: { turbo_method: :delete, turbo_confirm: t("dashboard.web_widget_channels.index.delete_confirm") }, title: "Delete"
+                  | 🗑️
+
+            .ec-card-meta
+              - if channel.anonymous_allowed?
+                .ec-badge.ec-badge-verified
+                  span.ec-badge-icon 👻
+                  span Anonymous allowed
+              - else
+                .ec-badge.ec-badge-smtp-off
+                  span.ec-badge-icon 🔒
+                  span Anonymous restricted
+
+              - if channel.portal_id.present?
+                .ec-badge.ec-badge-imap-on
+                  span.ec-badge-icon 📚
+                  span Help Center linked
+                  
+              - if channel.configurations&.dig("contact_form_id").present?
+                .ec-badge.ec-badge-imap-on
+                  span.ec-badge-icon ✉️
+                  span Contact Form linked
+
+              .ec-meta-tag
+                span.ec-meta-tag-icon 📬
+                span = t("dashboard.web_widget_channels.index.inboxes_count", count: channel.inboxes.size)
+
+              .ec-meta-tag
+                span.ec-meta-tag-icon 🕐
+                span = t("dashboard.web_widget_channels.index.created_ago", time: time_ago_in_words(channel.created_at))
+
+            .ww-embed-row data-controller="web-widget-channel"
+              span.ww-embed-label EMBED
+              .ww-embed-code
+                input.ww-embed-input type="text" readonly=true value="<script src='https://widget.deskbolic.com/w/#{current_account.id}/#{channel.id}/embed.js'></script>"
+              button.ww-copy-btn data-action="click->web-widget-channel#copyEmbedCode" data-code="<script src='https://widget.deskbolic.com/w/#{current_account.id}/#{channel.id}/embed.js'></script>"
+                span.ww-copy-icon 📋
+                span Copy
+
+      - else
+        .ec-empty-state
+          .ec-empty-icon 💬
+          h3.f-semi-18 = t("dashboard.web_widget_channels.index.empty_title")
+          p.f-reg-14 = t("dashboard.web_widget_channels.index.empty_description")
+          = link_to new_web_widget_channel_path, class: "ec-btn-primary ec-btn-sm"
+            | + #{t("dashboard.web_widget_channels.index.new_channel")}

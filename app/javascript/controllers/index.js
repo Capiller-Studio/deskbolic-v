@@ -76,3 +76,12 @@ application.register("plan-selector", PlanSelectorController)
 
 import EmailChannelController from "./email_channel_controller"
 application.register("email-channel", EmailChannelController)
+
+import WebWidgetChannelController from "./web_widget_channel_controller"
+application.register("web-widget-channel", WebWidgetChannelController)
+
+import WebWidgetPreviewController from "./web_widget_preview_controller"
+application.register("web-widget-preview", WebWidgetPreviewController)
+
+import WebWidgetTranslationsController from "./web_widget_translations_controller"
+application.register("web-widget-translations", WebWidgetTranslationsController)

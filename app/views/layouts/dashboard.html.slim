@@ -8,6 +8,8 @@ html lang=I18n.locale
     = csrf_meta_tags
     = csp_meta_tag
     = render("layouts/dashboard/meta_tags")
+    - if respond_to?(:current_account) && current_account&.current_plan
+      meta[name="deskbolic-features" content=current_account.current_plan.features.to_json]
     = favicon_link_tag(image_path("fav_icon.png"))
     = action_cable_meta_tag
     = stylesheet_link_tag "dashboard", "data-turbo-track": "reload"

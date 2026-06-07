@@ -79,7 +79,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_15_000002) do
     t.string "currency", limit: 4, default: "USD", null: false
     t.jsonb "data", default: {}, null: false
     t.string "email"
-    t.bigint "features", default: 0, null: false
     t.string "identifier", null: false
     t.jsonb "limits", default: {}, null: false
     t.string "locale", default: "en", null: false

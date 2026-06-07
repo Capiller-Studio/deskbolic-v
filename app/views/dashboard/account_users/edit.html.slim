@@ -1,0 +1,39 @@
+= render("dashboard/shared/dashboard_container", current_page: "settings") do
+  = render("dashboard/settings/settings_sidebar", current_page: "users") do
+    .ec-form-page
+      .ec-form-header
+        = link_to "← Back to Teammates", users_path, class: "ec-back-link"
+        h2.f-semi-32 style="margin-top: 16px; color: #0f172a;" = t("dashboard.users.edit.title", default: "Edit Teammate Roles")
+        p.f-reg-16 style="color: #64748b; margin-top: 4px;" = t("dashboard.users.edit.description", default: "Modify the roles assigned to %{name}.", name: @account_user.user.name || @account_user.user.email)
+
+      .ec-card style="margin-top: 24px;"
+        .ec-card-body style="padding: 2rem;"
+          = form_with model: @account_user, url: user_path(@account_user), local: true, class: "ec-form" do |f|
+            .ec-form-group
+              label.ec-label = t("dashboard.users.form.email_label", default: "Email Address")
+              input.ec-input type="text" value=@account_user.user.email disabled=true
+
+            h3.f-semi-20 style="margin-top: 2rem; margin-bottom: 1rem;" = t("dashboard.users.form.roles_title", default: "Assigned Roles")
+            p.f-reg-14 style="color: #666; margin-bottom: 1.5rem;" = t("dashboard.users.form.roles_desc", default: "Select one or more roles for this teammate.")
+
+            .ec-permissions-matrix
+              .ec-pm-header
+                .ec-pm-header-col Role
+                .ec-pm-header-col Select
+                
+              - current_account.roles.order(system_provided: :desc, name: :asc).each do |role|
+                .ec-pm-row
+                  .ec-pm-resource style="display: flex; align-items: center;"
+                    = role.name
+                    - if role.system_provided?
+                      span.ec-badge.ec-badge-verified.ec-badge-role
+                        span.ec-badge-icon 🛡️
+                        span System Default
+                  .ec-toggles-row
+                    label.ec-toggle-label
+                      = check_box_tag "account_user[role_ids][]", role.id, @account_user.role_ids.include?(role.id), class: "ec-toggle-input"
+                      span Assign
+
+          .ec-form-actions style="margin-top: 2rem;"
+            = f.submit t("dashboard.users.form.submit", default: "Update Roles"), class: "ec-btn-primary"
+            = link_to t("dashboard.users.form.cancel", default: "Cancel"), users_path, class: "ec-btn-secondary"

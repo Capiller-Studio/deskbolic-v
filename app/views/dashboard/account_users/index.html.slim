@@ -1,0 +1,35 @@
+= render("dashboard/shared/dashboard_container", current_page: "settings") do
+  = render("dashboard/settings/settings_sidebar", current_page: "users") do
+    .eb-templates
+      = render "dashboard/shared/users_tabs"
+      
+      - if @account_users.any?
+        .eb-templates__grid style="margin-top: 2rem;"
+          - @account_users.each do |account_user|
+            .eb-card
+              .eb-card__body
+                .eb-card__header
+                  h3.eb-card__name = account_user.user.name || account_user.user.email
+                  .eb-card__badges
+                    - if account_user.user == current_user
+                      span.eb-badge.eb-badge--published = "You"
+                p.eb-card__description = account_user.user.email
+                
+                div style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;"
+                  - account_user.roles.each do |role|
+                    span.ec-meta-tag style="background: #f1f5f9; padding: 4px 8px; border-radius: 4px; font-size: 12px; color: #475569;" = role.name
+                  - if account_user.roles.empty?
+                    span.ec-meta-tag style="background: #fee2e2; padding: 4px 8px; border-radius: 4px; font-size: 12px; color: #991b1b;" No Roles Assigned
+
+              .eb-card__footer
+                span.eb-card__meta = t("dashboard.users.index.joined", time: time_ago_in_words(account_user.created_at))
+                .eb-card__actions
+                  = link_to edit_user_path(account_user), class: "eb-btn eb-btn--primary"
+                    | ✏️ Edit Roles
+                  - unless account_user.user == current_user
+                    = link_to user_path(account_user), data: { turbo_method: :delete, turbo_confirm: t("dashboard.users.index.delete_confirm", default: "Are you sure you want to remove this user from the account?") }, class: "eb-btn eb-btn--danger"
+                      | 🗑️ Remove
+      - else
+        .auto-empty-state style="margin-top: 2rem;"
+          h3.f-semi-18 = t("dashboard.users.index.empty_title", default: "No Users Found")
+          p.f-reg-14 = t("dashboard.users.index.empty_description", default: "There are no active users in this account.")

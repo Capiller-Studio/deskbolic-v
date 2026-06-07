@@ -1,0 +1,11 @@
+= render("dashboard/shared/dashboard_container", current_page: "settings") do
+  = render("dashboard/settings/settings_sidebar", current_page: "roles") do
+    .ec-form-page
+      .ec-form-header
+        = link_to "← Back to Roles", roles_path, class: "ec-back-link"
+        h2.f-semi-32 style="margin-top: 16px; color: #0f172a;" = t("dashboard.roles.edit.title", default: "Edit Role: %{name}", name: @role.name)
+        p.f-reg-16 style="color: #64748b; margin-top: 4px;" = t("dashboard.roles.edit.description", default: "Modify the permissions associated with this role.")
+
+      .ec-card style="margin-top: 24px;"
+        .ec-card-body style="padding: 2rem;"
+          = render "form", role: @role

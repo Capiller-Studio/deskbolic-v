@@ -29,7 +29,9 @@
                 = link_to(email_templates_path, class: "nav-link") do
                   .link-text
                     .conversation-name.inbox-conv
-                      p.f-reg-14 = t("dashboard.email_templates.sidebar.label")
+                      p.f-reg-14 
+                        = t("dashboard.email_templates.sidebar.label")
+                        = plan_upgrade_bubble(:custom_email_templates)
 
             / general            
             li.nav-item class="" data-action="click->accordion#toggle"
@@ -81,22 +83,33 @@
                   = link_to(assignment_policies_path, class: "nav-link") do
                     .link-text
                       .conversation-name.inbox-conv
-                        p.f-reg-12 = t("dashboard.assignment_policies.sidebar.label")
+                        p.f-reg-12
+                          = t("dashboard.assignment_policies.sidebar.label")
+                          = plan_upgrade_bubble(:assignment_policies)
                 li.nav-item class="#{current_page == 'skills' ? 'st-list-active' : ''}"
                   = link_to(skills_path, class: "nav-link") do
                     .link-text
                       .conversation-name.inbox-conv
-                        p.f-reg-12 = t("dashboard.skills.sidebar.label")
+                        p.f-reg-12
+                          = t("dashboard.skills.sidebar.label")
+                          = plan_upgrade_bubble(:assignment_policies)
                 li.nav-item class="#{current_page == 'teams' ? 'st-list-active' : ''}"
                   = link_to(teams_path, class: "nav-link") do
                     .link-text
                       .conversation-name.inbox-conv
                         p.f-reg-12 Teams
-                / li.nav-item class="#{current_page == 'roles' ? 'st-list-active' : ''}"
-                /   = link_to(roles_settings_path, class: "nav-link") do
-                /     .link-text
-                /       .conversation-name.inbox-conv
-                /         p.f-reg-12 Roles
+                li.nav-item class="#{current_page == 'users' ? 'st-list-active' : ''}"
+                  = link_to(users_path, class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12 Users (Teammates)
+                li.nav-item class="#{current_page == 'roles' ? 'st-list-active' : ''}"
+                  = link_to(roles_path, class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12
+                          | Roles
+                          = plan_upgrade_bubble(:roles)
             / data
             li.nav-item class="" data-action="click->accordion#toggle"
               .nav-link
@@ -159,7 +172,9 @@
                   = link_to(identity_sources_path, class: "nav-link") do
                     .link-text
                       .conversation-name.inbox-conv
-                        p.f-reg-12 = t("dashboard.identity_sources.sidebar.label")
+                        p.f-reg-12
+                          = t("dashboard.identity_sources.sidebar.label")
+                          = plan_upgrade_bubble(:identity_sources)
                 li.nav-item class="#{current_page == 'macros' ? 'st-list-active' : ''}"
                   = link_to(canned_responses_settings_path, class: "nav-link") do
                     .link-text

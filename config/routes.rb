@@ -63,7 +63,6 @@ Rails.application.routes.draw do
     get "help-center", to: "pages#help_center"
     get "community", to: "pages#community_forum"
     get "email-invitation", to: "workspace#email_invitation"
-    get "new-role", to: "roles#new"
 
 
 
@@ -92,6 +91,8 @@ Rails.application.routes.draw do
       end
     end
     resources :roles
+    resources :users, controller: "account_users", except: [:show]
+    resources :invitations, controller: "account_invitations", except: [:show]
     resources :teams
     resources :custom_fields
     resources :assignment_policies do
@@ -164,7 +165,6 @@ Rails.application.routes.draw do
         get :canned_responses
         get :office_timings
         get :team_inboxes
-        get :roles
         get :messenger
         get :teammates
         get :tickets

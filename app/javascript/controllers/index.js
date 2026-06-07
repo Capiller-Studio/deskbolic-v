@@ -3,6 +3,7 @@
 // ./bin/rails generate stimulus controllerName
 
 import { application } from "./application"
+
 import AccordionController from "./accordion_controller"
 import DropzoneController from "./dropzone_controller"
 import FrameTogglerController from "./frame_toggler_controller"
@@ -43,6 +44,9 @@ application.register("message-form", MessageFormController)
 
 import CustomFieldOptionsController from "./custom_field_options_controller"
 application.register("custom-field-options", CustomFieldOptionsController)
+
+import DispatcherController from "./dispatcher_controller"
+application.register("dispatcher", DispatcherController)
 
 import LocaleTabsController from "./locale_tabs_controller"
 application.register("locale-tabs", LocaleTabsController)
@@ -85,3 +89,12 @@ application.register("web-widget-preview", WebWidgetPreviewController)
 
 import WebWidgetTranslationsController from "./web_widget_translations_controller"
 application.register("web-widget-translations", WebWidgetTranslationsController)
+
+import AssignmentPolicyController from "./assignment_policy_controller"
+application.register("assignment-policy", AssignmentPolicyController)
+
+import SlaPolicyController from "./sla_policy_controller"
+application.register("sla-policy", SlaPolicyController)
+
+import RolePermissionsController from "./role_permissions_controller"
+application.register("role-permissions", RolePermissionsController)

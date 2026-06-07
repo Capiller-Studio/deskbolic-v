@@ -1,0 +1,11 @@
+.eb-templates__header
+  div
+    h2.eb-templates__title = t("dashboard.users.index.title", default: "Teammates")
+    p.eb-templates__subtitle = t("dashboard.users.index.subtitle", default: "Manage users and pending invitations.")
+  .eb-templates__nav
+    = link_to new_invitation_path, class: "eb-btn eb-btn--primary"
+      | + #{t("dashboard.invitations.new.title", default: "Invite Teammate")}
+    = link_to users_path, class: "eb-btn eb-btn--outline #{current_page?(users_path) ? 'eb-btn--active' : ''}"
+      = t("dashboard.users.index.tab_active", default: "Active Users")
+    = link_to invitations_path, class: "eb-btn eb-btn--outline #{current_page?(invitations_path) ? 'eb-btn--active' : ''}"
+      = t("dashboard.users.index.tab_invitations", default: "Pending Invitations")

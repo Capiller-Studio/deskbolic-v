@@ -1,0 +1,21 @@
+doctype html
+html lang=I18n.locale
+  head
+    title Deskbolic - Authentication
+    meta content="text/html; charset=UTF-8" http-equiv="Content-Type"
+    meta[name="viewport" content="width=device-width,initial-scale=1"]
+    = csrf_meta_tags
+    = csp_meta_tag
+    = favicon_link_tag(image_path("fav_icon.png"))
+    = stylesheet_link_tag "auth", "data-turbo-track": "reload"
+    = javascript_include_tag "auth", "data-turbo-track": "reload", defer: true
+  body
+    .locale-dropdown-container
+      select onchange="window.location.href=this.value"
+        - locale_names = { en: "English", de: "Deutsch", es: "Español", fr: "Français", "pt-BR": "Português", ar: "العربية", ko: "한국어" }
+        - Core::SUPPORTED_LOCALES.each do |loc|
+          - target_url = url_for(request.params.merge(locale: (loc.to_s == I18n.default_locale.to_s ? nil : loc), only_path: true))
+          option value=target_url selected=(loc.to_s == I18n.locale.to_s)
+            = locale_names[loc.to_sym] || loc.to_s.upcase
+    = render("layouts/dashboard/flash_message")
+    == yield

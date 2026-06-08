@@ -38,6 +38,7 @@ group :development do
   gem 'bullet'
   gem "web-console"
   gem "rack-mini-profiler"
+  gem "letter_opener_web", "~> 3.0"
 end
 
 group :test do

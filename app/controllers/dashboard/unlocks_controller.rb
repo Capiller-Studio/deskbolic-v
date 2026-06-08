@@ -6,7 +6,7 @@
 
 module Dashboard
   class UnlocksController < Devise::UnlocksController
-    layout "dashboard"
+    layout "auth"
     # GET /resource/unlock/new
     # def new
     #   super

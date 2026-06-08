@@ -1,0 +1,7 @@
+.user-signup-container
+  = render "dashboard/registrations/registered_success"
+  
+  .image-section
+    = image_tag "register.png", class: "register-img", alt: "Graphic"
+    = image_tag "register-back.png", class: "back-img", alt: "Background"
+    p = t("auth.registration.marketing_text", default: "Manage your customer support efficiently.")

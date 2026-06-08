@@ -6,7 +6,7 @@
 
 module Dashboard
   class PasswordsController < Devise::PasswordsController
-    layout "dashboard"
+    layout "auth"
     # GET /resource/password/new
     # def new
     #   super
@@ -23,9 +23,15 @@ module Dashboard
     # end
 
     # PUT /resource/password
-    # def update
-    #   super
-    # end
+    def update
+      super do |resource|
+        if resource.errors.empty? && resource.accounts.any?
+          account_id = resource.accounts.first.id
+          session[:current_account_id] = account_id
+          cookies.signed[:current_account_id] = { value: account_id, expires: 1.year.from_now }
+        end
+      end
+    end
 
     # protected
 

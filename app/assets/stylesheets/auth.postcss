@@ -1,0 +1,144 @@
+/* Entry point for auth PostCSS build */
+@import "dashboard/helpers/colors.postcss";
+@import "dashboard/helpers/variables.postcss";
+@import "dashboard/helpers/mixins.postcss";
+@import "dashboard/helpers/utilities.postcss";
+@import "dashboard/basic/base.postcss";
+@import "dashboard/components/form.postcss.css";
+@import "dashboard/components/form_wizard.postcss.css";
+@import "dashboard/components/login.postcss.css";
+@import "dashboard/components/register.postcss.css";
+
+.locale-dropdown-container {
+  position: absolute;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 50;
+}
+
+.locale-dropdown-container select {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--clr-grey-light, #e0e0e0);
+  background: white;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.user-signup-container .form-section {
+  background: linear-gradient(
+    to top right,
+    rgba(119, 141, 255, 1) -100%,
+    rgba(255, 255, 255, 1) 50%,
+    rgba(119, 141, 255, 1) 200%
+  );
+}
+
+.user-signup-container .form-control {
+  background-color: white !important;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.admin-flash-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 2rem;
+  position: fixed;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  border-radius: 8px;
+  animation: fadeOut 0.5s 4s forwards;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.admin-flash-container.alert-red {
+  background-color: #fee2e2;
+}
+.admin-flash-container.alert-red .message {
+  color: #991b1b;
+}
+
+.admin-flash-container.alert-green {
+  background-color: #d1fae5;
+}
+.admin-flash-container.alert-green .message {
+  color: #065f46;
+}
+
+.admin-flash-container.alert-blue {
+  background-color: #dbeafe;
+}
+.admin-flash-container.alert-blue .message {
+  color: #1e40af;
+}
+
+.admin-flash-container.alert-yellow {
+  background-color: #fef3c7;
+}
+.admin-flash-container.alert-yellow .message {
+  color: #92400e;
+}
+
+.admin-flash-container .message {
+  font-size: 0.9rem;
+  font-family: 'Inter', sans-serif;
+  text-align: center;
+  font-weight: 500;
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+.auth-success-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+}
+
+.auth-success-card {
+  background: white;
+  border-radius: 16px;
+  padding: 50px 40px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  text-align: center;
+  max-width: 450px;
+  width: 100%;
+  margin: 20px;
+}
+
+.auth-success-icon {
+  margin-bottom: 20px;
+}
+
+.auth-success-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 15px;
+}
+
+.auth-success-message {
+  font-size: 15px;
+  color: #4B5563;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+.auth-success-button {
+  display: inline-block;
+  width: 100%;
+  text-decoration: none;
+}

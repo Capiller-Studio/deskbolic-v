@@ -1,0 +1,14 @@
+.form-section#registration-wizard
+  = link_to root_path do
+    = image_tag "logo.png", class: "img", alt: "Deskbolic", style: "margin-bottom: 2rem;"
+    
+  .auth-success-card style="margin: 0 auto; margin-top: 4rem;"
+    svg.auth-success-icon width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#4F46E5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+      path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+      polyline points="22,6 12,13 2,6"
+    
+    h2.auth-success-title = t("devise.registrations.registered_title")
+    
+    p.auth-success-message = raw t("devise.registrations.registered_message")
+    
+    = link_to t("devise.registrations.back_to_login"), new_user_session_path, class: "cont-btn auth-success-button"

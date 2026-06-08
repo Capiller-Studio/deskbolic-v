@@ -1,40 +1,126 @@
-.user-signup-container.center-wrapper
-  .form-section 
-    = image_tag("logo.png", class:"img", alt:"logo")
-    = form_for(@session_user || resource, as: resource_name, url: registration_path(resource_name), data: {controller: "formValidation renderer formWizard", "formValidation-target" => "form"}, html: {class: "js-form-wizard form-wizard needs-validation", novalidate: true, method: :post}) do |f| 
-      fieldset
-        .set-header
-          h2 Create Account
-          p Let's Create account for enter into Deskbolic Website.
-        .form-fields
-          .select-choices
-            .form-floating
-              = f.label :first_name, "First Name" , class: "form-label"
-              = f.text_field :first_name, autofocus: true, class: "form-control", placeholder: "First Name", required: true
-            .form-floating
-              = f.label :last_name, "Last Name" , class: "form-label"
-              = f.text_field :last_name, class: "form-control", placeholder: "Last Name", required: true
-          .form-floating
-            = f.label :email, class: "form-label"
-            = f.email_field :email, class: "form-control", placeholder: "john@doe.com", required: true
-          button.cont-btn.js-next-button type="button" data-action="click->formWizard#nextStep" Continue
+.user-signup-container
+  .form-section#registration-wizard
+    = link_to root_path do
+      = image_tag "logo.png", class: "img", alt: "Deskbolic"
 
-      fieldset
-        .set-header
-          h2 Create Password
-          p Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-        .form-fields
-          .form-floating
-            = f.label :password, class: "form-label"
-            = f.password_field :password, class: "form-control", disabled: true, required: true
-          / .form-floating
-          /   = f.label :password, class: "form-label"
-          /   = f.password_field :password, autocomplete: "current-password", class: "form-control", disabled: true
-          / button.cont-btn.js-next-button type="button" Continue
-          / button.cont-btn.js-next-button type="button" data-action="click->formWizard#nextStep click->renderer#add" Continue
-          = f.submit "Continue", class: "cont-btn", data: { action: "click->formValidation#validate" }
+    = form_with url: registration_path(resource_name), method: :post, local: true, data: { controller: "registration-wizard", action: "submit->registration-wizard#submitForm turbo:submit-end->registration-wizard#handleSubmitEnd" }, style: "height: calc(100% - 40px);" do |f|
+      = invisible_captcha :gift_vcode
       
+      #registration-form-errors style="padding: 0 20px;"
+
+        /! Step 1: User Details
+      fieldset.wizard-step data-registration-wizard-target="step"
+        .set-header
+          h2 = t("auth.registration.step1_title", default: "User Details")
+          p = t("auth.registration.subtitle", default: "Create your new account")
+
+        .form-fields
+          .name-section
+            .form-wrapper
+              = f.label :first_name, t("auth.first_name", default: "First Name"), class: "form-label"
+              = f.text_field "user[first_name]", required: true, class: "form-control", data: { registration_wizard_target: "firstNameInput" }, placeholder: t("auth.placeholders.first_name", default: "John")
+            .form-wrapper
+              = f.label :last_name, t("auth.last_name", default: "Last Name"), class: "form-label"
+              = f.text_field "user[last_name]", required: true, class: "form-control", data: { registration_wizard_target: "lastNameInput" }, placeholder: t("auth.placeholders.last_name", default: "Doe")
+
+          .form-wrapper
+            = f.label :country, t("auth.country", default: "Country"), class: "form-label"
+            = f.select :country, Carmen::Country.all.sort_by(&:name).map { |c| [c.name, c.alpha_2_code] }, { prompt: "Select Country" }, class: "form-control", data: { registration_wizard_target: "countryInput" }, required: true
+
+          .form-wrapper
+            = f.label :email, t("auth.email", default: "Email"), class: "form-label"
+            = f.email_field "user[email]", required: true, data: { registration_wizard_target: "emailInput" }, class: "form-control", placeholder: t("auth.placeholders.email", default: "john@company.com")
+            p.text-red-500.text-sm.mt-1.hidden data-registration-wizard-target="emailError" style="color: #ef4444; font-size: 12px; margin-top: 4px;"
+
+          div data-controller="password-strength"
+            .password-section
+              .form-wrapper
+                = f.label :password, t("auth.password", default: "Password"), class: "form-label"
+                = f.password_field "user[password]", required: true, data: { password_strength_target: "password", action: "input->password-strength#validatePassword input->password-strength#validateConfirmation" }, class: "form-control", placeholder: "••••••••"
+                div style="height: 4px; background: #eee; border-radius: 2px; margin-top: 8px;"
+                  div data-password-strength-target="strengthMeter" style="height: 100%; width: 0; border-radius: 2px; transition: width 0.3s;"
+              .form-wrapper
+                = f.label :password_confirmation, t("auth.password_confirmation", default: "Confirm Password"), class: "form-label"
+                = f.password_field "user[password_confirmation]", required: true, data: { password_strength_target: "confirmation", action: "input->password-strength#validateConfirmation" }, class: "form-control", placeholder: "••••••••"
+                p data-password-strength-target="matchStatus" style="font-size: 12px; margin-top: 4px;"
+
+            .password-rules style="margin-top: 15px; margin-bottom: 20px; font-size: 13px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;"
+              div data-password-strength-target="ruleLength" style="color: #9ca3af; display: flex; align-items: center; gap: 6px; transition: color 0.3s;"
+                svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"
+                  path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"
+                span At least 8 characters
+              div data-password-strength-target="ruleUpper" style="color: #9ca3af; display: flex; align-items: center; gap: 6px; transition: color 0.3s;"
+                svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"
+                  path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"
+                span One uppercase letter
+              div data-password-strength-target="ruleNumber" style="color: #9ca3af; display: flex; align-items: center; gap: 6px; transition: color 0.3s;"
+                svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"
+                  path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"
+                span One number
+              div data-password-strength-target="ruleSpecial" style="color: #9ca3af; display: flex; align-items: center; gap: 6px; transition: color 0.3s;"
+                svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"
+                  path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"
+                span One special character
+
+          button type="button" data-action="click->registration-wizard#nextStep" class="cont-btn" = t("auth.next", default: "Next")
+          
+          div style="text-align: center; margin-top: 20px;"
+            = link_to t("auth.login.existing_account", default: "Already have an account? Sign in"), new_user_session_path, style: "font-size: 14px; color: #4F46E5; text-decoration: none;"
+
+      /! Step 2: Account Details
+      fieldset.wizard-step.hidden data-registration-wizard-target="step"
+        .set-header
+          h2 = t("auth.registration.step2_title", default: "Account Details")
+          p = t("auth.registration.step2_subtitle", default: "Set up your workspace")
+        
+        .form-fields
+          .form-wrapper
+            = f.label :account_name, t("auth.workspace_name", default: "Workspace / Company Name"), class: "form-label"
+            = f.text_field :account_name, required: true, class: "form-control", placeholder: t("auth.placeholders.workspace", default: "Acme Corp")
+
+          .form-wrapper style="margin-bottom: 20px;"
+            .form-label style="display: flex; align-items: center; gap: 8px;"
+              label = t("auth.datacenter", default: "Datacenter")
+              div.info-bubble data-tooltip=t("auth.datacenter_info", default: "Looking for a custom datacenter location? We offer custom locations for some of our Enterprise customers. Please note that for global routing and authentication purposes, core account and user metadata will securely remain in our primary European database.") style="cursor: help; color: #9ca3af; display: flex;"
+                svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  circle cx="12" cy="12" r="10"
+                  line x1="12" y1="16" x2="12" y2="12"
+                  line x1="12" y1="8" x2="12.01" y2="8"
+            .radio-button-group
+              .radio-button style="width: 100%; max-width: 350px;"
+                = radio_button_tag :shard_key, "de", true, id: "shard_key_de"
+                label for="shard_key_de"
+                  .icon-wrapper
+                    svg.icon viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                      ellipse cx="12" cy="5" rx="9" ry="3"
+                      path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"
+                      path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"
+                  .details
+                    h3 = t("auth.datacenters.europe_germany", default: "Europe (Germany)")
+                    p = t("auth.datacenters.europe_germany_desc", default: "Primary EU Database")
+                  svg.checkmark-icon viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
+                    polyline points="20 6 9 17 4 12"
+
+          .form-wrapper
+            = f.label :currency, t("auth.currency", default: "Currency"), class: "form-label"
+            = f.select :currency, [["USD ($)", "USD"], ["EUR (€)", "EUR"], ["GBP (£)", "GBP"]], {}, class: "form-control"
+          p style="font-size: 12px; color: #565656; margin-top: -10px; margin-bottom: 15px;" = t("auth.currency_hint", default: "Cannot be changed after registration.")
+
+          .form-wrapper
+            = f.label :account_locale, t("auth.default_language", default: "Default Workspace Language"), class: "form-label"
+            = f.select :account_locale, Core::SUPPORTED_LOCALES.map { |l| [I18n.t("languages.#{l.to_s.downcase}", default: l.to_s.upcase), l] }, { selected: I18n.locale }, class: "form-control"
+
+          div style="display: flex; gap: 15px;"
+            button type="button" data-action="click->registration-wizard#prevStep" class="cont-btn" style="background-color: #f3f4f6; color: #374151;" = t("auth.back", default: "Back")
+            = f.submit t("auth.submit_registration", default: "Create Account"), class: "cont-btn", data: { disable_with: t("auth.submitting", default: "Please wait...") }
+
+      /! Progress Bar
+      .hidden data-registration-wizard-target="progressBar" style="padding: 40px 20px; text-align: center;"
+        h3 style="font-size: 18px; font-weight: 600; margin-bottom: 15px;" data-registration-wizard-target="progressText" = t("auth.registration.setting_up", default: "Setting up your account...")
+        div style="width: 100%; height: 8px; background: #eee; border-radius: 4px; overflow: hidden;"
+          div data-registration-wizard-target="progressFill" style="height: 100%; background: #4F46E5; width: 0%; transition: width 0.5s;"
+
   .image-section
-    = image_tag("register.png", class:"register-img", alt:"image")
-    = image_tag("register-back.png", class:"back-img", alt:"image")
-    p First customer service for customers, agents, and leaders
+    = image_tag "register.png", class: "register-img", alt: "Graphic"
+    = image_tag "register-back.png", class: "back-img", alt: "Background"
+    p = t("auth.registration.marketing_text", default: "Manage your customer support efficiently.")

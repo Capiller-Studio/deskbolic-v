@@ -30,12 +30,12 @@ class ConversationReplyMailer < ApplicationMailer
     @content = @message.content
 
     # CSAT survey URL (used by csat_survey.html.erb)
-    if @message.input_csat?
+    if @message.csat?
       @csat_survey_url = build_csat_survey_url
     end
 
     # Try DB template (Liquid), fall back to mailer view
-    template = if @message.input_csat? && @message.csat_survey_response&.csat_survey
+    template = if @message.csat? && @message.csat_survey_response&.csat_survey
       @message.csat_survey_response.csat_survey.email_template
     else
       @inbox.conversation_reply_template
@@ -60,7 +60,7 @@ class ConversationReplyMailer < ApplicationMailer
       # Falls back to pre-compiled MJML views:
       #   app/views/conversation_reply_mailer/reply.html.erb
       #   app/views/conversation_reply_mailer/csat_survey.html.erb
-      view_name = @message.input_csat? ? "csat_survey" : "reply"
+      view_name = @message.csat? ? "csat_survey" : "reply"
 
       mail(
         to: customer_email,

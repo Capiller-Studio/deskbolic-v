@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
-class DashboardController < ActionController::Base
+class DashboardController < ApplicationController
   before_action :authenticate_user!
   before_action :redirect_if_no_accounts
   before_action :enforce_active_subscription
+  around_action :set_sharding_context
 
   include Pundit
   include CurrentAttributesAccessible
@@ -15,12 +16,37 @@ class DashboardController < ActionController::Base
 
   helper_method :current_account
 
+  private
+
+  def set_sharding_context(&block)
+    if current_account
+      current_account.with_shard(&block)
+    else
+      yield
+    end
+  end
+
   def pundit_user
     current_user
   end
 
   def current_account
-    @current_account ||= current_user.accounts.find_by(id: session[:current_account_id])
+    return @current_account if defined?(@current_account)
+
+    if session[:current_account_id].blank? && cookies.signed[:current_account_id].present?
+      session[:current_account_id] = cookies.signed[:current_account_id]
+    end
+
+    account = current_user.accounts.find_by(id: session[:current_account_id])
+    
+    if account.nil? && current_user.accounts.any?
+      account = current_user.accounts.first
+      account_id = account.id
+      session[:current_account_id] = account_id
+      cookies.signed[:current_account_id] = { value: account_id, expires: 1.year.from_now }
+    end
+    
+    @current_account = account
   end
 
   def authorize(record, query = nil)
@@ -76,7 +102,8 @@ class DashboardController < ActionController::Base
     if policy.respond_to?(:authorization_failure_reason)
       case policy.authorization_failure_reason
       when :feature_not_enabled
-        flash[:alert] = I18n.t("dashboard.billing.feature_not_enabled", feature: policy.authorization_failure_feature.to_s.humanize.titleize, default: "The feature '%{feature}' is not available on your current plan. Please upgrade to access it.")
+        feature_name = policy.authorization_failure_feature.to_s.sub(/_enabled$/, '').humanize.titleize
+        flash[:alert] = I18n.t("dashboard.billing.feature_not_enabled", feature: feature_name, default: "The feature '%{feature}' is not available on your current plan. Please upgrade to access it.")
         return redirect_to dashboard_billing_path
       when :limit_reached
         flash[:alert] = I18n.t("dashboard.billing.limit_reached", limit: policy.authorization_failure_limit.to_s.humanize.titleize, default: "You have reached your limit for '%{limit}'. Please upgrade your plan for more capacity.")

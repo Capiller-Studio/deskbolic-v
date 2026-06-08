@@ -30,6 +30,7 @@ module Dashboard
       )
       account.users << current_user
       session[:current_account_id] = account.id
+      cookies.signed[:current_account_id] = { value: account.id, expires: 1.year.from_now }
       redirect_to(submitted_path(current_user.id), notice: "New WorkSpace Created Successfully")
     end
 

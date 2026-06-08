@@ -4,9 +4,9 @@
 # VERSION: 1.0.0
 # Website: https://techbolic.com/
 
-module Admin
+module Dashboard
   class ConfirmationsController < Devise::ConfirmationsController
-    layout "dashboard"
+    layout "auth"
     # GET /resource/confirmation/new
     # def new
     #   super

@@ -10,11 +10,13 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
 
+  # TOOD: Not needed here, it's part of marketing app
   get "r/:referral_code", to: "affiliates#track", as: :referral
 
   # TODO: remove later, this route is just for testing indentity sources module in development.
   if Rails.env.development?
     match "test_api/identity_endpoint", to: "test_api#identity_endpoint", via: [:get, :post]
+    mount LetterOpenerWeb::Engine, at: "/letter_opener"
   end
 
   # TODO: Change route
@@ -37,22 +39,25 @@ Rails.application.routes.draw do
     post "stripe", to: "stripe#create"
   end
 
-  devise_for :users, path: "",
-  path_names: { sign_in: "login", sign_out: "logout", sign_up: "register" },
-  controllers: {
-    registrations: "dashboard/registrations",
-    sessions: "dashboard/sessions",
-    confirmations: "dashboard/confirmations",
-    unlocks: "dashboard/unlocks",
-    passwords: "dashboard/passwords"
-  }
+  scope "(:locale)", locale: /#{Core::SUPPORTED_LOCALES.join('|')}/ do
+    devise_for :users, path: "",
+    path_names: { sign_in: "login", sign_out: "logout", sign_up: "register" },
+    controllers: {
+      registrations: "dashboard/registrations",
+      sessions: "dashboard/sessions",
+      confirmations: "dashboard/confirmations",
+      unlocks: "dashboard/unlocks",
+      passwords: "dashboard/passwords"
+    }
 
-  devise_scope :user do
-    post "sessions/switch/:id", to: "dashboard/sessions#switch", as: :switch_account
-  end
+    devise_scope :user do
+      post "sessions/switch/:id", to: "dashboard/sessions#switch", as: :switch_account
+      get "users/check_email", to: "dashboard/registrations#check_email"
+      get "registered", to: "dashboard/registrations#registered", as: :registered
+    end
 
-  scope module: "dashboard" do
-    root "channels#index"
+    scope module: "dashboard" do
+      root "channels#index"
 
     get "workspace", to: "workspace#new"
     post "workspace", to: "workspace#create"
@@ -225,5 +230,6 @@ Rails.application.routes.draw do
     end
 
     get "popup/:step", to: "popup#modal_popup"
+    end
   end
 end

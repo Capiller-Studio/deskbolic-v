@@ -1,0 +1,29 @@
+<mjml>
+  <mj-head>
+    <mj-title>Confirm your account</mj-title>
+    <mj-attributes>
+      <mj-all font-family="Helvetica, Arial, sans-serif" />
+    </mj-attributes>
+  </mj-head>
+  <mj-body background-color="#f4f4f4">
+    <mj-section background-color="#ffffff" padding="20px 0" border-radius="8px">
+      <mj-column>
+        <mj-text align="center" font-size="24px" font-weight="bold" color="#333333">
+          Welcome to Deskbolic!
+        </mj-text>
+        <mj-text align="left" font-size="16px" color="#555555" line-height="24px">
+          Hi [[ERB= @resource.email ]],
+        </mj-text>
+        <mj-text align="left" font-size="16px" color="#555555" line-height="24px">
+          You can confirm your account email through the link below:
+        </mj-text>
+        <mj-button background-color="#4F46E5" color="#ffffff" font-size="16px" font-weight="bold" border-radius="4px" href="[[ERB= confirmation_url(@resource, confirmation_token: @token, locale: I18n.locale) ]]">
+          Confirm my account
+        </mj-button>
+        <mj-text align="left" font-size="14px" color="#999999" line-height="20px" padding-top="20px">
+          If you didn't request this, please ignore this email.
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

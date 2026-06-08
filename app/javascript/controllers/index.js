@@ -98,3 +98,9 @@ application.register("sla-policy", SlaPolicyController)
 
 import RolePermissionsController from "./role_permissions_controller"
 application.register("role-permissions", RolePermissionsController)
+
+import RegistrationWizardController from "./registration_wizard_controller"
+application.register("registration-wizard", RegistrationWizardController)
+
+import PasswordStrengthController from "./password_strength_controller"
+application.register("password-strength", PasswordStrengthController)

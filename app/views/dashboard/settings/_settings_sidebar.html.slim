@@ -34,28 +34,28 @@
                         = plan_upgrade_bubble(:custom_email_templates)
 
             / general            
-            li.nav-item class="" data-action="click->accordion#toggle"
-              .nav-link
-                .link-text.conversation-padding
-                  = inline_svg_tag("arrow_down.svg", class:"st-dropdown-icon", alt:"menu")
-                  p.f-reg-14 General
-            .st-panel data-accordion-target="panel"
-              ul.chats
-                li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
-                  = link_to("#", class: "nav-link") do
-                    .link-text
-                      .conversation-name.inbox-conv
-                        p.f-reg-12 Customer
-                li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
-                  = link_to("#", class: "nav-link") do
-                    .link-text
-                      .conversation-name.inbox-conv
-                        p.f-reg-12 Tracker
-                li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
-                  = link_to("#", class: "nav-link") do
-                    .link-text
-                      .conversation-name.inbox-conv
-                        p.f-reg-12 Back Office
+            / li.nav-item class="" data-action="click->accordion#toggle"
+            /   .nav-link
+            /     .link-text.conversation-padding
+            /       = inline_svg_tag("arrow_down.svg", class:"st-dropdown-icon", alt:"menu")
+            /       p.f-reg-14 General
+            / .st-panel data-accordion-target="panel"
+            /   ul.chats
+            /     li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
+            /       = link_to("#", class: "nav-link") do
+            /         .link-text
+            /           .conversation-name.inbox-conv
+            /             p.f-reg-12 Customer
+            /     li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
+            /       = link_to("#", class: "nav-link") do
+            /         .link-text
+            /           .conversation-name.inbox-conv
+            /             p.f-reg-12 Tracker
+            /     li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
+            /       = link_to("#", class: "nav-link") do
+            /         .link-text
+            /           .conversation-name.inbox-conv
+            /             p.f-reg-12 Back Office
             / inboxes            
             li.nav-item class="" data-action="click->accordion#toggle"
               .nav-link
@@ -129,11 +129,11 @@
                   p.f-reg-14 Data
             .st-panel data-accordion-target="panel"
               ul.chats
-                li.nav-item class="#{"#"=='' ? 'active' : ''}"
-                  = link_to("#", class: "nav-link") do
-                    .link-text
-                      .conversation-name.inbox-conv
-                        p.f-reg-12 Tags
+                / li.nav-item class="#{"#"=='' ? 'active' : ''}"
+                /   = link_to("#", class: "nav-link") do
+                /     .link-text
+                /       .conversation-name.inbox-conv
+                /         p.f-reg-12 Tags
                 li.nav-item class="#{current_page == 'custom-fields' ? 'st-list-active' : ''}"
                   = link_to(custom_fields_path, class: "nav-link") do
                     .link-text
@@ -141,46 +141,46 @@
                         p.f-reg-12
                           | Custom Fields
                           = plan_upgrade_bubble(:custom_fields)
-                li.nav-item class="#{"#"=='' ? 'active' : ''}"
-                  = link_to("#", class: "nav-link") do
-                    .link-text
-                      .conversation-name.inbox-conv
-                        p.f-reg-12 People Segments
-                li.nav-item class="#{"#"=='' ? 'active' : ''}"
-                  = link_to("#", class: "nav-link") do
-                    .link-text
-                      .conversation-name.inbox-conv
-                        p.f-reg-12 Company Segments
-                li.nav-item class="#{"#"=='' ? 'active' : ''}"
-                  = link_to("#", class: "nav-link") do
-                    .link-text
-                      .conversation-name.inbox-conv
-                        p.f-reg-12 People data
-                li.nav-item class="#{"#"=='' ? 'active' : ''}"
-                  = link_to("#", class: "nav-link") do
-                    .link-text
-                      .conversation-name.inbox-conv
-                        p.f-reg-12 Company data
-                li.nav-item class="#{"#"=='' ? 'active' : ''}"
-                  = link_to("#", class: "nav-link") do
-                    .link-text
-                      .conversation-name.inbox-conv
-                        p.f-reg-12 Conversation data
-                li.nav-item class="#{"#"=='' ? 'active' : ''}"
-                  = link_to("#", class: "nav-link") do
-                    .link-text
-                      .conversation-name.inbox-conv
-                        p.f-reg-12 Custom object data
-                li.nav-item class="#{"#"=='' ? 'active' : ''}"
-                  = link_to("#", class: "nav-link") do
-                    .link-text
-                      .conversation-name.inbox-conv
-                        p.f-reg-12 Ticket types
-                li.nav-item class="#{"#"=='' ? 'active' : ''}"
-                  = link_to("#", class: "nav-link") do
-                    .link-text
-                      .conversation-name.inbox-conv
-                        p.f-reg-12 Qualification settings
+                / li.nav-item class="#{"#"=='' ? 'active' : ''}"
+                /   = link_to("#", class: "nav-link") do
+                /     .link-text
+                /       .conversation-name.inbox-conv
+                /         p.f-reg-12 People Segments
+                / li.nav-item class="#{"#"=='' ? 'active' : ''}"
+                /   = link_to("#", class: "nav-link") do
+                /     .link-text
+                /       .conversation-name.inbox-conv
+                /         p.f-reg-12 Company Segments
+                / li.nav-item class="#{"#"=='' ? 'active' : ''}"
+                /   = link_to("#", class: "nav-link") do
+                /     .link-text
+                /       .conversation-name.inbox-conv
+                /         p.f-reg-12 People data
+                / li.nav-item class="#{"#"=='' ? 'active' : ''}"
+                /   = link_to("#", class: "nav-link") do
+                /     .link-text
+                /       .conversation-name.inbox-conv
+                /         p.f-reg-12 Company data
+                / li.nav-item class="#{"#"=='' ? 'active' : ''}"
+                /   = link_to("#", class: "nav-link") do
+                /     .link-text
+                /       .conversation-name.inbox-conv
+                /         p.f-reg-12 Conversation data
+                / li.nav-item class="#{"#"=='' ? 'active' : ''}"
+                /   = link_to("#", class: "nav-link") do
+                /     .link-text
+                /       .conversation-name.inbox-conv
+                /         p.f-reg-12 Custom object data
+                / li.nav-item class="#{"#"=='' ? 'active' : ''}"
+                /   = link_to("#", class: "nav-link") do
+                /     .link-text
+                /       .conversation-name.inbox-conv
+                /         p.f-reg-12 Ticket types
+                / li.nav-item class="#{"#"=='' ? 'active' : ''}"
+                /   = link_to("#", class: "nav-link") do
+                /     .link-text
+                /       .conversation-name.inbox-conv
+                /         p.f-reg-12 Qualification settings
                 li.nav-item class="#{current_page == 'identity-sources' ? 'st-list-active' : ''}"
                   = link_to(identity_sources_path, class: "nav-link") do
                     .link-text
@@ -193,31 +193,31 @@
                     .link-text
                       .conversation-name.inbox-conv
                         p.f-reg-12 Canned responses
-                li.nav-item class="#{current_page == 'office-timings' ? 'st-list-active' : ''}"
-                  = link_to(office_timings_settings_path, class: "nav-link") do
-                    .link-text
-                      .conversation-name.inbox-conv
-                        p.f-reg-12 Office Hours
-                li.nav-item class="#{"#"=='' ? 'active' : ''}"
-                  = link_to("#", class: "nav-link") do
-                    .link-text
-                      .conversation-name.inbox-conv
-                        p.f-reg-12 Events
-                li.nav-item class="#{"#"=='' ? 'active' : ''}"
-                  = link_to("#", class: "nav-link") do
-                    .link-text
-                      .conversation-name.inbox-conv
-                        p.f-reg-12 Import history
-                li.nav-item class="#{"#"=='' ? 'active' : ''}"
-                  = link_to("#", class: "nav-link") do
-                    .link-text
-                      .conversation-name.inbox-conv
-                        p.f-reg-12 Deleting people data
-                li.nav-item class="#{"#"=='' ? 'active' : ''}"
-                  = link_to("#", class: "nav-link") do
-                    .link-text
-                      .conversation-name.inbox-conv
-                        p.f-reg-12 Data export
+                / li.nav-item class="#{current_page == 'office-timings' ? 'st-list-active' : ''}"
+                /   = link_to(office_timings_settings_path, class: "nav-link") do
+                /     .link-text
+                /       .conversation-name.inbox-conv
+                /         p.f-reg-12 Office Hours
+                / li.nav-item class="#{"#"=='' ? 'active' : ''}"
+                /   = link_to("#", class: "nav-link") do
+                /     .link-text
+                /       .conversation-name.inbox-conv
+                /         p.f-reg-12 Events
+                / li.nav-item class="#{"#"=='' ? 'active' : ''}"
+                /   = link_to("#", class: "nav-link") do
+                /     .link-text
+                /       .conversation-name.inbox-conv
+                /         p.f-reg-12 Import history
+                / li.nav-item class="#{"#"=='' ? 'active' : ''}"
+                /   = link_to("#", class: "nav-link") do
+                /     .link-text
+                /       .conversation-name.inbox-conv
+                /         p.f-reg-12 Deleting people data
+                / li.nav-item class="#{"#"=='' ? 'active' : ''}"
+                /   = link_to("#", class: "nav-link") do
+                /     .link-text
+                /       .conversation-name.inbox-conv
+                /         p.f-reg-12 Data export
 
     .helpdesk-body.settings-body
       turbo-frame#conversations-frame[data-turbo-permanent]

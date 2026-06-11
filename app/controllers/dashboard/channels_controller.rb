@@ -3,11 +3,7 @@
 module Dashboard
   class ChannelsController < DashboardController
     def index
-      @em_channels = Channel::Email.where(account: current_account).all
-      @fb_channels = Channel::FacebookPage.where(account: current_account).all
-      @wa_channels = Channel::Whatsapp.where(account: current_account).all
-      @ww_channels = Channel::WebWidget.where(account: current_account).all
-      @cf_channels = Channel::ContactForm.where(account: current_account).all
+      @inboxes = current_account.inboxes.all
       @teams = current_account.teams.includes(:team_users).order(:name)
       @team_users = @teams.flat_map(&:team_users).reject { |tu| tu.user_id == current_user.id }.uniq(&:user_id)
     end

@@ -3,21 +3,15 @@
 module Dashboard
   class ConversationsController < DashboardController
     def index
-      @em_channels = Channel::Email.where(account: current_account).all
-      @fb_channels = Channel::FacebookPage.where(account: current_account).all
-      @wa_channels = Channel::Whatsapp.where(account: current_account).all
-      @ww_channels = Channel::WebWidget.where(account: current_account).all
-      @cf_channels = Channel::ContactForm.where(account: current_account).all
+      @inboxes = current_account.inboxes.all
       @teams = current_account.teams.includes(:team_users).order(:name)
       @team_users = @teams.flat_map(&:team_users).reject { |tu| tu.user_id == current_user.id }.uniq(&:user_id)
 
-      @inbox = Inbox.find(params[:resource_id])
-      @conversations = @inbox.conversations.where(account: current_account)
+      @conversations = find_conversations(params[:resource_id])
       @conversations = @conversations.current_conversations(current_user).or(@conversations.not_assigned_to_user)
-      # @conversations = @conversations.assigned_to_user_or_unassigned(current_user)
 
-
-      @conversations = params[:status].present? ? @conversations.where(status: params[:status]) : @conversations.where(status: :active)
+      @filter = params[:filter].presence
+      @conversations = filter_conversations(@filter) if @filter.present?
       
       respond_to do |format|
         format.turbo_stream do
@@ -32,18 +26,17 @@ module Dashboard
     end
 
     def show
-      @em_channels = Channel::Email.where(account: current_account).all
-      @fb_channels = Channel::FacebookPage.where(account: current_account).all
-      @wa_channels = Channel::Whatsapp.where(account: current_account).all
-      @ww_channels = Channel::WebWidget.where(account: current_account).all
-      @cf_channels = Channel::ContactForm.where(account: current_account).all
+      @inboxes = current_account.inboxes.all
       @teams = current_account.teams.includes(:team_users).order(:name)
       @team_users = @teams.flat_map(&:team_users).reject { |tu| tu.user_id == current_user.id }.uniq(&:user_id)
 
       @conversation = Conversation.find(params[:resource_id])
       @inbox = @conversation.inbox
-      @conversations = @conversation.inbox.conversations.where(account: current_account).where(status: @conversation.status)
+      @conversations = @inbox.conversations.where(account: current_account).where(status: @conversation.status)
       @conversations = @conversations.current_conversations(current_user).or(@conversations.not_assigned_to_user)
+      
+      @filter = params[:filter].presence
+      @conversations = filter_conversations(@filter) if @filter.present?
 
       @messages = @conversation.messages.includes(:attachments)
       @canned_responses = CannedResponse.where(account: current_account).all
@@ -121,5 +114,22 @@ module Dashboard
         locals: { conversation: @conversation }
       ))
     end
+
+    def filter_conversations(filter)
+      case filter
+        when "assigned" 
+          @conversations.where(assignee: current_user)
+        when "unassigned"
+          @conversations.not_assigned_to_user
+        else
+          @conversations.current_conversations(current_user).or(@conversations.not_assigned_to_user)
+        end
+    end
+
+    def find_conversations(resource_id)
+      @inbox = current_account.inboxes.find_by(id: resource_id) if resource_id.present?
+      @inbox ? @inbox.conversations.where(account: current_account) : current_account.conversations
+    end
+    
   end
 end

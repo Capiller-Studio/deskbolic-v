@@ -1,0 +1,297 @@
+/* Contact Form Channels Specific Styles */
+
+.sortable-item {
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.sortable-item.sortable-ghost {
+  opacity: 0.4;
+  background-color: #f1f5f9 !important;
+}
+
+.sortable-item.sortable-drag {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  cursor: grabbing !important;
+}
+
+.drag-handle {
+  cursor: grab;
+  color: #94a3b8;
+  padding-right: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.drag-handle:active {
+  cursor: grabbing;
+}
+
+.ww-translation-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  position: relative;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.cf-resource-config {
+  display: flex;
+  gap: 12px;
+  margin-right: 16px;
+  align-items: center;
+}
+
+.cf-remove-btn {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.cf-remove-btn:hover {
+  background: #fee2e2;
+  color: #ef4444;
+}
+
+.cf-add-field-row {
+  margin-top: 16px;
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.cf-add-field-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 38px;
+}
+
+.cf-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cf-modal-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(2px);
+}
+
+.cf-modal-content {
+  position: relative;
+  background: #ffffff;
+  width: 100%;
+  max-width: 500px;
+  border-radius: 16px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: modal-pop 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modal-pop {
+  0% { transform: scale(0.95); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.cf-modal-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f8fafc;
+}
+
+.cf-modal-header h3 {
+  margin: 0;
+  color: #0f172a;
+}
+
+.cf-modal-close {
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  line-height: 1;
+  color: #64748b;
+  cursor: pointer;
+  padding: 4px;
+  margin: -4px;
+  border-radius: 4px;
+}
+
+.cf-modal-close:hover {
+  color: #0f172a;
+  background: #e2e8f0;
+}
+
+.cf-modal-search {
+  padding: 16px 24px;
+  border-bottom: 1px solid #e2e8f0;
+  background: #ffffff;
+}
+
+.cf-modal-search .ec-input {
+  width: 100%;
+  border-radius: 8px;
+  padding: 10px 14px;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+}
+
+.cf-modal-search .ec-input:focus {
+  background: #ffffff;
+  border-color: #7E61F0;
+  box-shadow: 0 0 0 3px rgba(126, 97, 240, 0.1);
+}
+
+.cf-modal-body {
+  padding: 16px 24px;
+  overflow-y: auto;
+  flex: 1;
+  background: #f1f5f9;
+}
+
+/* Override the list styles when items are in the modal */
+.cf-modal-body .cf-sortable-item {
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 12px;
+  background: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.cf-modal-body .cf-sortable-item:hover {
+  border-color: #7E61F0;
+  box-shadow: 0 4px 6px -1px rgba(126, 97, 240, 0.1);
+  transform: translateY(-1px);
+}
+
+.cf-modal-body .cf-sortable-item:active {
+  transform: translateY(0);
+}
+
+.cf-modal-body .cf-drag-handle,
+.cf-modal-body .cf-resource-config,
+.cf-modal-body .cf-remove-btn {
+  display: none !important;
+}
+
+.cf-modal-body .cf-item-content {
+  flex: 1;
+}
+
+.cf-modal-body .cf-item-content h4 {
+  color: #0f172a;
+  margin-bottom: 4px;
+}
+
+.cf-modal-body .cf-item-badge {
+  margin-left: 12px;
+}
+
+/* This is a visual indicator to click to add */
+.cf-modal-body .cf-sortable-item::after {
+  content: '+';
+  font-size: 20px;
+  font-weight: 300;
+  color: #94a3b8;
+  margin-left: 16px;
+  transition: color 0.2s;
+}
+
+.cf-modal-body .cf-sortable-item:hover::after {
+  color: #7E61F0;
+}
+
+.cf-resource-checkbox {
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.cf-resource-checkbox-input {
+  margin: 0;
+}
+
+.cf-resource-select {
+  padding: 2px 8px;
+  font-size: 11px;
+  height: 24px;
+  min-height: 24px;
+}
+
+.cf-sortable-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cf-sortable-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+
+.cf-sortable-item-unselected {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+
+.cf-drag-handle {
+  cursor: grab;
+  color: #94a3b8;
+  padding-right: 8px;
+}
+
+.cf-item-content {
+  flex: 1;
+}
+
+.cf-item-badge {
+  font-size: 11px;
+}
+
+.cf-available-fields-title {
+  margin-top: 16px;
+  margin-bottom: 4px;
+  padding-left: 4px;
+}

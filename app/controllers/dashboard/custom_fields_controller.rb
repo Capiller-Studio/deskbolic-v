@@ -5,16 +5,17 @@ module Dashboard
     before_action :set_custom_field, only: %i[edit update destroy]
 
     def index
+      authorize CustomField
       @custom_fields = current_account.custom_fields.includes(:translations).order(created_at: :desc)
     end
 
     def new
+      authorize CustomField
       @custom_field = current_account.custom_fields.new
     end
 
     def create
-      # Check account limits here before creation
-      # For example: authorize! :create, CustomField
+      authorize CustomField
 
       @custom_field = current_account.custom_fields.new(custom_field_params)
 
@@ -27,10 +28,12 @@ module Dashboard
     end
 
     def edit
+      authorize @custom_field
     end
 
     def update
-      if @custom_field.update(custom_field_params)
+      authorize @custom_field
+      if @custom_field.update(custom_field_params.except(:field_type))
         handle_translations
         redirect_to custom_fields_path, notice: "Custom Field was successfully updated."
       else
@@ -39,8 +42,11 @@ module Dashboard
     end
 
     def destroy
+      authorize @custom_field
       @custom_field.destroy
       redirect_to custom_fields_path, notice: "Custom Field was successfully deleted."
+    rescue ActiveRecord::InvalidForeignKey
+      redirect_to custom_fields_path, alert: "Cannot delete this field. It's in use."
     end
 
     private
@@ -51,35 +57,36 @@ module Dashboard
 
     def custom_field_params
       permitted = params.require(:custom_field).permit(
-        :key, :entity_type, :field_type, :required, 
-        :searchable, :filterable, :hidden, :is_readonly,
-        validations: [:min_length, :max_length, :pattern, allowed_values: []]
-      )
+        :key, :entity_type, :field_type, :required, :mapped_to,
+        :searchable, :filterable, :hidden, :is_readonly, :default_value,
+        validations: [:min_length, :max_length, :pattern, :min_value, :max_value, allowed_values: []]
+      ).to_h
 
-      # Process translations_attributes if present to handle the options JSON array
       if params[:custom_field][:translations_attributes].present?
-        translations = params[:custom_field][:translations_attributes].values.map do |trans|
+        translations = []
+        params[:custom_field][:translations_attributes].each do |_, trans|
           options_array = []
           if trans["options"].is_a?(Hash) || trans["options"].is_a?(ActionController::Parameters)
             options_array = trans["options"].values.reject { |opt| opt["value"].blank? && opt["label"].blank? }
           elsif trans["options"].is_a?(Array)
             options_array = trans["options"].reject { |opt| opt["value"].blank? && opt["label"].blank? }
           end
-
-          {
-            id: trans["id"],
-            locale: trans["locale"],
-            label: trans["label"],
-            placeholder: trans["placeholder"],
-            options: options_array
+          
+          translations << {
+            "id" => trans["id"],
+            "locale" => trans["locale"],
+            "label" => trans["label"],
+            "placeholder" => trans["placeholder"],
+            "description" => trans["description"],
+            "_destroy" => trans["_destroy"],
+            "options" => options_array.map { |o| { "value" => o["value"], "label" => o["label"] } }
           }.compact
         end
-        permitted[:translations_attributes] = translations
+        permitted["translations_attributes"] = translations
       end
 
-      # Strip empty validations
-      if permitted[:validations].present?
-        permitted[:validations] = permitted[:validations].to_h.reject { |_, v| v.blank? }
+      if permitted["validations"].present?
+        permitted["validations"] = permitted["validations"].reject { |_, v| v.blank? }
       end
 
       permitted

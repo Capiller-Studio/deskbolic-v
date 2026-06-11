@@ -355,9 +355,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_15_000002) do
   create_table "plans", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.decimal "annual_price", precision: 10, scale: 2, default: "0.0", null: false
     t.decimal "base_price", precision: 10, scale: 2, default: "0.0", null: false
-    t.jsonb "configurations", default: {}, null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.string "currency", limit: 4, default: "USD", null: false
+    t.jsonb "features", default: {}, null: false
     t.jsonb "limits", default: {}, null: false
     t.string "name", null: false
     t.integer "position", default: 0, null: false

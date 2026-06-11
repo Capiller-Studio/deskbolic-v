@@ -1,0 +1,44 @@
+.ww-translation-card style="background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin-bottom: 16px; position: relative; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);"
+  .ww-translation-header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #f1f5f9;"
+    div style="display: flex; align-items: center; gap: 8px;"
+      span.f-semi-14 = I18n.t("languages.#{f.object.locale.to_s.downcase}", default: f.object.locale.to_s.upcase)
+      = f.hidden_field :locale
+    button.ec-btn-secondary.ec-btn-sm type="button" data-action="click->custom-field-translations#removeTranslation" Remove
+    = f.hidden_field :_destroy, class: "destroy-flag"
+
+  - trans_idx = f.index
+
+  .ec-form-row
+    div
+      = f.label :label, "Field Label", class: "ec-label"
+      = f.text_field :label, class: "ec-input", placeholder: "e.g. Company Size"
+
+    div
+      = f.label :placeholder, "Placeholder", class: "ec-label"
+      = f.text_field :placeholder, class: "ec-input", placeholder: "e.g. 1-10 employees"
+
+  .ec-form-row style="margin-top: 12px;"
+    div style="width: 100%;"
+      = f.label :description, "Description / Helper Text", class: "ec-label"
+      = f.text_area :description, class: "ec-input", placeholder: "e.g. Please enter the number of full-time employees.", rows: 2
+
+  .cf-options-section data-controller="custom-field-options" class="cf-hidden" style="margin-top: 16px;"
+    .cf-options-header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 12px; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;"
+      h4.f-semi-14 style="margin: 0;" Dropdown Options
+      button type="button" data-action="click->custom-field-options#addOption" class="ec-btn-secondary" style="padding: 4px 12px; font-size: 13px;"
+        | + Add Option
+
+    .options-container data-custom-field-options-target="container" style="display: flex; flex-direction: column; gap: 12px; padding: 16px; background: white; border: 1px solid #e2e8f0; border-radius: 0 0 8px 8px; border-top: none;"
+      - (f.object.options || []).each_with_index do |opt, opt_idx|
+        .option-row style="display: flex; align-items: center; gap: 12px;"
+          = text_field_tag "custom_field[translations_attributes][#{trans_idx}][options][#{opt_idx}][value]", opt["value"], placeholder: "Value (internal)", class: "ec-input", style: "flex: 1; margin: 0;"
+          = text_field_tag "custom_field[translations_attributes][#{trans_idx}][options][#{opt_idx}][label]", opt["label"], placeholder: "Label (display)", class: "ec-input", style: "flex: 1; margin: 0;"
+          button type="button" data-action="click->custom-field-options#removeOption" class="ec-action-btn ec-action-delete" style="display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; padding: 0; background: #fee2e2; border-radius: 6px;" title="Remove Option"
+            | 🗑️
+
+    template data-custom-field-options-target="template"
+      .option-row style="display: flex; align-items: center; gap: 12px; margin-top: 12px;"
+        = text_field_tag "custom_field[translations_attributes][#{trans_idx}][options][NEW_RECORD][value]", nil, placeholder: "Value (internal)", class: "ec-input", style: "flex: 1; margin: 0;"
+        = text_field_tag "custom_field[translations_attributes][#{trans_idx}][options][NEW_RECORD][label]", nil, placeholder: "Label (display)", class: "ec-input", style: "flex: 1; margin: 0;"
+        button type="button" data-action="click->custom-field-options#removeOption" class="ec-action-btn ec-action-delete" style="display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; padding: 0; background: #fee2e2; border-radius: 6px;" title="Remove Option"
+          | 🗑️

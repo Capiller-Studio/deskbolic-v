@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static targets = [
-    "appearanceSection", "integrationsSection", "behaviorsSection",
+    "appearanceSection", "integrationsSection", "behaviorsSection", "translationsSection",
     "colorSwatch", "colorInput", "customBrandingFields"
   ]
 

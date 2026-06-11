@@ -1,656 +1,725 @@
+---
 en:
   languages:
-    en: "English"
-    fr: "French"
-    es: "Spanish"
-    de: "German"
-    pt-br: "Portuguese (Brazil)"
-    ko: "Korean"
-    ar: "Arabic"
+    en: English
+    fr: French
+    es: Spanish
+    de: German
+    pt-br: Portuguese (Brazil)
+    ko: Korean
+    ar: Arabic
   meta:
-    title: "DESKBOLIC"
-    description: ""
-    keywords: ""
+    title: DESKBOLIC
+    description: ''
+    keywords: ''
   dashboard:
     automations:
       index:
-        title: "Automations"
-        description: "Automate repetitive tasks with event-based and time-based rules."
-        new_automation: "New Automation"
-        empty_title: "No automations yet"
-        empty_description: "Create your first automation to start handling conversations automatically."
-        tab_all: "All"
-        tab_event_triggers: "Event Triggers"
-        tab_time_triggers: "Time Triggers"
+        title: Automations
+        description: Automate repetitive tasks with event-based and time-based rules.
+        new_automation: New Automation
+        empty_title: No automations yet
+        empty_description: Create your first automation to start handling conversations
+          automatically.
+        tab_all: All
+        tab_event_triggers: Event Triggers
+        tab_time_triggers: Time Triggers
       new:
-        title: "New Automation"
+        title: New Automation
       edit:
-        title: "Edit Automation"
+        title: Edit Automation
       create:
-        created: "Automation created successfully."
+        created: Automation created successfully.
       update:
-        updated: "Automation updated successfully."
+        updated: Automation updated successfully.
       destroy:
-        destroyed: "Automation deleted."
+        destroyed: Automation deleted.
       toggle:
-        activated: "Automation activated."
-        deactivated: "Automation deactivated."
+        activated: Automation activated.
+        deactivated: Automation deactivated.
       duplicate:
-        duplicated: "Automation duplicated. Edit the copy below."
-        duplicate_failed: "Failed to duplicate automation."
+        duplicated: Automation duplicated. Edit the copy below.
+        duplicate_failed: Failed to duplicate automation.
       builder:
-        trigger_section: "When this happens..."
-        conditions_section: "If these conditions are met..."
-        actions_section: "Then do this..."
-        options_section: "Options"
-        type_label: "Automation Type"
-        event_label: "Event"
-        match_label: "Match"
-        match_all: "ALL"
-        match_any: "ANY"
-        add_condition: "Add Condition"
-        add_condition_group: "Add Condition Group"
-        add_action: "Add Action"
-        stop_processing: "Stop processing subsequent rules"
-        stop_processing_hint: "When this rule fires, no lower-priority rules will execute for this event."
-        save: "Save Automation"
-        cancel: "Cancel"
-        remove: "Remove"
+        trigger_section: When this happens...
+        conditions_section: If these conditions are met...
+        actions_section: Then do this...
+        options_section: Options
+        type_label: Automation Type
+        event_label: Event
+        match_label: Match
+        match_all: ALL
+        match_any: ANY
+        add_condition: Add Condition
+        add_condition_group: Add Condition Group
+        add_action: Add Action
+        stop_processing: Stop processing subsequent rules
+        stop_processing_hint: When this rule fires, no lower-priority rules will execute
+          for this event.
+        save: Save Automation
+        cancel: Cancel
+        remove: Remove
       types:
-        event_trigger: "Event Trigger"
-        time_trigger: "Time Trigger"
-        macro: "Macro"
+        event_trigger: Event Trigger
+        time_trigger: Time Trigger
+        macro: Macro
       events:
-        conversation_created: "Conversation Created"
-        conversation_updated: "Conversation Updated"
-        conversation_status_changed: "Conversation Status Changed"
-        conversation_assigned: "Conversation Assigned"
-        conversation_resolved: "Conversation Resolved"
-        message_created: "Message Created"
-        message_incoming: "Incoming Message"
-        message_outgoing: "Outgoing Message"
-        customer_created: "Customer Created"
-        customer_updated: "Customer Updated"
-        sla_breached: "SLA Breached"
-        hours_since_created: "Hours Since Created"
-        hours_since_updated: "Hours Since Updated"
-        hours_since_resolved: "Hours Since Resolved"
-        hours_since_last_activity: "Hours Since Last Activity"
+        conversation_created: Conversation Created
+        conversation_updated: Conversation Updated
+        conversation_status_changed: Conversation Status Changed
+        conversation_assigned: Conversation Assigned
+        conversation_resolved: Conversation Resolved
+        message_created: Message Created
+        message_incoming: Incoming Message
+        message_outgoing: Outgoing Message
+        customer_created: Customer Created
+        customer_updated: Customer Updated
+        sla_breached: SLA Breached
+        hours_since_created: Hours Since Created
+        hours_since_updated: Hours Since Updated
+        hours_since_resolved: Hours Since Resolved
+        hours_since_last_activity: Hours Since Last Activity
       attributes:
-        status: "Conversation Status"
-        priority: "Priority"
-        source: "Source"
-        locale: "Locale"
-        title: "Conversation Title"
-        identifier: "Conversation Identifier"
-        inbox_id: "Inbox"
-        inbox_name: "Inbox Name"
-        inbox_channel_type: "Channel Type"
-        assignee_id: "Assigned Agent"
-        assignee_name: "Agent Name"
-        assignee_email: "Agent Email"
-        team_id: "Team"
-        team_name: "Team Name"
-        customer_email: "Customer Email"
-        customer_name: "Customer Name"
-        customer_locale: "Customer Locale"
-        customer_customer_type: "Customer Type"
-        message_content: "Message Content"
-        message_content_type: "Message Content Type"
-        message_sender_type: "Message Sender Type"
-        labels: "Labels"
-        hours_since_created: "Hours Since Created"
-        hours_since_updated: "Hours Since Updated"
-        hours_since_resolved: "Hours Since Resolved"
-        hours_since_last_activity: "Hours Since Last Activity"
+        status: Conversation Status
+        priority: Priority
+        source: Source
+        locale: Locale
+        title: Conversation Title
+        identifier: Conversation Identifier
+        inbox_id: Inbox
+        inbox_name: Inbox Name
+        inbox_channel_type: Channel Type
+        assignee_id: Assigned Agent
+        assignee_name: Agent Name
+        assignee_email: Agent Email
+        team_id: Team
+        team_name: Team Name
+        customer_email: Customer Email
+        customer_name: Customer Name
+        customer_locale: Customer Locale
+        customer_customer_type: Customer Type
+        message_content: Message Content
+        message_content_type: Message Content Type
+        message_sender_type: Message Sender Type
+        labels: Labels
+        hours_since_created: Hours Since Created
+        hours_since_updated: Hours Since Updated
+        hours_since_resolved: Hours Since Resolved
+        hours_since_last_activity: Hours Since Last Activity
       operators:
-        equals: "equals"
-        not_equals: "does not equal"
-        contains: "contains"
-        not_contains: "does not contain"
-        starts_with: "starts with"
-        ends_with: "ends with"
-        is_present: "is present"
-        is_not_present: "is not present"
-        greater_than: "is greater than"
-        less_than: "is less than"
-        days_before: "was more than N days ago"
+        equals: equals
+        not_equals: does not equal
+        contains: contains
+        not_contains: does not contain
+        starts_with: starts with
+        ends_with: ends with
+        is_present: is present
+        is_not_present: is not present
+        greater_than: is greater than
+        less_than: is less than
+        days_before: was more than N days ago
       actions:
-        assign_agent: "Assign to Agent"
-        assign_team: "Assign to Team"
-        unassign: "Unassign"
-        set_status: "Set Status"
-        set_priority: "Set Priority"
-        add_label: "Add Label"
-        remove_label: "Remove Label"
-        set_custom_field: "Set Custom Field"
-        send_message: "Send Message"
-        send_email_to_customer: "Send Email to Customer"
-        send_email_to_team: "Send Email to Team"
-        add_note: "Add Internal Note"
-        snooze: "Snooze"
-        resolve: "Resolve"
-        mute_conversation: "Mute Conversation"
-        trigger_webhook: "Trigger Webhook"
-        set_locale: "Set Locale"
-    assignment_policies:
-      sidebar:
-        label: "Assignment Policies"
-    identity_sources:
-      sidebar:
-        label: "Identity Sources"
-      index:
-        title: "Identity Sources"
-        description: "Configure external webhooks and APIs to fetch and verify customer identities automatically."
-        create_button: "Create Identity Source"
-        delete_confirm: "Are you sure you want to delete this identity source? This action cannot be undone."
-        url_label: "Endpoint URL"
-        headers_label: "Configured Headers"
-        params_label: "Configured Params"
-        created: "Created"
-        ago: "ago"
-      new:
-        title: "New Identity Source"
-      edit:
-        title: "Edit Identity Source"
-      form:
-        back: "← Back to Identity Sources"
-        error_heading: "Please fix the following %{count} errors:"
-        name: "Name"
-        name_placeholder: "e.g., Internal CRM Verifier"
-        description: "Description"
-        description_placeholder: "What does this identity source do?"
-        source_type: "Source Type"
-        source_url: "Source URL"
-        liquid_help: "You can use dynamic variables like {{ customer.email }} in the URL, headers, and params."
-        headers: "Request Headers"
-        add_header: "+ Add Header"
-        params: "Request Parameters"
-        add_param: "+ Add Parameter"
-        save: "Save Identity Source"
-        test_run: "Test Connection"
-      created: "Identity source was successfully created."
-      updated: "Identity source was successfully updated."
-      deleted: "Identity source was successfully deleted."
-    web_widget_channels:
-      translations:
-        eg_welcome_title: "e.g. Welcome!"
-        eg_welcome_tagline: "e.g. How can we help you?"
-        eg_launcher_text: "e.g. Chat with us"
-        eg_reply_time_text: "e.g. Typically replies in a few minutes"
-        eg_pre_chat_title: "e.g. Tell us about yourself"
-        eg_pre_chat_subtitle: "e.g. We will get back to you shortly."
-      index:
-        title: "Web Widgets"
-        description: "Configure your website chat widgets, appearance, and routing rules."
-        new_channel: "New Web Widget"
-        empty_title: "No web widgets yet"
-        empty_description: "Create your first web widget to start chatting with your website visitors."
-        inboxes_count:
-          one: "%{count} Inbox"
-          other: "%{count} Inboxes"
-        delete_confirm: "Are you sure? This will permanently delete this web widget and all associated inboxes."
-        created_ago: "Created %{time} ago"
-      new:
-        title: "New Web Widget"
-      edit:
-        title: "Edit Web Widget"
-      form:
-        back: "← Back to Web Widgets"
-        error_heading: "Please fix the following errors:"
-        basic_section: "Basic Details"
-        appearance_section: "Appearance & Branding"
-        integrations_section: "Module Integrations"
-        behaviors_section: "Widget Behaviors"
-        name_label: "Internal Name"
-        name_placeholder: "e.g., Marketing Site Widget"
-        website_url_label: "Website URL"
-        website_url_placeholder: "e.g., https://yourcompany.com"
-        theme_color_label: "Theme Color"
-        welcome_title_label: "Welcome Title"
-        welcome_title_placeholder: "e.g., Hi there 👋"
-        welcome_tagline_label: "Welcome Tagline"
-        welcome_tagline_placeholder: "e.g., We typically reply in a few minutes"
-        position_label: "Widget Position"
-        position_bottom_right: "Bottom Right"
-        position_bottom_left: "Bottom Left"
-        hide_branding_label: "Hide Deskbolic Branding"
-        portal_label: "Help Center Integration"
-        contact_form_label: "Contact Form Integration"
-        anonymous_allowed_label: "Allow Anonymous Messages"
-        pre_chat_form_enabled_label: "Require Pre-chat Form"
-        save: "Save Widget"
-        update: "Update Widget"
-        cancel: "Cancel"
-      created: "Web Widget was successfully created."
-      updated: "Web Widget was successfully updated."
-      deleted: "Web Widget was successfully deleted."
-    email_channels:
-      sidebar:
-        label: "Email Channels"
-      index:
-        title: "Email Channels"
-        description: "Configure your email channels with custom SMTP, IMAP, and forwarding settings."
-        new_channel: "New Email Channel"
-        empty_title: "No email channels yet"
-        empty_description: "Create your first email channel to start receiving and sending emails through your helpdesk."
-        smtp_configured: "SMTP Active"
-        smtp_not_configured: "System SMTP"
-        imap_configured: "IMAP Active"
-        imap_not_configured: "IMAP Off"
-        forwarding_verified: "Verified"
-        forwarding_pending: "Pending"
-        inboxes_count:
-          one: "%{count} Inbox"
-          other: "%{count} Inboxes"
-        delete_confirm: "Are you sure? This will permanently delete this email channel and all associated inboxes."
-        created_ago: "Created %{time} ago"
-      new:
-        title: "New Email Channel"
-      edit:
-        title: "Edit Email Channel"
-      form:
-        back: "← Back to Email Channels"
-        error_heading: "Please fix the following errors:"
-        basic_section: "Basic Details"
-        smtp_section: "SMTP Configuration"
-        smtp_section_desc: "Optional — provide custom SMTP credentials to send emails from your own server."
-        imap_section: "IMAP Configuration"
-        imap_section_desc: "Optional — fetch incoming emails directly from your mailbox."
-        name_label: "Channel Name"
-        name_placeholder: "e.g., Customer Support"
-        email_label: "Email Address"
-        email_placeholder: "e.g., support@yourcompany.com"
-        email_hint: "The email address your customers see when you send them emails."
-        smtp_address: "SMTP Server"
-        smtp_address_placeholder: "e.g., smtp.gmail.com"
-        smtp_port: "Port"
-        smtp_port_placeholder: "587"
-        smtp_username: "Username"
-        smtp_username_placeholder: "your-email@gmail.com"
-        smtp_password: "Password"
-        smtp_password_placeholder: "••••••••"
-        smtp_domain: "Domain"
-        smtp_domain_placeholder: "e.g., yourcompany.com"
-        smtp_authentication: "Authentication"
-        smtp_starttls: "Enable STARTTLS"
-        imap_address: "IMAP Server"
-        imap_address_placeholder: "e.g., imap.gmail.com"
-        imap_port: "Port"
-        imap_port_placeholder: "993"
-        imap_username: "Username"
-        imap_username_placeholder: "your-email@gmail.com"
-        imap_password: "Password"
-        imap_password_placeholder: "••••••••"
-        imap_ssl: "Enable SSL"
-        test_smtp: "Test SMTP"
-        test_imap: "Test IMAP"
-        testing: "Testing..."
-        test_success: "Connection successful!"
-        test_failure: "Connection failed"
-        save: "Save Channel"
-        update: "Update Channel"
-        cancel: "Cancel"
-      forwarding:
-        title: "Email Forwarding"
-        description: "Forward emails from your email provider to this address to start receiving them in your helpdesk."
-        your_forwarding_address: "Your forwarding address"
-        copy: "Copy"
-        copied: "Copied!"
-        verify: "Verify Forwarding"
-        verifying: "Sending verification..."
-        verified: "Forwarding verified ✓"
-        not_verified: "Not yet verified"
-        instructions_title: "How to set up forwarding"
-        gmail_title: "Gmail"
-        gmail_step_1: "Open Gmail → Settings → See all settings"
-        gmail_step_2: "Go to \"Forwarding and POP/IMAP\" tab"
-        gmail_step_3: "Click \"Add a forwarding address\" and paste the address above"
-        gmail_step_4: "Gmail will send a confirmation — approve it, then select \"Forward a copy\""
-        outlook_title: "Outlook"
-        outlook_step_1: "Open Outlook → Settings → Mail → Forwarding"
-        outlook_step_2: "Enable forwarding and paste the address above"
-        outlook_step_3: "Optionally keep a copy of forwarded messages"
-        outlook_step_4: "Click Save"
-        yahoo_title: "Yahoo"
-        yahoo_step_1: "Open Yahoo Mail → Settings → More Settings"
-        yahoo_step_2: "Go to \"Mailboxes\" → select your inbox"
-        yahoo_step_3: "Under \"Forwarding\", paste the address above"
-        yahoo_step_4: "Click Save"
-        other_title: "Other"
-        other_step_1: "Open your email provider's settings"
-        other_step_2: "Find the \"Forwarding\" or \"Auto-forward\" option"
-        other_step_3: "Add the forwarding address shown above"
-        other_step_4: "Save and confirm if required by your provider"
-      created: "Email channel created successfully."
-      updated: "Email channel updated successfully."
-      destroyed: "Email channel deleted successfully."
-      limit_reached: "Channel limit reached for your current plan. Please upgrade to add more channels."
+        assign_agent: Assign to Agent
+        assign_team: Assign to Team
+        unassign: Unassign
+        set_status: Set Status
+        set_priority: Set Priority
+        add_label: Add Label
+        remove_label: Remove Label
+        set_custom_field: Set Custom Field
+        send_message: Send Message
+        send_email_to_customer: Send Email to Customer
+        send_email_to_team: Send Email to Team
+        add_note: Add Internal Note
+        snooze: Snooze
+        resolve: Resolve
+        mute_conversation: Mute Conversation
+        trigger_webhook: Trigger Webhook
+        set_locale: Set Locale
     assignment_policies:
       index:
-        title: "Assignment Policies"
-        description: "Configure how conversations are automatically routed and assigned to agents."
-        new_policy: "New Policy"
-        tab_all: "All"
-        tab_round_robin: "Round Robin"
-        tab_load_balanced: "Load Balanced"
-        tab_skills_based: "Skills Based"
-        tab_manual: "Manual"
-        empty_title: "No assignment policies yet"
-        empty_description: "Create your first policy to start routing conversations automatically."
+        title: Assignment Policies
+        description: Configure how conversations are automatically routed and assigned
+          to agents.
+        new_policy: New Policy
+        tab_all: All
+        tab_round_robin: Round Robin
+        tab_load_balanced: Load Balanced
+        tab_skills_based: Skills Based
+        tab_manual: Manual
+        empty_title: No assignment policies yet
+        empty_description: Create your first policy to start routing conversations
+          automatically.
       new:
-        title: "New Assignment Policy"
+        title: New Assignment Policy
       edit:
-        title: "Edit Assignment Policy"
+        title: Edit Assignment Policy
       show:
-        title: "Assignment Policy Details"
+        title: Assignment Policy Details
       create:
-        created: "Assignment policy created successfully."
+        created: Assignment policy created successfully.
       update:
-        updated: "Assignment policy updated successfully."
+        updated: Assignment policy updated successfully.
       destroy:
-        destroyed: "Assignment policy deleted."
+        destroyed: Assignment policy deleted.
       toggle:
-        activated: "Policy activated."
-        deactivated: "Policy deactivated."
+        activated: Policy activated.
+        deactivated: Policy deactivated.
       strategies:
-        round_robin: "Round Robin"
-        round_robin_desc: "Distribute conversations evenly across agents in rotating order."
-        round_robin_icon: "🔄"
-        load_balanced: "Load Balanced"
-        load_balanced_desc: "Assign to the agent with the fewest open conversations."
+        round_robin: Round Robin
+        round_robin_desc: Distribute conversations evenly across agents in rotating
+          order.
+        round_robin_icon: "\U0001F504"
+        load_balanced: Load Balanced
+        load_balanced_desc: Assign to the agent with the fewest open conversations.
         load_balanced_icon: "⚖️"
-        skills_based: "Skills Based"
-        skills_based_desc: "Route to the most qualified agent based on skill matching."
-        skills_based_icon: "🎯"
-        manual: "Manual"
-        manual_desc: "Agents pick up conversations from the queue themselves."
+        skills_based: Skills Based
+        skills_based_desc: Route to the most qualified agent based on skill matching.
+        skills_based_icon: "\U0001F3AF"
+        manual: Manual
+        manual_desc: Agents pick up conversations from the queue themselves.
         manual_icon: "✋"
       form:
-        details_section: "Policy Details"
-        strategy_section: "Assignment Strategy"
-        capacity_section: "Agent Capacity"
-        conditions_section: "Conditions"
-        inboxes_section: "Apply to Inboxes"
-        business_hours_section: "Business Hours"
-        options_section: "Options"
-        name_label: "Name"
-        name_placeholder: "e.g., VIP Customer Routing"
-        description_label: "Description"
-        description_placeholder: "Describe what this policy does..."
-        strategy_label: "Strategy"
-        max_conversations_label: "Max conversations per agent"
-        max_conversations_placeholder: "e.g., 10"
-        max_conversations_hint: "Leave empty for unlimited."
-        respect_business_hours: "Only assign during business hours"
-        business_hour_group_label: "Business Hour Schedule"
-        business_hour_group_prompt: "Select a schedule..."
-        reassign_on_offline: "Reassign when agent goes offline"
-        idle_timeout_label: "Idle timeout (minutes)"
-        idle_timeout_placeholder: "e.g., 30"
-        idle_timeout_hint: "Reassign after agent is idle for this many minutes."
-        prioritize_label: "Prioritize by conversation priority"
-        prioritize_hint: "Urgent conversations are assigned first."
-        select_inboxes: "Select inboxes this policy applies to"
-        all_inboxes_hint: "If no inboxes selected, policy will not apply to any inbox."
-        save: "Save Policy"
-        cancel: "Cancel"
+        details_section: Policy Details
+        strategy_section: Assignment Strategy
+        capacity_section: Agent Capacity
+        conditions_section: Conditions
+        inboxes_section: Apply to Inboxes
+        business_hours_section: Business Hours
+        options_section: Options
+        name_label: Name
+        name_placeholder: e.g., VIP Customer Routing
+        description_label: Description
+        description_placeholder: Describe what this policy does...
+        strategy_label: Strategy
+        max_conversations_label: Max conversations per agent
+        max_conversations_placeholder: e.g., 10
+        max_conversations_hint: Leave empty for unlimited.
+        respect_business_hours: Only assign during business hours
+        business_hour_group_label: Business Hour Schedule
+        business_hour_group_prompt: Select a schedule...
+        reassign_on_offline: Reassign when agent goes offline
+        idle_timeout_label: Idle timeout (minutes)
+        idle_timeout_placeholder: e.g., 30
+        idle_timeout_hint: Reassign after agent is idle for this many minutes.
+        prioritize_label: Prioritize by conversation priority
+        prioritize_hint: Urgent conversations are assigned first.
+        select_inboxes: Select inboxes this policy applies to
+        all_inboxes_hint: If no inboxes selected, policy will not apply to any inbox.
+        save: Save Policy
+        cancel: Cancel
       flags:
-        consider_agent_skills: "Consider agent skills when assigning"
-        allow_idle_reassignment: "Allow idle reassignment"
-        notify_on_assignment: "Notify agent on assignment"
-        notify_team_leads: "Notify team leads on assignment"
+        consider_agent_skills: Consider agent skills when assigning
+        allow_idle_reassignment: Allow idle reassignment
+        notify_on_assignment: Notify agent on assignment
+        notify_team_leads: Notify team leads on assignment
       status:
-        active: "Active"
-        inactive: "Inactive"
+        active: Active
+        inactive: Inactive
+    identity_sources:
+      sidebar:
+        label: Identity Sources
+      index:
+        title: Identity Sources
+        description: Configure external webhooks and APIs to fetch and verify customer
+          identities automatically.
+        create_button: Create Identity Source
+        delete_confirm: Are you sure you want to delete this identity source? This
+          action cannot be undone.
+        url_label: Endpoint URL
+        headers_label: Configured Headers
+        params_label: Configured Params
+        created: Created
+        ago: ago
+      new:
+        title: New Identity Source
+      edit:
+        title: Edit Identity Source
+      form:
+        back: "← Back to Identity Sources"
+        error_heading: 'Please fix the following %{count} errors:'
+        name: Name
+        name_placeholder: e.g., Internal CRM Verifier
+        description: Description
+        description_placeholder: What does this identity source do?
+        source_type: Source Type
+        source_url: Source URL
+        liquid_help: You can use dynamic variables like {{ customer.email }} in the
+          URL, headers, and params.
+        headers: Request Headers
+        add_header: "+ Add Header"
+        params: Request Parameters
+        add_param: "+ Add Parameter"
+        save: Save Identity Source
+        test_run: Test Connection
+      created: Identity source was successfully created.
+      updated: Identity source was successfully updated.
+      deleted: Identity source was successfully deleted.
+    web_widget_channels:
+      translations:
+        eg_welcome_title: e.g. Welcome!
+        eg_welcome_tagline: e.g. How can we help you?
+        eg_launcher_text: e.g. Chat with us
+        eg_reply_time_text: e.g. Typically replies in a few minutes
+        eg_pre_chat_title: e.g. Tell us about yourself
+        eg_pre_chat_subtitle: e.g. We will get back to you shortly.
+      index:
+        title: Web Widgets
+        description: Configure your website chat widgets, appearance, and routing
+          rules.
+        new_channel: New Web Widget
+        empty_title: No web widgets yet
+        empty_description: Create your first web widget to start chatting with your
+          website visitors.
+        inboxes_count:
+          one: "%{count} Inbox"
+          other: "%{count} Inboxes"
+        delete_confirm: Are you sure? This will permanently delete this web widget
+          and all associated inboxes.
+        created_ago: Created %{time} ago
+      new:
+        title: New Web Widget
+      edit:
+        title: Edit Web Widget
+      form:
+        back: "← Back to Web Widgets"
+        error_heading: 'Please fix the following errors:'
+        basic_section: Basic Details
+        appearance_section: Appearance & Branding
+        integrations_section: Module Integrations
+        behaviors_section: Widget Behaviors
+        name_label: Internal Name
+        name_placeholder: e.g., Marketing Site Widget
+        website_url_label: Website URL
+        website_url_placeholder: e.g., https://yourcompany.com
+        theme_color_label: Theme Color
+        welcome_title_label: Welcome Title
+        welcome_title_placeholder: "e.g., Hi there \U0001F44B"
+        welcome_tagline_label: Welcome Tagline
+        welcome_tagline_placeholder: e.g., We typically reply in a few minutes
+        position_label: Widget Position
+        position_bottom_right: Bottom Right
+        position_bottom_left: Bottom Left
+        hide_branding_label: Hide Deskbolic Branding
+        portal_label: Help Center Integration
+        contact_form_label: Contact Form Integration
+        anonymous_allowed_label: Allow Anonymous Messages
+        pre_chat_form_enabled_label: Require Pre-chat Form
+        save: Save Widget
+        update: Update Widget
+        cancel: Cancel
+      created: Web Widget was successfully created.
+      updated: Web Widget was successfully updated.
+      deleted: Web Widget was successfully deleted.
+    email_channels:
+      sidebar:
+        label: Email Channels
+      index:
+        title: Email Channels
+        description: Configure your email channels with custom SMTP, IMAP, and forwarding
+          settings.
+        new_channel: New Email Channel
+        empty_title: No email channels yet
+        empty_description: Create your first email channel to start receiving and
+          sending emails through your helpdesk.
+        smtp_configured: SMTP Active
+        smtp_not_configured: System SMTP
+        imap_configured: IMAP Active
+        imap_not_configured: IMAP Off
+        forwarding_verified: Verified
+        forwarding_pending: Pending
+        inboxes_count:
+          one: "%{count} Inbox"
+          other: "%{count} Inboxes"
+        delete_confirm: Are you sure? This will permanently delete this email channel
+          and all associated inboxes.
+        created_ago: Created %{time} ago
+      new:
+        title: New Email Channel
+      edit:
+        title: Edit Email Channel
+      form:
+        back: "← Back to Email Channels"
+        error_heading: 'Please fix the following errors:'
+        basic_section: Basic Details
+        smtp_section: SMTP Configuration
+        smtp_section_desc: Optional — provide custom SMTP credentials to send emails
+          from your own server.
+        imap_section: IMAP Configuration
+        imap_section_desc: Optional — fetch incoming emails directly from your mailbox.
+        name_label: Channel Name
+        name_placeholder: e.g., Customer Support
+        email_label: Email Address
+        email_placeholder: e.g., support@yourcompany.com
+        email_hint: The email address your customers see when you send them emails.
+        smtp_address: SMTP Server
+        smtp_address_placeholder: e.g., smtp.gmail.com
+        smtp_port: Port
+        smtp_port_placeholder: '587'
+        smtp_username: Username
+        smtp_username_placeholder: your-email@gmail.com
+        smtp_password: Password
+        smtp_password_placeholder: "••••••••"
+        smtp_domain: Domain
+        smtp_domain_placeholder: e.g., yourcompany.com
+        smtp_authentication: Authentication
+        smtp_starttls: Enable STARTTLS
+        imap_address: IMAP Server
+        imap_address_placeholder: e.g., imap.gmail.com
+        imap_port: Port
+        imap_port_placeholder: '993'
+        imap_username: Username
+        imap_username_placeholder: your-email@gmail.com
+        imap_password: Password
+        imap_password_placeholder: "••••••••"
+        imap_ssl: Enable SSL
+        test_smtp: Test SMTP
+        test_imap: Test IMAP
+        testing: Testing...
+        test_success: Connection successful!
+        test_failure: Connection failed
+        save: Save Channel
+        update: Update Channel
+        cancel: Cancel
+      forwarding:
+        title: Email Forwarding
+        description: Forward emails from your email provider to this address to start
+          receiving them in your helpdesk.
+        your_forwarding_address: Your forwarding address
+        copy: Copy
+        copied: Copied!
+        verify: Verify Forwarding
+        verifying: Sending verification...
+        verified: Forwarding verified ✓
+        not_verified: Not yet verified
+        instructions_title: How to set up forwarding
+        gmail_title: Gmail
+        gmail_step_1: Open Gmail → Settings → See all settings
+        gmail_step_2: Go to "Forwarding and POP/IMAP" tab
+        gmail_step_3: Click "Add a forwarding address" and paste the address above
+        gmail_step_4: Gmail will send a confirmation — approve it, then select "Forward
+          a copy"
+        outlook_title: Outlook
+        outlook_step_1: Open Outlook → Settings → Mail → Forwarding
+        outlook_step_2: Enable forwarding and paste the address above
+        outlook_step_3: Optionally keep a copy of forwarded messages
+        outlook_step_4: Click Save
+        yahoo_title: Yahoo
+        yahoo_step_1: Open Yahoo Mail → Settings → More Settings
+        yahoo_step_2: Go to "Mailboxes" → select your inbox
+        yahoo_step_3: Under "Forwarding", paste the address above
+        yahoo_step_4: Click Save
+        other_title: Other
+        other_step_1: Open your email provider's settings
+        other_step_2: Find the "Forwarding" or "Auto-forward" option
+        other_step_3: Add the forwarding address shown above
+        other_step_4: Save and confirm if required by your provider
+      created: Email channel created successfully.
+      updated: Email channel updated successfully.
+      destroyed: Email channel deleted successfully.
+      limit_reached: Channel limit reached for your current plan. Please upgrade to
+        add more channels.
     skills:
       sidebar:
-        label: "Skills"
+        label: Skills
       index:
-        title: "Skills"
-        description: "Define skills to match conversations with the right agents."
-        new_skill: "New Skill"
-        empty_title: "No skills defined yet"
-        empty_description: "Create skills like languages, products, or expertise areas to enable skills-based routing."
-        tab_all: "All"
-        tab_language: "Language"
-        tab_product: "Product"
-        tab_technical: "Technical"
-        tab_general: "General"
+        title: Skills
+        description: Define skills to match conversations with the right agents.
+        new_skill: New Skill
+        empty_title: No skills defined yet
+        empty_description: Create skills like languages, products, or expertise areas
+          to enable skills-based routing.
+        tab_all: All
+        tab_language: Language
+        tab_product: Product
+        tab_technical: Technical
+        tab_general: General
       create:
-        created: "Skill created successfully."
+        created: Skill created successfully.
       update:
-        updated: "Skill updated successfully."
+        updated: Skill updated successfully.
       destroy:
-        destroyed: "Skill deleted."
+        destroyed: Skill deleted.
       form:
-        name_label: "Name"
-        name_placeholder: "e.g., English, Billing, API Integration"
-        type_label: "Type"
-        description_label: "Description"
-        description_placeholder: "Describe this skill..."
-        save: "Save Skill"
-        cancel: "Cancel"
+        name_label: Name
+        name_placeholder: e.g., English, Billing, API Integration
+        type_label: Type
+        description_label: Description
+        description_placeholder: Describe this skill...
+        save: Save Skill
+        cancel: Cancel
       types:
-        language: "Language"
-        product: "Product"
-        technical: "Technical"
-        general: "General"
+        language: Language
+        product: Product
+        technical: Technical
+        general: General
       proficiency:
-        beginner: "Beginner"
-        intermediate: "Intermediate"
-        expert: "Expert"
+        beginner: Beginner
+        intermediate: Intermediate
+        expert: Expert
     macros:
       index:
-        title: "Macros"
-        description: "One-click actions to speed up your workflow."
-        new_macro: "New Macro"
-        empty_title: "No macros yet"
-        empty_description: "Create reusable macros to perform common actions with a single click."
-        tab_personal: "My Macros"
-        tab_shared: "Shared"
+        title: Macros
+        description: One-click actions to speed up your workflow.
+        new_macro: New Macro
+        empty_title: No macros yet
+        empty_description: Create reusable macros to perform common actions with a
+          single click.
+        tab_personal: My Macros
+        tab_shared: Shared
       new:
-        title: "New Macro"
+        title: New Macro
       edit:
-        title: "Edit Macro"
+        title: Edit Macro
       create:
-        created: "Macro created successfully."
+        created: Macro created successfully.
       update:
-        updated: "Macro updated successfully."
+        updated: Macro updated successfully.
       destroy:
-        destroyed: "Macro deleted."
+        destroyed: Macro deleted.
       execute:
-        executed: "Macro executed successfully."
+        executed: Macro executed successfully.
       scope:
-        personal: "Personal (only you)"
-        shared: "Shared (all agents)"
+        personal: Personal (only you)
+        shared: Shared (all agents)
     automation_executions:
       index:
-        title: "Execution Log"
-        description: "Review the history of automation executions."
-        empty_title: "No executions yet"
-        empty_description: "Execution logs will appear here once automations start running."
-        filter_all: "All"
-        filter_success: "Success"
-        filter_failed: "Failed"
-        filter_event: "Event"
-        filter_schedule: "Scheduled"
-        filter_manual: "Manual"
+        title: Execution Log
+        description: Review the history of automation executions.
+        empty_title: No executions yet
+        empty_description: Execution logs will appear here once automations start
+          running.
+        filter_all: All
+        filter_success: Success
+        filter_failed: Failed
+        filter_event: Event
+        filter_schedule: Scheduled
+        filter_manual: Manual
       statuses:
-        success: "Success"
-        failed: "Failed"
-        skipped: "Skipped"
+        success: Success
+        failed: Failed
+        skipped: Skipped
       triggered_by:
-        event: "Event"
-        schedule: "Scheduled"
-        manual: "Manual"
+        event: Event
+        schedule: Scheduled
+        manual: Manual
     domains:
       index:
-        title: "Domains"
-        add_custom_domain: "Add Custom Domain"
+        title: Domains
+        add_custom_domain: Add Custom Domain
         system_subdomain:
-          title: "System Subdomain"
-          description: "Your free helpbolic.com subdomain — auto-generated for your help center."
-          empty: "No subdomain configured yet. Create a help center portal to auto-generate one."
-          active: "Active"
-          ssl_active: "SSL Active"
-          portal_label: "Portal: %{name}"
-          no_portal: "No Portal Attached"
+          title: System Subdomain
+          description: Your free helpbolic.com subdomain — auto-generated for your
+            help center.
+          empty: No subdomain configured yet. Create a help center portal to auto-generate
+            one.
+          active: Active
+          ssl_active: SSL Active
+          portal_label: 'Portal: %{name}'
+          no_portal: No Portal Attached
         custom_domains:
-          title: "Custom Domains"
-          description: "Add your own domain name (e.g., support.mycompany.com) and point it to our servers."
-          empty_title: "No custom domains added yet."
-          empty_description: "Custom domains let you serve your help center on your own domain (e.g., support.mycompany.com)."
-          add_first: "Add your first custom domain"
-          unattached: "Unattached"
+          title: Custom Domains
+          description: Add your own domain name (e.g., support.mycompany.com) and
+            point it to our servers.
+          empty_title: No custom domains added yet.
+          empty_description: Custom domains let you serve your help center on your
+            own domain (e.g., support.mycompany.com).
+          add_first: Add your first custom domain
+          unattached: Unattached
         table:
-          domain: "Domain"
-          dns_status: "DNS Status"
-          ssl_status: "SSL Status"
-          portal: "Portal"
-          actions: "Actions"
+          domain: Domain
+          dns_status: DNS Status
+          ssl_status: SSL Status
+          portal: Portal
+          actions: Actions
         cname_instructions:
-          title: "How to set up a custom domain"
-          step_1_title: "Add your domain"
-          step_1_desc: "Enter your custom domain name (e.g., support.mycompany.com) using the button above."
-          step_2_title: "Configure DNS"
-          step_2_desc: "Go to your DNS provider and create a CNAME record:"
-          step_3_title: "Verify & SSL"
-          step_3_desc: "Click \"Verify DNS\" once your record propagates (up to 48 hours). SSL will be provisioned automatically after verification."
-          cname_type: "Type"
-          cname_host: "Host"
-          cname_host_value: "your-subdomain"
-          cname_target: "Points to"
+          title: How to set up a custom domain
+          step_1_title: Add your domain
+          step_1_desc: Enter your custom domain name (e.g., support.mycompany.com)
+            using the button above.
+          step_2_title: Configure DNS
+          step_2_desc: 'Go to your DNS provider and create a CNAME record:'
+          step_3_title: Verify & SSL
+          step_3_desc: Click "Verify DNS" once your record propagates (up to 48 hours).
+            SSL will be provisioned automatically after verification.
+          cname_type: Type
+          cname_host: Host
+          cname_host_value: your-subdomain
+          cname_target: Points to
       new:
-        title: "Add Custom Domain"
+        title: Add Custom Domain
         back: "← Back to Domains"
-        section_title: "Domain Details"
-        name_label: "Display Name"
-        name_placeholder: "e.g., Main Support Portal"
-        name_hint: "A friendly label for this domain (optional)."
-        value_label: "Domain Name"
-        value_placeholder: "e.g., support.mycompany.com"
-        value_hint: "Enter the full domain name you want to use. This cannot be changed after creation."
-        after_adding_title: "After adding this domain"
-        after_adding_desc: "You will need to create a CNAME record at your DNS provider:"
-        after_adding_note: "DNS propagation can take up to 48 hours. Once configured, click \"Verify DNS\" on the domains page."
+        section_title: Domain Details
+        name_label: Display Name
+        name_placeholder: e.g., Main Support Portal
+        name_hint: A friendly label for this domain (optional).
+        value_label: Domain Name
+        value_placeholder: e.g., support.mycompany.com
+        value_hint: Enter the full domain name you want to use. This cannot be changed
+          after creation.
+        after_adding_title: After adding this domain
+        after_adding_desc: 'You will need to create a CNAME record at your DNS provider:'
+        after_adding_note: DNS propagation can take up to 48 hours. Once configured,
+          click "Verify DNS" on the domains page.
         cname_host_value: "[your subdomain]"
-        submit: "Add Domain"
-        cancel: "Cancel"
+        submit: Add Domain
+        cancel: Cancel
       edit:
-        title: "Edit Domain"
+        title: Edit Domain
         back: "← Back to Domains"
-        section_title: "Domain Settings"
-        name_label: "Display Name"
-        name_placeholder: "e.g., Main Support Portal"
-        name_hint: "A friendly label for this domain."
-        submit: "Save Changes"
-        cancel: "Cancel"
+        section_title: Domain Settings
+        name_label: Display Name
+        name_placeholder: e.g., Main Support Portal
+        name_hint: A friendly label for this domain.
+        submit: Save Changes
+        cancel: Cancel
         status_labels:
-          domain: "Domain"
-          type: "Type"
-          dns_status: "DNS Status"
-          ssl_status: "SSL Status"
-          dns_verified_at: "DNS Verified At"
-          ssl_expires_at: "SSL Expires At"
-          last_checked: "Last Checked"
-          attached_portal: "Attached Portal"
+          domain: Domain
+          type: Type
+          dns_status: DNS Status
+          ssl_status: SSL Status
+          dns_verified_at: DNS Verified At
+          ssl_expires_at: SSL Expires At
+          last_checked: Last Checked
+          attached_portal: Attached Portal
           ago: "%{time} ago"
-        dns_config_title: "DNS Configuration Required"
-        dns_config_desc: "Point your domain to our servers by adding this CNAME record:"
-        verify_now: "Verify DNS Now"
+        dns_config_title: DNS Configuration Required
+        dns_config_desc: 'Point your domain to our servers by adding this CNAME record:'
+        verify_now: Verify DNS Now
       create:
-        success: "Domain created successfully."
+        success: Domain created successfully.
       update:
-        success: "Domain updated successfully."
+        success: Domain updated successfully.
       destroy:
-        success: "Domain deleted successfully."
-        portal_attached: "Cannot delete a domain that is attached to a portal. Detach it first."
+        success: Domain deleted successfully.
+        portal_attached: Cannot delete a domain that is attached to a portal. Detach
+          it first.
       verify_dns:
-        success: "DNS verified successfully! SSL certificate provisioning has started."
-        failure: "DNS verification failed. Please ensure your CNAME record points to %{target} and try again."
+        success: DNS verified successfully! SSL certificate provisioning has started.
+        failure: DNS verification failed. Please ensure your CNAME record points to
+          %{target} and try again.
       errors:
-        fix_errors: "Please fix the following errors:"
+        fix_errors: 'Please fix the following errors:'
       dns_status_badge:
-        dns_verified: "DNS Verified"
-        dns_pending: "DNS Pending"
-        dns_failed: "DNS Failed"
-        dns_unverified: "DNS Unverified"
+        dns_verified: DNS Verified
+        dns_pending: DNS Pending
+        dns_failed: DNS Failed
+        dns_unverified: DNS Unverified
       ssl_status_badge:
-        ssl_active: "SSL Active"
-        ssl_pending: "SSL Pending"
-        ssl_expired: "SSL Expired"
-        ssl_failed: "SSL Failed"
-        ssl_none: "No SSL"
+        ssl_active: SSL Active
+        ssl_pending: SSL Pending
+        ssl_expired: SSL Expired
+        ssl_failed: SSL Failed
+        ssl_none: No SSL
       sidebar:
-        label: "Domains"
+        label: Domains
     email_templates:
       index:
-        title: "Email Templates"
-        subtitle: "Customize your outgoing email templates with the drag & drop builder."
-        tab_templates: "Templates"
-        tab_layouts: "Layouts"
-        badge_draft: "Draft"
-        badge_active: "Active"
-        badge_inactive: "Inactive"
-        default_description: "Customize this email template to match your brand."
-        last_modified: "Modified %{time} ago"
-        edit_design: "Edit Design"
-        empty_title: "No email templates"
-        empty_description: "Email templates will be created when you set up your account."
+        title: Email Templates
+        subtitle: Customize your outgoing email templates with the drag & drop builder.
+        tab_templates: Templates
+        tab_layouts: Layouts
+        badge_draft: Draft
+        badge_active: Active
+        badge_inactive: Inactive
+        default_description: Customize this email template to match your brand.
+        last_modified: Modified %{time} ago
+        edit_design: Edit Design
+        empty_title: No email templates
+        empty_description: Email templates will be created when you set up your account.
       sidebar:
-        label: "Email Templates"
+        label: Email Templates
     email_template_layouts:
       index:
-        title: "Email Layouts"
-        subtitle: "Layouts wrap around your templates providing consistent headers and footers."
-        tab_templates: "Templates"
-        tab_layouts: "Layouts"
-        badge_draft: "Draft"
-        layout_description: "Shared layout with header, content area, and footer."
-        last_modified: "Modified %{time} ago"
-        edit_design: "Edit Design"
-        empty_title: "No layouts"
-        empty_description: "No email layouts have been created yet."
+        title: Email Layouts
+        subtitle: Layouts wrap around your templates providing consistent headers
+          and footers.
+        tab_templates: Templates
+        tab_layouts: Layouts
+        badge_draft: Draft
+        layout_description: Shared layout with header, content area, and footer.
+        last_modified: Modified %{time} ago
+        edit_design: Edit Design
+        empty_title: No layouts
+        empty_description: No email layouts have been created yet.
     email_builder:
-      # Editor toolbar
-      draft: "Draft"
-      locale: "Locale"
-      layout: "Layout"
-      no_layout: "No Layout"
-      preview: "Preview"
-      send_test: "Send Test"
-      save_draft: "Save Draft"
-      saving: "Saving..."
-      publish: "Publish"
-      discard: "Discard"
-      # Sidebar tabs
-      blocks: "Blocks"
-      styles: "Styles"
-      variables: "Variables"
-      # Modal
-      email_preview: "Email Preview"
-      layout_preview: "Layout Preview"
-      # Toast messages
-      draft_saved: "Draft saved successfully."
-      published: "Template published. Live emails now use this design."
-      draft_discarded: "Draft changes discarded."
-      locale_copied: "Content copied from %{from} to %{to}. Save to keep changes."
-      copy_from: "Copy from %{from_locale}"
-      copy_locale: "Copy Locale"
-      test_prefix: "TEST"
-      test_sent: "Test email sent to %{email}."
-      # Template descriptions
+      draft: Draft
+      locale: Locale
+      layout: Layout
+      no_layout: No Layout
+      preview: Preview
+      send_test: Send Test
+      save_draft: Save Draft
+      saving: Saving...
+      publish: Publish
+      discard: Discard
+      blocks: Blocks
+      styles: Styles
+      variables: Variables
+      email_preview: Email Preview
+      layout_preview: Layout Preview
+      draft_saved: Draft saved successfully.
+      published: Template published. Live emails now use this design.
+      draft_discarded: Draft changes discarded.
+      locale_copied: Content copied from %{from} to %{to}. Save to keep changes.
+      copy_from: Copy from %{from_locale}
+      copy_locale: Copy Locale
+      test_prefix: TEST
+      test_sent: Test email sent to %{email}.
       template_descriptions:
-        conversation_reply: "Sent to customers when an agent replies to their conversation."
-        agent_notification: "Notification sent to agents about new events and assignments."
-        welcome_email: "Welcome email sent to newly registered users."
-        password_reset: "Password reset instructions sent to users."
-        email_verification: "Email address verification for new accounts."
-        team_invitation: "Invitation email sent when adding new team members."
-      # Sample data for preview
+        conversation_reply: Sent to customers when an agent replies to their conversation.
+        agent_notification: Notification sent to agents about new events and assignments.
+        welcome_email: Welcome email sent to newly registered users.
+        password_reset: Password reset instructions sent to users.
+        email_verification: Email address verification for new accounts.
+        team_invitation: Invitation email sent when adding new team members.
       sample:
-        message_content: "Thank you for reaching out! We've reviewed your request and have a solution for you. Please follow the steps below and let us know if you need further assistance."
-        conversation_subject: "Help with my account"
-        event_title: "New conversation assigned"
-        event_description: "A new conversation has been assigned to you in the Support inbox."
+        message_content: Thank you for reaching out! We've reviewed your request and
+          have a solution for you. Please follow the steps below and let us know if
+          you need further assistance.
+        conversation_subject: Help with my account
+        event_title: New conversation assigned
+        event_description: A new conversation has been assigned to you in the Support
+          inbox.
+    contact_form_channels:
+      index:
+        title: Contact Forms
+        subtitle: Manage embeddable contact forms for your portals and websites.
+        new_button: New Contact Form
+        edit: Settings
+        delete: Delete
+        confirm_delete: Are you sure you want to delete this form?
+        empty_title: No contact forms found
+        empty_subtitle: Create your first contact form to start receiving tickets.
+      new:
+        title: New Contact Form
+      edit:
+        title: Edit Contact Form
+      form:
+        error_heading: 'Please review the problems below:'
+        basic_section: Basic Details
+        name_label: Form Name
+        name_placeholder: e.g. Website Support Form
+        redirect_url_label: Redirect URL After Submit
+        redirect_url_placeholder: https://yourwebsite.com/thank-you
+        appearance_section: Appearance & Branding
+        theme_color_label: Theme Color
+        position_label: Layout Position
+        fields_section: Form Fields
+        behaviors_section: Behaviors & Spam Protection
+        require_login_label: Require Login to Submit
+        allow_attachments_label: Allow Attachments
+        send_confirmation_email_label: Send Confirmation Email to Customer
+        spam_protection_enabled_label: Enable Spam Protection (reCAPTCHA)
+        update: Update Contact Form
+        save: Create Contact Form
+        cancel: Cancel
+        required_label: "Required"
+        full_width: "Full Width"
+        half_width: "Half Width"
+        available_customer_fields: "Available Customer Fields"
+        available_conversation_fields: "Available Conversation Fields"
+        customer_field: "Customer Field"
+        conversation_field: "Conversation Field"
+        mapped_to: "Mapped to: %{mapped_to}"
+        entity_field: "%{entity_type} Field"

@@ -104,3 +104,21 @@ application.register("registration-wizard", RegistrationWizardController)
 
 import PasswordStrengthController from "./password_strength_controller"
 application.register("password-strength", PasswordStrengthController)
+
+import ContactFormChannelController from "./contact_form_channel_controller"
+application.register("contact-form-channel", ContactFormChannelController)
+
+import ContactFormTranslationsController from "./contact_form_translations_controller"
+application.register("contact-form-translations", ContactFormTranslationsController)
+
+import CustomFieldTranslationsController from "./custom_field_translations_controller"
+application.register("custom-field-translations", CustomFieldTranslationsController)
+
+import CustomFieldValidationsController from "./custom_field_validations_controller"
+application.register("custom-field-validations", CustomFieldValidationsController)
+
+import CustomFieldBuilderController from "./custom_field_builder_controller"
+application.register("custom-field-builder", CustomFieldBuilderController)
+
+import CustomFieldFormController from "./custom_field_form_controller"
+application.register("custom-field-form", CustomFieldFormController)

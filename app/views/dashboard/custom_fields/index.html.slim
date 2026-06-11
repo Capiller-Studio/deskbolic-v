@@ -1,47 +1,49 @@
 = render("dashboard/shared/dashboard_container", current_page: "settings") do
-  .cf-index-header
-    .cf-title-area
-      h2.f-semi-32 style="color: #0f172a; letter-spacing: -0.5px;" Custom Fields
-      p.f-reg-16 style="color: #64748b; margin-top: 4px;" Master data attributes for personalized customer experiences.
-    = link_to new_custom_field_path, class: "cf-btn-primary cf-flex-center"
-      | + Create New Field
+  = render("dashboard/settings/settings_sidebar", current_page: "custom-fields") do
+    .ec-index-header
+      .ec-title-area
+        h1.f-semi-32 Custom Fields
+        p.f-reg-16.text-muted Master data attributes for personalized customer experiences.
+      = link_to new_custom_field_path, class: "ec-btn-primary"
+        | + Create New Field
 
-  .cf-grid-3
-    - @custom_fields.each do |field|
-      .cf-field-card
-        .cf-card-header
-          .cf-key-area
-            span.f-semi-18 style="color: #1e293b; display: block;" = field.key
-            span.cf-badge = field.entity_type.titleize
-          .cf-card-actions
-            = link_to edit_custom_field_path(field), class: "cf-card-action-link"
-              = inline_svg_tag("edit.svg", style: "width: 18px;")
-            = link_to custom_field_path(field), method: :delete, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, class: "cf-card-action-link"
-              = inline_svg_tag("trash.svg", style: "width: 18px;")
-        
-        .cf-card-body
-          .cf-info-row
-            span.f-reg-13 style="color: #64748b;" Input Type
-            span.f-semi-13 style="color: #1e293b;" = field.field_type.titleize
-          
-          .cf-info-row
-            span.f-reg-13 style="color: #64748b;" Required
-            - if field.required?
-              span.cf-badge-red Yes
-            - else
-              span.f-reg-13 style="color: #94a3b8;" No
+    .ec-list
+      - if @custom_fields.any?
+        - @custom_fields.each do |field|
+          div.ec-card
+            .ec-card-top
+              .ec-card-info
+                h3.f-semi-16 = field.key
+                p.f-reg-13.text-muted style="margin-top: 4px;" = field.entity_type.titleize
+              .ec-card-actions
+                = link_to edit_custom_field_path(field), class: "ec-action-btn", title: "Edit"
+                  | ✏️
+                = link_to custom_field_path(field), method: :delete, class: "ec-action-btn ec-action-delete", data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, title: "Delete"
+                  | 🗑️
 
-          .cf-info-row
-            span.f-reg-13 style="color: #64748b;" Searchable
-            - if field.searchable?
-              span.cf-badge-green Yes
-            - else
-              span.f-reg-13 style="color: #94a3b8;" No
+            .ec-card-meta
+              .ec-meta-tag
+                span.ec-meta-tag-icon 📝
+                span Input Type: #{field.field_type.titleize}
+              - if field.required?
+                .ec-badge style="background: #fee2e2; color: #991b1b;"
+                  span Required
+              - if field.searchable?
+                .ec-badge style="background: #dcfce7; color: #166534;"
+                  span Searchable
+              
+              .ec-meta-tag
+                span.ec-meta-tag-icon 🕐
+                span Created #{time_ago_in_words(field.created_at)} ago
 
-        .cf-card-footer
-          span.f-reg-12 style="color: #94a3b8;" 
-            | Created #{time_ago_in_words(field.created_at)} ago
-          - if field.translations.any?
-            .cf-locales-container
-              - field.translations.pluck(:locale).each do |locale|
-                span.cf-locale-badge = locale
+            - if field.translations.any?
+              .ec-forward-row style="margin-top: 12px; display: flex; gap: 8px;"
+                span.ec-forward-label Locales:
+                - field.translations.pluck(:locale).each do |locale|
+                  span style="background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: 600; color: #475569;" = locale.upcase
+      - else
+        .ec-empty-state
+          h3.f-semi-18 No Custom Fields found
+          p.f-reg-14.text-muted Create your first custom field to start tracking rich customer data.
+          = link_to new_custom_field_path, class: "ec-btn-primary"
+            | + Create New Field

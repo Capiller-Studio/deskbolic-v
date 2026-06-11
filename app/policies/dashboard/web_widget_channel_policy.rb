@@ -3,7 +3,7 @@
 module Dashboard
   class WebWidgetChannelPolicy < ApplicationPolicy
     def index?
-      authorized?("inboxes.read")
+      authorized?("inboxes.read", feature: "channels.web_widget")
     end
 
     def new?
@@ -11,7 +11,7 @@ module Dashboard
     end
 
     def create?
-      authorized?("inboxes.write")
+      authorized?("inboxes.write", feature: "channels.web_widget")
     end
 
     def edit?
@@ -19,11 +19,11 @@ module Dashboard
     end
 
     def update?
-      authorized?("inboxes.write")
+      authorized?("inboxes.write", feature: "channels.web_widget")
     end
 
     def destroy?
-      authorized?("inboxes.delete")
+      authorized?("inboxes.delete", feature: "channels.web_widget")
     end
   end
 end

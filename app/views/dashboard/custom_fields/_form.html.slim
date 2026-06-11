@@ -1,88 +1,122 @@
-= form_with(model: custom_field, local: true, class: "settings-form form-fields") do |f|
-  .card.form-card.cf-card
-    .form-section.cf-section
-      h3.f-semi-18.cf-section-title Basic Configuration
-      
-      .cf-grid
-        .form-group
-          = f.label :key, "Field Key", class: "cf-label"
-          = f.text_field :key, class: "cf-input", placeholder: "e.g. company_size", disabled: custom_field.persisted?
-          p.f-reg-12.text-muted.cf-hint-text The unique identifier for this field.
+= form_with(model: custom_field, local: true, class: "settings-form form-fields", data: { controller: "custom-field-form" }) do |f|
+  - is_system = custom_field.system_provided?
+  - if custom_field.errors.any?
+    .ec-error-summary
+      h3 = t("dashboard.custom_fields.form.error_heading", default: "Please fix the following errors:")
+      ul
+        - custom_field.errors.full_messages.each do |message|
+          li = message
 
-        .form-group
-          = f.label :entity_type, "Belongs To", class: "cf-label"
-          = f.select :entity_type, CustomField.entity_types.keys.map { |k| [k.titleize, k] }, {}, class: "cf-select"
-
-        .form-group style="grid-column: span 2;"
-          = f.label :field_type, "Input Type", class: "cf-label"
-          = f.select :field_type, CustomField.field_types.keys.map { |k| [k.titleize, k] }, {}, class: "cf-select cf-half-select", id: "custom_field_field_type_select", data: { action: "change->custom-field-options#checkFieldType" }
-
-    / Localized Content with Tabs
-    .form-section.cf-section
-      h3.f-semi-18.cf-section-title Localized Content
-      
-      .cf-tabs-container data-controller="locale-tabs"
-        .cf-tabs-header
-          - ["en", "fr", "es", "de"].each_with_index do |locale, idx|
-            button type="button" class="cf-tab-link #{idx == 0 ? 'active' : ''}" data-locale-tabs-target="tab" data-locale="#{locale}" data-action="click->locale-tabs#switch"
-              = locale.upcase
-
-        .cf-tabs-content
-          - ["en", "fr", "es", "de"].each_with_index do |locale, idx|
-            .cf-tab-panel class="#{idx == 0 ? '' : 'cf-hidden'}" data-locale-tabs-target="panel" data-locale="#{locale}"
-              - translation = custom_field.translations.detect { |t| t.locale.to_s == locale } || custom_field.translations.build(locale: locale)
-              = f.fields_for :translations, translation do |tf|
-                = tf.hidden_field :locale, value: locale
-                - trans_idx = tf.index
-                
-                .cf-grid
-                  .form-group
-                    = tf.label :label, "Field Label (#{locale.upcase})", class: "cf-label"
-                    = tf.text_field :label, class: "cf-input", placeholder: "e.g. Company Size"
-
-                  .form-group
-                    = tf.label :placeholder, "Placeholder (#{locale.upcase})", class: "cf-label"
-                    = tf.text_field :placeholder, class: "cf-input", placeholder: "e.g. 1-10 employees"
-
-                / Options Management (Stimulus handles visibility)
-                .cf-options-section data-controller="custom-field-options" class="cf-hidden"
-                  .cf-options-header
-                    h4.f-semi-14.cf-options-title Dropdown Options
-                    button type="button" data-action="click->custom-field-options#addOption" class="cf-btn-secondary cf-btn-small"
-                      | + Add Option
-
-                  .options-container data-custom-field-options-target="container"
-                    - (tf.object.options || []).each_with_index do |opt, opt_idx|
-                      .cf-option-row
-                        = text_field_tag "custom_field[translations_attributes][#{trans_idx}][options][#{opt_idx}][value]", opt["value"], placeholder: "Value", class: "cf-input"
-                        = text_field_tag "custom_field[translations_attributes][#{trans_idx}][options][#{opt_idx}][label]", opt["label"], placeholder: "Label", class: "cf-input"
-                        button type="button" data-action="click->custom-field-options#removeOption" class="cf-btn-icon"
-                          = inline_svg_tag("trash.svg", class: "cf-icon-18")
-
-                  template data-custom-field-options-target="template"
-                    .cf-option-row
-                      = text_field_tag "custom_field[translations_attributes][#{trans_idx}][options][NEW_RECORD][value]", nil, placeholder: "Value", class: "cf-input"
-                      = text_field_tag "custom_field[translations_attributes][#{trans_idx}][options][NEW_RECORD][label]", nil, placeholder: "Label", class: "cf-input"
-                      button type="button" data-action="click->custom-field-options#removeOption" class="cf-btn-icon"
-                        = inline_svg_tag("trash.svg", class: "cf-icon-18")
-
-    / Validations & Advanced Config
-    .form-section.cf-section
-      h3.f-semi-18.cf-section-title Validations & Rules
-      
-      .cf-grid-3
-        .form-group
-          = f.label :validations_min_length, "Min Length", class: "cf-label"
-          = text_field_tag "custom_field[validations][min_length]", custom_field.validations["min_length"], class: "cf-input", type: "number"
+  .ec-section.ec-section--always-open
+    .ec-section-header
+      .ec-section-title
+        span.ec-section-icon ⚙️
+        span.ec-section-label Basic Configuration
+    .ec-section-body
+      .ec-form-row
+        div
+          = f.label :key, "Field Key", class: "ec-label"
+          = f.text_field :key, class: "ec-input", placeholder: "e.g. company_size", disabled: custom_field.persisted?
+          p.f-reg-12.text-muted style="margin-top: 4px;" The unique identifier for this field.
         
-        .form-group
-          = f.label :validations_max_length, "Max Length", class: "cf-label"
-          = text_field_tag "custom_field[validations][max_length]", custom_field.validations["max_length"], class: "cf-input", type: "number"
+        div
+          = f.label :entity_type, "Record Type", class: "ec-label"
+          = f.select :entity_type, CustomField.entity_types.keys.map { |k| [k.titleize, k] }, {}, class: "ec-select", disabled: custom_field.persisted?, data: { "custom-field-form-target": "entityType", action: "change->custom-field-form#filterMappings" }
 
-        .form-group
-          = f.label :validations_pattern, "Regex Pattern", class: "cf-label"
-          = text_field_tag "custom_field[validations][pattern]", custom_field.validations["pattern"], class: "cf-input", placeholder: "^[A-Z]"
+      .ec-form-row style="margin-top: 16px;"
+        div
+          = f.label :field_type, "Input Type", class: "ec-label"
+          = f.select :field_type, CustomField.field_types.keys.map { |k| [k.titleize, k] }, {}, class: "ec-select", id: "custom_field_field_type_select", data: { action: "change->custom-field-options#checkFieldType" }, disabled: custom_field.persisted?
+        div
+          = f.label :mapped_to, "Resource Mapping", class: "ec-label"
+          = f.select :mapped_to, CustomField::MAPPING_TARGETS.map { |k| [k, k] }, { include_blank: "Not Mapped" }, class: "ec-select", disabled: custom_field.persisted?, data: { "custom-field-form-target": "mappedTo" }
+          p.f-reg-12.text-muted style="margin-top: 4px;" Map this field's value to a core Deskbolic attribute.
 
-    .cf-actions
-      = link_to "Cancel", custom_fields_path, class: "cf-btn-secondary"
-      = f.submit "Save Custom Field", class: "cf-btn-primary"
+      .ec-form-row style="margin-top: 16px;"
+        div
+          = f.label :default_value, "Default Value", class: "ec-label"
+          = f.text_field :default_value, class: "ec-input", placeholder: "Optional default value..."
+        div
+
+  .ec-section.ec-section--always-open
+    .ec-section-header
+      .ec-section-title
+        span.ec-section-icon 🌐
+        span.ec-section-label Localized Content
+    .ec-section-body
+      div data-controller="custom-field-translations"
+        p.text-muted style="margin-bottom: 16px; font-size: 13px;" Provide localized strings for your custom field. These will override the default locale based on the customer's browser.
+        
+        .cf-translations-container data-custom-field-translations-target="container"
+          = f.fields_for :translations do |tf|
+            = render "dashboard/custom_fields/translation_fields", f: tf
+
+        template data-custom-field-translations-target="template"
+          = f.fields_for :translations, CustomFieldTranslation.new, child_index: 'NEW_RECORD' do |tf|
+            = render "dashboard/custom_fields/translation_fields", f: tf
+        
+        - current_locales = custom_field.translations.reject(&:marked_for_destruction?).map(&:locale).map(&:to_s)
+        - available_locales = Core::SUPPORTED_LOCALES.map(&:to_s) - current_locales
+        - available_locales_options = available_locales.map { |l| [I18n.t("languages.#{l.downcase}", default: l.upcase), l] }
+        
+        .cf-add-locale-wrapper style="margin-top: 16px; display: flex; gap: 8px; align-items: center;"
+          = select_tag "new_locale", options_for_select(available_locales_options), include_blank: "Select Language...", class: "ec-select", data: { "custom-field-translations-target": "localeSelect" }, style: "width: 200px;"
+          button.ec-btn-secondary type="button" data-action="click->custom-field-translations#addTranslation" style="display: inline-flex; align-items: center; gap: 6px;" 
+            span +
+            | Add Language
+
+  .ec-section.ec-section--always-open
+    .ec-section-header
+      .ec-section-title
+        span.ec-section-icon 🛡️
+        span.ec-section-label Validations & Rules
+    .ec-section-body
+      .ec-toggle-row style="margin-bottom: 12px; display: flex; gap: 24px; flex-wrap: wrap;"
+        div style="display: flex; align-items: center; gap: 8px;"
+          span.ec-toggle-label Field is Required
+          label.ec-toggle
+            = f.check_box :required
+            span.ec-toggle-slider
+            
+        div style="display: flex; align-items: center; gap: 8px;"
+          span.ec-toggle-label Searchable
+          label.ec-toggle
+            = f.check_box :searchable
+            span.ec-toggle-slider
+
+        div style="display: flex; align-items: center; gap: 8px;"
+          span.ec-toggle-label Read-Only (Agents cannot edit)
+          label.ec-toggle
+            = f.check_box :is_readonly
+            span.ec-toggle-slider
+
+        div style="display: flex; align-items: center; gap: 8px;"
+          span.ec-toggle-label Hidden from UI
+          label.ec-toggle
+            = f.check_box :hidden
+            span.ec-toggle-slider
+
+      .ec-form-row style="margin-top: 16px;" data-controller="custom-field-validations"
+        div data-custom-field-validations-target="textGroup"
+          = f.label :validations_min_length, "Min Length", class: "ec-label"
+          = text_field_tag "custom_field[validations][min_length]", custom_field.validations["min_length"], class: "ec-input", type: "number"
+        
+        div data-custom-field-validations-target="textGroup"
+          = f.label :validations_max_length, "Max Length", class: "ec-label"
+          = text_field_tag "custom_field[validations][max_length]", custom_field.validations["max_length"], class: "ec-input", type: "number"
+
+        div data-custom-field-validations-target="textGroup"
+          = f.label :validations_pattern, "Regex Pattern", class: "ec-label"
+          = text_field_tag "custom_field[validations][pattern]", custom_field.validations["pattern"], class: "ec-input", placeholder: "^[A-Z]"
+
+        div data-custom-field-validations-target="numberGroup" style="display: none;"
+          = f.label :validations_min_value, "Min Value", class: "ec-label"
+          = text_field_tag "custom_field[validations][min_value]", custom_field.validations["min_value"], class: "ec-input", type: "number"
+        
+        div data-custom-field-validations-target="numberGroup" style="display: none;"
+          = f.label :validations_max_value, "Max Value", class: "ec-label"
+          = text_field_tag "custom_field[validations][max_value]", custom_field.validations["max_value"], class: "ec-input", type: "number"
+
+  .ec-form-actions style="margin-top: 24px;"
+    = f.submit "Save Custom Field", class: "ec-btn-primary"
+    = link_to "Cancel", custom_fields_path, class: "ec-btn-secondary"

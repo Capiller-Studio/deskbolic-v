@@ -192,6 +192,7 @@ Rails.application.routes.draw do
     end
     
     resources :web_widget_channels, except: [:show]
+    resources :contact_form_channels, except: [:show]
     
     resources :custom_fields
 

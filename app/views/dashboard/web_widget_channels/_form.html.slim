@@ -88,7 +88,7 @@
       .ec-toggle-row style="margin-top: 24px; position: relative;"
         span.ec-toggle-label Custom Branding
         label.ec-toggle
-          - if current_account.custom_branding_enabled?
+          - if current_account.feature_enabled?(:custom_branding)
             = hidden_field_tag "web_widget_channel[custom_branding]", "0"
             = check_box_tag "web_widget_channel[custom_branding]", "1", web_widget_channel.custom_branding, data: { action: "change->web-widget-channel#toggleCustomBranding" }
             span.ec-toggle-slider
@@ -97,7 +97,7 @@
             span.ec-toggle-slider style="background-color: #e2e8f0; cursor: not-allowed;"
             span style="font-size: 11px; color: #ef4444; margin-left: 8px; position: absolute; right: -100px; top: 2px;" 🔒 Upgrade Plan
 
-      - if current_account.custom_branding_enabled?
+      - if current_account.feature_enabled?(:custom_branding)
         .custom-branding-fields data-web-widget-channel-target="customBrandingFields" style="display: #{web_widget_channel.custom_branding ? 'block' : 'none'}; padding-top: 8px;"
           .ec-form-row style="margin-top: 16px; display: flex; gap: 16px;"
             div style="flex: 1;"

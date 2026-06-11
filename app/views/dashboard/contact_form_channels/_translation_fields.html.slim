@@ -1,0 +1,23 @@
+.ww-translation-card style="background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin-bottom: 16px; position: relative;"
+  .ww-translation-header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;"
+    div style="display: flex; align-items: center; gap: 8px;"
+      span.f-semi-14 = I18n.t("languages.#{f.object.locale.to_s.downcase}", default: f.object.locale.to_s.upcase)
+      = f.hidden_field :locale
+    button.ec-btn-secondary.ec-btn-sm type="button" data-action="click->contact-form-translations#removeTranslation" Remove
+    = f.hidden_field :_destroy, class: "destroy-flag"
+
+  .ec-form-row
+    div
+      = f.label :title, "Form Title", class: "ec-label"
+      = f.text_field :title, class: "ec-input", placeholder: "e.g. Contact Support"
+    div
+      = f.label :subtitle, "Form Subtitle", class: "ec-label"
+      = f.text_field :subtitle, class: "ec-input", placeholder: "e.g. We will reply as soon as possible"
+      
+  .ec-form-row style="margin-top: 16px;"
+    div
+      = f.label :success_message, "Success Message", class: "ec-label"
+      = f.text_area :success_message, class: "ec-input ec-textarea", rows: 2, placeholder: "e.g. Thanks for reaching out! We've received your message."
+    div
+      = f.label :submit_button_text, "Submit Button Text", class: "ec-label"
+      = f.text_field :submit_button_text, class: "ec-input", placeholder: "e.g. Send Message"

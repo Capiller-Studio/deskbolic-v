@@ -1,0 +1,229 @@
+- url = contact_form_channel.persisted? ? contact_form_channel_path(contact_form_channel) : contact_form_channels_path
+- method = contact_form_channel.persisted? ? :patch : :post
+
+= form_with(model: contact_form_channel, scope: :contact_form_channel, url: url, method: method, data: { controller: "contact-form-channel" }) do |f|
+  - if contact_form_channel.errors.any?
+    .ec-error-summary
+      h3 = t("dashboard.contact_form_channels.form.error_heading", default: "Please review the problems below:")
+      ul
+        - contact_form_channel.errors.full_messages.each do |message|
+          li = message
+
+  / ─── Basic Details & Inbox ───
+  .ec-section.ec-section--always-open
+    .ec-section-header
+      .ec-section-title
+        span.ec-section-icon 📝
+        span.ec-section-label = t("dashboard.contact_form_channels.form.basic_section", default: "Basic Details")
+    .ec-section-body
+      .ec-form-row
+        div
+          = f.label :name, t("dashboard.contact_form_channels.form.name_label", default: "Form Name"), class: "ec-label"
+          = f.text_field :name, class: "ec-input", required: true, placeholder: t("dashboard.contact_form_channels.form.name_placeholder", default: "e.g. Website Support Form")
+        div
+          = f.label :submit_redirect_url, t("dashboard.contact_form_channels.form.redirect_url_label", default: "Redirect URL After Submit"), class: "ec-label"
+          = f.url_field :submit_redirect_url, class: "ec-input", placeholder: t("dashboard.contact_form_channels.form.redirect_url_placeholder", default: "https://yourwebsite.com/thank-you"), pattern: "https?://.+", title: "Please enter a valid URL starting with http:// or https://"
+
+      .ec-form-row style="margin-top: 16px;"
+        div
+          = f.label :outbound_channel_id, "Outbound Channel", class: "ec-label"
+          p.text-muted style="font-size: 12px; margin-bottom: 4px;" Select an Email Channel to send replies from.
+          = f.collection_select :outbound_channel_id, @email_channels, :id, :name, { include_blank: "Select Email Channel..." }, class: "ec-select"
+          = f.hidden_field :outbound_channel_type, value: "Channel::Email"
+        div
+
+      - if contact_form_channel.primary_inbox
+        .ec-section style="margin-top: 24px; padding: 16px; background: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 0;"
+          h3.f-semi-16 style="margin-bottom: 8px;" Inbox Settings
+          p.f-reg-14.text-muted style="margin-bottom: 16px;" Configure SLA policies and custom reply templates for submissions.
+          
+          = f.fields_for :primary_inbox do |inbox_f|
+            .ec-toggle-row style="margin-bottom: 16px; display: flex; gap: 24px;"
+              div style="display: flex; align-items: center; gap: 8px;"
+                span.ec-toggle-label Auto Assign Conversations
+                label.ec-toggle
+                  = inbox_f.check_box :auto_assign
+                  span.ec-toggle-slider
+              div style="display: flex; align-items: center; gap: 8px;"
+                span.ec-toggle-label Enable CSAT Survey
+                label.ec-toggle
+                  = inbox_f.check_box :csat_survey_enabled
+                  span.ec-toggle-slider
+            
+            .ec-form-row
+              div
+                = inbox_f.label :conversation_reply_template_id, "Custom Reply Template", class: "ec-label"
+                = inbox_f.collection_select :conversation_reply_template_id, current_account.email_templates, :id, :name, { include_blank: "Default Mailer View" }, class: "ec-select"
+              div
+                = inbox_f.label :business_hour_group_id, "Business Hours", class: "ec-label"
+                = inbox_f.collection_select :business_hour_group_id, current_account.business_hour_groups, :id, :name, { include_blank: "Always Online (24/7)" }, class: "ec-select"
+            
+            .ec-form-row style="margin-top: 16px;"
+              div
+                = inbox_f.label :sla_policy_ids, "SLA Policies", class: "ec-label"
+                = inbox_f.collection_select :sla_policy_ids, current_account.sla_policies, :id, :name, {}, { multiple: true, class: "ec-select" }
+              div
+                = inbox_f.label :csat_survey_id, "CSAT Survey", class: "ec-label"
+                = inbox_f.collection_select :csat_survey_id, @csat_surveys, :id, :name, { include_blank: "Default Survey" }, class: "ec-select"
+
+  / ─── Appearance & Branding ───
+  .ec-section data-contact-form-channel-target="appearanceSection"
+    .ec-section-header data-action="click->contact-form-channel#toggleSection"
+      .ec-section-title
+        span.ec-section-icon 🎨
+        span.ec-section-label = t("dashboard.contact_form_channels.form.appearance_section", default: "Appearance & Branding")
+      span.ec-section-chevron ▼
+    .ec-section-body
+      .ec-form-row
+        div
+          label.ec-label = t("dashboard.contact_form_channels.form.theme_color_label", default: "Theme Color")
+          .ww-color-picker-row
+            = color_field_tag "contact_form_channel[ui_configurations][theme_color]", contact_form_channel.ui_configurations&.dig("theme_color") || "#0f172a", class: "ww-color-swatch", data: { "contact-form-channel-target": "colorSwatch", "action": "input->contact-form-channel#syncColor" }
+            = text_field_tag "contact_form_channel[ui_configurations][theme_color]", contact_form_channel.ui_configurations&.dig("theme_color") || "#0f172a", class: "ec-input", style: "flex: 1;", data: { "contact-form-channel-target": "colorInput", "action": "input->contact-form-channel#syncSwatch" }
+        div
+          label.ec-label = t("dashboard.contact_form_channels.form.position_label", default: "Layout Position")
+          = select_tag "contact_form_channel[ui_configurations][position]", options_for_select([["Left Aligned", "left"], ["Center Aligned", "center"], ["Right Aligned", "right"]], contact_form_channel.ui_configurations&.dig("position") || "left"), class: "ec-select"
+
+  / ─── Custom Fields Builder ───
+  .ec-section data-contact-form-channel-target="integrationsSection"
+    .ec-section-header data-action="click->contact-form-channel#toggleSection"
+      .ec-section-title
+        span.ec-section-icon 📋
+        span.ec-section-label = t("dashboard.contact_form_channels.form.fields_section", default: "Form Fields")
+      span.ec-section-chevron ▼
+    .ec-section-body data-controller="custom-field-builder"
+      p.f-reg-14.text-muted style="margin-bottom: 16px;" Select and drag-and-drop the custom fields you want to display on this contact form.
+      
+      div data-controller="sortable" data-sortable-handle-value=".drag-handle" class="cf-sortable-list" data-custom-field-builder-target="list"
+        - if contact_form_channel.custom_field_resources.any?
+          - contact_form_channel.custom_field_resources.order(position: :asc).each do |resource|
+            - field = resource.custom_field
+            .sortable-item.cf-sortable-item data-sortable-target="item" data-id="#{field.id}" draggable="true" data-action="dragstart->sortable#dragStart dragend->sortable#dragEnd"
+              span.drag-handle.cf-drag-handle data-sortable-target="handle" ☰
+              div.cf-item-content
+                h4.f-semi-14 = field.key.titleize
+                p.f-reg-12.text-muted 
+                  - if field.mapped_to.present?
+                    = t("dashboard.contact_form_channels.form.mapped_to", mapped_to: field.mapped_to, default: "Mapped to: #{field.mapped_to}")
+                  - else
+                    = t("dashboard.contact_form_channels.form.entity_field", entity_type: field.entity_type.titleize, default: "#{field.entity_type.titleize} Field")
+              
+              .cf-resource-config
+                label.cf-resource-checkbox
+                  = check_box_tag "contact_form_channel[field_settings][#{field.id}][required_override]", "1", resource.required_override, class: "cf-resource-checkbox-input"
+                  = t("dashboard.contact_form_channels.form.required_label", default: "Required")
+                = select_tag "contact_form_channel[field_settings][#{field.id}][width]", options_for_select([[t("dashboard.contact_form_channels.form.full_width", default: "Full Width"), "full"], [t("dashboard.contact_form_channels.form.half_width", default: "Half Width"), "half"]], resource.configurations["width"]), class: "ec-select cf-resource-select"
+
+              span.ec-badge.ec-badge--secondary.cf-item-badge = field.entity_type.titleize
+              button.cf-remove-btn type="button" data-action="click->custom-field-builder#removeField"
+                svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
+                  path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+              = hidden_field_tag "contact_form_channel[ordered_fields][]", field.id, data: { custom_field_builder_target: "hiddenInput" }
+
+      .cf-add-field-row data-custom-field-builder-target="addButtonRow"
+        button.ec-btn-secondary.cf-add-field-btn type="button" data-action="click->custom-field-builder#openModal"
+          svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
+            path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"
+          | Add Field
+
+      .cf-modal-overlay data-custom-field-builder-target="modal" style="display: none;"
+        .cf-modal-backdrop data-action="click->custom-field-builder#closeModal"
+        .cf-modal-content
+          .cf-modal-header
+            h3.f-semi-16 Add Custom Field
+            button.cf-modal-close type="button" data-action="click->custom-field-builder#closeModal" &times;
+          .cf-modal-search
+            input.ec-input type="text" placeholder="Search fields..." data-custom-field-builder-target="searchInput" data-action="input->custom-field-builder#filterFields"
+          .cf-modal-body data-custom-field-builder-target="pool"
+            - unselected_fields = @available_custom_fields.where.not(id: contact_form_channel.custom_field_ids)
+            - unselected_fields.each do |field|
+              .sortable-item.cf-sortable-item data-sortable-target="item" data-id="#{field.id}" data-searchable="#{field.key.downcase} #{field.entity_type.downcase}" draggable="true" data-action="dragstart->sortable#dragStart dragend->sortable#dragEnd click->custom-field-builder#addFieldFromModal"
+                span.drag-handle.cf-drag-handle data-sortable-target="handle" ☰
+                div.cf-item-content
+                  h4.f-semi-14 = field.key.titleize
+                  p.f-reg-12.text-muted 
+                    - if field.mapped_to.present?
+                      = t("dashboard.contact_form_channels.form.mapped_to", mapped_to: field.mapped_to, default: "Mapped to: #{field.mapped_to}")
+                    - else
+                      = t("dashboard.contact_form_channels.form.#{field.entity_type}_field", default: "#{field.entity_type.titleize} Field")
+                
+                .cf-resource-config
+                  label.cf-resource-checkbox
+                    = check_box_tag "contact_form_channel[field_settings][#{field.id}][required_override]", "1", false, class: "cf-resource-checkbox-input"
+                    = t("dashboard.contact_form_channels.form.required_label", default: "Required")
+                  = select_tag "contact_form_channel[field_settings][#{field.id}][width]", options_for_select([[t("dashboard.contact_form_channels.form.full_width", default: "Full Width"), "full"], [t("dashboard.contact_form_channels.form.half_width", default: "Half Width"), "half"]], "full"), class: "ec-select cf-resource-select"
+
+                span.ec-badge.ec-badge--secondary.cf-item-badge = field.entity_type.titleize
+                button.cf-remove-btn type="button" data-action="click->custom-field-builder#removeField"
+                  svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
+                    path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                = hidden_field_tag "contact_form_channel[ordered_fields][]", field.id, disabled: true, data: { custom_field_builder_target: "hiddenInput" }
+
+  / ─── Behaviors & Spam Protection ───
+  .ec-section data-contact-form-channel-target="behaviorsSection"
+    .ec-section-header data-action="click->contact-form-channel#toggleSection"
+      .ec-section-title
+        span.ec-section-icon ⚙️
+        span.ec-section-label = t("dashboard.contact_form_channels.form.behaviors_section", default: "Behaviors & Spam Protection")
+      span.ec-section-chevron ▼
+    .ec-section-body
+      .ec-toggle-row style="margin-bottom: 12px;"
+        span.ec-toggle-label = t("dashboard.contact_form_channels.form.require_login_label", default: "Require Login to Submit")
+        label.ec-toggle
+          = f.check_box :require_login
+          span.ec-toggle-slider
+
+      .ec-toggle-row style="margin-bottom: 12px;"
+        span.ec-toggle-label = t("dashboard.contact_form_channels.form.allow_attachments_label", default: "Allow Attachments")
+        label.ec-toggle
+          = f.check_box :allow_attachments
+          span.ec-toggle-slider
+          
+      .ec-toggle-row style="margin-bottom: 12px;"
+        span.ec-toggle-label = t("dashboard.contact_form_channels.form.send_confirmation_email_label", default: "Send Confirmation Email to Customer")
+        label.ec-toggle
+          = f.check_box :send_confirmation_email
+          span.ec-toggle-slider
+          
+      .ec-toggle-row style="margin-bottom: 24px;"
+        span.ec-toggle-label = t("dashboard.contact_form_channels.form.spam_protection_enabled_label", default: "Enable Spam Protection (reCAPTCHA)")
+        label.ec-toggle
+          = f.check_box :spam_protection_enabled
+          span.ec-toggle-slider
+
+
+  / ─── Translations ───
+  .ec-section data-contact-form-channel-target="translationsSection"
+    .ec-section-header data-action="click->contact-form-channel#toggleSection"
+      .ec-section-title
+        span.ec-section-icon 🌐
+        span.ec-section-label Translations
+      span.ec-section-chevron ▼
+    .ec-section-body data-controller="contact-form-translations"
+      p.text-muted style="margin-bottom: 16px; font-size: 13px;" Provide localized strings for your contact form. These override the default locale based on the customer's browser.
+      
+      .ww-translations-container data-contact-form-translations-target="container"
+        = f.fields_for :translations do |tf|
+          = render "dashboard/contact_form_channels/translation_fields", f: tf
+
+      template data-contact-form-translations-target="template"
+        = f.fields_for :translations, Channel::ContactFormTranslation.new, child_index: 'NEW_RECORD' do |tf|
+          = render "dashboard/contact_form_channels/translation_fields", f: tf
+      
+      - current_locales = contact_form_channel.translations.reject(&:marked_for_destruction?).map(&:locale).map(&:to_s)
+      - available_locales = Core::SUPPORTED_LOCALES.map(&:to_s) - current_locales
+      - available_locales_options = available_locales.map { |l| [I18n.t("languages.#{l.downcase}", default: l.upcase), l] }
+      
+      .ww-add-locale-wrapper style="margin-top: 16px; display: flex; gap: 8px; align-items: center;"
+        = select_tag "new_locale", options_for_select(available_locales_options), include_blank: "Select Language...", class: "ec-select", data: { "contact-form-translations-target": "localeSelect" }, style: "width: 200px;"
+        button.ec-btn-secondary type="button" data-action="click->contact-form-translations#addTranslation" style="display: inline-flex; align-items: center; gap: 6px;" 
+          span +
+          | Add Language
+
+  / ─── Form Actions ───
+  .ec-form-actions style="margin-top: 24px;"
+    - if contact_form_channel.persisted?
+      = f.submit t("dashboard.contact_form_channels.form.update", default: "Update Contact Form"), class: "ec-btn-primary"
+    - else
+      = f.submit t("dashboard.contact_form_channels.form.save", default: "Create Contact Form"), class: "ec-btn-primary"
+    = link_to t("dashboard.contact_form_channels.form.cancel", default: "Cancel"), contact_form_channels_path, class: "ec-btn-secondary"

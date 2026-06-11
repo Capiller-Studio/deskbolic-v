@@ -84,6 +84,8 @@ export default class extends Controller {
   }
 
   _saveOrder() {
+    if (!this.hasUrlValue || this.urlValue === "") return
+
     const orderedIds = this.itemTargets.map(item => item.dataset.id)
 
     const csrfToken = document.querySelector("meta[name='csrf-token']")?.content

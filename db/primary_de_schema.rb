@@ -296,6 +296,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_02_010530) do
     t.index ["status"], name: "index_channel_apis_on_status"
   end
 
+  create_table "channel_contact_form_translations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "contact_form_id", null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.string "locale", null: false
+    t.string "submit_button_text"
+    t.string "subtitle"
+    t.string "success_message"
+    t.string "title"
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["contact_form_id", "locale"], name: "index_ccft_on_contact_form_id_and_locale", unique: true
+    t.index ["contact_form_id"], name: "index_ccft_on_contact_form_id"
+  end
+
   create_table "channel_contact_forms", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "account_id", null: false
     t.jsonb "configurations", default: {}, null: false
@@ -304,15 +317,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_02_010530) do
     t.string "name"
     t.uuid "outbound_channel_id"
     t.string "outbound_channel_type"
-    t.uuid "portal_id"
     t.string "secret", null: false
     t.integer "status", default: 0, null: false
+    t.string "submit_redirect_url"
+    t.jsonb "ui_configurations", default: {}, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["account_id", "created_at"], name: "index_channel_contact_forms_on_account_id_and_created_at"
     t.index ["account_id", "status"], name: "index_channel_contact_forms_on_account_id_and_status"
     t.index ["account_id"], name: "index_channel_contact_forms_on_account_id"
     t.index ["outbound_channel_type", "outbound_channel_id"], name: "index_channel_contact_forms_on_outbound_channel"
-    t.index ["portal_id"], name: "index_channel_contact_forms_on_portal_id"
     t.index ["secret"], name: "index_channel_contact_forms_on_secret", unique: true
   end
 
@@ -663,7 +676,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_02_010530) do
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["custom_field_id", "resource_type", "resource_id"], name: "idx_custom_field_resources_unique", unique: true
     t.index ["custom_field_id"], name: "index_custom_field_resources_on_custom_field_id"
-    t.index ["resource_type", "resource_id"], name: "index_custom_field_resources_on_resource_type_and_resource_id"
+    t.index ["resource_type", "resource_id", "position"], name: "idx_cfr_on_resource_and_position"
   end
 
   create_table "custom_field_translations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -690,6 +703,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_02_010530) do
     t.string "mapped_to"
     t.integer "position"
     t.boolean "required", default: false, null: false
+    t.boolean "system_provided", default: false, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.jsonb "validations", default: {}, null: false
     t.index ["account_id", "created_at"], name: "index_custom_fields_on_account_id_and_created_at"
@@ -973,6 +987,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_02_010530) do
   create_table "help_center_portals", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "account_id", null: false
     t.jsonb "configurations", default: {}, null: false
+    t.uuid "contact_form_channel_id"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.string "default_locale", default: "en", null: false
     t.uuid "domain_id", null: false
@@ -987,6 +1002,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_02_010530) do
     t.index ["account_id", "name"], name: "index_help_center_portals_on_account_id_and_name"
     t.index ["account_id", "status"], name: "index_help_center_portals_on_account_id_and_status"
     t.index ["account_id"], name: "index_help_center_portals_on_account_id"
+    t.index ["contact_form_channel_id"], name: "index_help_center_portals_on_contact_form_channel_id"
     t.index ["domain_id"], name: "index_help_center_portals_on_domain_id", unique: true
   end
 
@@ -1415,7 +1431,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_02_010530) do
   add_foreign_key "campaign_translations", "campaigns", on_delete: :cascade
   add_foreign_key "campaigns", "email_templates", on_delete: :nullify
   add_foreign_key "canned_response_translations", "canned_responses", on_delete: :cascade
+  add_foreign_key "channel_contact_form_translations", "channel_contact_forms", column: "contact_form_id", on_delete: :cascade
   add_foreign_key "channel_web_widget_translations", "channel_web_widgets", column: "web_widget_id"
+  add_foreign_key "channel_web_widgets", "channel_contact_forms", column: "pre_chat_form_id", on_delete: :nullify
+  add_foreign_key "channel_web_widgets", "help_center_portals", column: "portal_id", on_delete: :nullify
   add_foreign_key "chat_bot_inboxes", "chat_bots", on_delete: :cascade
   add_foreign_key "chat_bot_inboxes", "inboxes", on_delete: :cascade
   add_foreign_key "conversation_members", "conversations", on_delete: :cascade
@@ -1443,6 +1462,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_02_010530) do
   add_foreign_key "help_center_category_resources", "help_center_categories", column: "category_id", on_delete: :cascade
   add_foreign_key "help_center_category_translations", "help_center_categories", column: "category_id", on_delete: :cascade
   add_foreign_key "help_center_portal_translations", "help_center_portals", column: "portal_id", on_delete: :cascade
+  add_foreign_key "help_center_portals", "channel_contact_forms", column: "contact_form_channel_id", on_delete: :nullify
   add_foreign_key "help_center_redirects", "help_center_portals", column: "portal_id", on_delete: :cascade
   add_foreign_key "identities", "customers", on_delete: :cascade
   add_foreign_key "identities", "identity_sources", on_delete: :cascade

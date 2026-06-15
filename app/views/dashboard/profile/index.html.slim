@@ -1,0 +1,105 @@
+= render("dashboard/shared/dashboard_container", current_page: "profile") do
+  = render("dashboard/settings/settings_sidebar", current_page: "profile") do
+    .profile-header
+      h1 Personal Details
+    .profile-content
+      = form_with(model: @user, url: profile_path, method: :patch, local: true, html: { multipart: true }, class: "profile-form", data: { controller: "profile", action: "input->profile#refresh change->profile#refresh" }) do |f|
+        .profile-layout
+          .profile-summary
+            .profile-avatar-field data-controller="dropzone" data-dropzone-max-file-size="2" data-dropzone-max-files="1" data-dropzone-accepted-files=".jpeg,.jpg,.png"
+              .profile-dropzone
+                = f.file_field :avatar, direct_upload: true, class: "profile-avatar-input", data: { "dropzone-target": "input" }
+                .dropzone-msg.dz-message.needsclick
+                  - if @user.avatar.attached?
+                    = image_tag(@user.avatar, class: "profile-avatar", alt: "profile avatar")
+                  - else
+                    .profile-avatar.avatar-fallback class=avatar_fallback_color_class(full_name(@user))
+                      = initials(@user)
+                .form-check style="min-height: 0;"
+                  input.d-none type="checkbox" value="" data-dropzone-target="doneCheck"
+                span.d-none data-dropzone-target="fileName"
+              .profile-avatar-edit-overlay data-action="click->dropzone#openFilePicker"
+                = inline_svg_tag("camera.svg", class: "profile-avatar-edit-icon", alt: "Change avatar")
+            .profile-summary-content
+              .profile-name
+                - full = [@user.first_name.presence, @user.last_name.presence].compact.join(" ").presence
+                h2 = full || "Unnamed User"
+                span.profile-badge You
+              .profile-meta
+                .profile-meta-item
+                  = inline_svg_tag("location.svg", class: "profile-meta-icon", alt: "")
+                  = fields_for :address, @address || Address.new do |address_fields|
+                    .profile-meta-location-fields
+                      = address_fields.text_field :city, class: "profile-meta-input", placeholder: "City"
+                      span.profile-meta-separator ,
+                      = address_fields.text_field :state_name, class: "profile-meta-input", placeholder: "State"
+                .profile-meta-item
+                  = inline_svg_tag("clock.svg", class: "profile-meta-icon", alt: "")
+                  span = Time.current.strftime("%-I:%M %p")
+                .profile-meta-item
+                  = inline_svg_tag("calendar.svg", class: "profile-meta-icon", alt: "")
+                  span
+                    | Active in the last&nbsp;
+                    - last_seen = @user.current_sign_in_at || @user.last_sign_in_at
+                    = last_seen ? time_ago_in_words(last_seen) : "Nil"
+
+          .profile-section-label You
+
+          .profile-card
+            .profile-card-header
+              h3 Public profile
+              = f.submit "save", class: "profile-save-button"
+
+            .profile-details
+              .profile-row
+                .profile-row-icon-cell
+                  = inline_svg_tag("user.svg", class: "profile-icon", alt: "")
+                .profile-row-content
+                  = f.text_field :name, class: "profile-input", placeholder: "User name"
+
+              .profile-row
+                .profile-row-icon-cell
+                  = inline_svg_tag("email.svg", class: "profile-icon", alt: "")
+                .profile-row-content
+                  = f.text_field :email, class: "profile-input", readonly: true
+
+              .profile-row
+                .profile-row-icon-cell
+                  = inline_svg_tag("user.svg", class: "profile-icon", alt: "")
+                .profile-row-content
+                  = f.text_field :display_name, class: "profile-input", placeholder: "Display name"
+
+              = fields_for :address, @address || Address.new do |address_fields|
+                .profile-row
+                  .profile-row-icon-cell
+                    = inline_svg_tag("calendar.svg", class: "profile-icon", alt: "")
+                  .profile-row-content
+                    = f.select :status, options_for_select(User.statuses.keys.map { |s| [s.humanize, s] }, @user.status), {}, class: "profile-input profile-select"
+
+                .profile-row
+                  .profile-row-icon-cell
+                    = inline_svg_tag("users.svg", class: "profile-icon", alt: "")
+                  .profile-row-content
+                    = address_fields.text_field :organization_name, class: "profile-input", placeholder: "No organization yet"
+
+                .profile-row
+                  .profile-row-icon-cell
+                    = image_tag("phone_call.png", class: "profile-icon", alt: "")
+                  .profile-row-content.profile-phone
+                    = address_fields.text_field :phone_number, class: "profile-input", placeholder: "No phone number yet"
+
+          .profile-card
+            .profile-details
+              .profile-row
+                .profile-row-icon-cell
+                  = inline_svg_tag("calendar.svg", class: "profile-icon", alt: "")
+                .profile-row-content.profile-readonly
+                  span Created at
+                  p = @user.created_at&.strftime("%d %b %Y").presence || "Nil"
+
+              .profile-row
+                .profile-row-icon-cell
+                  = inline_svg_tag("email.svg", class: "profile-icon", alt: "")
+                .profile-row-content.profile-readonly
+                  span Email
+                  p = @user.email.presence || "Nil"

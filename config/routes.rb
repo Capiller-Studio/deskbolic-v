@@ -68,8 +68,9 @@ Rails.application.routes.draw do
     get "help-center", to: "pages#help_center"
     get "community", to: "pages#community_forum"
     get "email-invitation", to: "workspace#email_invitation"
-
-
+    get "profile", to: "profile#index"
+    patch "profile", to: "profile#update"
+   
 
     resources :inbox, only: [ :index ]
     resources :conversations do

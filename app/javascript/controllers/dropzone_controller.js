@@ -89,7 +89,8 @@ function createDirectUploadController(source, file) {
 }
 
 function createDropZone(controller) {
-  return new Dropzone(controller.element, {
+  const dropzoneElement = controller.element.querySelector(".profile-dropzone");
+  return new Dropzone(dropzoneElement, {
     url: controller.url,
     headers: controller.headers,
     maxFiles: controller.maxFiles,
@@ -97,6 +98,7 @@ function createDropZone(controller) {
     acceptedFiles: controller.acceptedFiles,
     // addRemoveLinks: controller.addRemoveLinks,
     autoQueue: false,
+    clickable: false,
     dictDefaultMessage: "Drop files here to upload",
     // dictFallbackMessage:
     //   "Your browser does not support drag'n'drop file uploads.",
@@ -132,6 +134,7 @@ export default class extends Controller {
     this.dropZone = createDropZone(this);
     this.hideFileInput();
     this.bindEvents();
+    this._createHiddenFileInput();
     Dropzone.autoDiscover = false; // necessary quirk for Dropzone error in console
   }
 
@@ -140,7 +143,24 @@ export default class extends Controller {
     this.inputTarget.disabled = true;
     this.inputTarget.style.display = "none";
   }
+   _createHiddenFileInput() {
+  this._hiddenFileInput = document.createElement("input");
+  this._hiddenFileInput.type = "file";
+  this._hiddenFileInput.accept = this.acceptedFiles;
+  this._hiddenFileInput.style.display = "none";
+  document.body.appendChild(this._hiddenFileInput);
 
+  this._hiddenFileInput.addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      this.dropZone.addFile(file);
+    }
+    this._hiddenFileInput.value = "";
+  });
+  }
+  openFilePicker() {
+    this._hiddenFileInput.click();
+  }
   // bindEvents() {
   //   this.dropZone.on("addedfile", (file) => {
   //     if (this.hasQueueCheckTarget) {

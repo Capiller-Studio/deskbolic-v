@@ -6,6 +6,7 @@
   grid-template-columns: 2fr 1fr;
   gap: 24px;
   margin-top: 24px;
+  margin:20px;
 }
 
 .ap-billing-main {
@@ -21,7 +22,7 @@
 }
 
 .ap-billing-section-card {
-  border-left: 4px solid var(--ap-primary);
+  /* border-left: 4px solid var(--ap-primary); */
   overflow: visible;
 }
 
@@ -42,6 +43,7 @@
 
 .ap-billing-section-subtitle {
   color: var(--ap-text-muted);
+  line-height: 2.6;
 }
 
 /* Badges */
@@ -268,7 +270,8 @@
 
 /* Transactions Table */
 .ap-billing-tx-card {
-  margin-top: 24px;
+  margin: 24px;
+  border: none;
 }
 
 .ap-billing-table {

@@ -32,7 +32,13 @@
                       p.f-reg-14 
                         = t("dashboard.email_templates.sidebar.label")
                         = plan_upgrade_bubble(:custom_email_templates)
-
+            
+            li.nav-item class="#{current_page == 'billing' ? 'st-list-active' : ''}" data-action="click->accordion#toggle"
+              .nav-link
+                = link_to(dashboard_billing_path, class: "nav-link") do
+                  .link-text
+                    .conversation-name.inbox-conv
+                      p.f-reg-14 Billing & Subscription
             / general            
             / li.nav-item class="" data-action="click->accordion#toggle"
             /   .nav-link

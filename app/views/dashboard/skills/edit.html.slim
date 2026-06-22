@@ -1,30 +1,8 @@
 = render("dashboard/shared/dashboard_container", current_page: "settings") do
-  .ap-index-header
-    .ap-title-area
-      h2.f-semi-32 = t("dashboard.skills.index.title")
-      p.f-reg-16 Edit skill
-
-  .sk-form-panel
-    = render("dashboard/skills/form", skill: @skill)
-
-  - if @skills.any?
-    .sk-list
-      - @skills.each do |skill|
-        .sk-card id="skill_#{skill.id}"
-          .sk-card-body
-            .sk-card-info
-              h4.f-semi-14.sk-card-name = skill.name
-              - if skill.description.present?
-                p.f-reg-12.sk-card-desc = truncate(skill.description, length: 60)
-
-            .sk-card-meta
-              .sk-type-badge class="sk-type-#{skill.skill_type}"
-                = t("dashboard.skills.types.#{skill.skill_type}")
-
-              .sk-status-dot class="#{skill.active? ? 'active' : 'inactive'}"
-
-            .sk-card-actions
-              = link_to edit_skill_path(skill), class: "ap-action-btn", title: "Edit"
-                | ✏️
-              = link_to skill_path(skill), method: :delete, class: "ap-action-btn ap-action-delete", data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, title: "Delete"
-                | 🗑️
+  = render("dashboard/settings/settings_sidebar", current_page: "skills") do
+    .ap-form-container
+      .ap-form-header
+        = link_to skills_path, class: "ap-back-link"
+          | ← Back to skills
+        h2.f-semi-24 = t("dashboard.skills.edit.title", default: "Edit skill")
+      = render("dashboard/skills/form", skill: @skill)

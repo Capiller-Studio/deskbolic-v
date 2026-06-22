@@ -18,6 +18,12 @@ module Dashboard
       "inactive" => "red",
       "archived" => "gray"
     }.freeze
+    STRATEGY_MAPPING = {
+      "round_robin" => "🔄",
+      "load_balanced" => "⚖️",
+      "skills_based" => "🎯",
+      "manual" => "✋"
+    }.freeze
     
     DEFAULT_FLASH_CLASS = "green"
     DEFAULT_STATUS_CLASS = "green"
@@ -30,8 +36,8 @@ module Dashboard
       STATUS_CLASS_MAPPING[status] || DEFAULT_STATUS_CLASS
     end
 
-    def team_status_class(status)
-      STATUS_CLASS_MAPPING[status] || DEFAULT_STATUS_CLASS
+    def strategy_icon(strategy)
+      STRATEGY_MAPPING[strategy] || "📋"
     end
   end
 end

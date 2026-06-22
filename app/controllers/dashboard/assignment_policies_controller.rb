@@ -27,7 +27,8 @@ module Dashboard
 
       if @policy.save
         sync_inboxes
-        redirect_to(assignment_policies_path, notice: t(".created"))
+        flash[:success] = t(".created")
+        redirect_to(assignment_policies_path)
       else
         load_form_data
         render(:new, status: :unprocessable_entity)
@@ -44,7 +45,8 @@ module Dashboard
 
       if @policy.update(policy_params)
         sync_inboxes
-        redirect_to(assignment_policies_path, notice: t(".updated"))
+        flash[:success] = t(".updated")
+        redirect_to(assignment_policies_path)
       else
         load_form_data
         render(:edit, status: :unprocessable_entity)

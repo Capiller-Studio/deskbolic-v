@@ -235,8 +235,8 @@
 
 .admin-flash-container {
   @mixin flex-row $justify-center, $align-center;
-  @mixin height-size 4;
-  @mixin width-size 30;
+  padding: 12px 20px;
+  width: fit-content;
   position: fixed;
   top: 20px;
   right: 0;
@@ -246,10 +246,9 @@
   animation: fadeOut 0s 4s forwards;
   opacity: 1;
   .message {
-    @mixin font-size 1;
+    font-size: 14px;
     @mixin letter-spacing 0.01;
     text-transform: capitalize;
-    color: red;
     font-family: $font-family-inter-regular;
   } 
 }

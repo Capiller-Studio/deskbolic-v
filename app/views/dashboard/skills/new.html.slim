@@ -1,0 +1,8 @@
+= render("dashboard/shared/dashboard_container", current_page: "skills") do
+  = render("dashboard/settings/settings_sidebar", current_page: "skills") do
+    .ap-form-container
+      .ap-form-header
+        = link_to skills_path, class: "ap-back-link"
+          | ← Back to skills
+        h2.f-semi-24 = t("dashboard.skills.new.title", default: "New skill")
+      = render("dashboard/skills/form", skill: @skill)

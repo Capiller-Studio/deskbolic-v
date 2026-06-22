@@ -122,3 +122,6 @@ application.register("custom-field-builder", CustomFieldBuilderController)
 
 import CustomFieldFormController from "./custom_field_form_controller"
 application.register("custom-field-form", CustomFieldFormController)
+
+import PortalOptionGroupController from "./portal_option_group_controller"
+application.register("portal-option-group", PortalOptionGroupController)

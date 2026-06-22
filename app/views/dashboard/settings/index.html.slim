@@ -42,12 +42,12 @@
               .card-desc
                 h4.f-semi-14  Help Center
                 p.f-reg-12 Add to or configure the content in this help center
-            = link_to("#", class:"card") do
+            = link_to(help_center_portals_path, class:"card") do
               = inline_svg_tag("green_grid.svg", class:"card-icon", alt:"icon")
               .card-desc
                 h4.f-semi-14  All Help Center
                 p.f-reg-12 Manage all help centers created for this workspace.
-            = link_to(roles_path, class:"card") do
+            = link_to(new_help_center_portal_path, class:"card") do
               = inline_svg_tag("green_plus.svg", class:"card-icon", alt:"icon")
               .card-desc
                 h4.f-semi-14  New Help Center

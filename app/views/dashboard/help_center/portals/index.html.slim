@@ -1,0 +1,36 @@
+= render("dashboard/shared/dashboard_container", current_page: "help_desk") do
+  = render("dashboard/settings/settings_sidebar", current_page: "help-center-portals") do
+    .body-section.help-center-portal-body
+      .help-center-portal-header
+        div
+          h2.f-semi-18 All Help Centers
+          p.f-reg-12 Manage the Help Centers created for this workspace.
+        = link_to(new_help_center_portal_path, class: "new-portal-btn") do
+          span.f-reg-14 New Help Center
+          = inline_svg_tag("plus_white.svg", class: "plus-icon", alt: "add")
+
+      - if flash[:notice]
+        .alert.alert-green
+          p.f-reg-12 = flash[:notice]
+      - if flash[:alert]
+        .alert.alert-red
+          p.f-reg-12 = flash[:alert]
+
+      .portal-list-section
+        - if @portals.any?
+          .portal-grid
+            - @portals.each do |portal|
+              .portal-card
+                - if portal.hero_image.attached?
+                  = image_tag(portal.hero_image, class: "portal-card-hero-image", alt: "#{portal.name.presence || "Help Center"} hero image")
+                .portal-card-main
+                  h3.f-semi-14 = portal.name.presence || "Untitled Help Center"
+                  p.f-reg-12 = portal.domain&.value
+                .portal-card-meta
+                  span.f-reg-12 = portal.default_locale.to_s.upcase
+                  span.f-reg-12 = pluralize(Array(portal.locales).size, "language")
+        - else
+          .portal-empty
+            p.f-reg-14 No Help Centers yet
+            p.f-reg-12 Create a Help Center to configure branding, languages, and its public domain.
+            = link_to "Create Help Center", new_help_center_portal_path, class: "add-portal-link"

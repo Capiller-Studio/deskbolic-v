@@ -39,6 +39,30 @@
                   .link-text
                     .conversation-name.inbox-conv
                       p.f-reg-14 Billing & Subscription
+            
+            / Help Center
+            li.nav-item class="" data-action="click->accordion#toggle"
+              .nav-link
+                .link-text.conversation-padding
+                  = inline_svg_tag("arrow_down.svg", class:"st-dropdown-icon", alt:"menu")
+                  p.f-reg-14 Help Center
+            .st-panel data-accordion-target="panel"
+              ul.chats
+                li.nav-item class="#{current_page == 'help-center-articles' ? 'st-list-active' : ''}"
+                  = link_to(help_center_articles_path, class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12 Help Center
+                li.nav-item class="#{current_page == 'help-center-portals' ? 'st-list-active' : ''}"
+                  = link_to(help_center_portals_path, class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12 All Help Centers
+                li.nav-item class="#{current_page == 'new-help-center' ? 'st-list-active' : ''}"
+                  = link_to(new_help_center_portal_path, class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12 New Help Center        
             / general            
             / li.nav-item class="" data-action="click->accordion#toggle"
             /   .nav-link

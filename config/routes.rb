@@ -122,6 +122,7 @@ Rails.application.routes.draw do
     end
 
     namespace :help_center do
+      resources :portals, only: [:index, :new, :create]
       resources :articles do
         member do
           post :publish

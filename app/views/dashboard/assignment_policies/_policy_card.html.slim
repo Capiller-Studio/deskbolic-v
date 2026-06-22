@@ -5,7 +5,7 @@
 
 div.ap-card id="policy_#{policy.id}" data-sortable-id="#{policy.id}"
   .ap-card-handle data-sortable-target="handle"
-    = inline_svg_tag("drag_handle.svg", class: "ap-drag-icon", alt: "drag") rescue "⠿"
+    = strategy_icons[policy.strategy]
 
   .ap-card-body
     .ap-card-top

@@ -9,7 +9,11 @@ module Dashboard
 
       @skills = current_account.skills.ordered
       @skills = @skills.by_type(params[:type]) if params[:type].present?
+    end
+
+    def new
       @skill = current_account.skills.new
+      authorize(@skill)
     end
 
     def create
@@ -19,14 +23,12 @@ module Dashboard
       if @skill.save
         redirect_to(skills_path, notice: t(".created"))
       else
-        @skills = current_account.skills.ordered
-        render(:index, status: :unprocessable_entity)
+        render(:new, status: :unprocessable_entity)
       end
     end
 
     def edit
       authorize(@skill)
-      @skills = current_account.skills.ordered
     end
 
     def update

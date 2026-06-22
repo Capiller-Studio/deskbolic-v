@@ -1,35 +1,37 @@
-= render("dashboard/shared/dashboard_container", current_page: "settings") do
-  .ap-index-header
-    .ap-title-area
-      h2.f-semi-32 = t(".title")
-      p.f-reg-16 = t(".description")
-    = link_to new_assignment_policy_path, class: "ap-btn-primary", id: "new-assignment-policy"
-      | + #{t(".new_policy")}
+= render("dashboard/shared/dashboard_container", current_page: "assignment-policies") do
+  = render("dashboard/settings/settings_sidebar", current_page: "assignment-policies") do
+    .body-container
+      .ap-index-header
+        .ap-title-area
+          h2.f-semi-32 = t(".title")
+          p.f-reg-16 = t(".description")
+        = link_to new_assignment_policy_path, class: "ap-btn-primary", id: "new-assignment-policy"
+          | + #{t(".new_policy")}
 
-  .ap-tabs
-    = link_to assignment_policies_path, class: "ap-tab #{params[:strategy].blank? ? 'active' : ''}"
-      = t(".tab_all")
-    = link_to assignment_policies_path(strategy: :round_robin), class: "ap-tab #{params[:strategy] == 'round_robin' ? 'active' : ''}"
-      span.ap-tab-icon 🔄
-      = t(".tab_round_robin")
-    = link_to assignment_policies_path(strategy: :load_balanced), class: "ap-tab #{params[:strategy] == 'load_balanced' ? 'active' : ''}"
-      span.ap-tab-icon ⚖️
-      = t(".tab_load_balanced")
-    = link_to assignment_policies_path(strategy: :skills_based), class: "ap-tab #{params[:strategy] == 'skills_based' ? 'active' : ''}"
-      span.ap-tab-icon 🎯
-      = t(".tab_skills_based")
-    = link_to assignment_policies_path(strategy: :manual), class: "ap-tab #{params[:strategy] == 'manual' ? 'active' : ''}"
-      span.ap-tab-icon ✋
-      = t(".tab_manual")
+      .ap-tabs
+        = link_to assignment_policies_path, class: "ap-tab #{params[:strategy].blank? ? 'active' : ''}"
+          = t(".tab_all")
+        = link_to assignment_policies_path(strategy: :round_robin), class: "ap-tab #{params[:strategy] == 'round_robin' ? 'active' : ''}"
+          span.ap-tab-icon 🔄
+          = t(".tab_round_robin")
+        = link_to assignment_policies_path(strategy: :load_balanced), class: "ap-tab #{params[:strategy] == 'load_balanced' ? 'active' : ''}"
+          span.ap-tab-icon ⚖️
+          = t(".tab_load_balanced")
+        = link_to assignment_policies_path(strategy: :skills_based), class: "ap-tab #{params[:strategy] == 'skills_based' ? 'active' : ''}"
+          span.ap-tab-icon 🎯
+          = t(".tab_skills_based")
+        = link_to assignment_policies_path(strategy: :manual), class: "ap-tab #{params[:strategy] == 'manual' ? 'active' : ''}"
+          span.ap-tab-icon ✋
+          = t(".tab_manual")
 
-  - if @policies.any?
-    .ap-list data-controller="sortable" data-sortable-url-value="#{reorder_assignment_policies_path}"
-      - @policies.each do |policy|
-        = render("dashboard/assignment_policies/policy_card", policy: policy)
-  - else
-    .ap-empty-state
-      .ap-empty-icon 🔀
-      h3.f-semi-18 = t(".empty_title")
-      p.f-reg-14 = t(".empty_description")
-      = link_to new_assignment_policy_path, class: "ap-btn-primary ap-btn-sm"
-        | + #{t(".new_policy")}
+      - if @policies.any?
+        .ap-list data-controller="sortable" data-sortable-url-value="#{reorder_assignment_policies_path}"
+          - @policies.each do |policy|
+            = render("dashboard/assignment_policies/policy_card", policy: policy)
+      - else
+        .ap-empty-state
+          .ap-empty-icon 🔀
+          h3.f-semi-18 = t(".empty_title")
+          p.f-reg-14 = t(".empty_description")
+          = link_to new_assignment_policy_path, class: "ap-btn-primary ap-btn-sm"
+            | + #{t(".new_policy")}

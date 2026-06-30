@@ -1,4 +1,4 @@
-- url = email_channel.persisted? ? email_channel_path(email_channel) : email_channels_path
+- url = email_channel.persisted? ? channels_email_path(email_channel) : channels_email_index_path
 - method = email_channel.persisted? ? :patch : :post
 
 = form_with(model: email_channel, scope: :email_channel, url: url, method: method, data: { controller: "email-channel" }) do |f|
@@ -102,7 +102,7 @@
 
       - if email_channel.persisted?
         div style="display: flex; align-items: center; margin-top: 8px;"
-          button.ec-test-btn type="button" data-action="click->email-channel#testSmtp" data-url=test_smtp_email_channel_path(email_channel) data-original-text=t("dashboard.email_channels.form.test_smtp")
+          button.ec-test-btn type="button" data-action="click->email-channel#testSmtp" data-url=test_smtp_channels_email_path(email_channel) data-original-text=t("dashboard.email_channels.form.test_smtp")
             | 🔌 #{t("dashboard.email_channels.form.test_smtp")}
           span.ec-test-result data-email-channel-target="smtpResult" style="display: none;"
 
@@ -148,7 +148,7 @@
 
       - if email_channel.persisted?
         div style="display: flex; align-items: center; margin-top: 8px;"
-          button.ec-test-btn type="button" data-action="click->email-channel#testImap" data-url=test_imap_email_channel_path(email_channel) data-original-text=t("dashboard.email_channels.form.test_imap")
+          button.ec-test-btn type="button" data-action="click->email-channel#testImap" data-url=test_imap_channels_email_path(email_channel) data-original-text=t("dashboard.email_channels.form.test_imap")
             | 🔌 #{t("dashboard.email_channels.form.test_imap")}
           span.ec-test-result data-email-channel-target="imapResult" style="display: none;"
 
@@ -158,4 +158,4 @@
       = f.submit t("dashboard.email_channels.form.update"), class: "ec-btn-primary"
     - else
       = f.submit t("dashboard.email_channels.form.save"), class: "ec-btn-primary"
-    = link_to t("dashboard.email_channels.form.cancel"), email_channels_path, class: "ec-btn-secondary"
+    = link_to t("dashboard.email_channels.form.cancel"), channels_email_index_path, class: "ec-btn-secondary"

@@ -19,7 +19,7 @@
       .ec-badge.ec-badge-pending
         span.ec-badge-icon ⏳
         span = t("dashboard.email_channels.forwarding.not_verified")
-      button.ec-test-btn.ec-btn-sm data-action="click->email-channel#verifyForwarding" data-url=verify_forwarding_email_channel_path(email_channel) data-email-channel-target="verifyBtn" style="margin-left: 8px;"
+      button.ec-test-btn.ec-btn-sm data-action="click->email-channel#verifyForwarding" data-url=verify_forwarding_channels_email_path(email_channel) data-email-channel-target="verifyBtn" style="margin-left: 8px;"
         | 🔍 #{t("dashboard.email_channels.forwarding.verify")}
 
   / ─── Provider Tabs ───

@@ -29,6 +29,9 @@ Rails.application.routes.draw do
     get "widget/:account_id/:channel_id", to: "widget#hub"
     post "widget/:account_id/:channel_id", to: "widget#index"
 
+    get "instagram", to: "instagram#hub"
+    post "instagram", to: "instagram#index"
+
     namespace :sms do
       post "twilio/:account_id/:channel_id", to: "twilio#create"
       post "signalwire/:account_id/:channel_id", to: "signalwire#create"
@@ -63,7 +66,7 @@ Rails.application.routes.draw do
     post "workspace", to: "workspace#create"
     get "workspaces/:id/submitted", to: "workspace#submitted", as: "submitted"
     post :switch, to: "sessions#switch"
-    post "facebook_page", to: "facebook_page#index"
+    # Removed: post "facebook_page", to: "facebook_page#index"  — replaced by facebook_channels resource below
     get "terms", to: "pages#service_terms"
     get "help-center", to: "pages#help_center"
     get "community", to: "pages#community_forum"
@@ -83,6 +86,35 @@ Rails.application.routes.draw do
         post  :unassign_team
       end
     end
+    namespace :channels do
+      resources :email, except: [:show] do
+        member do
+          post :test_smtp
+          post :test_imap
+          post :verify_forwarding
+        end
+      end
+      
+      resources :web_widget, except: [:show]
+      resources :contact_form, except: [:show]
+
+      resources :facebook, except: [:show] do
+        member do
+          post :reconnect
+        end
+        collection do
+          post :callback
+        end
+      end
+
+      resources :instagram, except: [:show] do
+        collection do
+          get :oauth_authorize
+          get :callback
+        end
+      end
+    end
+
     resources :channels
     resources :inboxes
     resources :messages do
@@ -185,16 +217,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :email_channels, except: [:show] do
-      member do
-        post :test_smtp
-        post :test_imap
-        post :verify_forwarding
-      end
-    end
-    
-    resources :web_widget_channels, except: [:show]
-    resources :contact_form_channels, except: [:show]
+
     
     resources :custom_fields
 

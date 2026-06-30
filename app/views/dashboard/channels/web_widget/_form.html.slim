@@ -1,4 +1,4 @@
-- url = web_widget_channel.persisted? ? web_widget_channel_path(web_widget_channel) : web_widget_channels_path
+- url = web_widget_channel.persisted? ? channels_web_widget_path(web_widget_channel) : channels_web_widget_index_path
 - method = web_widget_channel.persisted? ? :patch : :post
 
 = form_with(model: web_widget_channel, scope: :web_widget_channel, url: url, method: method, data: { controller: "web-widget-channel" }) do |f|
@@ -179,11 +179,11 @@
       
       .ww-translations-container data-web-widget-translations-target="container"
         = f.fields_for :translations do |tf|
-          = render "dashboard/web_widget_channels/translation_fields", f: tf
+          = render "dashboard/channels/web_widget/translation_fields", f: tf
 
       template data-web-widget-translations-target="template"
         = f.fields_for :translations, Channel::WebWidgetTranslation.new, child_index: 'NEW_RECORD' do |tf|
-          = render "dashboard/web_widget_channels/translation_fields", f: tf
+          = render "dashboard/channels/web_widget/translation_fields", f: tf
       
       - current_locales = web_widget_channel.translations.reject(&:marked_for_destruction?).map(&:locale).map(&:to_s)
       - available_locales = Core::SUPPORTED_LOCALES.map(&:to_s) - current_locales
@@ -197,7 +197,7 @@
 
   / ─── Installation & Setup ───
   - if web_widget_channel.persisted?
-    = render "dashboard/web_widget_channels/installation", web_widget_channel: web_widget_channel
+    = render "dashboard/channels/web_widget/installation", web_widget_channel: web_widget_channel
 
   / ─── Form Actions ───
   .ec-form-actions
@@ -205,4 +205,4 @@
       = f.submit t("dashboard.web_widget_channels.form.update"), class: "ec-btn-primary"
     - else
       = f.submit t("dashboard.web_widget_channels.form.save"), class: "ec-btn-primary"
-    = link_to t("dashboard.web_widget_channels.form.cancel"), web_widget_channels_path, class: "ec-btn-secondary"
+    = link_to t("dashboard.web_widget_channels.form.cancel"), channels_web_widget_index_path, class: "ec-btn-secondary"

@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 module Dashboard
-  class EmailChannelsController < DashboardController
+  module Channels
+    class EmailController < DashboardController
     before_action :set_email_channel, only: %i[edit update destroy test_smtp test_imap verify_forwarding]
     before_action :authorize_email_channel
 
@@ -21,11 +22,11 @@ module Dashboard
 
     def create
       unless current_account.within_limit?(:channels)
-        redirect_to email_channels_path, alert: t("dashboard.email_channels.limit_reached")
+        redirect_to channels_email_index_path, alert: t("dashboard.email_channels.limit_reached")
         return
       end
 
-      creator = Channels::ChannelCreator.new(
+      creator = ::Channels::ChannelCreator.new(
         channel_type: "email",
         channel_params: email_channel_params,
         current_account: current_account
@@ -33,7 +34,7 @@ module Dashboard
 
       if creator.call
         @email_channel = creator.channel
-        redirect_to edit_email_channel_path(@email_channel), notice: t("dashboard.email_channels.created")
+        redirect_to edit_channels_email_path(@email_channel), notice: t("dashboard.email_channels.created")
       else
         @email_channel = creator.channel || Channel::Email.new(email_channel_params)
         render :new, status: :unprocessable_entity
@@ -45,7 +46,7 @@ module Dashboard
     def update
       current_account.with_shard do
         if @email_channel.update(email_channel_params)
-          redirect_to email_channels_path, notice: t("dashboard.email_channels.updated")
+          redirect_to channels_email_index_path, notice: t("dashboard.email_channels.updated")
         else
           render :edit, status: :unprocessable_entity
         end
@@ -59,7 +60,7 @@ module Dashboard
       current_account.decrement_usage!(:channels)
 
       respond_to do |format|
-        format.html { redirect_to email_channels_path, notice: t("dashboard.email_channels.destroyed") }
+        format.html { redirect_to channels_email_index_path, notice: t("dashboard.email_channels.destroyed") }
         format.turbo_stream { render turbo_stream: turbo_stream.remove(@email_channel) }
       end
     end
@@ -114,7 +115,7 @@ module Dashboard
 
     # POST /email_channels/:id/verify_forwarding
     def verify_forwarding
-      if Channels::Email::ForwardEmailVerifier.call(@email_channel)
+      if ::Channels::Email::ForwardEmailVerifier.call(@email_channel)
         render json: { success: true, message: "Verification email sent to #{@email_channel.email}. We are waiting to receive it." }
       else
         render json: { success: false, message: "Failed to send verification email. Please check your setup." }
@@ -181,4 +182,5 @@ module Dashboard
       }
     end
   end
+end
 end

@@ -1,0 +1,22 @@
+= turbo_stream.update "page-selector" do
+  .fb-step
+    .fb-step-header
+      .fb-step-number 2
+      .fb-step-title
+        h3.f-semi-18 = t("dashboard.facebook_channels.new.step2_title")
+        p.f-reg-14 = t("dashboard.facebook_channels.new.step2_description")
+
+    .fb-page-grid
+      - @pages.each do |page|
+        .fb-page-card class=("fb-page-card-disabled" if page[:already_connected]) data-action="click->facebook-channel#selectPage" data-page-id=page[:id] data-page-name=page[:name] data-page-token=page[:access_token] data-page-avatar=page[:avatar_url] data-user-token=@user_access_token
+          .fb-page-card-avatar
+            - if page[:avatar_url].present?
+              img src=page[:avatar_url] alt=page[:name]
+            - else
+              .fb-page-avatar-placeholder
+                | 📘
+          .fb-page-card-details
+            h4.f-semi-14 = page[:name]
+            p.f-reg-12 = page[:category]
+            - if page[:already_connected]
+              span.fb-page-connected = t("dashboard.facebook_channels.new.already_connected")

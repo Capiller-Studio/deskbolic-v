@@ -728,3 +728,112 @@ en:
         conversation_field: "Conversation Field"
         mapped_to: "Mapped to: %{mapped_to}"
         entity_field: "%{entity_type} Field"
+    facebook_channels:
+      sidebar:
+        label: Facebook Pages
+      limit_reached: You've reached the channel limit for your current plan. Please upgrade to add more channels.
+      created: Facebook Page has been connected successfully.
+      updated: Facebook Page settings updated.
+      destroyed: Facebook Page has been disconnected.
+      create_failed: Failed to connect Facebook Page. Please try again.
+      callback_error: There was an error connecting to Facebook. Please try again.
+      reconnected: Facebook Page has been reconnected successfully.
+      reconnect_failed: Failed to reconnect Facebook Page. Please re-authorize through the Facebook login.
+      index:
+        title: Facebook Pages
+        description: Connect your Facebook Pages to receive and respond to Messenger conversations.
+        connect_page: Connect Facebook Page
+        delete_confirm: Are you sure you want to disconnect this Facebook Page? This will remove the inbox and all related conversations.
+        status_active: Connected
+        status_disconnected: Disconnected
+        status_reauth: Re-authorization needed
+        reconnect: Reconnect
+        inboxes_count:
+          one: "%{count} inbox"
+          other: "%{count} inboxes"
+        created_ago: "Created %{time} ago"
+        empty_title: No Facebook Pages connected
+        empty_description: Connect your Facebook Pages to start receiving Messenger conversations directly in your inbox.
+      new:
+        title: Connect a Facebook Page
+        step1_title: Connect with Facebook
+        step1_description: Sign in with your Facebook account and grant permissions to manage your Pages.
+        connect_button: Continue with Facebook
+        connect_note: We'll only ask for the permissions needed to manage your Page inbox.
+        step2_title: Select a Page
+        step2_description: Choose which Facebook Page you'd like to connect. Each page creates a separate inbox.
+        already_connected: Already connected
+        step3_title: Configure your channel
+        name_label: Channel Name
+        name_placeholder: e.g., Customer Support Page
+      edit:
+        title: Edit Facebook Page
+        reauth_title: Re-authorization required
+        reauth_description: The access token for this page has been invalidated. Please reconnect to restore messaging.
+        inbox_settings_title: Inbox Settings
+        csat_enabled: Enable CSAT survey after conversations
+        danger_title: Danger Zone
+        danger_description: Disconnecting this page will remove the inbox and stop receiving new messages. Existing conversations will be preserved.
+        disconnect: Disconnect Page
+      form:
+        back: Back to Facebook Pages
+        cancel: Cancel
+        save: Save Changes
+        create: Connect Page
+        connection_section: Connection Status
+        inbox_section: Inbox Configuration
+    instagram_channels:
+      sidebar:
+        label: Instagram
+      limit_reached: You've reached the channel limit for your current plan. Please upgrade to add more channels.
+      created: Instagram account has been connected successfully.
+      updated: Instagram channel settings updated.
+      destroyed: Instagram account has been disconnected.
+      create_failed: Failed to connect Instagram account. Please try again.
+      callback_error: There was an error connecting to Instagram. Please try again.
+      invalid_state: Invalid authorization state. Please try connecting again.
+      index:
+        title: Instagram
+        description: Connect your Instagram business accounts to manage DMs from your dashboard.
+        connect_account: Connect Instagram
+        delete_confirm: Are you sure you want to disconnect this Instagram account? This will remove the inbox and all related conversations.
+        status_active: Connected
+        status_expired: Token expired
+        status_expiring: Token expiring soon
+        status_reauth: Re-authorization needed
+        inboxes_count:
+          one: "%{count} inbox"
+          other: "%{count} inboxes"
+        token_expires: "Token expires in %{time}"
+        created_ago: "Created %{time} ago"
+        empty_title: No Instagram accounts connected
+        empty_description: Connect your Instagram business or creator accounts to manage direct messages from your dashboard.
+      new:
+        title: Connect Instagram
+        connect_title: Connect your Instagram Account
+        connect_description: Link your Instagram business or creator account to start receiving and replying to DMs.
+        permissions_title: Permissions we'll request
+        scope_basic: View your Instagram profile and media
+        scope_messages: Read and send Instagram direct messages
+        connect_button: Continue with Instagram
+        connect_note: You'll be redirected to Instagram to authorize access. Only professional accounts (Business or Creator) are supported.
+      edit:
+        title: Edit Instagram Channel
+        reauth_title: Re-authorization required
+        reauth_description: The access token has expired or been invalidated. Please reconnect to restore messaging.
+        reconnect: Reconnect
+        token_expires_at: "Token expires: %{time}"
+        name_label: Channel Name
+        name_placeholder: e.g., Brand Instagram
+        inbox_settings_title: Inbox Settings
+        csat_enabled: Enable CSAT survey after conversations
+        danger_title: Danger Zone
+        danger_description: Disconnecting this account will remove the inbox and stop receiving new DMs. Existing conversations will be preserved.
+        disconnect: Disconnect Account
+      form:
+        back: Back to Instagram
+        cancel: Cancel
+        save: Save Changes
+        connection_section: Connection Status
+        inbox_section: Inbox Configuration
+

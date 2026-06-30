@@ -4,7 +4,7 @@ p
 
 p = t("notifications.events.#{@notification.event}")
 
-- if @resource.respond_to?(:identifier)
+- if defined?(Conversation) && @resource.is_a?(Conversation) && @resource.respond_to?(:identifier)
   p
     strong Conversation:
     |  ##{@resource.identifier}

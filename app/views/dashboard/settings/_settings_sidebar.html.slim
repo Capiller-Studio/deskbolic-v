@@ -100,26 +100,40 @@
                       .conversation-name.inbox-conv
                         p.f-reg-12 Team Inboxes
                 li.nav-item class="#{current_page == 'email-channels' ? 'st-list-active' : ''}"
-                  = link_to(email_channels_path, class: "nav-link") do
+                  = link_to(channels_email_index_path, class: "nav-link") do
                     .link-text
                       .conversation-name.inbox-conv
                         p.f-reg-12
                           | Email Channels
                           = plan_upgrade_bubble('channels.email')
                 li.nav-item class="#{current_page == 'web-widget-channels' ? 'st-list-active' : ''}"
-                  = link_to(web_widget_channels_path, class: "nav-link") do
+                  = link_to(channels_web_widget_index_path, class: "nav-link") do
                     .link-text
                       .conversation-name.inbox-conv
                         p.f-reg-12
                           | Web Widget Channels
                           = plan_upgrade_bubble('channels.web_widget')
                 li.nav-item class="#{current_page == 'contact-form-channels' ? 'st-list-active' : ''}"
-                  = link_to(contact_form_channels_path, class: "nav-link") do
+                  = link_to(channels_contact_form_index_path, class: "nav-link") do
                     .link-text
                       .conversation-name.inbox-conv
                         p.f-reg-12
                           | Contact Form Channels
                           = plan_upgrade_bubble('channels.contact_form')
+                li.nav-item class="#{current_page == 'facebook-channels' ? 'st-list-active' : ''}"
+                  = link_to(channels_facebook_index_path, class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12
+                          = t("dashboard.facebook_channels.sidebar.label")
+                          = plan_upgrade_bubble('channels.facebook')
+                li.nav-item class="#{current_page == 'instagram-channels' ? 'st-list-active' : ''}"
+                  = link_to(channels_instagram_index_path, class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12
+                          = t("dashboard.instagram_channels.sidebar.label")
+                          = plan_upgrade_bubble('channels.instagram')
                 li.nav-item class="#{current_page == 'assignment-policies' ? 'st-list-active' : ''}"
                   = link_to(assignment_policies_path, class: "nav-link") do
                     .link-text

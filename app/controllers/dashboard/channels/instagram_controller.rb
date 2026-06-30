@@ -119,7 +119,7 @@ module Dashboard
       params.require(:instagram_channel).permit(
         :name,
         primary_inbox_attributes: [
-          :id, :csat_survey_enabled, :csat_survey_id,
+          :id, :reopen_window_seconds, :csat_survey_enabled, :csat_survey_id,
           sla_policy_ids: []
         ]
       )

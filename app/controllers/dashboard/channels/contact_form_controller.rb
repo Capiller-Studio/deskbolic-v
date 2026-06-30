@@ -129,7 +129,7 @@ module Dashboard
         custom_field_ids: [],
         ordered_fields: [],
         ui_configurations: [:theme_color, :position],
-        primary_inbox_attributes: [:id, :csat_survey_enabled, :auto_assign, :csat_survey_id, :conversation_reply_template_id, :business_hour_group_id, sla_policy_ids: []],
+        primary_inbox_attributes: [:id, :reopen_window_seconds, :csat_survey_enabled, :auto_assign, :csat_survey_id, :conversation_reply_template_id, :business_hour_group_id, sla_policy_ids: []],
         translations_attributes: [:id, :locale, :title, :subtitle, :success_message, :submit_button_text, :_destroy]
       ).to_h
 

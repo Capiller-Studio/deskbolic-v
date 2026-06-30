@@ -4,7 +4,7 @@
       .ec-title-area
         h2.f-semi-32 = t("dashboard.email_channels.index.title")
         p.f-reg-16 = t("dashboard.email_channels.index.description")
-      = link_to new_email_channel_path, class: "ec-btn-primary"
+      = link_to new_channels_email_path, class: "ec-btn-primary"
         | + #{t("dashboard.email_channels.index.new_channel")}
 
     .ec-list
@@ -16,9 +16,9 @@
                 h3.f-semi-16 = channel.name
                 p.ec-card-email = channel.email
               .ec-card-actions
-                = link_to edit_email_channel_path(channel), class: "ec-action-btn", title: "Edit"
+                = link_to edit_channels_email_path(channel), class: "ec-action-btn", title: "Edit"
                   | ✏️
-                = link_to email_channel_path(channel), method: :delete, class: "ec-action-btn ec-action-delete", data: { turbo_method: :delete, turbo_confirm: t("dashboard.email_channels.index.delete_confirm") }, title: "Delete"
+                = link_to channels_email_path(channel), method: :delete, class: "ec-action-btn ec-action-delete", data: { turbo_method: :delete, turbo_confirm: t("dashboard.email_channels.index.delete_confirm") }, title: "Delete"
                   | 🗑️
 
             .ec-card-meta
@@ -70,5 +70,5 @@
           .ec-empty-icon 📧
           h3.f-semi-18 = t("dashboard.email_channels.index.empty_title")
           p.f-reg-14 = t("dashboard.email_channels.index.empty_description")
-          = link_to new_email_channel_path, class: "ec-btn-primary ec-btn-sm"
+          = link_to new_channels_email_path, class: "ec-btn-primary ec-btn-sm"
             | + #{t("dashboard.email_channels.index.new_channel")}

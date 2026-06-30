@@ -4,7 +4,7 @@
       .ec-title-area
         h2.f-semi-32 = t("dashboard.web_widget_channels.index.title")
         p.f-reg-16 = t("dashboard.web_widget_channels.index.description")
-      = link_to new_web_widget_channel_path, class: "ec-btn-primary"
+      = link_to new_channels_web_widget_path, class: "ec-btn-primary"
         | + #{t("dashboard.web_widget_channels.index.new_channel")}
 
     .ec-list
@@ -16,9 +16,9 @@
                 h3.f-semi-16 = channel.name
                 p.ec-card-email = channel.website_url.presence || "Any website"
               .ec-card-actions
-                = link_to edit_web_widget_channel_path(channel), class: "ec-action-btn", title: "Edit"
+                = link_to edit_channels_web_widget_path(channel), class: "ec-action-btn", title: "Edit"
                   | ✏️
-                = link_to web_widget_channel_path(channel), method: :delete, class: "ec-action-btn ec-action-delete", data: { turbo_method: :delete, turbo_confirm: t("dashboard.web_widget_channels.index.delete_confirm") }, title: "Delete"
+                = link_to channels_web_widget_path(channel), method: :delete, class: "ec-action-btn ec-action-delete", data: { turbo_method: :delete, turbo_confirm: t("dashboard.web_widget_channels.index.delete_confirm") }, title: "Delete"
                   | 🗑️
 
             .ec-card-meta
@@ -62,5 +62,5 @@
           .ec-empty-icon 💬
           h3.f-semi-18 = t("dashboard.web_widget_channels.index.empty_title")
           p.f-reg-14 = t("dashboard.web_widget_channels.index.empty_description")
-          = link_to new_web_widget_channel_path, class: "ec-btn-primary ec-btn-sm"
+          = link_to new_channels_web_widget_path, class: "ec-btn-primary ec-btn-sm"
             | + #{t("dashboard.web_widget_channels.index.new_channel")}

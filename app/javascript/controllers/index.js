@@ -11,7 +11,6 @@ import ModalTogglerController from "./modal_toggler_controller"
 import HelloController from "./hello_controller"
 import TogglerController from "./toggler_controller"
 import TranslatorController from "./translator_controller"
-import FacebookController from "./facebook_controller"
 import SectionController from "./section_controller"
 import ChatController from "./chat_controller"
 import ConsumerController from "./consumer_controller"
@@ -30,7 +29,8 @@ application.register("modalToggler", ModalTogglerController)
 application.register("hello", HelloController)
 application.register("toggler", TogglerController)
 application.register("translator", TranslatorController)
-application.register("facebook", FacebookController)
+import FacebookChannelController from "./facebook_channel_controller"
+application.register("facebook-channel", FacebookChannelController)
 application.register("section", SectionController)
 application.register("chat", ChatController)
 application.register("consumer", ConsumerController)
@@ -125,3 +125,6 @@ application.register("custom-field-form", CustomFieldFormController)
 
 import PortalOptionGroupController from "./portal_option_group_controller"
 application.register("portal-option-group", PortalOptionGroupController)
+
+import InstagramChannelController from "./instagram_channel_controller"
+application.register("instagram-channel", InstagramChannelController)

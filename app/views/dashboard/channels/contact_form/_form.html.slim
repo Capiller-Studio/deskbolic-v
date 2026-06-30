@@ -1,4 +1,4 @@
-- url = contact_form_channel.persisted? ? contact_form_channel_path(contact_form_channel) : contact_form_channels_path
+- url = contact_form_channel.persisted? ? channels_contact_form_path(contact_form_channel) : channels_contact_form_index_path
 - method = contact_form_channel.persisted? ? :patch : :post
 
 = form_with(model: contact_form_channel, scope: :contact_form_channel, url: url, method: method, data: { controller: "contact-form-channel" }) do |f|
@@ -204,11 +204,11 @@
       
       .ww-translations-container data-contact-form-translations-target="container"
         = f.fields_for :translations do |tf|
-          = render "dashboard/contact_form_channels/translation_fields", f: tf
+          = render "dashboard/channels/contact_form/translation_fields", f: tf
 
       template data-contact-form-translations-target="template"
         = f.fields_for :translations, Channel::ContactFormTranslation.new, child_index: 'NEW_RECORD' do |tf|
-          = render "dashboard/contact_form_channels/translation_fields", f: tf
+          = render "dashboard/channels/contact_form/translation_fields", f: tf
       
       - current_locales = contact_form_channel.translations.reject(&:marked_for_destruction?).map(&:locale).map(&:to_s)
       - available_locales = Core::SUPPORTED_LOCALES.map(&:to_s) - current_locales
@@ -226,4 +226,4 @@
       = f.submit t("dashboard.contact_form_channels.form.update", default: "Update Contact Form"), class: "ec-btn-primary"
     - else
       = f.submit t("dashboard.contact_form_channels.form.save", default: "Create Contact Form"), class: "ec-btn-primary"
-    = link_to t("dashboard.contact_form_channels.form.cancel", default: "Cancel"), contact_form_channels_path, class: "ec-btn-secondary"
+    = link_to t("dashboard.contact_form_channels.form.cancel", default: "Cancel"), channels_contact_form_index_path, class: "ec-btn-secondary"

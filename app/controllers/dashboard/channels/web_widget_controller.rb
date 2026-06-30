@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 module Dashboard
-  class WebWidgetChannelsController < DashboardController
+  module Channels
+    class WebWidgetController < DashboardController
     before_action :set_web_widget_channel, only: %i[edit update destroy]
     before_action :authorize_web_widget_channel
 
@@ -18,11 +19,11 @@ module Dashboard
 
     def create
       unless current_account.within_limit?(:channels)
-        redirect_to web_widget_channels_path, alert: t("dashboard.web_widget_channels.limit_reached")
+        redirect_to channels_web_widget_index_path, alert: t("dashboard.web_widget_channels.limit_reached")
         return
       end
 
-      creator = Channels::ChannelCreator.new(
+      creator = ::Channels::ChannelCreator.new(
         channel_type: "web_widget",
         channel_params: web_widget_channel_params,
         current_account: current_account
@@ -30,7 +31,7 @@ module Dashboard
 
       if creator.call
         @web_widget_channel = creator.channel
-        redirect_to edit_web_widget_channel_path(@web_widget_channel), notice: t("dashboard.web_widget_channels.created")
+        redirect_to edit_channels_web_widget_path(@web_widget_channel), notice: t("dashboard.web_widget_channels.created")
       else
         @web_widget_channel = creator.channel || Channel::WebWidget.new(web_widget_channel_params)
         set_associations
@@ -57,7 +58,7 @@ module Dashboard
         params_to_update = params_to_update.except(:anonymous_allowed, :help_center_enabled, :pre_chat_form_enabled, :secure_identity_enforced, :custom_branding)
 
         if @web_widget_channel.update(params_to_update)
-          redirect_to web_widget_channels_path, notice: t("dashboard.web_widget_channels.updated")
+          redirect_to channels_web_widget_index_path, notice: t("dashboard.web_widget_channels.updated")
         else
           set_associations
           render :edit, status: :unprocessable_entity
@@ -72,7 +73,7 @@ module Dashboard
       current_account.decrement_usage!(:channels)
 
       respond_to do |format|
-        format.html { redirect_to web_widget_channels_path, notice: t("dashboard.web_widget_channels.destroyed") }
+        format.html { redirect_to channels_web_widget_index_path, notice: t("dashboard.web_widget_channels.destroyed") }
         format.turbo_stream { render turbo_stream: turbo_stream.remove(@web_widget_channel) }
       end
     end
@@ -109,7 +110,7 @@ module Dashboard
 
       result = permitted.slice(
         :name, :website_url, :portal_id, :default_locale, :pre_chat_form_id, :fallback_channel_id, :fallback_channel_type,
-        :anonymous_allowed, :help_center_enabled, :pre_chat_form_enabled, :secure_identity_enforced, :custom_branding, :logo,
+        :anonymous_allowed, :help_center_enabled, :pre_chat_form_enabled, :secure_identity_enforced, :custom_branding, :logo, :launcher_icon,
         :primary_inbox_attributes, :translations_attributes
       ).to_h
 
@@ -124,4 +125,5 @@ module Dashboard
       result
     end
   end
+end
 end

@@ -1,0 +1,83 @@
+= render("dashboard/shared/dashboard_container", current_page: "settings") do
+  = render("dashboard/settings/settings_sidebar", current_page: "instagram-channels") do
+    .ig-edit-header
+      = link_to channels_instagram_index_path, class: "ig-back-link"
+        | ← #{t("dashboard.instagram_channels.form.back")}
+      h2.f-semi-32 = t("dashboard.instagram_channels.edit.title")
+
+    .ig-edit-container
+      /! Connection Status Section
+      .ig-section
+        .ig-section-header
+          h3.f-semi-18 = t("dashboard.instagram_channels.form.connection_section")
+
+        .ig-connection-card
+          .ig-connection-info
+            - if @instagram_channel.avatar_url.present?
+              img.ig-profile-avatar src=@instagram_channel.avatar_url alt=@instagram_channel.name
+            - else
+              .ig-profile-avatar-placeholder
+                | 📸
+            .ig-profile-details
+              h3.f-semi-16 = @instagram_channel.name || @instagram_channel.username
+              p.ig-username
+                | @#{@instagram_channel.username}
+
+          - if @instagram_channel.reauthorization_required? || @instagram_channel.token_expired?
+            .ig-reauth-banner
+              .ig-reauth-icon ⚠️
+              .ig-reauth-text
+                p.f-semi-14 = t("dashboard.instagram_channels.edit.reauth_title")
+                p.f-reg-12 = t("dashboard.instagram_channels.edit.reauth_description")
+              = link_to oauth_authorize_channels_instagram_index_path, class: "ig-reconnect-btn", data: { turbo: false }
+                | 🔄 #{t("dashboard.instagram_channels.edit.reconnect")}
+          - else
+            .ig-token-info
+              .ig-badge.ig-badge-active
+                span.ig-badge-icon 🟢
+                span = t("dashboard.instagram_channels.index.status_active")
+              - if @instagram_channel.expires_at.present?
+                .ig-token-expiry
+                  span.f-reg-12 = t("dashboard.instagram_channels.edit.token_expires_at", time: l(@instagram_channel.expires_at, format: :long))
+
+      /! Inbox Configuration Section
+      .ig-section
+        .ig-section-header
+          h3.f-semi-18 = t("dashboard.instagram_channels.form.inbox_section")
+
+        = form_with model: @instagram_channel, url: channels_instagram_path(@instagram_channel), method: :patch, class: "ig-edit-form" do |f|
+          .ig-form-group
+            = f.label :name, t("dashboard.instagram_channels.edit.name_label"), class: "ig-label"
+            = f.text_field :name, class: "ig-input", placeholder: t("dashboard.instagram_channels.edit.name_placeholder")
+
+          - if @instagram_channel.primary_inbox
+            .ig-inbox-settings
+              h4.f-semi-14 = t("dashboard.instagram_channels.edit.inbox_settings_title")
+
+              = f.fields_for :primary_inbox, @instagram_channel.primary_inbox do |inbox|
+                = inbox.hidden_field :id
+
+                .ig-form-group.ig-checkbox-group
+                  = inbox.check_box :csat_survey_enabled, class: "ig-checkbox"
+                  = inbox.label :csat_survey_enabled, t("dashboard.instagram_channels.edit.csat_enabled"), class: "ig-checkbox-label"
+
+                .ig-form-group
+                  = inbox.label :csat_survey_id, "CSAT Survey", class: "ig-label"
+                  = inbox.collection_select :csat_survey_id, current_account.csat_surveys, :id, :name, { include_blank: "Default System Survey" }, class: "ig-select"
+                
+                .ig-form-group
+                  = inbox.label :sla_policy_ids, "SLA Policies", class: "ig-label"
+                  = inbox.collection_select :sla_policy_ids, current_account.sla_policies, :id, :name, {}, { multiple: true, class: "ig-select" }
+
+          .ig-form-actions
+            = link_to channels_instagram_index_path, class: "ig-btn-secondary"
+              | #{t("dashboard.instagram_channels.form.cancel")}
+            = f.submit t("dashboard.instagram_channels.form.save"), class: "ig-btn-primary"
+
+      /! Danger Zone
+      .ig-section.ig-danger-zone
+        .ig-section-header
+          h3.f-semi-18 = t("dashboard.instagram_channels.edit.danger_title")
+        p.f-reg-14 = t("dashboard.instagram_channels.edit.danger_description")
+        = link_to channels_instagram_path(@instagram_channel), method: :delete, class: "ig-btn-danger", data: { turbo_method: :delete, turbo_confirm: t("dashboard.instagram_channels.index.delete_confirm") }
+          | #{t("dashboard.instagram_channels.edit.disconnect")}

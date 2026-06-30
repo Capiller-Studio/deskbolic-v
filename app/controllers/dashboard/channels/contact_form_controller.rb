@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 module Dashboard
-  class ContactFormChannelsController < DashboardController
+  module Channels
+    class ContactFormController < DashboardController
     before_action :set_contact_form_channel, only: %i[edit update destroy]
     before_action :authorize_contact_form_channel
 
@@ -18,11 +19,11 @@ module Dashboard
 
     def create
       unless current_account.within_limit?(:channels)
-        redirect_to contact_form_channels_path, alert: t("dashboard.contact_form_channels.limit_reached", default: "Channel limit reached")
+        redirect_to channels_contact_form_index_path, alert: t("dashboard.contact_form_channels.limit_reached", default: "Channel limit reached")
         return
       end
 
-      creator = Channels::ChannelCreator.new(
+      creator = ::Channels::ChannelCreator.new(
         channel_type: "contact_form",
         channel_params: contact_form_channel_params,
         current_account: current_account
@@ -31,7 +32,7 @@ module Dashboard
       if creator.call
         @contact_form_channel = creator.channel
         assign_custom_fields
-        redirect_to edit_contact_form_channel_path(@contact_form_channel), notice: t("dashboard.contact_form_channels.created", default: "Contact Form Channel created successfully.")
+        redirect_to edit_channels_contact_form_path(@contact_form_channel), notice: t("dashboard.contact_form_channels.created", default: "Contact Form Channel created successfully.")
       else
         @contact_form_channel = creator.channel || Channel::ContactForm.new(contact_form_channel_params.except("ordered_fields", "custom_field_ids"))
         set_associations
@@ -56,7 +57,7 @@ module Dashboard
 
         if @contact_form_channel.update(params_to_update)
           assign_custom_fields
-          redirect_to contact_form_channels_path, notice: t("dashboard.contact_form_channels.updated", default: "Contact Form Channel updated successfully.")
+          redirect_to channels_contact_form_index_path, notice: t("dashboard.contact_form_channels.updated", default: "Contact Form Channel updated successfully.")
         else
           set_associations
           render :edit, status: :unprocessable_entity
@@ -71,7 +72,7 @@ module Dashboard
       current_account.decrement_usage!(:channels)
 
       respond_to do |format|
-        format.html { redirect_to contact_form_channels_path, notice: t("dashboard.contact_form_channels.destroyed", default: "Contact Form Channel deleted.") }
+        format.html { redirect_to channels_contact_form_index_path, notice: t("dashboard.contact_form_channels.destroyed", default: "Contact Form Channel deleted.") }
         format.turbo_stream { render turbo_stream: turbo_stream.remove(@contact_form_channel) }
       end
     end
@@ -145,4 +146,5 @@ module Dashboard
       result
     end
   end
+end
 end

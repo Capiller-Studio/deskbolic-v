@@ -134,6 +134,13 @@
                         p.f-reg-12
                           = t("dashboard.instagram_channels.sidebar.label")
                           = plan_upgrade_bubble('channels.instagram')
+                li.nav-item class="#{current_page == 'whatsapp-channels' ? 'st-list-active' : ''}"
+                  = link_to(channels_whatsapp_index_path, class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12
+                          = t("dashboard.whatsapp_channels.sidebar.label")
+                          = plan_upgrade_bubble('channels.whatsapp')
                 li.nav-item class="#{current_page == 'assignment-policies' ? 'st-list-active' : ''}"
                   = link_to(assignment_policies_path, class: "nav-link") do
                     .link-text

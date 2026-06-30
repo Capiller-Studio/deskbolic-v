@@ -513,6 +513,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_11_000001) do
     t.jsonb "configurations", default: {}, null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.jsonb "data", default: {}, null: false
+    t.integer "flags", default: 0, null: false
     t.string "full_phone_number", null: false
     t.string "name"
     t.string "phone_code"

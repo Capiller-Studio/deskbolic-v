@@ -837,3 +837,78 @@ en:
         connection_section: Connection Status
         inbox_section: Inbox Configuration
 
+    whatsapp_channels:
+      sidebar:
+        label: WhatsApp
+      limit_reached: You've reached the channel limit for your current plan. Please upgrade to add more channels.
+      created: WhatsApp channel has been connected successfully.
+      updated: WhatsApp channel settings updated.
+      destroyed: WhatsApp channel has been disconnected.
+      create_failed: Failed to connect WhatsApp channel. Please try again.
+      callback_error: There was an error connecting to WhatsApp. Please try again.
+      reconnect_not_supported_yet: Reconnection is not supported yet. Please delete and recreate the channel if the token expires.
+      index:
+        title: WhatsApp
+        description: Connect your WhatsApp Business API to manage customer conversations.
+        connect_channel: Connect WhatsApp
+        delete_confirm: Are you sure you want to disconnect this WhatsApp channel? This will remove the inbox and all related conversations.
+        status_active: Connected
+        status_disconnected: Disconnected
+        status_reauth: Re-authorization needed
+        reconnect: Reconnect
+        inboxes_count:
+          one: "%{count} inbox"
+          other: "%{count} inboxes"
+        created_ago: "Created %{time} ago"
+        empty_title: No WhatsApp channels connected
+        empty_description: Connect your WhatsApp Business Account to start receiving messages directly in your inbox.
+      new:
+        title: Connect WhatsApp
+        subtitle: Choose how you'd like to connect your WhatsApp Business Account.
+        tabs:
+          embedded: Quick Connect (Recommended)
+          manual: Manual Setup
+        embedded:
+          step1_title: Connect with Meta
+          step1_description: Log in with your Facebook account and select your WhatsApp Business Account.
+          guide_1: You must be an admin of the Meta Business Portfolio.
+          guide_2: Make sure you have a valid phone number ready.
+          guide_3: The connection takes less than 5 minutes.
+          connect_button: Connect with Meta
+        manual:
+          guide_title: Manual Setup Guide
+          guide_1: Go to your Meta Developer App and select WhatsApp > API Setup.
+          guide_2: Copy the Phone Number ID and WhatsApp Business Account ID.
+          guide_3: Copy your permanent access token.
+          guide_4: Fill out the form below with the copied details.
+          guide_5: After creation, copy the generated Webhook URL into your Meta App.
+      edit:
+        title: Edit WhatsApp Channel
+        reauth_title: Re-authorization required
+        reauth_description: The access token has expired or been invalidated. Please reconnect to restore messaging.
+        danger_title: Danger Zone
+        danger_description: Disconnecting this channel will remove the inbox and stop receiving new messages. Existing conversations will be preserved.
+        disconnect: Disconnect Channel
+        webhook:
+          title: Webhook Configuration
+          description: Add this webhook URL and verify token to your Meta App's WhatsApp configuration to start receiving messages.
+          url_label: Webhook URL
+          secret_label: Verify Token
+      form:
+        back: Back to WhatsApp
+        name_label: Channel Name
+        name_placeholder: e.g., Support Line
+        full_phone_label: Full Phone Number
+        phone_code_label: Country Code
+        phone_number_label: Phone Number
+        phone_id_label: Phone Number ID
+        waba_id_label: WhatsApp Business Account ID
+        api_key_label: Access Token
+        api_key_placeholder: Paste your permanent or system user access token here
+        create: Create Channel
+        save: Save Changes
+        cancel: Cancel
+        reopen_window_label: Auto-Reopen Window
+        inbox_settings: Inbox Settings
+        enable_csat: Enable CSAT survey after conversations
+        csat_survey_label: Select CSAT Survey

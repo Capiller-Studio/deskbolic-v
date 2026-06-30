@@ -1,0 +1,80 @@
+= render("dashboard/shared/dashboard_container", current_page: "settings") do
+  = render("dashboard/settings/settings_sidebar", current_page: "whatsapp-channels") do
+    .wa-new-header
+      = link_to channels_whatsapp_index_path, class: "wa-back-link"
+        | ← #{t("dashboard.whatsapp_channels.form.back")}
+      h2.f-semi-32 = t("dashboard.whatsapp_channels.new.title")
+      p.f-reg-16 = t("dashboard.whatsapp_channels.new.subtitle")
+
+    .wa-connect-container
+      .wa-setup-tabs data-controller="whatsapp-tabs"
+        .wa-tabs-header
+          button.wa-tab-btn disabled=true type="button" style="opacity: 0.6; cursor: not-allowed;"
+            | ⚡ #{t("dashboard.whatsapp_channels.new.tabs.embedded")}
+            span style="background: var(--primary-50); color: var(--primary-600); font-size: 11px; padding: 2px 6px; border-radius: 4px; margin-left: 8px; font-weight: 600;" Coming Soon
+          button.wa-tab-btn.active data-action="click->whatsapp-tabs#switch" data-target-tab="manual" type="button"
+            | 🛠️ #{t("dashboard.whatsapp_channels.new.tabs.manual")}
+
+        /! Quick Connect (Embedded Signup)
+        #tab-embedded.wa-tab-content data-whatsapp-tabs-target="tabContent" data-tab-name="embedded" data-controller="whatsapp-channel" data-whatsapp-channel-app-id-value="#{@whatsapp_app_id}" data-whatsapp-channel-config-id-value="#{@whatsapp_config_id}" data-whatsapp-channel-callback-url-value="#{callback_channels_whatsapp_index_path}"
+          .wa-step
+            .wa-step-header
+              .wa-step-number 1
+              .wa-step-title
+                h3.f-semi-18 = t("dashboard.whatsapp_channels.new.embedded.step1_title")
+                p.f-reg-14 = t("dashboard.whatsapp_channels.new.embedded.step1_description")
+                ul.wa-guide-list
+                  li = t("dashboard.whatsapp_channels.new.embedded.guide_1")
+                  li = t("dashboard.whatsapp_channels.new.embedded.guide_2")
+                  li = t("dashboard.whatsapp_channels.new.embedded.guide_3")
+
+            .wa-connect-action
+              button.wa-btn-primary type="button" data-action="click->whatsapp-channel#connectWa"
+                | 💬 #{t("dashboard.whatsapp_channels.new.embedded.connect_button")}
+
+          /! Form submitted automatically by JS on success
+          = form_with url: callback_channels_whatsapp_index_path, method: :post, class: "wa-hidden-form", data: { whatsapp_channel_target: "callbackForm" } do |f|
+            input type="hidden" name="code" data-whatsapp-channel-target="code"
+
+        /! Manual Setup
+        #tab-manual.wa-tab-content.active data-whatsapp-tabs-target="tabContent" data-tab-name="manual"
+          .wa-manual-container
+            .wa-guide-box
+              h4.f-semi-16 = t("dashboard.whatsapp_channels.new.manual.guide_title")
+              ol.wa-guide-list
+                li = t("dashboard.whatsapp_channels.new.manual.guide_1")
+                li = t("dashboard.whatsapp_channels.new.manual.guide_2")
+                li = t("dashboard.whatsapp_channels.new.manual.guide_3")
+                li = t("dashboard.whatsapp_channels.new.manual.guide_4")
+                li = t("dashboard.whatsapp_channels.new.manual.guide_5")
+
+            = form_with model: @whatsapp_channel, url: channels_whatsapp_index_path, class: "wa-config-form" do |f|
+              .wa-form-group
+                = f.label :name, t("dashboard.whatsapp_channels.form.name_label"), class: "wa-label"
+                = f.text_field :name, class: "wa-input", placeholder: t("dashboard.whatsapp_channels.form.name_placeholder"), required: true
+              
+              .wa-phone-input-group style="display: flex; gap: 1rem; margin-bottom: 1.25rem;"
+                .wa-form-group style="flex: 1;"
+                  = f.label :phone_code, t("dashboard.whatsapp_channels.form.phone_code_label"), class: "wa-label"
+                  = f.select :phone_code, options_for_select(whatsapp_country_codes), { include_blank: "Select Country Code" }, { class: "wa-select", required: true }
+                  
+                .wa-form-group style="flex: 2;"
+                  = f.label :phone_number, t("dashboard.whatsapp_channels.form.phone_number_label"), class: "wa-label"
+                  = f.text_field :phone_number, class: "wa-input", placeholder: "e.g., 234567890", required: true
+
+              .wa-form-group
+                = f.label :phone_number_id, t("dashboard.whatsapp_channels.form.phone_id_label"), class: "wa-label"
+                = f.text_field :phone_number_id, class: "wa-input", required: true
+
+              .wa-form-group
+                = f.label :business_account_id, t("dashboard.whatsapp_channels.form.waba_id_label"), class: "wa-label"
+                = f.text_field :business_account_id, class: "wa-input", required: true
+
+              .wa-form-group
+                = f.label :api_key, t("dashboard.whatsapp_channels.form.api_key_label"), class: "wa-label"
+                = f.text_area :api_key, class: "wa-input", rows: 3, placeholder: t("dashboard.whatsapp_channels.form.api_key_placeholder"), required: true
+
+              .wa-form-actions
+                = link_to channels_whatsapp_index_path, class: "wa-btn-secondary"
+                  | #{t("general.cancel")}
+                = f.submit t("dashboard.whatsapp_channels.form.create"), class: "wa-btn-primary"

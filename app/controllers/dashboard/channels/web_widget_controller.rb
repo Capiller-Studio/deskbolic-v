@@ -104,7 +104,7 @@ module Dashboard
         :anonymous_allowed, :help_center_enabled, :pre_chat_form_enabled, :secure_identity_enforced, :custom_branding, :logo, :launcher_icon,
         ui_configurations: [:theme_color, :position, :footer_text],
         configurations: [],
-        primary_inbox_attributes: [:id, :csat_survey_enabled, :auto_assign, :csat_survey_id, :conversation_reply_template_id, :business_hour_group_id, sla_policy_ids: []],
+        primary_inbox_attributes: [:id, :reopen_window_seconds, :csat_survey_enabled, :auto_assign, :csat_survey_id, :conversation_reply_template_id, :business_hour_group_id, sla_policy_ids: []],
         translations_attributes: [:id, :locale, :launcher_text, :reply_time_text, :pre_chat_title, :pre_chat_subtitle, :welcome_title, :welcome_tagline, :_destroy]
       )
 

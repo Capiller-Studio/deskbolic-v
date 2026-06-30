@@ -128,3 +128,9 @@ application.register("portal-option-group", PortalOptionGroupController)
 
 import InstagramChannelController from "./instagram_channel_controller"
 application.register("instagram-channel", InstagramChannelController)
+
+import WhatsappChannelController from "./whatsapp_channel_controller"
+application.register("whatsapp-channel", WhatsappChannelController)
+
+import WhatsappTabsController from "./whatsapp_tabs_controller"
+application.register("whatsapp-tabs", WhatsappTabsController)

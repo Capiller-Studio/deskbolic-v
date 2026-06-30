@@ -26,6 +26,9 @@ Rails.application.routes.draw do
     get "whatsapp/:account_id/:channel_id", to: "whatsapp#hub"
     post "whatsapp/:account_id/:channel_id", to: "whatsapp#index"
     
+    get "whatsapp", to: "whatsapp#hub"
+    post "whatsapp", to: "whatsapp#index"
+    
     get "widget/:account_id/:channel_id", to: "widget#hub"
     post "widget/:account_id/:channel_id", to: "widget#index"
 
@@ -111,6 +114,15 @@ Rails.application.routes.draw do
         collection do
           get :oauth_authorize
           get :callback
+        end
+      end
+
+      resources :whatsapp, except: [:show] do
+        member do
+          post :reconnect
+        end
+        collection do
+          post :callback
         end
       end
     end

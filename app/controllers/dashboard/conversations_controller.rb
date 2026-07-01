@@ -30,7 +30,7 @@ module Dashboard
       @teams = current_account.teams.includes(:team_users).order(:name)
       @team_users = @teams.flat_map(&:team_users).reject { |tu| tu.user_id == current_user.id }.uniq(&:user_id)
 
-      @conversation = Conversation.find(params[:resource_id])
+      @conversation = current_account.conversations.find(params[:id])
       @inbox = @conversation.inbox
       @conversations = @inbox.conversations.where(account: current_account).where(status: @conversation.status)
       @conversations = @conversations.current_conversations(current_user).or(@conversations.not_assigned_to_user)
@@ -38,9 +38,21 @@ module Dashboard
       @filter = params[:filter].presence
       @conversations = filter_conversations(@filter) if @filter.present?
 
-      @messages = @conversation.messages.includes(:attachments)
+      @pagy, @messages = pagy(@conversation.messages.includes(:attachments).order(created_at: :desc), items: 20)
+      @messages = @messages.reverse
       @canned_responses = CannedResponse.where(account: current_account).all
       @notes = Note.where(account: current_account, user: current_user).all
+
+      # Fetch unread count before resetting
+      key = RedisUtilities::Keys::UNREAD_CONVERSATION_COUNT % { account_id: current_account.id, member_id: current_user.id }
+      @unread_count = RedisUtilities::Helpers.hash_get(key, @conversation.id).to_i
+      
+      if @unread_count > 0 && @messages.size >= @unread_count
+        @unread_start_message_id = @messages[@messages.size - @unread_count].id
+      end
+
+      # Reset unread counts
+      UnreadCounts::Reset.call(@conversation, current_user)
 
       respond_to do |format|
         format.turbo_stream do
@@ -82,6 +94,12 @@ module Dashboard
       @conversation = Conversation.find(params[:id])
       @conversation.update(status: :closed)
       redirect_to conversations_path(resource_id: @conversation.inbox_id)
+    end
+    
+    def mark_as_read
+      @conversation = Conversation.find(params[:id])
+      UnreadCounts::Reset.call(@conversation, current_user)
+      head :ok
     end
     
     def assign_member

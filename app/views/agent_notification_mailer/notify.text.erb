@@ -1,0 +1,11 @@
+Hello <%= @user.display_name || @user.email %>,
+
+<%= I18n.t("notifications.events.#{@notification.event}") %>
+
+You have a new alert regarding <%= @conversation.try(:identifier) || @resource.try(:identifier) %>.
+
+View Details: <%= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') %>/conversations/<%= @conversation.try(:id) || @resource.try(:id) %>
+
+---
+Deskbolic
+<%= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') %>

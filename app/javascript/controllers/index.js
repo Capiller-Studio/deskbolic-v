@@ -135,6 +135,18 @@ application.register("whatsapp-channel", WhatsappChannelController)
 import WhatsappTabsController from "./whatsapp_tabs_controller"
 application.register("whatsapp-tabs", WhatsappTabsController)
 
+import MarkAsReadController from "./mark_as_read_controller"
+application.register("mark-as-read", MarkAsReadController)
+
+import FadeOutController from "./fade_out_controller"
+application.register("fade-out", FadeOutController)
+
+import ScrollToBottomController from "./scroll_to_bottom_controller"
+application.register("scroll-to-bottom", ScrollToBottomController)
+
+import UnreadBadgeController from "./unread_badge_controller"
+application.register("unread-badge", UnreadBadgeController)
+
 import CategoryController from "./help_center/category_controller"
 application.register("category", CategoryController)
 

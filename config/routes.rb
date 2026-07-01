@@ -84,10 +84,12 @@ Rails.application.routes.draw do
       member do
         patch :snooz_conversation
         patch :close_conversation
+        patch :mark_as_read
         post  :assign_member
         post  :assign_team
         post  :unassign_team
       end
+      resources :messages, only: [:index]
     end
     namespace :channels do
       resources :email, except: [:show] do
@@ -131,6 +133,7 @@ Rails.application.routes.draw do
     resources :inboxes
     resources :messages do
       get :append_message, on: :collection
+      get :update_message, on: :collection
     end
     resources :canned_responses
     resources :notes

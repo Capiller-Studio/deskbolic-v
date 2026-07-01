@@ -65,21 +65,28 @@
             
             / All inboxes
             li.nav-item class=""
-              .nav-link.link data-target-id="conversations-frame" data-controller="section" data-action="click->section#toggleSection" data-url="#{conversations_path}" data-resource-id=""
+              .nav-link.link data-target-id="conversations-frame" data-controller="section" data-action="click->section#toggleSection" data-url="#{conversations_path}"
                 .link-text
                   = inline_svg_tag("inbox.svg", class:"link-icon", alt:"inbox icon")
                   p.f-reg-14 All
-                .back-oval-gray
-                  p.f-reg-12 = current_account.conversations.count
-                  / p.f-reg-12 = inbox.conversations&.count
+                .nav-link-badges style="display: flex; gap: 4px;"
+                  - all_unread = @inboxes&.sum { |inbox| @unread_counts[:inboxes][inbox.id].to_i } || 0
+                  .unread-badge data-controller="unread-badge" data-action="deskbolic:unread-counts-updated@window->unread-badge#update" data-unread-badge-target="badge" data-unread-badge-type-value="all" style="background: var(--primary-500, #4F46E5); color: white; border-radius: 12px; padding: 2px 8px; align-items: center; justify-content: center; display: #{all_unread > 0 ? 'flex' : 'none'};"
+                    p.f-semi-12 = all_unread
+                  .back-oval-gray
+                    p.f-reg-12 = current_account.conversations.count
             - @inboxes&.each do |inbox|
               li.nav-item class=""
-                .nav-link.link data-target-id="conversations-frame" data-controller="section" data-action="click->section#toggleSection" data-url="#{conversations_path}" data-resource-id="#{inbox.id}"
+                .nav-link.link data-target-id="conversations-frame" data-controller="section" data-action="click->section#toggleSection" data-url="#{conversations_path(resource_id: inbox.id)}"
                   .link-text
                     = inbox_icon(inbox)
                     p.f-reg-14 title=inbox.name style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px;" = inbox.name
-                  .back-oval-gray
-                    p.f-reg-12 = inbox.conversations&.count
+                  .nav-link-badges style="display: flex; gap: 4px;"
+                    - unread = @unread_counts[:inboxes][inbox.id].to_i
+                    .unread-badge data-controller="unread-badge" data-action="deskbolic:unread-counts-updated@window->unread-badge#update" data-unread-badge-target="badge" data-unread-badge-id-value=inbox.id data-unread-badge-type-value="inbox" style="background: var(--primary-500, #4F46E5); color: white; border-radius: 12px; padding: 2px 8px; align-items: center; justify-content: center; display: #{unread > 0 ? 'flex' : 'none'};"
+                      p.f-semi-12 = unread
+                    .back-oval-gray
+                      p.f-reg-12 = inbox.conversations&.count
         
         / teams
         .teams-header.list-header

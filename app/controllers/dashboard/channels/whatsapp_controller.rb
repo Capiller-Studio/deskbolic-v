@@ -104,7 +104,14 @@ module Dashboard
 
       # POST /whatsapp/:id/reconnect
       def reconnect
-        redirect_to channels_whatsapp_index_path, alert: t("dashboard.whatsapp_channels.reconnect_not_supported_yet")
+        current_account.with_shard do
+          @whatsapp_channel.reauthorized!
+        end
+        
+        # If it was an embedded setup, a true token refresh might require the FB SDK.
+        # But clearing the flag lets the system try again. If it fails 3 times, it will suspend again.
+        redirect_back fallback_location: edit_channels_whatsapp_path(@whatsapp_channel), 
+                      notice: t("dashboard.whatsapp_channels.reconnected", default: "Channel re-activated successfully. If your access token is truly expired, please update it.")
       end
 
       private

@@ -20,84 +20,15 @@
             p.f-reg-12 Export Conversation
         
         = render "dashboard/conversations/snooz_conv_modal"
-    .conversation#oppp
-      - @messages.each do |message|
-        - if message.sender_type == "Customer"
-          .user-response.response data-controller="translator" data-translator-target="response"
-            .text-content
-              .chat-user
-                - customer = message.sender
-                - if customer.avatar.attached?
-                  = image_tag(customer.avatar, class:"img", alt:"menu")
-                - else
-                  .img.avatar-fallback.customer-message-initials-avatar.f-reg-12 class=avatar_fallback_color_class(full_name(customer))
-                    = initials(customer)
-              .user-text
-                - if message.content.present?
-                  - if single_emoji_message?(message.content)
-                    .original.single-emoji-message data-translator-target="original"
-                      = message.content.strip
-                  - else
-                    .original.f-reg-14 data-translator-target="original"
-                      = message.content
-                    .translate-text
-                      button.f-light-italic-10 data-action="click->translator#toggle_translate" Translate
-                    .translated-text.d-none
-                      h5.f-med-10 TRANSLATION IN ENGLISH:
-                      p
-                        span.translation.f-light-italic-12 data-translator-target="translation"
-                        |  
-                        span.f-med-10.close-translation data-action="click->translator#toggle" Close
-                - if message.attachments.any?
-                  .msg-attachments
-                    - message.attachments.each do |attachment|
-                      - if attachment.audio? && attachment.file.attached?
-                        .msg-attachment-audio
-                          audio controls=true preload="metadata" src=rails_blob_path(attachment.file)
-                      - elsif attachment.image? && attachment.file.attached?
-                        .msg-attachment-img
-                          = image_tag(attachment.file, class: "attachment-image")
-                      - elsif attachment.file.attached?
-                        a.msg-attachment-file href=rails_blob_path(attachment.file, disposition: "attachment") target="_blank"
-                          span.file-icon 📄
-                          span.file-name = attachment.file.filename
-
-        - if message.sender_type == "User"
-          .agent-response.response data-controller="translator" data-translator-target="response"
-            .agent-text
-              - if message.content.present?
-                - if single_emoji_message?(message.content)
-                  .original.single-emoji-message data-translator-target="original"
-                    = message.content.strip
-                - else
-                  .original.f-reg-14 data-translator-target="original"
-                    = message.content
-                  .translate-text
-                    button.f-light-italic-10 data-action="click->translator#toggle_translate" Translate
-                  .translated-text.d-none
-                    h5.f-med-10 TRANSLATION IN ENGLISH:
-                    p
-                      span.translation.f-light-italic-12 data-translator-target="translation"
-                      |  
-                      span.f-med-10.close-translation data-action="click->translator#toggle" Close
-              - if message.attachments.any?
-                .msg-attachments
-                  - message.attachments.each do |attachment|
-                    - if attachment.audio? && attachment.file.attached?
-                      .msg-attachment-audio
-                        audio controls=true preload="metadata" src=rails_blob_path(attachment.file)
-                    - elsif attachment.image? && attachment.file.attached?
-                      .msg-attachment-img
-                        = image_tag(attachment.file, class: "attachment-image")
-                    - elsif attachment.file.attached?
-                      a.msg-attachment-file href=rails_blob_path(attachment.file, disposition: "attachment") target="_blank"
-                        span.file-icon 📄
-                        span.file-name = attachment.file.filename
+    .conversation#oppp data-controller="scroll-to-bottom mark-as-read" data-mark-as-read-url-value=mark_as_read_conversation_path(@conversation) data-conversation-id=@conversation.id
+      = turbo_frame_tag "messages-page-#{@pagy.next}", src: conversation_messages_path(@conversation, page: @pagy.next), loading: :lazy if defined?(@pagy) && @pagy&.next
+      = render partial: "dashboard/messages/message", collection: @messages
+      
       turbo-frame#message-frame
       
     .footer
       .message-box data-controller="message-form"
-        = form_with(model: Message.new, method: :post, class:"msg-form", remote: true, multipart: true) do |f|
+        = form_with(model: Message.new, method: :post, class:"msg-form", multipart: true, data: { action: "turbo:submit-end->message-form#clear" }) do |f|
           .text-translation
             .response-type 
               button.f-semi-14.reply.active type="button" Reply
@@ -185,7 +116,7 @@
               /           = inline_svg_tag("arrow_down.svg", class:"menu-icon", alt:"menu")
                         
             .send-button data-controller="accordion modalToggler frameToggler"
-              = f.submit "Send", class: "f-semi-12"
+              = f.submit "Send", class: "f-semi-12", data: { turbo_submits_with: "Sending..." }
               .arrow-container data-action="click->accordion#toggleMenu" 
                 = inline_svg_tag("arrow_down_white.svg")
 

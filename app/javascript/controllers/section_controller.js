@@ -6,11 +6,10 @@ export default class extends Controller {
   
   toggleSection(event) {
     const targetUrl = event.currentTarget.dataset.url;
-    const resourceId = event.currentTarget.dataset.resourceId;
 
-    history.pushState(null, '', `${targetUrl}?resource_id=${resourceId}`);    
+    history.pushState(null, '', targetUrl);    
     
-    fetch(`${targetUrl}?resource_id=${resourceId}`, {
+    fetch(targetUrl, {
       method: 'GET',
       headers: {
         Accept: 'text/vnd.turbo-stream.html'

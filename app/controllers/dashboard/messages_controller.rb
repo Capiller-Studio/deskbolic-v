@@ -2,6 +2,13 @@
 
 module Dashboard
   class MessagesController < DashboardController
+    def index
+      @conversation = Conversation.find(params[:conversation_id])
+      @pagy, @messages = pagy(@conversation.messages.includes(:attachments).order(created_at: :desc), items: 20)
+      @messages = @messages.reverse
+      render layout: false
+    end
+
     def create
       @response = params[:message][:response]
       @attachments = params[:message][:attachments].reject(&:blank?)
@@ -20,6 +27,7 @@ module Dashboard
       end
 
       respond_to do |format|
+        format.turbo_stream
         format.js { render(js: "document.querySelector('.response-area').value = ''; document.dispatchEvent(new CustomEvent('deskbolic:message-sent'));") }
         format.html { redirect_to(request.referer) }
       end
@@ -27,8 +35,21 @@ module Dashboard
 
     def append_message
       @message = Message.find(params[:id])
-      render(turbo_stream: turbo_stream.append("message-frame", partial: "dashboard/messages/message",
-locals: { message: @message }))
+      streams = []
+      
+      if params[:active_conversation_id] == @message.conversation_id
+        streams << turbo_stream.append("message-frame", partial: "dashboard/messages/message", locals: { message: @message, show_divider: true })
+      end
+      
+      streams << turbo_stream.update("conversation-#{@message.conversation_id}-preview", @message.content.to_s)
+      streams << turbo_stream.update("conversation-#{@message.conversation_id}-date", @message.created_at.strftime("%d %b"))
+      
+      render(turbo_stream: streams)
+    end
+
+    def update_message
+      @message = Message.find(params[:id])
+      render(turbo_stream: turbo_stream.replace(ActionView::RecordIdentifier.dom_id(@message), partial: "dashboard/messages/message", locals: { message: @message, show_divider: false }))
     end
 
     private

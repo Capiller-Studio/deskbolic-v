@@ -36,4 +36,14 @@ class SystemMailer < ApplicationMailer
     
     mail(to: @account.email, subject: I18n.t("mailers.system_mailer.subscription_past_due.subject", default: "Action Required: Your Deskbolic subscription is past due"))
   end
+
+  def channel_reauthorization_required(channel)
+    @channel = channel
+    @account = channel.account
+    
+    mail(to: @account.email, subject: I18n.t("mailers.system_mailer.channel_reauthorization_required.subject", default: "Action Required: Reauthorize your Deskbolic channel")) do |format|
+      format.html { render layout: false }
+      format.text
+    end
+  end
 end

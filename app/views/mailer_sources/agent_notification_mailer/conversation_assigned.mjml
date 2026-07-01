@@ -1,0 +1,50 @@
+<mjml>
+  <mj-include path="../system_mailer/shared/_head.mjml" />
+  
+  <mj-body background-color="#f3f4f6">
+    <mj-section padding="40px 20px">
+      <mj-column css-class="email-container">
+        
+        <mj-include path="../system_mailer/shared/_header.mjml" />
+
+        <mj-section background-color="#ffffff" padding="20px 40px 40px 40px">
+          <mj-column>
+            <!-- User/Assign Icon -->
+            <mj-text align="center" padding-bottom="24px">
+              <span style="font-size: 48px;">👤</span>
+            </mj-text>
+
+            <mj-text align="center" font-size="22px" font-weight="700" color="#111827" padding-bottom="16px">
+              Conversation Assigned
+            </mj-text>
+
+            <mj-text align="left" padding-bottom="16px">
+              Hello [[ERB= @user.display_name || @user.email ]],
+            </mj-text>
+
+            <mj-text align="left" padding-bottom="24px">
+              Conversation <strong>[[ERB= @conversation.identifier ]]</strong> has been assigned to you.
+            </mj-text>
+
+            <mj-button href="[[ERB= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') ]]/conversations/[[ERB= @conversation.id ]]">
+              View Conversation
+            </mj-button>
+
+          </mj-column>
+        </mj-section>
+
+        <mj-include path="../system_mailer/shared/_footer.mjml" />
+
+      </mj-column>
+    </mj-section>
+    
+    <!-- Bottom spacing outside the white container -->
+    <mj-section padding="24px 0">
+      <mj-column>
+        <mj-text align="center" font-size="12px" color="#9ca3af">
+          <a href="[[ERB= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') ]]" class="footer-link">deskbolic.com</a>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

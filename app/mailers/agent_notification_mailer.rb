@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class AgentNotificationMailer < ApplicationMailer
-  layout "mailer"
+  layout false
 
   # General notification — uses DB template (Liquid) if available, else mailer view
   def notify(notification)
@@ -9,6 +9,11 @@ class AgentNotificationMailer < ApplicationMailer
     @user = notification.user
     @account = notification.account
     @resource = notification.resource
+    @conversation = if @resource.is_a?(Conversation)
+                      @resource
+                    elsif @resource.respond_to?(:conversation)
+                      @resource.conversation
+                    end
 
     locale = @user.locale || I18n.default_locale
     template = EmailTemplate.for_account(@account, "agent_notification")
@@ -25,7 +30,7 @@ class AgentNotificationMailer < ApplicationMailer
     else
       I18n.with_locale(locale) do
         subject = I18n.t("mailers.agent_notification.#{notification.event}.subject",
-                         identifier: @resource.try(:identifier) || "")
+                         identifier: @conversation.try(:identifier) || @resource.try(:identifier) || "")
         mail(to: @user.email, subject:)
       end
     end
@@ -66,8 +71,8 @@ class AgentNotificationMailer < ApplicationMailer
       "agent_name" => @user.display_name || @user.email,
       "event_title" => I18n.t("notifications.events.#{@notification.event}"),
       "event_description" => I18n.t("notifications.events.#{@notification.event}"),
-      "identifier" => @resource.try(:identifier) || "",
-      "inbox_name" => @resource.try(:inbox).try(:name) || ""
+      "identifier" => @conversation.try(:identifier) || @resource.try(:identifier) || "",
+      "inbox_name" => @conversation.try(:inbox).try(:name) || @resource.try(:inbox).try(:name) || ""
     }
   end
 end

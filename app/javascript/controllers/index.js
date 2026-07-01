@@ -134,3 +134,12 @@ application.register("whatsapp-channel", WhatsappChannelController)
 
 import WhatsappTabsController from "./whatsapp_tabs_controller"
 application.register("whatsapp-tabs", WhatsappTabsController)
+
+import CategoryController from "./help_center/category_controller"
+application.register("category", CategoryController)
+
+import ArticleController from "./help_center/article_controller"
+application.register("article", ArticleController)
+
+import RichtextEditorController from "./richtext_editor_controller"
+application.register("richtext-editor", RichtextEditorController)

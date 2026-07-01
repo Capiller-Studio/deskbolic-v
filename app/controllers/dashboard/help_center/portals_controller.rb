@@ -20,7 +20,7 @@ module Dashboard
         ["list", "List Layout"]
       ].freeze
 
-      before_action :set_available_domains, only: %i[new create]
+      before_action :set_available_domains, only: %i[new create edit update]
 
       def index
         authorize ::HelpCenter::Portal
@@ -31,6 +31,37 @@ module Dashboard
         @portal = ::HelpCenter::Portal.new(default_locale: I18n.default_locale.to_s, locales: [I18n.default_locale.to_s])
         authorize @portal
         prepare_form_state
+      end
+
+      def edit
+        @portal = current_account.portals.find(params[:id])
+        authorize @portal
+        @available_domains << @portal.domain
+        prepare_form_state
+      end
+
+      def update
+        @portal = current_account.portals.find(params[:id])
+        authorize @portal
+        @portal.domain = selected_domain || @portal.domain
+        @portal.locales = submitted_locales
+        @portal.default_locale = selected_default_locale
+        @portal.ui_configurations = ui_configurations
+        if @portal.domain.blank?
+          @portal.errors.add(:domain, "must be selected")
+          set_available_domains
+          prepare_form_state
+          render :edit, status: :unprocessable_entity
+          return
+        end
+
+        if @portal.update(portal_attributes)
+          redirect_to help_center_portals_path, notice: "Help Center updated successfully."
+        else
+          set_available_domains
+          prepare_form_state
+          render :edit, status: :unprocessable_entity
+        end
       end
 
       def create

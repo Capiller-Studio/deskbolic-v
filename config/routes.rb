@@ -166,7 +166,7 @@ Rails.application.routes.draw do
     end
 
     namespace :help_center do
-      resources :portals, only: [:index, :new, :create]
+      resources :portals, only: [:index, :new, :create, :edit, :update]
       resources :articles do
         member do
           post :publish
@@ -174,6 +174,7 @@ Rails.application.routes.draw do
           post :copy_locale
         end
       end
+      resources :categories, only: %i[index create]
     end
 
     resources :automations do

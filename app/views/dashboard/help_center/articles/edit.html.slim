@@ -1,0 +1,15 @@
+= render("dashboard/shared/dashboard_container", current_page: "help_center") do
+  = render("dashboard/help_center/help_center_sidebar", current_page: "articles") do
+    .hc-articles.hc-form-page.hc-form-no-sidebar
+      .hc-form-header-bar
+        = link_to help_center_article_path(@article), class: "hc-back-link" do
+          | Back
+        .hc-form-header-actions
+          = link_to "Cancel", help_center_article_path(@article), class: "hc-btn-secondary hc-header-btn"
+          button.hc-btn-primary.hc-header-btn type="submit" form="article-form" name="save_draft" value="1"
+            | Save
+          button.hc-btn-primary.hc-btn-green.hc-header-btn type="submit" form="article-form" name="publish" value="1" data-disable-with="Publishing..."
+            | Publish
+      .hc-form-layout
+        .hc-form-main
+          = render "form", article: @article

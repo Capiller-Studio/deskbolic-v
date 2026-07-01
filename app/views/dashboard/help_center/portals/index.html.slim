@@ -29,6 +29,8 @@
                 .portal-card-meta
                   span.f-reg-12 = portal.default_locale.to_s.upcase
                   span.f-reg-12 = pluralize(Array(portal.locales).size, "language")
+                  = link_to edit_help_center_portal_path(portal), class: "portal-edit-btn", title: "Edit Help Center" do
+                    = inline_svg_tag("edit.svg", class: "portal-edit-icon", alt: "Edit")
         - else
           .portal-empty
             p.f-reg-14 No Help Centers yet

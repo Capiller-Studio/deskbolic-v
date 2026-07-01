@@ -1,0 +1,5 @@
+= turbo_frame_tag "messages-page-#{@pagy.page}" do
+  - if @pagy.next
+    = turbo_frame_tag "messages-page-#{@pagy.next}", src: conversation_messages_path(@conversation, page: @pagy.next), loading: :lazy
+    
+  = render partial: "dashboard/messages/message", collection: @messages

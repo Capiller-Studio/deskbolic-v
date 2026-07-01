@@ -1,0 +1,15 @@
+Action Required: Reauthorize Channel
+
+Hello,
+
+Your <%= @channel.routing_type.capitalize %> channel (<%= @channel.name %>) has been temporarily suspended due to consecutive API errors.
+
+To resume sending and receiving messages, please re-authenticate your channel in the Deskbolic dashboard.
+
+Go to: <%= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') %>/settings/channels
+
+If you need assistance, please contact our support team.
+
+---
+Deskbolic
+<%= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') %>

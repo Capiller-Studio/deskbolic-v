@@ -4,6 +4,7 @@ class DashboardController < ApplicationController
   before_action :authenticate_user!
   before_action :redirect_if_no_accounts
   before_action :enforce_active_subscription
+  before_action :set_unread_counts
   around_action :set_sharding_context
 
   include Pundit
@@ -23,6 +24,14 @@ class DashboardController < ApplicationController
       current_account.with_shard(&block)
     else
       yield
+    end
+  end
+
+  def set_unread_counts
+    if current_user && current_account
+      @unread_counts = UnreadCounts::Current.call(member: current_user, account_id: current_account.id)
+    else
+      @unread_counts = { conversations: {}, inboxes: {}, mentions: 0, unread_conversation_ids: [] }
     end
   end
 

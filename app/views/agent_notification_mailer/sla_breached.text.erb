@@ -1,0 +1,9 @@
+Hello <%= @user.display_name || @user.email %>,
+
+Conversation <%= @conversation.identifier %> has breached its Service Level Agreement (SLA). Please address it immediately.
+
+View Conversation: <%= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') %>/conversations/<%= @conversation.id %>
+
+---
+Deskbolic
+<%= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') %>

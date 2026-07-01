@@ -1,5 +1,10 @@
+- show_unread_divider = (defined?(@unread_start_message_id) && @unread_start_message_id == message.id) || (defined?(show_divider) && show_divider && message.incoming?)
+- if show_unread_divider
+  .unread-divider data-controller="fade-out" style="text-align: center; margin: 15px 0; position: relative;"
+    span.f-med-12 style="background: #eef2f6; padding: 4px 12px; border-radius: 12px; color: #5a6a85;" New messages
+
 - if message.sender_type == "Customer"
-  .user-response.response data-controller="translator" data-translator-target="response"
+  .user-response.response id=dom_id(message) data-controller="translator" data-translator-target="response"
     .text-content
       .chat-user
         - customer = message.sender
@@ -39,18 +44,61 @@
                   span.file-name = attachment.file.filename
 
 - if message.sender_type == "User"
-  .agent-response.response data-controller="translator" data-translator-target="response"
+  .agent-response.response id=dom_id(message) data-controller="translator" data-translator-target="response"
     .agent-text
       - if message.content.present?
         - if single_emoji_message?(message.content)
           .original.single-emoji-message data-translator-target="original"
             = message.content.strip
+            span.message-status-container style="display: inline-block; margin-left: 4px; vertical-align: bottom; height: 14px; font-size: 14px; line-height: 1;"
+              - if message.failed?
+                span.status-tooltip style="color: #ef4444; display: flex;" data-tooltip="Failed to send"
+                  svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                    circle cx="12" cy="12" r="10"
+                    line x1="15" y1="9" x2="9" y2="15"
+                    line x1="9" y1="9" x2="15" y2="15"
+              - elsif message.read?
+                span.status-tooltip style="color: #3b82f6; display: flex;" data-tooltip="Read"
+                  svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                    polyline points="18 6 7 17 2 12"
+                    polyline points="22 10 11 21 6 16"
+              - elsif message.delivered?
+                span.status-tooltip style="color: #9ca3af; display: flex;" data-tooltip="Delivered"
+                  svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                    polyline points="18 6 7 17 2 12"
+                    polyline points="22 10 11 21 6 16"
+              - else
+                span.status-tooltip style="color: #9ca3af; display: flex;" data-tooltip="Sent"
+                  svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                    polyline points="20 6 9 17 4 12"
         - else
           .original.f-reg-14 data-translator-target="original"
-            = message.content
+            span = message.content
+            span.message-status-container style="display: inline-block; margin-left: 8px; vertical-align: text-bottom; height: 14px; margin-bottom: -2px;"
+              - if message.failed?
+                span.status-tooltip style="color: #ef4444; display: flex;" data-tooltip="Failed to send"
+                  svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                    circle cx="12" cy="12" r="10"
+                    line x1="15" y1="9" x2="9" y2="15"
+                    line x1="9" y1="9" x2="15" y2="15"
+              - elsif message.read?
+                span.status-tooltip style="color: #3b82f6; display: flex;" data-tooltip="Read"
+                  svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                    polyline points="18 6 7 17 2 12"
+                    polyline points="22 10 11 21 6 16"
+              - elsif message.delivered?
+                span.status-tooltip style="color: #9ca3af; display: flex;" data-tooltip="Delivered"
+                  svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                    polyline points="18 6 7 17 2 12"
+                    polyline points="22 10 11 21 6 16"
+              - else
+                span.status-tooltip style="color: #9ca3af; display: flex;" data-tooltip="Sent"
+                  svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                    polyline points="20 6 9 17 4 12"
+                    
           .translate-text
             button.f-light-italic-10 data-action="click->translator#toggle_translate" Translate
-          .translated-text.d-none
+          .translated-text.d-none style="margin-bottom: 4px;"
             h5.f-med-10 TRANSLATION IN ENGLISH:
             p
               span.translation.f-light-italic-12 data-translator-target="translation"
@@ -69,3 +117,26 @@
               a.msg-attachment-file href=rails_blob_path(attachment.file, disposition: "attachment") target="_blank"
                 span.file-icon 📄
                 span.file-name = attachment.file.filename
+
+      - if message.content.blank?
+        .message-status-container style="align-self: flex-end; margin-top: 4px; display: flex; align-items: center;"
+          - if message.failed?
+            span.status-tooltip style="color: #ef4444; display: flex;" data-tooltip="Failed to send"
+              svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                circle cx="12" cy="12" r="10"
+                line x1="15" y1="9" x2="9" y2="15"
+                line x1="9" y1="9" x2="15" y2="15"
+          - elsif message.read?
+            span.status-tooltip style="color: #3b82f6; display: flex;" data-tooltip="Read"
+              svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                polyline points="18 6 7 17 2 12"
+                polyline points="22 10 11 21 6 16"
+          - elsif message.delivered?
+            span.status-tooltip style="color: #9ca3af; display: flex;" data-tooltip="Delivered"
+              svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                polyline points="18 6 7 17 2 12"
+                polyline points="22 10 11 21 6 16"
+          - else
+            span.status-tooltip style="color: #9ca3af; display: flex;" data-tooltip="Sent"
+              svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                polyline points="20 6 9 17 4 12"

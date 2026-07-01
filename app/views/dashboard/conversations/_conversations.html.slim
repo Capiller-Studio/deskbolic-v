@@ -18,21 +18,24 @@
             .inbox-nav-menu
               - @conversations.each do |conversation|
                 - customer = conversation.customers.first
-                - conversation_resource_id = [conversation.id, ("filter=#{@filter}" if @filter.present?)].compact.join("&")
+                - conversation_url = conversation_path(conversation.id, filter: @filter.presence)
                 li.nav-item class="#{'55'=='cgh' ? 'inbox-nav-active' : ''}"
                   - if customer&.avatar&.attached?
                     = image_tag(customer.avatar, class:"user-img", alt:"menu")
                   - else
                     .user-img.avatar-fallback.customer-list-initials-avatar.f-reg-12 class=avatar_fallback_color_class(full_name(customer))
                       = initials(customer)
-                  .nav-link.link data-target-id="conversations-frame" data-controller="section" data-action="click->section#toggleSection" data-url="#{conversation_path(conversation.id)}" data-resource-id="#{conversation_resource_id}"
+                  .nav-link.link data-target-id="conversations-frame" data-controller="section" data-action="click->section#toggleSection" data-url="#{conversation_url}"
                     - conversation.customers.each do |customer|
                       h4.f-semi-14 = full_name(customer)
-                      p.f-reg-12 = conversation.messages.order(:created_at).last&.content
+                      p.f-reg-12 id="conversation-#{conversation.id}-preview" = conversation.messages.order(:created_at).last&.content
                   .actions
+                    - unread_count = @unread_counts && @unread_counts[:conversations] ? @unread_counts[:conversations][conversation.id].to_i : 0
+                    .unread-badge data-controller="unread-badge" data-action="deskbolic:unread-counts-updated@window->unread-badge#update" data-unread-badge-target="badge" data-unread-badge-id-value=conversation.id data-unread-badge-type-value="conversation" style="background: var(--primary-500, #4F46E5); color: white; border-radius: 12px; padding: 2px 8px; align-items: center; justify-content: center; display: #{unread_count > 0 ? 'flex' : 'none'};"
+                      p.f-semi-12 = unread_count
                     = inline_svg_tag("menu.svg", class:"menu-icon", alt:"menu")
                     = inline_svg_tag("close.svg", class:"close-icon", alt:"menu")
-                    p.f-reg-10 = conversation.messages.order(:created_at).last&.created_at&.strftime("%d %b")
+                    p.f-reg-10 id="conversation-#{conversation.id}-date" = conversation.messages.order(:created_at).last&.created_at&.strftime("%d %b")
               
               turbo-frame.inbox-nav-menu#conversation-frame
 

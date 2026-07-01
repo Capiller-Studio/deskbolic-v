@@ -5,9 +5,20 @@ export default class extends Controller {
   static targets = ["messages", "conveersations"]
 
   connect() {
-    this.userId = this.data.get("user")
-    this.token = this.data.get("token")
-    this.consumer = createConsumer()
+    this.userId = this.element.dataset.consumerUser
+    this.token = this.element.dataset.consumerToken
+    
+    if (!this.token) {
+      console.warn("[Deskbolic] No connection token — ActionCable will NOT connect")
+      return
+    }
+
+    const metaUrl = document.querySelector("meta[name='action-cable-url']")?.content
+    const cableUrl = metaUrl 
+      ? `${metaUrl}?user_token=${this.token}`
+      : `/cable?user_token=${this.token}`
+
+    this.consumer = createConsumer(cableUrl)
     
     this.subscription = this.consumer.subscriptions.create({
       channel: "SubscriptionChannel",
@@ -15,10 +26,37 @@ export default class extends Controller {
       user_id: this.userId
     }, {
       received: (data) => {
-        const url = this.configureUrl(data["event"]);
-        const resourceId = JSON.parse(data["object"])["id"];
-        
-        this.appendData(url, resourceId);
+        if (data.event === "unread_counts.updated") {
+          window.dispatchEvent(new CustomEvent("deskbolic:unread-counts-updated", { detail: JSON.parse(data.object) }));
+          return;
+        }
+
+        const eventType = data["event"];
+        const objectData = JSON.parse(data["object"]);
+        const resourceId = objectData["id"];
+
+        if (eventType === "message.created") {
+          const activeConversationId = document.querySelector(".conversation#oppp")?.dataset.conversationId;
+          const url = this.configureUrl(eventType);
+          let fetchUrl = `${url}?id=${resourceId}`;
+          if (activeConversationId) {
+            fetchUrl += `&active_conversation_id=${activeConversationId}`;
+          }
+          
+          fetch(fetchUrl, {
+            method: 'GET',
+            headers: { Accept: 'text/vnd.turbo-stream.html' },
+          }).then((response) => response.text()).then((html) => {
+            Turbo.renderStreamMessage(html);
+          });
+        } else {
+          const url = this.configureUrl(eventType);
+          if (url) {
+            this.appendData(url, resourceId);
+          } else {
+            console.warn(`[Deskbolic] Unhandled broadcast event: ${eventType}`);
+          }
+        }
       }
     })
   }
@@ -28,6 +66,8 @@ export default class extends Controller {
       return "/messages/append_message"
     } else if (broadcast_event == "conversation.created") {
       return "/conversations/append_conversation"
+    } else if (broadcast_event == "message.updated") {
+      return "/messages/update_message"
     }
   }
   

@@ -5,37 +5,42 @@
         .header data-controller="modalToggler frameToggler"
           p.f-reg-14 Help Center
           = render("dashboard/shared/modal_popper")
-        ul.channel-list.h-center-sidebar  data-controller="accordion modalToggler frameToggler"
+        ul.channel-list.st-sidebar data-controller="accordion modalToggler frameToggler"
           .help-nav-menu
-            span ARTICLES
-            li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
-              = link_to("#", class: "nav-link") do
+            p.help-p.f-semi-12 ARTICLES
+            li.nav-item class="#{current_page == 'articles' && params[:status].blank? ? 'help-nav-active' : ''}"
+              = link_to(help_center_articles_path, class: "nav-link") do
                 .link-text
                   .conversation-name.inbox-conv
-                    p.f-reg-12 All Articles
-            li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
-              = link_to("#", class: "nav-link") do
+                    = inline_svg_tag("book.svg", class: "link-icon", alt: "all articles")
+                    p.f-reg-14 All Articles
+            li.nav-item class="#{current_page == 'articles' && params[:status] == 'published' ? 'help-nav-active' : ''}"
+              = link_to(help_center_articles_path(status: :published), class: "nav-link") do
                 .link-text
                   .conversation-name.inbox-conv
-                    p.f-reg-12 Published
-            li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
-              = link_to("#", class: "nav-link") do
+                    = inline_svg_tag("book.svg", class: "link-icon", alt: "published")
+                    p.f-reg-14 Published
+            li.nav-item class="#{current_page == 'articles' && params[:status] == 'draft' ? 'help-nav-active' : ''}"
+              = link_to(help_center_articles_path(status: :draft), class: "nav-link") do
                 .link-text
                   .conversation-name.inbox-conv
-                    p.f-reg-12 Draft
+                    = inline_svg_tag("pencil.svg", class: "link-icon", alt: "draft")
+                    p.f-reg-14 Draft
 
-            p ARTICLES
-            li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
-              = link_to("#", class: "nav-link") do
+            p.help-p.f-semi-12 COLLECTIONS
+            li.nav-item class="#{current_page == 'collections' ? 'help-nav-active' : ''}"
+              = link_to(help_center_categories_path, class: "nav-link") do
                 .link-text
                   .conversation-name.inbox-conv
-                    p.f-reg-12 Collections
-            li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
-              = link_to("#", class: "nav-link") do
+                    = inline_svg_tag("tag.svg", class: "link-icon", alt: "collections")
+                    p.f-reg-14 Collections
+            li.nav-item class="#{current_page == 'settings' ? 'help-nav-active' : ''}"
+              = link_to(settings_path, class: "nav-link") do
                 .link-text
                   .conversation-name.inbox-conv
-                    p.f-reg-12 Settings
+                    = inline_svg_tag("settings.svg", class: "link-icon", alt: "settings")
+                    p.f-reg-14 Settings
 
-    .helpdesk-body.h-center-body
+    .helpdesk-body.settings-body
       turbo-frame#conversations-frame[data-turbo-permanent]
       == yield

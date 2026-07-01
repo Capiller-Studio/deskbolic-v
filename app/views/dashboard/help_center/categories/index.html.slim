@@ -1,0 +1,109 @@
+= render("dashboard/shared/dashboard_container", current_page: "help_center") do
+  = render("dashboard/help_center/help_center_sidebar", current_page: "collections") do
+    div data-controller="category"
+      .hc-articles
+        .hc-search-row
+          = form_with url: help_center_categories_path, method: :get, local: true, class: "hc-search-row-form" do
+            .hc-search-input-wrap
+              span.hc-search-icon 🔍
+              = text_field_tag :q, @query, class: "hc-search-row-input", placeholder: "Search collections...", oninput: "clearTimeout(this._timer); this._timer=setTimeout(()=>Turbo.visit(this.form.action+'?'+new URLSearchParams(new FormData(this.form)).toString(),{action:'replace'}),300)"
+              - if @query.present?
+                = link_to help_center_categories_path, class: "hc-search-clear", title: "Clear search" do
+                  = image_tag("cross_clear.svg", alt: "clear", class: "hc-search-clear-icon")
+
+        .hc-index-header
+          .hc-title-area
+            h1.f-semi-32 Collections
+          .hc-header-actions
+            button.hc-btn-primary#new-collection-btn type="button" data-action="click->category#open"
+              | + New Collection
+
+        .hc-toolbar
+          = form_with url: help_center_categories_path, method: :get, local: true, class: "hc-search-form" do
+
+        .hc-table-wrap
+          - if @categories.any?
+            .hc-table-count-bar
+              span.hc-table-count = "#{@pagy.present? ? @pagy.count : @categories.size} Collections"
+            table.hc-articles-table
+              thead
+                tr
+                  th
+                    span.hc-th-content
+                      | Name
+                      span.hc-sort-caret ↓
+                  th
+                    span.hc-th-content
+                      | Slug
+                  th
+                    span.hc-th-content
+                      | Articles
+              tbody
+                - @categories.each do |category|
+                  tr.hc-table-row
+                    td.hc-title-cell
+                      .hc-title-wrapper
+                        span.hc-article-title
+                          = category.name.presence || "Untitled collection"
+                    td
+                      span.hc-date-text = category.slug.presence || "-"
+                    td
+                      span.hc-status-badge
+                        = category.articles.count
+
+            - if @pagy && @pagy.last > 1
+              .hc-pagination
+                - if @pagy.prev
+                  = link_to help_center_categories_path(page: @pagy.prev, q: @query, portal_id: @portal_id), class: "hc-pagination-btn"
+                    | ← Previous
+                - else
+                  span.hc-pagination-btn.disabled ← Previous
+                span.hc-pagination-info
+                  = "Page #{@pagy.page} of #{@pagy.last}"
+                - if @pagy.next
+                  = link_to help_center_categories_path(page: @pagy.next, q: @query, portal_id: @portal_id), class: "hc-pagination-btn"
+                    | Next →
+                - else
+                  span.hc-pagination-btn.disabled Next →
+          - else
+            .hc-empty-state
+              .hc-empty-icon 📁
+              h3.f-semi-18 No collections found
+              p.f-reg-14.text-muted Create your first collection to organize your articles.
+              button.hc-btn-primary#new-collection-btn-empty type="button" data-action="click->category#open"
+                | + New Collection
+
+      / New Collection Modal
+      #new-collection-modal.modal-popper-container style="display: none;" data-category-target="modal" data-action="click->category#closeOnOutsideClick"
+        .model-content-section
+          .model-content.hc-category-modal-content
+            .hc-category-modal-header
+              .hc-category-modal-header-text
+                h3.f-semi-18 Add New Category
+                p.f-reg-14.hc-category-modal-subtitle Create a new category to organize your article
+            .hc-category-form-body
+              = form_with url: help_center_categories_path, scope: :category, method: :post, local: true, html: { class: "hc-category-form" } do |f|
+                = f.hidden_field :portal_id, value: @selected_portal&.id
+                .hc-category-form-fields
+                  .hc-category-form-floating
+                    = f.label :name, class: "hc-category-form-label f-reg-14" do
+                      | Category name
+                      span.required-star *
+                    = f.text_field :name, class: "hc-category-form-control f-reg-14", placeholder: "e.g. Getting Started", required: true
+
+                  .hc-category-form-floating
+                    = f.label :description, class: "hc-category-form-label f-reg-14" do
+                      | Description
+                    = f.text_area :description, class: "hc-category-form-control hc-category-form-textarea f-reg-14", placeholder: "Brief description of this category", rows: 3
+
+                  .hc-category-form-floating.hc-category-selects-row
+                    .hc-category-form-group
+                      = f.label :parent_id, "Parent category", class: "hc-category-form-label f-reg-14"
+                      = f.select :parent_id, @categories.map { |cat| [cat.name.presence || cat.id, cat.id] }, { include_blank: "None" }, class: "hc-category-form-select f-reg-14"
+                    .hc-category-form-group
+                      = f.label :visibility, "Visibility", class: "hc-category-form-label f-reg-14"
+                      = f.select :visibility, ::HelpCenter::Category.visibilities.keys.map { |v| [v.humanize, v] }, {}, class: "hc-category-form-select f-reg-14"
+
+                .hc-category-form-actions
+                  button.hc-category-cancel-btn.f-med-14.close-modal-btn type="button" data-action="click->category#close" Cancel
+                  = f.submit "Create Category", class: "hc-category-submit-btn f-med-14"

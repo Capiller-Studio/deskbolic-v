@@ -1,0 +1,120 @@
+= render("dashboard/shared/dashboard_container", current_page: "help_desk") do
+  = render("dashboard/settings/settings_sidebar", current_page: "help-center-portals") do
+    .body-section.help-center-portal-body
+      .create-portal-shell
+        .create-portal-header
+          div
+            h2.f-semi-18 Edit Help Center
+            p.f-reg-12 Update branding, appearance, languages, and domain settings for this Help Center.
+
+        = form_with(model: @portal, url: help_center_portal_path(@portal), method: :patch, class: "create-portal-form", multipart: true) do |f|
+          - if @portal.errors.any?
+            .alert.alert-red
+              p.f-semi-14 Please fix the following errors:
+              ul
+                - @portal.errors.full_messages.each do |message|
+                  li.f-reg-12 = message
+
+          .portal-form-section
+            h3.f-semi-12 BASIC INFORMATION
+            .form-group
+              = f.label :name, "Help Center Name", class: "f-reg-14"
+              = f.text_field :name, class: "portal-input", placeholder: "Customer Support Center", required: true, autocomplete: "off"
+              p.form-hint.f-reg-12 The public-facing name. Internal ID will be generated automatically.
+
+          .portal-form-section
+            h3.f-semi-12 DOMAIN ASSIGNMENT
+            - if @available_domains.any?
+              .domain-options data-controller="portal-option-group"
+                - @available_domains.each_with_index do |domain, index|
+                  - checked = @portal.domain_id == domain.id || (@portal.domain_id.blank? && index.zero?)
+                  label.option-pill class=("is-selected" if checked) data-portal-option-group-target="option" data-action="click->portal-option-group#select"
+                    = f.radio_button :domain_id, domain.id, checked: checked
+                    span.f-reg-14 = domain.value
+                    span.option-check aria-hidden="true"
+            - else
+              .portal-empty.portal-empty-compact
+                p.f-reg-12 No available domains. Add a subdomain or custom domain before creating a Help Center.
+                = link_to "Manage Domains", domains_path, class: "add-portal-link"
+
+          .portal-form-section
+            h3.f-semi-12 LANGUAGES
+            .language-options data-controller="portal-option-group"
+              - Core::SUPPORTED_LOCALES.each do |locale|
+                - locale_value = locale.to_s
+                label.language-pill class=("is-selected" if @selected_locales.include?(locale_value)) data-portal-option-group-target="option" data-action="click->portal-option-group#select"
+                  = check_box_tag "help_center_portal[locales][]", locale_value, @selected_locales.include?(locale_value)
+                  span.f-reg-12 = I18n.t("languages.#{locale_value.downcase}", default: locale_value.upcase)
+                  - if locale_value == I18n.default_locale.to_s
+                    span.f-reg-12.default-label Default
+                  span.option-check aria-hidden="true"
+            = f.hidden_field :default_locale, value: I18n.default_locale.to_s
+
+          .portal-form-section
+            h3.f-semi-12 APPEARANCE SETTINGS
+
+            .form-group
+              label.f-reg-14 Theme Preference
+              .segmented-options data-controller="portal-option-group"
+                - @theme_options.each do |value, label_text, icon|
+                  label.segment-option class=("is-selected" if @selected_theme == value) data-portal-option-group-target="option" data-action="click->portal-option-group#select"
+                    = radio_button_tag "help_center_portal[ui_configurations][theme_preference]", value, @selected_theme == value
+                    = inline_svg_tag(icon, class: "segment-icon", alt: "")
+                    span.f-reg-12 = label_text
+
+            .form-group
+              label.f-reg-14 Primary Color
+              .color-options data-controller="portal-option-group"
+                - @primary_colors.each do |color|
+                  label.color-swatch style="--swatch-color: #{color};" class=("is-selected" if @selected_primary == color) data-portal-option-group-target="option" data-action="click->portal-option-group#select"
+                    = radio_button_tag "help_center_portal[ui_configurations][primary_color]", color, @selected_primary == color
+
+            .form-group
+              label.f-reg-14 Secondary Color
+              .color-options data-controller="portal-option-group"
+                - @secondary_colors.each do |color|
+                  label.color-swatch style="--swatch-color: #{color};" class=("is-selected" if @selected_secondary == color) data-portal-option-group-target="option" data-action="click->portal-option-group#select"
+                    = radio_button_tag "help_center_portal[ui_configurations][secondary_color]", color, @selected_secondary == color
+
+            .form-group
+              label.f-reg-14 Hero Style
+              .hero-style-control data-controller="portal-option-group"
+                .hero-options
+                  - @hero_style_options.each do |value, label_text|
+                    label.hero-option class=("is-selected" if @selected_hero == value) data-portal-option-group-target="option" data-action="click->portal-option-group#select"
+                      = radio_button_tag "help_center_portal[ui_configurations][hero_style]", value, @selected_hero == value
+                      span.f-semi-12 = label_text
+                      span.option-check aria-hidden="true"
+                      .hero-preview class="hero-preview-#{value}"
+                        - if value == "image"
+                          = inline_svg_tag("image.svg", class: "hero-preview-icon", alt: "")
+                        - else
+                          .hero-preview-icon
+                        .hero-line.hero-line-wide
+                        .hero-line.hero-line-short
+
+                .hero-upload-box data-portal-option-group-target="uploadBox"
+                  .hero-upload-dropzone role="button" tabindex="0" data-action="click->portal-option-group#openUploadPicker keydown.enter->portal-option-group#openUploadPicker keydown.space->portal-option-group#openUploadPicker"
+                    = f.file_field :hero_image, accept: "image/*", class: "hero-upload-input", data: { "portal-option-group-target": "fileInput", action: "change->portal-option-group#uploadFile" }
+                    span.hero-upload-title.f-semi-14 data-portal-option-group-target="uploadTitle" Upload hero image
+                    span.hero-upload-hint.f-reg-12 PNG, JPG, or SVG up to 5MB.
+                  .hero-upload-progress.is-hidden data-portal-option-group-target="progress"
+                    .hero-progress-track
+                      .hero-progress-fill data-portal-option-group-target="progressFill"
+                    .hero-progress-meta
+                      span.f-reg-12 data-portal-option-group-target="progressLabel" Uploading, wait...
+                      button.hero-upload-clear type="button" aria-label="Cancel upload" data-action="click->portal-option-group#clearUpload" x
+
+            .form-group
+              label.f-reg-14 Category Layout
+              .layout-options data-controller="portal-option-group"
+                - @layout_options.each do |value, label_text|
+                  label.layout-option class=("is-selected" if @selected_layout == value) data-portal-option-group-target="option" data-action="click->portal-option-group#select"
+                    = radio_button_tag "help_center_portal[ui_configurations][category_layout]", value, @selected_layout == value
+                    span.layout-icon class="layout-icon-#{value}"
+                    span.f-reg-14 = label_text
+                    span.option-check aria-hidden="true"
+
+          .portal-form-actions
+            = link_to "Cancel", help_center_portals_path, class: "btn-secondary"
+            = f.submit "Update Help Center", class: "btn-primary"

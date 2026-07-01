@@ -159,6 +159,25 @@
           gap: 8px;
           margin-top: 18px;
 
+          .portal-edit-btn {
+            @mixin flex-row $justify-center, $align-center;
+            width: 24px;
+            height: 24px;
+            margin-left: auto;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: background-color 0.15s ease;
+
+            &:hover {
+              background-color: $black-10;
+            }
+
+            .portal-edit-icon {
+              width: 16px;
+              height: 16px;
+            }
+          }
+
           span {
             padding: 4px 8px;
             border-radius: 18px;
@@ -465,7 +484,7 @@
 
       .hero-preview-icon {
         width: 28px;
-        height: 22px;
+        height: 28px;
         border-radius: 4px;
         margin-bottom: 10px;
       }

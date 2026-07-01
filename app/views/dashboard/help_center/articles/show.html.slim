@@ -1,0 +1,93 @@
+= render("dashboard/shared/dashboard_container", current_page: "help_center") do
+  = render("dashboard/help_center/help_center_sidebar", current_page: "articles") do
+    - collection = @article.primary_category || @article.categories.first
+    - translation = @article.translations.find { |item| item.locale.to_s == @locale.to_s } || @article.translations.first
+    .hc-article-show
+      .hc-show-header
+        .hc-show-title-area
+          = link_to "Back to Articles", help_center_articles_path, class: "hc-back-link"
+          h1 = @article.title.presence || "Untitled article"
+          .hc-tag-row
+            span.hc-status-badge class="hc-status-#{@article.status}"
+              span.hc-status-dot class="hc-dot-#{@article.status}"
+              = @article.status.humanize
+            span.hc-soft-tag = @article.visibility.humanize
+            span.hc-soft-tag = @article.article_type.humanize
+            - Array(translation&.meta_keywords).each do |keyword|
+              span.hc-soft-tag = keyword
+        .hc-show-actions
+          = link_to "Edit", edit_help_center_article_path(@article), class: "hc-btn-primary"
+
+      .hc-show-layout
+        article.hc-readable
+          - if @article.banner_image.attached?
+            = image_tag(@article.banner_image, class: "hc-banner-image", alt: @article.title)
+          .hc-readable-content
+            == sanitize((@article.content.presence || @article.draft_content.presence || "No content has been added yet.").to_s)
+
+        aside.hc-overview
+          .hc-overview-card
+            .hc-overview-card-header
+              h3 Overview
+            .hc-overview-details
+              .hc-overview-row
+                .hc-overview-row-icon-cell
+                  | 📁
+                .hc-overview-row-content
+                  span Collection
+                  p = collection&.name.presence || "Uncategorized"
+              .hc-overview-row
+                .hc-overview-row-icon-cell
+                  | 🌐
+                .hc-overview-row-content
+                  span Portal
+                  p = @article.portal&.name.presence || "No portal"
+              .hc-overview-row
+                .hc-overview-row-icon-cell
+                  | 🕐
+                .hc-overview-row-content
+                  span Last Edit
+                  p = l(@article.updated_at, format: :long)
+              .hc-overview-row
+                .hc-overview-row-icon-cell
+                  | 👤
+                .hc-overview-row-content
+                  span Author
+                  p = @article.author&.name.presence || "Unassigned"
+              .hc-overview-row
+                .hc-overview-row-icon-cell
+                  | 👁
+                .hc-overview-row-content
+                  span Views
+                  p = number_with_delimiter(@article.views_count)
+
+          .hc-overview-card
+            .hc-overview-card-header
+              h3 Article Details
+            .hc-overview-details
+              .hc-overview-row
+                .hc-overview-row-icon-cell
+                  | 🔗
+                .hc-overview-row-content
+                  span Slug
+                  p = @article.slug.presence || "Auto-generated"
+              .hc-overview-row
+                .hc-overview-row-icon-cell
+                  | ⏱
+                .hc-overview-row-content
+                  span Read time
+                  p = @article.configurations["estimated_read_time"].present? ? "#{@article.configurations["estimated_read_time"]} min" : "Not set"
+              .hc-overview-row
+                .hc-overview-row-icon-cell
+                  | 📋
+                .hc-overview-row-content
+                  span Table of contents
+                  p = @article.configurations["show_table_of_contents"] ? "Shown" : "Hidden"
+              - if @article.configurations["external_url"].present?
+                .hc-overview-row
+                  .hc-overview-row-icon-cell
+                    | 🔗
+                  .hc-overview-row-content
+                    span External URL
+                    p = @article.configurations["external_url"]
+

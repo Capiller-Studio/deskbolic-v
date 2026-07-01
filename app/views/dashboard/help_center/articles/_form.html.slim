@@ -1,0 +1,191 @@
+- form_url = article.persisted? ? help_center_article_path(article) : help_center_articles_path
+- form_method = article.persisted? ? :patch : :post
+- locale = article.portal&.default_locale.presence || @selected_portal&.default_locale.presence || I18n.locale.to_s
+- translation = article.translations.find { |item| item.locale.to_s == locale.to_s } || article.translations.first || article.translations.build(locale: locale)
+
+- if @portals.blank?
+  .hc-form-empty
+    h3.f-semi-18 No help center portal found
+    p.f-reg-14.text-muted Create a help center portal before adding articles, because every article must belong to a portal.
+- else
+  = form_with(model: article, scope: :article, url: form_url, method: form_method, local: true, html: { multipart: true, id: "article-form", class: "hc-article-form", data: { controller: "article" } }) do |f|
+    - all_errors = article.errors.full_messages + article.translations.flat_map { |item| item.errors.full_messages }
+    - if all_errors.any?
+      .hc-error-summary
+        h3 Please fix the following errors:
+        ul
+          - all_errors.uniq.each do |message|
+            li = message
+
+    .hc-form-grid
+      .hc-form-left
+        .hc-form-card
+          .hc-form-card-body
+            = f.fields_for :translations, translation, child_index: 0 do |tf|
+              = tf.hidden_field :id if translation.persisted?
+              = tf.hidden_field :locale, value: translation.locale.presence || locale
+              / = tf.label :title, "Title", class: "hc-label"
+              = tf.text_field :title, class: "hc-title-input", placeholder: "Untitled Article ", required: true
+        .hc-form-card
+          .hc-form-card-body
+            .hc-form-row-4
+              div
+                = f.label :article_type, "Article Type", class: "hc-label"
+                = f.select :article_type, ::HelpCenter::Article.article_types.keys.map { |at| [at.humanize, at] }, {}, class: "hc-select", data: { action: "change->article#toggleType" }
+              div data-controller="category"
+                = f.label :primary_category_id, "Select Category", class: "hc-label"
+                .hc-category-picker
+                  = f.hidden_field :primary_category_id, data: { category_target: "hiddenInput" }
+                  .hc-category-picker-trigger data-action="click->category#toggle"
+                    span.hc-category-picker-selected data-category-target="selected" Select category
+                    span.hc-category-picker-arrow ▾
+                  .hc-category-picker-dropdown style="display: none;" data-category-target="dropdown"
+                    .hc-category-picker-search
+                      input.hc-category-picker-input type="text" placeholder="Search categories..." data-action="input->category#search" data-category-target="searchInput"
+                    .hc-category-picker-list data-category-target="list"
+                      - @categories.each do |cat|
+                        button.hc-category-picker-item type="button" data-value=cat.id data-action="click->category#select"
+                          = cat.name.presence || "Untitled"
+                    .hc-category-picker-create
+                      button.hc-category-picker-create-btn type="button" data-action="click->category#openCreateModal"
+                        | + Create new category
+              div
+                = f.label :visibility, "Visibility", class: "hc-label"
+                = f.select :visibility, ::HelpCenter::Article.visibilities.keys.map { |v| [v.humanize, v] }, {}, class: "hc-select"
+              div
+                = f.label :portal_id, "Portal", class: "hc-label"
+                = f.select :portal_id, @portals.map { |portal| [portal.name.presence || portal.id, portal.id] }, {}, class: "hc-select", required: true
+
+        .hc-form-card
+          .hc-form-card-header
+            h3 Content
+          .hc-form-card-body
+            div data-article-target="richTextContent"
+              div data-controller="richtext-editor"
+                = f.fields_for :translations, translation, child_index: 0 do |tf|
+                  .hc-richtext-toolbar
+                    select.hc-richtext-select data-richtext-editor-target="heading" data-action="change->richtext-editor#heading"
+                      option value="0" Paragraph
+                      option value="1" Heading 1
+                      option value="2" Heading 2
+                      option value="3" Heading 3
+                    button.hc-richtext-button type="button" data-richtext-editor-target="bold" data-action="click->richtext-editor#bold" title="Bold"
+                    button.hc-richtext-button type="button" data-richtext-editor-target="italic" data-action="click->richtext-editor#italic" title="Italic"
+                    button.hc-richtext-button type="button" data-richtext-editor-target="underLine" data-action="click->richtext-editor#underLine" title="Underline"
+                    button.hc-richtext-button type="button" data-richtext-editor-target="strike" data-action="click->richtext-editor#strike" title="Strikethrough"
+                    button.hc-richtext-button type="button" data-richtext-editor-target="unorderedList" data-action="click->richtext-editor#unorderedList" title="Bullet List"
+                    button.hc-richtext-button type="button" data-richtext-editor-target="orderedList" data-action="click->richtext-editor#orderedList" title="Numbered List"
+                    button.hc-richtext-button type="button" data-richtext-editor-target="blockQuote" data-action="click->richtext-editor#blockQuote" title="Quote"
+                    button.hc-richtext-button type="button" data-richtext-editor-target="codeBlock" data-action="click->richtext-editor#codeBlock" title="Code"
+                    button.hc-richtext-button type="button" data-richtext-editor-target="textAlignLeft" data-action="click->richtext-editor#textAlignLeft" title="Align Left"
+                    button.hc-richtext-button type="button" data-richtext-editor-target="textAlignCenter" data-action="click->richtext-editor#textAlignCenter" title="Align Center"
+                    button.hc-richtext-button type="button" data-richtext-editor-target="textAlignRight" data-action="click->richtext-editor#textAlignRight" title="Align Right"
+                    button.hc-richtext-button type="button" data-richtext-editor-target="imageButton" data-action="click->richtext-editor#openImagePicker" title="Insert Image"
+                  .hc-richtext-editor data-richtext-editor-target="editor"
+                  = f.file_field :images, multiple: true, direct_upload: true, accept: "image/*", class: "hc-richtext-image-input", data: { richtext_editor_target: "imageInput", action: "change->richtext-editor#insertImages" }
+                  = tf.text_area :content, class: "hc-richtext-source", placeholder: "Write the article content here...", rows: 18, data: { richtext_editor_target: "content" }
+
+            div data-article-target="externalUrlField" style="display: none;"
+              = label_tag "article[configurations][external_url]", "External URL", class: "hc-label"
+              = text_field_tag "article[configurations][external_url]", article.configurations["external_url"], class: "hc-input", placeholder: "https://example.com/article"
+
+      .hc-form-right
+        .hc-form-sidebar-card
+          .hc-form-sidebar-card-header
+            h3 Publishing
+          .hc-form-sidebar-card-body.hc-form-sidebar-card-body--row
+            = f.label :status, "Status", class: "hc-label"
+            span.hc-status-pill class="hc-status-pill--#{article.status || 'draft'}"
+              = (article.status || "draft").humanize
+
+        .hc-form-sidebar-card
+          .hc-form-sidebar-card-body.hc-form-sidebar-card-body--row
+            strong.hc-form-sidebar-label table of contents
+            label.hc-toggle
+              = check_box_tag "article[configurations][show_table_of_contents]", "1", article.configurations.fetch("show_table_of_contents", true)
+              span.hc-toggle-slider
+        .hc-form-sidebar-card
+          .hc-form-sidebar-card-body.hc-form-sidebar-card-body--row
+            span.hc-form-sidebar-label Read Time
+            .hc-stepper-control data-controller="article"
+              button.hc-stepper-btn type="button" data-action="article#decrease" -
+              span.hc-stepper-value data-article-target="value"
+                = article.configurations["estimated_read_time"].presence || "5"
+              button.hc-stepper-btn type="button" data-action="article#increase" +
+              = number_field_tag "article[configurations][estimated_read_time]", (article.configurations["estimated_read_time"] || 5), class: "hc-stepper-input", min: 0, data: { article_target: "input" }
+
+        .hc-form-sidebar-card
+          .hc-form-sidebar-card-header
+            h3 Banner Image
+          .hc-form-sidebar-card-body
+            label.hc-file-upload
+              = f.file_field :banner_image
+              span.hc-file-upload-icon
+                = inline_svg_tag("export.svg", alt: "")
+              span
+                strong Upload banner
+                small PNG, JPG, or WebP works best.
+
+        .hc-form-sidebar-card
+          .hc-form-sidebar-card-header
+            h3 Organization
+          .hc-form-sidebar-card-body
+            = f.label :position, "Sort Order", class: "hc-label"
+            = f.number_field :position, class: "hc-input", min: 0, placeholder: "  1"
+
+        .hc-form-sidebar-card
+          .hc-form-sidebar-card-header
+            h3 SEO Settings
+          .hc-form-sidebar-card-body
+            = f.fields_for :translations, translation, child_index: 0 do |tf|
+              .hc-seo-field
+                = tf.label :slug, "Slug", class: "hc-label"
+                = tf.text_field :slug, class: "hc-input", placeholder: " Getting-Started"
+              .hc-seo-field
+                = tf.label :meta_title, "Meta Title", class: "hc-label"
+                = tf.text_field :meta_title, class: "hc-input", placeholder: " Optimal 60 character..."
+              .hc-seo-field
+                = tf.label :meta_description, "Meta Description", class: "hc-label"
+                = tf.text_area :meta_description, class: "hc-input", rows: 3, placeholder: "  Brief SEO description"
+              / .hc-seo-field
+              /   = tf.label :meta_keywords, "Meta Keywords", class: "hc-label"
+              /   = tf.text_field :meta_keywords, value: Array(translation.meta_keywords).join(", "), class: "hc-input", placeholder: "e.g. support, setup"
+              / .hc-seo-field
+              /   = tf.label :search_excerpt, "Search Excerpt", class: "hc-label"
+              /   = tf.text_field :search_excerpt, class: "hc-input", placeholder: "Short preview for search results"
+
+  / New Category Modal (inside form so it can access the category-picker controller)
+  div data-controller="category"
+    #article-new-category-modal.modal-popper-container style="display: none;" data-category-target="modal"
+      .model-content-section
+        .model-content.hc-category-modal-content
+          .hc-category-modal-header
+            .hc-category-modal-header-text
+              h3.f-semi-18 Add New Category
+              p.f-reg-14.hc-category-modal-subtitle Create a new category to organize your article
+          .hc-category-form-body
+            = form_with url: help_center_categories_path, scope: :category, method: :post, html: { class: "hc-category-form", data: { action: "submit->category#submit" } } do |f|
+              = f.hidden_field :portal_id, value: @selected_portal&.id
+              .hc-category-form-fields
+                .hc-category-form-floating
+                  = f.label :name, class: "hc-category-form-label f-reg-14" do
+                    | Category name
+                    span.required-star *
+                  = f.text_field :name, class: "hc-category-form-control f-reg-14", placeholder: "e.g. Getting Started", required: true
+
+                .hc-category-form-floating
+                  = f.label :description, class: "hc-category-form-label f-reg-14" do
+                    | Description
+                  = f.text_area :description, class: "hc-category-form-control hc-category-form-textarea f-reg-14", placeholder: "Brief description of this category", rows: 3
+
+                .hc-category-form-floating.hc-category-selects-row
+                  .hc-category-form-group
+                    = f.label :parent_id, "Parent category", class: "hc-category-form-label f-reg-14"
+                    = f.select :parent_id, @categories.map { |cat| [cat.name.presence || cat.id, cat.id] }, { include_blank: "None" }, class: "hc-category-form-select f-reg-14"
+                  .hc-category-form-group
+                    = f.label :visibility, "Visibility", class: "hc-category-form-label f-reg-14"
+                    = f.select :visibility, ::HelpCenter::Category.visibilities.keys.map { |v| [v.humanize, v] }, {}, class: "hc-category-form-select f-reg-14"
+
+              .hc-category-form-actions
+                button.hc-category-cancel-btn.f-med-14.close-modal-btn type="button" data-action="click->category#close" Cancel
+                = f.submit "Create Category", class: "hc-category-submit-btn f-med-14"

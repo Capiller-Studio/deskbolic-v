@@ -5,7 +5,7 @@
     @mixin flex-row $justify-left, $align-center;
     .helpdesk-nav {
       height: 100vh;
-      min-width: 251px;
+      min-width: 220px;
       border-right: 1px solid $black-5;
       background-color: $primary-light;
       overflow-y: auto;
@@ -16,23 +16,23 @@
         /* margin-right: 10px; */
         .header {
           @mixin flex-row $justify-between, $align-center;
-          height: 60px;
+          /* height: 60px; */
           padding: 10px 10px;
-          border-bottom: 1px solid $primary-purple-50;
+          /* border-bottom: 1px solid $primary-purple-50; */
           .link-icon {
             
           }
           p {
             color: $black-40;
-            margin-left: 5px;
+            margin: 10px;
           }
           .note-pencil-icon {
             cursor: pointer;
           }
         }
         .help-p {
-          margin-top: 30px;
-          margin-bottom: 20px;
+          /* margin-top: 30px;
+          margin-bottom: 20px; */
           padding: 0px 10px;
           color: $black-40;
           text-align: left;
@@ -81,7 +81,8 @@
           @mixin flex-column $justify-between, $align-center;
           padding: 0px 10px;
           .help-nav-menu {
-            @mixin flex-column $justify-start, $align-center;
+            
+            /* @mixin flex-column $justify-start, $align-center; */
             width: 100%;
             /* padding-top: 20px; */
             .nav-item {

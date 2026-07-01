@@ -10,6 +10,14 @@ module Dashboard
       def create?
         owner? || can?("inboxes.write")
       end
+
+      def edit?
+        owner? || can?("inboxes.write")
+      end
+
+      def update?
+        owner? || can?("inboxes.write")
+      end
     end
   end
 end

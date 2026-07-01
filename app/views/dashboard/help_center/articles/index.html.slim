@@ -1,30 +1,112 @@
-= render("dashboard/shared/dashboard_container", current_page: "") do
-  = render("dashboard/help_center/help_center_sidebar", current_page: "") do
-    .body-section.st-messenger-body
-      .st-header.st-messenger-header
-        h2.f-semi-18 Messenger
-        .tabs
-          .f-reg-14 Web
-          .f-reg-14 Mobile SDKs 
-          .f-reg-14 Conversation  
-          .f-reg-14 General 
-          .f-reg-14.active Install 
-      .st-container.st-messenger-container data-controller="modalToggler frameToggler"
-        .messenger-section
-          .messenger-header
-            .tabs
-              .tab.active
-                = image_tag("avatar1.png", class:"tab-icon", alt:"icon")
-                .f-semi-14 Install for web
-              .tab
-                = image_tag("avatar1.png", class:"tab-icon", alt:"icon")
-                .f-semi-14 Install for mobile
-          .messenger-description
-            .title-bar
-              = inline_svg_tag("tick.svg", class:"tag-icon", alt:"menu")
-              .title
-                h3.f-semi-16 Install the messenger on your site or app
-                p.f-reg-12 The messenger helps you support your customers and  learn more about them. 
-            .steps data-controller="modalToggler frameToggler"
-              .tech-stack
-                
+= render("dashboard/shared/dashboard_container", current_page: "help_center") do
+  = render("dashboard/help_center/help_center_sidebar", current_page: "articles") do
+    .hc-articles
+      .hc-search-row
+        = form_with url: help_center_articles_path, method: :get, local: true, class: "hc-search-row-form" do
+          .hc-search-input-wrap
+            span.hc-search-icon 🔍
+            = text_field_tag :q, @query, class: "hc-search-row-input", placeholder: "Search...", oninput: "clearTimeout(this._timer); this._timer=setTimeout(()=>Turbo.visit(this.form.action+'?'+new URLSearchParams(new FormData(this.form)).toString(),{action:'replace'}),300)"
+            - if @query.present?
+              = link_to help_center_articles_path, class: "hc-search-clear", title: "Clear search" do
+                = image_tag("cross_clear.svg", alt: "clear", class: "hc-search-clear-icon")
+
+      .hc-index-header
+        .hc-title-area
+          h1.f-semi-32 All Articles
+        .hc-header-actions
+
+          = link_to new_help_center_article_path, class: "hc-btn-primary"
+            | + New Article
+
+      .hc-toolbar
+        = form_with url: help_center_articles_path, method: :get, local: true, class: "hc-search-form" do
+          = hidden_field_tag :q, @query if @query.present?
+
+      .hc-table-wrap
+        - if @articles.any?
+          .hc-table-count-bar
+            span.hc-table-count = "#{@pagy.present? ? @pagy.count : @articles.size} Articles"
+            details.hc-columns-menu
+              summary.hc-btn-secondary
+                | Display Columns
+                span.hc-caret ▾
+              = form_with url: help_center_articles_path, method: :get, local: true, class: "hc-columns-panel" do
+                .hc-columns-panel-header Columns
+                = hidden_field_tag :q, @query if @query.present?
+                = hidden_field_tag :status, @status if @status.present?
+                = hidden_field_tag :category_id, @category_id if @category_id.present?
+                - {"title" => "Title", "last_edit" => "Last Edit", "status" => "Status", "collection" => "Collection"}.each do |key, label|
+                  label.hc-checkbox-row
+                    = check_box_tag "columns[]", key, @columns.include?(key)
+                    span.hc-checkbox-label = label
+                = button_tag "Apply", type: :submit, class: "hc-btn-primary hc-columns-apply"
+          table.hc-articles-table
+            thead
+              tr
+                - if @columns.include?("title")
+                  th
+                    span.hc-th-content
+                      | Title
+                      span.hc-sort-caret ↓
+                - if @columns.include?("last_edit")
+                  th
+                    span.hc-th-content
+                      | Last Edit
+                      span.hc-sort-caret ↓
+                - if @columns.include?("status")
+                  th
+                    span.hc-th-content
+                      | Status
+                      span.hc-sort-caret ↓
+                - if @columns.include?("collection")
+                  th
+                    span.hc-th-content
+                      | Collection
+                      span.hc-sort-caret ↓
+            tbody
+              - @articles.each do |article|
+                - collection = article.primary_category || article.categories.first
+                tr.hc-table-row
+                  - if @columns.include?("title")
+                    td.hc-title-cell
+                      .hc-title-wrapper
+                        = link_to help_center_article_path(article), class: "hc-article-title"
+                          = article.title.presence || "Untitled article"
+                  - if @columns.include?("last_edit")
+                    td
+                      span.hc-date-text = time_ago_in_words(article.updated_at) + " ago"
+                  - if @columns.include?("status")
+                    td
+                      span.hc-status-badge class="hc-status-#{article.status}"
+                        span.hc-status-dot class="hc-dot-#{article.status}"
+                        = article.status.humanize
+                  - if @columns.include?("collection")
+                    td.hc-collection-cell
+                      span.hc-collection-tag title=collection&.name
+                        - if collection&.name.present?
+                          - words = collection.name.split
+                          = words.first(2).join(' ') + (words.length > 2 ? '...' : '')
+                        - else
+                          = "Uncategorized"
+
+          - if @pagy && @pagy.last > 1
+            .hc-pagination
+              - if @pagy.prev
+                = link_to help_center_articles_path(page: @pagy.prev, q: @query, status: @status, category_id: @category_id, columns: @columns), class: "hc-pagination-btn"
+                  | ← Previous
+              - else
+                span.hc-pagination-btn.disabled ← Previous
+              span.hc-pagination-info
+                = "Page #{@pagy.page} of #{@pagy.last}"
+              - if @pagy.next
+                = link_to help_center_articles_path(page: @pagy.next, q: @query, status: @status, category_id: @category_id, columns: @columns), class: "hc-pagination-btn"
+                  | Next →
+              - else
+                span.hc-pagination-btn.disabled Next →
+        - else
+          .hc-empty-state
+            .hc-empty-icon 📄
+            h3.f-semi-18 No articles found
+            p.f-reg-14.text-muted Create your first article or adjust the current search and filters.
+            = link_to new_help_center_article_path, class: "hc-btn-primary"
+              | + New Article

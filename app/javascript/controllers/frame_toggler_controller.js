@@ -11,7 +11,7 @@ export default class extends Controller {
     const itemId = event.currentTarget.dataset.itemId;
 
     model.innerHTML = '';
-    const url = itemId ? `/popup/${popup_view}?id=${itemId}` : `/popup/${popup_view}`;
+    const url = event.currentTarget.dataset.url || (itemId ? `/popup/${popup_view}?id=${itemId}` : `/popup/${popup_view}`);
 
     fetch(url)
       .then(response => response.text())

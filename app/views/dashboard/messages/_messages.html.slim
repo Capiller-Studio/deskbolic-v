@@ -22,7 +22,11 @@
         = render "dashboard/conversations/snooz_conv_modal"
     .conversation#oppp data-controller="scroll-to-bottom mark-as-read" data-mark-as-read-url-value=mark_as_read_conversation_path(@conversation) data-conversation-id=@conversation.id
       = turbo_frame_tag "messages-page-#{@pagy.next}", src: conversation_messages_path(@conversation, page: @pagy.next), loading: :lazy if defined?(@pagy) && @pagy&.next
-      = render partial: "dashboard/messages/message", collection: @messages
+      - @timeline_items.each do |item|
+        - if item.is_a?(Message)
+          = render partial: "dashboard/messages/message", locals: { message: item }
+        - elsif item.is_a?(Activity)
+          = render partial: "dashboard/activities/activity", locals: { activity: item }
       
       turbo-frame#message-frame
       

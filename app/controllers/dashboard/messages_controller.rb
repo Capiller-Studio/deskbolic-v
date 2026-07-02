@@ -3,16 +3,30 @@
 module Dashboard
   class MessagesController < DashboardController
     def index
-      @conversation = Conversation.find(params[:conversation_id])
+      @conversation = current_account.conversations.find(params[:conversation_id])
       @pagy, @messages = pagy(@conversation.messages.includes(:attachments).order(created_at: :desc), items: 20)
       @messages = @messages.reverse
+
+      if @messages.any?
+        start_time = @messages.first.created_at
+        end_time = @messages.last.created_at
+        
+        start_time = 10.years.ago if @pagy.page == @pagy.last
+        end_time = 10.years.from_now if @pagy.page == 1
+        
+        @activities = @conversation.activities.where.not(event_key: 'conversation.update').where(created_at: start_time..end_time)
+        @timeline_items = (@messages.to_a + @activities.to_a).sort_by(&:created_at)
+      else
+        @activities = @conversation.activities.where.not(event_key: 'conversation.update')
+        @timeline_items = @activities.to_a.sort_by(&:created_at)
+      end
       render layout: false
     end
 
     def create
       @response = params[:message][:response]
       @attachments = params[:message][:attachments].reject(&:blank?)
-      @conversation = Conversation.find(params[:message][:conversation_id])
+      @conversation = current_account.conversations.find(params[:message][:conversation_id])
 
       if @response.present? || @attachments.present?
         unless @conversation.assigned?

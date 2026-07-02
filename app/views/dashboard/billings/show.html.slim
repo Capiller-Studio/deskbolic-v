@@ -99,6 +99,11 @@
                               = f.submit I18n.t("dashboard.billing.update_seats", default: "Update Seats"), class: "ap-btn-primary", data: { turbo_confirm: confirm_msg }
 
                   = link_to I18n.t("dashboard.billing.cancel_subscription", default: "Cancel Subscription"), cancel_subscription_path(@active_subscription), method: :post, data: { turbo_method: :post, turbo_confirm: I18n.t("dashboard.billing.cancel_confirm", default: "Are you sure you want to cancel your subscription?") }, class: "ap-btn-secondary ap-billing-btn-danger-outline"
+            - else
+              div style="margin-top: 16px;"
+                p.f-reg-14 style="margin-bottom: 16px; color: #64748b;" = I18n.t("dashboard.billing.no_active_subscription", default: "You do not have an active subscription. Subscribe now to access all features.")
+                = link_to I18n.t("dashboard.billing.subscribe_now", default: "Subscribe Now"), new_subscription_path, class: "ap-btn-primary"
+
         / Wallet section
         .ap-card
           .ap-card-body.ap-billing-card-body

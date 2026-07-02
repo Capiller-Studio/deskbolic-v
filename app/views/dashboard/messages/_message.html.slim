@@ -1,6 +1,6 @@
 - show_unread_divider = (defined?(@unread_start_message_id) && @unread_start_message_id == message.id) || (defined?(show_divider) && show_divider && message.incoming?)
 - if show_unread_divider
-  .unread-divider data-controller="fade-out" style="text-align: center; margin: 15px 0; position: relative;"
+  .unread-divider data-controller="fade-out" style="text-align: center; margin: 15px 0; position: relative; clear: both; width: 100%; display: block;"
     span.f-med-12 style="background: #eef2f6; padding: 4px 12px; border-radius: 12px; color: #5a6a85;" New messages
 
 - if message.sender_type == "Customer"

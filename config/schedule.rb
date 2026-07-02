@@ -34,6 +34,11 @@ every 1.day, at: "2:00 am" do
   runner "TrialExpirationWorker.perform_async"
 end
 
+# Renew active subscriptions and process cancellations
+every 1.day, at: "12:30 am" do
+  runner "SubscriptionRenewalWorker.perform_async"
+end
+
 # --- Automations ---
 # Evaluate time-trigger automations (e.g., "hours since last activity > 24")
 every 1.hour do

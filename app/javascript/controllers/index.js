@@ -155,3 +155,6 @@ application.register("article", ArticleController)
 
 import RichtextEditorController from "./richtext_editor_controller"
 application.register("richtext-editor", RichtextEditorController)
+
+import PushNotificationsController from "./push_notifications_controller"
+application.register("push-notifications", PushNotificationsController)

@@ -1,0 +1,91 @@
+= render("dashboard/shared/dashboard_container", current_page: "settings") do
+  = render("dashboard/settings/settings_sidebar", current_page: "audit-logs") do
+    .ec-form-page
+      .ec-form-header
+        h2.f-semi-32 style="margin-top: 16px; color: #0f172a;" = t("audit_logs.title", default: "Audit Logs")
+        p.f-reg-16 style="color: #64748b; margin-top: 4px;" = t("audit_logs.description", default: "Track and review all activities across your organization.")
+
+      .ec-card style="margin-top: 24px;"
+        .ec-card-body style="padding: 2rem;"
+          .table-responsive
+            table.ec-table style="width: 100%; border-collapse: collapse; margin-top: 20px;"
+              thead
+                tr
+                  th.f-semi-14 style="text-align: left; padding: 12px; border-bottom: 1px solid #e2e8f0; color: #475569;" = t("audit_logs.timestamp", default: "Timestamp")
+                  th.f-semi-14 style="text-align: left; padding: 12px; border-bottom: 1px solid #e2e8f0; color: #475569;" = t("audit_logs.actor", default: "Actor")
+                  th.f-semi-14 style="text-align: left; padding: 12px; border-bottom: 1px solid #e2e8f0; color: #475569;" = t("audit_logs.event", default: "Event")
+                  th.f-semi-14 style="text-align: left; padding: 12px; border-bottom: 1px solid #e2e8f0; color: #475569;" = t("audit_logs.changes", default: "Changes")
+                  th.f-semi-14 style="text-align: right; padding: 12px; border-bottom: 1px solid #e2e8f0; color: #475569;" = t("audit_logs.actions", default: "Actions")
+              tbody
+                - if @activities.empty?
+                  tr
+                    td colspan="5" style="text-align: center; padding: 40px;"
+                      p.f-reg-14 style="color: #64748b;" = t("audit_logs.empty", default: "No audit logs found.")
+                - else
+                  - @activities.each do |activity|
+                    tr style="border-bottom: 1px solid #f1f5f9;"
+                      td.f-reg-14 style="padding: 16px 12px; color: #334155; vertical-align: top;"
+                        = l(activity.created_at, format: :short)
+                      td.f-reg-14 style="padding: 16px 12px; color: #334155; vertical-align: top;"
+                        = activity.actor.try(:name).presence || activity.actor.try(:display_name).presence || "System"
+                      td.f-reg-14 style="padding: 16px 12px; color: #334155; vertical-align: top;"
+                        = activity.translated_description
+                      td.f-reg-12 style="padding: 16px 12px; vertical-align: top; max-width: 300px; overflow-x: auto;"
+                        - if activity.object_changes.present?
+                          - ignored_fields = %w[id created_at updated_at account_id portal_id views_count inbox_id conversation_id contact_id status_id assignable_type assignable_id source identifier display_id uuid]
+                          - changes = activity.object_changes.reject { |k, v| ignored_fields.include?(k) || k.end_with?('_id') }
+                          - if changes.any?
+                            .changes-list style="display: flex; flex-direction: column; gap: 6px;"
+                              - changes.each do |field, (old_val, new_val)|
+                                .change-item style="font-size: 13px; line-height: 1.4; background: #f8fafc; padding: 6px 10px; border-radius: 6px; border: 1px solid #e2e8f0;"
+                                  span style="font-weight: 600; color: #334155; margin-right: 6px;" = field.humanize
+                                  - if old_val.present?
+                                    span style="color: #64748b; margin-right: 6px;" changed from
+                                    span style="background: #fee2e2; color: #991b1b; padding: 2px 6px; border-radius: 4px; text-decoration: line-through; margin-right: 6px;" = old_val.to_s.truncate(30)
+                                    span style="color: #64748b; margin-right: 6px;" to
+                                  - else
+                                    span style="color: #64748b; margin-right: 6px;" set to
+                                  span style="background: #dcfce3; color: #166534; padding: 2px 6px; border-radius: 4px; font-weight: 500;" = new_val.to_s.truncate(30)
+                          - else
+                            span style="color: #94a3b8; font-style: italic;" -
+                        - else
+                          span style="color: #94a3b8; font-style: italic;" -
+                      td style="text-align: right; padding: 16px 12px; vertical-align: top;"
+                        - if activity.object_changes.present? || activity.object_snapshot.present?
+                          .revert-actions style="display: flex; gap: 8px; justify-content: flex-end;"
+                            = button_to t("audit_logs.undo", default: "Undo"), revert_settings_audit_log_path(activity, mode: 'undo'), method: :post, class: "ec-btn", style: "padding: 6px 12px; background: #ffffff; border: 1px solid #e2e8f0; color: #334155; border-radius: 6px; cursor: pointer; transition: all 0.2s;", data: { turbo: true, confirm: t("audit_logs.confirm_undo", default: "Are you sure you want to undo these specific changes?") }
+                            = button_to t("audit_logs.rollback", default: "Rollback"), revert_settings_audit_log_path(activity, mode: 'rollback'), method: :post, class: "ec-btn", style: "padding: 6px 12px; background: #ef4444; border: 1px solid #ef4444; color: #ffffff; border-radius: 6px; cursor: pointer; transition: all 0.2s;", data: { turbo: true, confirm: t("audit_logs.confirm_rollback", default: "Are you sure you want to completely rollback this object to its historical state?") }
+
+          - if @pagy && @pagy.last > 1
+            .ec-pagination style="margin-top: 24px; display: flex; justify-content: center; align-items: center; gap: 16px;"
+              - if @pagy.prev
+                = link_to settings_audit_logs_path(page: @pagy.prev), class: "ec-pagination-btn"
+                  | ← Previous
+              - else
+                span.ec-pagination-btn.disabled style="opacity: 0.5; cursor: not-allowed;" ← Previous
+              
+              span.ec-pagination-info style="font-size: 14px; color: #64748b; font-weight: 500;"
+                = "Page #{@pagy.page} of #{@pagy.last}"
+                
+              - if @pagy.next
+                = link_to settings_audit_logs_path(page: @pagy.next), class: "ec-pagination-btn"
+                  | Next →
+              - else
+                span.ec-pagination-btn.disabled style="opacity: 0.5; cursor: not-allowed;" Next →
+
+      css:
+        .ec-pagination-btn {
+          padding: 8px 16px;
+          border-radius: 6px;
+          border: 1px solid #e2e8f0;
+          color: #334155;
+          text-decoration: none;
+          font-size: 14px;
+          font-weight: 500;
+          background: #ffffff;
+          transition: all 0.2s;
+        }
+        a.ec-pagination-btn:hover {
+          background: #f8fafc;
+          border-color: #cbd5e1;
+        }

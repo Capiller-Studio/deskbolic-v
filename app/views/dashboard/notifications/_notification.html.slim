@@ -1,0 +1,38 @@
+- is_unread = notification.read_at.nil?
+- target_url = root_path
+- if notification.resource.is_a?(Conversation)
+  - target_url = conversation_path(notification.resource)
+- elsif notification.resource.is_a?(Message) && notification.resource.conversation
+  - target_url = conversation_path(notification.resource.conversation)
+
+.notif-item id="notification_#{notification.id}" class=(is_unread ? 'unread' : 'read') style="position: relative;"
+  = link_to "", target_url, style: "position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 1;", data: { turbo: false }
+  .notif-icon-wrapper class="#{notification.event}"
+    - if notification.event == 'conversation_created'
+      = inline_svg_tag("inbox.svg", class: "notif-svg-icon")
+    - elsif notification.event == 'conversation_assigned' || notification.event == 'team_assigned'
+      = inline_svg_tag("users.svg", class: "notif-svg-icon")
+    - elsif notification.event == 'message_created'
+      = inline_svg_tag("msg_icon.svg", class: "notif-svg-icon")
+    - elsif notification.event == 'conversation_resolved' || notification.event == 'conversation_closed'
+      = inline_svg_tag("check_circle.svg", class: "notif-svg-icon")
+    - else
+      = inline_svg_tag("bell.svg", class: "notif-svg-icon")
+  
+  .notif-content
+    .notif-title = I18n.t("notifications.push.#{notification.event}.title", default: notification.event.humanize)
+    .notif-body-text
+      - identifier = notification.resource.try(:identifier) || "##{notification.resource.try(:display_id) || notification.resource_id.to_s[0..6]}"
+      - inbox_name = notification.resource.try(:inbox).try(:name) || ""
+      - team_name = notification.resource.try(:team).try(:name) || "a team"
+      - assignee_name = notification.resource.try(:assignee).try(:name) || "an agent"
+      - days = notification.resource.respond_to?(:days_until_trial_end) ? notification.resource.days_until_trial_end : 0
+      - plan_name = notification.resource.respond_to?(:plan) ? notification.resource.plan&.name&.capitalize : ""
+      - resource_name = notification.resource_type
+      - percentage = 100
+      = I18n.t("notifications.push.#{notification.event}.body", identifier: identifier, inbox_name: inbox_name, team_name: team_name, assignee_name: assignee_name, days: days, plan_name: plan_name, resource: resource_name, percentage: percentage, default: "Updates in #{identifier}")
+    .notif-time = "#{time_ago_in_words(notification.created_at)} ago"
+    
+  - if is_unread
+    .notif-actions
+      = button_to t("notifications.mark_read", default: "Mark Read"), mark_read_notification_path(notification), method: :post, class: "notif-action-btn", data: { turbo: true }

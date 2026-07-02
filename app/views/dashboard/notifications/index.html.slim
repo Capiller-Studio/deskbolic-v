@@ -1,0 +1,21 @@
+style
+  | @keyframes slideInRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
+  | .notifications-slide-over { position: absolute !important; right: 0; top: 0; height: 100vh !important; max-height: 100vh !important; width: 400px !important; min-width: 400px !important; margin: 0 !important; border-radius: 0 !important; animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1); padding: 0 !important; display: flex !important; flex-direction: column !important; background: #ffffff !important; box-shadow: -10px 0 40px rgba(0,0,0,0.08) !important; text-align: left !important; }
+  | .notifications-header { padding: 24px; border-bottom: 1px solid #f0f0f0; display: flex; justify-content: space-between; align-items: center; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); z-index: 10; position: sticky; top: 0; }
+  | .notifications-header h3 { font-size: 18px; font-weight: 600; color: #111827; margin: 0; letter-spacing: -0.01em; text-align: left; }
+  | .notifications-header .mark-all-btn { font-size: 13px; font-weight: 500; color: #4F46E5; background: none; border: none; cursor: pointer; padding: 6px 12px; border-radius: 6px; transition: background 0.2s; }
+  | .notifications-header .mark-all-btn:hover { background: #EEF2FF; }
+  | .notifications-body { padding: 24px; overflow-y: auto; flex: 1; background: #fafafa; }
+  | .notifications-body::-webkit-scrollbar { width: 6px; }
+  | .notifications-body::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+
+.model-content-section
+  .model-content.notifications-slide-over
+    .notifications-header
+      h3 = t("notifications.title", default: "Notifications")
+      .actions style="display: flex; gap: 12px; align-items: center;"
+        = button_to t("notifications.mark_all_as_read", default: "Mark all as read"), mark_all_read_notifications_path, method: :post, class: "mark-all-btn", data: { turbo: true }
+        = inline_svg_tag("cross_button.svg", alt:"close", class:"m-close", data: { action: "click->modalToggler#hideModal" }, style: "cursor: pointer; width: 20px; height: 20px; opacity: 0.5; transition: opacity 0.2s;")
+    .notifications-body
+      turbo-frame id="notifications-list"
+        = render partial: "dashboard/notifications/list", locals: { notifications: @notifications }

@@ -18,6 +18,12 @@
             li.nav-item
               = link_to(workspace_path, class: "nav-link") do
                 = inline_svg_tag("plus.svg", class:"link-icon", alt:"menu")
+            li.nav-item data-controller="modalToggler frameToggler" style="position: relative;"
+              .nav-link data-action="click->modalToggler#showModal click->frameToggler#loadModal" data-url=notifications_path
+                = inline_svg_tag("bell.svg", class:"link-icon", alt:"notifications")
+              - if current_user
+                = render "dashboard/notifications/badge"
+              = render "dashboard/shared/modal_popper"
         
         .channel-header.list-header data-controller="accordion"
           - if current_user&.avatar&.attached?

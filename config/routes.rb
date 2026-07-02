@@ -135,6 +135,9 @@ Rails.application.routes.draw do
       get :append_message, on: :collection
       get :update_message, on: :collection
     end
+    resources :activities, only: [] do
+      get :append_activity, on: :collection
+    end
     resources :canned_responses
     resources :notes
     resources :teams do
@@ -224,6 +227,26 @@ Rails.application.routes.draw do
         get :teammates
         get :tickets
         get :people
+      end
+    end
+    
+    namespace :settings do
+      resource :notification_settings, only: [:edit, :update]
+      resources :notification_subscriptions, only: [:create, :destroy]
+      resources :audit_logs, only: [:index] do
+        member do
+          post :revert
+        end
+      end
+    end
+    
+    resources :notifications, only: [:index] do
+      collection do
+        post :mark_all_read
+        get :update_badge
+      end
+      member do
+        post :mark_read
       end
     end
     

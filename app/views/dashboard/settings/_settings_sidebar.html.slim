@@ -39,6 +39,22 @@
                   .link-text
                     .conversation-name.inbox-conv
                       p.f-reg-14 Billing & Subscription
+
+            li.nav-item class="#{current_page == 'notification-settings' ? 'st-list-active' : ''}" data-action="click->accordion#toggle"
+              .nav-link
+                = link_to(edit_settings_notification_settings_path, class: "nav-link") do
+                  .link-text
+                    .conversation-name.inbox-conv
+                      p.f-reg-14 Notifications
+
+            li.nav-item class="#{current_page == 'audit-logs' ? 'st-list-active' : ''}" data-action="click->accordion#toggle"
+              .nav-link
+                = link_to(settings_audit_logs_path, class: "nav-link") do
+                  .link-text
+                    .conversation-name.inbox-conv
+                      p.f-reg-14
+                        | Audit Logs
+                        = plan_upgrade_bubble(:audit_logs_enabled)
             
             / Help Center
             li.nav-item class="" data-action="click->accordion#toggle"

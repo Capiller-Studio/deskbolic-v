@@ -3,7 +3,7 @@
 module Dashboard
   class CannedResponsesController < DashboardController
     def edit
-      @response = CannedResponse.find(params[:id])
+      @response = current_account.canned_responses.find(params[:id])
     end
     def create
       @canned_response = CannedResponse.new(canned_response_params)
@@ -14,7 +14,7 @@ module Dashboard
 
 
     def update
-      @response = CannedResponse.find(params[:id])
+      @response = current_account.canned_responses.find(params[:id])
       if @response.update(canned_response_params)
         respond_to do |format|
           format.html { redirect_to(canned_responses_settings_path, notice: "Macro updated successfully.") }
@@ -28,7 +28,7 @@ partial: "dashboard/canned_responses/canned_response", locals: { response: @resp
     end
 
     def destroy
-      @response = CannedResponse.find(params[:id])
+      @response = current_account.canned_responses.find(params[:id])
       @response.destroy
 
       respond_to do |format|

@@ -8,7 +8,7 @@ module Dashboard
       @wallet = current_account.wallet
       @pagy, @transactions = pagy(current_account.transactions.recent, limit: 10)
       @payment_methods = current_account.payment_methods.active_methods
-      @active_subscription = current_account.subscriptions.order(created_at: :desc).first
+      @active_subscription = current_account.subscriptions.current.order(created_at: :desc).first
       @available_plans = Plan.available.where(currency: current_account.currency)
       @setup_intent = begin
         PaymentGateway::Stripe.new(current_account).create_setup_intent

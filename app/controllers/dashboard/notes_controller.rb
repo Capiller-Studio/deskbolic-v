@@ -3,7 +3,7 @@
 module Dashboard
   class NotesController < DashboardController
     def edit
-      @note = Note.find(params[:id])
+      @note = current_account.notes.find(params[:id])
     end
     def create
       @note = Note.new(content: params[:note][:content], account: current_account, user: current_user,
@@ -18,7 +18,7 @@ resource: current_user)
 
 
     def update
-      @note = Note.find(params[:id])
+      @note = current_account.notes.find(params[:id])
       if @note.update(content: params[:note][:content])
         respond_to do |format|
           format.html { redirect_to(notes_path, notice: "Note updated successfully.") }
@@ -32,7 +32,7 @@ locals: { note: @note })) end
     end
 
     def destroy
-      @note = Note.find(params[:id])
+      @note = current_account.notes.find(params[:id])
       @note.destroy
 
       respond_to do |format|

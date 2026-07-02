@@ -4,7 +4,7 @@ module Dashboard
   class SubscriptionsController < DashboardController
     def new
       @available_plans = Plan.available.where(currency: current_account.currency)
-      redirect_to root_path if current_account.subscriptions.any?
+      redirect_to root_path if current_account.subscriptions.current.any?
     end
 
     def create

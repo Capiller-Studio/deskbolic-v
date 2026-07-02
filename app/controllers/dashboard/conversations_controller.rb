@@ -40,6 +40,20 @@ module Dashboard
 
       @pagy, @messages = pagy(@conversation.messages.includes(:attachments).order(created_at: :desc), items: 20)
       @messages = @messages.reverse
+      
+      if @messages.any?
+        start_time = @messages.first.created_at
+        end_time = @messages.last.created_at
+        
+        start_time = 10.years.ago if @pagy.page == @pagy.last
+        end_time = 10.years.from_now if @pagy.page == 1
+        
+        @activities = @conversation.activities.where.not(event_key: 'conversation.update').where(created_at: start_time..end_time)
+        @timeline_items = (@messages.to_a + @activities.to_a).sort_by(&:created_at)
+      else
+        @activities = @conversation.activities.where.not(event_key: 'conversation.update')
+        @timeline_items = @activities.to_a.sort_by(&:created_at)
+      end
       @canned_responses = CannedResponse.where(account: current_account).all
       @notes = Note.where(account: current_account, user: current_user).all
 
@@ -59,15 +73,15 @@ module Dashboard
           render(turbo_stream: turbo_stream.update(
             "messages-frame",
             partial: "dashboard/messages/messages",
-            locals: { messages: @messages }
+            locals: { timeline_items: @timeline_items }
           ))
         end
         format.html
       end
     end
     def create
-      channel   = Channel::FacebookPage.find(params[:channel_id])
-      customer  = Customer.find(params[:customer_id])
+      channel   = current_account.facebook_pages.find(params[:channel_id])
+      customer  = current_account.customers.find(params[:customer_id])
       message   = params[:response]
 
       conversation_source = params[:conversation_source]
@@ -82,7 +96,7 @@ module Dashboard
     end
 
     def snooz_conversation
-      @conversation = Conversation.find(params[:id])
+      @conversation = current_account.conversations.find(params[:id])
       @conversation.update(
         status: :snoozed,
         data: { "snoozed_until" => params[:snooze_until] }
@@ -91,19 +105,19 @@ module Dashboard
     end
     
     def close_conversation
-      @conversation = Conversation.find(params[:id])
+      @conversation = current_account.conversations.find(params[:id])
       @conversation.update(status: :closed)
       redirect_to conversations_path(resource_id: @conversation.inbox_id)
     end
     
     def mark_as_read
-      @conversation = Conversation.find(params[:id])
+      @conversation = current_account.conversations.find(params[:id])
       UnreadCounts::Reset.call(@conversation, current_user)
       head :ok
     end
     
     def assign_member
-      @conversation = Conversation.find(params[:id])
+      @conversation = current_account.conversations.find(params[:id])
       @conversation.assign!(current_user)
 
       redirect_to(request.referer)
@@ -112,20 +126,40 @@ module Dashboard
     def assign_team
       @conversation = current_account.conversations.find(params[:id])
       team = current_account.teams.find(params[:team_id])
-      @conversation.update!(team: team)
+      @conversation.assign_team!(team)
 
-      redirect_to(request.referer)
+      @teams = current_account.teams
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace(
+            "conversation-team-#{@conversation.id}", 
+            partial: "dashboard/conversations/team_info", 
+            locals: { conversation: @conversation, assigned_team: team }
+          )
+        end
+        format.html { redirect_to(request.referer) }
+      end
     end
 
     def unassign_team
       @conversation = current_account.conversations.find(params[:id])
-      @conversation.update!(team: nil)
+      @conversation.unassign_team!
       
-      redirect_to(request.referer)
+      @teams = current_account.teams
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace(
+            "conversation-team-#{@conversation.id}", 
+            partial: "dashboard/conversations/team_info", 
+            locals: { conversation: @conversation, assigned_team: nil }
+          )
+        end
+        format.html { redirect_to(request.referer) }
+      end
     end
 
     def append_conversation
-      @conversation = Conversation.find(params[:id])
+      @conversation = current_account.conversations.find(params[:id])
       render(turbo_stream: turbo_stream.append(
         "conversation-frame",
         partial: "dashboard/conversations/conversation",

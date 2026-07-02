@@ -36,6 +36,8 @@ export default class extends Controller {
         const resourceId = objectData["id"];
 
         if (eventType === "message.created") {
+          if (document.getElementById(`message_${resourceId}`)) return;
+
           const activeConversationId = document.querySelector(".conversation#oppp")?.dataset.conversationId;
           const url = this.configureUrl(eventType);
           let fetchUrl = `${url}?id=${resourceId}`;
@@ -49,6 +51,16 @@ export default class extends Controller {
           }).then((response) => response.text()).then((html) => {
             Turbo.renderStreamMessage(html);
           });
+        } else if (eventType === "activity.created") {
+          if (document.getElementById(`activity_${resourceId}`)) return;
+          const activeConversationId = document.querySelector(".conversation#oppp")?.dataset.conversationId;
+          const url = this.configureUrl(eventType);
+          if (url && activeConversationId && objectData.trackable_id === activeConversationId) {
+            fetch(`${url}?id=${resourceId}`, {
+              method: 'GET',
+              headers: { Accept: 'text/vnd.turbo-stream.html' },
+            }).then(r => r.text()).then(html => Turbo.renderStreamMessage(html));
+          }
         } else {
           const url = this.configureUrl(eventType);
           if (url) {
@@ -68,6 +80,10 @@ export default class extends Controller {
       return "/conversations/append_conversation"
     } else if (broadcast_event == "message.updated") {
       return "/messages/update_message"
+    } else if (broadcast_event == "activity.created") {
+      return "/activities/append_activity"
+    } else if (broadcast_event == "notification.created") {
+      return "/notifications/update_badge"
     }
   }
   

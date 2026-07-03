@@ -13,7 +13,7 @@
           /     span 1
           /     = f.label :name, "Enter name of Inbox", class: "form-label f-reg-14"
           /   = f.text_field :name, autofocus: true, class: "form-control f-reg-14", placeholder: "Channel Name", required: true
-          .form-floating.channel-select
+          .form-floating.ui-select
             = select_tag :channel_id, options_for_select(Channel::Email.where(account: current_account).all.map { |c| [c.name, c.id] }), data: { controller: "select" } 
         .form-actions
           = f.submit "Create Inbox", class: "submit-btn f-med-14", data: { action: "click->formValidation#validate click->modalToggler#hideModal" }

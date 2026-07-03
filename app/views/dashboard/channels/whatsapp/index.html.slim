@@ -1,59 +1,60 @@
 = render("dashboard/shared/dashboard_container", current_page: "settings") do
   = render("dashboard/settings/settings_sidebar", current_page: "whatsapp-channels") do
-    .wa-index-header
-      .wa-title-area
-        h2.f-semi-32 = t("dashboard.whatsapp_channels.index.title")
-        p.f-reg-16 = t("dashboard.whatsapp_channels.index.description")
-      = link_to new_channels_whatsapp_path, class: "wa-btn-primary"
-        | + #{t("dashboard.whatsapp_channels.index.connect_channel")}
+    .channel-theme-whatsapp
+      .ui-index-header
+        .ui-title-area
+          h2.f-semi-32 = t("dashboard.whatsapp_channels.index.title")
+          p.f-reg-16 = t("dashboard.whatsapp_channels.index.description")
+        = link_to new_channels_whatsapp_path, class: "ui-btn-primary"
+          | + #{t("dashboard.whatsapp_channels.index.connect_channel")}
 
-    .wa-list
-      - if @whatsapp_channels.any?
-        - @whatsapp_channels.each do |channel|
-          div.wa-card id=dom_id(channel)
-            .wa-card-top
-              .wa-card-info
-                .wa-page-avatar-placeholder
-                  | 💬
-                .wa-page-details
-                  h3.f-semi-16 = channel.name || channel.full_phone_number
-                  p.wa-page-id
-                    | Phone: #{channel.full_phone_number}
+      .ui-list
+        - if @whatsapp_channels.any?
+          - @whatsapp_channels.each do |channel|
+            div.ui-card id=dom_id(channel)
+              .ui-card-top
+                .ui-card-info
+                  .ui-avatar-placeholder
+                    | 💬
+                  .ui-card-info
+                    h3.f-semi-16 = channel.name || channel.full_phone_number
+                    p.ui-subtitle
+                      | Phone: #{channel.full_phone_number}
 
-              .wa-card-actions
-                = link_to edit_channels_whatsapp_path(channel), class: "wa-action-btn", title: t("general.edit")
-                  | ✏️
-                = link_to channels_whatsapp_path(channel), method: :delete, class: "wa-action-btn wa-action-delete", data: { turbo_method: :delete, turbo_confirm: t("dashboard.whatsapp_channels.index.delete_confirm") }, title: t("general.delete")
-                  | 🗑️
+                .ui-card-actions
+                  = link_to edit_channels_whatsapp_path(channel), class: "ui-action-btn", title: t("general.edit")
+                    | ✏️
+                  = link_to channels_whatsapp_path(channel), method: :delete, class: "ui-action-btn ui-action-delete", data: { turbo_method: :delete, turbo_confirm: t("dashboard.whatsapp_channels.index.delete_confirm") }, title: t("general.delete")
+                    | 🗑️
 
-            .wa-card-meta
-              - if channel.reauthorization_required?
-                .wa-badge.wa-badge-reauth
-                  span.wa-badge-icon ⚠️
-                  span = t("dashboard.whatsapp_channels.index.status_reauth")
-                = link_to reconnect_channels_whatsapp_path(channel), method: :post, class: "wa-reconnect-btn", data: { turbo_method: :post }
-                  | 🔄 #{t("dashboard.whatsapp_channels.index.reconnect")}
-              - elsif channel.active?
-                .wa-badge.wa-badge-active
-                  span.wa-badge-icon 🟢
-                  span = t("dashboard.whatsapp_channels.index.status_active")
-              - else
-                .wa-badge.wa-badge-disconnected
-                  span.wa-badge-icon 🔴
-                  span = t("dashboard.whatsapp_channels.index.status_disconnected")
+              .ui-card-meta
+                - if channel.reauthorization_required?
+                  .ui-badge.ui-badge-reauth
+                    span.ui-badge-icon ⚠️
+                    span = t("dashboard.whatsapp_channels.index.status_reauth")
+                  = link_to reconnect_channels_whatsapp_path(channel), method: :post, class: "channel-reconnect-btn", data: { turbo_method: :post }
+                    | 🔄 #{t("dashboard.whatsapp_channels.index.reconnect")}
+                - elsif channel.active?
+                  .ui-badge.ui-badge-active
+                    span.ui-badge-icon 🟢
+                    span = t("dashboard.whatsapp_channels.index.status_active")
+                - else
+                  .ui-badge.ui-badge-disconnected
+                    span.ui-badge-icon 🔴
+                    span = t("dashboard.whatsapp_channels.index.status_disconnected")
 
-              .wa-meta-tag
-                span.wa-meta-tag-icon 📬
-                span = t("dashboard.whatsapp_channels.index.inboxes_count", count: channel.inboxes.size)
+                .ui-meta-tag
+                  span.ui-meta-tag-icon 📬
+                  span = t("dashboard.whatsapp_channels.index.inboxes_count", count: channel.inboxes.size)
 
-              .wa-meta-tag
-                span.wa-meta-tag-icon 🕐
-                span = t("dashboard.whatsapp_channels.index.created_ago", time: time_ago_in_words(channel.created_at))
+                .ui-meta-tag
+                  span.ui-meta-tag-icon 🕐
+                  span = t("dashboard.whatsapp_channels.index.created_ago", time: time_ago_in_words(channel.created_at))
 
-      - else
-        .wa-empty-state
-          .wa-empty-icon 💬
-          h3.f-semi-18 = t("dashboard.whatsapp_channels.index.empty_title")
-          p.f-reg-14 = t("dashboard.whatsapp_channels.index.empty_description")
-          = link_to new_channels_whatsapp_path, class: "wa-btn-primary wa-btn-sm"
-            | + #{t("dashboard.whatsapp_channels.index.connect_channel")}
+        - else
+          .ui-empty-state
+            .ui-empty-icon 💬
+            h3.f-semi-18 = t("dashboard.whatsapp_channels.index.empty_title")
+            p.f-reg-14 = t("dashboard.whatsapp_channels.index.empty_description")
+            = link_to new_channels_whatsapp_path, class: "ui-btn-primary ui-btn-sm"
+              | + #{t("dashboard.whatsapp_channels.index.connect_channel")}

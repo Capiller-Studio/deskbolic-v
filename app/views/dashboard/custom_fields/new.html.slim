@@ -1,10 +1,10 @@
 = render("dashboard/shared/dashboard_container", current_page: "settings") do
   = render("dashboard/settings/settings_sidebar", current_page: "custom-fields") do
-    .ec-form-page style="display: flex; gap: 32px; align-items: flex-start; max-width: 1200px; margin: 0 auto; padding: 24px;"
-      .form-section style="flex: 1; max-width: 800px; min-width: 0;"
-        .ec-form-header
-          = link_to "← Back to Custom Fields", custom_fields_path, class: "ec-back-link"
-          h2.f-semi-32 style="margin-top: 16px; color: #0f172a;" Create Custom Field
+    .ui-page-body
+      .ui-form-header
+        = link_to "← Back to Custom Fields", custom_fields_path, class: "ui-back-link"
+        h2.f-semi-32 style="margin-top: 16px; color: #0f172a;" Create Custom Field
 
-        .ec-form-container
+      .ui-card style="margin-top: 24px;"
+        .ui-card-body style="padding: 2rem;"
           = render "form", custom_field: @custom_field

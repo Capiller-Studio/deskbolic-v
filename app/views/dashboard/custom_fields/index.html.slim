@@ -1,49 +1,49 @@
 = render("dashboard/shared/dashboard_container", current_page: "settings") do
   = render("dashboard/settings/settings_sidebar", current_page: "custom-fields") do
-    .ec-index-header
-      .ec-title-area
+    .ui-index-header
+      .ui-title-area
         h1.f-semi-32 Custom Fields
         p.f-reg-16.text-muted Master data attributes for personalized customer experiences.
-      = link_to new_custom_field_path, class: "ec-btn-primary"
+      = link_to new_custom_field_path, class: "ui-btn-primary"
         | + Create New Field
 
-    .ec-list
+    .ui-list
       - if @custom_fields.any?
         - @custom_fields.each do |field|
-          div.ec-card
-            .ec-card-top
-              .ec-card-info
+          div.ui-card
+            .ui-card-top
+              .ui-card-info
                 h3.f-semi-16 = field.key
                 p.f-reg-13.text-muted style="margin-top: 4px;" = field.entity_type.titleize
-              .ec-card-actions
-                = link_to edit_custom_field_path(field), class: "ec-action-btn", title: "Edit"
+              .ui-card-actions
+                = link_to edit_custom_field_path(field), class: "ui-action-btn", title: "Edit"
                   | ✏️
-                = link_to custom_field_path(field), method: :delete, class: "ec-action-btn ec-action-delete", data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, title: "Delete"
+                = link_to custom_field_path(field), method: :delete, class: "ui-action-btn ui-action-delete", data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, title: "Delete"
                   | 🗑️
 
-            .ec-card-meta
-              .ec-meta-tag
-                span.ec-meta-tag-icon 📝
+            .ui-card-meta
+              .ui-meta-tag
+                span.ui-meta-tag-icon 📝
                 span Input Type: #{field.field_type.titleize}
               - if field.required?
-                .ec-badge style="background: #fee2e2; color: #991b1b;"
+                .ui-badge style="background: #fee2e2; color: #991b1b;"
                   span Required
               - if field.searchable?
-                .ec-badge style="background: #dcfce7; color: #166534;"
+                .ui-badge style="background: #dcfce7; color: #166534;"
                   span Searchable
               
-              .ec-meta-tag
-                span.ec-meta-tag-icon 🕐
+              .ui-meta-tag
+                span.ui-meta-tag-icon 🕐
                 span Created #{time_ago_in_words(field.created_at)} ago
 
             - if field.translations.any?
-              .ec-forward-row style="margin-top: 12px; display: flex; gap: 8px;"
-                span.ec-forward-label Locales:
+              .channel-forward-row style="margin-top: 12px; display: flex; gap: 8px;"
+                span.channel-forward-label Locales:
                 - field.translations.pluck(:locale).each do |locale|
                   span style="background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: 600; color: #475569;" = locale.upcase
       - else
-        .ec-empty-state
+        .ui-empty-state
           h3.f-semi-18 No Custom Fields found
           p.f-reg-14.text-muted Create your first custom field to start tracking rich customer data.
-          = link_to new_custom_field_path, class: "ec-btn-primary"
+          = link_to new_custom_field_path, class: "ui-btn-primary"
             | + Create New Field

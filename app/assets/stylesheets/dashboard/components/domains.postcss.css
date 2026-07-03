@@ -331,59 +331,59 @@
             }
           }
         }
+      }
 
-        .cname-info-box {
-          background-color: $black-5;
-          border-radius: 12px;
-          padding: 20px;
-          .cname-record {
-            @mixin flex-row $justify-start, $align-center;
-            gap: 24px;
-            background-color: $white;
-            border-radius: 8px;
-            padding: 12px 16px;
-            margin: 12px 0;
-            .cname-field {
-              @mixin flex-column $justify-start, $align-left;
-              gap: 2px;
-              .cname-label {
-                color: $black-40;
-              }
+      .cname-info-box {
+        background-color: $black-5;
+        border-radius: 12px;
+        padding: 20px;
+        .cname-record {
+          @mixin flex-row $justify-start, $align-center;
+          gap: 24px;
+          background-color: $white;
+          border-radius: 8px;
+          padding: 12px 16px;
+          margin: 12px 0;
+          .cname-field {
+            @mixin flex-column $justify-start, $align-left;
+            gap: 2px;
+            .cname-label {
+              color: $black-40;
             }
           }
         }
+      }
 
-        .form-actions {
-          @mixin flex-row $justify-start, $align-center;
-          gap: 12px;
-          margin-top: 24px;
-          .btn-primary {
-            padding: 10px 24px;
-            border-radius: 8px;
-            border: none;
-            background-color: $black;
-            color: $white;
-            font-family: $font-family-inter-semibold;
-            font-size: 14px;
-            cursor: pointer;
-            text-decoration: none;
-            &:hover {
-              opacity: 0.9;
-            }
+      .form-actions {
+        @mixin flex-row $justify-start, $align-center;
+        gap: 12px;
+        margin-top: 24px;
+        .btn-primary {
+          padding: 10px 24px;
+          border-radius: 8px;
+          border: none;
+          background-color: $black;
+          color: $white;
+          font-family: $font-family-inter-semibold;
+          font-size: 14px;
+          cursor: pointer;
+          text-decoration: none;
+          &:hover {
+            opacity: 0.9;
           }
-          .btn-secondary {
-            padding: 10px 24px;
-            border-radius: 8px;
-            border: 1px solid $black-10;
-            background-color: $white;
-            color: $black-80;
-            font-family: $font-family-inter-regular;
-            font-size: 14px;
-            cursor: pointer;
-            text-decoration: none;
-            &:hover {
-              background-color: $black-5;
-            }
+        }
+        .btn-secondary {
+          padding: 10px 24px;
+          border-radius: 8px;
+          border: 1px solid $black-10;
+          background-color: $white;
+          color: $black-80;
+          font-family: $font-family-inter-regular;
+          font-size: 14px;
+          cursor: pointer;
+          text-decoration: none;
+          &:hover {
+            background-color: $black-5;
           }
         }
       }

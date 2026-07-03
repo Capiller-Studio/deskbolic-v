@@ -1,74 +1,75 @@
 = render("dashboard/shared/dashboard_container", current_page: "settings") do
   = render("dashboard/settings/settings_sidebar", current_page: "email-channels") do
-    .ec-index-header
-      .ec-title-area
-        h2.f-semi-32 = t("dashboard.email_channels.index.title")
-        p.f-reg-16 = t("dashboard.email_channels.index.description")
-      = link_to new_channels_email_path, class: "ec-btn-primary"
-        | + #{t("dashboard.email_channels.index.new_channel")}
+    .channel-theme-email
+      .ui-index-header
+        .ui-title-area
+          h2.f-semi-32 = t("dashboard.email_channels.index.title")
+          p.f-reg-16 = t("dashboard.email_channels.index.description")
+        = link_to new_channels_email_path, class: "ui-btn-primary"
+          | + #{t("dashboard.email_channels.index.new_channel")}
 
-    .ec-list
-      - if @email_channels.any?
-        - @email_channels.each do |channel|
-          div.ec-card id=dom_id(channel)
-            .ec-card-top
-              .ec-card-info
-                h3.f-semi-16 = channel.name
-                p.ec-card-email = channel.email
-              .ec-card-actions
-                = link_to edit_channels_email_path(channel), class: "ec-action-btn", title: "Edit"
-                  | ✏️
-                = link_to channels_email_path(channel), method: :delete, class: "ec-action-btn ec-action-delete", data: { turbo_method: :delete, turbo_confirm: t("dashboard.email_channels.index.delete_confirm") }, title: "Delete"
-                  | 🗑️
+      .ui-list
+        - if @email_channels.any?
+          - @email_channels.each do |channel|
+            div.ui-card id=dom_id(channel)
+              .ui-card-top
+                .ui-card-info
+                  h3.f-semi-16 = channel.name
+                  p.ui-subtitle = channel.email
+                .ui-card-actions
+                  = link_to edit_channels_email_path(channel), class: "ui-action-btn", title: "Edit"
+                    | ✏️
+                  = link_to channels_email_path(channel), method: :delete, class: "ui-action-btn ui-action-delete", data: { turbo_method: :delete, turbo_confirm: t("dashboard.email_channels.index.delete_confirm") }, title: "Delete"
+                    | 🗑️
 
-            .ec-card-meta
-              - if channel.smtp_enabled?
-                .ec-badge.ec-badge-smtp-on
-                  span.ec-badge-icon ⚡
-                  span = t("dashboard.email_channels.index.smtp_configured")
-              - else
-                .ec-badge.ec-badge-smtp-off
-                  span.ec-badge-icon 📤
-                  span = t("dashboard.email_channels.index.smtp_not_configured")
+              .ui-card-meta
+                - if channel.smtp_enabled?
+                  .ui-badge.ui-badge-smtp-on
+                    span.ui-badge-icon ⚡
+                    span = t("dashboard.email_channels.index.smtp_configured")
+                - else
+                  .ui-badge.ui-badge-disconnected
+                    span.ui-badge-icon 📤
+                    span = t("dashboard.email_channels.index.smtp_not_configured")
 
-              - if channel.imap_enabled?
-                .ec-badge.ec-badge-imap-on
-                  span.ec-badge-icon 📥
-                  span = t("dashboard.email_channels.index.imap_configured")
-              - else
-                .ec-badge.ec-badge-imap-off
-                  span.ec-badge-icon 📥
-                  span = t("dashboard.email_channels.index.imap_not_configured")
+                - if channel.imap_enabled?
+                  .ui-badge.ui-badge-active
+                    span.ui-badge-icon 📥
+                    span = t("dashboard.email_channels.index.imap_configured")
+                - else
+                  .ui-badge.ui-badge-imap-off
+                    span.ui-badge-icon 📥
+                    span = t("dashboard.email_channels.index.imap_not_configured")
+
+                - if channel.forward_email.present?
+                  - if channel.forwarding_verified?
+                    .ui-badge.ui-badge-active
+                      span.ui-badge-icon ✓
+                      span = t("dashboard.email_channels.index.forwarding_verified")
+                  - else
+                    .ui-badge.ui-badge-pending
+                      span.ui-badge-icon ⏳
+                      span = t("dashboard.email_channels.index.forwarding_pending")
+
+                .ui-meta-tag
+                  span.ui-meta-tag-icon 📬
+                  span = t("dashboard.email_channels.index.inboxes_count", count: channel.inboxes.size)
+
+                .ui-meta-tag
+                  span.ui-meta-tag-icon 🕐
+                  span = t("dashboard.email_channels.index.created_ago", time: time_ago_in_words(channel.created_at))
 
               - if channel.forward_email.present?
-                - if channel.forwarding_verified?
-                  .ec-badge.ec-badge-verified
-                    span.ec-badge-icon ✓
-                    span = t("dashboard.email_channels.index.forwarding_verified")
-                - else
-                  .ec-badge.ec-badge-pending
-                    span.ec-badge-icon ⏳
-                    span = t("dashboard.email_channels.index.forwarding_pending")
+                .channel-forward-row
+                  span.channel-forward-label FWD
+                  span.channel-forward-email = channel.forward_email
+                  button.ui-copy-btn data-controller="email-channel" data-action="click->email-channel#copyForwardEmail" data-email=channel.forward_email
+                    | 📋 #{t("dashboard.email_channels.forwarding.copy")}
 
-              .ec-meta-tag
-                span.ec-meta-tag-icon 📬
-                span = t("dashboard.email_channels.index.inboxes_count", count: channel.inboxes.size)
-
-              .ec-meta-tag
-                span.ec-meta-tag-icon 🕐
-                span = t("dashboard.email_channels.index.created_ago", time: time_ago_in_words(channel.created_at))
-
-            - if channel.forward_email.present?
-              .ec-forward-row
-                span.ec-forward-label FWD
-                span.ec-forward-email = channel.forward_email
-                button.ec-copy-btn data-controller="email-channel" data-action="click->email-channel#copyForwardEmail" data-email=channel.forward_email
-                  | 📋 #{t("dashboard.email_channels.forwarding.copy")}
-
-      - else
-        .ec-empty-state
-          .ec-empty-icon 📧
-          h3.f-semi-18 = t("dashboard.email_channels.index.empty_title")
-          p.f-reg-14 = t("dashboard.email_channels.index.empty_description")
-          = link_to new_channels_email_path, class: "ec-btn-primary ec-btn-sm"
-            | + #{t("dashboard.email_channels.index.new_channel")}
+        - else
+          .ui-empty-state
+            .ui-empty-icon 📧
+            h3.f-semi-18 = t("dashboard.email_channels.index.empty_title")
+            p.f-reg-14 = t("dashboard.email_channels.index.empty_description")
+            = link_to new_channels_email_path, class: "ui-btn-primary ui-btn-sm"
+              | + #{t("dashboard.email_channels.index.new_channel")}

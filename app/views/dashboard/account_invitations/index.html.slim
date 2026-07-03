@@ -16,7 +16,7 @@
                 
                 div style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;"
                   - Access::Role.where(id: invitation.role_ids).each do |role|
-                    span.ec-meta-tag style="background: #f1f5f9; padding: 4px 8px; border-radius: 4px; font-size: 12px; color: #475569;" = role.name
+                    span.ui-meta-tag style="background: #f1f5f9; padding: 4px 8px; border-radius: 4px; font-size: 12px; color: #475569;" = role.name
 
               .eb-card__footer
                 span.eb-card__meta = t("dashboard.invitations.index.sent", time: time_ago_in_words(invitation.created_at))
@@ -25,8 +25,8 @@
                     | 🗑️ Revoke
       - else
         .auto-empty-state style="margin-top: 2rem;"
-          .ec-empty-icon ✉️
+          .ui-empty-icon ✉️
           h3.f-semi-18 = t("dashboard.invitations.index.empty_title", default: "No Pending Invitations")
           p.f-reg-14 = t("dashboard.invitations.index.empty_description", default: "You don't have any pending invitations.")
-          = link_to new_invitation_path, class: "ec-btn-primary ec-btn-sm", style: "margin-top: 1rem;"
+          = link_to new_invitation_path, class: "ui-btn-primary ui-btn-sm", style: "margin-top: 1rem;"
             | + #{t("dashboard.invitations.new.title", default: "Invite Teammate")}

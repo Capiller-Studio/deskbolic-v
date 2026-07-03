@@ -1,35 +1,37 @@
-.ww-translation-block
+.ww-translation-block style="position: relative;"
   = f.hidden_field :_destroy
   
-  button.ww-remove-btn type="button" data-action="click->web-widget-translations#removeTranslation" title="Remove Translation" &times;
+  button.ui-action-delete type="button" data-action="click->web-widget-translations#removeTranslation" title="Remove Translation" style="position: absolute; top: 16px; right: 16px;"
+    svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
+      path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"
   
-  .ec-form-row.ww-locale-row
+  .ui-form-row.ww-locale-row
     div
-      label.ec-label Language
+      label.ui-label Language
       - display_name = f.object.locale.present? ? I18n.t("languages.#{f.object.locale.to_s.downcase.strip}", default: f.object.locale.to_s.upcase) : "NEW_LOCALE_LABEL"
-      = text_field_tag nil, display_name, class: "ec-input ww-locale-display", readonly: true
+      = text_field_tag nil, display_name, class: "ui-input ww-locale-display", readonly: true
       = f.hidden_field :locale, class: "ww-locale-hidden"
   
-  .ec-form-row.ww-translation-row
+  .ui-form-row.ww-translation-row
     div
-      label.ec-label Welcome Title
-      = f.text_field :welcome_title, class: "ec-input ww-translation-input", placeholder: t('dashboard.web_widget_channels.translations.eg_welcome_title')
+      label.ui-label Welcome Title
+      = f.text_field :welcome_title, class: "ui-input ww-translation-input", placeholder: t('dashboard.web_widget_channels.translations.eg_welcome_title')
     div
-      label.ec-label Welcome Tagline
-      = f.text_field :welcome_tagline, class: "ec-input ww-translation-input", placeholder: t('dashboard.web_widget_channels.translations.eg_welcome_tagline')
+      label.ui-label Welcome Tagline
+      = f.text_field :welcome_tagline, class: "ui-input ww-translation-input", placeholder: t('dashboard.web_widget_channels.translations.eg_welcome_tagline')
 
-  .ec-form-row.ww-translation-row
+  .ui-form-row.ww-translation-row
     div
-      label.ec-label Launcher Text
-      = f.text_field :launcher_text, class: "ec-input ww-translation-input", placeholder: t('dashboard.web_widget_channels.translations.eg_launcher_text')
+      label.ui-label Launcher Text
+      = f.text_field :launcher_text, class: "ui-input ww-translation-input", placeholder: t('dashboard.web_widget_channels.translations.eg_launcher_text')
     div
-      label.ec-label Reply Time Text
-      = f.text_field :reply_time_text, class: "ec-input ww-translation-input", placeholder: t('dashboard.web_widget_channels.translations.eg_reply_time_text')
+      label.ui-label Reply Time Text
+      = f.text_field :reply_time_text, class: "ui-input ww-translation-input", placeholder: t('dashboard.web_widget_channels.translations.eg_reply_time_text')
       
-  .ec-form-row
+  .ui-form-row
     div
-      label.ec-label Pre-Chat Title
-      = f.text_field :pre_chat_title, class: "ec-input ww-translation-input", placeholder: t('dashboard.web_widget_channels.translations.eg_pre_chat_title')
+      label.ui-label Pre-Chat Title
+      = f.text_field :pre_chat_title, class: "ui-input ww-translation-input", placeholder: t('dashboard.web_widget_channels.translations.eg_pre_chat_title')
     div
-      label.ec-label Pre-Chat Subtitle
-      = f.text_field :pre_chat_subtitle, class: "ec-input ww-translation-input", placeholder: t('dashboard.web_widget_channels.translations.eg_pre_chat_subtitle')
+      label.ui-label Pre-Chat Subtitle
+      = f.text_field :pre_chat_subtitle, class: "ui-input ww-translation-input", placeholder: t('dashboard.web_widget_channels.translations.eg_pre_chat_subtitle')

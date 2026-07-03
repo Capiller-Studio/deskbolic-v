@@ -3,10 +3,10 @@
     .body-container
       .ap-index-header
         .ap-title-area
-          h2.f-semi-32 = t(".title")
-          p.f-reg-16 = t(".description")
+          h2.f-semi-32 = t("dashboard.assignment_policies.index.title")
+          p.f-reg-16 = t("dashboard.assignment_policies.index.description")
         = link_to new_assignment_policy_path, class: "ap-btn-primary", id: "new-assignment-policy"
-          | + #{t(".new_policy")}
+          | + #{t("dashboard.assignment_policies.index.new_policy")}
 
       .ap-tabs
         = link_to assignment_policies_path, class: "ap-tab #{params[:strategy].blank? ? 'active' : ''}"

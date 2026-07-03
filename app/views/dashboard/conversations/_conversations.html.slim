@@ -2,18 +2,18 @@
   .inbox-container data-controller="toggler"
     .inbox-nav
       .card
-        .f-semi-24 All Conversations
+        .f-semi-24 = t('dashboard.conversations.title')
         .search-bar 
           = inline_svg_tag("search.svg", class:"search-icon", alt:"menu")
-          p.f-reg-14 Search
+          p.f-reg-14 = t('dashboard.conversations.search')
 
         = turbo_frame_tag "conversations-list-frame" do
           = form_with url: conversations_path, method: :get, html: { id: "conversations-filter-form", data: { turbo_frame: "conversations-list-frame", turbo_action: "advance" } } do
             = hidden_field_tag "resource_id", @inbox&.id
             .filter-tabs
-              = button_tag "All", type: "submit", name: "filter", value: "", form: "conversations-filter-form", class: "filter-tab #{@filter.blank? ? 'active' : ''}"
-              = button_tag "Assigned", type: "submit", name: "filter", value: "assigned", form: "conversations-filter-form", class: "filter-tab #{@filter == 'assigned' ? 'active' : ''}"
-              = button_tag "Unassigned", type: "submit", name: "filter", value: "unassigned", form: "conversations-filter-form", class: "filter-tab #{@filter == 'unassigned' ? 'active' : ''}"
+              = button_tag t('dashboard.conversations.filter_all'), type: "submit", name: "filter", value: "", form: "conversations-filter-form", class: "filter-tab #{@filter.blank? ? 'active' : ''}"
+              = button_tag t('dashboard.conversations.filter_assigned'), type: "submit", name: "filter", value: "assigned", form: "conversations-filter-form", class: "filter-tab #{@filter == 'assigned' ? 'active' : ''}"
+              = button_tag t('dashboard.conversations.filter_unassigned'), type: "submit", name: "filter", value: "unassigned", form: "conversations-filter-form", class: "filter-tab #{@filter == 'unassigned' ? 'active' : ''}"
           ul data-toggler-target="conversation hide"
             .inbox-nav-menu
               - @conversations.each do |conversation|

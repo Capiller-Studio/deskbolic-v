@@ -2,7 +2,7 @@
   = render("dashboard/settings/settings_sidebar", current_page: "users") do
     .ec-form-page
       .ec-form-header
-        = link_to "← Back to Teammates", users_path, class: "ec-back-link"
+        = link_to t("dashboard.users.form.back"), users_path, class: "ec-back-link"
         h2.f-semi-32 style="margin-top: 16px; color: #0f172a;" = t("dashboard.users.edit.title", default: "Edit Teammate Roles")
         p.f-reg-16 style="color: #64748b; margin-top: 4px;" = t("dashboard.users.edit.description", default: "Modify the roles assigned to %{name}.", name: @account_user.user.name || @account_user.user.email)
 
@@ -28,12 +28,12 @@
                     - if role.system_provided?
                       span.ec-badge.ec-badge-verified.ec-badge-role
                         span.ec-badge-icon 🛡️
-                        span System Default
+                        span = t("dashboard.users.form.system_default")
                   .ec-toggles-row
                     label.ec-toggle-label
                       = check_box_tag "account_user[role_ids][]", role.id, @account_user.role_ids.include?(role.id), class: "ec-toggle-input"
-                      span Assign
+                      span = t("dashboard.users.form.assign")
 
-          .ec-form-actions style="margin-top: 2rem;"
-            = f.submit t("dashboard.users.form.submit", default: "Update Roles"), class: "ec-btn-primary"
-            = link_to t("dashboard.users.form.cancel", default: "Cancel"), users_path, class: "ec-btn-secondary"
+            .ec-form-actions style="margin-top: 2rem;"
+              = f.submit t("dashboard.users.form.submit", default: "Update Roles"), class: "ec-btn-primary"
+              = link_to t("dashboard.users.form.cancel", default: "Cancel"), users_path, class: "ec-btn-secondary"

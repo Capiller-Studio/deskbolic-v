@@ -8,14 +8,14 @@
 
   .login-container
     .login-card
-      h2 style="font-size: 24px; font-weight: 600; margin-bottom: 10px;" = t("auth.unlocks.title", default: "Resend unlock instructions")
-      p = t("auth.unlocks.subtitle", default: "Enter your email address to receive unlock instructions.")
+      h2 style="font-size: 24px; font-weight: 600; margin-bottom: 10px;" = t("auth.unlocks.title")
+      p = t("auth.unlocks.subtitle")
 
       .form-fields
         = form_with url: user_unlock_path, method: :post, local: true do |f|
           .form-floating
-            = f.label :email, t("auth.email", default: "Email"), class: "form-label"
-            = f.email_field "user[email]", autofocus: true, autocomplete: "email", required: true, class: "form-control", placeholder: "you@example.com"
+            = f.label :email, t("auth.email"), class: "form-label"
+            = f.email_field "user[email]", autofocus: true, autocomplete: "email", required: true, class: "form-control", placeholder: t("auth.placeholders.email")
 
           .actions
-            = f.submit t("auth.unlocks.resend", default: "Resend unlock instructions"), class: "button"
+            = f.submit t("auth.unlocks.resend"), class: "button"

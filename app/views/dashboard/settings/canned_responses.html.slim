@@ -2,21 +2,21 @@
   = render("dashboard/settings/settings_sidebar", current_page: "macros") do
     .body-section.macros-body 
       h2.f-semi-18 
-        | Replies for 
+        = t("dashboard.canned_responses.index.replies_for")
         = current_account.name
       .macros-container data-controller="modalToggler frameToggler"
         .macros-section
           = form_tag(canned_responses_settings_path, method: :get, class: "filter-form") do
             .form-floating
               = inline_svg_tag("search.svg", class:"search-icon", alt:"menu")
-              = text_field_tag :search, params[:search], placeholder: "search", class: "form-field f-reg-14"
+              = text_field_tag :search, params[:search], placeholder: t("dashboard.canned_responses.index.search_placeholder"), class: "form-field f-reg-14"
           .macros-slider
             - @canned_responses.each do |response|
               = render 'dashboard/canned_responses/canned_response', response: response
         .macros-list
           .new-macro data-action="click->modalToggler#showModal click->frameToggler#loadModal" data-popup-view="_canned_response_modal"
             = inline_svg_tag("plus_white.svg", class:"plus-icon", alt:"menu")
-            span.f-semi-14 Add new reply
+            span.f-semi-14 = t("dashboard.canned_responses.index.add_new_reply")
           .list
             - @canned_responses.each do |response|
               p.f-reg-14 

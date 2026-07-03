@@ -26,6 +26,8 @@ Rails.application.routes.draw do
     get "whatsapp/:account_id/:channel_id", to: "whatsapp#hub"
     post "whatsapp/:account_id/:channel_id", to: "whatsapp#index"
     
+    post "api/:account_id/:channel_id", to: "api#create"
+    
     get "whatsapp", to: "whatsapp#hub"
     post "whatsapp", to: "whatsapp#index"
     
@@ -127,6 +129,8 @@ Rails.application.routes.draw do
           post :callback
         end
       end
+      
+      resources :api, except: [:show]
     end
 
     resources :channels
@@ -238,6 +242,7 @@ Rails.application.routes.draw do
           post :revert
         end
       end
+      resources :api_keys, only: [:index, :create, :destroy]
     end
     
     resources :notifications, only: [:index] do

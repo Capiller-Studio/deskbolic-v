@@ -7,4 +7,8 @@
 if Rails.env.development?
   Seeds::PlanSeeder.seed
   Seeds::DevelopmentSeeder.seed
+  Seeds::ApiDocumentationSeeder.seed(domain: "developers.deskbolic.localhost")
+elsif Rails.env.production?
+  Seeds::PlanSeeder.seed
+  Seeds::ApiDocumentationSeeder.seed(domain: "developers.deskbolic.com")
 end

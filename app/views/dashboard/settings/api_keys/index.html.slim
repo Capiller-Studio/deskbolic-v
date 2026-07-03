@@ -1,0 +1,39 @@
+= render("dashboard/shared/dashboard_container", current_page: "settings") do
+  = render("dashboard/settings/settings_sidebar", current_page: "api-keys") do
+    .api-index-header
+      .api-title-area
+        h2.f-semi-32 = t("dashboard.settings.api_keys.index.title", default: "Developer API Keys")
+        p.f-reg-16 = t("dashboard.settings.api_keys.index.description", default: "Manage API keys for accessing your Deskbolic account programmatically.")
+      
+      = button_to settings_api_keys_path, method: :post, class: "api-btn-primary" do
+        | + #{t("dashboard.settings.api_keys.index.generate", default: "Generate New Key")}
+
+    .api-list
+      - if @api_keys.any?
+        - @api_keys.each do |api_key|
+          div.api-card id=dom_id(api_key)
+            .api-card-top
+              .api-card-info
+                .api-page-avatar-placeholder
+                  | 🔑
+                .api-page-details
+                  h3.f-semi-16 = t("dashboard.settings.api_keys.index.key_title", default: "API Key")
+                  p.api-page-id style="user-select: all;"
+                    | #{api_key.token}
+              
+              .api-card-actions
+                = button_to settings_api_key_path(api_key), method: :delete, data: { turbo_confirm: t("dashboard.settings.api_keys.index.revoke_confirm", default: "Revoke this key? It will instantly break any integration using it.") }, class: "api-btn-danger" do
+                  | #{t("general.revoke", default: "Revoke")}
+            
+            .api-card-meta
+              .api-meta-tag
+                span.api-meta-tag-icon 🕐
+                span = t("dashboard.settings.api_keys.index.created_ago", time: time_ago_in_words(api_key.created_at), default: "Generated #{time_ago_in_words(api_key.created_at)} ago")
+
+      - else
+        .api-empty-state
+          .api-empty-icon 🔑
+          h3.f-semi-18 = t("dashboard.settings.api_keys.index.empty_title", default: "No API Keys Yet")
+          p.f-reg-14 = t("dashboard.settings.api_keys.index.empty", default: "You haven't generated any API keys yet.")
+          = button_to settings_api_keys_path, method: :post, class: "api-btn-primary api-btn-sm" do
+            | + #{t("dashboard.settings.api_keys.index.generate", default: "Generate New Key")}

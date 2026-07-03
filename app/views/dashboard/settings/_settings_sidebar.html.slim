@@ -157,6 +157,13 @@
                         p.f-reg-12
                           = t("dashboard.whatsapp_channels.sidebar.label")
                           = plan_upgrade_bubble('channels.whatsapp')
+                li.nav-item class="#{current_page == 'api-channels' ? 'st-list-active' : ''}"
+                  = link_to(channels_api_index_path, class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12
+                          | API Channels
+                          = plan_upgrade_bubble('channels.api')
                 li.nav-item class="#{current_page == 'assignment-policies' ? 'st-list-active' : ''}"
                   = link_to(assignment_policies_path, class: "nav-link") do
                     .link-text
@@ -285,6 +292,15 @@
                 /     .link-text
                 /       .conversation-name.inbox-conv
                 /         p.f-reg-12 Data export
+
+            li.nav-item class="#{current_page == 'api-keys' ? 'st-list-active' : ''}" data-action="click->accordion#toggle"
+              .nav-link
+                = link_to(settings_api_keys_path, class: "nav-link") do
+                  .link-text
+                    .conversation-name.inbox-conv
+                      p.f-reg-14
+                        | Developer API Keys
+                        = plan_upgrade_bubble(:api_access)
 
     .helpdesk-body.settings-body
       turbo-frame#conversations-frame[data-turbo-permanent]

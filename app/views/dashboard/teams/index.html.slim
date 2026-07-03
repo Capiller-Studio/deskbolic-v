@@ -3,12 +3,12 @@
     .body-section.roles-body.team-inboxes-body data-controller="modalToggler frameToggler"
       .roles-header.team-inboxes-header
         .topbar
-          h2.f-semi-18 Teams
+          h2.f-semi-18 = t("dashboard.teams.index.title")
           .new-inbox data-action="click->modalToggler#showModal click->frameToggler#loadModal" data-popup-view="_team_modal" style="cursor: pointer;"
-            span.f-reg-14 New Team
+            span.f-reg-14 = t("dashboard.teams.index.new_team")
             = inline_svg_tag("plus_white.svg", class:"plus-icon", alt:"menu")
         .header-options
-          .f-reg-16 Manage all Team and users and their team access
+          .f-reg-16 = t("dashboard.teams.index.manage_description")
       .roles-container
         - if @teams.any?
           .roles-section data-controller="modalToggler frameToggler"
@@ -17,7 +17,7 @@
                 .card-header
                   h4.f-semi-16 = team.name
                   = inline_svg_tag("settings.svg", class: "card-icon", alt: "icon", data: { action: "click->modalToggler#showModal click->frameToggler#loadModal", popup_view: "_team_modal", item_id: team.id }, style: "cursor: pointer;")
-                p.f-reg-14 = team.description.presence || "No description provided."
+                p.f-reg-14 = team.description.presence || t("dashboard.teams.index.no_description")
                 .card-footer
                   - team.users.limit(3).each_with_index do |team_user, idx|
                     - if team_user.avatar.attached?
@@ -27,7 +27,7 @@
                         = initials(team_user)
                   .new-teammates data-action="click->modalToggler#showModal click->frameToggler#loadModal" data-popup-view="_team_modal" data-item-id=team.id style="cursor: pointer;"
                     = inline_svg_tag("plus_blue.svg", class:"plus-icon", alt:"menu")
-                    span.f-reg-12 Add Teammates
+                    span.f-reg-12 = t("dashboard.teams.index.add_teammates")
                 .card-status
                   span.f-reg-12 = team.created_at.strftime("%b %d, %Y")
                   .status-tag class="bg-#{team_status_class(team.status)}" 
@@ -37,8 +37,8 @@
           .roles-empity
             .empity-section
               = image_tag("empity_tag.png", class:"empity-tag", alt:"img")
-              h3.f-semi-24 You have not created any teams yet
-              p.f-reg-14 Create your first team to get started
+              h3.f-semi-24 = t("dashboard.teams.index.empty_title")
+              p.f-reg-14 = t("dashboard.teams.index.empty_description")
               .new-inbox data-action="click->modalToggler#showModal click->frameToggler#loadModal" data-popup-view="_team_modal" style="margin-top: 16px; cursor: pointer;"
-                span.f-reg-14 New Team
+                span.f-reg-14 = t("dashboard.teams.index.new_team")
                 = inline_svg_tag("plus_white.svg", class:"plus-icon", alt:"menu")

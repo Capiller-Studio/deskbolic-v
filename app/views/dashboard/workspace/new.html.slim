@@ -4,8 +4,8 @@
     = form_for(@account, url: workspace_path(@account), html: {class: "js-form-wizard form-wizard needs-validation", novalidate: true}) do |f|
       fieldset
         .set-header
-          h2 Who you are?
-          p Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+          h2 = t("auth.workspace.new.who_you_are")
+          p = t("auth.workspace.new.subtitle")
         .form-fields
           .radio-button-group
             .radio-button
@@ -13,57 +13,57 @@
               label for="agent_radio"
                 = inline_svg_tag("agent.svg", class:"icon")
                 .details
-                  h3 Agent
-                  p If you need more info, please check it out.
+                   h3 = t("auth.workspace.new.agent")
+                   p = t("auth.workspace.new.agent_description")
 
             .radio-button
               = radio_button_tag 'user_type', 'company', id: 'company_radio', data: { formWizard_target: "roleRadio" }
               label for="company_radio"
                 = inline_svg_tag("company.svg", class:"icon")
                 .details
-                  h3 Company
-                  p Create corporate account to many users.
-          button.cont-btn.js-next-button type="button" data-action="click->formWizard#toggleFieldsets click->formWizard#nextStep" Continue
+                   h3 = t("auth.workspace.new.company")
+                   p = t("auth.workspace.new.company_description")
+          button.cont-btn.js-next-button type="button" data-action="click->formWizard#toggleFieldsets click->formWizard#nextStep" = t("auth.workspace.new.continue")
         
       fieldset.agent-section
         .set-header
-          h2 Workspace
-          p Let's Create account to enter Deskbolic.
+          h2 = t("auth.workspace.new.workspace")
+          p = t("auth.workspace.new.workspace_subtitle")
         .form-fields
           .form-floating
             = f.label :email, class: "form-label"
             = select_tag :email, options_for_select(@accounts.map { |a| [a.name, a.email] }), data: {controller: "select"}, required: true
-          = f.submit "Send Request", class: "cont-btn js-next-button"
+          = f.submit t("auth.workspace.new.send_request"), class: "cont-btn js-next-button"
       
       fieldset.agent-section
         .set-header
           
           = inline_svg_tag("tick.svg", class:"set-icon") 
-          h2 Request sent
+          h2 = t("auth.workspace.new.request_sent")
         .form-fields
           button.cont-btn.js-next-button type="button" data-action="" Continue
       
       fieldset.company-section
         .set-header
-          h2 Company Details
-          p Let's Create account for enter into Deskbolic Website.
+          h2 = t("auth.workspace.new.company_details")
+          p = t("auth.workspace.new.company_details_subtitle")
         .form-fields
           .form-floating
-            = label_tag :company_name, "Company Name", class: "form-label"
-            = text_field_tag :company_name, "", class: "form-control", placeholder: "Name", required: true, disabled: true
-          button.cont-btn.js-next-button type="button" data-action="click->formWizard#nextStep" Continue
+            = label_tag :company_name, t("auth.workspace.new.company_name"), class: "form-label"
+            = text_field_tag :company_name, "", class: "form-control", placeholder: t("auth.workspace.new.company_name_placeholder"), required: true, disabled: true
+          button.cont-btn.js-next-button type="button" data-action="click->formWizard#nextStep" = t("auth.workspace.new.continue")
       
       fieldset.company-section
         .form-fields
-          h2 Create new workspace
+          h2 = t("auth.workspace.new.create_new_workspace")
           .form-floating
-            = f.label :name, "WorkSpace Name" , class: "form-label"
-            = f.text_field :name, autofocus: true, class: "form-control", placeholder: "WorkSpace Name", required: true, disabled: true
+            = f.label :name, t("auth.workspace.new.workspace_name_label") , class: "form-label"
+            = f.text_field :name, autofocus: true, class: "form-control", placeholder: t("auth.workspace.new.workspace_name_placeholder"), required: true, disabled: true
           .form-floating
-            = label_tag :workspace_size, "Workspace Size", class: "form-label"
-            = select_tag :workspace_size, options_for_select([["1-9", "1-9"], ["10-30", "10-30"], ["50+", "50+"]]), data: {controller: "select"}
-          p Let's Create account for enter into Deskbolic Website. ate account for enter into Deskbolic Website.
-          = f.submit "Create New Workspace", class: "cont-btn js-next-button"
+            = label_tag :workspace_size, t("auth.workspace.new.workspace_size"), class: "form-label"
+            = select_tag :workspace_size, options_for_select([[t("auth.workspace.new.workspace_size_options.small"), "1-9"], [t("auth.workspace.new.workspace_size_options.medium"), "10-30"], [t("auth.workspace.new.workspace_size_options.large"), "50+"]]), data: {controller: "select"}
+          p = t("auth.workspace.new.workspace_subtitle2")
+          = f.submit t("auth.workspace.new.create_workspace_button"), class: "cont-btn js-next-button"
       
       
       fieldset.company-section
@@ -71,11 +71,11 @@
           = inline_svg_tag("tick.svg", class:"set-icon")
           h2 
             span ”New WorkSpace” 
-            | Created Successfully
+            | = t("auth.workspace.new.created_successfully")
         .form-fields
-          button.cont-btn.js-next-button type="button" Go to Dashboard
+          button.cont-btn.js-next-button type="button" = t("auth.workspace.new.go_to_dashboard")
       
   .image-section
     = image_tag("register.png", class:"register-img", alt:"image")
     = image_tag("register-back.png", class:"back-img", alt:"image")
-    p First customer service for customers, agents, and leaders
+    p = t("auth.workspace.new.marketing_text")

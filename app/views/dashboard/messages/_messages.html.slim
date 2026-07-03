@@ -14,10 +14,10 @@
         .menu data-accordion-target="menu"
           = link_to("#", class: "menu-link") do
             = inline_svg_tag("participent.svg", class:"menu-icon", alt:"menu")
-            p.f-reg-12 Manage Participant
+            p.f-reg-12 = t('dashboard.messages.manage_participant')
           = link_to("#", class: "menu-link") do
             = inline_svg_tag("export.svg", class:"menu-icon", alt:"menu")
-            p.f-reg-12 Export Conversation
+            p.f-reg-12 = t('dashboard.messages.export_conversation')
         
         = render "dashboard/conversations/snooz_conv_modal"
     .conversation#oppp data-controller="scroll-to-bottom mark-as-read" data-mark-as-read-url-value=mark_as_read_conversation_path(@conversation) data-conversation-id=@conversation.id
@@ -35,18 +35,18 @@
         = form_with(model: Message.new, method: :post, class:"msg-form", multipart: true, data: { action: "turbo:submit-end->message-form#clear" }) do |f|
           .text-translation
             .response-type 
-              button.f-semi-14.reply.active type="button" Reply
+              button.f-semi-14.reply.active type="button" = t('dashboard.messages.reply')
               / button.f-semi-14.note type="button" Note
             .translation.f-semi-14
-              | English
+              = t('dashboard.messages.english')
               = inline_svg_tag("violet_dropdown.svg", class:"action-btn")
           .note-area.menu
             .attachment-preview data-message-form-target="preview"
             .de-emoji-picker data-message-form-target="emojiPicker" style="display: none;"
             .recording-indicator data-message-form-target="recordingIndicator" style="display: none;"
               .pulse-dot
-              span.f-reg-12 Recording voice...
-            = f.text_area :response, class: "form-control f-reg-14 response-area", placeholder: "Write your response for issue", data: { message_form_target: "textarea" }
+              span.f-reg-12 = t('dashboard.messages.recording_voice')
+            = f.text_area :response, class: "form-control f-reg-14 response-area", placeholder: t('dashboard.messages.response_placeholder'), data: { message_form_target: "textarea" }
             = f.hidden_field :conversation_id, value: @conversation.id
             = f.file_field :attachments, multiple: true, class: "message-attachments-input", accept: "image/*,video/*,audio/*,.pdf,.doc,.docx,.txt,.zip", data: { message_form_target: "input", action: "change->message-form#previewFiles" }
           .commands
@@ -77,7 +77,7 @@
                       .response-description data-accordion-target="response"
                         p.f-semi-18.response-title
                         p.f-reg-14.response-text
-                      .canned-submit.f-semi-12 type="button" data-action="click->accordion#switchResponse" Add
+                      .canned-submit.f-semi-12 type="button" data-action="click->accordion#switchResponse" = t('dashboard.messages.add')
               button.response-action type="button" data-action="click->message-form#openFilePicker" title="Attach image or file"
                 = inline_svg_tag("file_attach.svg", class:"action-btn")
               button.response-action type="button" data-action="click->message-form#toggleEmojiPicker" title="Add emoji"
@@ -120,7 +120,7 @@
               /           = inline_svg_tag("arrow_down.svg", class:"menu-icon", alt:"menu")
                         
             .send-button data-controller="accordion modalToggler frameToggler"
-              = f.submit "Send", class: "f-semi-12", data: { turbo_submits_with: "Sending..." }
+              = f.submit t('dashboard.messages.send'), class: "f-semi-12", data: { turbo_submits_with: "Sending..." }
               .arrow-container data-action="click->accordion#toggleMenu" 
                 = inline_svg_tag("arrow_down_white.svg")
 
@@ -128,8 +128,8 @@
                 .schedule-options 
                   .menu-link data-action="click->modalToggler#showModal click->frameToggler#loadModal" data-popup-view="_schedule_modal"
                     = inline_svg_tag("timer.svg",class:"option-icon")
-                    p.f-reg-14 Schedule
+                    p.f-reg-14 = t('dashboard.messages.schedule')
                   .menu-link.send-close
                     = inline_svg_tag("send_close.svg",class:"option-icon" ,data: { "action" => "click->accordion#toggleMenu" })       
-                    p.f-reg-14 Send and Close
+                    p.f-reg-14 = t('dashboard.messages.send_and_close')
   = render "dashboard/conversations/conversation_details"

@@ -1,0 +1,88 @@
+= render("dashboard/shared/dashboard_container", current_page: "settings") do
+  = render("dashboard/settings/settings_sidebar", current_page: "api-channels") do
+    .api-edit-header style="margin-bottom: 32px;"
+      = link_to channels_api_index_path, class: "api-back-link" do
+        | ← #{t("general.back", default: "Back")}
+      h2.f-semi-32 style="color: #0f172a; margin-top: 12px;" = t("dashboard.api_channels.edit.title", default: "Edit API Channel")
+
+    .api-edit-container
+      .api-section
+        .api-section-header
+          h3.f-semi-18 = t("dashboard.api_channels.edit.general_settings", default: "General Settings")
+        
+        = form_with model: @api_channel, url: channels_api_path(@api_channel), method: :patch, local: true, class: "api-config-form" do |f|
+          .api-form-group
+            = f.label :name, t("dashboard.api_channels.form.name_label", default: "Channel Name"), class: "api-label"
+            = f.text_field :name, class: "api-input", required: true
+
+          .api-form-group
+            = f.label :description, t("dashboard.api_channels.form.description_label", default: "Description"), class: "api-label"
+            = f.text_area :description, class: "api-input"
+
+          .api-form-group
+            = f.label :webhook_url, t("dashboard.api_channels.form.webhook_url_label", default: "Outbound Webhook URL"), class: "api-label"
+            = f.text_field :webhook_url, class: "api-input"
+            p.f-reg-12.text-gray-500.mt-1 = t("dashboard.api_channels.form.webhook_url_hint", default: "We will POST events to this URL when a reply is sent from this channel.")
+
+          - if @api_channel.primary_inbox.present?
+            .api-inbox-settings style="margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--gray-200);"
+              h4.f-semi-16.mb-2 = t("dashboard.api_channels.edit.inbox_settings", default: "Inbox Settings")
+              p.f-reg-14.text-gray-500.mb-4 Configure customer satisfaction surveys and SLA policies.
+              
+              = f.fields_for :primary_inbox do |inbox_f|
+                .api-toggle-row style="margin-bottom: 16px;"
+                  span.api-toggle-label = t("dashboard.api_channels.edit.enable_csat", default: "Enable CSAT Surveys")
+                  label.api-toggle
+                    = inbox_f.check_box :csat_survey_enabled
+                    span.api-toggle-slider
+
+                .api-form-group
+                  = inbox_f.label :reopen_window_seconds, t("dashboard.api_channels.form.reopen_window_label", default: "Reopen Window"), class: "api-label"
+                  = inbox_f.select :reopen_window_seconds, options_for_select([["Never (Always create new)", 0], ["1 Hour", 3600], ["12 Hours", 43200], ["24 Hours", 86400], ["7 Days", 604800], ["14 Days", 1209600]], inbox_f.object.reopen_window_seconds), {}, class: "api-select"
+
+                .api-form-group
+                  = inbox_f.label :csat_survey_id, t("dashboard.api_channels.edit.csat_survey", default: "CSAT Survey"), class: "api-label"
+                  = inbox_f.collection_select :csat_survey_id, current_account.csat_surveys, :id, :name, { include_blank: "Default System Survey" }, class: "api-select"
+
+                .api-form-group
+                  = inbox_f.label :sla_policy_ids, t("dashboard.api_channels.edit.sla_policies", default: "SLA Policies"), class: "api-label"
+                  = inbox_f.collection_select :sla_policy_ids, current_account.sla_policies, :id, :name, {}, { multiple: true, class: "api-select" }
+
+          .api-form-actions
+            = f.submit t("general.save_changes", default: "Save Changes"), class: "api-btn-primary"
+
+      .api-section
+        .api-section-header
+          h3.f-semi-18 = t("dashboard.api_channels.edit.credentials", default: "API Credentials")
+          p.f-reg-14.text-gray-600 = t("dashboard.api_channels.edit.credentials_desc", default: "Use these details to integrate your system with Deskbolic.")
+
+        .api-form-group.mt-4
+          label.api-label = t("dashboard.api_channels.credentials.identifier", default: "Channel Identifier")
+          .api-copy-group
+            input.api-input type="text" value="#{@api_channel.identifier}" readonly=true
+            button.api-btn-secondary type="button" onclick="navigator.clipboard.writeText('#{@api_channel.identifier}'); const t = this.innerHTML; this.innerHTML = '✓ Copied!'; setTimeout(() => this.innerHTML = t, 2000)"
+              | 📋 #{t("general.copy", default: "Copy")}
+
+        .api-form-group.mt-4
+          label.api-label = t("dashboard.api_channels.credentials.webhook_endpoint", default: "Inbound Webhook Endpoint")
+          .api-copy-group
+            input.api-input type="text" value="#{@api_channel.webhook_endpoint}" readonly=true
+            button.api-btn-secondary type="button" onclick="navigator.clipboard.writeText('#{@api_channel.webhook_endpoint}'); const t = this.innerHTML; this.innerHTML = '✓ Copied!'; setTimeout(() => this.innerHTML = t, 2000)"
+              | 📋 #{t("general.copy", default: "Copy")}
+          p.f-reg-12.text-gray-500.mt-1 = t("dashboard.api_channels.credentials.webhook_endpoint_hint", default: "POST your incoming messages to this URL.")
+
+        .api-form-group.mt-4
+          label.api-label = t("dashboard.api_channels.credentials.webhook_secret", default: "Inbound Webhook Secret")
+          .api-copy-group
+            input.api-input type="text" value="#{@api_channel.webhook_secret}" readonly=true
+            button.api-btn-secondary type="button" onclick="navigator.clipboard.writeText('#{@api_channel.webhook_secret}'); const t = this.innerHTML; this.innerHTML = '✓ Copied!'; setTimeout(() => this.innerHTML = t, 2000)"
+              | 📋 #{t("general.copy", default: "Copy")}
+          p.f-reg-12.text-gray-500.mt-1 = t("dashboard.api_channels.credentials.webhook_secret_hint", default: "Use this to authenticate your POST requests to Deskbolic.")
+
+        .api-form-group.mt-4
+          label.api-label = t("dashboard.api_channels.credentials.hmac_token", default: "Outbound HMAC Token")
+          .api-copy-group
+            input.api-input type="text" value="#{@api_channel.hmac_token}" readonly=true
+            button.api-btn-secondary type="button" onclick="navigator.clipboard.writeText('#{@api_channel.hmac_token}'); const t = this.innerHTML; this.innerHTML = '✓ Copied!'; setTimeout(() => this.innerHTML = t, 2000)"
+              | 📋 #{t("general.copy", default: "Copy")}
+          p.f-reg-12.text-gray-500.mt-1 = t("dashboard.api_channels.credentials.hmac_token_hint", default: "We will sign outgoing webhook payloads with this token using HMAC-SHA256.")

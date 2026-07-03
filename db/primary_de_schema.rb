@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_11_000001) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_02_151200) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -282,15 +282,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_11_000001) do
     t.jsonb "configurations", default: {}, null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.jsonb "data", default: {}, null: false
+    t.text "description"
+    t.string "hmac_token"
+    t.string "identifier", null: false
     t.string "name"
     t.integer "status", default: 0, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.jsonb "webhook_configurations", default: {}, null: false
-    t.string "webhook_password"
     t.string "webhook_secret", null: false
     t.string "webhook_url"
-    t.string "webhook_username"
     t.index ["account_id", "created_at"], name: "index_channel_apis_on_account_id_and_created_at"
+    t.index ["account_id", "identifier"], name: "index_channel_apis_on_account_id_and_identifier", unique: true
     t.index ["account_id", "name"], name: "index_channel_apis_on_account_id_and_name"
     t.index ["account_id"], name: "index_channel_apis_on_account_id"
     t.index ["status"], name: "index_channel_apis_on_status"
@@ -1143,6 +1144,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_11_000001) do
     t.integer "flags", default: 0, null: false
     t.string "name", default: "", null: false
     t.boolean "primary_inbox", default: false, null: false
+    t.integer "reopen_window_seconds", default: 0, null: false
     t.integer "status", default: 0, null: false
     t.string "timezone", default: "UTC", null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
@@ -1419,13 +1421,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_11_000001) do
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.string "endpoint_url", null: false
     t.string "event_name", null: false
-    t.uuid "integration_id", null: false
     t.jsonb "request_payload", default: {}
+    t.uuid "resource_id", null: false
+    t.string "resource_type", null: false
     t.integer "status", default: 0
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["created_at"], name: "index_webhook_deliveries_on_created_at"
     t.index ["event_name"], name: "index_webhook_deliveries_on_event_name"
-    t.index ["integration_id"], name: "index_webhook_deliveries_on_integration_id"
+    t.index ["resource_id"], name: "index_webhook_deliveries_on_resource_id"
+    t.index ["resource_type", "resource_id"], name: "index_webhook_deliveries_on_resource_type_and_resource_id"
     t.index ["status"], name: "index_webhook_deliveries_on_status"
   end
 
@@ -1500,6 +1504,5 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_11_000001) do
   add_foreign_key "sla_policies", "business_hour_groups", on_delete: :nullify
   add_foreign_key "team_users", "teams", on_delete: :cascade
   add_foreign_key "user_skills", "skills", on_delete: :cascade
-  add_foreign_key "webhook_deliveries", "integrations", on_delete: :cascade
   add_foreign_key "webhook_delivery_attempts", "webhook_deliveries", on_delete: :cascade
 end

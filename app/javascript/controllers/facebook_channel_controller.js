@@ -126,12 +126,12 @@ export default class extends Controller {
     const userToken = card.dataset.userToken
 
     // Remove selection from all cards
-    document.querySelectorAll(".fb-page-card").forEach(c => {
-      c.classList.remove("fb-page-card--selected")
+    document.querySelectorAll(".channel-page-card").forEach(c => {
+      c.classList.remove("channel-page-card--selected")
     })
 
     // Select this card
-    card.classList.add("fb-page-card--selected")
+    card.classList.add("channel-page-card--selected")
 
     // Fill the hidden form fields
     if (this.hasAccessTokenTarget) this.accessTokenTarget.value = pageToken
@@ -142,7 +142,7 @@ export default class extends Controller {
 
     // Show step 3
     if (this.hasStep3Target) {
-      this.step3Target.classList.remove("fb-step-hidden")
+      this.step3Target.classList.remove("channel-step-hidden")
       this.step3Target.scrollIntoView({ behavior: "smooth", block: "center" })
     }
   }

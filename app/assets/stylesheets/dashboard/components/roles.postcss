@@ -1,17 +1,17 @@
 /* Roles & Permissions Specific Styles */
 
-.ec-roles-matrix-title {
+.pm-matrix-title {
   margin-top: 2rem;
   margin-bottom: 0.5rem;
 }
 
-.ec-roles-matrix-desc {
+.pm-matrix-desc {
   color: #6B7280;
   margin-bottom: 1.5rem;
 }
 
 /* Container for the matrix */
-.ec-permissions-matrix {
+.pm-matrix {
   border: 1px solid var(--border-color, #E5E7EB);
   border-radius: 8px;
   background: #FFFFFF;
@@ -19,7 +19,7 @@
   overflow: hidden;
 }
 
-.ec-pm-header {
+.pm-header {
   display: grid;
   grid-template-columns: 280px 1fr;
   background: var(--bg-surface-secondary, #F9FAFB);
@@ -27,7 +27,7 @@
   border-bottom: 1px solid var(--border-color, #E5E7EB);
 }
 
-.ec-pm-header-col {
+.pm-header-col {
   font-weight: 600;
   font-size: 13px;
   color: #6B7280;
@@ -35,7 +35,7 @@
   letter-spacing: 0.05em;
 }
 
-.ec-pm-row {
+.pm-row {
   display: grid;
   grid-template-columns: 280px 1fr;
   padding: 20px 24px;
@@ -44,29 +44,29 @@
   transition: background-color 0.2s ease;
 }
 
-.ec-pm-row:hover {
+.pm-row:hover {
   background-color: var(--bg-surface-secondary, #F9FAFB);
 }
 
-.ec-pm-row:last-child {
+.pm-row:last-child {
   border-bottom: none;
 }
 
-.ec-pm-resource {
+.pm-resource {
   font-weight: 600;
   font-size: 14px;
   color: #111827;
 }
 
 /* Toggles layout */
-.ec-toggles-row {
+.pm-toggles-row {
   display: flex;
   gap: 2rem;
   flex-wrap: wrap;
 }
 
 /* Custom Toggle Switch */
-.ec-toggle-label {
+.pm-toggle-label {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -74,7 +74,7 @@
   user-select: none;
 }
 
-.ec-toggle-input {
+.pm-toggle-input {
   appearance: none;
   -webkit-appearance: none;
   width: 36px;
@@ -89,7 +89,7 @@
   margin: 0;
 }
 
-.ec-toggle-input::after {
+.pm-toggle-input::after {
   content: '';
   position: absolute;
   top: 2px;
@@ -102,31 +102,31 @@
   box-shadow: 0 1px 2px rgba(0,0,0,0.15);
 }
 
-.ec-toggle-input:checked {
+.pm-toggle-input:checked {
   background-color: var(--primary, #0052CC);
 }
 
-.ec-toggle-input:checked::after {
+.pm-toggle-input:checked::after {
   transform: translateX(16px);
 }
 
-.ec-toggle-input:disabled {
+.pm-toggle-input:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
 
-.ec-toggle-label span {
+.pm-toggle-label span {
   color: #374151;
   font-weight: 500;
 }
 
-.ec-form-actions-roles {
+.pm-form-actions {
   margin-top: 2rem;
   display: flex;
   gap: 1rem;
 }
 
-.ec-badge-role {
+.pm-badge-role {
   margin-left: 12px;
   font-size: 11px;
 }

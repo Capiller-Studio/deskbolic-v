@@ -15,25 +15,25 @@ export default class extends Controller {
     navigator.clipboard.writeText(email).then(() => {
       const originalText = btn.innerHTML
       btn.innerHTML = "✓ Copied!"
-      btn.classList.add("ec-copy-btn--copied")
+      btn.classList.add("channel-copy-btn--copied")
 
       setTimeout(() => {
         btn.innerHTML = originalText
-        btn.classList.remove("ec-copy-btn--copied")
+        btn.classList.remove("channel-copy-btn--copied")
       }, 2000)
     })
   }
 
   // ─── Toggle collapsible sections ───
   toggleSection(event) {
-    const section = event.currentTarget.closest(".ec-section")
-    section.classList.toggle("ec-section--open")
+    const section = event.currentTarget.closest(".channel-section")
+    section.classList.toggle("channel-section--open")
   }
 
   // ─── Toggle password visibility ───
   togglePassword(event) {
     const btn = event.currentTarget
-    const wrapper = btn.closest(".ec-password-wrapper")
+    const wrapper = btn.closest(".channel-password-wrapper")
     const input = wrapper.querySelector("input")
 
     if (input.type === "password") {
@@ -118,7 +118,7 @@ export default class extends Controller {
     const url = btn.dataset.url
 
     btn.disabled = true
-    btn.innerHTML = '<span class="ec-spinner"></span> Sending verification...'
+    btn.innerHTML = '<span class="channel-spinner"></span> Sending verification...'
 
     try {
       const response = await fetch(url, {
@@ -132,7 +132,7 @@ export default class extends Controller {
       const data = await response.json()
       if (data.success) {
         btn.innerHTML = "✓ Verification email sent!"
-        btn.classList.add("ec-copy-btn--copied")
+        btn.classList.add("channel-copy-btn--copied")
       } else {
         btn.innerHTML = "✗ " + (data.error || "Failed to send")
         btn.disabled = false
@@ -146,16 +146,16 @@ export default class extends Controller {
   // ─── Forwarding instruction tabs ───
   selectTab(event) {
     const tabName = event.currentTarget.dataset.tab
-    const container = event.currentTarget.closest(".ec-forwarding-panel") || this.element
+    const container = event.currentTarget.closest(".channel-forwarding-panel") || this.element
 
     // Update tab buttons
-    container.querySelectorAll(".ec-tab").forEach(tab => {
-      tab.classList.toggle("ec-tab--active", tab.dataset.tab === tabName)
+    container.querySelectorAll(".channel-tab").forEach(tab => {
+      tab.classList.toggle("channel-tab--active", tab.dataset.tab === tabName)
     })
 
     // Update tab content
-    container.querySelectorAll(".ec-tab-content").forEach(content => {
-      content.classList.toggle("ec-tab-content--active", content.dataset.tabContent === tabName)
+    container.querySelectorAll(".channel-tab-content").forEach(content => {
+      content.classList.toggle("channel-tab-content--active", content.dataset.tabContent === tabName)
     })
   }
 
@@ -165,7 +165,7 @@ export default class extends Controller {
     switch (state) {
       case "testing":
         btn.disabled = true
-        btn.innerHTML = '<span class="ec-spinner"></span> Testing...'
+        btn.innerHTML = '<span class="channel-spinner"></span> Testing...'
         resultTarget.style.display = "none"
         break
 
@@ -173,7 +173,7 @@ export default class extends Controller {
         btn.disabled = false
         btn.innerHTML = btn.dataset.originalText || "Test"
         resultTarget.style.display = "inline-flex"
-        resultTarget.className = "ec-test-result ec-test-result--success"
+        resultTarget.className = "channel-test-result ec-test-result--success"
         resultTarget.innerHTML = `✓ ${message || "Connection successful!"}`
         break
 
@@ -181,7 +181,7 @@ export default class extends Controller {
         btn.disabled = false
         btn.innerHTML = btn.dataset.originalText || "Test"
         resultTarget.style.display = "inline-flex"
-        resultTarget.className = "ec-test-result ec-test-result--error"
+        resultTarget.className = "channel-test-result ec-test-result--error"
         resultTarget.innerHTML = `✗ ${message || "Connection failed"}`
         break
     }

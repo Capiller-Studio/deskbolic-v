@@ -10,7 +10,7 @@ export default class extends Controller {
     const targetTab = event.currentTarget.dataset.targetTab
 
     // Update button states
-    this.element.querySelectorAll(".wa-tab-btn").forEach(btn => {
+    this.element.querySelectorAll(".channel-tab-btn").forEach(btn => {
       if (btn.dataset.targetTab === targetTab) {
         btn.classList.add("active")
       } else {

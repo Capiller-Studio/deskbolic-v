@@ -3,21 +3,23 @@
     div style="display: flex; align-items: center; gap: 8px;"
       span.f-semi-14 = I18n.t("languages.#{f.object.locale.to_s.downcase}", default: f.object.locale.to_s.upcase)
       = f.hidden_field :locale
-    button.ec-btn-secondary.ec-btn-sm type="button" data-action="click->contact-form-translations#removeTranslation" Remove
+    button.ui-action-delete type="button" data-action="click->contact-form-translations#removeTranslation" title="Remove Translation"
+      svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
+        path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"
     = f.hidden_field :_destroy, class: "destroy-flag"
 
-  .ec-form-row
+  .ui-form-row
     div
-      = f.label :title, "Form Title", class: "ec-label"
-      = f.text_field :title, class: "ec-input", placeholder: "e.g. Contact Support"
+      = f.label :title, "Form Title", class: "ui-label"
+      = f.text_field :title, class: "ui-input", placeholder: "e.g. Contact Support"
     div
-      = f.label :subtitle, "Form Subtitle", class: "ec-label"
-      = f.text_field :subtitle, class: "ec-input", placeholder: "e.g. We will reply as soon as possible"
+      = f.label :subtitle, "Form Subtitle", class: "ui-label"
+      = f.text_field :subtitle, class: "ui-input", placeholder: "e.g. We will reply as soon as possible"
       
-  .ec-form-row style="margin-top: 16px;"
+  .ui-form-row style="margin-top: 16px;"
     div
-      = f.label :success_message, "Success Message", class: "ec-label"
-      = f.text_area :success_message, class: "ec-input ec-textarea", rows: 2, placeholder: "e.g. Thanks for reaching out! We've received your message."
+      = f.label :success_message, "Success Message", class: "ui-label"
+      = f.text_area :success_message, class: "ui-input channel-textarea", rows: 2, placeholder: "e.g. Thanks for reaching out! We've received your message."
     div
-      = f.label :submit_button_text, "Submit Button Text", class: "ec-label"
-      = f.text_field :submit_button_text, class: "ec-input", placeholder: "e.g. Send Message"
+      = f.label :submit_button_text, "Submit Button Text", class: "ui-label"
+      = f.text_field :submit_button_text, class: "ui-input", placeholder: "e.g. Send Message"

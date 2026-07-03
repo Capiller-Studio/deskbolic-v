@@ -1,22 +1,22 @@
 = render("dashboard/shared/dashboard_container", current_page: "settings") do
   = render("dashboard/settings/settings_sidebar", current_page: "notification-settings") do
-    .ec-form-page
-      .ec-form-header
+    .ui-page-body
+      .ui-form-header
         h2.f-semi-32 style="margin-top: 16px; color: #0f172a;" = t("notification_settings.title", default: "Notification Settings")
         p.f-reg-16 style="color: #64748b; margin-top: 4px;" = t("notification_settings.description", default: "Manage your email and push notification preferences.")
 
-      .ec-card style="margin-top: 24px;"
-        .ec-card-body style="padding: 2rem;"
+      .ui-card style="margin-top: 24px;"
+        .ui-card-body style="padding: 2rem;"
           .browser-push-section style="margin-bottom: 30px; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px; background: #f8fafc;"
             h4.f-semi-18 style="color: #0f172a;" = t("notification_settings.browser_push", default: "Browser Push Notifications")
             p.f-reg-14 style="margin-top: 8px; margin-bottom: 16px; color: #64748b;" = t("notification_settings.browser_push_desc", default: "Enable push notifications to receive alerts even when Deskbolic is running in the background.")
             - vapid_key = Rails.application.credentials.dig(:vapid, :public_key) || "BFktHT70vu9y-6mepwuLzFOKvfPgMiFH0Mzzo_oJXeSgbgckj8fdildJ1c-WxTa7DQwnj-dzPeLNPmnnSjwU1dQ"
-            button.ec-btn.ec-btn-primary#enable-push-btn type="button" data-controller="push-notifications" data-action="click->push-notifications#toggle" data-push-notifications-vapid-public-key-value=vapid_key data-vapid-public-key=vapid_key
+            button.channel-btn.ui-btn-primary#enable-push-btn type="button" data-controller="push-notifications" data-action="click->push-notifications#toggle" data-push-notifications-vapid-public-key-value=vapid_key data-vapid-public-key=vapid_key
               = t("notification_settings.enable_browser_push", default: "Enable Browser Notifications")
 
           = form_with(model: @notification_setting, url: settings_notification_settings_path, method: :put, class: "settings-form") do |f|
             .table-responsive
-              table.ec-table style="width: 100%; border-collapse: collapse; margin-top: 20px;"
+              table.channel-table style="width: 100%; border-collapse: collapse; margin-top: 20px;"
                 thead
                   tr
                     th.f-semi-14 style="text-align: left; padding: 12px; border-bottom: 1px solid #e2e8f0; color: #475569;" = t("notification_settings.event", default: "Event")
@@ -29,11 +29,11 @@
                       td.f-reg-14 style="padding: 16px 12px; color: #334155;"
                         = t("notifications.events.#{event}", default: event.humanize)
                       td style="text-align: center; padding: 16px 12px;"
-                        .ec-checkbox-wrapper style="display: flex; justify-content: center;"
-                          = f.check_box :"email_#{event}", class: "ec-checkbox"
+                        .ui-checkbox-wrapper style="display: flex; justify-content: center;"
+                          = f.check_box :"email_#{event}", class: "ui-checkbox"
                       td style="text-align: center; padding: 16px 12px;"
-                        .ec-checkbox-wrapper style="display: flex; justify-content: center;"
-                          = f.check_box :"push_#{event}", class: "ec-checkbox"
+                        .ui-checkbox-wrapper style="display: flex; justify-content: center;"
+                          = f.check_box :"push_#{event}", class: "ui-checkbox"
 
             .form-actions style="margin-top: 24px; display: flex; justify-content: flex-end;"
-              = f.submit t("general.save_changes", default: "Save Changes"), class: "ec-btn ec-btn-primary"
+              = f.submit t("general.save_changes", default: "Save Changes"), class: "channel-btn ui-btn-primary"

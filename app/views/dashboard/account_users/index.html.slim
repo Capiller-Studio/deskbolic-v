@@ -17,9 +17,9 @@
                 
                 div style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;"
                   - account_user.roles.each do |role|
-                    span.ec-meta-tag style="background: #f1f5f9; padding: 4px 8px; border-radius: 4px; font-size: 12px; color: #475569;" = role.name
+                    span.ui-meta-tag style="background: #f1f5f9; padding: 4px 8px; border-radius: 4px; font-size: 12px; color: #475569;" = role.name
                   - if account_user.roles.empty?
-                    span.ec-meta-tag style="background: #fee2e2; padding: 4px 8px; border-radius: 4px; font-size: 12px; color: #991b1b;" = t("dashboard.users.index.no_roles")
+                    span.ui-meta-tag style="background: #fee2e2; padding: 4px 8px; border-radius: 4px; font-size: 12px; color: #991b1b;" = t("dashboard.users.index.no_roles")
 
               .eb-card__footer
                 span.eb-card__meta = t("dashboard.users.index.joined", time: time_ago_in_words(account_user.created_at))

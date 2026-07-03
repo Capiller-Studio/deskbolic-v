@@ -1,49 +1,49 @@
 = form_with(model: custom_field, local: true, class: "settings-form form-fields", data: { controller: "custom-field-form" }) do |f|
   - is_system = custom_field.system_provided?
   - if custom_field.errors.any?
-    .ec-error-summary
+    .ui-error-summary
       h3 = t("dashboard.custom_fields.form.error_heading", default: "Please fix the following errors:")
       ul
         - custom_field.errors.full_messages.each do |message|
           li = message
 
-  .ec-section.ec-section--always-open
-    .ec-section-header
-      .ec-section-title
-        span.ec-section-icon ⚙️
-        span.ec-section-label Basic Configuration
-    .ec-section-body
-      .ec-form-row
+  .ui-section.ui-section--always-open
+    .ui-section-header
+      .ui-section-title
+        span.ui-section-icon ⚙️
+        span.ui-section-label Basic Configuration
+    .ui-section-body
+      .ui-form-row
         div
-          = f.label :key, "Field Key", class: "ec-label"
-          = f.text_field :key, class: "ec-input", placeholder: "e.g. company_size", disabled: custom_field.persisted?
+          = f.label :key, "Field Key", class: "ui-label"
+          = f.text_field :key, class: "ui-input", placeholder: "e.g. company_size", disabled: custom_field.persisted?
           p.f-reg-12.text-muted style="margin-top: 4px;" The unique identifier for this field.
         
         div
-          = f.label :entity_type, "Record Type", class: "ec-label"
-          = f.select :entity_type, CustomField.entity_types.keys.map { |k| [k.titleize, k] }, {}, class: "ec-select", disabled: custom_field.persisted?, data: { "custom-field-form-target": "entityType", action: "change->custom-field-form#filterMappings" }
+          = f.label :entity_type, "Record Type", class: "ui-label"
+          = f.select :entity_type, CustomField.entity_types.keys.map { |k| [k.titleize, k] }, {}, class: "ui-select", disabled: custom_field.persisted?, data: { "custom-field-form-target": "entityType", action: "change->custom-field-form#filterMappings" }
 
-      .ec-form-row style="margin-top: 16px;"
+      .ui-form-row style="margin-top: 16px;"
         div
-          = f.label :field_type, "Input Type", class: "ec-label"
-          = f.select :field_type, CustomField.field_types.keys.map { |k| [k.titleize, k] }, {}, class: "ec-select", id: "custom_field_field_type_select", data: { action: "change->custom-field-options#checkFieldType" }, disabled: custom_field.persisted?
+          = f.label :field_type, "Input Type", class: "ui-label"
+          = f.select :field_type, CustomField.field_types.keys.map { |k| [k.titleize, k] }, {}, class: "ui-select", id: "custom_field_field_type_select", data: { action: "change->custom-field-options#checkFieldType" }, disabled: custom_field.persisted?
         div
-          = f.label :mapped_to, "Resource Mapping", class: "ec-label"
-          = f.select :mapped_to, CustomField::MAPPING_TARGETS.map { |k| [k, k] }, { include_blank: "Not Mapped" }, class: "ec-select", disabled: custom_field.persisted?, data: { "custom-field-form-target": "mappedTo" }
+          = f.label :mapped_to, "Resource Mapping", class: "ui-label"
+          = f.select :mapped_to, CustomField::MAPPING_TARGETS.map { |k| [k, k] }, { include_blank: "Not Mapped" }, class: "ui-select", disabled: custom_field.persisted?, data: { "custom-field-form-target": "mappedTo" }
           p.f-reg-12.text-muted style="margin-top: 4px;" Map this field's value to a core Deskbolic attribute.
 
-      .ec-form-row style="margin-top: 16px;"
+      .ui-form-row style="margin-top: 16px;"
         div
-          = f.label :default_value, "Default Value", class: "ec-label"
-          = f.text_field :default_value, class: "ec-input", placeholder: "Optional default value..."
+          = f.label :default_value, "Default Value", class: "ui-label"
+          = f.text_field :default_value, class: "ui-input", placeholder: "Optional default value..."
         div
 
-  .ec-section.ec-section--always-open
-    .ec-section-header
-      .ec-section-title
-        span.ec-section-icon 🌐
-        span.ec-section-label Localized Content
-    .ec-section-body
+  .ui-section.ui-section--always-open
+    .ui-section-header
+      .ui-section-title
+        span.ui-section-icon 🌐
+        span.ui-section-label Localized Content
+    .ui-section-body
       div data-controller="custom-field-translations"
         p.text-muted style="margin-bottom: 16px; font-size: 13px;" Provide localized strings for your custom field. These will override the default locale based on the customer's browser.
         
@@ -60,63 +60,63 @@
         - available_locales_options = available_locales.map { |l| [I18n.t("languages.#{l.downcase}", default: l.upcase), l] }
         
         .cf-add-locale-wrapper style="margin-top: 16px; display: flex; gap: 8px; align-items: center;"
-          = select_tag "new_locale", options_for_select(available_locales_options), include_blank: "Select Language...", class: "ec-select", data: { "custom-field-translations-target": "localeSelect" }, style: "width: 200px;"
-          button.ec-btn-secondary type="button" data-action="click->custom-field-translations#addTranslation" style="display: inline-flex; align-items: center; gap: 6px;" 
+          = select_tag "new_locale", options_for_select(available_locales_options), include_blank: "Select Language...", class: "ui-select", data: { "custom-field-translations-target": "localeSelect" }, style: "width: 200px;"
+          button.ui-btn-secondary type="button" data-action="click->custom-field-translations#addTranslation" style="display: inline-flex; align-items: center; gap: 6px;" 
             span +
             | Add Language
 
-  .ec-section.ec-section--always-open
-    .ec-section-header
-      .ec-section-title
-        span.ec-section-icon 🛡️
-        span.ec-section-label Validations & Rules
-    .ec-section-body
-      .ec-toggle-row style="margin-bottom: 12px; display: flex; gap: 24px; flex-wrap: wrap;"
+  .ui-section.ui-section--always-open
+    .ui-section-header
+      .ui-section-title
+        span.ui-section-icon 🛡️
+        span.ui-section-label Validations & Rules
+    .ui-section-body
+      .ui-toggle-row style="margin-bottom: 12px; display: flex; gap: 24px; flex-wrap: wrap;"
         div style="display: flex; align-items: center; gap: 8px;"
-          span.ec-toggle-label Field is Required
-          label.ec-toggle
+          span.ui-toggle-label Field is Required
+          label.ui-toggle
             = f.check_box :required
-            span.ec-toggle-slider
+            span.ui-toggle-slider
             
         div style="display: flex; align-items: center; gap: 8px;"
-          span.ec-toggle-label Searchable
-          label.ec-toggle
+          span.ui-toggle-label Searchable
+          label.ui-toggle
             = f.check_box :searchable
-            span.ec-toggle-slider
+            span.ui-toggle-slider
 
         div style="display: flex; align-items: center; gap: 8px;"
-          span.ec-toggle-label Read-Only (Agents cannot edit)
-          label.ec-toggle
+          span.ui-toggle-label Read-Only (Agents cannot edit)
+          label.ui-toggle
             = f.check_box :is_readonly
-            span.ec-toggle-slider
+            span.ui-toggle-slider
 
         div style="display: flex; align-items: center; gap: 8px;"
-          span.ec-toggle-label Hidden from UI
-          label.ec-toggle
+          span.ui-toggle-label Hidden from UI
+          label.ui-toggle
             = f.check_box :hidden
-            span.ec-toggle-slider
+            span.ui-toggle-slider
 
-      .ec-form-row style="margin-top: 16px;" data-controller="custom-field-validations"
+      .ui-form-row style="margin-top: 16px;" data-controller="custom-field-validations"
         div data-custom-field-validations-target="textGroup"
-          = f.label :validations_min_length, "Min Length", class: "ec-label"
-          = text_field_tag "custom_field[validations][min_length]", custom_field.validations["min_length"], class: "ec-input", type: "number"
+          = f.label :validations_min_length, "Min Length", class: "ui-label"
+          = text_field_tag "custom_field[validations][min_length]", custom_field.validations["min_length"], class: "ui-input", type: "number"
         
         div data-custom-field-validations-target="textGroup"
-          = f.label :validations_max_length, "Max Length", class: "ec-label"
-          = text_field_tag "custom_field[validations][max_length]", custom_field.validations["max_length"], class: "ec-input", type: "number"
+          = f.label :validations_max_length, "Max Length", class: "ui-label"
+          = text_field_tag "custom_field[validations][max_length]", custom_field.validations["max_length"], class: "ui-input", type: "number"
 
         div data-custom-field-validations-target="textGroup"
-          = f.label :validations_pattern, "Regex Pattern", class: "ec-label"
-          = text_field_tag "custom_field[validations][pattern]", custom_field.validations["pattern"], class: "ec-input", placeholder: "^[A-Z]"
+          = f.label :validations_pattern, "Regex Pattern", class: "ui-label"
+          = text_field_tag "custom_field[validations][pattern]", custom_field.validations["pattern"], class: "ui-input", placeholder: "^[A-Z]"
 
         div data-custom-field-validations-target="numberGroup" style="display: none;"
-          = f.label :validations_min_value, "Min Value", class: "ec-label"
-          = text_field_tag "custom_field[validations][min_value]", custom_field.validations["min_value"], class: "ec-input", type: "number"
+          = f.label :validations_min_value, "Min Value", class: "ui-label"
+          = text_field_tag "custom_field[validations][min_value]", custom_field.validations["min_value"], class: "ui-input", type: "number"
         
         div data-custom-field-validations-target="numberGroup" style="display: none;"
-          = f.label :validations_max_value, "Max Value", class: "ec-label"
-          = text_field_tag "custom_field[validations][max_value]", custom_field.validations["max_value"], class: "ec-input", type: "number"
+          = f.label :validations_max_value, "Max Value", class: "ui-label"
+          = text_field_tag "custom_field[validations][max_value]", custom_field.validations["max_value"], class: "ui-input", type: "number"
 
-  .ec-form-actions style="margin-top: 24px;"
-    = f.submit "Save Custom Field", class: "ec-btn-primary"
-    = link_to "Cancel", custom_fields_path, class: "ec-btn-secondary"
+  .ui-form-actions style="margin-top: 24px;"
+    = f.submit "Save Custom Field", class: "ui-btn-primary"
+    = link_to "Cancel", custom_fields_path, class: "ui-btn-secondary"

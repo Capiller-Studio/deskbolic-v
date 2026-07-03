@@ -3,159 +3,159 @@
 
 = form_with(model: email_channel, scope: :email_channel, url: url, method: method, data: { controller: "email-channel" }) do |f|
   - if email_channel.errors.any?
-    .ec-error-summary
+    .ui-error-summary
       h3 = t("dashboard.email_channels.form.error_heading")
       ul
         - email_channel.errors.full_messages.each do |message|
           li = message
 
   / ─── Basic Details ───
-  .ec-section.ec-section--always-open
-    .ec-section-header
-      .ec-section-title
-        span.ec-section-icon 📝
-        span.ec-section-label = t("dashboard.email_channels.form.basic_section")
-    .ec-section-body
-      .ec-form-row
+  .ui-section.ui-section--always-open
+    .ui-section-header
+      .ui-section-title
+        span.ui-section-icon 📝
+        span.ui-section-label = t("dashboard.email_channels.form.basic_section")
+    .ui-section-body
+      .ui-form-row
         div
-          = f.label :email, t("dashboard.email_channels.form.email"), class: "ec-label"
-          = f.email_field :email, class: "ec-input", placeholder: "support@yourcompany.com"
+          = f.label :email, t("dashboard.email_channels.form.email"), class: "ui-label"
+          = f.email_field :email, class: "ui-input", placeholder: "support@yourcompany.com"
 
       - if email_channel.primary_inbox
-        .ec-section style="margin-top: 24px; margin-bottom: 24px; padding: 16px; background: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0;"
+        .ui-section style="margin-top: 24px; margin-bottom: 24px; padding: 16px; background: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0;"
           h3.f-semi-16 style="margin-bottom: 8px;" Inbox Settings
           p.f-reg-14.text-muted style="margin-bottom: 16px;" Configure customer satisfaction surveys, SLA policies, and custom reply templates.
           
           = f.fields_for :primary_inbox do |inbox_f|
-            .ec-toggle-row style="margin-bottom: 16px;"
-              span.ec-toggle-label Enable CSAT Surveys
-              label.ec-toggle
+            .ui-toggle-row style="margin-bottom: 16px;"
+              span.ui-toggle-label Enable CSAT Surveys
+              label.ui-toggle
                 = inbox_f.check_box :csat_survey_enabled
-                span.ec-toggle-slider
+                span.ui-toggle-slider
             
-            .ec-form-row
+            .ui-form-row
               div
-                = inbox_f.label :csat_survey_id, "CSAT Survey", class: "ec-label"
-                = inbox_f.collection_select :csat_survey_id, current_account.csat_surveys, :id, :name, { include_blank: "Default System Survey" }, class: "ec-select"
+                = inbox_f.label :csat_survey_id, "CSAT Survey", class: "ui-label"
+                = inbox_f.collection_select :csat_survey_id, current_account.csat_surveys, :id, :name, { include_blank: "Default System Survey" }, class: "ui-select"
 
               div
-                = inbox_f.label :conversation_reply_template_id, "Custom Reply Template", class: "ec-label"
-                = inbox_f.collection_select :conversation_reply_template_id, current_account.email_templates, :id, :name, { include_blank: "Default Mailer View" }, class: "ec-select"
+                = inbox_f.label :conversation_reply_template_id, "Custom Reply Template", class: "ui-label"
+                = inbox_f.collection_select :conversation_reply_template_id, current_account.email_templates, :id, :name, { include_blank: "Default Mailer View" }, class: "ui-select"
             
-            .ec-form-row
+            .ui-form-row
               div
-                = inbox_f.label :sla_policy_ids, "SLA Policies", class: "ec-label"
-                = inbox_f.collection_select :sla_policy_ids, current_account.sla_policies, :id, :name, {}, { multiple: true, class: "ec-select" }
+                = inbox_f.label :sla_policy_ids, "SLA Policies", class: "ui-label"
+                = inbox_f.collection_select :sla_policy_ids, current_account.sla_policies, :id, :name, {}, { multiple: true, class: "ui-select" }
 
-      .ec-form-row
+      .ui-form-row
         div
-          = f.label :name, t("dashboard.email_channels.form.name_label"), class: "ec-label"
-          = f.text_field :name, class: "ec-input", required: true, placeholder: t("dashboard.email_channels.form.name_placeholder")
+          = f.label :name, t("dashboard.email_channels.form.name_label"), class: "ui-label"
+          = f.text_field :name, class: "ui-input", required: true, placeholder: t("dashboard.email_channels.form.name_placeholder")
 
   / ─── SMTP Configuration ───
-  .ec-section data-email-channel-target="smtpSection"
-    .ec-section-header data-action="click->email-channel#toggleSection"
-      .ec-section-title
-        span.ec-section-icon 📤
-        span.ec-section-label = t("dashboard.email_channels.form.smtp_section")
-      span.ec-section-chevron ▼
-    .ec-section-body
-      p.ec-input-hint style="margin-bottom: 16px;" = t("dashboard.email_channels.form.smtp_section_desc")
+  .ui-section data-email-channel-target="smtpSection"
+    .ui-section-header data-action="click->email-channel#toggleSection"
+      .ui-section-title
+        span.ui-section-icon 📤
+        span.ui-section-label = t("dashboard.email_channels.form.smtp_section")
+      span.ui-section-chevron ▼
+    .ui-section-body
+      p.ui-input-hint style="margin-bottom: 16px;" = t("dashboard.email_channels.form.smtp_section_desc")
 
-      .ec-toggle-row style="margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid #e2e8f0;"
-        span.ec-toggle-label = t("dashboard.email_channels.form.enable_smtp", default: "Enable SMTP Sending")
-        label.ec-toggle
+      .ui-toggle-row style="margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid #e2e8f0;"
+        span.ui-toggle-label = t("dashboard.email_channels.form.enable_smtp", default: "Enable SMTP Sending")
+        label.ui-toggle
           = f.check_box :smtp_enabled
-          span.ec-toggle-slider
+          span.ui-toggle-slider
 
-      .ec-form-row
+      .ui-form-row
         div
-          label.ec-label = t("dashboard.email_channels.form.smtp_address")
-          = f.text_field :smtp_address, name: "email_channel[smtp_configurations][address]", value: email_channel.smtp_configurations&.dig("address"), class: "ec-input", placeholder: t("dashboard.email_channels.form.smtp_address_placeholder")
+          label.ui-label = t("dashboard.email_channels.form.smtp_address")
+          = f.text_field :smtp_address, name: "email_channel[smtp_configurations][address]", value: email_channel.smtp_configurations&.dig("address"), class: "ui-input", placeholder: t("dashboard.email_channels.form.smtp_address_placeholder")
         div
-          label.ec-label = t("dashboard.email_channels.form.smtp_port")
-          = f.number_field :smtp_port, name: "email_channel[smtp_configurations][port]", value: email_channel.smtp_configurations&.dig("port") || 587, class: "ec-input", placeholder: t("dashboard.email_channels.form.smtp_port_placeholder")
+          label.ui-label = t("dashboard.email_channels.form.smtp_port")
+          = f.number_field :smtp_port, name: "email_channel[smtp_configurations][port]", value: email_channel.smtp_configurations&.dig("port") || 587, class: "ui-input", placeholder: t("dashboard.email_channels.form.smtp_port_placeholder")
 
-      .ec-form-row
+      .ui-form-row
         div
-          label.ec-label = t("dashboard.email_channels.form.smtp_username")
-          = f.text_field :smtp_username, name: "email_channel[smtp_configurations][username]", value: email_channel.smtp_configurations&.dig("username"), class: "ec-input", placeholder: t("dashboard.email_channels.form.smtp_username_placeholder")
+          label.ui-label = t("dashboard.email_channels.form.smtp_username")
+          = f.text_field :smtp_username, name: "email_channel[smtp_configurations][username]", value: email_channel.smtp_configurations&.dig("username"), class: "ui-input", placeholder: t("dashboard.email_channels.form.smtp_username_placeholder")
         div
-          label.ec-label = t("dashboard.email_channels.form.smtp_password")
-          .ec-password-wrapper
-            = f.password_field :smtp_password, name: "email_channel[smtp_configurations][password]", value: email_channel.smtp_configurations&.dig("password"), class: "ec-input", placeholder: t("dashboard.email_channels.form.smtp_password_placeholder"), data: { "email-channel-target": "passwordField" }
-            button.ec-password-toggle type="button" data-action="click->email-channel#togglePassword" 👁️
+          label.ui-label = t("dashboard.email_channels.form.smtp_password")
+          .ui-password-wrapper
+            = f.password_field :smtp_password, name: "email_channel[smtp_configurations][password]", value: email_channel.smtp_configurations&.dig("password"), class: "ui-input", placeholder: t("dashboard.email_channels.form.smtp_password_placeholder"), data: { "email-channel-target": "passwordField" }
+            button.ui-password-toggle type="button" data-action="click->email-channel#togglePassword" 👁️
 
-      .ec-form-row
+      .ui-form-row
         div
-          label.ec-label = t("dashboard.email_channels.form.smtp_domain")
-          = f.text_field :smtp_domain, name: "email_channel[smtp_configurations][domain]", value: email_channel.smtp_configurations&.dig("domain"), class: "ec-input", placeholder: t("dashboard.email_channels.form.smtp_domain_placeholder")
+          label.ui-label = t("dashboard.email_channels.form.smtp_domain")
+          = f.text_field :smtp_domain, name: "email_channel[smtp_configurations][domain]", value: email_channel.smtp_configurations&.dig("domain"), class: "ui-input", placeholder: t("dashboard.email_channels.form.smtp_domain_placeholder")
         div
-          label.ec-label = t("dashboard.email_channels.form.smtp_authentication")
-          = f.select :smtp_authentication, [["Plain", "plain"], ["Login", "login"], ["CRAM-MD5", "cram_md5"]], { selected: email_channel.smtp_configurations&.dig("authentication") || "plain" }, name: "email_channel[smtp_configurations][authentication]", class: "ec-select"
+          label.ui-label = t("dashboard.email_channels.form.smtp_authentication")
+          = f.select :smtp_authentication, [["Plain", "plain"], ["Login", "login"], ["CRAM-MD5", "cram_md5"]], { selected: email_channel.smtp_configurations&.dig("authentication") || "plain" }, name: "email_channel[smtp_configurations][authentication]", class: "ui-select"
 
-      .ec-toggle-row
-        span.ec-toggle-label = t("dashboard.email_channels.form.smtp_starttls")
-        label.ec-toggle
+      .ui-toggle-row
+        span.ui-toggle-label = t("dashboard.email_channels.form.smtp_starttls")
+        label.ui-toggle
           = f.check_box :smtp_enable_starttls, { checked: email_channel.smtp_configurations&.dig("enable_starttls") != false, name: "email_channel[smtp_configurations][enable_starttls]" }, "true", "false"
-          span.ec-toggle-slider
+          span.ui-toggle-slider
 
       - if email_channel.persisted?
         div style="display: flex; align-items: center; margin-top: 8px;"
-          button.ec-test-btn type="button" data-action="click->email-channel#testSmtp" data-url=test_smtp_channels_email_path(email_channel) data-original-text=t("dashboard.email_channels.form.test_smtp")
+          button.channel-test-btn type="button" data-action="click->email-channel#testSmtp" data-url=test_smtp_channels_email_path(email_channel) data-original-text=t("dashboard.email_channels.form.test_smtp")
             | 🔌 #{t("dashboard.email_channels.form.test_smtp")}
-          span.ec-test-result data-email-channel-target="smtpResult" style="display: none;"
+          span.channel-test-result data-email-channel-target="smtpResult" style="display: none;"
 
   / ─── IMAP Configuration ───
-  .ec-section data-email-channel-target="imapSection"
-    .ec-section-header data-action="click->email-channel#toggleSection"
-      .ec-section-title
-        span.ec-section-icon 📥
-        span.ec-section-label = t("dashboard.email_channels.form.imap_section")
-      span.ec-section-chevron ▼
-    .ec-section-body
-      p.ec-input-hint style="margin-bottom: 16px;" = t("dashboard.email_channels.form.imap_section_desc")
+  .ui-section data-email-channel-target="imapSection"
+    .ui-section-header data-action="click->email-channel#toggleSection"
+      .ui-section-title
+        span.ui-section-icon 📥
+        span.ui-section-label = t("dashboard.email_channels.form.imap_section")
+      span.ui-section-chevron ▼
+    .ui-section-body
+      p.ui-input-hint style="margin-bottom: 16px;" = t("dashboard.email_channels.form.imap_section_desc")
 
-      .ec-toggle-row style="margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid #e2e8f0;"
-        span.ec-toggle-label = t("dashboard.email_channels.form.enable_imap", default: "Enable IMAP Sync")
-        label.ec-toggle
+      .ui-toggle-row style="margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid #e2e8f0;"
+        span.ui-toggle-label = t("dashboard.email_channels.form.enable_imap", default: "Enable IMAP Sync")
+        label.ui-toggle
           = f.check_box :imap_enabled
-          span.ec-toggle-slider
+          span.ui-toggle-slider
 
-      .ec-form-row
+      .ui-form-row
         div
-          label.ec-label = t("dashboard.email_channels.form.imap_address")
-          = f.text_field :imap_address, name: "email_channel[imap_configurations][address]", value: email_channel.imap_configurations&.dig("address"), class: "ec-input", placeholder: t("dashboard.email_channels.form.imap_address_placeholder")
+          label.ui-label = t("dashboard.email_channels.form.imap_address")
+          = f.text_field :imap_address, name: "email_channel[imap_configurations][address]", value: email_channel.imap_configurations&.dig("address"), class: "ui-input", placeholder: t("dashboard.email_channels.form.imap_address_placeholder")
         div
-          label.ec-label = t("dashboard.email_channels.form.imap_port")
-          = f.number_field :imap_port, name: "email_channel[imap_configurations][port]", value: email_channel.imap_configurations&.dig("port") || 993, class: "ec-input", placeholder: t("dashboard.email_channels.form.imap_port_placeholder")
+          label.ui-label = t("dashboard.email_channels.form.imap_port")
+          = f.number_field :imap_port, name: "email_channel[imap_configurations][port]", value: email_channel.imap_configurations&.dig("port") || 993, class: "ui-input", placeholder: t("dashboard.email_channels.form.imap_port_placeholder")
 
-      .ec-form-row
+      .ui-form-row
         div
-          label.ec-label = t("dashboard.email_channels.form.imap_username")
-          = f.text_field :imap_username, name: "email_channel[imap_configurations][username]", value: email_channel.imap_configurations&.dig("username"), class: "ec-input", placeholder: t("dashboard.email_channels.form.imap_username_placeholder")
+          label.ui-label = t("dashboard.email_channels.form.imap_username")
+          = f.text_field :imap_username, name: "email_channel[imap_configurations][username]", value: email_channel.imap_configurations&.dig("username"), class: "ui-input", placeholder: t("dashboard.email_channels.form.imap_username_placeholder")
         div
-          label.ec-label = t("dashboard.email_channels.form.imap_password")
-          .ec-password-wrapper
-            = f.password_field :imap_password, name: "email_channel[imap_configurations][password]", value: email_channel.imap_configurations&.dig("password"), class: "ec-input", placeholder: t("dashboard.email_channels.form.imap_password_placeholder"), data: { "email-channel-target": "passwordField" }
-            button.ec-password-toggle type="button" data-action="click->email-channel#togglePassword" 👁️
+          label.ui-label = t("dashboard.email_channels.form.imap_password")
+          .ui-password-wrapper
+            = f.password_field :imap_password, name: "email_channel[imap_configurations][password]", value: email_channel.imap_configurations&.dig("password"), class: "ui-input", placeholder: t("dashboard.email_channels.form.imap_password_placeholder"), data: { "email-channel-target": "passwordField" }
+            button.ui-password-toggle type="button" data-action="click->email-channel#togglePassword" 👁️
 
-      .ec-toggle-row
-        span.ec-toggle-label = t("dashboard.email_channels.form.imap_ssl")
-        label.ec-toggle
+      .ui-toggle-row
+        span.ui-toggle-label = t("dashboard.email_channels.form.imap_ssl")
+        label.ui-toggle
           = f.check_box :imap_enable_ssl, { checked: email_channel.imap_configurations&.dig("enable_ssl") != false, name: "email_channel[imap_configurations][enable_ssl]" }, "true", "false"
-          span.ec-toggle-slider
+          span.ui-toggle-slider
 
       - if email_channel.persisted?
         div style="display: flex; align-items: center; margin-top: 8px;"
-          button.ec-test-btn type="button" data-action="click->email-channel#testImap" data-url=test_imap_channels_email_path(email_channel) data-original-text=t("dashboard.email_channels.form.test_imap")
+          button.channel-test-btn type="button" data-action="click->email-channel#testImap" data-url=test_imap_channels_email_path(email_channel) data-original-text=t("dashboard.email_channels.form.test_imap")
             | 🔌 #{t("dashboard.email_channels.form.test_imap")}
-          span.ec-test-result data-email-channel-target="imapResult" style="display: none;"
+          span.channel-test-result data-email-channel-target="imapResult" style="display: none;"
 
   / ─── Form Actions ───
-  .ec-form-actions
+  .ui-form-actions
     - if email_channel.persisted?
-      = f.submit t("dashboard.email_channels.form.update"), class: "ec-btn-primary"
+      = f.submit t("dashboard.email_channels.form.update"), class: "ui-btn-primary"
     - else
-      = f.submit t("dashboard.email_channels.form.save"), class: "ec-btn-primary"
-    = link_to t("dashboard.email_channels.form.cancel"), channels_email_index_path, class: "ec-btn-secondary"
+      = f.submit t("dashboard.email_channels.form.save"), class: "ui-btn-primary"
+    = link_to t("dashboard.email_channels.form.cancel"), channels_email_index_path, class: "ui-btn-secondary"

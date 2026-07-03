@@ -14,12 +14,12 @@
       .form-fields
         = form_with url: user_session_path, method: :post, local: true do |f|
           .form-floating
-            = f.label :email, t("auth.email", default: "Email"), class: "form-label"
-            = f.email_field "user[email]", autofocus: true, autocomplete: "email", required: true, class: "form-control", placeholder: "you@example.com"
+            = f.label :email, t("auth.email"), class: "form-label"
+            = f.email_field "user[email]", autofocus: true, autocomplete: "email", required: true, class: "form-control", placeholder: t("auth.placeholders.email")
 
           .form-floating style="margin-top: 20px;"
-            = f.label :password, t("auth.password", default: "Password"), class: "form-label"
-            = f.password_field "user[password]", autocomplete: "current-password", required: true, class: "form-control", placeholder: "Enter your password"
+            = f.label :password, t("auth.password"), class: "form-label"
+            = f.password_field "user[password]", autocomplete: "current-password", required: true, class: "form-control", placeholder: "••••••••"
 
           div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px; text-align: left;"
             div style="display: flex; align-items: center;"

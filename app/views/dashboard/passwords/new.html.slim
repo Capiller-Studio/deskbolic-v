@@ -14,8 +14,8 @@
       .form-fields
         = form_with url: user_password_path, method: :post, local: true do |f|
           .form-floating
-            = f.label :email, t("auth.email", default: "Email"), class: "form-label"
-            = f.email_field "user[email]", autofocus: true, autocomplete: "email", required: true, class: "form-control", placeholder: "you@example.com"
+            = f.label :email, t("auth.email"), class: "form-label"
+            = f.email_field "user[email]", autofocus: true, autocomplete: "email", required: true, class: "form-control", placeholder: t("auth.placeholders.email")
 
           .actions
-            = f.submit t("auth.passwords.send_instructions", default: "Send reset instructions"), class: "button"
+            = f.submit t("auth.passwords.send_instructions"), class: "button"

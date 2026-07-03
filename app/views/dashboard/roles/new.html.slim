@@ -2,7 +2,7 @@
   = render("dashboard/settings/settings_sidebar", current_page: "roles") do
     .ec-form-page
       .ec-form-header
-        = link_to "← Back to Roles", roles_path, class: "ec-back-link"
+        = link_to t("dashboard.roles.form.back"), roles_path, class: "ec-back-link"
         h2.f-semi-32 style="margin-top: 16px; color: #0f172a;" = t("dashboard.roles.new.title", default: "Create New Role")
         p.f-reg-16 style="color: #64748b; margin-top: 4px;" = t("dashboard.roles.new.description", default: "Define a custom role with specific access controls.")
 

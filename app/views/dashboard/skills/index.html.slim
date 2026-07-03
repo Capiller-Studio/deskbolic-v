@@ -32,9 +32,9 @@
                   .sk-status-dot class="#{skill.active? ? 'active' : 'inactive'}"
 
                 .sk-card-actions
-                  = link_to edit_skill_path(skill), class: "ap-action-btn", title: "Edit"
+                  = link_to edit_skill_path(skill), class: "ap-action-btn", title: t("dashboard.skills.index.edit")
                     | ✏️
-                  = link_to skill_path(skill), method: :delete, class: "ap-action-btn ap-action-delete", data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }, title: "Delete"
+                  = link_to skill_path(skill), method: :delete, class: "ap-action-btn ap-action-delete", data: { turbo_method: :delete, turbo_confirm: t("dashboard.skills.index.delete_confirm") }, title: t("dashboard.skills.index.delete")
                     | 🗑️
       - else
         .ap-empty-state

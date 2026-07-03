@@ -9,31 +9,30 @@
   .model-content.team-modal-content
     .modal-header
       .modal-header-text
-        h3.f-semi-18 = is_edit ? "Edit Team" : "New Team"
-        p.f-reg-14.modal-subtitle = is_edit ? "Edit team details and view added users" : "Enter team details and view added users"
+        h3.f-semi-18 = is_edit ? t("dashboard.popup.team.form.edit_title") : t("dashboard.popup.team.form.new_title")
+        p.f-reg-14.modal-subtitle = is_edit ? t("dashboard.popup.team.form.edit_subtitle") : t("dashboard.popup.team.form.new_subtitle")
       = inline_svg_tag("cross_button.svg", alt: "close", class: "conversation-icon m-close", data: { action: "click->modalToggler#hideModal" })
 
     .team-form-body
       = form_with(model: team, url: form_url, method: form_method, data: { "controller" =>"formValidation", "formValidation-target" => "form", "turbo_frame" =>"teams_list" }, html: { class: "needs-validation team-form", novalidate: true } ) do |f|
         .form-fields
           .form-floating
-            = f.label :name, class: "form-label f-reg-14" do
-              | Team name
+            = f.label :name, t("dashboard.popup.team.form.name_label", default: "Team name"), class: "form-label f-reg-14" do
               span.required-star *
-            = f.text_field :name, value: team.name, class: "form-control f-reg-14", placeholder: "e.g. Customer Success", required: true
+            = f.text_field :name, value: team.name, class: "form-control f-reg-14", placeholder: t("dashboard.popup.team.form.name_placeholder"), required: true
 
           .form-floating
-            = f.label :description, "Description (Optional)", class: "form-label f-reg-14"
-            = f.text_area :description, value: team.description, class: "form-control f-reg-14 team-description-field", placeholder: "Describe what this team does...", rows: 4
+            = f.label :description, t("dashboard.popup.team.form.description_label"), class: "form-label f-reg-14"
+            = f.text_area :description, value: team.description, class: "form-control f-reg-14 team-description-field", placeholder: t("dashboard.popup.team.form.description_placeholder"), rows: 4
 
           .form-floating.auto-assign-row
             label.custom-checkbox.auto-assign-checkbox
               = f.check_box :auto_assign, class: "auto-assign-input"
               .checkmark
-              span.f-reg-14 Auto-assign new conversations to active members
+              span.f-reg-14 = t("dashboard.popup.team.form.auto_assign", default: "Auto-assign new conversations to active members")
 
           .team-users-section
-            p.section-label.f-reg-14 Team Members
+            p.section-label.f-reg-14 = t("dashboard.popup.team.form.team_members", default: "Team Members")
             .users-list
               - if users.present?
                 - users.each do |user|
@@ -53,11 +52,11 @@
                       .checkmark
               - else
                 .no-users-placeholder
-                  p.f-reg-14 No users available
+                  p.f-reg-14 = t("dashboard.popup.team.form.no_users", default: "No users available")
 
           - if inboxes.present?
             .team-inboxes-section
-              p.section-label.f-reg-14 Connect to Inboxes
+              p.section-label.f-reg-14 = t("dashboard.popup.team.form.connect_inboxes", default: "Connect to Inboxes")
               .inboxes-list
                 - inboxes.each do |inbox|
                   - inbox_checked = is_edit && team.inboxes.include?(inbox)
@@ -69,7 +68,7 @@
                       .checkmark
 
         .form-actions
-          button.cancel-btn.f-med-14 type="button" data-action="click->modalToggler#hideModal" Cancel
-          = f.submit(is_edit ? "Save Changes" : "Create Team",
+          button.cancel-btn.f-med-14 type="button" data-action="click->modalToggler#hideModal" = t("dashboard.popup.team.form.cancel", default: "Cancel")
+          = f.submit(is_edit ? t("dashboard.popup.team.form.save", default: "Save Changes") : t("dashboard.popup.team.form.create", default: "Create Team"),
               class: "submit-btn f-med-14",
               data: { action: "click->formValidation#validate" })

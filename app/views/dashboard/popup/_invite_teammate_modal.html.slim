@@ -10,8 +10,8 @@
           .form-floating
             .field-label
               = f.label :email, "Email", class: "form-label f-reg-14 reg-label"
-            = f.email_field :email, class: "form-control f-reg-14", placeholder: "Email", required: true
-          .f-reg-12 We’ll give you teammate basic settings permissions. you can give them more permissions later.
+            = f.email_field :email, class: "form-control f-reg-14", placeholder: t("dashboard.popup.invite_teammate.form.email_placeholder"), required: true
+          .f-reg-12 = t("dashboard.popup.invite_teammate.form.permission_note")
         .form-actions
-          .btn-cancel data-action="click->modalToggler#hideModal" Cancel
-          = f.submit "Send Invite", class: "submit-btn f-med-14", data: { action: "click->formValidation#validate click->modalToggler#hideModal" }
+          .btn-cancel data-action="click->modalToggler#hideModal" = t("dashboard.popup.invite_teammate.form.cancel", default: "Cancel")
+          = f.submit t("dashboard.popup.invite_teammate.form.submit", default: "Send Invite"), class: "submit-btn f-med-14", data: { action: "click->formValidation#validate click->modalToggler#hideModal" }

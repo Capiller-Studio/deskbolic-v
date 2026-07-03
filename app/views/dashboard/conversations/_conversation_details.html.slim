@@ -1,9 +1,9 @@
 - customer = @conversation.customers.first
 .details-section id="conversation-details-#{@conversation.id}" data-controller="accordion"
-  h2.f-semi-24 Details
+  h2.f-semi-24 = t('dashboard.conversation_details.title')
   .descriptive-details
     .agent
-      p.f-semi-14 Agent
+      p.f-semi-14 = t('dashboard.conversation_details.agent')
       .card.agent-detail
         button.accordian data-action="click->accordion#toggle"
           - if assigned_conversation
@@ -15,11 +15,11 @@
             p.f-reg-14 = current_user.display_name
           - else 
             = image_tag("profile_icon.png", class:"chat-user", alt: "menu")
-            p.f-reg-14 Unassigned
+            p.f-reg-14 = t('dashboard.conversation_details.unassigned')
           = inline_svg_tag("arrow_down.svg", class:"arrow-icon ml-auto")
         .panel data-accordion-target="panel"
           .section-flex
-            h5.f-reg-12 Assignee
+            h5.f-reg-12 = t('dashboard.conversation_details.assignee')
             - if assigned_conversation
               - if current_user.avatar.attached?
                 = image_tag(current_user.avatar, class:"menu-icon agent-panel-avatar", alt:"menu")
@@ -29,7 +29,7 @@
               p.f-reg-12 = current_user.display_name
             - else
               = inline_svg_tag("agent_icon.svg", class:"menu-icon", alt:"menu")
-              = button_to("Assign to me", assign_member_conversation_path(@conversation), method: :post, class: "assign-btn f-reg-12")
+              = button_to(t('dashboard.conversation_details.assign_to_me'), assign_member_conversation_path(@conversation), method: :post, class: "assign-btn f-reg-12")
     = render partial: "dashboard/conversations/team_info", locals: { conversation: @conversation, assigned_team: assigned_team }
     / .card.ticket-info
     /   button.accordian data-action="click->accordion#toggle"
@@ -57,33 +57,33 @@
       - if active_sla
         .card.sla-info
           button.accordian data-action="click->accordion#toggle"
-            p.f-reg-14 SLA Status
+            p.f-reg-14 = t('dashboard.conversation_details.sla_status')
             = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
           .panel data-accordion-target="panel"
             .section-flex
-              h5.f-reg-14 Next target: 
-              p.f-reg-14 = active_sla.target_next_response_at&.strftime("%d %b %H:%M") || "N/A"
+              h5.f-reg-14 = t('dashboard.conversation_details.next_target')
+              p.f-reg-14 = active_sla.target_next_response_at&.strftime("%d %b %H:%M") || t('dashboard.conversation_details.not_applicable')
 
     - if current_account.feature_enabled?(:csat) && @conversation.resolved?
       - csat_response = @conversation.csat_survey_responses.last
       - if csat_response
         .card.csat-info
           button.accordian data-action="click->accordion#toggle"
-            p.f-reg-14 CSAT Rating
+            p.f-reg-14 = t('dashboard.conversation_details.csat_rating')
             = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
           .panel data-accordion-target="panel"
             .section-flex
-              h5.f-reg-14 Rating: 
+              h5.f-reg-14 = t('dashboard.conversation_details.rating')
               - if csat_response.rating
                 p.f-reg-14 = "#{csat_response.rating} / 5"
               - else
-                p.f-reg-14 Pending
+                p.f-reg-14 = t('dashboard.conversation_details.pending')
 
     - if current_account.feature_enabled?(:identity_sources) && customer.identities.any?
       .card.identity-info
-        button.accordian data-action="click->accordion#toggle"
-          p.f-reg-14 Verified Identities
-          = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
+      button.accordian data-action="click->accordion#toggle"
+        p.f-reg-14 = t('dashboard.conversation_details.verified_identities')
+        = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
         .panel data-accordion-target="panel"
           - customer.identities.includes(:identity_source).each do |identity|
             .section-flex style="margin-bottom: 8px; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px;"
@@ -92,7 +92,7 @@
                 
     .card.user-data
       button.accordian data-action="click->accordion#toggle"
-        p.f-reg-14 Customer data
+        p.f-reg-14 = t('dashboard.conversation_details.customer_data')
         = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
       .panel data-accordion-target="panel"
         .user-details data-controller="accordion"
@@ -107,21 +107,21 @@
             = inline_svg_tag("menu.svg", class:"profile-menu",  data: { "action" => "click->accordion#toggleMenu" })
           .menu data-accordion-target="menu"
             = link_to("#", class: "all menu-link") do
-              p.f-reg-12 Show All
+              p.f-reg-12 = t('dashboard.conversation_details.show_all')
               = inline_svg_tag("export_arrow.svg", class:"menu-icon", alt:"menu")
             = link_to("#", class: "block menu-link") do
               = inline_svg_tag("block.svg", class:"menu-icon", alt:"menu")
-              p.f-reg-12 Block
+              p.f-reg-12 = t('dashboard.conversation_details.block')
             = link_to("#", class: "unsub menu-link") do
               = inline_svg_tag("cross.svg", class:"menu-icon", alt:"menu")
-              p.f-reg-12 Unsubscribe
+              p.f-reg-12 = t('dashboard.conversation_details.unsubscribe')
         .section-flex
           = inline_svg_tag("user_id.svg", class: "left-img")
-          h5.f-reg-12 Customer Id 
+          h5.f-reg-12 = t('dashboard.conversation_details.customer_id')
           p.f-reg-12.ml-auto = customer.id.last(10)
         .section-flex 
           = inline_svg_tag("mail.svg", class: "left-img")
-          h5.f-reg-12 Email
+          h5.f-reg-12 = t('dashboard.conversation_details.email')
           p.f-reg-12.ml-auto = customer.email
         / .section-flex 
         /   = inline_svg_tag("location.svg", class: "left-img")
@@ -129,7 +129,7 @@
         /   p.f-reg-12.ml-auto = customer.address&.address1
         .section-flex 
           / = inline_svg_tag("location.svg", class: "left-img")
-          h5.f-reg-12 Status
+          h5.f-reg-12 = t('dashboard.conversation_details.status')
           .status-tag.bg-green.f-reg-12 = @conversation.status.titleize
     / .card.tickets
     /   button.accordian data-action="click->accordion#toggle"
@@ -154,7 +154,7 @@
     /       .ml-auto = inline_svg("plus_black.svg")
     .card.user-notes
       button.accordian data-action="click->accordion#toggle"
-        p.f-reg-14.mr-auto User notes
+        p.f-reg-14.mr-auto = t('dashboard.conversation_details.user_notes')
         = inline_svg_tag("plus_black.svg", class:"plus-icon", data: { action: "click->accordion#toggleNote"})
         = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
       .panel.notes-panel data-accordion-target="panel"
@@ -162,10 +162,10 @@
           = render 'dashboard/notes/note', note: note
       .panel.note-panel data-accordion-target="npanel"
         .new-note
-          = text_area_tag :content, "", class: "note-field f-reg-12", placeholder: "Add new note"
+          = text_area_tag :content, "", class: "note-field f-reg-12", placeholder: t('dashboard.conversation_details.add_new_note')
           .actions
             = image_tag("delete_note.png", class:"note-btn cancel-note", data: { action: "click->accordion#toggleNote"}, alt:"cancel")
-            = image_tag("update_note.png", class:"note-btn add-note", data: { action: "click->accordion#addNote"}, alt: "Add")
+            = image_tag("update_note.png", class:"note-btn add-note", data: { action: "click->accordion#addNote"}, alt: t('dashboard.conversation_details.add'))
             
     / .card.user-tags
     /   button.accordian data-action="click->accordion#toggle"

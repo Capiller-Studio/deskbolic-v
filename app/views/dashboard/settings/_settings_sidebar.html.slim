@@ -3,138 +3,116 @@
     .helpdesk-nav
       .card
         .header data-controller="modalToggler frameToggler"
-          p.f-reg-14 Settings
+          p.f-reg-14 = t('dashboard.sidebar.settings.title')
           = render("dashboard/shared/modal_popper")
         ul.channel-list.st-sidebar  data-controller="accordion modalToggler frameToggler"
           .help-nav-menu
-            / Home
             li.nav-item class="" data-action="click->accordion#toggle"
               .nav-link
                 = link_to(settings_path, class: "nav-link") do
                   .link-text
                     .conversation-name.inbox-conv
-                      p.f-reg-14 Home
-
-            / Domains
+                      p.f-reg-14 = t('dashboard.sidebar.settings.home')
             li.nav-item class="#{current_page == 'domains' ? 'st-list-active' : ''}" data-action="click->accordion#toggle"
               .nav-link
                 = link_to(domains_path, class: "nav-link") do
                   .link-text
                     .conversation-name.inbox-conv
                       p.f-reg-14 = t("dashboard.domains.sidebar.label")
-
-            / Email Templates
-            li.nav-item class="#{current_page == 'email_templates' ? 'st-list-active' : ''}" data-action="click->accordion#toggle"
+            li.nav-item class="#{current_page == 'teams' ? 'st-list-active' : ''}" data-action="click->accordion#toggle"
               .nav-link
-                = link_to(email_templates_path, class: "nav-link") do
+                = link_to(teams_path, class: "nav-link") do
                   .link-text
                     .conversation-name.inbox-conv
-                      p.f-reg-14 
-                        = t("dashboard.email_templates.sidebar.label")
-                        = plan_upgrade_bubble(:custom_email_templates)
-            
+                      p.f-reg-14 = t('dashboard.sidebar.settings.teams')
+            li.nav-item class="#{current_page == 'users' ? 'st-list-active' : ''}" data-action="click->accordion#toggle"
+              .nav-link
+                = link_to(users_path, class: "nav-link") do
+                  .link-text
+                    .conversation-name.inbox-conv
+                      p.f-reg-14 = t('dashboard.sidebar.settings.users')
+            li.nav-item class="#{current_page == 'roles' ? 'st-list-active' : ''}" data-action="click->accordion#toggle"
+              .nav-link
+                = link_to(roles_path, class: "nav-link") do
+                  .link-text
+                    .conversation-name.inbox-conv
+                      p.f-reg-14
+                        = t('dashboard.sidebar.settings.roles')
+                        = plan_upgrade_bubble(:roles)
             li.nav-item class="#{current_page == 'billing' ? 'st-list-active' : ''}" data-action="click->accordion#toggle"
               .nav-link
                 = link_to(dashboard_billing_path, class: "nav-link") do
                   .link-text
                     .conversation-name.inbox-conv
-                      p.f-reg-14 Billing & Subscription
+                      p.f-reg-14 = t('dashboard.sidebar.settings.billing')
 
             li.nav-item class="#{current_page == 'notification-settings' ? 'st-list-active' : ''}" data-action="click->accordion#toggle"
               .nav-link
                 = link_to(edit_settings_notification_settings_path, class: "nav-link") do
                   .link-text
                     .conversation-name.inbox-conv
-                      p.f-reg-14 Notifications
+                      p.f-reg-14 = t('dashboard.sidebar.settings.notifications')
 
             li.nav-item class="#{current_page == 'audit-logs' ? 'st-list-active' : ''}" data-action="click->accordion#toggle"
               .nav-link
                 = link_to(settings_audit_logs_path, class: "nav-link") do
                   .link-text
                     .conversation-name.inbox-conv
-                      p.f-reg-14
-                        | Audit Logs
-                        = plan_upgrade_bubble(:audit_logs_enabled)
+                    p.f-reg-14
+                      = t('dashboard.sidebar.settings.audit_logs')
+                      = plan_upgrade_bubble(:audit_logs_enabled)
             
             / Help Center
             li.nav-item class="" data-action="click->accordion#toggle"
               .nav-link
                 .link-text.conversation-padding
                   = inline_svg_tag("arrow_down.svg", class:"st-dropdown-icon", alt:"menu")
-                  p.f-reg-14 Help Center
+                  p.f-reg-14 = t('dashboard.sidebar.settings.help_center')
             .st-panel data-accordion-target="panel"
               ul.chats
                 li.nav-item class="#{current_page == 'help-center-articles' ? 'st-list-active' : ''}"
                   = link_to(help_center_articles_path, class: "nav-link") do
                     .link-text
                       .conversation-name.inbox-conv
-                        p.f-reg-12 Help Center
+                        p.f-reg-12 = t('dashboard.sidebar.settings.help_center_articles')
                 li.nav-item class="#{current_page == 'help-center-portals' ? 'st-list-active' : ''}"
                   = link_to(help_center_portals_path, class: "nav-link") do
                     .link-text
                       .conversation-name.inbox-conv
-                        p.f-reg-12 All Help Centers
+                        p.f-reg-12 = t('dashboard.sidebar.settings.all_help_centers')
                 li.nav-item class="#{current_page == 'new-help-center' ? 'st-list-active' : ''}"
                   = link_to(new_help_center_portal_path, class: "nav-link") do
                     .link-text
                       .conversation-name.inbox-conv
-                        p.f-reg-12 New Help Center        
-            / general            
-            / li.nav-item class="" data-action="click->accordion#toggle"
-            /   .nav-link
-            /     .link-text.conversation-padding
-            /       = inline_svg_tag("arrow_down.svg", class:"st-dropdown-icon", alt:"menu")
-            /       p.f-reg-14 General
-            / .st-panel data-accordion-target="panel"
-            /   ul.chats
-            /     li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
-            /       = link_to("#", class: "nav-link") do
-            /         .link-text
-            /           .conversation-name.inbox-conv
-            /             p.f-reg-12 Customer
-            /     li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
-            /       = link_to("#", class: "nav-link") do
-            /         .link-text
-            /           .conversation-name.inbox-conv
-            /             p.f-reg-12 Tracker
-            /     li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
-            /       = link_to("#", class: "nav-link") do
-            /         .link-text
-            /           .conversation-name.inbox-conv
-            /             p.f-reg-12 Back Office
-            / inboxes            
+                        p.f-reg-12 = t('dashboard.sidebar.settings.new_help_center')
+            / Channels            
             li.nav-item class="" data-action="click->accordion#toggle"
               .nav-link
                 .link-text.conversation-padding
                   = inline_svg_tag("arrow_down.svg", class:"st-dropdown-icon", alt:"menu")
-                  p.f-reg-14 Inboxes
+                  p.f-reg-14 = t('dashboard.sidebar.settings.channels')
             .st-panel data-accordion-target="panel"
               ul.chats
-                li.nav-item class="#{current_page == 'team-inboxes' ? 'st-list-active' : ''}"
-                  = link_to(team_inboxes_settings_path, class: "nav-link") do
-                    .link-text
-                      .conversation-name.inbox-conv
-                        p.f-reg-12 Team Inboxes
                 li.nav-item class="#{current_page == 'email-channels' ? 'st-list-active' : ''}"
                   = link_to(channels_email_index_path, class: "nav-link") do
                     .link-text
                       .conversation-name.inbox-conv
                         p.f-reg-12
-                          | Email Channels
+                          = t('dashboard.sidebar.settings.email_channels')
                           = plan_upgrade_bubble('channels.email')
                 li.nav-item class="#{current_page == 'web-widget-channels' ? 'st-list-active' : ''}"
                   = link_to(channels_web_widget_index_path, class: "nav-link") do
                     .link-text
                       .conversation-name.inbox-conv
                         p.f-reg-12
-                          | Web Widget Channels
+                          = t('dashboard.sidebar.settings.web_widget_channels')
                           = plan_upgrade_bubble('channels.web_widget')
                 li.nav-item class="#{current_page == 'contact-form-channels' ? 'st-list-active' : ''}"
                   = link_to(channels_contact_form_index_path, class: "nav-link") do
                     .link-text
                       .conversation-name.inbox-conv
                         p.f-reg-12
-                          | Contact Form Channels
+                          = t('dashboard.sidebar.settings.contact_form_channels')
                           = plan_upgrade_bubble('channels.contact_form')
                 li.nav-item class="#{current_page == 'facebook-channels' ? 'st-list-active' : ''}"
                   = link_to(channels_facebook_index_path, class: "nav-link") do
@@ -157,6 +135,14 @@
                         p.f-reg-12
                           = t("dashboard.whatsapp_channels.sidebar.label")
                           = plan_upgrade_bubble('channels.whatsapp')
+            / data
+            li.nav-item class="" data-action="click->accordion#toggle"
+              .nav-link
+                .link-text.conversation-padding
+                  = inline_svg_tag("arrow_down.svg", class:"st-dropdown-icon", alt:"menu")
+                  p.f-reg-14 = t('dashboard.sidebar.settings.data')
+            .st-panel data-accordion-target="panel"
+              ul.chats
                 li.nav-item class="#{current_page == 'assignment-policies' ? 'st-list-active' : ''}"
                   = link_to(assignment_policies_path, class: "nav-link") do
                     .link-text
@@ -171,83 +157,13 @@
                         p.f-reg-12
                           = t("dashboard.skills.sidebar.label")
                           = plan_upgrade_bubble(:assignment_policies)
-                li.nav-item class="#{current_page == 'teams' ? 'st-list-active' : ''}"
-                  = link_to(teams_path, class: "nav-link") do
-                    .link-text
-                      .conversation-name.inbox-conv
-                        p.f-reg-12 Teams
-                li.nav-item class="#{current_page == 'users' ? 'st-list-active' : ''}"
-                  = link_to(users_path, class: "nav-link") do
-                    .link-text
-                      .conversation-name.inbox-conv
-                        p.f-reg-12 Users (Teammates)
-                li.nav-item class="#{current_page == 'roles' ? 'st-list-active' : ''}"
-                  = link_to(roles_path, class: "nav-link") do
-                    .link-text
-                      .conversation-name.inbox-conv
-                        p.f-reg-12
-                          | Roles
-                          = plan_upgrade_bubble(:roles)
-            / data
-            li.nav-item class="" data-action="click->accordion#toggle"
-              .nav-link
-                .link-text.conversation-padding
-                  = inline_svg_tag("arrow_down.svg", class:"st-dropdown-icon", alt:"menu")
-                  p.f-reg-14 Data
-            .st-panel data-accordion-target="panel"
-              ul.chats
-                / li.nav-item class="#{"#"=='' ? 'active' : ''}"
-                /   = link_to("#", class: "nav-link") do
-                /     .link-text
-                /       .conversation-name.inbox-conv
-                /         p.f-reg-12 Tags
                 li.nav-item class="#{current_page == 'custom-fields' ? 'st-list-active' : ''}"
                   = link_to(custom_fields_path, class: "nav-link") do
                     .link-text
                       .conversation-name.inbox-conv
                         p.f-reg-12
-                          | Custom Fields
+                          = t('dashboard.sidebar.settings.custom_fields')
                           = plan_upgrade_bubble(:custom_fields)
-                / li.nav-item class="#{"#"=='' ? 'active' : ''}"
-                /   = link_to("#", class: "nav-link") do
-                /     .link-text
-                /       .conversation-name.inbox-conv
-                /         p.f-reg-12 People Segments
-                / li.nav-item class="#{"#"=='' ? 'active' : ''}"
-                /   = link_to("#", class: "nav-link") do
-                /     .link-text
-                /       .conversation-name.inbox-conv
-                /         p.f-reg-12 Company Segments
-                / li.nav-item class="#{"#"=='' ? 'active' : ''}"
-                /   = link_to("#", class: "nav-link") do
-                /     .link-text
-                /       .conversation-name.inbox-conv
-                /         p.f-reg-12 People data
-                / li.nav-item class="#{"#"=='' ? 'active' : ''}"
-                /   = link_to("#", class: "nav-link") do
-                /     .link-text
-                /       .conversation-name.inbox-conv
-                /         p.f-reg-12 Company data
-                / li.nav-item class="#{"#"=='' ? 'active' : ''}"
-                /   = link_to("#", class: "nav-link") do
-                /     .link-text
-                /       .conversation-name.inbox-conv
-                /         p.f-reg-12 Conversation data
-                / li.nav-item class="#{"#"=='' ? 'active' : ''}"
-                /   = link_to("#", class: "nav-link") do
-                /     .link-text
-                /       .conversation-name.inbox-conv
-                /         p.f-reg-12 Custom object data
-                / li.nav-item class="#{"#"=='' ? 'active' : ''}"
-                /   = link_to("#", class: "nav-link") do
-                /     .link-text
-                /       .conversation-name.inbox-conv
-                /         p.f-reg-12 Ticket types
-                / li.nav-item class="#{"#"=='' ? 'active' : ''}"
-                /   = link_to("#", class: "nav-link") do
-                /     .link-text
-                /       .conversation-name.inbox-conv
-                /         p.f-reg-12 Qualification settings
                 li.nav-item class="#{current_page == 'identity-sources' ? 'st-list-active' : ''}"
                   = link_to(identity_sources_path, class: "nav-link") do
                     .link-text
@@ -259,32 +175,14 @@
                   = link_to(canned_responses_settings_path, class: "nav-link") do
                     .link-text
                       .conversation-name.inbox-conv
-                        p.f-reg-12 Canned responses
-                / li.nav-item class="#{current_page == 'office-timings' ? 'st-list-active' : ''}"
-                /   = link_to(office_timings_settings_path, class: "nav-link") do
-                /     .link-text
-                /       .conversation-name.inbox-conv
-                /         p.f-reg-12 Office Hours
-                / li.nav-item class="#{"#"=='' ? 'active' : ''}"
-                /   = link_to("#", class: "nav-link") do
-                /     .link-text
-                /       .conversation-name.inbox-conv
-                /         p.f-reg-12 Events
-                / li.nav-item class="#{"#"=='' ? 'active' : ''}"
-                /   = link_to("#", class: "nav-link") do
-                /     .link-text
-                /       .conversation-name.inbox-conv
-                /         p.f-reg-12 Import history
-                / li.nav-item class="#{"#"=='' ? 'active' : ''}"
-                /   = link_to("#", class: "nav-link") do
-                /     .link-text
-                /       .conversation-name.inbox-conv
-                /         p.f-reg-12 Deleting people data
-                / li.nav-item class="#{"#"=='' ? 'active' : ''}"
-                /   = link_to("#", class: "nav-link") do
-                /     .link-text
-                /       .conversation-name.inbox-conv
-                /         p.f-reg-12 Data export
+                        p.f-reg-12 = t('dashboard.sidebar.settings.canned_responses')
+                li.nav-item class="#{current_page == 'email_templates' ? 'st-list-active' : ''}"
+                  = link_to(email_templates_path, class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12 
+                          = t("dashboard.email_templates.sidebar.label")
+                          = plan_upgrade_bubble(:custom_email_templates)
 
     .helpdesk-body.settings-body
       turbo-frame#conversations-frame[data-turbo-permanent]

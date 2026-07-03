@@ -49,14 +49,14 @@
       .ap-kv-builder data-key-value-builder-target="container"
         - identity_source.headers.each_with_index do |(k, v), index|
           .kv-row style="display: flex; gap: 8px; margin-bottom: 8px;"
-            = text_field_tag "identity_source[headers][#{index}][key]", k, class: "ap-input", placeholder: "Key", style: "flex: 1;"
-            = text_field_tag "identity_source[headers][#{index}][value]", v, class: "ap-input", placeholder: "Value", style: "flex: 2;", data: { "key-value-builder-target": "valueInput", "action": "focus->key-value-builder#setFocus" }
+            = text_field_tag "identity_source[headers][#{index}][key]", k, class: "ap-input", placeholder: t("dashboard.identity_sources.form.key_placeholder"), style: "flex: 1;"
+            = text_field_tag "identity_source[headers][#{index}][value]", v, class: "ap-input", placeholder: t("dashboard.identity_sources.form.value_placeholder"), style: "flex: 2;", data: { "key-value-builder-target": "valueInput", "action": "focus->key-value-builder#setFocus" }
             button.ap-btn-secondary type="button" data-action="click->key-value-builder#removeRow" style="flex-shrink: 0; padding: 0 12px;" &times;
       
       template data-key-value-builder-target="template"
         .kv-row style="display: flex; gap: 8px; margin-bottom: 8px;"
-          = text_field_tag "identity_source[headers][NEW_RECORD][key]", nil, class: "ap-input", placeholder: "Key", style: "flex: 1;"
-          = text_field_tag "identity_source[headers][NEW_RECORD][value]", nil, class: "ap-input", placeholder: "Value", style: "flex: 2;", data: { "key-value-builder-target": "valueInput", "action": "focus->key-value-builder#setFocus" }
+          = text_field_tag "identity_source[headers][NEW_RECORD][key]", nil, class: "ap-input", placeholder: t("dashboard.identity_sources.form.key_placeholder"), style: "flex: 1;"
+          = text_field_tag "identity_source[headers][NEW_RECORD][value]", nil, class: "ap-input", placeholder: t("dashboard.identity_sources.form.value_placeholder"), style: "flex: 2;", data: { "key-value-builder-target": "valueInput", "action": "focus->key-value-builder#setFocus" }
           button.ap-btn-secondary type="button" data-action="click->key-value-builder#removeRow" style="flex-shrink: 0; padding: 0 12px;" &times;
       
       button.ap-btn-secondary type="button" data-action="click->key-value-builder#addRow" = t("dashboard.identity_sources.form.add_header")
@@ -75,14 +75,14 @@
       .ap-kv-builder data-key-value-builder-target="container"
         - identity_source.params.each_with_index do |(k, v), index|
           .kv-row style="display: flex; gap: 8px; margin-bottom: 8px;"
-            = text_field_tag "identity_source[params][#{index}][key]", k, class: "ap-input", placeholder: "Key", style: "flex: 1;"
-            = text_field_tag "identity_source[params][#{index}][value]", v, class: "ap-input", placeholder: "Value", style: "flex: 2;", data: { "key-value-builder-target": "valueInput", "action": "focus->key-value-builder#setFocus" }
+            = text_field_tag "identity_source[params][#{index}][key]", k, class: "ap-input", placeholder: t("dashboard.identity_sources.form.key_placeholder"), style: "flex: 1;"
+            = text_field_tag "identity_source[params][#{index}][value]", v, class: "ap-input", placeholder: t("dashboard.identity_sources.form.value_placeholder"), style: "flex: 2;", data: { "key-value-builder-target": "valueInput", "action": "focus->key-value-builder#setFocus" }
             button.ap-btn-secondary type="button" data-action="click->key-value-builder#removeRow" style="flex-shrink: 0; padding: 0 12px;" &times;
       
       template data-key-value-builder-target="template"
         .kv-row style="display: flex; gap: 8px; margin-bottom: 8px;"
-          = text_field_tag "identity_source[params][NEW_RECORD][key]", nil, class: "ap-input", placeholder: "Key", style: "flex: 1;"
-          = text_field_tag "identity_source[params][NEW_RECORD][value]", nil, class: "ap-input", placeholder: "Value", style: "flex: 2;", data: { "key-value-builder-target": "valueInput", "action": "focus->key-value-builder#setFocus" }
+          = text_field_tag "identity_source[params][NEW_RECORD][key]", nil, class: "ap-input", placeholder: t("dashboard.identity_sources.form.key_placeholder"), style: "flex: 1;"
+          = text_field_tag "identity_source[params][NEW_RECORD][value]", nil, class: "ap-input", placeholder: t("dashboard.identity_sources.form.value_placeholder"), style: "flex: 2;", data: { "key-value-builder-target": "valueInput", "action": "focus->key-value-builder#setFocus" }
           button.ap-btn-secondary type="button" data-action="click->key-value-builder#removeRow" style="flex-shrink: 0; padding: 0 12px;" &times;
       
       button.ap-btn-secondary type="button" data-action="click->key-value-builder#addRow" = t("dashboard.identity_sources.form.add_param")
@@ -111,14 +111,14 @@
       .ap-kv-builder data-key-value-builder-target="container"
         - identity_source.response_mapping.each_with_index do |(k, v), index|
           .kv-row style="display: flex; gap: 8px; margin-bottom: 8px;"
-            = text_field_tag "identity_source[response_mapping][#{index}][key]", k, class: "ap-input", placeholder: "JSON Path (e.g., data.user.id)", style: "flex: 1;"
-            = text_field_tag "identity_source[response_mapping][#{index}][value]", v, list: "deskbolic-identity-attributes", class: "ap-input", placeholder: "Deskbolic Attribute (e.g., external_id)", style: "flex: 1;"
+            = text_field_tag "identity_source[response_mapping][#{index}][key]", k, class: "ap-input", placeholder: t("dashboard.identity_sources.form.json_path_placeholder"), style: "flex: 1;"
+            = text_field_tag "identity_source[response_mapping][#{index}][value]", v, list: "deskbolic-identity-attributes", class: "ap-input", placeholder: t("dashboard.identity_sources.form.attribute_placeholder"), style: "flex: 1;"
             button.ap-btn-secondary type="button" data-action="click->key-value-builder#removeRow" style="flex-shrink: 0; padding: 0 12px;" &times;
       
       template data-key-value-builder-target="template"
         .kv-row style="display: flex; gap: 8px; margin-bottom: 8px;"
-          = text_field_tag "identity_source[response_mapping][NEW_RECORD][key]", nil, class: "ap-input", placeholder: "JSON Path (e.g., data.user.id)", style: "flex: 1;"
-          = text_field_tag "identity_source[response_mapping][NEW_RECORD][value]", nil, list: "deskbolic-identity-attributes", class: "ap-input", placeholder: "Deskbolic Attribute (e.g., external_id)", style: "flex: 1;"
+          = text_field_tag "identity_source[response_mapping][NEW_RECORD][key]", nil, class: "ap-input", placeholder: t("dashboard.identity_sources.form.json_path_placeholder"), style: "flex: 1;"
+          = text_field_tag "identity_source[response_mapping][NEW_RECORD][value]", nil, list: "deskbolic-identity-attributes", class: "ap-input", placeholder: t("dashboard.identity_sources.form.attribute_placeholder"), style: "flex: 1;"
           button.ap-btn-secondary type="button" data-action="click->key-value-builder#removeRow" style="flex-shrink: 0; padding: 0 12px;" &times;
       
       button.ap-btn-secondary type="button" data-action="click->key-value-builder#addRow" = t("dashboard.identity_sources.form.add_mapping", default: "+ Add Mapping")

@@ -1,7 +1,7 @@
 = render("dashboard/shared/dashboard_container", current_page: "profile") do
   = render("dashboard/settings/settings_sidebar", current_page: "profile") do
     .profile-header
-      h1 Personal Details
+      h1 = t("dashboard.profile.index.title")
     .profile-content
       = form_with(model: @user, url: profile_path, method: :patch, local: true, html: { multipart: true }, class: "profile-form", data: { controller: "profile", action: "input->profile#refresh change->profile#refresh" }) do |f|
         .profile-layout
@@ -23,39 +23,39 @@
             .profile-summary-content
               .profile-name
                 - full = [@user.first_name.presence, @user.last_name.presence].compact.join(" ").presence
-                h2 = full || "Unnamed User"
-                span.profile-badge You
+                h2 = full || t("dashboard.profile.index.unnamed_user")
+                span.profile-badge = t("dashboard.profile.index.you")
               .profile-meta
                 .profile-meta-item
                   = inline_svg_tag("location.svg", class: "profile-meta-icon", alt: "")
                   = fields_for :address, @address || Address.new do |address_fields|
                     .profile-meta-location-fields
-                      = address_fields.text_field :city, class: "profile-meta-input", placeholder: "City"
+                      = address_fields.text_field :city, class: "profile-meta-input", placeholder: t("dashboard.profile.index.city_placeholder")
                       span.profile-meta-separator ,
-                      = address_fields.text_field :state_name, class: "profile-meta-input", placeholder: "State"
+                      = address_fields.text_field :state_name, class: "profile-meta-input", placeholder: t("dashboard.profile.index.state_placeholder")
                 .profile-meta-item
                   = inline_svg_tag("clock.svg", class: "profile-meta-icon", alt: "")
                   span = Time.current.strftime("%-I:%M %p")
                 .profile-meta-item
                   = inline_svg_tag("calendar.svg", class: "profile-meta-icon", alt: "")
                   span
-                    | Active in the last&nbsp;
+                    | #{t("dashboard.profile.index.active_in_last")}&nbsp;
                     - last_seen = @user.current_sign_in_at || @user.last_sign_in_at
-                    = last_seen ? time_ago_in_words(last_seen) : "Nil"
+                    = last_seen ? time_ago_in_words(last_seen) : t("dashboard.profile.index.nil")
 
-          .profile-section-label You
+          .profile-section-label = t("dashboard.profile.index.you")
 
           .profile-card
             .profile-card-header
-              h3 Public profile
-              = f.submit "save", class: "profile-save-button"
+              h3 = t("dashboard.profile.index.public_profile")
+              = f.submit t("dashboard.profile.index.save"), class: "profile-save-button"
 
             .profile-details
               .profile-row
                 .profile-row-icon-cell
                   = inline_svg_tag("user.svg", class: "profile-icon", alt: "")
                 .profile-row-content
-                  = f.text_field :name, class: "profile-input", placeholder: "User name"
+                  = f.text_field :name, class: "profile-input", placeholder: t("dashboard.profile.index.name_label")
 
               .profile-row
                 .profile-row-icon-cell
@@ -67,7 +67,7 @@
                 .profile-row-icon-cell
                   = inline_svg_tag("user.svg", class: "profile-icon", alt: "")
                 .profile-row-content
-                  = f.text_field :display_name, class: "profile-input", placeholder: "Display name"
+                  = f.text_field :display_name, class: "profile-input", placeholder: t("dashboard.profile.index.display_name_label")
 
               = fields_for :address, @address || Address.new do |address_fields|
                 .profile-row
@@ -80,13 +80,13 @@
                   .profile-row-icon-cell
                     = inline_svg_tag("users.svg", class: "profile-icon", alt: "")
                   .profile-row-content
-                    = address_fields.text_field :organization_name, class: "profile-input", placeholder: "No organization yet"
+                    = address_fields.text_field :organization_name, class: "profile-input", placeholder: t("dashboard.profile.index.no_organization")
 
                 .profile-row
                   .profile-row-icon-cell
                     = image_tag("phone_call.png", class: "profile-icon", alt: "")
                   .profile-row-content.profile-phone
-                    = address_fields.text_field :phone_number, class: "profile-input", placeholder: "No phone number yet"
+                    = address_fields.text_field :phone_number, class: "profile-input", placeholder: t("dashboard.profile.index.no_phone")
 
           .profile-card
             .profile-details
@@ -94,12 +94,12 @@
                 .profile-row-icon-cell
                   = inline_svg_tag("calendar.svg", class: "profile-icon", alt: "")
                 .profile-row-content.profile-readonly
-                  span Created at
-                  p = @user.created_at&.strftime("%d %b %Y").presence || "Nil"
+                  span = t("dashboard.profile.index.created_at")
+                  p = @user.created_at&.strftime("%d %b %Y").presence || t("dashboard.profile.index.nil")
 
               .profile-row
                 .profile-row-icon-cell
                   = inline_svg_tag("email.svg", class: "profile-icon", alt: "")
                 .profile-row-content.profile-readonly
-                  span Email
-                  p = @user.email.presence || "Nil"
+                  span = t("dashboard.profile.index.email")
+                  p = @user.email.presence || t("dashboard.profile.index.nil")

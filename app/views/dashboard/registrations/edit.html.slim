@@ -1,34 +1,34 @@
 = render("frontend/shared/profile_container", current_page: "edit_profile") do
   .card
     .profile-details-heading
-      | Edit Profile
+      = t("auth.edit_profile.title")
     .card-body.profile-details-info
       = form_for(current_user, as: :user, url: user_registration_path, html: {class: "needs-validation", novalidate: true, method: :put}) do |f|
         .row
           .col-md-6.mb-3
             .form-floating
-              = f.text_field :first_name, class: "form-control", placeholder: "Vorname", required: true
-              = f.label :first_name, "Vorname"
+              = f.text_field :first_name, class: "form-control", placeholder: t("auth.placeholders.first_name"), required: true
+              = f.label :first_name, t("auth.first_name")
           .col-md-6.mb-3
             .form-floating
-              = f.text_field :last_name, class: "form-control", placeholder: "Nachname", required: true
-              = f.label :last_name, "Nachname"
+              = f.text_field :last_name, class: "form-control", placeholder: t("auth.placeholders.last_name"), required: true
+              = f.label :last_name, t("auth.last_name")
           .col-md-12.mb-3
             .form-floating
-              = f.email_field :email, class: "form-control", autocomplete: "email", placeholder: "E-Mail", required: true
-              = f.label :email, "E-Mail"
+              = f.email_field :email, class: "form-control", autocomplete: "email", placeholder: t("auth.placeholders.email"), required: true
+              = f.label :email, t("auth.email")
           .col-md-6.mb-3
               .form-floating
-                = f.password_field :password, class: "form-control js-password-field", autocomplete: "new-password", placeholder: "Passwort", pattern: '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,60}$', autofocus: true
-                = f.label :password, "Passwort"
-                .invalid-feedback Das Passwort sollte 8-60 Zeichen lang sein und mindestens 1 Großbuchstaben, 1 Kleinbuchstaben und 1 Ziffer enthalten
+                = f.password_field :password, class: "form-control js-password-field", autocomplete: "new-password", placeholder: "••••••••", pattern: '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,60}$', autofocus: true
+                = f.label :password, t("auth.password")
+                .invalid-feedback = t("auth.password_hint")
           .col-md-6.mb-3
             .form-floating
-              = f.password_field :password_confirmation, class: "form-control js-password-confirm-field", autocomplete: "new-password", placeholder: "Kennwort bestätigen"
-              = f.label :password_confirmation, "Kennwort bestätigen"
+              = f.password_field :password_confirmation, class: "form-control js-password-confirm-field", autocomplete: "new-password", placeholder: "••••••••"
+              = f.label :password_confirmation, t("auth.password_confirmation")
           .col-md-12.mb-3
             .form-floating
-              = f.password_field :current_password, class: "form-control", autocomplete: "current-password", placeholder: "Jetziges Passwort", required: true
-              = f.label :current_password, "Jetziges Passwort"
+              = f.password_field :current_password, class: "form-control", autocomplete: "current-password", placeholder: "••••••••", required: true
+              = f.label :current_password, t("auth.current_password")
         .text-center.mt-3
-            = f.submit "Aktualisieren", class: "button button-xl button-rounded button-dark mx-2 float-center mt-2 w-auto"
+            = f.submit t("auth.edit_profile.submit"), class: "button button-xl button-rounded button-dark mx-2 float-center mt-2 w-auto"

@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   # TODO: remove later, this route is just for testing indentity sources module in development.
   if Rails.env.development?
     match "test_api/identity_endpoint", to: "test_api#identity_endpoint", via: [:get, :post]
+    match "test_api/custom_channel_endpoint", to: "test_api#custom_channel_endpoint", via: [:get, :post]
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
   end
 
@@ -26,7 +27,7 @@ Rails.application.routes.draw do
     get "whatsapp/:account_id/:channel_id", to: "whatsapp#hub"
     post "whatsapp/:account_id/:channel_id", to: "whatsapp#index"
     
-    post "api/:account_id/:channel_id", to: "api#create"
+    post "custom/:account_id/:channel_id", to: "custom#create"
     
     get "whatsapp", to: "whatsapp#hub"
     post "whatsapp", to: "whatsapp#index"
@@ -130,7 +131,12 @@ Rails.application.routes.draw do
         end
       end
       
-      resources :api, except: [:show]
+      resources :custom, except: [:show] do
+        member do
+          post :test_outgoing_webhook
+          post :test_incoming_webhook
+        end
+      end
     end
 
     resources :channels

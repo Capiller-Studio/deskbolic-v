@@ -1,0 +1,41 @@
+.ui-section data-controller="test-webhook ui-section" data-test-webhook-outgoing-url-value=test_outgoing_webhook_channels_custom_path(custom_channel) data-test-webhook-incoming-url-value=test_incoming_webhook_channels_custom_path(custom_channel)
+  .ui-section-header data-action="click->ui-section#toggle"
+    .ui-section-title
+      span.ui-section-icon 🧪
+      span.ui-section-label = t("dashboard.custom_channels.testing.sandbox_title", default: "Testing Sandbox")
+  .ui-section-body
+    p.f-reg-14 class="text-muted ui-sandbox-desc"
+      | Use these tools to verify that your Outbound Webhook URL is receiving payloads correctly, and that your Response Mapping accurately parses inbound data.
+
+    .ui-sandbox-grid
+      
+      .ui-sandbox-card
+        h3.f-semi-16 class="ui-sandbox-card-title" = t("dashboard.custom_channels.testing.test_outbound", default: "Test Outbound Webhook")
+        p.f-reg-13 class="text-muted ui-sandbox-card-desc" 
+          | Sends a mock <code>message.created</code> payload to your configured Webhook URL: 
+          br
+          strong = custom_channel.webhook_url
+          
+        button.ui-btn-primary type="button" data-action="click->test-webhook#fireOutbound" data-test-webhook-target="outboundBtn"
+          = t("dashboard.custom_channels.testing.fire_outbound", default: "Fire Outbound Webhook")
+          
+        .ui-sandbox-result data-test-webhook-target="outboundResult"
+          p.f-semi-13 class="ui-sandbox-result-label" = t("dashboard.custom_channels.testing.response", default: "Response:")
+          .status-badge data-test-webhook-target="outboundStatus" class="ui-badge"
+          pre class="ui-code-block"
+            code data-test-webhook-target="outboundBody"
+
+      .ui-sandbox-card
+        h3.f-semi-16 class="ui-sandbox-card-title" = t("dashboard.custom_channels.testing.test_inbound", default: "Simulate Inbound Mapping")
+        p.f-reg-13 class="text-muted ui-sandbox-card-desc" 
+          | Paste a sample JSON payload that your server would send to Deskbolic, and see how your Response Mapping parses it.
+
+        textarea.ui-input.ui-code-input data-test-webhook-target="inboundInput" rows="6" placeholder="{\n  \"data\": {\n    \"user\": {\n      \"id\": \"123\"\n    }\n  }\n}"
+        
+        button.ui-btn-secondary type="button" data-action="click->test-webhook#testInbound" data-test-webhook-target="inboundBtn" class="ui-mt-12"
+          = t("dashboard.custom_channels.testing.test_mapping", default: "Test Mapping")
+
+        .ui-sandbox-result data-test-webhook-target="inboundResult"
+          p.f-semi-13 class="ui-sandbox-result-label" = t("dashboard.custom_channels.testing.mapped_attributes", default: "Mapped Attributes:")
+          pre class="ui-code-block"
+            code data-test-webhook-target="inboundMapped"

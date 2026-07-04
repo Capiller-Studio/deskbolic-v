@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_02_151200) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_03_183500) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -277,26 +277,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_02_151200) do
     t.index ["account_id"], name: "index_canned_responses_on_account_id"
   end
 
-  create_table "channel_apis", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "account_id", null: false
-    t.jsonb "configurations", default: {}, null: false
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.jsonb "data", default: {}, null: false
-    t.text "description"
-    t.string "hmac_token"
-    t.string "identifier", null: false
-    t.string "name"
-    t.integer "status", default: 0, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.string "webhook_secret", null: false
-    t.string "webhook_url"
-    t.index ["account_id", "created_at"], name: "index_channel_apis_on_account_id_and_created_at"
-    t.index ["account_id", "identifier"], name: "index_channel_apis_on_account_id_and_identifier", unique: true
-    t.index ["account_id", "name"], name: "index_channel_apis_on_account_id_and_name"
-    t.index ["account_id"], name: "index_channel_apis_on_account_id"
-    t.index ["status"], name: "index_channel_apis_on_status"
-  end
-
   create_table "channel_contact_form_translations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "contact_form_id", null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
@@ -328,6 +308,27 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_02_151200) do
     t.index ["account_id"], name: "index_channel_contact_forms_on_account_id"
     t.index ["outbound_channel_type", "outbound_channel_id"], name: "index_channel_contact_forms_on_outbound_channel"
     t.index ["secret"], name: "index_channel_contact_forms_on_secret", unique: true
+  end
+
+  create_table "channel_customs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "account_id", null: false
+    t.jsonb "configurations", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.jsonb "data", default: {}, null: false
+    t.string "description"
+    t.jsonb "headers", default: {}, null: false
+    t.string "hmac_token", null: false
+    t.string "identifier", null: false
+    t.string "name"
+    t.jsonb "response_mapping", default: {}, null: false
+    t.integer "status", default: 0, null: false
+    t.datetime "updated_at", null: false
+    t.string "webhook_secret", null: false
+    t.string "webhook_url"
+    t.index ["account_id", "created_at"], name: "index_channel_customs_on_account_id_and_created_at"
+    t.index ["account_id", "identifier"], name: "index_channel_customs_on_account_id_and_identifier", unique: true
+    t.index ["account_id"], name: "index_channel_customs_on_account_id"
+    t.index ["status"], name: "index_channel_customs_on_status"
   end
 
   create_table "channel_emails", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

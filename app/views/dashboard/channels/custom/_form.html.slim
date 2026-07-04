@@ -1,0 +1,115 @@
+= form_with(model: custom_channel, url: channels_custom_path(custom_channel), data: { controller: "key-value-builder" }) do |f|
+  - if custom_channel.errors.any?
+    .ui-error-summary
+      h3 = t("dashboard.custom_channels.form.error_heading", default: "%{count} errors prohibited this channel from being saved:", count: custom_channel.errors.count)
+      ul
+        - custom_channel.errors.full_messages.each do |message|
+          li = message
+
+  .ui-section.ui-section--always-open
+    .ui-section-header
+      .ui-section-title
+        span.ui-section-icon 📝
+        span.ui-section-label = t("dashboard.custom_channels.form.details_section", default: "Channel Details")
+    .ui-section-body
+      .ui-form-row-col
+        div
+          = f.label :name, t("dashboard.custom_channels.form.name", default: "Name"), class: "ui-label"
+          = f.text_field :name, class: "ui-input", required: true
+        
+        div
+          = f.label :description, t("dashboard.custom_channels.form.description", default: "Description"), class: "ui-label"
+          = f.text_area :description, class: "ui-input", rows: 3
+
+      - if custom_channel.primary_inbox
+        .ui-section.ui-section--always-open.ui-section-inbox
+          h3.f-semi-16.ui-inbox-heading = t("dashboard.custom_channels.form.inbox_settings", default: "Inbox Settings")
+          p.f-reg-14.text-muted.ui-inbox-desc = t("dashboard.custom_channels.form.inbox_desc", default: "Configure customer satisfaction surveys and SLA policies.")
+          
+          = f.fields_for :primary_inbox do |inbox_f|
+            .ui-toggle-row style="margin-bottom: 16px;"
+              span.ui-toggle-label = t("dashboard.custom_channels.form.enable_csat", default: "Enable CSAT Surveys")
+              label.ui-toggle
+                = inbox_f.check_box :csat_survey_enabled
+                span.ui-toggle-slider
+            
+            .ui-form-row
+              div class="ui-kv-key"
+                = inbox_f.label :csat_survey_id, t("dashboard.custom_channels.form.csat_survey", default: "CSAT Survey"), class: "ui-label"
+                = inbox_f.collection_select :csat_survey_id, current_account.csat_surveys, :id, :name, { include_blank: t("dashboard.custom_channels.form.csat_default", default: "Default System Survey") }, class: "ui-select"
+              div class="ui-kv-key"
+
+              div
+                = inbox_f.label :conversation_reply_template_id, "Custom Reply Template", class: "ui-label"
+                = inbox_f.collection_select :conversation_reply_template_id, current_account.email_templates, :id, :name, { include_blank: "Default Email View" }, class: "ui-select"
+            
+            .ui-form-row
+              div
+                = inbox_f.label :sla_policy_ids, t("dashboard.custom_channels.form.sla_policies", default: "SLA Policies"), class: "ui-label"
+                = inbox_f.collection_select :sla_policy_ids, current_account.sla_policies, :id, :name, {}, { multiple: true, class: "ui-select" }
+
+  .ui-section data-controller="ui-section"
+    .ui-section-header data-action="click->ui-section#toggle"
+      .ui-section-title
+        span.ui-section-icon 🚀
+        span.ui-section-label = t("dashboard.custom_channels.form.outbound_section", default: "Outbound Webhook (Deskbolic -> Custom Server)")
+    .ui-section-body
+      p.f-reg-14 style="color: #64748b; margin-bottom: 16px;" = t("dashboard.custom_channels.form.outbound_desc", default: "Whenever an agent replies, Deskbolic will send a POST request to this URL.")
+      
+      .ui-form-row-col
+        div
+          = f.label :webhook_url, t("dashboard.custom_channels.form.webhook_url", default: "Webhook URL"), class: "ui-label"
+          = f.url_field :webhook_url, class: "ui-input", required: true, placeholder: "https://api.example.com/webhooks/deskbolic"
+
+        div
+          = f.label :headers, t("dashboard.custom_channels.form.headers", default: "Custom Headers"), class: "ui-label"
+          p.f-reg-12 style="color: #64748b; margin-bottom: 8px;" = t("dashboard.custom_channels.form.headers_help", default: "Add any custom authentication headers (e.g. Authorization: Bearer xyz) required by your server.")
+          
+          .ui-kv-builder data-key-value-builder-target="container"
+            - custom_channel.headers.each_with_index do |(k, v), index|
+              .kv-row class="ui-kv-row"
+                = text_field_tag "channel_custom[headers][#{index}][key]", k, class: "ui-input", placeholder: "Header Name", style: "flex: 1;"
+                = text_field_tag "channel_custom[headers][#{index}][value]", v, class: "ui-input", placeholder: "Header Value", style: "flex: 2;"
+                button.ui-btn-secondary type="button" data-action="click->key-value-builder#removeRow" class="ui-kv-remove" &times;
+          
+          template data-key-value-builder-target="template"
+            .kv-row class="ui-kv-row"
+              = text_field_tag "channel_custom[headers][NEW_RECORD][key]", nil, class: "ui-input", placeholder: "Header Name", style: "flex: 1;"
+              = text_field_tag "channel_custom[headers][NEW_RECORD][value]", nil, class: "ui-input", placeholder: "Header Value", style: "flex: 2;"
+              button.ui-btn-secondary type="button" data-action="click->key-value-builder#removeRow" class="ui-kv-remove" &times;
+          
+          button.ui-btn-secondary type="button" data-action="click->key-value-builder#addRow" = t("dashboard.custom_channels.form.add_header", default: "+ Add Header")
+
+  .ui-section data-controller="ui-section"
+    .ui-section-header data-action="click->ui-section#toggle"
+      .ui-section-title
+        span.ui-section-icon 📥
+        span.ui-section-label = t("dashboard.custom_channels.form.inbound_section", default: "Inbound Webhook (Custom Server -> Deskbolic)")
+    .ui-section-body
+      p.f-reg-14 style="color: #64748b; margin-bottom: 16px;" = t("dashboard.custom_channels.form.inbound_desc", default: "Map the JSON payload your server sends us to Deskbolic customer attributes.")
+      
+      datalist id="deskbolic-custom-attributes"
+        option value="identifier"
+        option value="name"
+        option value="email"
+        option value="phone_number"
+      .ui-kv-builder data-key-value-builder-target="container"
+        - custom_channel.response_mapping.each_with_index do |(k, v), index|
+          .kv-row class="ui-kv-row"
+            = select_tag "channel_custom[response_mapping][#{index}][key]", grouped_options_for_select(custom_channel_response_mapping_options(current_account), k), class: "ui-select", style: "flex: 1;", prompt: "Select Deskbolic Attribute"
+            = text_field_tag "channel_custom[response_mapping][#{index}][value]", v, class: "ui-input", placeholder: "JSON Path (e.g. data.user.id)", style: "flex: 2;"
+            button.ui-btn-secondary type="button" data-action="click->key-value-builder#removeRow" class="ui-kv-remove" &times;
+      
+      template data-key-value-builder-target="template"
+        .kv-row class="ui-kv-row"
+          = select_tag "channel_custom[response_mapping][NEW_RECORD][key]", grouped_options_for_select(custom_channel_response_mapping_options(current_account)), class: "ui-select", style: "flex: 1;", prompt: "Select Deskbolic Attribute"
+          = text_field_tag "channel_custom[response_mapping][NEW_RECORD][value]", nil, class: "ui-input", placeholder: "JSON Path (e.g. data.user.id)", style: "flex: 2;"
+          button.ui-btn-secondary type="button" data-action="click->key-value-builder#removeRow" class="ui-kv-remove" &times;
+      
+      button.ui-btn-secondary type="button" data-action="click->key-value-builder#addRow" = t("dashboard.custom_channels.form.add_mapping", default: "+ Add Mapping")
+
+  - if custom_channel.persisted?
+    = render "testing_sandbox", custom_channel: custom_channel
+
+  .ui-form-actions 
+    = f.submit t("dashboard.custom_channels.form.save", default: "Save Configuration"), class: "ui-btn-primary"

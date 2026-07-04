@@ -38,11 +38,11 @@ export default class extends Controller {
     event.preventDefault()
     
     // Support multiple sections by checking if the button is within a specific section wrapper
-    const wrapper = event.currentTarget.closest('.ap-section')
+    const wrapper = event.currentTarget.closest('.ui-section') || event.currentTarget.closest('.ui-form-group') || event.currentTarget.closest('.ap-section')
     if (!wrapper) return
     
     const template = wrapper.querySelector('template')
-    const container = wrapper.querySelector('.ap-kv-builder')
+    const container = wrapper.querySelector('.ui-kv-builder') || wrapper.querySelector('.ap-kv-builder')
     
     if (template && container) {
       const content = template.innerHTML.replace(/NEW_RECORD/g, new Date().getTime())

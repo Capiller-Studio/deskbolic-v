@@ -104,7 +104,7 @@ en:
       manage_participant: Manage Participant
       export_conversation: Export Conversation
       translate: Translate
-      translation_header: "TRANSLATION IN ENGLISH:"
+      translation_header: 'TRANSLATION IN ENGLISH:'
       close: Close
       reply: Reply
       response_placeholder: Write your response for issue
@@ -130,10 +130,10 @@ en:
       assign: Assign
       unassign: Unassign
       sla_status: SLA Status
-      next_target: "Next target:"
+      next_target: 'Next target:'
       not_applicable: N/A
       csat_rating: CSAT Rating
-      rating: "Rating:"
+      rating: 'Rating:'
       pending: Pending
       verified_identities: Verified Identities
       customer_data: Customer Data
@@ -166,26 +166,6 @@ en:
         description_label: Description (optional)
         description_placeholder: What does this automation do?
       builder:
-        action_param:
-          content_placeholder: Enter message...
-          duration_hours_placeholder: Hours
-      new:
-        title: New Automation
-      edit:
-        title: Edit Automation
-      create:
-        created: Automation created successfully.
-      update:
-        updated: Automation updated successfully.
-      destroy:
-        destroyed: Automation deleted.
-      toggle:
-        activated: Automation activated.
-        deactivated: Automation deactivated.
-      duplicate:
-        duplicated: Automation duplicated. Edit the copy below.
-        duplicate_failed: Failed to duplicate automation.
-      builder:
         trigger_section: When this happens...
         conditions_section: If these conditions are met...
         actions_section: Then do this...
@@ -204,6 +184,22 @@ en:
         save: Save Automation
         cancel: Cancel
         remove: Remove
+      new:
+        title: New Automation
+      edit:
+        title: Edit Automation
+      create:
+        created: Automation created successfully.
+      update:
+        updated: Automation updated successfully.
+      destroy:
+        destroyed: Automation deleted.
+      toggle:
+        activated: Automation activated.
+        deactivated: Automation deactivated.
+      duplicate:
+        duplicated: Automation duplicated. Edit the copy below.
+        duplicate_failed: Failed to duplicate automation.
       types:
         event_trigger: Event Trigger
         time_trigger: Time Trigger
@@ -884,31 +880,35 @@ en:
         update: Update Contact Form
         save: Create Contact Form
         cancel: Cancel
-        required_label: "Required"
-        full_width: "Full Width"
-        half_width: "Half Width"
-        available_customer_fields: "Available Customer Fields"
-        available_conversation_fields: "Available Conversation Fields"
-        customer_field: "Customer Field"
-        conversation_field: "Conversation Field"
-        mapped_to: "Mapped to: %{mapped_to}"
+        required_label: Required
+        full_width: Full Width
+        half_width: Half Width
+        available_customer_fields: Available Customer Fields
+        available_conversation_fields: Available Conversation Fields
+        customer_field: Customer Field
+        conversation_field: Conversation Field
+        mapped_to: 'Mapped to: %{mapped_to}'
         entity_field: "%{entity_type} Field"
     facebook_channels:
       sidebar:
         label: Facebook Pages
-      limit_reached: You've reached the channel limit for your current plan. Please upgrade to add more channels.
+      limit_reached: You've reached the channel limit for your current plan. Please
+        upgrade to add more channels.
       created: Facebook Page has been connected successfully.
       updated: Facebook Page settings updated.
       destroyed: Facebook Page has been disconnected.
       create_failed: Failed to connect Facebook Page. Please try again.
       callback_error: There was an error connecting to Facebook. Please try again.
       reconnected: Facebook Page has been reconnected successfully.
-      reconnect_failed: Failed to reconnect Facebook Page. Please re-authorize through the Facebook login.
+      reconnect_failed: Failed to reconnect Facebook Page. Please re-authorize through
+        the Facebook login.
       index:
         title: Facebook Pages
-        description: Connect your Facebook Pages to receive and respond to Messenger conversations.
+        description: Connect your Facebook Pages to receive and respond to Messenger
+          conversations.
         connect_page: Connect Facebook Page
-        delete_confirm: Are you sure you want to disconnect this Facebook Page? This will remove the inbox and all related conversations.
+        delete_confirm: Are you sure you want to disconnect this Facebook Page? This
+          will remove the inbox and all related conversations.
         status_active: Connected
         status_disconnected: Disconnected
         status_reauth: Re-authorization needed
@@ -916,17 +916,21 @@ en:
         inboxes_count:
           one: "%{count} inbox"
           other: "%{count} inboxes"
-        created_ago: "Created %{time} ago"
+        created_ago: Created %{time} ago
         empty_title: No Facebook Pages connected
-        empty_description: Connect your Facebook Pages to start receiving Messenger conversations directly in your inbox.
+        empty_description: Connect your Facebook Pages to start receiving Messenger
+          conversations directly in your inbox.
       new:
         title: Connect a Facebook Page
         step1_title: Connect with Facebook
-        step1_description: Sign in with your Facebook account and grant permissions to manage your Pages.
+        step1_description: Sign in with your Facebook account and grant permissions
+          to manage your Pages.
         connect_button: Continue with Facebook
-        connect_note: We'll only ask for the permissions needed to manage your Page inbox.
+        connect_note: We'll only ask for the permissions needed to manage your Page
+          inbox.
         step2_title: Select a Page
-        step2_description: Choose which Facebook Page you'd like to connect. Each page creates a separate inbox.
+        step2_description: Choose which Facebook Page you'd like to connect. Each
+          page creates a separate inbox.
         already_connected: Already connected
         step3_title: Configure your channel
         name_label: Channel Name
@@ -934,11 +938,13 @@ en:
       edit:
         title: Edit Facebook Page
         reauth_title: Re-authorization required
-        reauth_description: The access token for this page has been invalidated. Please reconnect to restore messaging.
+        reauth_description: The access token for this page has been invalidated. Please
+          reconnect to restore messaging.
         inbox_settings_title: Inbox Settings
         csat_enabled: Enable CSAT survey after conversations
         danger_title: Danger Zone
-        danger_description: Disconnecting this page will remove the inbox and stop receiving new messages. Existing conversations will be preserved.
+        danger_description: Disconnecting this page will remove the inbox and stop
+          receiving new messages. Existing conversations will be preserved.
         disconnect: Disconnect Page
       form:
         back: Back to Facebook Pages
@@ -950,7 +956,8 @@ en:
     instagram_channels:
       sidebar:
         label: Instagram
-      limit_reached: You've reached the channel limit for your current plan. Please upgrade to add more channels.
+      limit_reached: You've reached the channel limit for your current plan. Please
+        upgrade to add more channels.
       created: Instagram account has been connected successfully.
       updated: Instagram channel settings updated.
       destroyed: Instagram account has been disconnected.
@@ -959,9 +966,11 @@ en:
       invalid_state: Invalid authorization state. Please try connecting again.
       index:
         title: Instagram
-        description: Connect your Instagram business accounts to manage DMs from your dashboard.
+        description: Connect your Instagram business accounts to manage DMs from your
+          dashboard.
         connect_account: Connect Instagram
-        delete_confirm: Are you sure you want to disconnect this Instagram account? This will remove the inbox and all related conversations.
+        delete_confirm: Are you sure you want to disconnect this Instagram account?
+          This will remove the inbox and all related conversations.
         status_active: Connected
         status_expired: Token expired
         status_expiring: Token expiring soon
@@ -969,31 +978,36 @@ en:
         inboxes_count:
           one: "%{count} inbox"
           other: "%{count} inboxes"
-        token_expires: "Token expires in %{time}"
-        created_ago: "Created %{time} ago"
+        token_expires: Token expires in %{time}
+        created_ago: Created %{time} ago
         empty_title: No Instagram accounts connected
-        empty_description: Connect your Instagram business or creator accounts to manage direct messages from your dashboard.
+        empty_description: Connect your Instagram business or creator accounts to
+          manage direct messages from your dashboard.
       new:
         title: Connect Instagram
         connect_title: Connect your Instagram Account
-        connect_description: Link your Instagram business or creator account to start receiving and replying to DMs.
+        connect_description: Link your Instagram business or creator account to start
+          receiving and replying to DMs.
         permissions_title: Permissions we'll request
         scope_basic: View your Instagram profile and media
         scope_messages: Read and send Instagram direct messages
         connect_button: Continue with Instagram
-        connect_note: You'll be redirected to Instagram to authorize access. Only professional accounts (Business or Creator) are supported.
+        connect_note: You'll be redirected to Instagram to authorize access. Only
+          professional accounts (Business or Creator) are supported.
       edit:
         title: Edit Instagram Channel
         reauth_title: Re-authorization required
-        reauth_description: The access token has expired or been invalidated. Please reconnect to restore messaging.
+        reauth_description: The access token has expired or been invalidated. Please
+          reconnect to restore messaging.
         reconnect: Reconnect
-        token_expires_at: "Token expires: %{time}"
+        token_expires_at: 'Token expires: %{time}'
         name_label: Channel Name
         name_placeholder: e.g., Brand Instagram
         inbox_settings_title: Inbox Settings
         csat_enabled: Enable CSAT survey after conversations
         danger_title: Danger Zone
-        danger_description: Disconnecting this account will remove the inbox and stop receiving new DMs. Existing conversations will be preserved.
+        danger_description: Disconnecting this account will remove the inbox and stop
+          receiving new DMs. Existing conversations will be preserved.
         disconnect: Disconnect Account
       form:
         back: Back to Instagram
@@ -1001,22 +1015,24 @@ en:
         save: Save Changes
         connection_section: Connection Status
         inbox_section: Inbox Configuration
-
     whatsapp_channels:
       sidebar:
         label: WhatsApp
-      limit_reached: You've reached the channel limit for your current plan. Please upgrade to add more channels.
+      limit_reached: You've reached the channel limit for your current plan. Please
+        upgrade to add more channels.
       created: WhatsApp channel has been connected successfully.
       updated: WhatsApp channel settings updated.
       destroyed: WhatsApp channel has been disconnected.
       create_failed: Failed to connect WhatsApp channel. Please try again.
       callback_error: There was an error connecting to WhatsApp. Please try again.
-      reconnect_not_supported_yet: Reconnection is not supported yet. Please delete and recreate the channel if the token expires.
+      reconnect_not_supported_yet: Reconnection is not supported yet. Please delete
+        and recreate the channel if the token expires.
       index:
         title: WhatsApp
         description: Connect your WhatsApp Business API to manage customer conversations.
         connect_channel: Connect WhatsApp
-        delete_confirm: Are you sure you want to disconnect this WhatsApp channel? This will remove the inbox and all related conversations.
+        delete_confirm: Are you sure you want to disconnect this WhatsApp channel?
+          This will remove the inbox and all related conversations.
         status_active: Connected
         status_disconnected: Disconnected
         status_reauth: Re-authorization needed
@@ -1024,9 +1040,10 @@ en:
         inboxes_count:
           one: "%{count} inbox"
           other: "%{count} inboxes"
-        created_ago: "Created %{time} ago"
+        created_ago: Created %{time} ago
         empty_title: No WhatsApp channels connected
-        empty_description: Connect your WhatsApp Business Account to start receiving messages directly in your inbox.
+        empty_description: Connect your WhatsApp Business Account to start receiving
+          messages directly in your inbox.
       new:
         title: Connect WhatsApp
         subtitle: Choose how you'd like to connect your WhatsApp Business Account.
@@ -1035,7 +1052,8 @@ en:
           manual: Manual Setup
         embedded:
           step1_title: Connect with Meta
-          step1_description: Log in with your Facebook account and select your WhatsApp Business Account.
+          step1_description: Log in with your Facebook account and select your WhatsApp
+            Business Account.
           guide_1: You must be an admin of the Meta Business Portfolio.
           guide_2: Make sure you have a valid phone number ready.
           guide_3: The connection takes less than 5 minutes.
@@ -1050,13 +1068,16 @@ en:
       edit:
         title: Edit WhatsApp Channel
         reauth_title: Re-authorization required
-        reauth_description: The access token has expired or been invalidated. Please reconnect to restore messaging.
+        reauth_description: The access token has expired or been invalidated. Please
+          reconnect to restore messaging.
         danger_title: Danger Zone
-        danger_description: Disconnecting this channel will remove the inbox and stop receiving new messages. Existing conversations will be preserved.
+        danger_description: Disconnecting this channel will remove the inbox and stop
+          receiving new messages. Existing conversations will be preserved.
         disconnect: Disconnect Channel
         webhook:
           title: Webhook Configuration
-          description: Add this webhook URL and verify token to your Meta App's WhatsApp configuration to start receiving messages.
+          description: Add this webhook URL and verify token to your Meta App's WhatsApp
+            configuration to start receiving messages.
           url_label: Webhook URL
           secret_label: Verify Token
       form:
@@ -1200,7 +1221,8 @@ en:
         portal_title_label: Portal Title (On the feedback page)
         portal_title_placeholder: e.g. How did we do?
         portal_subtitle_label: Portal Subtitle
-        portal_subtitle_placeholder: e.g. We'd love to hear your feedback on your recent support experience.
+        portal_subtitle_placeholder: e.g. We'd love to hear your feedback on your
+          recent support experience.
         feedback_label_label: Feedback Textbox Label
         feedback_label_placeholder: e.g. Tell us more (Optional)
     custom_fields:
@@ -1214,7 +1236,7 @@ en:
           remove_button_title: Remove Option
         default_value_placeholder: Optional default value...
         validations_pattern_label: Regex Pattern
-        validations_pattern_placeholder: ^[A-Z]
+        validations_pattern_placeholder: "^[A-Z]"
       translations:
         label_placeholder: e.g. Company Size
       index:
@@ -1261,14 +1283,14 @@ en:
         index:
           title: Collections
           search_placeholder: Search collections...
-          new_collection: + New Collection
+          new_collection: "+ New Collection"
           collections_count: "%{count} Collections"
           name_header: Name
           slug_header: Slug
           articles_header: Articles
-          previous: ← Previous
+          previous: "← Previous"
           next: Next →
-          page_info: "Page %{page} of %{total}"
+          page_info: Page %{page} of %{total}
           empty_title: No collections found
           empty_description: Create your first collection to organize your articles.
           untitled_collection: Untitled collection
@@ -1301,24 +1323,10 @@ en:
       invite_teammate:
         form:
           email_placeholder: Email
-          permission_note: We'll give you teammate basic settings permissions. you can give them more permissions later.
+          permission_note: We'll give you teammate basic settings permissions. you
+            can give them more permissions later.
           cancel: Cancel
           submit: Send Invite
-      team:
-        form:
-          edit_title: Edit Team
-          new_title: New Team
-          edit_subtitle: Edit team details and view added users
-          new_subtitle: Enter team details and view added users
-          name_placeholder: e.g. Customer Success
-          description_label: Description (Optional)
-          description_placeholder: Describe what this team does...
-          cancel: Cancel
-          save: Save Changes
-          create: Create Team
-      team_inbox:
-        form:
-          name_placeholder: Add title
       team:
         form:
           name_label: Team name
@@ -1329,6 +1337,9 @@ en:
           team_members: Team Members
           no_users: No users available
           connect_inboxes: Connect to Inboxes
+      team_inbox:
+        form:
+          name_placeholder: Add title
       ticket:
         form:
           response_placeholder: Write your response for issue
@@ -1376,7 +1387,8 @@ en:
     workspace:
       email_invitation:
         title: Join Workspace
-        description: Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+        description: Lorem Ipsum is simply dummy text of the printing and typesetting
+          industry.
         members:
           one: "%{count} Active Member"
           other: "%{count} Active Members"
@@ -1392,7 +1404,8 @@ en:
           submit: Join
       new:
         who_you_are: Who you are?
-        subtitle: Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+        subtitle: Lorem Ipsum is simply dummy text of the printing and typesetting
+          industry.
         agent: Agent
         agent_description: If you need more info, please check it out.
         company: Company
@@ -1411,18 +1424,108 @@ en:
         workspace_name_placeholder: WorkSpace Name
         workspace_size: Workspace Size
         workspace_size_options:
-          small: "1-9"
-          medium: "10-30"
-          large: "50+"
+          small: 1-9
+          medium: 10-30
+          large: 50+
         workspace_subtitle2: Let's Create account for enter into Deskbolic Website.
         create_workspace_button: Create New Workspace
-        created_successfully: "New WorkSpace Created Successfully"
+        created_successfully: New WorkSpace Created Successfully
         go_to_dashboard: Go to Dashboard
         marketing_text: First customer service for customers, agents, and leaders
       submitted:
         next_steps: Next Steps
         go_to_dashboard: Go to Dashboard
         marketing_text: First customer service for customers, agents, and leaders
+    custom_channels:
+      index:
+        title: Custom Webhook Channels
+        description: Connect your custom backends to Deskbolic using webhooks.
+        add_new: Add Custom Channel
+        delete_confirm: Are you sure you want to delete this custom channel? All associated
+          inboxes and messages will also be deleted.
+        status_active: Active
+        status_disconnected: Disconnected
+        inboxes_count: "%{count} inboxes"
+        created_ago: Created %{time} ago
+        empty_title: No Custom Channels
+        empty_description: Connect your backend systems via webhooks to build powerful
+          custom integrations.
+      new:
+        title: Add New Custom Channel
+        description: Enter the details to connect a new custom backend.
+        back: Back to Custom Channels
+        error_heading: "%{count} errors prohibited this channel from being saved:"
+        name_label: Channel Name
+        description_label: Description
+        webhook_url_label: Outbound Webhook URL
+        webhook_url_help: The URL where Deskbolic will send outgoing messages.
+        submit: Create Channel
+        cancel: Cancel
+      edit:
+        back: Back to Custom Channels
+      tabs:
+        configuration: Configuration
+        instructions: Instructions
+        testing: Testing Sandbox
+      form:
+        error_heading: "%{count} errors prohibited this channel from being saved:"
+        details_section: Channel Details
+        name: Name
+        description: Description
+        outbound_section: Outbound Webhook (Deskbolic -> Custom Server)
+        outbound_desc: Whenever an agent replies, Deskbolic will send a POST request
+          to this URL.
+        webhook_url: Webhook URL
+        headers: Custom Headers
+        headers_help: 'Add any custom authentication headers (e.g. Authorization:
+          Bearer xyz) required by your server.'
+        add_header: "+ Add Header"
+        inbound_section: Inbound Webhook (Custom Server -> Deskbolic)
+        inbound_desc: Map the JSON payload your server sends us to Deskbolic customer
+          attributes.
+        add_mapping: "+ Add Mapping"
+        save: Save Configuration
+        csat_survey: CSAT Survey
+        csat_default: Default System Survey
+        inbox_settings: Inbox Settings
+        inbox_desc: Configure customer satisfaction surveys and SLA policies.
+        enable_csat: Enable CSAT Surveys
+        sla_policies: SLA Policies
+        header_name_placeholder: Header Name
+        header_value_placeholder: Header Value
+        deskbolic_attribute_placeholder: Deskbolic Attribute
+        json_path_placeholder: JSON Path (e.g., data.user.id)
+      instructions:
+        outbound_title: Receiving Outbound Webhooks
+        webhook_secret: Your Webhook Secret
+        inbound_title: Sending Inbound Webhooks
+        hmac_token: Your HMAC Token
+        outbound_desc1: 'When an agent replies to a conversation in Deskbolic, we
+          will send a POST request to your '
+        outbound_webhook_url_bold: 'Outbound Webhook URL '
+        outbound_desc2: 'with the following JSON payload:'
+        verify_desc1: 'To verify that the request actually came from Deskbolic, we
+          sign the payload using your '
+        webhook_secret_bold: Webhook Secret
+        verify_desc2: ". We include this signature in the "
+        header_text: " header."
+        inbound_desc1: 'To send a message from your custom backend into Deskbolic,
+          make a POST request to:'
+        inbound_desc2: 'You must authenticate this request by including your HMAC
+          Token in the '
+        inbound_payload1: 'The JSON payload you send can be structured however you
+          like. Deskbolic will use your '
+        response_mapping_bold: 'Response Mapping '
+        inbound_payload2: configuration to extract the customer's identifier, name,
+          and the message content.
+      testing:
+        sandbox_title: Testing Sandbox
+        test_outbound: Test Outbound Webhook
+        fire_outbound: Fire Outbound Webhook
+        response: 'Response:'
+        test_inbound: Simulate Inbound Mapping
+        test_mapping: Test Mapping
+        mapped_attributes: 'Mapped Attributes:'
   auth:
     email: Email
     password: Password
@@ -1435,7 +1538,10 @@ en:
     currency_hint: Cannot be changed after registration.
     default_language: Default Workspace Language
     datacenter: Datacenter
-    datacenter_info: Looking for a custom datacenter location? We offer custom locations for some of our Enterprise customers. Please note that for global routing and authentication purposes, core account and user metadata will securely remain in our primary European database.
+    datacenter_info: Looking for a custom datacenter location? We offer custom locations
+      for some of our Enterprise customers. Please note that for global routing and
+      authentication purposes, core account and user metadata will securely remain
+      in our primary European database.
     datacenters:
       europe_germany: Europe (Germany)
       europe_germany_desc: Primary EU Database
@@ -1461,7 +1567,8 @@ en:
       marketing_text: Manage your customer support efficiently.
     passwords:
       forgot_title: Forgot your password?
-      forgot_subtitle: Enter your email address and we will send you a link to reset your password.
+      forgot_subtitle: Enter your email address and we will send you a link to reset
+        your password.
       send_instructions: Send reset instructions
       reset_title: Change your password
       reset_subtitle: Enter your new password below.
@@ -1487,7 +1594,8 @@ en:
       uppercase: One uppercase letter
       number: One number
       special: One special character
-    password_hint: Must be at least 8 characters with a mix of uppercase, lowercase, numbers, and symbols.
+    password_hint: Must be at least 8 characters with a mix of uppercase, lowercase,
+      numbers, and symbols.
     current_password: Current Password
     edit_profile:
       title: Edit Profile

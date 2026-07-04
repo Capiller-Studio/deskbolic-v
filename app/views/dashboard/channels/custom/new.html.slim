@@ -1,0 +1,40 @@
+= render("dashboard/shared/dashboard_container", current_page: "settings") do
+  = render("dashboard/settings/settings_sidebar", current_page: "custom-channels") do
+    .channel-theme-custom
+      .ui-page-body
+        .form-section style="max-width: 800px; margin: 0 auto;"
+          .ui-page-header
+            = link_to t("dashboard.custom_channels.new.back", default: "Back to Custom Channels"), channels_custom_index_path, class: "ui-back-link"
+            h2.f-semi-24 style="color: #0f172a; margin-top: 12px;" = t("dashboard.custom_channels.new.title", default: "Add New Custom Channel")
+          
+          = form_with(model: @custom_channel, url: channels_custom_index_path, local: true) do |f|
+            - if @custom_channel.errors.any?
+              .ui-error-summary
+                h3 = t("dashboard.custom_channels.new.error_heading", default: "%{count} errors prohibited this channel from being saved:", count: @custom_channel.errors.count)
+                ul
+                  - @custom_channel.errors.full_messages.each do |message|
+                    li = message
+
+            .ui-section.ui-section--always-open
+              .ui-section-header
+                .ui-section-title
+                  span.ui-section-icon 🔌
+                  span.ui-section-label = t("dashboard.custom_channels.new.description", default: "Enter the details to connect a new custom backend.")
+              .ui-section-body
+                .ui-form-row
+                  div
+                    = f.label :name, t("dashboard.custom_channels.new.name_label", default: "Channel Name"), class: "ui-label"
+                    = f.text_field :name, class: "ui-input", required: true, placeholder: "e.g. My Internal Dashboard"
+                  div
+                    = f.label :webhook_url, t("dashboard.custom_channels.new.webhook_url_label", default: "Outbound Webhook URL"), class: "ui-label"
+                    = f.url_field :webhook_url, class: "ui-input", required: true, placeholder: "https://your-backend.com/api/webhooks/deskbolic"
+                    p.ui-input-hint style="margin-top: 6px;" = t("dashboard.custom_channels.new.webhook_url_help", default: "The URL where Deskbolic will send outgoing messages.")
+                
+                .ui-form-row style="margin-top: 16px;"
+                  div
+                    = f.label :description, t("dashboard.custom_channels.new.description_label", default: "Description"), class: "ui-label"
+                    = f.text_area :description, class: "ui-input", rows: 3, placeholder: "Brief description of what this channel connects to"
+
+            .ui-form-actions
+              = f.submit t("dashboard.custom_channels.new.submit", default: "Create Channel"), class: "ui-btn-primary"
+              = link_to t("dashboard.custom_channels.new.cancel", default: "Cancel"), channels_custom_index_path, class: "ui-btn-secondary"

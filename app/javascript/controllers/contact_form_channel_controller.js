@@ -13,9 +13,9 @@ export default class extends Controller {
   }
 
   toggleSection(event) {
-    const section = event.currentTarget.closest(".channel-section")
+    const section = event.currentTarget.closest(".ui-section")
     if (section) {
-      section.classList.toggle("channel-section--open")
+      section.classList.toggle("ui-section--open")
     }
   }
 
@@ -40,11 +40,11 @@ export default class extends Controller {
     navigator.clipboard.writeText(code).then(() => {
       const originalText = btn.innerHTML
       btn.innerHTML = "✓ Copied!"
-      btn.classList.add("channel-copy-btn--copied")
+      btn.classList.add("ui-copy-btn--copied")
 
       setTimeout(() => {
         btn.innerHTML = originalText
-        btn.classList.remove("channel-copy-btn--copied")
+        btn.classList.remove("ui-copy-btn--copied")
       }, 2000)
     })
   }

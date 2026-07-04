@@ -142,8 +142,9 @@ export default class extends Controller {
 
     // Show step 3
     if (this.hasStep3Target) {
-      this.step3Target.classList.remove("channel-step-hidden")
+      this.step3Target.classList.remove("ui-step-hidden")
       this.step3Target.scrollIntoView({ behavior: "smooth", block: "center" })
+      this.channelNameTarget.focus()
     }
   }
 }

@@ -84,6 +84,9 @@ application.register("email-channel", EmailChannelController)
 import WebWidgetChannelController from "./web_widget_channel_controller"
 application.register("web-widget-channel", WebWidgetChannelController)
 
+import TestWebhookController from "./test_webhook_controller"
+application.register("test-webhook", TestWebhookController)
+
 import WebWidgetPreviewController from "./web_widget_preview_controller"
 application.register("web-widget-preview", WebWidgetPreviewController)
 
@@ -158,3 +161,9 @@ application.register("richtext-editor", RichtextEditorController)
 
 import PushNotificationsController from "./push_notifications_controller"
 application.register("push-notifications", PushNotificationsController)
+
+import ClipboardController from "./clipboard_controller"
+application.register("clipboard", ClipboardController)
+
+import UiSectionController from "./ui_section_controller"
+application.register("ui-section", UiSectionController)

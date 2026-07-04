@@ -1,0 +1,70 @@
+.ui-section.ui-section--always-open
+  .ui-section-header
+    .ui-section-title
+      span.ui-section-icon 📤
+      span.ui-section-label = t("dashboard.custom_channels.instructions.outbound_title", default: "Receiving Outbound Webhooks")
+  .ui-section-body
+    p.f-reg-14.text-muted.ui-inst-desc
+      | #{t("dashboard.custom_channels.instructions.outbound_desc1")}
+      strong = t("dashboard.custom_channels.instructions.outbound_webhook_url_bold")
+      | #{t("dashboard.custom_channels.instructions.outbound_desc2")}
+    
+    pre class="ui-inst-code"
+      code = "{\n  \"event\": \"message.created\",\n  \"channel_id\": \"#{custom_channel.identifier}\",\n  \"message\": {\n    \"id\": \"msg_12345\",\n    \"content\": \"Hello, how can I help you today?\",\n    \"sender_type\": \"Agent\",\n    \"sender\": {\n      \"id\": \"usr_123\",\n      \"name\": \"John Doe\",\n      \"email\": \"john@example.com\"\n    }\n  },\n  \"conversation\": {\n    \"id\": \"conv_67890\",\n    \"status\": \"open\"\n  },\n  \"customer\": {\n    \"identifier\": \"ext_user_789\",\n    \"name\": \"Jane Smith\"\n  }\n}"
+    
+    p.f-reg-14.text-muted.ui-inst-verify
+      | To verify that the request actually came from Deskbolic, we sign the payload using your 
+      strong Webhook Secret
+      | . We include this signature in the 
+      code.ui-inst-inline-code Deskbolic-Signature
+      |  header using the format 
+      code.ui-inst-inline-code
+        | t={timestamp},v1={signature}
+      | .
+      
+    p.f-reg-14.text-muted.ui-inst-verify class="ui-mt-12"
+      | You should verify the signature on your server to prevent replay attacks and ensure authenticity. For example in Ruby:
+      
+    pre.ui-code-block class="ui-mt-12" style="background: #f8fafc; padding: 12px; border-radius: 8px; font-size: 13px;"
+      code = "header = request.headers[\"Deskbolic-Signature\"]\ntimestamp = header.match(/t=(\\d+)/)[1]\nsignature = header.match(/v1=([a-f0-9]+)/)[1]\n\n# 1. Prevent replay attacks\nreturn 401 if Time.now.to_i - timestamp.to_i > 300 # 5 minutes\n\n# 2. Verify HMAC signature\nexpected = OpenSSL::HMAC.hexdigest(\"SHA256\", WEBHOOK_SECRET, \"\#{timestamp}-\#{request.raw_post}\")\nreturn 401 unless Rack::Utils.secure_compare(expected, signature)"
+
+    .ui-input-group class="ui-mt-12" data-controller="clipboard"
+      label.ui-label = t("dashboard.custom_channels.instructions.webhook_secret", default: "Your Webhook Secret")
+      .ui-input-copy-wrapper class="ui-input-copy-wrapper"
+        input.ui-input type="text" readonly=true value=custom_channel.webhook_secret class="ui-input-readonly" data-clipboard-target="source"
+        button.ui-btn-secondary type="button" data-action="click->clipboard#copy" data-clipboard-target="button" Copy
+
+.ui-section class="ui-mt-24" data-controller="ui-section"
+  .ui-section-header data-action="click->ui-section#toggle"
+    .ui-section-title
+      span.ui-section-icon 📥
+      span.ui-section-label = t("dashboard.custom_channels.instructions.inbound_title", default: "Sending Inbound Webhooks")
+  .ui-section-body
+    p.f-reg-14.text-muted.ui-inst-desc
+      | #{t("dashboard.custom_channels.instructions.inbound_desc1")}
+
+    .ui-input-group class="ui-mb-16" data-controller="clipboard"
+      .ui-input-copy-wrapper class="ui-input-copy-wrapper"
+        input.ui-input type="text" readonly=true value=custom_channel.webhook_endpoint class="ui-input-readonly" data-clipboard-target="source"
+        button.ui-btn-secondary type="button" data-action="click->clipboard#copy" data-clipboard-target="button" Copy
+
+    p.f-reg-14.text-muted.ui-inst-desc
+      | You must authenticate this request by signing your JSON payload with your HMAC Token using SHA256. Pass the signature in the 
+      code.ui-inst-inline-code Deskbolic-Signature
+      |  header using the format 
+      code.ui-inst-inline-code
+        | t={timestamp},v1={signature}
+      | . For example in Ruby:
+      
+    pre.ui-code-block class="ui-mb-24" style="background: #f8fafc; padding: 12px; border-radius: 8px; font-size: 13px;"
+      code = "timestamp = Time.now.to_i\nsignature = OpenSSL::HMAC.hexdigest(\"SHA256\", HMAC_TOKEN, \"\#{timestamp}-\#{json_payload}\")\nheaders[\"Deskbolic-Signature\"] = \"t=\#{timestamp},v1=\#{signature}\""
+    .ui-input-group class="ui-mb-24" data-controller="clipboard"
+      label.ui-label = t("dashboard.custom_channels.instructions.hmac_token", default: "Your HMAC Token")
+      .ui-input-copy-wrapper class="ui-input-copy-wrapper"
+        input.ui-input type="text" readonly=true value=custom_channel.hmac_token class="ui-input-readonly" data-clipboard-target="source"
+        button.ui-btn-secondary type="button" data-action="click->clipboard#copy" data-clipboard-target="button" Copy
+
+    p.f-reg-14.text-muted.ui-inst-desc-sm
+      | #{t("dashboard.custom_channels.instructions.inbound_payload1")}
+      strong = t("dashboard.custom_channels.instructions.response_mapping_bold")
+      | #{t("dashboard.custom_channels.instructions.inbound_payload2")}

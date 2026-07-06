@@ -1,0 +1,32 @@
+<h1><%= t("mailers.account_invitation.invite.header") %></h1>
+
+<p>
+  <%= t("mailers.account_invitation.invite.body_main",
+        inviter_name: @inviter.name,
+        account_name: @account.name) %>
+</p>
+
+<% if @role_names.any? %>
+  <p>
+    <strong><%= t("mailers.account_invitation.invite.roles_label") %></strong>
+    <%= @role_names.to_sentence %>
+  </p>
+<% end %>
+
+<p style="text-align: center; margin: 30px 0;">
+  <%= link_to email_invitation_url(invitation_token: @invitation.token),
+              style: "display: inline-block; padding: 12px 24px; background-color: #1a73e8; color: #ffffff; text-decoration: none; border-radius: 6px; font-size: 16px; font-weight: 600;" do %>
+    <%= t("mailers.account_invitation.invite.cta") %>
+  <% end %>
+</p>
+
+<p>
+  <%= t("mailers.account_invitation.invite.expiry",
+        expiry_date: l(@invitation.expires_at, format: :long)) %>
+</p>
+
+<hr>
+
+<p><%= t("mailers.account_invitation.invite.body_footer") %></p>
+
+<p><%= t("mailers.account_invitation.invite.footer", year: Date.current.year) %></p>

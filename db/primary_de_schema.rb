@@ -547,16 +547,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_03_183500) do
 
   create_table "csat_survey_translations", force: :cascade do |t|
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.uuid "csat_survey_id", null: false
     t.string "locale", null: false
     t.string "portal_feedback_label"
     t.text "portal_subtitle"
     t.string "portal_title"
     t.string "prompt"
+    t.uuid "survey_id", null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.index ["csat_survey_id", "locale"], name: "index_csat_translations_on_survey_and_locale", unique: true
-    t.index ["csat_survey_id"], name: "index_csat_survey_translations_on_csat_survey_id"
     t.index ["locale"], name: "index_csat_survey_translations_on_locale"
+    t.index ["survey_id", "locale"], name: "index_csat_translations_on_survey_and_locale", unique: true
+    t.index ["survey_id"], name: "index_csat_survey_translations_on_survey_id"
   end
 
   create_table "csat_surveys", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -1347,7 +1347,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_03_183500) do
   add_foreign_key "csat_survey_responses", "csat_surveys", on_delete: :nullify
   add_foreign_key "csat_survey_responses", "customers", on_delete: :cascade
   add_foreign_key "csat_survey_responses", "messages", on_delete: :nullify
-  add_foreign_key "csat_survey_translations", "csat_surveys", on_delete: :cascade
+  add_foreign_key "csat_survey_translations", "csat_surveys", column: "survey_id", on_delete: :cascade
   add_foreign_key "csat_surveys", "email_templates", on_delete: :nullify
   add_foreign_key "custom_field_resources", "custom_fields", on_delete: :cascade
   add_foreign_key "custom_field_translations", "custom_fields", on_delete: :cascade

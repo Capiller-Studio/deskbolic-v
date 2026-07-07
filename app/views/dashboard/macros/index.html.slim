@@ -1,43 +1,49 @@
 = render("dashboard/shared/dashboard_container", current_page: "settings") do
-  .auto-index-header
-    .auto-title-area
-      h2.f-semi-32 = t(".title")
-      p.f-reg-16 = t(".description")
-    = link_to new_macro_path, class: "auto-btn-primary"
-      | + #{t(".new_macro")}
+  = render("dashboard/settings/settings_sidebar", current_page: "macros") do
+    .body-container
+      .ui-index-header
+        .ui-title-area
+          h2.f-semi-32 = t("dashboard.macros.index.title")
+          p.f-reg-16 = t("dashboard.macros.index.description")
+        = link_to new_macro_path, class: "ui-btn-primary"
+          | + #{t("dashboard.macros.index.new_macro")}
 
-  .auto-tabs
-    = link_to macros_path, class: "auto-tab active"
-      = t(".tab_personal")
-    = link_to macros_path(scope: :shared), class: "auto-tab"
-      = t(".tab_shared")
+      .ui-tabs
+        = link_to macros_path, class: "ui-tab #{params[:scope] != 'shared' ? 'ui-tab--active' : ''}"
+          = t("dashboard.macros.index.tab_personal")
+        = link_to macros_path(scope: :shared), class: "ui-tab #{params[:scope] == 'shared' ? 'ui-tab--active' : ''}"
+          = t("dashboard.macros.index.tab_shared")
 
-  - if @macros.any?
-    .auto-list
-      - @macros.each do |macro|
-        div id="macro_#{macro.id}" class="auto-card"
-          .auto-card-info
-            .auto-card-name = macro.name
-            .auto-card-meta
-              - if macro.account_wide?
-                span.auto-badge.badge-macro Account-wide
-              - elsif macro.personal?
-                span.auto-badge.badge-event Personal
-              - elsif macro.team?
-                span.auto-badge.badge-time Team
-              - if macro.description.present?
-                span.auto-card-event = truncate(macro.description, length: 80)
-              span.auto-card-event
-                | #{macro.actions&.length || 0} action(s)
+      - if @macros.any?
+        .ui-list
+          - @macros.each do |macro|
+            div id="macro_#{macro.id}" class="ui-card"
+              .ui-card-top
+                .ui-card-info
+                  .ui-avatar-placeholder ⚡
+                  div
+                    h3.f-semi-18 = macro.name
+                    p.f-reg-14
+                      - if macro.account_wide?
+                        span.ui-badge Account-wide
+                      - elsif macro.personal?
+                        span.ui-badge Personal
+                      - elsif macro.team?
+                        span.ui-badge Team
+                    p.f-reg-14 style="margin-top: 4px;"
+                      - if macro.description.present?
+                        span.ui-card-event = truncate(macro.description, length: 80)
+                      span.ui-card-event style="margin-left: 8px; color: var(--gray-500);"
+                        | #{macro.actions&.length || 0} action(s)
 
-          .auto-card-actions
-            = link_to edit_macro_path(macro), class: "auto-action-btn", title: "Edit"
-              | ✎
-            - unless macro.is_system?
-              = button_to macro_path(macro), method: :delete, class: "auto-action-btn danger", title: "Delete", data: { turbo_confirm: "Are you sure?" }
-                | ✕
-  - else
-    .auto-empty-state
-      .auto-empty-icon 🎯
-      h3.f-semi-18 = t(".empty_title")
-      p.f-reg-14 = t(".empty_description")
+                .ui-card-actions
+                  = link_to edit_macro_path(macro), class: "ui-action-btn", title: "Edit"
+                    | ✏️
+                  - unless macro.is_system?
+                    = button_to macro_path(macro), method: :delete, class: "ui-action-btn ui-action-delete", title: "Delete", data: { turbo_confirm: "Are you sure?" }
+                      | 🗑️
+      - else
+        .ui-empty-state
+          .ui-empty-icon 🎯
+          h3.f-semi-18 = t("dashboard.macros.index.empty_title")
+          p.f-reg-14 = t("dashboard.macros.index.empty_description")

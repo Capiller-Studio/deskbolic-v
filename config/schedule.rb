@@ -29,6 +29,16 @@ every 1.day, at: "1:00 am" do
   runner "ExchangeRatesUpdaterWorker.perform_async"
 end
 
+# Send billing and trial reminders
+every 1.day, at: "1:30 am" do
+  runner "BillingRemindersWorker.perform_async"
+end
+
+# Prune old system logs to free up database space
+every 1.day, at: "4:00 am" do
+  runner "SystemLogsPruningWorker.perform_async"
+end
+
 # Clear expired trials
 every 1.day, at: "2:00 am" do
   runner "TrialExpirationWorker.perform_async"

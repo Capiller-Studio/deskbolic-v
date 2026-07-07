@@ -58,9 +58,9 @@
                 = link_to(settings_audit_logs_path, class: "nav-link") do
                   .link-text
                     .conversation-name.inbox-conv
-                    p.f-reg-14
-                      = t('dashboard.sidebar.settings.audit_logs')
-                      = plan_upgrade_bubble(:audit_logs_enabled)
+                      p.f-reg-14
+                        = t('dashboard.sidebar.settings.audit_logs')
+                        = plan_upgrade_bubble(:audit_logs)
             
             / Help Center
             li.nav-item class="" data-action="click->accordion#toggle"
@@ -157,13 +157,20 @@
                         p.f-reg-12
                           = t("dashboard.assignment_policies.sidebar.label")
                           = plan_upgrade_bubble(:assignment_policies)
+                li.nav-item class="#{current_page == 'sla-policies' ? 'st-list-active' : ''}"
+                  = link_to(sla_policies_path, class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12
+                          = t('dashboard.sidebar.settings.sla_policies')
+                          = plan_upgrade_bubble(:sla)
                 li.nav-item class="#{current_page == 'business-hours' ? 'st-list-active' : ''}"
                   = link_to(business_hour_groups_path, class: "nav-link") do
                     .link-text
                       .conversation-name.inbox-conv
                         p.f-reg-12
                           = t("dashboard.business_hour_groups.index.title")
-                          = plan_upgrade_bubble(:business_hours_enabled)
+                          = plan_upgrade_bubble(:business_hours)
                 li.nav-item class="#{current_page == 'skills' ? 'st-list-active' : ''}"
                   = link_to(skills_path, class: "nav-link") do
                     .link-text
@@ -178,6 +185,12 @@
                         p.f-reg-12
                           = t('dashboard.sidebar.settings.custom_fields')
                           = plan_upgrade_bubble(:custom_fields)
+                li.nav-item class="#{current_page == 'csat-surveys' ? 'st-list-active' : ''}"
+                  = link_to(csat_surveys_path, class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12
+                          = t('dashboard.sidebar.settings.csat_surveys')
                 li.nav-item class="#{current_page == 'identity-sources' ? 'st-list-active' : ''}"
                   = link_to(identity_sources_path, class: "nav-link") do
                     .link-text
@@ -185,11 +198,25 @@
                         p.f-reg-12
                           = t("dashboard.identity_sources.sidebar.label")
                           = plan_upgrade_bubble(:identity_sources)
-                li.nav-item class="#{current_page == 'macros' ? 'st-list-active' : ''}"
+                li.nav-item class="#{current_page == 'canned-responses' ? 'st-list-active' : ''}"
                   = link_to(canned_responses_settings_path, class: "nav-link") do
                     .link-text
                       .conversation-name.inbox-conv
                         p.f-reg-12 = t('dashboard.sidebar.settings.canned_responses')
+                li.nav-item class="#{current_page == 'macros' ? 'st-list-active' : ''}"
+                  = link_to(macros_path, class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12
+                          = t('dashboard.sidebar.settings.macros')
+                          = plan_upgrade_bubble(:macros_enabled)
+                li.nav-item class="#{current_page == 'automations' ? 'st-list-active' : ''}"
+                  = link_to(automations_path, class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12
+                          = t('dashboard.sidebar.settings.automations')
+                          = plan_upgrade_bubble(:automations_enabled)
                 li.nav-item class="#{current_page == 'email_templates' ? 'st-list-active' : ''}"
                   = link_to(email_templates_path, class: "nav-link") do
                     .link-text

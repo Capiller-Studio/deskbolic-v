@@ -15,7 +15,8 @@ div id="automation_#{automation.id}" class="auto-card #{automation.inactive? ? '
         span.auto-card-event — #{truncate(automation.description, length: 60)}
 
   .auto-card-actions
-    = button_to toggle_automation_path(automation), method: :patch, class: "auto-toggle #{automation.active? ? 'active' : ''}", data: { turbo_frame: "_top" }
+    = button_to toggle_automation_path(automation), method: :patch, class: "auto-toggle #{automation.active? ? 'active' : ''}", data: { turbo_frame: "_top" } do
+      | Toggle
 
     = link_to edit_automation_path(automation), class: "auto-action-btn", title: "Edit"
       | ✎

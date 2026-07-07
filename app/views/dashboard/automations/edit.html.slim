@@ -1,6 +1,8 @@
 = render("dashboard/shared/dashboard_container", current_page: "settings") do
-  .auto-builder
-    .auto-builder-header
-      h2.f-semi-32 = t(".title")
+  = render("dashboard/settings/settings_sidebar", current_page: "automations") do
+    .ui-page-body
+      .ui-index-header
+        .ui-title-area
+          h2.f-semi-32 = t("dashboard.automations.edit.title")
 
-    = render("dashboard/automations/form", automation: @automation)
+      = render("dashboard/automations/form", automation: @automation)

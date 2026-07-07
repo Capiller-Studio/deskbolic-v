@@ -1,41 +1,44 @@
 = render("dashboard/shared/dashboard_container", current_page: "settings") do
-  .auto-builder
-    .auto-builder-header
-      h2.f-semi-32 = t(".title")
+  = render("dashboard/settings/settings_sidebar", current_page: "macros") do
+    .ui-page-body
+      .auto-builder
+        .ui-index-header
+          .ui-title-area
+            h2.f-semi-32 = t("dashboard.macros.new.title")
 
-    = form_with(model: @macro, url: macros_path, data: { controller: "automation-builder" }) do |f|
-      / --- Name & Scope ---
-      .auto-section
-        .auto-section-header
-          span.auto-section-icon 📝
-          | Details
-        .auto-section-body
-          .auto-row style="flex-direction: column; align-items: stretch; gap: 16px;"
-            div
-              label.f-semi-13 style="display: block; margin-bottom: 6px; color: #334155;" Name
-              = f.text_field :name, placeholder: "e.g. Close & Send Feedback Email", style: "width: 100%; padding: 10px 14px; border: 1px solid #e2e8f0; border-radius: 8px;"
-            div
-              label.f-semi-13 style="display: block; margin-bottom: 6px; color: #334155;" Description (optional)
-              = f.text_area :description, rows: 2, placeholder: "What does this macro do?", style: "width: 100%; padding: 10px 14px; border: 1px solid #e2e8f0; border-radius: 8px; resize: vertical;"
-            div
-              label.f-semi-13 style="display: block; margin-bottom: 6px; color: #334155;" Visibility
-              = f.select :visibility, options_for_select([["Account-wide (all agents)", "account_wide"], ["Personal (only you)", "personal"], ["Team", "team"]], "account_wide"), {}, style: "width: 100%; padding: 10px 14px; border: 1px solid #e2e8f0; border-radius: 8px;"
+        = form_with(model: @macro, url: macros_path, data: { controller: "automation-builder" }) do |f|
+          / --- Name & Scope ---
+          .auto-section
+            .auto-section-header
+              span.auto-section-icon 📝
+              | Details
+            .auto-section-body
+              .auto-row style="flex-direction: column; align-items: stretch; gap: 16px;"
+                div
+                  label.f-semi-13 style="display: block; margin-bottom: 6px; color: #334155;" Name
+                  = f.text_field :name, placeholder: "e.g. Close & Send Feedback Email", style: "width: 100%; padding: 10px 14px; border: 1px solid #e2e8f0; border-radius: 8px;"
+                div
+                  label.f-semi-13 style="display: block; margin-bottom: 6px; color: #334155;" Description (optional)
+                  = f.text_area :description, rows: 2, placeholder: "What does this macro do?", style: "width: 100%; padding: 10px 14px; border: 1px solid #e2e8f0; border-radius: 8px; resize: vertical;"
+                div
+                  label.f-semi-13 style="display: block; margin-bottom: 6px; color: #334155;" Visibility
+                  = f.select :visibility, options_for_select([["Account-wide (all agents)", "account_wide"], ["Personal (only you)", "personal"], ["Team", "team"]], "account_wide"), {}, style: "width: 100%; padding: 10px 14px; border: 1px solid #e2e8f0; border-radius: 8px;"
 
-      / --- Actions Section ---
-      .auto-section
-        .auto-section-header
-          span.auto-section-icon.action 🚀
-          | Actions
-        .auto-section-body data-automation-builder-target="actionsContainer"
-          div data-automation-builder-target="actionRows"
-            = render("dashboard/automations/action_row", action: {}, action_index: 0)
+          / --- Actions Section ---
+          .auto-section
+            .auto-section-header
+              span.auto-section-icon.action 🚀
+              | Actions
+            .auto-section-body data-automation-builder-target="actionsContainer"
+              div data-automation-builder-target="actionRows"
+                = render("dashboard/automations/action_row", action: {}, action_index: 0)
 
-          button.auto-add-btn type="button" data-action="click->automation-builder#addAction"
-            | + Add Action
+              button.auto-add-btn type="button" data-action="click->automation-builder#addAction"
+                | + Add Action
 
-      / --- Hidden field for JSON serialization ---
-      = f.hidden_field :actions, value: "[]", data: { "automation-builder-target": "actionsField" }
+          / --- Hidden field for JSON serialization ---
+          = f.hidden_field :actions, value: "[]", data: { "automation-builder-target": "actionsField" }
 
-      .auto-form-footer
-        = link_to "Cancel", macros_path, class: "auto-btn-secondary"
-        = f.submit "Save Macro", class: "auto-btn-primary"
+          .auto-form-footer
+            = link_to "Cancel", macros_path, class: "auto-btn-secondary"
+            = f.submit "Save Macro", class: "auto-btn-primary"

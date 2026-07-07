@@ -10,6 +10,11 @@ module Dashboard
     end
 
     def update
+      if @account_user.owner?
+        redirect_to users_path, alert: I18n.t("dashboard.users.update.owner_error", default: "You cannot modify the account owner's roles.")
+        return
+      end
+
       # Only process role assignment if role_ids are present
       if params[:account_user] && params[:account_user][:role_ids]
         @account_user.role_ids = params[:account_user][:role_ids].reject(&:blank?)
@@ -28,7 +33,10 @@ module Dashboard
         return
       end
 
-      # TODO: Cannot remove the owner (ensure protection logic exists)
+      if @account_user.owner?
+        redirect_to users_path, alert: I18n.t("dashboard.users.destroy.owner_error", default: "You cannot remove the account owner.")
+        return
+      end
       if @account_user.destroy
         redirect_to users_path, notice: I18n.t("dashboard.users.destroy.success", default: "User removed successfully.")
       else

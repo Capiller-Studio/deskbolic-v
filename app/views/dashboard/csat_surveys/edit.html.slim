@@ -1,14 +1,14 @@
-= render("dashboard/shared/dashboard_container", current_page: "csat_surveys") do
-  = render("dashboard/settings/settings_sidebar", current_page: "csat_surveys") do
-    .eb-templates
-      .eb-templates__header
-        div
-          h2.eb-templates__title = "Edit CSAT Survey"
-          p.eb-templates__subtitle = "Update your custom customer satisfaction survey"
-        .eb-templates__nav
-          = link_to csat_surveys_path, class: "eb-btn eb-btn--outline"
-            = "Back"
+= render("dashboard/shared/dashboard_container", current_page: "settings") do
+  = render("dashboard/settings/settings_sidebar", current_page: "csat-surveys") do
+    .ui-page-body
+      .ui-index-header
+        .ui-title-area
+          h2.f-semi-32 = t("dashboard.csat_surveys.edit.title")
+          p.f-reg-16 = t("dashboard.csat_surveys.edit.description")
+        = link_to csat_surveys_path, class: "ui-btn-outline"
+          = t("shared.back")
 
-      .eb-card
-        .eb-card__body
-          = render "form", survey: @csat_survey
+      .ui-card
+        .ui-card-top
+          .ui-card-info style="width: 100%;"
+            = render "form", survey: @csat_survey

@@ -1,19 +1,21 @@
 = render("dashboard/shared/dashboard_container", current_page: "settings") do
-  .ap-index-header
-    .ap-title-area
-      h2.f-semi-32 = t(".title", default: "SLA Policies")
-      p.f-reg-16 = t(".description", default: "Set service level targets for different inboxes to ensure timely responses.")
-    = link_to new_sla_policy_path, class: "ap-btn-primary", id: "new-sla-policy"
-      | + #{t(".new_policy", default: "New Policy")}
+  = render("dashboard/settings/settings_sidebar", current_page: "sla-policies") do
+    .body-container
+      .ui-index-header
+        .ui-title-area
+          h2.f-semi-32 = t("dashboard.sla_policies.index.title")
+          p.f-reg-16 = t("dashboard.sla_policies.index.description")
+        = link_to new_sla_policy_path, class: "ui-btn-primary", id: "new-sla-policy"
+          | + #{t("dashboard.sla_policies.index.new_policy")}
 
-  - if @policies.any?
-    .ap-list
-      - @policies.each do |policy|
-        = render("dashboard/sla_policies/policy_card", policy: policy)
-  - else
-    .ap-empty-state
-      .ap-empty-icon ⏱️
-      h3.f-semi-18 = t(".empty_title", default: "No SLA Policies")
-      p.f-reg-14 = t(".empty_description", default: "Create your first SLA policy to start tracking agent response times.")
-      = link_to new_sla_policy_path, class: "ap-btn-primary ap-btn-sm"
-        | + #{t(".new_policy", default: "New Policy")}
+      - if @policies.any?
+        .ui-list
+          - @policies.each do |policy|
+            = render("dashboard/sla_policies/policy_card", policy: policy)
+      - else
+        .ui-empty-state
+          .ui-empty-icon ⏱️
+          h3.f-semi-18 = t("dashboard.sla_policies.index.empty_title")
+          p.f-reg-14 = t("dashboard.sla_policies.index.empty_description")
+          = link_to new_sla_policy_path, class: "ui-btn-primary"
+            | + #{t("dashboard.sla_policies.index.new_policy")}

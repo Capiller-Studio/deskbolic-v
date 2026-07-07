@@ -1,38 +1,39 @@
-= render("dashboard/shared/dashboard_container", current_page: "csat_surveys") do
-  = render("dashboard/settings/settings_sidebar", current_page: "csat_surveys") do
-    .eb-templates
-      .eb-templates__header
-        div
-          h2.eb-templates__title = "CSAT Surveys"
-          p.eb-templates__subtitle = "Create and manage custom Customer Satisfaction surveys."
-        .eb-templates__nav
-          = link_to new_csat_survey_path, class: "eb-btn eb-btn--primary"
-            = "Create Custom Survey"
+= render("dashboard/shared/dashboard_container", current_page: "settings") do
+  = render("dashboard/settings/settings_sidebar", current_page: "csat-surveys") do
+    .body-container
+      .ui-index-header
+        .ui-title-area
+          h2.f-semi-32 = t("dashboard.csat_surveys.index.title")
+          p.f-reg-16 = t("dashboard.csat_surveys.index.description")
+        = link_to new_csat_survey_path, class: "ui-btn-primary"
+          | + #{t("dashboard.csat_surveys.index.new_survey")}
 
       - if @csat_surveys.any?
-        .eb-templates__grid
+        .ui-list
           - @csat_surveys.each do |survey|
-            .eb-card
-              .eb-card__body
-                .eb-card__header
-                  h3.eb-card__name = survey.name
-                p.eb-card__description
-                  strong Prompt: 
-                  = survey.prompt.presence || "How would you rate the support you received?"
-                  br
-                  - if survey.email_template
-                    span.eb-badge.eb-badge--active = "Uses: #{survey.email_template.name}"
-                  - else
-                    span.eb-badge.eb-badge--inactive = "Uses: System Default Mail"
-
-              .eb-card__footer
-                span.eb-card__meta = "Last updated #{time_ago_in_words(survey.updated_at)} ago"
-                .eb-card__actions
-                  = link_to edit_csat_survey_path(survey), class: "eb-btn eb-btn--primary"
-                    = "Edit"
-                  = link_to csat_survey_path(survey), data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete this survey?" }, class: "eb-btn eb-btn--danger ml-2"
-                    = "Delete"
+            .ui-card
+              .ui-card-top
+                .ui-card-info
+                  .ui-avatar-placeholder ⭐
+                  div
+                    h3.f-semi-18 = survey.name
+                    p.f-reg-14
+                      strong = t("dashboard.csat_surveys.index.prompt_label") 
+                      = survey.prompt.presence || t("dashboard.csat_surveys.index.default_prompt")
+                    p.f-reg-14 style="margin-top: 4px;"
+                      - if survey.email_template
+                        span.ui-badge = t("dashboard.csat_surveys.index.uses_template", name: survey.email_template.name)
+                      - else
+                        span.ui-badge = t("dashboard.csat_surveys.index.default_template")
+                .ui-card-actions
+                  = link_to edit_csat_survey_path(survey), class: "ui-action-btn", title: t("shared.edit")
+                    | ✏️
+                  = button_to csat_survey_path(survey), method: :delete, class: "ui-action-btn ui-action-delete", form: { class: 'd-inline' }, data: { turbo_confirm: t("dashboard.csat_surveys.index.delete_confirm") }, title: t("shared.delete")
+                    | 🗑️
       - else
-        .auto-empty-state
-          h3.f-semi-18 = "No custom surveys found"
-          p.f-reg-14 = "Create your first custom CSAT survey to collect tailored feedback."
+        .ui-empty-state
+          .ui-empty-icon ⭐
+          h3.f-semi-18 = t("dashboard.csat_surveys.index.empty_title")
+          p.f-reg-14 = t("dashboard.csat_surveys.index.empty_description")
+          = link_to new_csat_survey_path, class: "ui-btn-primary"
+            | + #{t("dashboard.csat_surveys.index.new_survey")}

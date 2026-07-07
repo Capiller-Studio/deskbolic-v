@@ -1,27 +1,75 @@
-= form_with(model: survey, url: (survey.persisted? ? csat_survey_path(survey) : csat_surveys_path), local: true) do |f|
-  .form-group.mb-4
-    = f.label :name, "Survey Name"
-    = f.text_field :name, class: "form-control", required: true, placeholder: "e.g. Support Feedback"
+= form_with(model: survey, url: (survey.persisted? ? csat_survey_path(survey) : csat_surveys_path), local: true, class: "settings-form form-fields") do |f|
+  - if survey.errors.any?
+    .ui-error-summary
+      h3 = t("shared.error_heading", default: "Please fix the following errors:")
+      ul
+        - survey.errors.full_messages.each do |message|
+          li = message
 
-  .form-group.mb-4
-    = f.label :prompt, "Email Prompt (Inside the email)"
-    = f.text_field :prompt, class: "form-control", placeholder: "e.g. How would you rate the support you received?"
+  .ui-section.ui-section--always-open
+    .ui-section-header
+      .ui-section-title
+        span.ui-section-icon ⚙️
+        span.ui-section-label Basic Configuration
+    .ui-section-body
+      .ui-form-row
+        div
+          = f.label :name, "Survey Name", class: "ui-label"
+          = f.text_field :name, class: "ui-input", required: true, placeholder: "e.g. Support Feedback"
+          p.f-reg-12.text-muted style="margin-top: 4px;" The internal name for this survey.
+        
+        div
+          = f.label :email_template_id, "Assigned Email Template (Optional)", class: "ui-label"
+          = f.collection_select :email_template_id, Current.account.email_templates.where(template_type: :csat_survey), :id, :name, { include_blank: "Use System Default Design" }, class: "ui-select"
 
-  .form-group.mb-4
-    = f.label :portal_title, "Portal Title (On the feedback page)"
-    = f.text_field :portal_title, class: "form-control", placeholder: "e.g. How did we do?"
+      .ui-form-row style="margin-top: 16px;"
+        div
+          = f.label :prompt, "Chat Prompt (WhatsApp, Widget)", class: "ui-label"
+          = f.text_field :prompt, class: "ui-input", placeholder: "e.g. How would you rate the support you received?"
+          p.f-reg-12.text-muted style="margin-top: 4px;" 
+            | The question asked in chat channels. Emails use the Assigned Email Template. 
+            br
+            | Saved to your default language (English) as a fallback.
+        div
+          = f.label :portal_title, "Portal Title (On the feedback page)", class: "ui-label"
+          = f.text_field :portal_title, class: "ui-input", placeholder: "e.g. How did we do?"
+          p.f-reg-12.text-muted style="margin-top: 4px;" Saved to your default language (English) as a fallback.
 
-  .form-group.mb-4
-    = f.label :portal_subtitle, "Portal Subtitle"
-    = f.text_field :portal_subtitle, class: "form-control", placeholder: "e.g. We'd love to hear your feedback on your recent support experience."
+      .ui-form-row style="margin-top: 16px;"
+        div
+          = f.label :portal_subtitle, "Portal Subtitle", class: "ui-label"
+          = f.text_field :portal_subtitle, class: "ui-input", placeholder: "e.g. We'd love to hear your feedback on your recent support experience."
+          p.f-reg-12.text-muted style="margin-top: 4px;" Saved to your default language (English) as a fallback.
+        div
+          = f.label :portal_feedback_label, "Feedback Textbox Label", class: "ui-label"
+          = f.text_field :portal_feedback_label, class: "ui-input", placeholder: "e.g. Tell us more (Optional)"
+          p.f-reg-12.text-muted style="margin-top: 4px;" Saved to your default language (English) as a fallback.
 
-  .form-group.mb-4
-    = f.label :portal_feedback_label, "Feedback Textbox Label"
-    = f.text_field :portal_feedback_label, class: "form-control", placeholder: "e.g. Tell us more (Optional)"
+  .ui-section.ui-section--always-open
+    .ui-section-header
+      .ui-section-title
+        span.ui-section-icon 🌐
+        span.ui-section-label Localized Content
+    .ui-section-body
+      div data-controller="nested-translations"
+        p.text-muted style="margin-bottom: 16px; font-size: 13px;" Provide localized strings for your CSAT survey. These will override the default locale based on the customer's browser.
+        
+        .cf-translations-container data-nested-translations-target="container"
+          = f.fields_for :translations do |tf|
+            = render "dashboard/csat_surveys/translation_fields", f: tf
 
-  .form-group.mb-4
-    = f.label :email_template_id, "Assigned Email Template (Optional)"
-    = f.collection_select :email_template_id, Current.account.email_templates.where(template_type: :csat_survey), :id, :name, { include_blank: "Use System Default Design" }, class: "form-control"
+        template data-nested-translations-target="template"
+          = f.fields_for :translations, Csat::SurveyTranslation.new, child_index: 'NEW_RECORD' do |tf|
+            = render "dashboard/csat_surveys/translation_fields", f: tf
+        
+        - current_locales = survey.translations.reject(&:marked_for_destruction?).map(&:locale).map(&:to_s)
+        - available_locales = Core::SUPPORTED_LOCALES.map(&:to_s) - current_locales
+        - available_locales_options = available_locales.map { |l| [I18n.t("languages.#{l.downcase}", default: l.upcase), l] }
+        
+        div style="display: flex; gap: 12px; align-items: center; margin-top: 16px; padding-top: 16px; border-top: 1px solid #f1f5f9;"
+          = select_tag "new_locale", options_for_select(available_locales_options), include_blank: "Select Language...", class: "ui-select", data: { "nested-translations-target": "localeSelect" }, style: "width: 200px;"
+          button.ui-btn-secondary type="button" data-action="click->nested-translations#addTranslation"
+            | Add Language
 
-  .form-group.mt-4
-    = f.submit "Save Survey", class: "eb-btn eb-btn--primary"
+  .form-actions style="margin-top: 24px; display: flex; justify-content: flex-end;"
+    = f.submit "Save Survey", class: "ui-btn-primary"

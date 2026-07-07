@@ -21,8 +21,10 @@ import ChoicesController from "./choices_controller"
 import FormValidationController from "./form_validation_controller"
 import ConversationsController from "./conversations_controller"
 import MessageFormController from "./message_form_controller"
+import NestedTranslationsController from "./nested_translations_controller"
 
 application.register("accordion", AccordionController)
+application.register("nested-translations", NestedTranslationsController)
 application.register("dropzone", DropzoneController)
 application.register("frameToggler", FrameTogglerController)
 application.register("modalToggler", ModalTogglerController)
@@ -90,8 +92,7 @@ application.register("test-webhook", TestWebhookController)
 import WebWidgetPreviewController from "./web_widget_preview_controller"
 application.register("web-widget-preview", WebWidgetPreviewController)
 
-import WebWidgetTranslationsController from "./web_widget_translations_controller"
-application.register("web-widget-translations", WebWidgetTranslationsController)
+
 
 import AssignmentPolicyController from "./assignment_policy_controller"
 application.register("assignment-policy", AssignmentPolicyController)
@@ -114,11 +115,7 @@ application.register("password-strength", PasswordStrengthController)
 import ContactFormChannelController from "./contact_form_channel_controller"
 application.register("contact-form-channel", ContactFormChannelController)
 
-import ContactFormTranslationsController from "./contact_form_translations_controller"
-application.register("contact-form-translations", ContactFormTranslationsController)
 
-import CustomFieldTranslationsController from "./custom_field_translations_controller"
-application.register("custom-field-translations", CustomFieldTranslationsController)
 
 import CustomFieldValidationsController from "./custom_field_validations_controller"
 application.register("custom-field-validations", CustomFieldValidationsController)

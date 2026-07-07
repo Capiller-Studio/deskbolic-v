@@ -5,19 +5,19 @@ module Dashboard
     before_action :set_csat_survey, only: %i[edit update destroy]
 
     def index
-      authorize Csat::Survey
+      authorize ::Csat::Survey
       @csat_surveys = Current.account.csat_surveys.includes(:translations, :email_template)
     end
 
     def new
-      authorize Csat::Survey
-      @csat_survey = Csat::Survey.new
+      authorize ::Csat::Survey
+      @csat_survey = ::Csat::Survey.new
     end
 
     def create
-      authorize Csat::Survey
+      authorize ::Csat::Survey
       
-      @csat_survey = Csat::Surveys::CreateService.call(
+      @csat_survey = ::Csat::Surveys::CreateService.call(
         Current.account,
         csat_survey_params
       )
@@ -29,7 +29,7 @@ module Dashboard
     rescue StandardError => e
       respond_to do |format|
         format.html do
-          @csat_survey ||= Csat::Survey.new(csat_survey_params)
+          @csat_survey ||= ::Csat::Survey.new(csat_survey_params)
           flash.now[:alert] = e.message
           render :new, status: :unprocessable_entity
         end
@@ -67,7 +67,7 @@ module Dashboard
     def destroy
       authorize @csat_survey
 
-      Csat::Surveys::DestroyService.call(@csat_survey)
+      ::Csat::Surveys::DestroyService.call(@csat_survey)
 
       respond_to do |format|
         format.html { redirect_to csat_surveys_path, notice: "CSAT Survey deleted." }
@@ -88,7 +88,10 @@ module Dashboard
 
     def csat_survey_params
       params.require(:csat_survey).permit(
-        :name, :prompt, :portal_title, :portal_subtitle, :portal_feedback_label, :email_template_id
+        :name, :prompt, :portal_title, :portal_subtitle, :portal_feedback_label, :email_template_id,
+        translations_attributes: [
+          :id, :locale, :prompt, :portal_title, :portal_subtitle, :portal_feedback_label, :_destroy
+        ]
       )
     end
   end

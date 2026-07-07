@@ -44,14 +44,14 @@
         span.ui-section-icon 🌐
         span.ui-section-label Localized Content
     .ui-section-body
-      div data-controller="custom-field-translations"
+      div data-controller="nested-translations"
         p.text-muted style="margin-bottom: 16px; font-size: 13px;" Provide localized strings for your custom field. These will override the default locale based on the customer's browser.
         
-        .cf-translations-container data-custom-field-translations-target="container"
+        .cf-translations-container data-nested-translations-target="container"
           = f.fields_for :translations do |tf|
             = render "dashboard/custom_fields/translation_fields", f: tf
 
-        template data-custom-field-translations-target="template"
+        template data-nested-translations-target="template"
           = f.fields_for :translations, CustomFieldTranslation.new, child_index: 'NEW_RECORD' do |tf|
             = render "dashboard/custom_fields/translation_fields", f: tf
         
@@ -60,8 +60,8 @@
         - available_locales_options = available_locales.map { |l| [I18n.t("languages.#{l.downcase}", default: l.upcase), l] }
         
         .cf-add-locale-wrapper style="margin-top: 16px; display: flex; gap: 8px; align-items: center;"
-          = select_tag "new_locale", options_for_select(available_locales_options), include_blank: "Select Language...", class: "ui-select", data: { "custom-field-translations-target": "localeSelect" }, style: "width: 200px;"
-          button.ui-btn-secondary type="button" data-action="click->custom-field-translations#addTranslation" style="display: inline-flex; align-items: center; gap: 6px;" 
+          = select_tag "new_locale", options_for_select(available_locales_options), include_blank: "Select Language...", class: "ui-select", data: { "nested-translations-target": "localeSelect" }, style: "width: 200px;"
+          button.ui-btn-secondary type="button" data-action="click->nested-translations#addTranslation" style="display: inline-flex; align-items: center; gap: 6px;" 
             span +
             | Add Language
 

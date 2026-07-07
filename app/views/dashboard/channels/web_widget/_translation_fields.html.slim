@@ -1,16 +1,12 @@
-.ww-translation-block style="position: relative;"
-  = f.hidden_field :_destroy
-  
-  button.ui-action-delete type="button" data-action="click->web-widget-translations#removeTranslation" title="Remove Translation" style="position: absolute; top: 16px; right: 16px;"
-    svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
-      path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"
-  
-  .ui-form-row.ww-locale-row
-    div
-      label.ui-label Language
-      - display_name = f.object.locale.present? ? I18n.t("languages.#{f.object.locale.to_s.downcase.strip}", default: f.object.locale.to_s.upcase) : "NEW_LOCALE_LABEL"
-      = text_field_tag nil, display_name, class: "ui-input ww-locale-display", readonly: true
-      = f.hidden_field :locale, class: "ww-locale-hidden"
+.ww-translation-card style="background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin-bottom: 16px; position: relative; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);"
+  .ww-translation-header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #f1f5f9;"
+    div style="display: flex; align-items: center; gap: 8px;"
+      span.f-semi-14 = I18n.t("languages.#{f.object.locale.to_s.downcase}", default: f.object.locale.to_s.upcase)
+      = f.hidden_field :locale
+    button.ui-action-delete type="button" data-action="click->nested-translations#removeTranslation" title="Remove Language"
+      svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
+        path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"
+    = f.hidden_field :_destroy, class: "destroy-flag"
   
   .ui-form-row.ww-translation-row
     div

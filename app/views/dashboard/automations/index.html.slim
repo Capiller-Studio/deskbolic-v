@@ -1,25 +1,27 @@
 = render("dashboard/shared/dashboard_container", current_page: "settings") do
-  .auto-index-header
-    .auto-title-area
-      h2.f-semi-32 = t(".title")
-      p.f-reg-16 = t(".description")
-    = link_to new_automation_path, class: "auto-btn-primary"
-      | + #{t(".new_automation")}
+  = render("dashboard/settings/settings_sidebar", current_page: "automations") do
+    .body-container
+      .ui-index-header
+        .ui-title-area
+          h2.f-semi-32 = t("dashboard.automations.index.title")
+          p.f-reg-16 = t("dashboard.automations.index.description")
+        = link_to new_automation_path, class: "ui-btn-primary"
+          | + #{t("dashboard.automations.index.new_automation")}
 
-  .auto-tabs
-    = link_to automations_path, class: "auto-tab #{params[:type].blank? ? 'active' : ''}"
-      = t(".tab_all")
-    = link_to automations_path(type: :event_trigger), class: "auto-tab #{params[:type] == 'event_trigger' ? 'active' : ''}"
-      = t(".tab_event_triggers")
-    = link_to automations_path(type: :time_trigger), class: "auto-tab #{params[:type] == 'time_trigger' ? 'active' : ''}"
-      = t(".tab_time_triggers")
+      .ui-tabs
+        = link_to automations_path, class: "ui-tab #{params[:type].blank? ? 'ui-tab--active' : ''}"
+          = t("dashboard.automations.index.tab_all")
+        = link_to automations_path(type: :event_trigger), class: "ui-tab #{params[:type] == 'event_trigger' ? 'ui-tab--active' : ''}"
+          = t("dashboard.automations.index.tab_event_triggers")
+        = link_to automations_path(type: :time_trigger), class: "ui-tab #{params[:type] == 'time_trigger' ? 'ui-tab--active' : ''}"
+          = t("dashboard.automations.index.tab_time_triggers")
 
-  - if @automations.any?
-    .auto-list data-controller="sortable" data-sortable-url-value="#{reorder_automations_path}"
-      - @automations.each do |automation|
-        = render("dashboard/automations/automation", automation: automation)
-  - else
-    .auto-empty-state
-      .auto-empty-icon ⚡
-      h3.f-semi-18 = t(".empty_title")
-      p.f-reg-14 = t(".empty_description")
+      - if @automations.any?
+        .ui-list data-controller="sortable" data-sortable-url-value="#{reorder_automations_path}"
+          - @automations.each do |automation|
+            = render("dashboard/automations/automation", automation: automation)
+      - else
+        .ui-empty-state
+          .ui-empty-icon ⚡
+          h3.f-semi-18 = t("dashboard.automations.index.empty_title")
+          p.f-reg-14 = t("dashboard.automations.index.empty_description")

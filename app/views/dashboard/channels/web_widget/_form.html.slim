@@ -174,14 +174,14 @@
         span.ui-section-icon 🌐
         span.ui-section-label Translations
       span.ui-section-chevron ▼
-    .ui-section-body data-controller="web-widget-translations"
+    .ui-section-body data-controller="nested-translations"
       p.text-muted style="margin-bottom: 16px; font-size: 13px;" Provide localized strings for your web widget. These will automatically override the default locale based on the customer's browser.
       
-      .ww-translations-container data-web-widget-translations-target="container"
+      .ww-translations-container data-nested-translations-target="container"
         = f.fields_for :translations do |tf|
           = render "dashboard/channels/web_widget/translation_fields", f: tf
 
-      template data-web-widget-translations-target="template"
+      template data-nested-translations-target="template"
         = f.fields_for :translations, Channel::WebWidgetTranslation.new, child_index: 'NEW_RECORD' do |tf|
           = render "dashboard/channels/web_widget/translation_fields", f: tf
       
@@ -190,8 +190,8 @@
       - available_locales_options = available_locales.map { |l| [I18n.t("languages.#{l.downcase}", default: l.upcase), l] }
       
       .ww-add-locale-wrapper style="margin-top: 16px; display: flex; gap: 8px; align-items: center;"
-        = select_tag "new_locale", options_for_select(available_locales_options), include_blank: "Select Language...", class: "ui-select", data: { "web-widget-translations-target": "localeSelect" }, style: "width: 200px;"
-        button.ui-btn-secondary type="button" data-action="click->web-widget-translations#addTranslation" style="display: inline-flex; align-items: center; gap: 6px;" 
+        = select_tag "new_locale", options_for_select(available_locales_options), include_blank: "Select Language...", class: "ui-select", data: { "nested-translations-target": "localeSelect" }, style: "width: 200px;"
+        button.ui-btn-secondary type="button" data-action="click->nested-translations#addTranslation" style="display: inline-flex; align-items: center; gap: 6px;" 
           span +
           | Add Language
 

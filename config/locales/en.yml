@@ -46,6 +46,10 @@ en:
         data: Data
         custom_fields: Custom Fields
         canned_responses: Canned responses
+        automations: Automations
+        macros: Macros
+        sla_policies: SLA Policies
+        csat_surveys: CSAT Surveys
     settings_index:
       title: Home
       workspace: Workspace
@@ -161,6 +165,10 @@ en:
         duplicate: Duplicate
         delete: Delete
         delete_confirm: Are you sure you want to delete this automation?
+      new:
+        title: New Automation
+      edit:
+        title: Edit Automation
       form:
         name_placeholder: e.g. Auto-assign VIP conversations
         description_label: Description (optional)
@@ -1247,7 +1255,37 @@ en:
       form:
         title_placeholder: Add title
         description_placeholder: Add message
+    sla_policies:
+      index:
+        title: SLA Policies
+        description: Set service level targets for different inboxes to ensure timely responses.
+        new_policy: New Policy
+        empty_title: No SLA Policies
+        empty_description: Create your first SLA policy to start tracking agent response times.
+      new:
+        title: New SLA Policy
+        description: Define targets to ensure your team responds to customers on time.
+      edit:
+        title: Edit SLA Policy
+        description: Update targets to ensure your team responds to customers on time.
     csat_surveys:
+      index:
+        title: CSAT Surveys
+        description: Create and manage custom Customer Satisfaction surveys.
+        new_survey: Create Custom Survey
+        prompt_label: "Prompt: "
+        default_prompt: "How would you rate the support you received?"
+        uses_template: "Uses: %{name}"
+        default_template: "Default system template"
+        empty_title: No CSAT Surveys
+        empty_description: Create your first survey to start collecting customer feedback.
+        delete_confirm: Are you sure you want to delete this survey?
+      new:
+        title: Create CSAT Survey
+        description: Configure your custom customer satisfaction survey
+      edit:
+        title: Edit CSAT Survey
+        description: Update your custom customer satisfaction survey
       form:
         name_placeholder: e.g. Support Feedback
         email_prompt_label: Email Prompt (Inside the email)

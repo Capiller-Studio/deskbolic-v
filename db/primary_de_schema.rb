@@ -183,6 +183,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_03_183500) do
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.text "description"
     t.string "name", null: false
+    t.string "timezone", default: "UTC", null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["account_id", "created_at"], name: "index_business_hour_groups_on_account_id_and_created_at"
     t.index ["account_id", "name"], name: "index_business_hour_groups_on_account_id_and_name"

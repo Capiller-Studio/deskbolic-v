@@ -169,6 +169,7 @@ Rails.application.routes.draw do
         patch :reorder
       end
     end
+    resources :business_hour_groups, path: "business_hours"
     resources :skills, except: [:show]
     resources :field_resources, only: [:create, :destroy] do
       post :sort, on: :collection

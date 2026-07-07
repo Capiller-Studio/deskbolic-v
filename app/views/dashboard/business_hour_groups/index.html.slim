@@ -1,0 +1,34 @@
+= render("dashboard/shared/dashboard_container", current_page: "settings") do
+  = render("dashboard/settings/settings_sidebar", current_page: "business-hours") do
+    .body-container
+      .ui-index-header
+        .ui-title-area
+          h2.f-semi-32 = t("dashboard.business_hour_groups.index.title")
+          p.f-reg-16 = t("dashboard.business_hour_groups.index.description")
+        
+        = link_to new_business_hour_group_path, class: "ui-btn-primary"
+          | + #{t("dashboard.business_hour_groups.index.new_group")}
+
+      - if @business_hour_groups.any?
+        .ui-list
+          - @business_hour_groups.each do |group|
+            .ui-card
+              .ui-card-top
+                .ui-card-info
+                  .ui-avatar-placeholder 🕒
+                  div
+                    h3.f-semi-18 = group.name
+                    p.f-reg-14 = group.description.presence || t("dashboard.business_hour_groups.shared.no_description")
+                    p.f-reg-12.mt-2 = "Timezone: #{group.timezone}"
+                .ui-card-actions
+                  = link_to edit_business_hour_group_path(group), class: "ui-action-btn", title: t("shared.edit") do
+                    | ✏️
+                  = link_to business_hour_group_path(group), class: "ui-action-btn ui-action-delete", data: { turbo_method: :delete, turbo_confirm: t("shared.confirm_delete") }, title: t("shared.delete") do
+                    | 🗑️
+      - else
+        .ui-empty-state
+          .ui-empty-icon 🕒
+          h3.f-semi-18 = t("dashboard.business_hour_groups.index.empty_title")
+          p.f-reg-14 = t("dashboard.business_hour_groups.index.empty_description")
+          = link_to new_business_hour_group_path, class: "ui-btn-primary ui-btn-sm"
+            | + #{t("dashboard.business_hour_groups.index.new_group")}

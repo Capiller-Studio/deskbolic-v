@@ -157,6 +157,13 @@
                         p.f-reg-12
                           = t("dashboard.assignment_policies.sidebar.label")
                           = plan_upgrade_bubble(:assignment_policies)
+                li.nav-item class="#{current_page == 'business-hours' ? 'st-list-active' : ''}"
+                  = link_to(business_hour_groups_path, class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12
+                          = t("dashboard.business_hour_groups.index.title")
+                          = plan_upgrade_bubble(:business_hours_enabled)
                 li.nav-item class="#{current_page == 'skills' ? 'st-list-active' : ''}"
                   = link_to(skills_path, class: "nav-link") do
                     .link-text

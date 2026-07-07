@@ -7,10 +7,11 @@ class SubscriptionChannel < ApplicationCable::Channel
   before_subscribe :current_subscriber
 
   def subscribed
-    # TODO: Use correct shard based on account
-    stream_from(connection_token)
-    track_activity
-    broadcast_activity
+    current_account.with_shard do
+      stream_from(connection_token)
+      track_activity
+      broadcast_activity
+    end
   end
 
   def unsubscribed; end
@@ -30,25 +31,12 @@ class SubscriptionChannel < ApplicationCable::Channel
   private
 
   def configure_connection_token
-    # TODO: Raise exception when connection token is invalid.
+    reject unless params[:connection_token].present?
     self.connection_token = params[:connection_token]
   end
 
   def current_subscriber
     @current_subscriber ||= current_user || current_customer
-  end
-
-  def current_user
-    # TODO: Add Cookie and Session handling
-    return if params[:user_id].blank?
-
-    @current_user ||= User.where(id: params[:user_id]).find_by!(connection_token:)
-  end
-
-  def current_customer
-    return if params[:user_id]
-
-    @current_customer ||= CustomerInbox.find_by!(connection_token:).customer
   end
 
   def current_account
@@ -72,9 +60,15 @@ class SubscriptionChannel < ApplicationCable::Channel
     _users     = Utilities::ActivityHelpers.available_users(current_account.id)
     _customers = Utilities::ActivityHelpers.available_customers(current_account.id)
 
-    # TODO: Broadcast active users and customers
     ActionCable.server.broadcast(
-      connection_token, {}
+      connection_token,
+      {
+        event: "presence.update",
+        data: {
+          users: _users,
+          customers: _customers
+        }
+      }
     )
   end
 end

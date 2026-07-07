@@ -14,7 +14,10 @@ class ConversationMailbox < ApplicationMailbox
   def find_email_channel
     self.email_channel = Channels::EmailChannelSearcher.call(mail:)&.first
 
-    bounced! unless email_channel # TODO: WIP
+    unless email_channel
+      SystemLog.log_event("inbound_email.bounced", level: :warn, message: "No matching email channel found for #{mail.to}")
+      bounced!
+    end
   end
 
   def current_account

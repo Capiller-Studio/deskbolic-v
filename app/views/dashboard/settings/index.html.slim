@@ -116,6 +116,11 @@
               .card-desc
                 h4.f-semi-14 = t('dashboard.settings_index.skills')
                 p.f-reg-12 = t('dashboard.settings_index.skills_desc')
+            = link_to(business_hour_groups_path, class:"card") do
+              = inline_svg_tag("clock.svg", class:"card-icon", alt:"icon")
+              .card-desc
+                h4.f-semi-14 = t('dashboard.business_hour_groups.index.title')
+                p.f-reg-12 = t('dashboard.business_hour_groups.index.description')
             = link_to(email_templates_path, class:"card") do
               = inline_svg_tag("templates.svg", class:"card-icon", alt:"icon")
               .card-desc

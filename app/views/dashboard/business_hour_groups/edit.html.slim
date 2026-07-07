@@ -1,0 +1,8 @@
+= render("dashboard/shared/dashboard_container", current_page: "settings") do
+  = render("dashboard/settings/settings_sidebar", current_page: "business-hours") do
+    .ui-page-body
+      .ui-page-header
+        = link_to t("shared.back"), business_hour_groups_path, class: "ui-back-link"
+        h2.f-semi-24 style="color: #0f172a; margin-top: 12px;" = t("dashboard.business_hour_groups.edit.title")
+        
+      = render "form", business_hour_group: @business_hour_group

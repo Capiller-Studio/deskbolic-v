@@ -1,0 +1,111 @@
+= form_with(model: business_hour_group, class: "ui-form", data: { controller: "business-hours" }) do |f|
+  - if f.object.errors.any?
+    .ui-error-summary
+      h3 = t("dashboard.business_hour_groups.form.error_heading", default: "Please fix the following errors:")
+      ul
+        - f.object.errors.full_messages.each do |message|
+          li = message
+
+  .ui-section.ui-section--always-open
+    .ui-section-header
+      .ui-section-title
+        span.ui-section-icon 📝
+        span.ui-section-label = t("dashboard.business_hour_groups.form.general_settings")
+      p.f-reg-14.ml-6 style="margin-left: 28px; color: #64748b;" = t("dashboard.business_hour_groups.form.general_settings_desc")
+    .ui-section-body
+      .ui-form-group
+        = f.label :name, class: "ui-label"
+        = f.text_field :name, class: "ui-input", placeholder: t("dashboard.business_hour_groups.form.name_placeholder"), required: true
+
+      .ui-form-group
+        = f.label :description, class: "ui-label"
+        = f.text_area :description, class: "ui-input", rows: 3
+
+      .ui-form-group
+        = f.label :timezone, class: "ui-label"
+        = f.time_zone_select :timezone, nil, { default: current_account.timezone }, { class: "ui-select" }
+
+  .ui-section.ui-section--always-open
+    .ui-section-header
+      .ui-section-title
+        span.ui-section-icon 🕒
+        span.ui-section-label = t("dashboard.business_hour_groups.form.weekly_schedule")
+      p.f-reg-14.ml-6 style="margin-left: 28px; color: #64748b;" = t("dashboard.business_hour_groups.form.weekly_schedule_desc")
+    .ui-section-body
+    .bh-weekly-schedule
+      - 7.times do |day_index|
+        - day_name = BusinessHour.day_of_weeks.keys[day_index]
+        - day_hours = f.object.business_hours.select { |bh| bh.day_of_week == day_name }
+        - is_enabled = params[:business_hour_group].present? ? params["day_enabled_#{day_index}"] == "1" : (f.object.new_record? || day_hours.any? { |bh| !bh.marked_for_destruction? })
+        - day_hours = [f.object.business_hours.build(day_of_week: day_name)] if day_hours.empty?
+        
+        .bh-day-row data-business-hours-target="dayRow" data-day-index=day_index
+          .bh-day-header.ui-toggle-row
+            span.ui-toggle-label.bh-day-label = t("date.day_names")[day_index]
+            label.ui-toggle
+              = check_box_tag "day_enabled_#{day_index}", "1", is_enabled, data: { action: "change->business-hours#toggleDay", day_index: day_index }
+              span.ui-toggle-slider
+            
+          .bh-day-body
+            .bh-time-slots data-business-hours-target="slotsContainer" data-day-index=day_index
+              = f.fields_for :business_hours, day_hours do |bh_form|
+                .bh-time-slot data-business-hours-target="slot" style="#{bh_form.object.marked_for_destruction? ? 'display: none;' : ''}"
+                  = bh_form.hidden_field :day_of_week, value: bh_form.object.day_of_week || day_name
+                  = bh_form.time_field :opening_time, class: "ui-input ui-input-time bh-time-input", required: !bh_form.object.marked_for_destruction?, data: { action: "input->business-hours#validateTime" }
+                  span.f-reg-14 -
+                  = bh_form.time_field :closing_time, class: "ui-input ui-input-time bh-time-input", required: !bh_form.object.marked_for_destruction?, data: { action: "input->business-hours#validateTime" }
+                  - if bh_form.object.persisted?
+                    = bh_form.hidden_field :_destroy, data: { business_hours_target: "destroyInput" }
+                  button.ui-action-delete type="button" data-action="click->business-hours#removeSlot" title="Remove Hours"
+                    svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
+                      path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"
+            
+            button.ui-btn-secondary.ui-btn-sm type="button" data-action="click->business-hours#addSlot" data-day-index=day_index
+              | + #{t("dashboard.business_hour_groups.form.add_hours")}
+
+  .ui-section.ui-section--always-open
+    .ui-section-header
+      .ui-section-title
+        span.ui-section-icon 📅
+        span.ui-section-label = t("dashboard.business_hour_groups.form.exceptions")
+      p.f-reg-14.ml-6 style="margin-left: 28px; color: #64748b;" = t("dashboard.business_hour_groups.form.exceptions_desc")
+    .ui-section-body
+
+    .bh-exceptions data-business-hours-target="exceptionsContainer"
+      - exception_hours = f.object.business_hours.select { |bh| bh.day_of_week.nil? }
+      = f.fields_for :business_hours, exception_hours do |bh_form|
+        .bh-exception-row data-business-hours-target="exceptionSlot"
+          = bh_form.datetime_field :close_from, class: "ui-input ui-input-datetime bh-datetime-input", required: true, data: { action: "input->business-hours#validateTime change->business-hours#validateTime" }
+          span.f-reg-14 -
+          = bh_form.datetime_field :close_till, class: "ui-input ui-input-datetime bh-datetime-input", required: true, data: { action: "input->business-hours#validateTime change->business-hours#validateTime" }
+          - if bh_form.object.persisted?
+            = bh_form.hidden_field :_destroy, data: { business_hours_target: "destroyInput" }
+          button.ui-action-delete type="button" data-action="click->business-hours#removeExceptionSlot" title="Remove Exception"
+            svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
+              path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"
+            
+    button.ui-btn-secondary.ui-btn-sm.mt-3 type="button" data-action="click->business-hours#addExceptionSlot"
+      | + #{t("dashboard.business_hour_groups.form.add_exception")}
+
+  .ui-form-actions.mt-6
+    = link_to t("dashboard.business_hour_groups.form.cancel"), business_hour_groups_path, class: "ui-btn-secondary"
+    = f.submit t("dashboard.business_hour_groups.form.save"), class: "ui-btn-primary ml-3"
+    
+  template data-business-hours-target="slotTemplate"
+    .bh-time-slot data-business-hours-target="slot"
+      input type="hidden" name="business_hour_group[business_hours_attributes][NEW_RECORD][day_of_week]" value="DAY_NAME"
+      input type="time" name="business_hour_group[business_hours_attributes][NEW_RECORD][opening_time]" class="ui-input ui-input-time bh-time-input" required="required" data-action="input->business-hours#validateTime"
+      span.f-reg-14 -
+      input type="time" name="business_hour_group[business_hours_attributes][NEW_RECORD][closing_time]" class="ui-input ui-input-time bh-time-input" required="required" data-action="input->business-hours#validateTime"
+      button.ui-action-delete type="button" data-action="click->business-hours#removeSlot" title="Remove Hours"
+        svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
+          path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"
+
+  template data-business-hours-target="exceptionTemplate"
+    .bh-exception-row data-business-hours-target="exceptionSlot"
+      input type="datetime-local" name="business_hour_group[business_hours_attributes][NEW_RECORD][close_from]" class="ui-input ui-input-datetime bh-datetime-input" required="required" data-action="input->business-hours#validateTime change->business-hours#validateTime"
+      span.f-reg-14 -
+      input type="datetime-local" name="business_hour_group[business_hours_attributes][NEW_RECORD][close_till]" class="ui-input ui-input-datetime bh-datetime-input" required="required" data-action="input->business-hours#validateTime change->business-hours#validateTime"
+      button.ui-action-delete type="button" data-action="click->business-hours#removeExceptionSlot" title="Remove Exception"
+        svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
+          path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"

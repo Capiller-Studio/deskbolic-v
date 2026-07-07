@@ -67,6 +67,10 @@
                     = inbox.collection_select :csat_survey_id, current_account.csat_surveys, :id, :name, { include_blank: "Default System Survey" }, class: "ui-select"
                 
                   .ui-form-group
+                    = inbox.label :business_hour_group_id, "Business Hours", class: "ui-label"
+                    = inbox.collection_select :business_hour_group_id, current_account.business_hour_groups, :id, :name, { include_blank: "Always Online (24/7)" }, class: "ui-select"
+
+                  .ui-form-group
                     = inbox.label :sla_policy_ids, "SLA Policies", class: "ui-label"
                     = inbox.collection_select :sla_policy_ids, current_account.sla_policies, :id, :name, {}, { multiple: true, class: "ui-select" }
 

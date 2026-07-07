@@ -92,6 +92,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_15_000002) do
     t.uuid "referred_by_id"
     t.string "shard_key", default: "de", null: false
     t.integer "status", default: 0, null: false
+    t.string "timezone", default: "UTC", null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["created_at"], name: "index_accounts_on_created_at"
     t.index ["identifier"], name: "index_accounts_on_identifier", unique: true

@@ -1,0 +1,41 @@
+.bh-day-row {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+}
+
+.bh-day-header {
+  margin-bottom: 8px;
+}
+
+.bh-day-label {
+  min-width: 100px;
+}
+
+.bh-day-body {
+  margin-left: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.bh-time-slots {
+  display: flex;
+  flex-direction: column;
+}
+
+.bh-time-slot, .bh-exception-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.bh-time-input {
+  max-width: 150px;
+}
+
+.bh-datetime-input {
+  max-width: 200px;
+}

@@ -779,6 +779,40 @@ en:
         ssl_none: No SSL
       sidebar:
         label: Domains
+    business_hour_groups:
+      shared:
+        no_description: "No description provided."
+      index:
+        title: "Business Hours"
+        description: "Configure working hours and exceptions for your teams."
+        new_group: "New Schedule"
+        empty_title: "No business hours yet"
+        empty_description: "Create a schedule to define when your team is online."
+      new:
+        title: "New Business Hours"
+        description: "Create a new schedule for your team."
+      edit:
+        title: "Edit Business Hours"
+        description: "Update your team's schedule."
+      form:
+        general_settings: "General Settings"
+        general_settings_desc: "Basic details about this schedule."
+        name_placeholder: "e.g., US Support Team"
+        weekly_schedule: "Weekly Schedule"
+        weekly_schedule_desc: "Define your regular working hours. You can add multiple time slots per day."
+        add_hours: "Add Hours"
+        exceptions: "Holidays & Exceptions"
+        exceptions_desc: "Define specific dates when your team is unavailable."
+        add_exception: "Add Exception"
+        save: "Save"
+        cancel: "Cancel"
+      create:
+        created: "Business hours created successfully."
+      update:
+        updated: "Business hours updated successfully."
+      destroy:
+        destroyed: "Business hours deleted successfully."
+
     email_templates:
       index:
         title: Email Templates

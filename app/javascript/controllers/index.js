@@ -99,6 +99,9 @@ application.register("assignment-policy", AssignmentPolicyController)
 import SlaPolicyController from "./sla_policy_controller"
 application.register("sla-policy", SlaPolicyController)
 
+import BusinessHoursController from "./business_hours_controller"
+application.register("business-hours", BusinessHoursController)
+
 import RolePermissionsController from "./role_permissions_controller"
 application.register("role-permissions", RolePermissionsController)
 

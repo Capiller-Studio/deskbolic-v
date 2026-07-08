@@ -118,9 +118,35 @@ module Dashboard
     
     def assign_member
       @conversation = current_account.conversations.find(params[:id])
-      @conversation.assign!(current_user)
+      user = params[:user_id].present? ? current_account.users.find(params[:user_id]) : current_user
+      @conversation.assign!(user)
 
-      redirect_to(request.referer)
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace(
+            "conversation-agent-#{@conversation.id}", 
+            partial: "dashboard/conversations/agent_info", 
+            locals: { conversation: @conversation, assigned_conversation: true }
+          )
+        end
+        format.html { redirect_to(request.referer) }
+      end
+    end
+
+    def unassign_member
+      @conversation = current_account.conversations.find(params[:id])
+      @conversation.unassign!
+
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace(
+            "conversation-agent-#{@conversation.id}", 
+            partial: "dashboard/conversations/agent_info", 
+            locals: { conversation: @conversation, assigned_conversation: false }
+          )
+        end
+        format.html { redirect_to(request.referer) }
+      end
     end
 
     def assign_team

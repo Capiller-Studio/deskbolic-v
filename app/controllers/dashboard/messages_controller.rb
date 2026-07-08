@@ -25,7 +25,8 @@ module Dashboard
 
     def create
       @response = params[:message][:response]
-      @attachments = params[:message][:attachments].reject(&:blank?)
+      @attachments = params[:message][:attachments]&.reject(&:blank?)
+      @visibility = params[:message][:visibility] == "personal" ? "personal" : "global"
       @conversation = current_account.conversations.find(params[:message][:conversation_id])
 
       if @response.present? || @attachments.present?
@@ -33,11 +34,22 @@ module Dashboard
           @conversation.assign!(current_user)
         end
         
-        @message = @conversation.messages.create!(content: @response,inbox: @conversation.inbox,
-        account: @conversation.account,sender: current_user,source: @conversation.source)
+        @message = @conversation.messages.create!(
+          content: @response,
+          inbox: @conversation.inbox,
+          account: @conversation.account,
+          sender: current_user,
+          source: @conversation.source,
+          visibility: @visibility
+        )
 
         create_attachments(@attachments) if @attachments.present?
-        Messages::DeliveryWorker.perform_async(@message.account_id, @message.id)
+        
+        if @message.global?
+          Messages::DeliveryWorker.perform_async(@message.account_id, @message.id)
+        elsif @message.personal? && @message.content.present?
+          parse_mentions(@message)
+        end
       end
 
       respond_to do |format|
@@ -55,7 +67,7 @@ module Dashboard
         streams << turbo_stream.append("message-frame", partial: "dashboard/messages/message", locals: { message: @message, show_divider: true })
       end
       
-      streams << turbo_stream.update("conversation-#{@message.conversation_id}-preview", @message.content.to_s)
+      streams << turbo_stream.update("conversation-#{@message.conversation_id}-preview", ActionController::Base.helpers.strip_tags(@message.content.to_s)&.truncate(100))
       streams << turbo_stream.update("conversation-#{@message.conversation_id}-date", @message.created_at.strftime("%d %b"))
       
       render(turbo_stream: streams)
@@ -67,6 +79,21 @@ module Dashboard
     end
 
     private
+    
+    def parse_mentions(message)
+      mentions = message.content.scan(/@(\w+)/).flatten.uniq
+      return if mentions.empty?
+      
+      users = current_account.users.where("LOWER(first_name) IN (?) OR LOWER(last_name) IN (?)", mentions.map(&:downcase), mentions.map(&:downcase))
+      
+      users.each do |user|
+        Mention.create!(
+          account: current_account,
+          resource: message,
+          mentioned: user
+        )
+      end
+    end
 
     def create_attachments(attachments)
       attachments.each do |file|

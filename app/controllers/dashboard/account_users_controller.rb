@@ -6,6 +6,12 @@ module Dashboard
       @account_users = current_account.account_users.includes(:user, :roles)
     end
 
+    def search
+      query = params[:q].to_s.strip.downcase
+      @users = current_account.users.where("LOWER(first_name) LIKE ? OR LOWER(last_name) LIKE ? OR LOWER(email) LIKE ?", "%#{query}%", "%#{query}%", "%#{query}%").limit(10)
+      render json: @users.map { |u| { id: u.id, value: u.display_name, email: u.email } }
+    end
+
     def edit
     end
 

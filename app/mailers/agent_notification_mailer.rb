@@ -67,12 +67,16 @@ class AgentNotificationMailer < ApplicationMailer
   private
 
   def notification_liquid_variables
-    {
-      "agent_name" => @user.display_name || @user.email,
-      "event_title" => I18n.t("notifications.events.#{@notification.event}"),
-      "event_description" => I18n.t("notifications.events.#{@notification.event}"),
-      "identifier" => @conversation.try(:identifier) || @resource.try(:identifier) || "",
-      "inbox_name" => @conversation.try(:inbox).try(:name) || @resource.try(:inbox).try(:name) || ""
-    }
+    event_obj = OpenStruct.new(
+      title: I18n.t("notifications.events.#{@notification.event}", default: @notification.event.to_s.humanize),
+      description: I18n.t("notifications.events.#{@notification.event}", default: @notification.event.to_s.humanize)
+    )
+
+    Liquid::ContextBuilderService.call(
+      conversation: @conversation || @resource.try(:conversation),
+      agent: @user,
+      event: event_obj,
+      template_type: 'agent_notification'
+    )
   end
 end

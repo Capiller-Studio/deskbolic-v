@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["input", "preview", "textarea", "emojiPicker", "voiceBtn", "recordingIndicator"]
+  static targets = ["input", "preview", "textarea", "emojiPicker", "voiceBtn", "recordingIndicator", "visibility", "mentionDropdown"]
 
   initialize() {
     this.selectedFiles = []
@@ -20,14 +20,132 @@ export default class extends Controller {
     this.renderEmojis()
     this.boundCloseOnOutsideClick = this.closeOnOutsideClick.bind(this)
     this.boundClear = () => this.clear()
+    this.boundHideMentions = this.hideMentionSuggestions.bind(this)
     document.addEventListener("click", this.boundCloseOnOutsideClick)
-    document.addEventListener("deskbolic:message-sent", this.boundClear)
+    document.addEventListener("click", this.boundHideMentions)
   }
 
   disconnect() {
     document.removeEventListener("click", this.boundCloseOnOutsideClick)
+    document.removeEventListener("click", this.boundHideMentions)
     document.removeEventListener("deskbolic:message-sent", this.boundClear)
     this.stopRecording()
+  }
+
+  setReply(event) {
+    if(this.hasVisibilityTarget) this.visibilityTarget.value = "global"
+    const editorRoot = document.querySelector(".lexical-editor-root")
+    if (editorRoot) {
+      editorRoot.style.backgroundColor = ""
+      editorRoot.style.border = "none"
+    }
+    const noteBtn = document.querySelector(".response-type .note")
+    const replyBtn = document.querySelector(".response-type .reply")
+    if(replyBtn) replyBtn.classList.add("active")
+    if(noteBtn) noteBtn.classList.remove("active")
+  }
+
+  setNote(event) {
+    if(this.hasVisibilityTarget) this.visibilityTarget.value = "personal"
+    const editorRoot = document.querySelector(".lexical-editor-root")
+    if (editorRoot) {
+      editorRoot.style.backgroundColor = "#fefce8"
+      editorRoot.style.border = "1px solid #fef08a"
+    }
+    const noteBtn = document.querySelector(".response-type .note")
+    const replyBtn = document.querySelector(".response-type .reply")
+    if(noteBtn) noteBtn.classList.add("active")
+    if(replyBtn) replyBtn.classList.remove("active")
+  }
+
+  // --- Mentions Logic ---
+  checkMentions(event) {
+    if(this.hasVisibilityTarget && this.visibilityTarget.value !== "personal") {
+      this.hideMentionSuggestions()
+      return
+    }
+
+    const selection = window.getSelection();
+    if (!selection.rangeCount) return;
+    const range = selection.getRangeAt(0);
+    const textNode = range.startContainer;
+    
+    if (textNode.nodeType !== Node.TEXT_NODE) {
+      this.hideMentionSuggestions();
+      return;
+    }
+
+    const textBeforeCaret = textNode.textContent.substring(0, range.startOffset);
+    const mentionMatch = textBeforeCaret.match(/(?:^|\s)@(\w*)$/);
+    
+    if (mentionMatch) {
+       this.mentionQueryLength = mentionMatch[1].length + 1; // +1 for the '@'
+       const query = mentionMatch[1];
+       this.fetchMentionSuggestions(query);
+    } else {
+       this.hideMentionSuggestions();
+    }
+  }
+
+  fetchMentionSuggestions(query) {
+    fetch(`/users/search?q=${query}`)
+      .then(response => response.json())
+      .then(users => {
+        if (users.length > 0) {
+          this.renderMentionDropdown(users)
+        } else {
+          this.hideMentionSuggestions()
+        }
+      })
+  }
+
+  renderMentionDropdown(users) {
+    this.mentionDropdownTarget.innerHTML = ""
+    users.forEach(user => {
+      const item = document.createElement("div")
+      item.className = "mention-item"
+      
+      const initials = user.value.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()
+      
+      item.innerHTML = `
+        <div class="mention-avatar">${initials}</div>
+        <div class="mention-info">
+          <span class="mention-name">${user.value}</span>
+          <span class="mention-email">${user.email}</span>
+        </div>
+      `
+      
+      item.addEventListener("mousedown", (e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        this.insertMention(user.value)
+      })
+      this.mentionDropdownTarget.appendChild(item)
+    })
+    this.mentionDropdownTarget.style.display = "block"
+  }
+
+  getLexicalController() {
+    const el = document.querySelector('[data-controller="lexical"]');
+    return this.application.getControllerForElementAndIdentifier(el, "lexical");
+  }
+
+  insertMention(username) {
+    const mentionText = `@${username.split(' ')[0]} `
+    
+    const lexicalCtrl = this.getLexicalController();
+    if (lexicalCtrl) {
+      lexicalCtrl.replaceText(this.mentionQueryLength, mentionText);
+    }
+    
+    this.hideMentionSuggestions();
+  }
+
+  hideMentionSuggestions() {
+    if (this.hasMentionDropdownTarget) {
+      this.mentionDropdownTarget.style.display = "none"
+      this.mentionDropdownTarget.innerHTML = ""
+    }
   }
 
   // --- Emoji Logic ---
@@ -60,6 +178,7 @@ export default class extends Controller {
         btn.type = "button"
         btn.className = "de-emoji-item"
         btn.textContent = emoji
+        btn.dataset.emoji = emoji
         btn.dataset.action = "click->message-form#insertEmoji"
         grid.appendChild(btn)
       })
@@ -69,15 +188,23 @@ export default class extends Controller {
   }
 
   insertEmoji(event) {
-    const emoji = event.currentTarget.textContent
-    const textarea = this.textareaTarget
-    const start = textarea.selectionStart
-    const end = textarea.selectionEnd
-    textarea.value = textarea.value.substring(0, start) + emoji + textarea.value.substring(end)
-    textarea.selectionStart = textarea.selectionEnd = start + emoji.length
-    textarea.focus()
-    this.emojiPickerOpen = false
-    this.emojiPickerTarget.style.display = "none"
+    event.stopPropagation()
+    const emoji = event.target.dataset.emoji
+    if (!emoji) return
+
+    const lexicalCtrl = this.getLexicalController();
+    if (lexicalCtrl) {
+      lexicalCtrl.insertText(emoji);
+    } else if (this.hasTextareaTarget) {
+      const textarea = this.textareaTarget
+      const start = textarea.selectionStart
+      const end = textarea.selectionEnd
+      textarea.value = textarea.value.substring(0, start) + emoji + textarea.value.substring(end)
+      textarea.selectionStart = textarea.selectionEnd = start + emoji.length
+      textarea.focus()
+    }
+    
+    this.hideEmojiPicker()
   }
 
   // --- Voice Logic ---

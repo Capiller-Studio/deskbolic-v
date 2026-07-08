@@ -2,93 +2,61 @@
 .details-section id="conversation-details-#{@conversation.id}" data-controller="accordion"
   h2.f-semi-24 = t('dashboard.conversation_details.title')
   .descriptive-details
-    .agent
-      p.f-semi-14 = t('dashboard.conversation_details.agent')
-      .card.agent-detail
-        button.accordian data-action="click->accordion#toggle"
-          - if assigned_conversation
-            - if current_user.avatar.attached?
-              = image_tag(current_user.avatar, class:"chat-user", alt: "menu")
-            - else
-              .chat-user.avatar-fallback.agent-initials-avatar.f-reg-12 class=avatar_fallback_color_class(full_name(current_user))
-                = initials(current_user)
-            p.f-reg-14 = current_user.display_name
-          - else 
-            = image_tag("profile_icon.png", class:"chat-user", alt: "menu")
-            p.f-reg-14 = t('dashboard.conversation_details.unassigned')
-          = inline_svg_tag("arrow_down.svg", class:"arrow-icon ml-auto")
-        .panel data-accordion-target="panel"
-          .section-flex
-            h5.f-reg-12 = t('dashboard.conversation_details.assignee')
-            - if assigned_conversation
-              - if current_user.avatar.attached?
-                = image_tag(current_user.avatar, class:"menu-icon agent-panel-avatar", alt:"menu")
-              - else
-                .menu-icon.avatar-fallback.agent-panel-avatar.agent-initials-avatar.f-reg-12 class=avatar_fallback_color_class(full_name(current_user))
-                  = initials(current_user)
-              p.f-reg-12 = current_user.display_name
-            - else
-              = inline_svg_tag("agent_icon.svg", class:"menu-icon", alt:"menu")
-              = button_to(t('dashboard.conversation_details.assign_to_me'), assign_member_conversation_path(@conversation), method: :post, class: "assign-btn f-reg-12")
+    = render partial: "dashboard/conversations/agent_info", locals: { conversation: @conversation }
     = render partial: "dashboard/conversations/team_info", locals: { conversation: @conversation, assigned_team: assigned_team }
-    / .card.ticket-info
-    /   button.accordian data-action="click->accordion#toggle"
-    /     p.f-reg-14 Ticket info
-    /     = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
-    /   .panel data-accordion-target="panel"
-    /     .section-flex 
-    /       h5.f-reg-14 Ticket ID: 
-    /       .status-tag.bg-gray.f-reg-12 #1E233
-    /     .section-flex 
-    /       h5.f-reg-14 Created: 
-    /       p.f-reg-14 = DateTime.current.strftime("%d %b %Y")
-    /     .section-flex 
-    /       h5.f-reg-14 Last message: 
-    /       p.f-reg-14 = DateTime.current.strftime("%d %b %Y")
-    /     .section-flex 
-    /       h5.f-reg-14 Status: 
-    /       .status-tag.bg-green.f-reg-12 Open
-    /     .section-flex 
-    /       h5.f-reg-14 Priority:
-    /       .status-tag.bg-red.f-reg-12 Urgent
+    .card.ticket-info
+      button.accordian data-action="click->accordion#toggle"
+        p.f-reg-14 = t('dashboard.conversation_details.ticket_info', default: 'Ticket info')
+        = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
+      .panel data-accordion-target="panel"
+        .section-flex 
+          h5.f-reg-14 = t('dashboard.conversation_details.ticket_id', default: 'Ticket ID:')
+          .status-tag.bg-gray.f-reg-12 = "##{@conversation.identifier}"
+        .section-flex 
+          h5.f-reg-14 = t('dashboard.conversation_details.created', default: 'Created:')
+          p.f-reg-14 = @conversation.created_at.strftime("%d %b %Y")
+        .section-flex 
+          h5.f-reg-14 = t('dashboard.conversation_details.status', default: 'Status:')
+          .status-tag.bg-green.f-reg-12 = @conversation.status.titleize
+        .section-flex 
+          h5.f-reg-14 = t('dashboard.conversation_details.priority', default: 'Priority:')
+          .status-tag.bg-red.f-reg-12 = @conversation.priority.titleize
     
-    - if current_account.feature_enabled?(:sla)
-      - active_sla = @conversation.conversation_slas.active.first
-      - if active_sla
-        .card.sla-info
-          button.accordian data-action="click->accordion#toggle"
-            p.f-reg-14 = t('dashboard.conversation_details.sla_status')
-            = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
-          .panel data-accordion-target="panel"
-            .section-flex
-              h5.f-reg-14 = t('dashboard.conversation_details.next_target')
-              p.f-reg-14 = active_sla.target_next_response_at&.strftime("%d %b %H:%M") || t('dashboard.conversation_details.not_applicable')
+    .card.sla-info
+      button.accordian data-action="click->accordion#toggle"
+        p.f-reg-14 = t('dashboard.conversation_details.sla_status')
+        = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
+      .panel data-accordion-target="panel"
+        - active_sla = @conversation.conversation_slas.active.first
+        .section-flex
+          h5.f-reg-14 = t('dashboard.conversation_details.next_target')
+          p.f-reg-14 = active_sla&.target_next_response_at&.strftime("%d %b %H:%M") || t('dashboard.conversation_details.not_applicable')
 
-    - if current_account.feature_enabled?(:csat) && @conversation.resolved?
-      - csat_response = @conversation.csat_survey_responses.last
-      - if csat_response
-        .card.csat-info
-          button.accordian data-action="click->accordion#toggle"
-            p.f-reg-14 = t('dashboard.conversation_details.csat_rating')
-            = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
-          .panel data-accordion-target="panel"
-            .section-flex
-              h5.f-reg-14 = t('dashboard.conversation_details.rating')
-              - if csat_response.rating
-                p.f-reg-14 = "#{csat_response.rating} / 5"
-              - else
-                p.f-reg-14 = t('dashboard.conversation_details.pending')
+    .card.csat-info
+      button.accordian data-action="click->accordion#toggle"
+        p.f-reg-14 = t('dashboard.conversation_details.csat_rating')
+        = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
+      .panel data-accordion-target="panel"
+        .section-flex
+          h5.f-reg-14 = t('dashboard.conversation_details.rating')
+          - csat_response = @conversation.csat_survey_responses.last
+          - if csat_response&.rating
+            p.f-reg-14 = "#{csat_response.rating} / 5"
+          - else
+            p.f-reg-14 = t('dashboard.conversation_details.pending')
 
-    - if current_account.feature_enabled?(:identity_sources) && customer.identities.any?
-      .card.identity-info
+    .card.identity-info
       button.accordian data-action="click->accordion#toggle"
         p.f-reg-14 = t('dashboard.conversation_details.verified_identities')
         = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
-        .panel data-accordion-target="panel"
+      .panel data-accordion-target="panel"
+        - if customer.identities.any?
           - customer.identities.includes(:identity_source).each do |identity|
             .section-flex style="margin-bottom: 8px; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px;"
               h5.f-reg-14 = identity.identity_source&.name || identity.identity_type.titleize
               p.f-reg-14.ml-auto = identity.identifier
+        - else
+          p.f-reg-14 = t('dashboard.conversation_details.no_identities', default: 'No connected identities')
                 
     .card.user-data
       button.accordian data-action="click->accordion#toggle"
@@ -157,65 +125,35 @@
         p.f-reg-14.mr-auto = t('dashboard.conversation_details.user_notes')
         = inline_svg_tag("plus_black.svg", class:"plus-icon", data: { action: "click->accordion#toggleNote"})
         = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
-      .panel.notes-panel data-accordion-target="panel"
+      .panel.notes-panel data-accordion-target="panel" id="conversation-notes"
         - @notes.each do |note|
           = render 'dashboard/notes/note', note: note
       .panel.note-panel data-accordion-target="npanel"
-        .new-note
-          = text_area_tag :content, "", class: "note-field f-reg-12", placeholder: t('dashboard.conversation_details.add_new_note')
+        = form_with(model: Note.new, url: notes_path, class: "new-note", data: { action: "turbo:submit-end->accordion#clearNote" }) do |f|
+          = f.text_area :content, class: "note-field f-reg-12", placeholder: t('dashboard.conversation_details.add_new_note')
+          = f.hidden_field :resource_type, value: "Conversation"
+          = f.hidden_field :resource_id, value: @conversation.id
           .actions
             = image_tag("delete_note.png", class:"note-btn cancel-note", data: { action: "click->accordion#toggleNote"}, alt:"cancel")
-            = image_tag("update_note.png", class:"note-btn add-note", data: { action: "click->accordion#addNote"}, alt: t('dashboard.conversation_details.add'))
+            = image_submit_tag("update_note.png", class:"note-btn add-note", alt: t('dashboard.conversation_details.add'))
             
-    / .card.user-tags
-    /   button.accordian data-action="click->accordion#toggle"
-    /     p.f-reg-14 User tags
-    /     = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
-    /   .panel data-accordion-target="panel"
-    /     .section-flex
-    /       = inline_svg("tag.svg", class: "left-img")
-    /       h5.f-reg-12 Featured Request
-    /       .ml-auto = inline_svg("plus_black.svg")
-    /     .section-flex
-    /       = inline_svg("tag.svg", class: "left-img")
-    /       h5.f-reg-12 Featured Request
-    /       .ml-auto = inline_svg("plus_black.svg")
-    / .card.recent-chats
+    .card.recent-chats
       button.accordian data-action="click->accordion#toggle"
-        p.f-reg-14 Recent chats
+        p.f-reg-14 = t('dashboard.conversation_details.recent_chats', default: 'Recent chats')
         = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
       .panel data-accordion-target="panel"
-        ul
-          .inbox-nav-menu
-            li.nav-item class=""
-              = inline_svg_tag("chat1.svg", class:"user-img", alt:"menu")
-              = link_to("#", class: "nav-link") do
-                h4.f-semi-14 ProjectFlow Pro
-                p.f-reg-12 scdbe fnjw fhbwj
-              .actions
-                = inline_svg_tag("menu.svg", class:"close-icon", alt:"menu")
-                .status-tag.bg-green.f-reg-10 open
-                = inline_svg_tag("close.svg", class:"close-icon", alt:"menu")
-                p.f-reg-10 10 Day
-                
-            li.nav-item class=""
-              = inline_svg_tag("chat1.svg", class:"user-img", alt:"menu")
-              = link_to(conversations_path, class: "nav-link") do
-                h4.f-semi-14 ProjectFlow Pro
-                p.f-reg-12 scdbe fnjw fhbwj
-              .actions
-                = inline_svg_tag("menu.svg", class:"close-icon", alt:"menu")
-                .status-tag.bg-red.f-reg-10 close
-                = inline_svg_tag("close.svg", class:"close-icon", alt:"menu")
-                p.f-reg-10 10 Day
-                
-            li.nav-item class=""
-              = inline_svg_tag("chat1.svg", class:"user-img", alt:"menu")
-              = link_to("#", class: "nav-link") do
-                h4.f-semi-14 ProjectFlow Pro
-                p.f-reg-12 scdbe fnjw fhbwj
-              .actions
-                = inline_svg_tag("menu.svg", class:"close-icon", alt:"menu")
-                .status-tag.bg-green.f-reg-10 open
-                = inline_svg_tag("close.svg", class:"close-icon", alt:"menu")
-                p.f-reg-10 10 Day
+        - recent_conversations = customer.conversations.where.not(id: @conversation.id).order(created_at: :desc).limit(5)
+        - if recent_conversations.any?
+          ul
+            .inbox-nav-menu
+              - recent_conversations.each do |recent|
+                li.nav-item
+                  = inline_svg_tag("chat1.svg", class:"user-img", alt:"chat")
+                  = link_to(dashboard_conversation_path(recent.id), class: "nav-link") do
+                    h4.f-semi-14 = recent.title.presence || "##{recent.identifier}"
+                    p.f-reg-12 = truncate(recent.messages.last&.content || t('dashboard.conversation_details.no_messages', default: 'No messages'), length: 30)
+                  .actions
+                    .status-tag.f-reg-10 class=(recent.resolved? || recent.closed? ? "bg-red" : "bg-green") = recent.status.titleize
+                    p.f-reg-10 = time_ago_in_words(recent.created_at)
+        - else
+          p.f-reg-14 = t('dashboard.conversation_details.no_recent_chats', default: 'No recent conversations.')

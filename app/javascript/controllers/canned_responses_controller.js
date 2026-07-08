@@ -1,0 +1,123 @@
+import { Controller } from "@hotwired/stimulus"
+
+export default class extends Controller {
+  static targets = ["menu", "resultsContainer", "response"];
+  static outlets = ["lexical"];
+  static values = { conversationId: String };
+
+  connect() {
+    this.searchTimeout = null;
+    this.loadedInitialCannedResponses = false;
+    document.addEventListener("click", this.closeMenuOutside.bind(this));
+  }
+
+  disconnect() {
+    document.removeEventListener("click", this.closeMenuOutside.bind(this));
+  }
+
+  toggleMenu() {
+    this.menuTarget.classList.toggle('visible');
+    if (this.menuTarget.classList.contains('visible') && !this.loadedInitialCannedResponses) {
+      this.fetchCannedResponses("");
+      this.loadedInitialCannedResponses = true;
+    }
+  }
+
+  searchCannedResponses(event) {
+    const query = event.target.value;
+    clearTimeout(this.searchTimeout);
+    
+    this.searchTimeout = setTimeout(() => {
+      this.fetchCannedResponses(query);
+    }, 300);
+  }
+
+  preventSubmit(event) {
+    event.preventDefault();
+  }
+
+  fetchCannedResponses(query) {
+    const conversationId = this.conversationIdValue;
+    if (!conversationId) return;
+    
+    fetch(`/conversations/${conversationId}/canned_responses?q=${encodeURIComponent(query)}`, {
+      headers: {
+        "Accept": "application/json",
+        "X-Requested-With": "XMLHttpRequest"
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      this.renderCannedResponses(data.canned_responses);
+    })
+    .catch(error => console.error("Error fetching canned responses:", error));
+  }
+
+  renderCannedResponses(responses) {
+    if (!this.hasResultsContainerTarget) return;
+    
+    this.resultsContainerTarget.innerHTML = "";
+    
+    if (responses.length === 0) {
+      this.resultsContainerTarget.innerHTML = `<p class="f-reg-12" style="padding: 10px; color: #64748b; text-align: center;">No canned responses found.</p>`;
+      return;
+    }
+    
+    responses.forEach(response => {
+      const link = document.createElement('div');
+      link.className = 'menu-link';
+      link.dataset.action = 'click->canned-responses#togglePanel';
+      link.dataset.title = response.name;
+      link.dataset.description = response.description;
+      
+      link.innerHTML = `
+        <svg class="menu-icon" width="24" height="24" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">
+          <rect width="30" height="30" rx="8" fill="#FEFBE8"/>
+          <path d="M15.3094 19.4086L18.8531 21.6586C19.3101 21.9469 19.8726 21.518 19.7391 20.9906L18.7125 16.9547C18.6847 16.8428 18.6891 16.7254 18.7253 16.6159C18.7613 16.5065 18.8276 16.4094 18.9164 16.336L22.0946 13.6852C22.5094 13.3406 22.2984 12.6446 21.757 12.6094L17.6086 12.3422C17.4954 12.3356 17.3866 12.2962 17.2955 12.2288C17.2043 12.1613 17.1347 12.0688 17.0953 11.9625L15.5484 8.0672C15.5075 7.95462 15.4329 7.8574 15.3348 7.78866C15.2367 7.71996 15.1198 7.68309 15 7.68309C14.8802 7.68309 14.7633 7.71996 14.6652 7.78866C14.5671 7.8574 14.4925 7.95462 14.4516 8.0672L12.9047 11.9625C12.8653 12.0688 12.7957 12.1613 12.7045 12.2288C12.6134 12.2962 12.5046 12.3356 12.3914 12.3422L8.243 12.6094C7.70158 12.6446 7.49064 13.3406 7.90544 13.6852L11.0836 16.336C11.1724 16.4094 11.2387 16.5065 11.2747 16.6159C11.3109 16.7254 11.3153 16.8428 11.2875 16.9547L10.3383 20.6953C10.1766 21.3281 10.8516 21.8414 11.393 21.4969L14.6906 19.4086C14.7831 19.3498 14.8904 19.3186 15 19.3186C15.1096 19.3186 15.2169 19.3498 15.3094 19.4086Z" fill="#E9CD58"/>
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M15.0075 19.8833C15.0075 19.8833 15.0041 19.8811 15 19.8811C15 19.8811 14.9959 19.8811 14.9925 19.8833L11.6939 21.9721C11.6939 21.9721 11.343 22.1954 10.9378 22.1671C10.9378 22.1671 10.565 22.1411 10.2615 21.9104C10.2615 21.9104 9.9619 21.6826 9.83151 21.3321C9.83151 21.3321 9.6913 20.9552 9.79329 20.556L10.7423 16.8163C10.7423 16.8163 10.745 16.8054 10.7405 16.792C10.7405 16.792 10.7361 16.7785 10.7251 16.7694L7.54518 14.1171C7.54518 14.1171 7.2575 13.8782 7.16312 13.52C7.16312 13.52 7.07686 13.1926 7.17828 12.8649C7.17828 12.8649 7.28082 12.5336 7.54038 12.3142C7.54038 12.3142 7.82609 12.0728 8.20652 12.0481L12.3553 11.7809C12.3553 11.7809 12.365 11.7803 12.3701 11.7765C12.3701 11.7765 12.3751 11.7728 12.3773 11.7669L12.3819 11.7549L13.9262 7.86607C13.9262 7.86607 14.0504 7.53255 14.3425 7.32792C14.3425 7.32792 14.6386 7.12059 15 7.12059C15 7.12059 15.3614 7.12059 15.6575 7.32792C15.6575 7.32792 15.9496 7.53255 16.0738 7.86607L17.6181 11.7549L17.6227 11.7669C17.6227 11.7669 17.6249 11.7728 17.6299 11.7765C17.6299 11.7765 17.635 11.7803 17.6413 11.7806L21.7932 12.048C21.7932 12.048 22.1739 12.0728 22.4596 12.3142C22.4596 12.3142 22.7192 12.5336 22.8217 12.8649C22.8217 12.8649 22.9231 13.1926 22.8369 13.52C22.8369 13.52 22.7425 13.8782 22.4539 14.1179L19.2767 16.7679C19.2767 16.7679 19.2639 16.7785 19.2595 16.792C19.2595 16.792 19.255 16.8054 19.2584 16.8192L20.2842 20.852C20.2842 20.852 20.3758 21.2136 20.2481 21.5551C20.2481 21.5551 20.1293 21.8728 19.8572 22.0789C19.8572 22.0789 19.5813 22.2878 19.2418 22.3112C19.2418 22.3112 18.8735 22.3365 18.553 22.1344L15.0083 19.8837L15.0079 19.8835L15.0075 19.8833ZM19.1532 21.1828L15.6113 18.934L15.6109 18.9337C15.6109 18.9337 15.3313 18.7561 15 18.7561C15 18.7561 14.6685 18.7561 14.3888 18.9339L11.092 21.0217C11.092 21.0217 11.0155 21.0704 10.9424 21.0148C10.9424 21.0148 10.8543 20.9479 10.8833 20.8346L11.8327 17.093C11.8327 17.093 11.915 16.7615 11.809 16.4399C11.809 16.4399 11.703 16.1182 11.442 15.9024L8.26576 13.2532C8.26576 13.2532 8.24189 13.2334 8.25297 13.1976C8.25297 13.1976 8.26092 13.1719 8.27942 13.1707L12.4276 12.9035C12.4276 12.9035 12.7647 12.8839 13.0391 12.681C13.0391 12.681 13.3104 12.4802 13.4295 12.165L14.9743 8.27479L14.9802 8.25947C14.9802 8.25947 14.9824 8.25322 14.9879 8.24941C14.9879 8.24941 14.9933 8.24559 15 8.24559C15 8.24559 15.0067 8.24559 15.0121 8.24941C15.0121 8.24941 15.0175 8.25322 15.0198 8.25947L15.0256 8.27479L16.5705 12.165C16.5705 12.165 16.6895 12.4802 16.9609 12.681C16.9609 12.681 17.2353 12.8839 17.5759 12.9037L21.7209 13.1707C21.7209 13.1707 21.7391 13.1719 21.747 13.1976C21.747 13.1976 21.7581 13.2334 21.7351 13.2524L18.5561 15.904C18.5561 15.904 18.297 16.1182 18.191 16.4399C18.191 16.4399 18.085 16.7615 18.1666 17.0902L19.1939 21.1293C19.1939 21.1293 19.2026 21.1634 19.178 21.182C19.178 21.182 19.1662 21.191 19.1532 21.1828Z" fill="#E9CD58"/>
+        </svg>
+        <div class="headings">
+          <p class="f-reg-14">${response.name}</p>
+          <p class="f-reg-10">${response.description}</p>
+        </div>
+      `;
+      
+      this.resultsContainerTarget.appendChild(link);
+    });
+  }
+
+  togglePanel(event) {
+    const link = event.currentTarget;
+    const title = link.dataset.title;
+    const description = link.dataset.description;
+    
+    const titleEl = this.responseTarget.querySelector('.response-title');
+    const descEl = this.responseTarget.querySelector('.response-text');
+    
+    if (titleEl) titleEl.textContent = title;
+    if (descEl) descEl.textContent = description;
+    
+    this.responseTarget.style.display = 'block';
+  }
+
+  switchResponse() {
+    const canned_response = this.responseTarget.querySelector(".response-text").textContent;
+    
+    // Insert using Lexical Outlet
+    if (this.hasLexicalOutlet) {
+      this.lexicalOutlet.insertText(canned_response);
+    }
+    
+    this.menuTarget.classList.remove('visible');
+    this.responseTarget.style.display = 'none';
+  }
+
+  closeMenuOutside(event) {
+    if (this.hasMenuTarget && !this.element.contains(event.target)) {
+      this.menuTarget.classList.remove("visible");
+      if (this.hasResponseTarget) {
+        this.responseTarget.style.display = 'none';
+      }
+    }
+  }
+}

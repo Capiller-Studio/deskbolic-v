@@ -28,7 +28,7 @@
                   .nav-link.link data-target-id="conversations-frame" data-controller="section" data-action="click->section#toggleSection" data-url="#{conversation_url}"
                     - conversation.customers.each do |customer|
                       h4.f-semi-14 = full_name(customer)
-                      p.f-reg-12 id="conversation-#{conversation.id}-preview" = conversation.messages.order(:created_at).last&.content
+                      p.f-reg-12 id="conversation-#{conversation.id}-preview" = strip_tags(conversation.messages.order(:created_at).last&.content)&.truncate(100)
                   .actions
                     - unread_count = @unread_counts && @unread_counts[:conversations] ? @unread_counts[:conversations][conversation.id].to_i : 0
                     .unread-badge data-controller="unread-badge" data-action="deskbolic:unread-counts-updated@window->unread-badge#update" data-unread-badge-target="badge" data-unread-badge-id-value=conversation.id data-unread-badge-type-value="conversation" style="background: var(--primary-500, #4F46E5); color: white; border-radius: 12px; padding: 2px 8px; align-items: center; justify-content: center; display: #{unread_count > 0 ? 'flex' : 'none'};"

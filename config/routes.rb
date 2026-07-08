@@ -141,6 +141,7 @@ Rails.application.routes.draw do
     end
 
     resources :channels
+    resources :reports, only: [:index]
     resources :inboxes
     resources :messages do
       get :append_message, on: :collection

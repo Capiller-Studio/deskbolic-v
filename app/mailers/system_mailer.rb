@@ -11,6 +11,13 @@ class SystemMailer < ApplicationMailer
     end
   end
 
+  # Send a custom email (e.g., from automations) with pre-compiled HTML body.
+  def custom_email(to:, subject:, body:)
+    mail(to: to, subject: subject) do |format|
+      format.html { render html: body.html_safe }
+    end
+  end
+
   def forward_email_verification(email_channel)
     @email_channel = email_channel
     @account = email_channel.account

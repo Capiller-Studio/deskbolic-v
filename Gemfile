@@ -21,6 +21,8 @@ gem "slim-rails"
 # gem "mjml-rails"
 gem "actionpack-page_caching"
 gem "invisible_captcha"
+gem "chartkick"
+gem "groupdate"
 
 group :development, :test do
   gem 'dotenv-rails'

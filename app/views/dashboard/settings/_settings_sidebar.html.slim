@@ -13,6 +13,12 @@
                   .link-text
                     .conversation-name.inbox-conv
                       p.f-reg-14 = t('dashboard.sidebar.settings.home')
+            li.nav-item class="#{current_page == 'reports' ? 'st-list-active' : ''}" data-action="click->accordion#toggle"
+              .nav-link
+                = link_to(reports_path, class: "nav-link", data: { turbo: false }) do
+                  .link-text
+                    .conversation-name.inbox-conv
+                      p.f-reg-14 = t('dashboard.sidebar.reports', default: 'Reports')
             li.nav-item class="#{current_page == 'domains' ? 'st-list-active' : ''}" data-action="click->accordion#toggle"
               .nav-link
                 = link_to(domains_path, class: "nav-link") do

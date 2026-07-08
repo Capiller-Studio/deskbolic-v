@@ -8,6 +8,10 @@ export default class extends Controller {
     document.addEventListener("click", this.closeMenuOutside.bind(this));
   }
   
+  connect() {
+    this.searchTimeout = null;
+  }
+  
   toggle(event) {
     const target = event.currentTarget;
     const panel = target.nextElementSibling;
@@ -33,50 +37,11 @@ export default class extends Controller {
     }
     event.stopPropagation();
   }
-  addNote() {
-    const panel = document.querySelector(".notes-panel");
+  
+  clearNote() {
     const noteField = document.querySelector(".note-field");
-    const noteContent = noteField.value.trim();
-  
-    if (noteContent) {
-      this.postNote(noteContent).then(success => {
-        if (success) {
-          const note = document.createElement('p');
-          note.classList.add('f-reg-12');
-          note.textContent = noteContent;
-          panel.appendChild(note);
-
-          noteField.value = '';
-          this.npanelTarget.classList.toggle('visible');
-        }
-      }).catch(error => {
-        console.error('Error saving note:', error);
-      });
-    }
-  }
-  
-  postNote(noteContent) {
-    return new Promise((resolve, reject) => {
-      fetch('/notes', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        },
-        body: JSON.stringify({ note: { content: noteContent } })
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.success) {
-          resolve(true);
-        } else {
-          resolve(false);
-        }
-      })
-      .catch(error => {
-        reject(error);
-      });
-    });
+    if(noteField) noteField.value = '';
+    this.npanelTarget.classList.remove('visible');
   }
   
   addTag(event) {
@@ -97,26 +62,17 @@ export default class extends Controller {
     this.menuTarget.classList.toggle('visible');
   }
   
-  togglePanel(event) {
-    const targetTitle = event.currentTarget.dataset.title;
-    const targetDesc = event.currentTarget.dataset.description;
-
-    this.responseTarget.innerHTML = `
-    <p class='f-semi-18 response-title'>${targetTitle}</p>
-    <p class='f-reg-14 response-text'>${targetDesc}</p>`;
-    
-    this.panelTarget.classList.add('visible');
-  }
-  
-  switchResponse() {
-    const canned_response = this.responseTarget.querySelector(".response-text").textContent;
-    document.querySelector(".response-area").value = canned_response;
-    this.menuTarget.classList.toggle('visible');
+  preventSubmit(event) {
+    event.preventDefault();
   }
   
   closeMenuOutside(event) {
     if (this.hasMenuTarget && !this.element.contains(event.target)) {
       this.menuTarget.classList.remove("visible");
+      if (this.hasPanelTarget) {
+        this.panelTarget.style.display = 'none';
+        this.panelTarget.classList.remove("visible");
+      }
     }
   }
 }

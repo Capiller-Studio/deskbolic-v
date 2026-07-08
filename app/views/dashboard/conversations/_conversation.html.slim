@@ -3,8 +3,8 @@ li.nav-item
   .nav-link.link data-target-id="conversations-frame" data-controller="section" data-action="click->section#toggleSection" data-url="#{conversation_path(conversation)}"
     - conversation.customers.each do |customer|
       h4.f-semi-14 = customer.name || customer.display_name
-      p.f-reg-12 id="conversation-#{conversation.id}-preview" = conversation.messages.order(:created_at).last.content
+      p.f-reg-12 id="conversation-#{conversation.id}-preview" = strip_tags(conversation.messages.order(:created_at).last&.content)&.truncate(100)
   .actions
     = inline_svg_tag("menu.svg", class:"menu-icon", alt:"menu")
     = inline_svg_tag("close.svg", class:"close-icon", alt:"menu")
-    p.f-reg-10 id="conversation-#{conversation.id}-date" = conversation.messages.order(:created_at).last.created_at.strftime("%d %b")
+    p.f-reg-10 id="conversation-#{conversation.id}-date" = conversation.messages.order(:created_at).last&.created_at&.strftime("%d %b")

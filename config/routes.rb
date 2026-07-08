@@ -84,12 +84,14 @@ Rails.application.routes.draw do
 
     resources :inbox, only: [ :index ]
     resources :conversations do
+      resources :canned_responses, only: [:index], module: :conversations
       get :append_conversation, on: :collection
       member do
         patch :snooz_conversation
         patch :close_conversation
         patch :mark_as_read
         post  :assign_member
+        post  :unassign_member
         post  :assign_team
         post  :unassign_team
       end
@@ -159,7 +161,9 @@ Rails.application.routes.draw do
       end
     end
     resources :roles
-    resources :users, controller: "account_users", except: [:show]
+    resources :users, controller: "account_users", except: [:show] do
+      get :search, on: :collection
+    end
     resources :invitations, controller: "account_invitations", except: [:show]
     resources :teams
     resources :custom_fields

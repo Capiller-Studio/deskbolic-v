@@ -1126,23 +1126,90 @@
               margin-left: auto;
               margin-right: 10px;
             }
-            .agent-panel-avatar {
-              border-radius: 50%;
-              object-fit: cover;
             }
-            .agent-initials-avatar {
-              @mixin flex-row $justify-center, $align-center;
-              font-size: 9px;
-              line-height: 1;
-            }
-            form {
-              .assign-btn {
-                text-align: left;
-                background: none;
-                border: none;
-                cursor: pointer;
+          }
+          
+          .agent-panel-avatar {
+            width: 24px !important;
+            height: 24px !important;
+            min-width: 24px !important;
+            min-height: 24px !important;
+            border-radius: 50% !important;
+            object-fit: cover;
+            flex-shrink: 0 !important;
+          }
+          .agent-initials-avatar {
+            @mixin flex-row $justify-center, $align-center;
+            font-size: 10px;
+            font-weight: 600;
+            line-height: 1;
+            color: #ffffff;
+          }
+          .agent-row {
+            @mixin flex-row $justify-between, $align-center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: background 0.15s;
+            position: relative;
+
+            &:hover {
+              background: #f5f5f5;
+              .assign-agent-btn {
+                opacity: 1;
               }
             }
+            form {
+              margin-left: auto;
+            }
+            .assign-agent-btn {
+              opacity: 0;
+              margin-left: auto;
+              transition: opacity 0.15s;
+              background: #111;
+              color: #fff;
+              border: none;
+              border-radius: 6px;
+              padding: 4px 10px;
+              font-size: 12px;
+              cursor: pointer;
+
+              &:hover { opacity: 0.85; }
+            }
+          }
+
+          .assigned-agent-row {
+            @mixin flex-row $justify-between, $align-center;
+            gap: 8px;
+            padding: 8px 12px;
+            form {
+              margin-left: auto;
+            }
+            .unassign-btn {
+              background: none;
+              border: none;
+              cursor: pointer;
+              padding: 2px;
+              border-radius: 4px;
+              display: flex;
+              align-items: center;
+              opacity: 0.4;
+              transition: opacity 0.15s;
+
+              &:hover { opacity: 1; }
+            }
+          }
+
+          .agent-avatar-placeholder {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            flex-shrink: 0;
           }
         }
         button.accordian {
@@ -1224,10 +1291,45 @@
             font-weight: 600;
             flex-shrink: 0;
           }
-          .section-flex {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+          .agent-row {
+            @mixin flex-row $justify-between, $align-center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: background 0.15s;
+            position: relative;
+
+            &:hover {
+              background: #f5f5f5;
+              .assign-agent-btn {
+                opacity: 1;
+              }
+            }
+            form {
+              margin-left: auto;
+            }
+            .assign-agent-btn {
+              opacity: 0;
+              margin-left: auto;
+              transition: opacity 0.15s;
+              background: #111;
+              color: #fff;
+              border: none;
+              border-radius: 6px;
+              padding: 4px 10px;
+              font-size: 12px;
+              cursor: pointer;
+
+              &:hover { opacity: 0.85; }
+            }
+          }
+          .assigned-agent-row {
+            @mixin flex-row $justify-between, $align-center;
+            gap: 8px;
+            padding: 8px 12px;
+            form {
+              margin-left: auto;
+            }
             .unassign-btn {
               background: none;
               border: none;
@@ -1413,11 +1515,217 @@
       }
     }
   }
-}
 
 @media screen and (max-width: 1200px) {
   .quick-reply,
   .chat-gpt {
     display: none !important;
+  }
+}
+
+/* Editor styles */
+.lexical-editor-root {
+  min-height: 80px;
+  max-height: 400px;
+  overflow-y: auto;
+  padding-bottom: 24px;
+  outline: none;
+
+  .lexical-paragraph {
+    margin: 0;
+    margin-bottom: 8px;
+  }
+
+  .lexical-ul {
+    margin: 0;
+    padding: 0;
+    margin-left: 24px;
+    list-style-type: disc;
+    margin-bottom: 8px;
+  }
+
+  .lexical-ol {
+    margin: 0;
+    padding: 0;
+    margin-left: 24px;
+    list-style-type: decimal;
+    margin-bottom: 8px;
+  }
+
+  .lexical-listitem {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+/* Lexical Editor Styles */
+.lexical-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 16px;
+  border-bottom: 1px solid #f1f5f9;
+  background: transparent;
+
+  .format-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px;
+    height: 28px;
+    padding: 0 8px;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: #64748b;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: #f1f5f9;
+      color: #0f172a;
+    }
+
+    &.active {
+      background: #cbd5e1 !important;
+      color: #000000 !important;
+      font-weight: bold;
+    }
+
+    &[data-lexical-target="boldBtn"] { font-weight: 700; font-family: serif; }
+    &[data-lexical-target="italicBtn"] { font-style: italic; font-family: serif; }
+    &[data-lexical-target="strikeBtn"] { text-decoration: line-through; }
+    &[data-lexical-target="codeBtn"] { font-family: monospace; font-weight: 600; }
+    &[data-lexical-target="ulBtn"],
+    &[data-lexical-target="olBtn"] { font-size: 13px; font-weight: 500; }
+  }
+}
+
+.lexical-editor-root {
+  min-height: 80px;
+  max-height: 250px;
+  overflow-y: auto;
+  outline: none;
+  border: none;
+  padding: 12px 16px;
+  color: #1e293b;
+  line-height: 1.5;
+
+  &.lexical-empty:before {
+    content: attr(aria-label);
+    color: #94a3b8;
+    position: absolute;
+    pointer-events: none;
+  }
+  
+  p {
+    margin-bottom: 0.5em;
+  }
+  p:last-child {
+    margin-bottom: 0;
+  }
+  
+  ul {
+    padding-left: 20px;
+    margin-bottom: 0.5em;
+    list-style-type: disc;
+  }
+  
+  ol {
+    padding-left: 20px;
+    margin-bottom: 0.5em;
+    list-style-type: decimal;
+  }
+}
+
+.lexical-bold { font-weight: bold; }
+.lexical-italic { font-style: italic; }
+.lexical-strikethrough { text-decoration: line-through; }
+.lexical-code {
+  background-color: #f1f5f9;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 13px;
+}
+
+.lexical-code-block {
+  background-color: #1e293b;
+  color: #f8fafc;
+  padding: 12px;
+  border-radius: 6px;
+  font-family: monospace;
+  font-size: 13px;
+  margin: 10px 0;
+  white-space: pre-wrap;
+  display: block;
+  overflow-x: auto;
+}
+
+/* Mention Dropdown Styles */
+.mention-suggestions {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 20px;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  max-height: 250px;
+  overflow-y: auto;
+  width: 280px;
+  z-index: 50;
+  padding: 8px;
+}
+
+.mention-item {
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: background 0.15s;
+
+  &:hover {
+    background: #f1f5f9;
+  }
+
+  .mention-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #e2e8f0;
+    color: #475569;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  .mention-info {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    .mention-name {
+      font-weight: 600;
+      font-size: 14px;
+      color: #0f172a;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .mention-email {
+      font-size: 12px;
+      color: #64748b;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 }

@@ -1,0 +1,48 @@
+- assigned_conversation = conversation.assignee.present?
+.agent id="conversation-agent-#{conversation.id}"
+  p.f-semi-14 = t('dashboard.conversation_details.agent', default: 'Agent')
+  .card.agent-detail
+    button.accordian data-action="click->accordion#toggle"
+      - if assigned_conversation
+        - if conversation.assignee.avatar.attached?
+          = image_tag(conversation.assignee.avatar, class:"chat-user", alt: "avatar")
+        - else
+          .chat-user.avatar-fallback.agent-initials-avatar.f-reg-12 class=avatar_fallback_color_class(full_name(conversation.assignee))
+            = initials(conversation.assignee)
+        p.f-reg-14 = conversation.assignee.display_name
+      - else 
+        = image_tag("profile_icon.png", class:"chat-user", alt: "unassigned")
+        p.f-reg-14 = t('dashboard.conversation_details.unassigned', default: 'Unassigned')
+      = inline_svg_tag("arrow_down.svg", class:"arrow-icon ml-auto")
+      
+    .panel data-accordion-target="panel"
+      - if assigned_conversation
+        .assigned-agent-row
+          - if conversation.assignee.avatar.attached?
+            = image_tag(conversation.assignee.avatar, class:"agent-panel-avatar", alt:"avatar")
+          - else
+            .avatar-fallback.agent-panel-avatar.agent-initials-avatar.f-reg-12 class=avatar_fallback_color_class(full_name(conversation.assignee))
+              = initials(conversation.assignee)
+          p.f-reg-12 = conversation.assignee.display_name
+          = button_to(t('dashboard.conversation_details.unassign', default: 'Unassign'), unassign_member_conversation_path(conversation), method: :post, class: "unassign-btn f-reg-12")
+      
+      - else
+        .assign-agent-list style="max-height: 250px; overflow-y: auto;"
+          .agent-row
+            - if current_user.avatar.attached?
+              = image_tag(current_user.avatar, class:"agent-panel-avatar", alt:"avatar")
+            - else
+              .avatar-fallback.agent-panel-avatar.agent-initials-avatar.f-reg-12 class=avatar_fallback_color_class(full_name(current_user))
+                = initials(current_user)
+            p.f-reg-12 style="font-weight: 500;" = t('dashboard.conversation_details.assign_to_me', default: 'Assign to me')
+            = button_to(t('dashboard.conversation_details.assign', default: 'Assign'), assign_member_conversation_path(conversation, user_id: current_user.id), method: :post, class: "assign-agent-btn f-reg-12")
+
+          - current_account.users.order(:first_name).where.not(id: current_user.id).each do |user|
+            .agent-row
+              - if user.avatar.attached?
+                = image_tag(user.avatar, class:"agent-panel-avatar", alt:"avatar")
+              - else
+                .avatar-fallback.agent-panel-avatar.agent-initials-avatar.f-reg-12 class=avatar_fallback_color_class(full_name(user))
+                  = initials(user)
+              p.f-reg-12 = user.display_name
+              = button_to(t('dashboard.conversation_details.assign', default: 'Assign'), assign_member_conversation_path(conversation, user_id: user.id), method: :post, class: "assign-agent-btn f-reg-12")

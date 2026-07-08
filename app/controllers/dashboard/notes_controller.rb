@@ -6,13 +6,34 @@ module Dashboard
       @note = current_account.notes.find(params[:id])
     end
     def create
-      @note = Note.new(content: params[:note][:content], account: current_account, user: current_user,
-resource: current_user)
+      resource_type = params[:note][:resource_type] || "User"
+      resource_id = params[:note][:resource_id] || current_user.id
+      
+      resource = if resource_type == "Conversation"
+                   current_account.conversations.find(resource_id)
+                 else
+                   current_user
+                 end
+
+      @note = Note.new(
+        content: params[:note][:content], 
+        account: current_account, 
+        user: current_user,
+        resource: resource
+      )
 
       if @note.save
-        render(json: { success: true })
+        respond_to do |format|
+          format.turbo_stream do
+            render turbo_stream: turbo_stream.append("conversation-notes", partial: "dashboard/notes/note", locals: { note: @note })
+          end
+          format.json { render json: { success: true } }
+        end
       else
-        render(json: { success: false })
+        respond_to do |format|
+          format.turbo_stream { head :unprocessable_entity }
+          format.json { render json: { success: false } }
+        end
       end
     end
 

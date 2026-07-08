@@ -86,31 +86,12 @@ class ConversationReplyMailer < ApplicationMailer
   #   {{ account.name }}
   #   {{ customer.name }}, {{ customer.email }}
   def liquid_variables
-    customer = @conversation.customers.first
-
-    {
-      "agent" => {
-        "name" => @message.sender.try(:display_name) || "Agent",
-        "email" => @message.sender.try(:email)
-      },
-      "message" => {
-        "content" => @message.content
-      },
-      "conversation" => {
-        "subject" => original_subject,
-        "identifier" => @conversation.identifier
-      },
-      "inbox" => {
-        "name" => @inbox.name
-      },
-      "account" => {
-        "name" => @account.name
-      },
-      "customer" => {
-        "name" => customer&.name,
-        "email" => customer&.email
-      }
-    }
+    Liquid::ContextBuilderService.call(
+      conversation: @conversation,
+      agent: @message.sender,
+      message: @message,
+      template_type: 'conversation_reply'
+    )
   end
 
   def customer_email

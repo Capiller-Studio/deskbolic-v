@@ -167,3 +167,9 @@ application.register("clipboard", ClipboardController)
 
 import UiSectionController from "./ui_section_controller"
 application.register("ui-section", UiSectionController)
+
+import LexicalController from "./lexical_controller"
+application.register("lexical", LexicalController)
+
+import CannedResponsesController from "./canned_responses_controller"
+application.register("canned-responses", CannedResponsesController)

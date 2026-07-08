@@ -35,49 +35,58 @@
         = form_with(model: Message.new, method: :post, class:"msg-form", multipart: true, data: { action: "turbo:submit-end->message-form#clear" }) do |f|
           .text-translation
             .response-type 
-              button.f-semi-14.reply.active type="button" = t('dashboard.messages.reply')
-              / button.f-semi-14.note type="button" Note
+              button.f-semi-14.reply.active type="button" data-action="click->message-form#setReply" = t('dashboard.messages.reply')
+              button.f-semi-14.note type="button" data-action="click->message-form#setNote" = t('dashboard.messages.note', default: 'Private Message')
             .translation.f-semi-14
               = t('dashboard.messages.english')
               = inline_svg_tag("violet_dropdown.svg", class:"action-btn")
-          .note-area.menu
+          .note-area.menu data-controller="lexical" data-lexical-source-value=@conversation.source data-lexical-supported-formats-value="#{@conversation.inbox.channel.supported_formatting.to_json}"
             .attachment-preview data-message-form-target="preview"
             .de-emoji-picker data-message-form-target="emojiPicker" style="display: none;"
             .recording-indicator data-message-form-target="recordingIndicator" style="display: none;"
               .pulse-dot
               span.f-reg-12 = t('dashboard.messages.recording_voice')
-            = f.text_area :response, class: "form-control f-reg-14 response-area", placeholder: t('dashboard.messages.response_placeholder'), data: { message_form_target: "textarea" }
+            .mention-dropdown data-message-form-target="mentionDropdown" style="display: none; position: absolute; bottom: 100%; left: 16px; background: white; border: 1px solid #e2e8f0; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); max-height: 200px; overflow-y: auto; z-index: 50; width: 250px;"
+            
+            .lexical-toolbar data-lexical-target="toolbar"
+              button type="button" data-action="mousedown->lexical#formatBold" data-lexical-target="boldBtn" class="format-btn" title=t('dashboard.messages.editor.bold') B
+              button type="button" data-action="mousedown->lexical#formatItalic" data-lexical-target="italicBtn" class="format-btn" title=t('dashboard.messages.editor.italic') I
+              button type="button" data-action="mousedown->lexical#formatStrike" data-lexical-target="strikeBtn" class="format-btn" title=t('dashboard.messages.editor.strike') S
+              button type="button" data-action="mousedown->lexical#formatCode" data-lexical-target="codeBtn" class="format-btn" title=t('dashboard.messages.editor.code')
+                = inline_svg_tag("code_snipet.svg", class:"action-btn", style: "width: 14px; height: 14px;")
+              button type="button" data-action="mousedown->lexical#formatBulletList" data-lexical-target="ulBtn" class="format-btn" title=t('dashboard.messages.editor.ul_list') = t('dashboard.messages.editor.ul_list')
+              button type="button" data-action="mousedown->lexical#formatNumberedList" data-lexical-target="olBtn" class="format-btn" title=t('dashboard.messages.editor.ol_list') = t('dashboard.messages.editor.ol_list')
+
+            .lexical-editor-root data-lexical-target="editor" class="form-control f-reg-14 response-area" contenteditable="true" role="textbox" aria-label=t('dashboard.messages.response_placeholder') data-action="keyup->message-form#checkMentions click->message-form#checkMentions"
+            = f.text_area :response, class: "d-none", style: "display: none;", data: { message_form_target: "textarea", lexical_target: "hiddenInput" }
             = f.hidden_field :conversation_id, value: @conversation.id
+            = f.hidden_field :visibility, value: "global", data: { message_form_target: "visibility" }
             = f.file_field :attachments, multiple: true, class: "message-attachments-input", accept: "image/*,video/*,audio/*,.pdf,.doc,.docx,.txt,.zip", data: { message_form_target: "input", action: "change->message-form#previewFiles" }
           .commands
             .actions data-controller="modalToggler frameToggler"
               / .response-action
                 = inline_svg_tag("menu.svg", class:"action-btn")
-              .response-action data-controller="accordion"
-                .replies data-action="click->accordion#toggleMenu"
+              .response-action data-controller="canned-responses" data-canned-responses-lexical-outlet=".note-area" data-canned-responses-conversation-id-value="#{@conversation.id}"
+                .replies data-action="click->canned-responses#toggleMenu"
                   = inline_svg_tag("reply_star.svg", class:"action-btn")
-                .menu.save-replies data-accordion-target="menu"
+                .menu.save-replies data-canned-responses-target="menu"
                   .menu-buttons
                     .menu-options
                       = inline_svg_tag("star_plus.svg", class:"m-btn", alt:"menu",  data: { action: "click->modalToggler#showModal click->frameToggler#loadModal", popup_view:"_canned_response_modal" })
                       = link_to(canned_responses_settings_path, class: "", data: { turbo: false}) do
                         = inline_svg_tag("setting_button.svg", class:"m-btn", alt:"menu")
-                    = image_tag("cross_btn.png", class:"m-btn", alt:"menu", data: { action: "click->accordion#toggleMenu" })
+                    = image_tag("cross_btn.png", class:"m-btn", alt:"menu", data: { action: "click->canned-responses#toggleMenu" })
                   .panels
-                    .left-panel
-                      - @canned_responses&.each do |response|
-                        - liquid_template = Liquid::Template.parse(response.description)
-                        - rendered_content = liquid_template.render({ 'customer' => JSON.parse(@conversation.customers.first.to_json) })
-                        .menu-link data-action="click->accordion#togglePanel" data-title="#{response.name}" data-description="#{rendered_content}"
-                          = image_tag("gold_star.png", class:"menu-icon", alt:"menu")
-                          .headings
-                            p.f-reg-14 = response.name
-                            p.f-reg-10 = rendered_content
-                    .right-panel data-accordion-target="panel"
-                      .response-description data-accordion-target="response"
+                    .left-panel data-canned-responses-conversation-id="#{@conversation.id}"
+                      .search-container style="padding: 10px; border-bottom: 1px solid #e2e8f0;"
+                        input type="text" placeholder="Search canned responses..." data-action="input->canned-responses#searchCannedResponses keydown.enter->canned-responses#preventSubmit" style="width: 100%; padding: 6px; border: 1px solid #cbd5e1; border-radius: 4px; outline: none;" class="f-reg-12"
+                      .results-container data-canned-responses-target="resultsContainer" style="max-height: 300px; overflow-y: auto;"
+                        / Results will be injected here via Javascript
+                    .right-panel data-canned-responses-target="response" style="display: none;"
+                      .response-description
                         p.f-semi-18.response-title
                         p.f-reg-14.response-text
-                      .canned-submit.f-semi-12 type="button" data-action="click->accordion#switchResponse" = t('dashboard.messages.add')
+                      .canned-submit.f-semi-12 type="button" data-action="click->canned-responses#switchResponse" = t('dashboard.messages.add')
               button.response-action type="button" data-action="click->message-form#openFilePicker" title="Attach image or file"
                 = inline_svg_tag("file_attach.svg", class:"action-btn")
               button.response-action type="button" data-action="click->message-form#toggleEmojiPicker" title="Add emoji"

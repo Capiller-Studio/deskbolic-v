@@ -4,7 +4,7 @@
     span.f-med-12 style="background: #eef2f6; padding: 4px 12px; border-radius: 12px; color: #5a6a85;" = t('dashboard.messages.new_messages')
 
 - if message.sender_type == "Customer"
-  .user-response.response id=dom_id(message) data-controller="translator" data-translator-target="response"
+  .user-response.response id=dom_id(message) data-controller="translator" data-translator-translate-url-value=translate_message_path(message) data-translator-target="response"
     .text-content
       .chat-user
         - customer = message.sender
@@ -25,10 +25,9 @@
               button.f-light-italic-10 data-action="click->translator#toggle_translate" = t('dashboard.messages.translate')
             .translated-text.d-none
               h5.f-med-10 = t('dashboard.messages.translation_header')
-              p
-                span.translation.f-light-italic-12 data-translator-target="translation"
-                |  
-                span.f-med-10.close-translation data-action="click->translator#toggle" = t('dashboard.messages.close')
+              div
+                .translation.f-light-italic-12 data-translator-target="translation" style="display: inline-block; margin-right: 8px;"
+                span.f-med-10.close-translation data-action="click->translator#toggle" style="cursor: pointer; text-decoration: underline;" = t('dashboard.messages.close')
         - if message.attachments.any?
           .msg-attachments
             - message.attachments.each do |attachment|
@@ -45,7 +44,7 @@
 
 - if message.sender_type == "User"
   - is_private = message.personal?
-  .agent-response.response id=dom_id(message) data-controller="translator" data-translator-target="response"
+  .agent-response.response id=dom_id(message) data-controller="translator" data-translator-translate-url-value=translate_message_path(message) data-translator-target="response"
     .agent-text class=(is_private ? "private-note-bg" : "") style=(is_private ? "background-color: #fefce8; border: 1px solid #fef08a;" : "")
       - if is_private
         .private-note-label style="font-size: 10px; color: #ca8a04; text-transform: uppercase; font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 4px;"
@@ -107,10 +106,9 @@
             button.f-light-italic-10 data-action="click->translator#toggle_translate" = t('dashboard.messages.translate')
           .translated-text.d-none style="margin-bottom: 4px;"
             h5.f-med-10 = t('dashboard.messages.translation_header')
-            p
-              span.translation.f-light-italic-12 data-translator-target="translation"
-              |  
-              span.f-med-10.close-translation data-action="click->translator#toggle" = t('dashboard.messages.close')
+            div
+              .translation.f-light-italic-12 data-translator-target="translation" style="display: inline-block; margin-right: 8px;"
+              span.f-med-10.close-translation data-action="click->translator#toggle" style="cursor: pointer; text-decoration: underline;" = t('dashboard.messages.close')
       - if message.attachments.any?
         .msg-attachments
           - message.attachments.each do |attachment|

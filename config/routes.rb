@@ -150,6 +150,7 @@ Rails.application.routes.draw do
     resources :messages do
       get :append_message, on: :collection
       get :update_message, on: :collection
+      post :translate, on: :member
     end
     resources :activities, only: [] do
       get :append_activity, on: :collection

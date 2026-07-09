@@ -60,7 +60,7 @@ module Dashboard
     end
 
     def append_message
-      @message = Message.find(params[:id])
+      @message = current_account.messages.find(params[:id])
       streams = []
       
       if params[:active_conversation_id] == @message.conversation_id
@@ -74,8 +74,21 @@ module Dashboard
     end
 
     def update_message
-      @message = Message.find(params[:id])
+      @message = current_account.messages.find(params[:id])
       render(turbo_stream: turbo_stream.replace(ActionView::RecordIdentifier.dom_id(@message), partial: "dashboard/messages/message", locals: { message: @message, show_divider: false }))
+    end
+
+    def translate
+      @message = current_account.messages.find(params[:id])
+      target_locale = I18n.locale.to_s
+      
+      translated_text = Integrations::Translators::Engine.new(message: @message, target_locale: target_locale).call
+      
+      if translated_text.present?
+        render json: { success: true, text: translated_text }
+      else
+        render json: { success: false, error: I18n.t("dashboard.messages.translation_failed", default: "Translation failed.") }, status: :unprocessable_entity
+      end
     end
 
     private

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_03_183500) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_09_125000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -64,6 +64,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_03_183500) do
     t.index ["object_snapshot"], name: "index_activities_on_object_snapshot_gin", using: :gin
     t.index ["trackable_type", "trackable_id", "created_at"], name: "index_activities_on_trackable_and_created_at"
     t.index ["trackable_type", "trackable_id"], name: "index_activities_on_trackable"
+  end
+
+  create_table "applied_labels", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "account_id", null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.uuid "label_id", null: false
+    t.uuid "labelable_id", null: false
+    t.string "labelable_type", null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["account_id"], name: "index_applied_labels_on_account_id"
+    t.index ["label_id"], name: "index_applied_labels_on_label_id"
+    t.index ["labelable_id", "labelable_type", "label_id"], name: "index_applied_labels_uniqueness", unique: true
+    t.index ["labelable_type", "labelable_id"], name: "index_applied_labels_on_labelable"
   end
 
   create_table "assignment_policies", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

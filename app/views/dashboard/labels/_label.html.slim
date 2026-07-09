@@ -1,0 +1,15 @@
+div id="label_#{label.id}"
+  .ui-card
+    .ui-card-top
+      .ui-card-info style="display: flex; align-items: center; gap: 12px;"
+        .color-dot style="width: 16px; height: 16px; border-radius: 50%; background-color: #{label.color.presence || '#ccc'};"
+        div
+          h3.f-semi-16 = label.title
+          - if label.description.present?
+            p.ui-subtitle = label.description
+      
+      .ui-card-actions
+        = link_to edit_label_path(label), data: { turbo: false }, class: "ui-action-btn", title: "Edit" do
+          | ✏️
+        = button_to label_path(label), method: :delete, form_style: "display: inline-block;", class: "ui-action-btn ui-action-delete", data: { turbo_confirm: t("dashboard.labels.index.confirm_delete", default: "Delete label?") }, title: "Delete" do
+          | 🗑️

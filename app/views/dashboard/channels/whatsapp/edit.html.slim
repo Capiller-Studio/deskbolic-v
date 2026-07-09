@@ -69,6 +69,10 @@
               label.ui-label = t("dashboard.whatsapp_channels.form.full_phone_label")
               input.ui-input type="text" value="#{@whatsapp_channel.full_phone_number}" disabled=true style="background: var(--gray-50); color: var(--gray-500); cursor: not-allowed;"
 
+            .ui-form-group
+              = f.label :api_key, t("dashboard.whatsapp_channels.form.api_key_label", default: "Access Token (API Key)"), class: "ui-label"
+              = f.password_field :api_key, value: @whatsapp_channel.api_key, class: "ui-input", placeholder: t("dashboard.whatsapp_channels.form.api_key_placeholder", default: "Paste your permanent access token"), required: true
+
           - if @whatsapp_channel.primary_inbox
             .channel-inbox-settings style="margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--gray-200);"
               h4.f-semi-14 = t("dashboard.whatsapp_channels.edit.inbox_settings_title")

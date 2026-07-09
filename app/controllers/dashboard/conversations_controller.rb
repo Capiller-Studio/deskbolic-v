@@ -79,6 +79,40 @@ module Dashboard
         format.html
       end
     end
+
+    def update
+      @conversation = current_account.conversations.find(params[:id])
+      
+      if @conversation.update(conversation_params)
+        @teams = current_account.teams.includes(:team_users).order(:name)
+        @notes = Note.where(account: current_account, user: current_user).all
+
+        respond_to do |format|
+          format.turbo_stream do
+            streams = []
+            
+            # Re-render the conversation in the left sidebar list
+            streams << turbo_stream.replace(
+              ActionView::RecordIdentifier.dom_id(@conversation),
+              partial: "dashboard/conversations/conversation",
+              locals: { conversation: @conversation }
+            )
+
+            # Re-render the details panel
+            streams << turbo_stream.replace(
+              "conversation-details-#{@conversation.id}",
+              partial: "dashboard/conversations/conversation_details",
+              locals: { conversation: @conversation, assigned_team: @conversation.team }
+            )
+            
+            render turbo_stream: streams
+          end
+          format.html { redirect_to request.referer || conversations_path }
+        end
+      else
+        head :unprocessable_entity
+      end
+    end
     def create
       channel   = current_account.facebook_pages.find(params[:channel_id])
       customer  = current_account.customers.find(params[:customer_id])
@@ -184,6 +218,58 @@ module Dashboard
       end
     end
 
+    def add_label
+      @conversation = current_account.conversations.find(params[:id])
+      label = current_account.labels.find(params[:label_id])
+      
+      if !@conversation.labels.include?(label)
+        @conversation.labels << label
+        Activities::Recorder.call(
+          trackable: @conversation,
+          event_type: "label_added",
+          changes: { label: label.title },
+          actor: Current.user
+        )
+      end
+      
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace(
+            "conversation-labels-#{@conversation.id}",
+            partial: "dashboard/conversations/labels_info",
+            locals: { conversation: @conversation }
+          )
+        end
+        format.html { redirect_to(request.referer) }
+      end
+    end
+
+    def remove_label
+      @conversation = current_account.conversations.find(params[:id])
+      label = current_account.labels.find(params[:label_id])
+      
+      if @conversation.labels.include?(label)
+        @conversation.labels.delete(label)
+        Activities::Recorder.call(
+          trackable: @conversation,
+          event_type: "label_removed",
+          changes: { label: label.title },
+          actor: Current.user
+        )
+      end
+      
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace(
+            "conversation-labels-#{@conversation.id}",
+            partial: "dashboard/conversations/labels_info",
+            locals: { conversation: @conversation }
+          )
+        end
+        format.html { redirect_to(request.referer) }
+      end
+    end
+
     def append_conversation
       @conversation = current_account.conversations.find(params[:id])
       render(turbo_stream: turbo_stream.append(
@@ -208,6 +294,11 @@ module Dashboard
       @inbox = current_account.inboxes.find_by(id: resource_id) if resource_id.present?
       @inbox ? @inbox.conversations.where(account: current_account) : current_account.conversations
     end
-    
+
+    private
+
+    def conversation_params
+      params.require(:conversation).permit(:status, :priority)
+    end
   end
 end

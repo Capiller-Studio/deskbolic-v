@@ -10,6 +10,8 @@ module Dashboard
       @canned_responses      = @canned_responses.where("name ILIKE ?",
 "%#{params[:search]}%") if params[:search].present?
     end
+
+
     
     def office_timings; end
     

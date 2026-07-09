@@ -4,6 +4,7 @@
   .descriptive-details
     = render partial: "dashboard/conversations/agent_info", locals: { conversation: @conversation }
     = render partial: "dashboard/conversations/team_info", locals: { conversation: @conversation, assigned_team: assigned_team }
+    = render partial: "dashboard/conversations/labels_info", locals: { conversation: @conversation }
     .card.ticket-info
       button.accordian data-action="click->accordion#toggle"
         p.f-reg-14 = t('dashboard.conversation_details.ticket_info', default: 'Ticket info')
@@ -15,12 +16,14 @@
         .section-flex 
           h5.f-reg-14 = t('dashboard.conversation_details.created', default: 'Created:')
           p.f-reg-14 = @conversation.created_at.strftime("%d %b %Y")
-        .section-flex 
+        .section-flex style="align-items: center;"
           h5.f-reg-14 = t('dashboard.conversation_details.status', default: 'Status:')
-          .status-tag.bg-green.f-reg-12 = @conversation.status.titleize
-        .section-flex 
+          = form_with model: @conversation, url: conversation_path(@conversation), method: :patch do |f|
+            = f.select :status, Conversation.statuses.keys.map { |s| [s.titleize, s] }, {}, class: "status-tag bg-green f-reg-12", onchange: "this.form.requestSubmit()", style: "border: none; cursor: pointer; appearance: none;"
+        .section-flex style="align-items: center;"
           h5.f-reg-14 = t('dashboard.conversation_details.priority', default: 'Priority:')
-          .status-tag.bg-red.f-reg-12 = @conversation.priority.titleize
+          = form_with model: @conversation, url: conversation_path(@conversation), method: :patch do |f|
+            = f.select :priority, Conversation.priorities.keys.map { |s| [s.titleize, s] }, {}, class: "status-tag bg-red f-reg-12", onchange: "this.form.requestSubmit()", style: "border: none; cursor: pointer; appearance: none;"
     
     .card.sla-info
       button.accordian data-action="click->accordion#toggle"

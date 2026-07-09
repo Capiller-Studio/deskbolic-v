@@ -1,0 +1,26 @@
+.label-comp id="conversation-labels-#{conversation.id}" style="margin-top: 16px;"
+  p.f-semi-14 Labels
+  .card.team-info
+    button.accordian data-action="click->accordion#toggle"
+      = inline_svg_tag("tag.svg", class: "team-card-icon")
+      - if conversation.labels.any?
+        p.f-reg-14 = conversation.labels.pluck(:title).join(", ")
+      - else
+        p.f-reg-14 Manage Labels
+      = inline_svg_tag("arrow_down.svg", class: "arrow-icon ml-auto")
+
+    .panel data-accordion-target="panel"
+      - conversation.labels.each do |label|
+        .assigned-team-row style="justify-content: space-between;"
+          .label-badge style="display: flex; align-items: center; gap: 8px;"
+            .color-dot style="width: 12px; height: 12px; border-radius: 50%; background-color: #{label.color.presence || '#ccc'};"
+            p.f-reg-12 = label.title
+          = button_to("Remove", remove_label_conversation_path(conversation, label_id: label.id), method: :delete, class: "unassign-btn f-reg-12")
+
+      - unassigned_labels = current_account.labels.where.not(id: conversation.labels.pluck(:id))
+      - unassigned_labels.each do |label|
+        .team-row style="justify-content: space-between; margin-top: 8px;"
+          .label-badge style="display: flex; align-items: center; gap: 8px;"
+            .color-dot style="width: 12px; height: 12px; border-radius: 50%; background-color: #{label.color.presence || '#ccc'};"
+            p.f-reg-12 = label.title
+          = button_to("Add", add_label_conversation_path(conversation, label_id: label.id), method: :post, class: "assign-btn assign-team-btn f-reg-12")

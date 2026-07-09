@@ -72,6 +72,15 @@ export default class extends Controller {
       }
     })
   }
+
+  disconnect() {
+    if (this.subscription) {
+      this.consumer.subscriptions.remove(this.subscription)
+    }
+    if (this.consumer) {
+      this.consumer.disconnect()
+    }
+  }
   
   configureUrl(broadcast_event) {
     if (broadcast_event == "message.created") {

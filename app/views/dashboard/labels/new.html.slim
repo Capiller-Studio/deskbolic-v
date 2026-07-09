@@ -1,0 +1,9 @@
+= render("dashboard/shared/dashboard_container", current_page: "labels") do
+  = render("dashboard/settings/settings_sidebar", current_page: "labels") do
+    .channel-theme-email
+      .ui-page-body
+        .ui-page-header
+          = link_to t("dashboard.labels.form.back", default: "Back to Labels"), labels_path, class: "ui-back-link"
+          h2.f-semi-24 style="color: #0f172a; margin-top: 12px;" = t("dashboard.labels.new.title", default: "Add New Label")
+      
+        = render "form", label: @label

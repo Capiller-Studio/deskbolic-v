@@ -94,6 +94,8 @@ Rails.application.routes.draw do
         post  :unassign_member
         post  :assign_team
         post  :unassign_team
+        post  :add_label
+        delete :remove_label
       end
       resources :messages, only: [:index]
     end
@@ -153,7 +155,9 @@ Rails.application.routes.draw do
       get :append_activity, on: :collection
     end
     resources :canned_responses
+    resources :labels
     resources :notes
+    resources :sla_policies
     resources :teams do
       member do
         post :add_member

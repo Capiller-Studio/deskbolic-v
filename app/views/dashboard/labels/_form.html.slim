@@ -1,0 +1,37 @@
+- url = label.persisted? ? label_path(label) : labels_path
+- method = label.persisted? ? :patch : :post
+
+= form_with(model: label, scope: :label, url: url, method: method) do |f|
+  - if label.errors.any?
+    .ui-error-summary
+      h3 = t("dashboard.labels.form.error_heading", default: "Please fix the following errors:")
+      ul
+        - label.errors.full_messages.each do |message|
+          li = message
+
+  .ui-section.ui-section--always-open
+    .ui-section-header
+      .ui-section-title
+        span.ui-section-icon 🏷️
+        span.ui-section-label = t("dashboard.labels.form.basic_section", default: "Label Details")
+    .ui-section-body
+      .ui-form-row
+        div
+          = f.label :title, t("dashboard.labels.form.title", default: "Title"), class: "ui-label"
+          = f.text_field :title, class: "ui-input", required: true, placeholder: t("dashboard.labels.form.title_placeholder", default: "e.g. VIP Customer")
+        
+        div
+          = f.label :color, t("dashboard.labels.form.color", default: "Color"), class: "ui-label"
+          = f.color_field :color, class: "ui-input", style: "height: 40px; padding: 0 4px; cursor: pointer;", value: label.color || "#000000"
+
+      .ui-form-row
+        div style="flex: 1;"
+          = f.label :description, t("dashboard.labels.form.description", default: "Description"), class: "ui-label"
+          = f.text_area :description, class: "ui-input", rows: 3, placeholder: t("dashboard.labels.form.description_placeholder", default: "Explain what this label is for...")
+
+  .ui-form-actions
+    - if label.persisted?
+      = f.submit t("dashboard.labels.form.update", default: "Update Label"), class: "ui-btn-primary"
+    - else
+      = f.submit t("dashboard.labels.form.submit", default: "Create Label"), class: "ui-btn-primary"
+    = link_to t("dashboard.labels.form.cancel", default: "Cancel"), labels_path, class: "ui-btn-secondary"

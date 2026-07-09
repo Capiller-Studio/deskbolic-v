@@ -209,6 +209,11 @@
                     .link-text
                       .conversation-name.inbox-conv
                         p.f-reg-12 = t('dashboard.sidebar.settings.canned_responses')
+                li.nav-item class="#{current_page == 'labels' ? 'st-list-active' : ''}"
+                  = link_to(labels_path, class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12 = t('dashboard.sidebar.settings.labels', default: "Labels")
                 li.nav-item class="#{current_page == 'macros' ? 'st-list-active' : ''}"
                   = link_to(macros_path, class: "nav-link") do
                     .link-text

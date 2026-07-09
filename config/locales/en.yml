@@ -13,6 +13,12 @@ en:
     description: ''
     keywords: ''
   dashboard:
+    labels:
+      flash:
+        created: "Label created successfully."
+        updated: "Label updated successfully."
+        deleted: "Label deleted successfully."
+        error: "Failed to save label: %{errors}"
     sidebar:
       channels:
         title: Help Desk
@@ -1708,3 +1714,13 @@ en:
       registered_title: Welcome!
       registered_message: Your account has been successfully created.
       back_to_login: Continue to Login
+  activities:
+    conversation:
+      conversation_resolved: "Conversation was resolved"
+      conversation_closed: "Conversation was closed"
+      conversation_active: "Conversation was reopened"
+      conversation_snoozed: "Conversation was snoozed"
+      update: "Conversation details were updated"
+      priority_updated: "Priority was changed"
+      label_added: "Label %{label} was added"
+      label_removed: "Label %{label} was removed"

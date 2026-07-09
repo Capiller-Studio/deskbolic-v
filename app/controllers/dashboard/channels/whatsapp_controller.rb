@@ -135,7 +135,7 @@ module Dashboard
 
       def whatsapp_channel_update_params
         params.require(:channel_whatsapp).permit(
-          :name,
+          :name, :api_key,
           primary_inbox_attributes: [
             :id, :reopen_window_seconds, :csat_survey_enabled, :csat_survey_id,
             sla_policy_ids: []

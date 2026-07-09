@@ -4,6 +4,11 @@
       .user-details
         - @conversation.customers.each do |customer|
             p.f-semi-18 = full_name(customer)
+      .actions style="display: flex; gap: 8px; align-items: center; margin-left: auto;"
+        - if @conversation.resolved?
+          = button_to t('dashboard.messages.reopen', default: 'Reopen'), conversation_path(@conversation, conversation: { status: 'active' }), method: :patch, class: "ui-btn-secondary f-reg-12", style: "padding: 6px 12px; border-radius: 6px;"
+        - else
+          = button_to t('dashboard.messages.resolve', default: 'Resolve'), conversation_path(@conversation, conversation: { status: 'resolved' }), method: :patch, class: "ui-btn-primary f-reg-12", style: "padding: 6px 12px; border-radius: 6px;"
       / .actions data-controller="accordion conversations"
         = inline_svg_tag("plus.svg", class:"chat-action", alt:"menu")
         = inline_svg_tag("star.svg", class:"chat-action", alt:"menu")

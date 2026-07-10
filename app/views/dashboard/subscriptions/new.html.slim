@@ -1,8 +1,18 @@
 div.ap-subscription-page
-  div.ap-subscription-container
+  div.ap-subscription-container data-controller="billing-toggle"
     div.ap-subscription-header
       h2.f-semi-24.ap-subscription-title = I18n.t("dashboard.billing.choose_plan", default: "Choose Your Plan")
       p.f-reg-16.ap-subscription-subtitle = I18n.t("dashboard.billing.choose_plan_subtitle", default: "Select the perfect plan to get started with your workspace.")
+
+    / Billing cycle toggle
+    .ap-billing-cycle-toggle.ap-subscription-cycle-toggle
+      span.f-semi-14.ap-billing-cycle-label.ap-billing-cycle-active data-billing-toggle-target="monthlyLabel" = I18n.t("dashboard.billing.monthly_label", default: "Monthly")
+      label.ap-billing-toggle-switch
+        input type="checkbox" data-billing-toggle-target="toggle" data-action="change->billing-toggle#toggle"
+        span.ap-billing-toggle-slider
+      span.f-semi-14.ap-billing-cycle-label data-billing-toggle-target="yearlyLabel"
+        = I18n.t("dashboard.billing.yearly", default: "Yearly")
+        span.ap-billing-save-badge = I18n.t("dashboard.billing.save_percent", default: "Save ~20%")
 
     .ap-subscription-grid
       - @available_plans.each do |plan|
@@ -15,10 +25,15 @@ div.ap-subscription-page
                   = I18n.t("dashboard.billing.day_trial", days: plan.trial_days, default: "%{days} Day Trial")
                   
             .ap-subscription-price-row
-              span.f-semi-24.ap-subscription-price = number_to_currency(plan.base_price, unit: plan.currency.upcase + " ")
-              span.f-semi-14.ap-subscription-period
+              span.f-semi-24.ap-subscription-price data-billing-toggle-target="price" data-monthly-price=plan.base_price data-annual-price=plan.annual_price data-currency=plan.currency.upcase
+                = number_to_currency(plan.base_price, unit: plan.currency.upcase + " ")
+              span.f-semi-14.ap-subscription-period data-billing-toggle-target="period"
                 = I18n.t("dashboard.billing.per_month", default: "/mo")
               
+            - if plan.annual_price.positive? && plan.base_price.positive?
+              p.f-reg-12.ap-subscription-annual-note data-billing-toggle-target="annualNote" style="display: none; color: var(--ap-text-muted); margin-top: 4px;"
+                = I18n.t("dashboard.billing.billed_annually_at", amount: number_to_currency(plan.annual_price * 12, unit: plan.currency.upcase + " "), default: "Billed annually at %{amount}")
+
             p.f-reg-14.ap-subscription-desc
               = plan.description
 
@@ -33,6 +48,7 @@ div.ap-subscription-page
           div.ap-subscription-footer
             = form_with url: subscriptions_path, method: :post do |f|
               = f.hidden_field :plan_id, value: plan.id
+              = f.hidden_field :billing_cycle, value: "monthly", class: "billing-cycle-field", data: { billing_toggle_target: "cycleField" }
               
               div.ap-subscription-form-group
                 = f.label :quantity, I18n.t("dashboard.billing.number_of_seats", default: "Number of Seats"), class: "f-semi-14 ap-subscription-label"

@@ -26,12 +26,18 @@
               - elsif @active_subscription&.past_due?
                 .ap-strategy-badge.ap-billing-badge-danger
                   = I18n.t("dashboard.billing.past_due", default: "Past Due")
+              - elsif @active_subscription&.expired?
+                .ap-strategy-badge.ap-billing-badge-danger
+                  = I18n.t("dashboard.billing.expired", default: "Expired")
 
             - if @active_subscription
               .ap-billing-plan-details
                 div
                   p.f-reg-12.ap-billing-detail-label = I18n.t("dashboard.billing.plan_label", default: "Plan")
                   p.f-semi-16.ap-billing-detail-value = @active_subscription.plan.display_name
+                div
+                  p.f-reg-12.ap-billing-detail-label = I18n.t("dashboard.billing.billing_cycle_label", default: "Billing Cycle")
+                  p.f-semi-16.ap-billing-detail-value = @active_subscription.annual? ? I18n.t("dashboard.billing.yearly", default: "Yearly") : I18n.t("dashboard.billing.monthly_label", default: "Monthly")
                 div
                   p.f-reg-12.ap-billing-detail-label = I18n.t("dashboard.billing.seats_label", default: "Seats")
                   p.f-semi-16.ap-billing-detail-value = @active_subscription.quantity
@@ -55,13 +61,26 @@
                           button.ap-action-btn data-action="click->modal#close" ✕
                         .ap-billing-modal-body
                           = form_with url: subscription_path(@active_subscription), method: :patch, data: { controller: "plan-selector" } do |f|
+                            / Billing cycle toggle
+                            .ap-billing-cycle-toggle
+                              span.f-semi-14.ap-billing-cycle-label class=(@active_subscription.monthly? ? "ap-billing-cycle-active" : "") = I18n.t("dashboard.billing.monthly_label", default: "Monthly")
+                              label.ap-billing-toggle-switch
+                                = f.check_box :billing_cycle_annual, { checked: @active_subscription.annual?, data: { plan_selector_target: "billingCycleToggle", action: "change->plan-selector#toggleBillingCycle" } }, "1", "0"
+                                span.ap-billing-toggle-slider
+                              span.f-semi-14.ap-billing-cycle-label class=(@active_subscription.annual? ? "ap-billing-cycle-active" : "")
+                                = I18n.t("dashboard.billing.yearly", default: "Yearly")
+                                span.ap-billing-save-badge = I18n.t("dashboard.billing.save_percent", default: "Save ~20%")
+                            = f.hidden_field :billing_cycle, value: (@active_subscription.annual? ? "annual" : "monthly"), data: { plan_selector_target: "billingCycleInput" }
+                            
                             .ap-billing-plan-grid
                               - @available_plans.each do |plan|
                                 label style="display: block; cursor: pointer;" data-action="click->plan-selector#select"
-                                  = f.radio_button :plan_id, plan.id, style: "display: none;", checked: plan.id == @active_subscription.plan_id, data: { plan_selector_target: "radio", action: "change->plan-selector#updateHighlight", min_users: plan.min_users, max_users: plan.max_users }
-                                  .ap-billing-plan-card data-plan-selector-target="card" style="border-color: #{plan.id == @active_subscription.plan_id ? 'var(--ap-primary)' : 'var(--ap-border-color)'};"
+                                  = f.radio_button :plan_id, plan.id, style: "display: none;", checked: plan.id == @active_subscription.plan_id, data: { plan_selector_target: "radio", action: "change->plan-selector#updateHighlight", min_users: plan.min_users, max_users: plan.max_users, monthly_price: plan.base_price, annual_price: plan.annual_price, currency: plan.currency }
+                                  .ap-billing-plan-card data-plan-selector-target="card" style="border-color: #{plan.id == @active_subscription.plan_id ? '#000' : 'var(--ap-border-color, #e2e8f0)'};"
                                     h4.f-semi-16 = plan.display_name
-                                    p.f-reg-14.ap-billing-plan-price = ActionController::Base.helpers.number_to_currency(plan.base_price, unit: plan.currency.upcase + " ") + I18n.t("dashboard.billing.per_month", default: " / month")
+                                    p.f-reg-14.ap-billing-plan-price data-plan-selector-target="planPrice"
+                                      span.ap-billing-price-amount data-plan-selector-target="priceAmount" = ActionController::Base.helpers.number_to_currency((@active_subscription.annual? ? plan.annual_price : plan.base_price), unit: plan.currency.upcase + " ")
+                                      span.ap-billing-price-period data-plan-selector-target="pricePeriod" = @active_subscription.annual? ? I18n.t("dashboard.billing.per_month_annual", default: " / mo (billed yearly)") : I18n.t("dashboard.billing.per_month", default: " / month")
                                     p.f-reg-12.ap-billing-plan-desc = plan.description
                             
                             .ap-billing-form-group
@@ -147,28 +166,40 @@
                     .ap-billing-pm-details
                       .ap-billing-pm-icon 💳
                       div
-                        p.f-semi-14.ap-billing-pm-brand = "#{pm.brand.capitalize} •••• #{pm.last_four}"
+                        p.f-semi-14.ap-billing-pm-brand = "#{pm.brand&.capitalize} •••• #{pm.last_four}"
                         p.f-reg-12.ap-billing-pm-expiry = I18n.t("dashboard.billing.expires", month: pm.expiry_month, year: pm.expiry_year, default: "Expires %{month}/%{year}")
-                    = link_to I18n.t("dashboard.billing.remove", default: "Remove"), payment_method_path(pm), data: { turbo_method: :delete, turbo_confirm: I18n.t("dashboard.billing.are_you_sure", default: "Are you sure?") }, class: "f-reg-13 ap-billing-pm-remove"
+                    .ap-billing-pm-actions
+                      - unless pm.is_default
+                        = link_to I18n.t("dashboard.billing.make_default", default: "Default"), make_default_payment_method_path(pm), data: { turbo_method: :post }, class: "f-reg-13 ap-billing-pm-default-link"
+                      - else
+                        span.f-reg-12.ap-billing-pm-default-badge = I18n.t("dashboard.billing.default_label", default: "Default")
+                      = link_to I18n.t("dashboard.billing.remove", default: "Remove"), payment_method_path(pm), data: { turbo_method: :delete, turbo_confirm: I18n.t("dashboard.billing.are_you_sure", default: "Are you sure?") }, class: "f-reg-13 ap-billing-pm-remove"
             - else
               p.f-reg-14.ap-billing-pm-empty = I18n.t("dashboard.billing.no_payment_methods", default: "No payment methods added yet.")
             
-            div data-controller="modal stripe-elements" data-stripe-elements-client-secret-value=@setup_intent&.client_secret data-stripe-elements-publishable-key-value=ENV['STRIPE_PUBLISHABLE_KEY']
-              button.ap-btn-secondary.ap-billing-pm-add-btn data-action="click->modal#open click->stripe-elements#mount" = I18n.t("dashboard.billing.add_payment_method", default: "Add Payment Method")
-              
-              #addCardModal.ap-billing-modal-overlay data-modal-target="dialog" data-action="click->modal#closeOnOutsideClick"
-                .ap-billing-modal-content.medium
-                  .ap-billing-modal-header
-                    h3.f-semi-20 = I18n.t("dashboard.billing.add_card", default: "Add Card")
-                    button.ap-action-btn data-action="click->modal#close" ✕
-                  .ap-billing-modal-body
-                    form data-stripe-elements-target="form" data-action="submit->stripe-elements#submit"
-                      div.ap-billing-stripe-element data-stripe-elements-target="element"
-                      div data-stripe-elements-target="error" class="f-reg-13 text-red-500 mb-4"
-                      
-                      .ap-billing-modal-actions
-                        button.ap-btn-secondary type="button" data-action="click->modal#close" = I18n.t("dashboard.billing.cancel", default: "Cancel")
-                        button.ap-btn-primary type="submit" data-stripe-elements-target="submitButton" = I18n.t("dashboard.billing.save_card", default: "Save Card")
+            - if @stripe_publishable_key.present? && @setup_intent.present?
+              div data-controller="modal stripe-elements" data-stripe-elements-client-secret-value=@setup_intent.client_secret data-stripe-elements-publishable-key-value=@stripe_publishable_key
+                button.ap-btn-secondary.ap-billing-pm-add-btn data-action="click->modal#open click->stripe-elements#mount" = I18n.t("dashboard.billing.add_payment_method", default: "Add Payment Method")
+                
+                #addCardModal.ap-billing-modal-overlay data-modal-target="dialog" data-action="click->modal#closeOnOutsideClick"
+                  .ap-billing-modal-content.medium
+                    .ap-billing-modal-header
+                      h3.f-semi-20 = I18n.t("dashboard.billing.add_card", default: "Add Card")
+                      button.ap-action-btn data-action="click->modal#close" ✕
+                    .ap-billing-modal-body
+                      form data-stripe-elements-target="form" data-action="submit->stripe-elements#submit"
+                        div.ap-billing-stripe-element data-stripe-elements-target="element"
+                        div.ap-billing-stripe-error.f-reg-13 data-stripe-elements-target="error"
+                        
+                        .ap-billing-secure-notice
+                          svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ap-billing-secure-icon"
+                            rect x="3" y="11" width="18" height="11" rx="2" ry="2"
+                            path d="M7 11V7a5 5 0 0 1 10 0v4"
+                          span.f-reg-13 = I18n.t("dashboard.billing.secure_payment_notice", default: "Payments are securely processed by Stripe. Your card details are encrypted and never touch our servers.")
+                        
+                        .ap-billing-modal-actions
+                          button.ap-btn-secondary type="button" data-action="click->modal#close" = I18n.t("dashboard.billing.cancel", default: "Cancel")
+                          button.ap-btn-primary type="submit" data-stripe-elements-target="submitButton" = I18n.t("dashboard.billing.save_card", default: "Save Card")
 
     / Full width: Transactions
     .ap-card.ap-billing-tx-card

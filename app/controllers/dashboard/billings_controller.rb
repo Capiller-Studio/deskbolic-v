@@ -10,12 +10,14 @@ module Dashboard
       @payment_methods = current_account.payment_methods.active_methods
       @active_subscription = current_account.subscriptions.current.order(created_at: :desc).first
       @available_plans = Plan.available.where(currency: current_account.currency)
-      @setup_intent = begin
+      @stripe_publishable_key = Rails.application.credentials.dig(Rails.env.to_sym, :stripe, :publishable_key)
+
+      @setup_intent = if @stripe_publishable_key.present?
         PaymentGateway::Stripe.new(current_account).create_setup_intent
-      rescue StandardError => e
-        Rails.logger.warn "Stripe setup failed (likely missing API keys): #{e.message}"
-        OpenStruct.new(client_secret: "mock_secret_for_ui_testing")
       end
+    rescue Stripe::StripeError => e
+      Rails.logger.error "Stripe setup intent failed: #{e.message}"
+      flash.now[:alert] = "Payment setup is temporarily unavailable. Please try again later."
     end
 
     def dismiss_warning

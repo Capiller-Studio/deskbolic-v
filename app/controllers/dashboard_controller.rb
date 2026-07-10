@@ -92,14 +92,19 @@ class DashboardController < ApplicationController
     return unless sub
     return if sub.plan.free?
 
-    if sub.past_due? || sub.cancelled?
-      unless %w[billings payment_methods sessions].include?(controller_name)
+    if sub.past_due? || sub.cancelled? || sub.expired?
+      unless %w[billings payment_methods subscriptions sessions].include?(controller_name)
         redirect_to dashboard_billing_path, alert: I18n.t("dashboard.billing.past_due_warning", default: "Your subscription is past due. Please update your payment method to restore access.")
       end
     elsif sub.trialing? && current_account.payment_methods.active_methods.empty?
       dismissed_at = session[:billing_warning_dismissed_at]
       if dismissed_at.blank? || dismissed_at.to_time < 1.day.ago
-        @billing_warning_message = I18n.t("dashboard.billing.trial_ending_warning", days: sub.days_until_trial_end, default: "Your trial ends in %{days} days. Please add a payment method to avoid interruption.")
+        days_left = sub.days_until_trial_end
+        if days_left <= 0
+          @billing_warning_message = I18n.t("dashboard.billing.trial_expired_warning", default: "Your trial has ended. Please add a payment method to continue using your workspace.")
+        else
+          @billing_warning_message = I18n.t("dashboard.billing.trial_ending_warning", days: days_left, default: "Your trial ends in %{days} days. Please add a payment method to avoid interruption.")
+        end
       end
     end
   end

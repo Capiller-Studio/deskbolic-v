@@ -2,6 +2,8 @@
 
 module Dashboard
   class SubscriptionsController < DashboardController
+    skip_before_action :enforce_active_subscription, only: [:new, :create]
+
     def new
       @available_plans = Plan.available.where(currency: current_account.currency)
       redirect_to root_path if current_account.subscriptions.current.any?
@@ -10,9 +12,15 @@ module Dashboard
     def create
       plan = Plan.available.find(params[:plan_id])
       quantity = params[:quantity].to_i
+      billing_cycle = params[:billing_cycle].presence || "monthly"
       
       begin
-        Billing::SubscriptionCreator.call(account: current_account, plan: plan, quantity: quantity)
+        Billing::SubscriptionCreator.call(
+          account: current_account,
+          plan: plan,
+          quantity: quantity,
+          billing_cycle: billing_cycle.to_sym
+        )
         flash[:notice] = I18n.t("dashboard.billing.subscription_created", default: "Subscription successfully created!")
         redirect_to root_path
       rescue StandardError => e
@@ -23,11 +31,17 @@ module Dashboard
 
     def update
       sub = current_account.subscriptions.find(params[:id])
+      new_billing_cycle = resolve_billing_cycle(params)
       
       if params[:plan_id].present?
         new_plan = Plan.available.find(params[:plan_id])
         quantity = params[:quantity].presence&.to_i
-        Billing::SubscriptionUpdater.call(subscription: sub, new_plan: new_plan, new_quantity: quantity)
+        Billing::SubscriptionUpdater.call(
+          subscription: sub,
+          new_plan: new_plan,
+          new_quantity: quantity,
+          new_billing_cycle: new_billing_cycle
+        )
         flash[:notice] = I18n.t("dashboard.billing.plan_updated", plan_name: new_plan.display_name, default: "Plan successfully updated to %{plan_name}.")
       elsif params[:quantity].present?
         Billing::SubscriptionUpdater.call(subscription: sub, new_quantity: params[:quantity].to_i)
@@ -46,12 +60,12 @@ module Dashboard
     def cancel
       sub = current_account.subscriptions.find(params[:id])
       
-      if sub.cancel!(immediate: false)
-        flash[:notice] = I18n.t("dashboard.billing.subscription_cancelled", default: "Subscription has been cancelled and will end at the current billing cycle.")
-      else
-        flash[:alert] = I18n.t("dashboard.billing.cancel_failed", default: "Failed to cancel subscription.")
-      end
+      Billing::SubscriptionCanceller.call(subscription: sub, immediate: false)
+      flash[:notice] = I18n.t("dashboard.billing.subscription_cancelled", default: "Subscription has been cancelled and will end at the current billing cycle.")
 
+      redirect_to dashboard_billing_path
+    rescue StandardError => e
+      flash[:alert] = I18n.t("dashboard.billing.cancel_failed_error", error: e.message, default: "Failed to cancel subscription: %{error}")
       redirect_to dashboard_billing_path
     end
 
@@ -65,6 +79,18 @@ module Dashboard
       end
 
       redirect_to dashboard_billing_path
+    end
+
+    private
+
+    def resolve_billing_cycle(params)
+      if params[:billing_cycle].present?
+        params[:billing_cycle].to_sym
+      elsif params[:billing_cycle_annual] == "1"
+        :annual
+      else
+        nil
+      end
     end
   end
 end

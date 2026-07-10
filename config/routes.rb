@@ -237,6 +237,9 @@ Rails.application.routes.draw do
       end
     end
     resources :payment_methods, only: [:new, :create, :destroy] do
+      member do
+        post :make_default
+      end
       collection do
         get :setup_intent
       end

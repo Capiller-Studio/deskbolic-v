@@ -1,0 +1,74 @@
+= render("dashboard/shared/dashboard_container", current_page: "settings") do
+  = render("dashboard/settings/settings_sidebar", current_page: "integrations") do
+    .channel-theme-email
+      .ui-index-header
+        .ui-title-area
+          h2.f-semi-32 = t("dashboard.settings.integrations.index.title", default: "Integrations")
+          p.f-reg-16 = t("dashboard.settings.integrations.index.description", default: "Connect Deskbolic with your favorite tools.")
+
+      .ap-integrations-grid style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; margin-top: 24px;"
+        
+        / Slack Integration
+        .ui-card style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;"
+          div
+            .d-flex.align-items-center.mb-3
+              = image_tag "https://cdn.worldvectorlogo.com/logos/slack-new-logo.svg", width: 32, height: 32, alt: "Slack"
+              h3.f-semi-16.ml-2.mb-0 Slack
+            p.f-reg-14.ui-subtitle = t("dashboard.settings.integrations.slack.description", default: "Get instant notifications for new conversations and updates directly in your Slack channels.")
+          
+          .mt-4
+            - if @slack
+              .d-flex.align-items-center.justify-content-between
+                .ui-badge.ui-badge-active
+                  span.ui-badge-icon ✓
+                  span = t("dashboard.settings.integrations.connected", default: "Connected")
+                = button_to t("dashboard.settings.integrations.disconnect", default: "Disconnect"), integration_path(@slack), method: :delete, data: { turbo_confirm: t("dashboard.shared.are_you_sure") }, class: "ui-btn-danger"
+            - else
+              - if @slack_client_id.present?
+                = link_to "https://slack.com/oauth/v2/authorize?client_id=#{@slack_client_id}&scope=incoming-webhook&redirect_uri=#{slack_callback_integrations_url}", data: { turbo: false }, class: "ui-btn-primary w-100 text-center" do
+                  = t("dashboard.settings.integrations.slack.connect", default: "Add to Slack")
+              - else
+                = link_to new_integration_path(provider: :slack), class: "ui-btn-primary w-100 text-center" do
+                  = t("dashboard.settings.integrations.slack.connect", default: "Add to Slack")
+
+        / Webhooks Integration
+        .ui-card style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;"
+          div
+            .d-flex.align-items-center.mb-3
+              / Placeholder SVG for Webhooks
+              svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"
+                path d="M12 8v4"
+                path d="M12 16h.01"
+              h3.f-semi-16.ml-2.mb-0 Webhooks
+            p.f-reg-14.ui-subtitle = t("dashboard.settings.integrations.webhooks.description", default: "Push real-time event notifications from Deskbolic to your own servers and external services.")
+          
+          .mt-4
+            - if @webhooks.any?
+              .d-flex.align-items-center.justify-content-between
+                span.f-reg-14.font-weight-bold = t("dashboard.settings.integrations.webhooks.configured_count", count: @webhooks.count, default: "%{count} configured")
+                = link_to t("dashboard.settings.integrations.manage", default: "Manage"), new_integration_path(provider: :webhook), class: "ui-btn-secondary"
+              
+              .mt-3.pt-3 style="border-top: 1px solid var(--border-color);"
+                - @webhooks.each do |webhook|
+                  .d-flex.justify-content-between.align-items-center.mb-2.gap-2
+                    span.f-reg-14.text-truncate style="flex: 1;" = webhook.settings["webhook_url"]
+                    .d-flex.align-items-center.gap-2 style="flex-shrink: 0;"
+                      = link_to edit_integration_path(webhook), class: "ui-action-btn", title: t("dashboard.shared.edit", default: "Edit")
+                        | ✏️
+                      = link_to integration_path(webhook), data: { turbo_method: :delete, turbo_confirm: t("dashboard.shared.are_you_sure") }, class: "ui-action-btn ui-action-delete", title: "Delete" do
+                        | 🗑️
+            - else
+              = link_to t("dashboard.settings.integrations.webhooks.connect", default: "Configure Webhooks"), new_integration_path(provider: :webhook), class: "ui-btn-primary w-100 text-center"
+
+        / Google Translate Integration
+        .ui-card style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;"
+          div
+            .d-flex.align-items-center.mb-3
+              = image_tag "https://upload.wikimedia.org/wikipedia/commons/d/d7/Google_Translate_logo.svg", width: 32, height: 32, alt: "Google Translate"
+              h3.f-semi-16.ml-2.mb-0 Google Translate
+            p.f-reg-14.ui-subtitle = t("dashboard.settings.integrations.google_translate.description", default: "Automatically translate incoming messages and outgoing replies in real-time.")
+          
+          .mt-4
+            button.ui-btn-secondary.w-100 disabled="disabled"
+              = t("dashboard.settings.integrations.coming_soon", default: "Coming Soon")

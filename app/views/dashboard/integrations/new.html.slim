@@ -1,0 +1,15 @@
+= render("dashboard/shared/dashboard_container", current_page: "settings") do
+  = render("dashboard/settings/settings_sidebar", current_page: "integrations") do
+    .channel-theme-email
+      .ui-page-body
+        .ui-page-header
+          = link_to t("dashboard.settings.integrations.form.back", default: "← Back to Integrations"), integrations_path, class: "ui-back-link"
+          h2.f-semi-24 style="color: #0f172a; margin-top: 12px;" = t("dashboard.settings.integrations.new.title", default: "Configure %{provider}", provider: @provider.titleize)
+
+        .ui-card style="max-width: 800px; margin-top: 24px;"
+          - if @provider == "webhook"
+            = render "webhook_form", integration: @integration, url: integrations_path
+          - elsif @provider == "slack"
+            = render "slack_form", integration: @integration, url: integrations_path
+          - else
+            p = t("dashboard.settings.integrations.not_supported", default: "Configuration for this provider is not supported via this interface.")

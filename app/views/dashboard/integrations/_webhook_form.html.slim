@@ -1,0 +1,71 @@
+= form_with model: integration, url: url do |f|
+  = f.hidden_field :provider
+
+  .ui-section.ui-section--always-open
+    .ui-section-header
+      .ui-section-title
+        span.ui-section-icon 🔗
+        span.ui-section-label = t("dashboard.settings.integrations.webhooks.basic_section", default: "Webhook Settings")
+    .ui-section-body
+      .ui-form-row
+        div
+          = f.label :webhook_url, t("dashboard.settings.integrations.webhooks.url_label", default: "Webhook URL"), class: "ui-label"
+          p.ui-input-hint style="margin-top: 0; margin-bottom: 8px;" = t("dashboard.settings.integrations.webhooks.url_hint", default: "The endpoint where Deskbolic will send POST requests for events.")
+          = f.text_field :webhook_url, name: "integration[settings][webhook_url]", value: integration.settings["webhook_url"], class: "ui-input", placeholder: "https://your-server.com/webhooks/deskbolic", required: true
+
+      - if integration.persisted?
+        .ui-form-row style="margin-top: 24px;"
+          div
+            = f.label :webhook_secret, t("dashboard.settings.integrations.webhooks.secret_label", default: "Webhook Secret"), class: "ui-label"
+            p.ui-input-hint style="margin-top: 0; margin-bottom: 8px;" = t("dashboard.settings.integrations.webhooks.secret_hint", default: "Use this secret to verify the HMAC signature of incoming requests.")
+            = f.text_field :webhook_secret, name: "integration[settings][webhook_secret]", value: integration.settings["webhook_secret"], class: "ui-input", readonly: true, style: "background-color: #f8fafc; font-family: monospace;"
+      
+      .ui-form-row style="margin-top: 24px;"
+        div
+          = f.label :subscribed_events, t("dashboard.settings.integrations.webhooks.events_label", default: "Subscribed Events"), class: "ui-label"
+          
+          .events-grid style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px;"
+            - Integration::WEBHOOK_EVENTS.each do |event|
+              .ui-toggle-row style="justify-content: flex-start; gap: 12px;"
+                label.ui-toggle
+                  = check_box_tag "integration[settings][subscribed_events][]", event, integration.subscribed_events.include?(event), id: "event_#{event.parameterize}"
+                  span.ui-toggle-slider
+                span.ui-toggle-label = event
+                
+  - if integration.persisted?
+    .ui-section.ui-section--always-open style="margin-top: 24px;"
+      .ui-section-header
+        .ui-section-title
+          span.ui-section-icon 📤
+          span.ui-section-label = t("dashboard.settings.integrations.webhooks.instructions_title", default: "Receiving Webhooks")
+      .ui-section-body
+        p.f-reg-14.text-muted.ui-inst-desc
+          | When subscribed events occur, Deskbolic will send an HTTP POST request to your 
+          strong Webhook URL
+          | .
+        
+        pre.ui-code-block style="margin-top: 12px; background: #1e293b; color: #f8fafc; padding: 16px; border-radius: 8px; font-size: 13px; overflow-x: auto;"
+          code = "{\n  \"event\": \"message.created\",\n  \"data\": {\n    \"id\": \"msg_12345\",\n    \"content\": \"Hello, how can I help you today?\"\n  }\n}"
+        
+        p.f-reg-14.text-muted.ui-inst-verify style="margin-top: 24px;"
+          | To verify that the request actually came from Deskbolic, we sign the payload using your 
+          strong Webhook Secret
+          | . We include this signature in the 
+          code.ui-inst-inline-code Deskbolic-Signature
+          |  header using the format 
+          code.ui-inst-inline-code
+            | t={timestamp},v1={signature}
+          | .
+          
+        p.f-reg-14.text-muted.ui-inst-verify style="margin-top: 12px;"
+          | You should verify the signature on your server to prevent replay attacks and ensure authenticity. For example in Ruby:
+          
+        pre.ui-code-block style="margin-top: 12px; background: #f8fafc; color: #334155; padding: 16px; border-radius: 8px; font-size: 13px; overflow-x: auto; border: 1px solid #e2e8f0;"
+          code = "header = request.headers[\"Deskbolic-Signature\"]\ntimestamp = header.match(/t=(\\d+)/)[1]\nsignature = header.match(/v1=([a-f0-9]+)/)[1]\n\n# 1. Prevent replay attacks\nreturn 401 if Time.now.to_i - timestamp.to_i > 300 # 5 minutes\n\n# 2. Verify HMAC signature\nexpected = OpenSSL::HMAC.hexdigest(\"SHA256\", WEBHOOK_SECRET, \"\#{timestamp}-\#{request.raw_post}\")\nreturn 401 unless Rack::Utils.secure_compare(expected, signature)"
+                
+  .ui-form-actions
+    - if integration.persisted?
+      = f.submit t("dashboard.shared.update", default: "Update Webhook"), class: "ui-btn-primary"
+    - else
+      = f.submit t("dashboard.shared.save", default: "Save Webhook"), class: "ui-btn-primary"
+    = link_to t("dashboard.shared.cancel", default: "Cancel"), integrations_path, class: "ui-btn-secondary"

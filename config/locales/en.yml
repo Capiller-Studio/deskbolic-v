@@ -15,10 +15,10 @@ en:
   dashboard:
     labels:
       flash:
-        created: "Label created successfully."
-        updated: "Label updated successfully."
-        deleted: "Label deleted successfully."
-        error: "Failed to save label: %{errors}"
+        created: Label created successfully.
+        updated: Label updated successfully.
+        deleted: Label deleted successfully.
+        error: 'Failed to save label: %{errors}'
     sidebar:
       channels:
         title: Help Desk
@@ -56,6 +56,7 @@ en:
         macros: Macros
         sla_policies: SLA Policies
         csat_surveys: CSAT Surveys
+        integrations: Integrations
     settings_index:
       title: Home
       workspace: Workspace
@@ -213,10 +214,6 @@ en:
         save: Save Automation
         cancel: Cancel
         remove: Remove
-      new:
-        title: New Automation
-      edit:
-        title: Edit Automation
       create:
         created: Automation created successfully.
       update:
@@ -810,38 +807,38 @@ en:
         label: Domains
     business_hour_groups:
       shared:
-        no_description: "No description provided."
+        no_description: No description provided.
       index:
-        title: "Business Hours"
-        description: "Configure working hours and exceptions for your teams."
-        new_group: "New Schedule"
-        empty_title: "No business hours yet"
-        empty_description: "Create a schedule to define when your team is online."
+        title: Business Hours
+        description: Configure working hours and exceptions for your teams.
+        new_group: New Schedule
+        empty_title: No business hours yet
+        empty_description: Create a schedule to define when your team is online.
       new:
-        title: "New Business Hours"
-        description: "Create a new schedule for your team."
+        title: New Business Hours
+        description: Create a new schedule for your team.
       edit:
-        title: "Edit Business Hours"
-        description: "Update your team's schedule."
+        title: Edit Business Hours
+        description: Update your team's schedule.
       form:
-        general_settings: "General Settings"
-        general_settings_desc: "Basic details about this schedule."
-        name_placeholder: "e.g., US Support Team"
-        weekly_schedule: "Weekly Schedule"
-        weekly_schedule_desc: "Define your regular working hours. You can add multiple time slots per day."
-        add_hours: "Add Hours"
-        exceptions: "Holidays & Exceptions"
-        exceptions_desc: "Define specific dates when your team is unavailable."
-        add_exception: "Add Exception"
-        save: "Save"
-        cancel: "Cancel"
+        general_settings: General Settings
+        general_settings_desc: Basic details about this schedule.
+        name_placeholder: e.g., US Support Team
+        weekly_schedule: Weekly Schedule
+        weekly_schedule_desc: Define your regular working hours. You can add multiple
+          time slots per day.
+        add_hours: Add Hours
+        exceptions: Holidays & Exceptions
+        exceptions_desc: Define specific dates when your team is unavailable.
+        add_exception: Add Exception
+        save: Save
+        cancel: Cancel
       create:
-        created: "Business hours created successfully."
+        created: Business hours created successfully.
       update:
-        updated: "Business hours updated successfully."
+        updated: Business hours updated successfully.
       destroy:
-        destroyed: "Business hours deleted successfully."
-
+        destroyed: Business hours deleted successfully.
     email_templates:
       index:
         title: Email Templates
@@ -1279,10 +1276,12 @@ en:
     sla_policies:
       index:
         title: SLA Policies
-        description: Set service level targets for different inboxes to ensure timely responses.
+        description: Set service level targets for different inboxes to ensure timely
+          responses.
         new_policy: New Policy
         empty_title: No SLA Policies
-        empty_description: Create your first SLA policy to start tracking agent response times.
+        empty_description: Create your first SLA policy to start tracking agent response
+          times.
       new:
         title: New SLA Policy
         description: Define targets to ensure your team responds to customers on time.
@@ -1294,10 +1293,10 @@ en:
         title: CSAT Surveys
         description: Create and manage custom Customer Satisfaction surveys.
         new_survey: Create Custom Survey
-        prompt_label: "Prompt: "
-        default_prompt: "How would you rate the support you received?"
-        uses_template: "Uses: %{name}"
-        default_template: "Default system template"
+        prompt_label: 'Prompt: '
+        default_prompt: How would you rate the support you received?
+        uses_template: 'Uses: %{name}'
+        default_template: Default system template
         empty_title: No CSAT Surveys
         empty_description: Create your first survey to start collecting customer feedback.
         delete_confirm: Are you sure you want to delete this survey?
@@ -1619,6 +1618,96 @@ en:
         test_inbound: Simulate Inbound Mapping
         test_mapping: Test Mapping
         mapped_attributes: 'Mapped Attributes:'
+    settings:
+      integrations:
+        integrations:
+          index:
+            title: Integrations
+            description: Connect Deskbolic with your favorite tools.
+          new:
+            title: Configure %{provider}
+            description: Set up your integration settings.
+          edit:
+            title: Edit %{provider} Integration
+            description: Update your integration settings.
+          slack:
+            description: Get instant notifications for new conversations and updates
+              directly in your Slack channels.
+            connect: Add to Slack
+            not_configured: Slack credentials are not configured on this server.
+            auth_failed: Slack authentication failed or was cancelled.
+            exchange_failed: 'Failed to exchange Slack token: %{error}'
+            unexpected_error: An unexpected error occurred during Slack authentication.
+            connected: Slack has been successfully connected.
+          webhooks:
+            description: Push real-time event notifications from Deskbolic to your
+              own servers and external services.
+            configured_count: "%{count} configured"
+            connect: Configure Webhooks
+            url_label: Webhook URL
+            url_hint: The endpoint where Deskbolic will send POST requests for events.
+            secret_label: Webhook Secret
+            secret_hint: Use this secret to verify the HMAC signature of incoming
+              requests.
+            events_label: Subscribed Events
+          google_translate:
+            description: Automatically translate incoming messages and outgoing replies
+              in real-time.
+          coming_soon: Coming Soon
+          connected: Connected
+          disconnect: Disconnect
+          manage: Manage
+          not_supported: Configuration for this provider is not supported via this
+            interface.
+          invalid_provider: Invalid integration provider.
+          created: Integration created successfully.
+          updated: Integration updated successfully.
+          destroyed: Integration removed successfully.
+        created: Integration was successfully configured.
+        updated: Integration settings were successfully updated.
+        destroyed: Integration was successfully disconnected.
+        invalid_provider: The selected integration provider is invalid.
+        slack:
+          auth_failed: Slack authentication failed. Please try again.
+          not_configured: Slack OAuth credentials are not configured on this server.
+          connected: Successfully connected to Slack!
+          exchange_failed: 'Failed to exchange Slack OAuth token: %{error}'
+          unexpected_error: An unexpected error occurred during Slack authentication.
+          basic_section: Slack Setup
+          manual_hint: Because Slack OAuth is not configured globally for this installation,
+            you can connect Slack manually by creating an Incoming Webhook in your
+            Slack Workspace and pasting the URL here.
+          url_label: Slack Incoming Webhook URL
+          description: Get instant notifications for new conversations and updates
+            directly in your Slack channels.
+          connect: Add to Slack
+        not_supported: Configuration for this provider is not supported via this interface.
+        coming_soon: Coming Soon
+        connected: Connected
+        disconnect: Disconnect
+        manage: Manage
+        form:
+          back: "← Back to Integrations"
+        new:
+          title: Configure %{provider}
+        edit:
+          title: Edit %{provider} Integration
+        webhooks:
+          description: Push real-time event notifications from Deskbolic to your own
+            servers and external services.
+          connect: Configure Webhooks
+          configured_count: "%{count} configured"
+          manage: Manage
+          basic_section: Webhook Settings
+          url_label: Webhook URL
+          url_hint: The endpoint where Deskbolic will send POST requests for events.
+          secret_label: Webhook Secret
+          secret_hint: Use this secret to verify the HMAC signature of incoming requests.
+          events_label: Subscribed Events
+          instructions_title: Receiving Webhooks
+        google_translate:
+          description: Automatically translate incoming messages and outgoing replies
+            in real-time.
   auth:
     workspace:
       email_invitation:
@@ -1716,11 +1805,11 @@ en:
       back_to_login: Continue to Login
   activities:
     conversation:
-      conversation_resolved: "Conversation was resolved"
-      conversation_closed: "Conversation was closed"
-      conversation_active: "Conversation was reopened"
-      conversation_snoozed: "Conversation was snoozed"
-      update: "Conversation details were updated"
-      priority_updated: "Priority was changed"
-      label_added: "Label %{label} was added"
-      label_removed: "Label %{label} was removed"
+      conversation_resolved: Conversation was resolved
+      conversation_closed: Conversation was closed
+      conversation_active: Conversation was reopened
+      conversation_snoozed: Conversation was snoozed
+      update: Conversation details were updated
+      priority_updated: Priority was changed
+      label_added: Label %{label} was added
+      label_removed: Label %{label} was removed

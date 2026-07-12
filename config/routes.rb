@@ -290,6 +290,12 @@ Rails.application.routes.draw do
 
     
     resources :custom_fields
+    
+    resources :integrations, except: [:show] do
+      collection do
+        get 'slack/callback', to: 'integrations#slack_callback'
+      end
+    end
 
     resources :email_templates, only: [:index, :new, :create, :edit, :update, :destroy] do
       member do

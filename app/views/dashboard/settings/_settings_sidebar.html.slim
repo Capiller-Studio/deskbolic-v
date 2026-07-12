@@ -244,6 +244,14 @@
                       p.f-reg-14
                         | Developer API Keys
                         = plan_upgrade_bubble(:api_access)
+                        
+            - if policy(:integration).index?
+              li.nav-item class="#{current_page == 'integrations' ? 'st-list-active' : ''}" data-action="click->accordion#toggle"
+                .nav-link
+                  = link_to(integrations_path, class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-14 = t('dashboard.sidebar.settings.integrations', default: 'Integrations')
 
     .helpdesk-body.settings-body
       turbo-frame#conversations-frame[data-turbo-permanent]

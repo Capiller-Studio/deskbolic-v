@@ -76,8 +76,9 @@ Rails.application.routes.draw do
     get "terms", to: "pages#service_terms"
     get "help-center", to: "pages#help_center"
     get "community", to: "pages#community_forum"
-    get "email-invitation", to: "workspace#email_invitation"
-    post "email-invitation", to: "workspace#accept_invitation"
+    # get "email-invitation", to: "workspace#email_invitation"
+    get "email-invitation", to: "account_invitations#email_invitation"
+    post "email-invitation", to: "account_invitations#accept_invitation"
     get "profile", to: "profile#index"
     patch "profile", to: "profile#update"
    

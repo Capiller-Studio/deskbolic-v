@@ -1,0 +1,70 @@
+<mjml>
+  <mj-include path="../system_mailer/shared/_head.mjml" />
+
+  <mj-body background-color="#f3f4f6">
+    <mj-section padding="40px 20px">
+      <mj-column css-class="email-container">
+
+        <mj-include path="../system_mailer/shared/_header.mjml" />
+
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#ffffff" padding="0 40px">
+      <mj-column padding="0">
+        <mj-text align="center" font-size="48px" padding-top="32px" padding-bottom="16px">
+          ✉️
+        </mj-text>
+
+        <mj-text align="center" font-size="22px" font-weight="700" color="#111827" padding-bottom="8px">
+          [[ERB= t("mailers.account_invitation.invite.header") ]]
+        </mj-text>
+
+        <mj-divider border-width="2px" border-color="#4F46E5" width="60px" padding="8px 0 24px 0" />
+
+        <mj-text align="left" font-size="15px" color="#374151" line-height="24px" padding-bottom="24px">
+          [[ERB= t("mailers.account_invitation.invite.body_main", inviter_name: @inviter.display_name || @inviter.email, account_name: @account.name) ]]
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-raw>[[ERB- if @role_names.any? ]]</mj-raw>
+    <mj-section background-color="#ffffff" padding="0 40px">
+      <mj-column>
+        <mj-text align="left" font-size="13px" font-weight="700" color="#4F46E5" padding-bottom="4px" letter-spacing="0.025em">
+          [[ERB= t("mailers.account_invitation.invite.roles_label") ]]
+        </mj-text>
+        <mj-text align="left" font-size="14px" color="#374151" padding-bottom="16px">
+          [[ERB= @role_names.to_sentence ]]
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-raw>[[ERB- end ]]</mj-raw>
+
+    <mj-section background-color="#ffffff" padding="24px 40px 32px 40px">
+      <mj-column>
+        <mj-text align="left" font-size="15px" color="#374151" line-height="24px" padding-bottom="24px">
+          [[ERB= t("mailers.account_invitation.invite.body_footer") ]]
+        </mj-text>
+
+        <mj-button href="[[ERB= email_invitation_url(invitation_token: @invitation.token) ]]">
+          [[ERB= t("mailers.account_invitation.invite.cta") ]]
+        </mj-button>
+
+        <mj-text align="center" font-size="13px" color="#9ca3af" padding-top="16px">
+          [[ERB= t("mailers.account_invitation.invite.expiry", expiry_date: l(@invitation.expires_at, format: :long)) ]]
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-include path="../system_mailer/shared/_footer.mjml" />
+
+    <mj-section padding="24px 0">
+      <mj-column>
+        <mj-text align="center" font-size="12px" color="#9ca3af">
+          <a href="[[ERB= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') ]]" class="footer-link">deskbolic.com</a>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

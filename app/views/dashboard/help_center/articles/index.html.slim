@@ -40,54 +40,60 @@
                     = check_box_tag "columns[]", key, @columns.include?(key)
                     span.hc-checkbox-label = label
                 = button_tag "Apply", type: :submit, class: "hc-btn-primary hc-columns-apply"
-          table.hc-articles-table
-            thead
-              tr
-                - if @columns.include?("title")
-                  th
-                    span.hc-th-content
-                      | Title
-                      span.hc-sort-caret ↓
-                - if @columns.include?("last_edit")
-                  th
-                    span.hc-th-content
-                      | Last Edit
-                      span.hc-sort-caret ↓
-                - if @columns.include?("status")
-                  th
-                    span.hc-th-content
-                      | Status
-                      span.hc-sort-caret ↓
-                - if @columns.include?("collection")
-                  th
-                    span.hc-th-content
-                      | Collection
-                      span.hc-sort-caret ↓
-            tbody
-              - @articles.each do |article|
-                - collection = article.primary_category || article.categories.first
-                tr.hc-table-row
+          div data-controller="sortable" data-sortable-url-value="#{reorder_help_center_articles_path}"
+            table.hc-articles-table
+              thead
+                tr
+                  th.hc-drag-th
+                    span.hc-th-content ⠿
                   - if @columns.include?("title")
-                    td.hc-title-cell
-                      .hc-title-wrapper
-                        = link_to help_center_article_path(article), class: "hc-article-title"
-                          = article.title.presence || "Untitled article"
+                    th
+                      span.hc-th-content
+                        | Title
+                        span.hc-sort-caret ↓
                   - if @columns.include?("last_edit")
-                    td
-                      span.hc-date-text = time_ago_in_words(article.updated_at) + " ago"
+                    th
+                      span.hc-th-content
+                        | Last Edit
+                        span.hc-sort-caret ↓
                   - if @columns.include?("status")
-                    td
-                      span.hc-status-badge class="hc-status-#{article.status}"
-                        span.hc-status-dot class="hc-dot-#{article.status}"
-                        = article.status.humanize
+                    th
+                      span.hc-th-content
+                        | Status
+                        span.hc-sort-caret ↓
                   - if @columns.include?("collection")
-                    td.hc-collection-cell
-                      span.hc-collection-tag title=collection&.name
-                        - if collection&.name.present?
-                          - words = collection.name.split
-                          = words.first(2).join(' ') + (words.length > 2 ? '...' : '')
-                        - else
-                          = "Uncategorized"
+                    th
+                      span.hc-th-content
+                        | Collection
+                        span.hc-sort-caret ↓
+              tbody
+                - @articles.each do |article|
+                  - collection = article.primary_category || article.categories.first
+                  tr.hc-table-row id="article_#{article.id}" data-sortable-target="item" data-id="#{article.id}" draggable="true" data-action="dragstart->sortable#dragStart dragend->sortable#dragEnd"
+                    td.hc-drag-cell
+                      span.hc-drag-handle
+                        | ⠿
+                    - if @columns.include?("title")
+                      td.hc-title-cell
+                        .hc-title-wrapper
+                          = link_to help_center_article_path(article), class: "hc-article-title"
+                            = article.title.presence || "Untitled article"
+                    - if @columns.include?("last_edit")
+                      td
+                        span.hc-date-text = time_ago_in_words(article.updated_at) + " ago"
+                    - if @columns.include?("status")
+                      td
+                        span.hc-status-badge class="hc-status-#{article.status}"
+                          span.hc-status-dot class="hc-dot-#{article.status}"
+                          = article.status.humanize
+                    - if @columns.include?("collection")
+                      td.hc-collection-cell
+                        span.hc-collection-tag title=collection&.name
+                          - if collection&.name.present?
+                            - words = collection.name.split
+                            = words.first(2).join(' ') + (words.length > 2 ? '...' : '')
+                          - else
+                            = "Uncategorized"
 
           - if @pagy && @pagy.last > 1
             .hc-pagination

@@ -150,6 +150,19 @@ module Dashboard
         render json: { success: true, message: I18n.t("dashboard.articles.draft_discarded", default: "Draft discarded successfully.") }
       end
 
+      def reorder
+        authorize ::HelpCenter::Article
+        ordered_ids = params[:ordered_ids]
+
+        articles = ::HelpCenter::Article.where(account: current_account, id: ordered_ids)
+
+        ordered_ids.each_with_index do |id, index|
+          articles.where(id: id).update_all(position: index)
+        end
+
+        head :ok
+      end
+
       # Copy draft content from one locale to another
       def copy_locale
         authorize @article, :update?

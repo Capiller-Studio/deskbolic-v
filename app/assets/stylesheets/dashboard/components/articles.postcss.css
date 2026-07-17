@@ -2706,3 +2706,51 @@
     padding: 16px;
   }
 }
+
+.hc-drag-th {
+  width: 40px;
+  min-width: 40px;
+  text-align: center;
+}
+
+.hc-drag-cell {
+  width: 40px;
+  min-width: 40px;
+  text-align: center;
+  cursor: default;
+}
+
+.hc-drag-handle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  cursor: grab;
+  color: $black-30;
+  border-radius: 4px;
+  user-select: none;
+  font-size: 16px;
+  line-height: 1;
+  transition: color 0.15s, background 0.15s;
+}
+
+.hc-drag-handle:hover {
+  color: $black-60;
+  background: rgba(0, 0, 0, 0.05);
+  cursor: grab;
+}
+
+.hc-drag-handle:active {
+  cursor: grabbing;
+}
+
+.hc-table-row.dragging {
+  opacity: 0.4;
+  background: $light;
+}
+
+.hc-table-row.drag-over {
+  border-bottom: 2px solid $secondary-purple;
+  background: rgba(119, 141, 255, 0.05);
+}

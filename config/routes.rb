@@ -207,6 +207,9 @@ Rails.application.routes.draw do
           post :discard_draft
           post :copy_locale
         end
+        collection do
+          patch :reorder
+        end
       end
       resources :categories, only: %i[index create]
     end

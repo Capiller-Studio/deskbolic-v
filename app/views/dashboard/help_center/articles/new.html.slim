@@ -1,21 +1,36 @@
+- locale = @locale || @article.portal&.default_locale.presence || I18n.locale.to_s
+- translation = @article.translations.find { |t| t.locale.to_s == locale.to_s } || @article.translations.first || @article.translations.build(locale: locale)
+- draft_content = translation.draft_content.presence || translation.content.presence || ""
+- draft_title = translation.draft_title.presence || translation.title.presence || ""
+
 = render("dashboard/shared/dashboard_container", current_page: "help_center") do
   = render("dashboard/help_center/help_center_sidebar", current_page: "articles") do
-    .hc-articles.hc-form-page.hc-form-no-sidebar
+    - editor_opts = { class: "hc-articles hc-form-page hc-form-no-sidebar", data: { \
+        controller: "article-editor", \
+        "article-editor-upload-url-value" => attachments_path, \
+        "article-editor-csrf-token-value" => form_authenticity_token, \
+        "article-editor-draft-content-value" => draft_content, \
+        "article-editor-draft-title-value" => draft_title, \
+        "article-editor-locale-value" => locale, \
+        "article-editor-status-value" => (@article.status || "draft") \
+      } }
+
+    div *editor_opts
       .hc-form-header-bar
         .hc-form-breadcrumb
-          span Knowledge Base
+          span = I18n.t("dashboard.articles.knowledge_base", default: "Knowledge Base")
           span.hc-breadcrumb-sep >
-          span Articles
+          span = I18n.t("dashboard.articles.articles", default: "Articles")
           span.hc-breadcrumb-sep |
-          span Create Article
+          span = I18n.t("dashboard.articles.create_article", default: "Create Article")
         .hc-form-header-actions
-          = link_to "Cancel", help_center_articles_path, class: "hc-btn-secondary hc-header-btn"
+          = link_to I18n.t("dashboard.articles.cancel", default: "Cancel"), help_center_articles_path, class: "hc-btn-secondary hc-header-btn"
           button.hc-btn-primary.hc-header-btn type="submit" form="article-form" name="save_draft" value="1"
-            | Save
+            = I18n.t("dashboard.articles.save", default: "Save")
           button.hc-btn-primary.hc-btn-green.hc-header-btn type="submit" form="article-form" name="publish" value="1"
-            | Publish
+            = I18n.t("dashboard.articles.publish", default: "Publish")
       .hc-form-layout
         .hc-form-main
           .hc-form-back-above-title
-            = link_to "> Back", help_center_articles_path, class: "hc-back-link-above"
-          = render "form", article: @article
+            = link_to I18n.t("dashboard.articles.back_link", default: "> Back"), help_center_articles_path, class: "hc-back-link-above"
+          = render "form", article: @article, draft_title: draft_title, draft_content: draft_content, locale: locale

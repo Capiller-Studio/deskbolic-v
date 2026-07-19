@@ -24,7 +24,7 @@ module Dashboard
 
       @attachment = resource.attachments.new(
         account: Current.account,
-        attachment_type: :image
+        attachment_type: params[:attachment_type].presence || :image
       )
 
       @attachment.file.attach(params[:file])
@@ -60,14 +60,19 @@ module Dashboard
     private
 
     def authorize_attachment_access
-      authorize EmailTemplate, :update?
+      if params[:resource_type] == "HelpCenter::Article"
+        authorize ::HelpCenter::Article, :update?
+      else
+        authorize EmailTemplate, :update?
+      end
     end
 
     # Resolve the resource (EmailTemplate or EmailTemplateLayout) scoped to current account
     def resolve_resource
       allowed_types = {
         "EmailTemplate" => :email_templates,
-        "EmailTemplateLayout" => :email_template_layouts
+        "EmailTemplateLayout" => :email_template_layouts,
+        "HelpCenter::Article" => :help_center_articles
       }
 
       collection_name = allowed_types[params[:resource_type]]

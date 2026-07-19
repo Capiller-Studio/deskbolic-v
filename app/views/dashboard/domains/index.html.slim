@@ -3,9 +3,13 @@
     .body-section.domains-body
       .domains-header
         h2.f-semi-18 = t("dashboard.domains.index.title")
-        = link_to(new_domain_path, class: "new-domain-btn") do
-          span.f-reg-14 = t("dashboard.domains.index.add_custom_domain")
-          = inline_svg_tag("plus_white.svg", class: "plus-icon", alt: "add")
+        - if current_account.feature_enabled?(:custom_domains)
+          = link_to(new_domain_path, class: "new-domain-btn") do
+            span.f-reg-14 = t("dashboard.domains.index.add_custom_domain")
+            = inline_svg_tag("plus_white.svg", class: "plus-icon", alt: "add")
+        - else
+          = link_to(dashboard_billing_path, class: "new-domain-btn btn-upgrade", style: "background: #f59e0b;") do
+            span.f-reg-14 Upgrade to Add Domain
 
       - if flash[:notice]
         .alert.alert-green
@@ -92,7 +96,10 @@
           .domain-empty
             p.f-reg-14 = t("dashboard.domains.index.custom_domains.empty_title")
             p.f-reg-12 = t("dashboard.domains.index.custom_domains.empty_description")
-            = link_to t("dashboard.domains.index.custom_domains.add_first"), new_domain_path, class: "add-domain-link"
+            - if current_account.feature_enabled?(:custom_domains)
+              = link_to t("dashboard.domains.index.custom_domains.add_first"), new_domain_path, class: "add-domain-link"
+            - else
+              = link_to "Upgrade Plan to Add Domain", dashboard_billing_path, class: "add-domain-link", style: "color: #f59e0b;"
 
       / CNAME Instructions
       .domains-section.cname-instructions

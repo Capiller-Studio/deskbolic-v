@@ -22,6 +22,12 @@ module Dashboard
           name: domain_params[:name]
         )
       else
+        unless current_account.feature_enabled?(:custom_domains)
+          @domain = Domain.new(domain_params)
+          @domain.errors.add(:domain_type, I18n.t("dashboard.domains.custom_domain_not_supported", default: "Custom domains are not supported on your current plan."))
+          raise ActiveRecord::RecordInvalid, @domain
+        end
+
         @domain = Domains::CreateCustomDomain.call(
           account: current_account,
           value: domain_params[:value],

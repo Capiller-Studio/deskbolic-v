@@ -73,9 +73,9 @@ module Dashboard
         end
 
         if status_value == :published
-          redirect_to help_center_article_path(@article), notice: "Article was published successfully."
+          redirect_to help_center_article_path(id: @article.id), notice: "Article was published successfully."
         else
-          redirect_to help_center_article_path(@article), notice: "Article was saved as draft."
+          redirect_to help_center_article_path(id: @article.id), notice: "Article was saved as draft."
         end
       rescue ActiveRecord::RecordInvalid
         set_article_context
@@ -104,28 +104,50 @@ module Dashboard
       def update
         authorize @article
 
-        if params[:publish].present?
-          # Publish the article
-          ActiveRecord::Base.transaction do
-            @article.update!(normalized_article_params.merge(status: :published))
-            sync_article_relationships(@article)
+        respond_to do |format|
+          format.json do
+            # JSON draft save from the Tiptap editor or UI updates
+            
+            if params.dig(:article).present? && params.dig(:article).key?(:related_article_ids)
+              sync_related_articles(@article)
+            end
+
+            if params.dig(:article, :translations_attributes, :"0").present?
+              locale = params[:article_locale] || I18n.locale.to_s
+              translation = @article.translations.find_or_initialize_by(locale: locale)
+
+              draft_attrs = params.dig(:article, :translations_attributes, :"0") || {}
+              translation.draft_title   = draft_attrs[:draft_title]   if draft_attrs.key?(:draft_title)
+              translation.draft_content = draft_attrs[:draft_content] if draft_attrs.key?(:draft_content)
+              translation.save!
+            end
+
+            render json: { success: true, message: I18n.t("dashboard.articles.draft_saved", default: "Draft saved.") }
+          rescue StandardError => e
+            render json: { success: false, errors: [e.message] }, status: :unprocessable_entity
           end
 
-          redirect_to help_center_article_path(@article), notice: "Article was published successfully."
-        else
-          # Save as draft
-          ActiveRecord::Base.transaction do
-            @article.update!(normalized_article_params.merge(status: :draft))
-            sync_article_relationships(@article)
+          format.html do
+            if params[:publish].present?
+              ActiveRecord::Base.transaction do
+                @article.update!(normalized_article_params.merge(status: :published))
+                sync_article_relationships(@article)
+              end
+              redirect_to help_center_article_path(id: @article.id), notice: "Article was published successfully."
+            else
+              ActiveRecord::Base.transaction do
+                @article.update!(normalized_article_params.merge(status: :draft))
+                sync_article_relationships(@article)
+              end
+              redirect_to help_center_article_path(id: @article.id), notice: "Article was saved as draft."
+            end
+          rescue ActiveRecord::RecordInvalid
+            set_article_context
+            build_default_translation(@article)
+            flash.now[:alert] = "Unable to save article. Please check the fields and try again."
+            render :edit, status: :unprocessable_entity
           end
-
-          redirect_to help_center_article_path(@article), notice: "Article was saved as draft."
         end
-      rescue ActiveRecord::RecordInvalid
-        set_article_context
-        build_default_translation(@article)
-        flash.now[:alert] = "Unable to save article. Please check the fields and try again."
-        render :edit, status: :unprocessable_entity
       end
 
       # Publish draft → live
@@ -168,10 +190,15 @@ module Dashboard
         authorize @article, :update?
         source_locale = params[:source_locale]
         target_locale = params[:target_locale]
-
         @article.copy_draft_locale!(from: source_locale, to: target_locale)
+        translation = @article.translations.find_by(locale: target_locale)
 
-        render json: { success: true, message: I18n.t("dashboard.articles.locale_copied", default: "Locale content copied successfully.") }
+        render json: { 
+          success: true, 
+          message: I18n.t("dashboard.articles.locale_copied", default: "Locale content copied successfully."),
+          draft_title: translation&.draft_title || "",
+          draft_content: translation&.draft_content || ""
+        }
       rescue StandardError => e
         render json: { success: false, errors: [e.message] }, status: :unprocessable_entity
       end
@@ -211,21 +238,22 @@ module Dashboard
       end
 
       def article_params
-        params.require(:article).permit(
-          :portal_id,
+        permitted = [
           :primary_category_id,
           :status,
-          :visibility,
           :article_type,
+          :visibility,
           :position,
           :banner_image,
-          images: [],
+          { images: [], category_ids: [], related_article_ids: [] },
           configurations: %i[external_url show_table_of_contents estimated_read_time],
           translations_attributes: %i[
             id locale title slug content meta_title meta_description meta_keywords
             search_excerpt draft_title draft_content _destroy
           ]
-        )
+        ]
+        permitted << :portal_id unless @article&.persisted?
+        params.require(:article).permit(*permitted)
       rescue ActionController::ParameterMissing
         {}
       end
@@ -250,6 +278,14 @@ module Dashboard
         attrs["translations_attributes"].each_value do |translation|
           keywords = translation["meta_keywords"]
           translation["meta_keywords"] = keywords.to_s.split(",").map(&:strip).reject(&:blank?)
+
+          if params[:publish].present?
+            translation["draft_title"] = translation["title"] if translation.key?("title")
+            translation["draft_content"] = translation["content"] if translation.key?("content")
+          else
+            translation["draft_title"] = translation.delete("title") if translation.key?("title")
+            translation["draft_content"] = translation.delete("content") if translation.key?("content")
+          end
         end
       end
 

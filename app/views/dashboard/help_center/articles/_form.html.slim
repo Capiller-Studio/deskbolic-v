@@ -1,18 +1,18 @@
-- form_url = article.persisted? ? help_center_article_path(article) : help_center_articles_path
+- form_url = article.persisted? ? help_center_article_path(id: article.id) : help_center_articles_path
 - form_method = article.persisted? ? :patch : :post
-- locale = article.portal&.default_locale.presence || @selected_portal&.default_locale.presence || I18n.locale.to_s
+- locale = params[:article_locale].presence || article.portal&.default_locale.presence || @selected_portal&.default_locale.presence || I18n.locale.to_s
 - translation = article.translations.find { |item| item.locale.to_s == locale.to_s } || article.translations.first || article.translations.build(locale: locale)
 
 - if @portals.blank?
   .hc-form-empty
-    h3.f-semi-18 No help center portal found
-    p.f-reg-14.text-muted Create a help center portal before adding articles, because every article must belong to a portal.
+    h3.f-semi-18 = I18n.t("dashboard.articles.no_portal_found", default: "No help center portal found")
+    p.f-reg-14.text-muted = I18n.t("dashboard.articles.create_portal_first", default: "Create a help center portal before adding articles, because every article must belong to a portal.")
 - else
   = form_with(model: article, scope: :article, url: form_url, method: form_method, local: true, html: { multipart: true, id: "article-form", class: "hc-article-form", data: { controller: "article" } }) do |f|
     - all_errors = article.errors.full_messages + article.translations.flat_map { |item| item.errors.full_messages }
     - if all_errors.any?
       .hc-error-summary
-        h3 Please fix the following errors:
+        h3 = I18n.t("dashboard.articles.fix_errors", default: "Please fix the following errors:")
         ul
           - all_errors.uniq.each do |message|
             li = message
@@ -25,7 +25,7 @@
               = tf.hidden_field :id if translation.persisted?
               = tf.hidden_field :locale, value: translation.locale.presence || locale
               / = tf.label :title, "Title", class: "hc-label"
-              = tf.text_field :title, class: "hc-title-input", placeholder: "Untitled Article ", required: true
+              = tf.text_field :title, class: "hc-title-input", placeholder: I18n.t("dashboard.articles.untitled_placeholder", default: "Untitled Article "), required: true, value: (defined?(draft_title) && draft_title.present? ? draft_title : translation.title), data: { article_editor_target: "titleInput" }
         .hc-form-card
           .hc-form-card-body
             .hc-form-row-4
@@ -33,19 +33,21 @@
                 = f.label :article_type, "Article Type", class: "hc-label"
                 = f.select :article_type, ::HelpCenter::Article.article_types.keys.map { |at| [at.humanize, at] }, {}, class: "hc-select", data: { action: "change->article#toggleType" }
               div data-controller="category"
-                = f.label :primary_category_id, "Select Category", class: "hc-label"
+                = f.label :primary_category_id, I18n.t("dashboard.articles.select_category_label", default: "Select Category"), class: "hc-label"
                 .hc-category-picker
                   = f.hidden_field :primary_category_id, data: { category_target: "hiddenInput" }
                   .hc-category-picker-trigger data-action="click->category#toggle"
-                    span.hc-category-picker-selected data-category-target="selected" Select category
+                    span.hc-category-picker-selected data-category-target="selected"
+                      - selected_cat = @categories.find { |c| c.id.to_s == article.primary_category_id.to_s }
+                      = selected_cat ? (selected_cat.name.presence || I18n.t("dashboard.articles.untitled", default: "Untitled")) : I18n.t("dashboard.articles.select_category", default: "Select category")
                     span.hc-category-picker-arrow ▾
                   .hc-category-picker-dropdown style="display: none;" data-category-target="dropdown"
                     .hc-category-picker-search
-                      input.hc-category-picker-input type="text" placeholder="Search categories..." data-action="input->category#search" data-category-target="searchInput"
+                      input.hc-category-picker-input type="text" placeholder=I18n.t("dashboard.articles.search_categories", default: "Search categories...") data-action="input->category#search" data-category-target="searchInput"
                     .hc-category-picker-list data-category-target="list"
                       - @categories.each do |cat|
                         button.hc-category-picker-item type="button" data-value=cat.id data-action="click->category#select"
-                          = cat.name.presence || "Untitled"
+                          = cat.name.presence || I18n.t("dashboard.articles.untitled", default: "Untitled")
                     .hc-category-picker-create
                       button.hc-category-picker-create-btn type="button" data-action="click->category#openCreateModal"
                         | + Create new category
@@ -54,36 +56,83 @@
                 = f.select :visibility, ::HelpCenter::Article.visibilities.keys.map { |v| [v.humanize, v] }, {}, class: "hc-select"
               div
                 = f.label :portal_id, "Portal", class: "hc-label"
-                = f.select :portal_id, @portals.map { |portal| [portal.name.presence || portal.id, portal.id] }, {}, class: "hc-select", required: true
+                = f.select :portal_id, @portals.map { |portal| [portal.name.presence || portal.id, portal.id] }, {}, class: "hc-select", required: true, disabled: article.persisted?
 
         .hc-form-card
           .hc-form-card-header
             h3 Content
           .hc-form-card-body
-            div data-article-target="richTextContent"
-              div data-controller="richtext-editor"
-                = f.fields_for :translations, translation, child_index: 0 do |tf|
-                  .hc-richtext-toolbar
-                    select.hc-richtext-select data-richtext-editor-target="heading" data-action="change->richtext-editor#heading"
-                      option value="0" Paragraph
-                      option value="1" Heading 1
-                      option value="2" Heading 2
-                      option value="3" Heading 3
-                    button.hc-richtext-button type="button" data-richtext-editor-target="bold" data-action="click->richtext-editor#bold" title="Bold"
-                    button.hc-richtext-button type="button" data-richtext-editor-target="italic" data-action="click->richtext-editor#italic" title="Italic"
-                    button.hc-richtext-button type="button" data-richtext-editor-target="underLine" data-action="click->richtext-editor#underLine" title="Underline"
-                    button.hc-richtext-button type="button" data-richtext-editor-target="strike" data-action="click->richtext-editor#strike" title="Strikethrough"
-                    button.hc-richtext-button type="button" data-richtext-editor-target="unorderedList" data-action="click->richtext-editor#unorderedList" title="Bullet List"
-                    button.hc-richtext-button type="button" data-richtext-editor-target="orderedList" data-action="click->richtext-editor#orderedList" title="Numbered List"
-                    button.hc-richtext-button type="button" data-richtext-editor-target="blockQuote" data-action="click->richtext-editor#blockQuote" title="Quote"
-                    button.hc-richtext-button type="button" data-richtext-editor-target="codeBlock" data-action="click->richtext-editor#codeBlock" title="Code"
-                    button.hc-richtext-button type="button" data-richtext-editor-target="textAlignLeft" data-action="click->richtext-editor#textAlignLeft" title="Align Left"
-                    button.hc-richtext-button type="button" data-richtext-editor-target="textAlignCenter" data-action="click->richtext-editor#textAlignCenter" title="Align Center"
-                    button.hc-richtext-button type="button" data-richtext-editor-target="textAlignRight" data-action="click->richtext-editor#textAlignRight" title="Align Right"
-                    button.hc-richtext-button type="button" data-richtext-editor-target="imageButton" data-action="click->richtext-editor#openImagePicker" title="Insert Image"
-                  .hc-richtext-editor data-richtext-editor-target="editor"
-                  = f.file_field :images, multiple: true, direct_upload: true, accept: "image/*", class: "hc-richtext-image-input", data: { richtext_editor_target: "imageInput", action: "change->richtext-editor#insertImages" }
-                  = tf.text_area :content, class: "hc-richtext-source", placeholder: "Write the article content here...", rows: 18, data: { richtext_editor_target: "content" }
+            = f.fields_for :translations, translation, child_index: 0 do |tf|
+              .ae-editor-content data-article-editor-target="editorContainer" data-action="article-editor:open-youtube@window->article-editor#openYoutubePopover"
+              = tf.text_area :content, class: "hc-richtext-source ae-hidden-input", rows: 18, value: (defined?(draft_content) && draft_content.present? ? draft_content : translation.content), data: { article_editor_target: "contentInput" }, style: "display:none;"
+
+            /! ─── Bubble Menu ───
+            .hc-bubble-menu data-article-editor-target="bubbleMenu"
+              button.hc-bubble-btn type="button" data-action="click->article-editor#toggleBold" data-article-editor-target="toolbar" data-format="bold" title="Bold (Cmd+B)" B
+              button.hc-bubble-btn type="button" data-action="click->article-editor#toggleItalic" data-article-editor-target="toolbar" data-format="italic" title="Italic (Cmd+I)" I
+              button.hc-bubble-btn type="button" data-action="click->article-editor#toggleStrike" data-article-editor-target="toolbar" data-format="strike" title="Strikethrough (Cmd+Shift+S)" S
+              .hc-bubble-divider
+              button.hc-bubble-btn type="button" data-action="click->article-editor#toggleCode" data-article-editor-target="toolbar" data-format="code" title="Code (Cmd+E)" <>
+              button.hc-bubble-btn type="button" data-action="click->article-editor#toggleLink" data-article-editor-target="toolbar" data-format="link" title="Link (Cmd+K)" 🔗
+
+            /! ─── Plus Menu (Block Inserter) ───
+            button.hc-plus-menu type="button" data-article-editor-target="plusMenu" data-action="click->article-editor#insertSlashCommand" title="Click to add a block" +
+
+            /! ─── Table Context Menu ───
+            .hc-bubble-menu.hc-table-menu data-article-editor-target="tableMenu"
+              button.hc-bubble-btn type="button" data-action="click->article-editor#tableAddColumnBefore" title="Add Column Before" +C←
+              button.hc-bubble-btn type="button" data-action="click->article-editor#tableAddColumnAfter" title="Add Column After" →C+
+              button.hc-bubble-btn.hc-bubble-btn--danger type="button" data-action="click->article-editor#tableDeleteColumn" title="Delete Column" -C
+              .hc-bubble-divider
+              button.hc-bubble-btn type="button" data-action="click->article-editor#tableAddRowBefore" title="Add Row Before" +R↑
+              button.hc-bubble-btn type="button" data-action="click->article-editor#tableAddRowAfter" title="Add Row After" ↓R+
+              button.hc-bubble-btn.hc-bubble-btn--danger type="button" data-action="click->article-editor#tableDeleteRow" title="Delete Row" -R
+              .hc-bubble-divider
+              button.hc-bubble-btn.hc-bubble-btn--danger type="button" data-action="click->article-editor#tableDelete" title="Delete Table" 🗑️
+
+            /! ─── Image Popover ───
+            .hc-image-popover data-article-editor-target="imagePopover"
+              .hc-image-form data-action="keydown.enter->article-editor#saveImageProperties"
+                .hc-form-row
+                  label Alt Text
+                  input type="text" data-article-editor-target="imageAltInput" placeholder="Describe the image"
+                .hc-form-row.hc-form-row--split
+                  div
+                    label Width
+                    input type="text" data-article-editor-target="imageWidthInput" placeholder="e.g. 100% or 400px"
+                  div
+                    label Height
+                    input type="text" data-article-editor-target="imageHeightInput" placeholder="e.g. auto or 300px"
+                .hc-form-actions
+                  button.ae-btn.ae-btn--primary.ae-btn--sm type="button" data-action="click->article-editor#saveImageProperties" Save
+
+            /! ─── Link Popover ───
+            .hc-image-popover data-article-editor-target="linkPopover"
+              .hc-image-form data-action="keydown.enter->article-editor#saveLink"
+                .hc-form-row
+                  label Link URL
+                  input type="text" data-article-editor-target="linkUrlInput" placeholder="https://example.com"
+                .hc-form-actions
+                  button.ae-btn.ae-btn--ghost.ae-btn--sm type="button" data-action="click->article-editor#removeLink" Remove
+                  button.ae-btn.ae-btn--primary.ae-btn--sm type="button" data-action="click->article-editor#saveLink" Save
+
+            /! ─── Youtube Popover ───
+            .hc-image-popover data-article-editor-target="youtubePopover"
+              .hc-image-form data-action="keydown.enter->article-editor#saveYoutube"
+                .hc-form-row
+                  label YouTube Video URL
+                  input type="text" data-article-editor-target="youtubeUrlInput" placeholder="https://www.youtube.com/watch?v=..."
+                .hc-form-actions
+                  button.ae-btn.ae-btn--ghost.ae-btn--sm type="button" data-action="click->article-editor#cancelYoutube" Cancel
+                  button.ae-btn.ae-btn--primary.ae-btn--sm type="button" data-action="click->article-editor#saveYoutube" Embed
+
+            /! ─── Accordion Context Menu ───
+            .hc-bubble-menu.hc-accordion-menu data-article-editor-target="accordionMenu"
+              button.hc-bubble-btn.hc-bubble-btn--danger type="button" data-action="click->article-editor#accordionDelete" title="Delete Accordion" 🗑️ Delete
+
+            /! Hidden file inputs for image/file uploads
+            input.ae-hidden-input type="file" accept="image/png, image/jpeg, image/gif, image/webp, image/svg+xml" multiple=true data-article-editor-target="imageInput" data-action="change->article-editor#insertImages"
+            input.ae-hidden-input type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.zip,.txt,.csv" data-article-editor-target="fileInput" data-action="change->article-editor#insertFile"
 
             div data-article-target="externalUrlField" style="display: none;"
               = label_tag "article[configurations][external_url]", "External URL", class: "hc-label"

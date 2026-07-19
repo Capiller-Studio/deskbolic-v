@@ -16,7 +16,7 @@
             - Array(translation&.meta_keywords).each do |keyword|
               span.hc-soft-tag = keyword
         .hc-show-actions
-          = link_to "Edit", edit_help_center_article_path(@article), class: "hc-btn-primary"
+          = link_to "Edit", edit_help_center_article_path(id: @article.id), class: "hc-btn-primary"
 
       .hc-show-layout
         article.hc-readable

@@ -68,22 +68,45 @@ module Dashboard
         @portal = current_account.portals.build(portal_attributes)
         authorize @portal
 
-        @portal.domain = selected_domain
         @portal.locales = submitted_locales
         @portal.default_locale = selected_default_locale
         @portal.configurations = default_configurations
         @portal.ui_configurations = ui_configurations
 
-        if selected_domain.blank?
-          @portal.errors.add(:domain, "must be selected")
-          prepare_form_state
-          render :new, status: :unprocessable_entity
-          return
-        end
+        begin
+          ActiveRecord::Base.transaction do
+            if portal_params[:domain_type] == "subdomain"
+              domain = ::Domains::CreateSubdomain.call(
+                account: current_account,
+                slug: portal_params[:subdomain_slug],
+                name: @portal.name
+              )
+              @portal.domain = domain
+            else
+              unless current_account.feature_enabled?(:custom_domains)
+                @portal.errors.add(:domain, I18n.t("dashboard.portals.custom_domain_not_supported", default: "Custom domains are not supported on your current plan."))
+                raise ActiveRecord::RecordInvalid, @portal
+              end
 
-        if @portal.save
-          redirect_to help_center_portals_path, notice: "Help Center created successfully."
-        else
+              @portal.domain = selected_domain
+              if selected_domain.blank?
+                @portal.errors.add(:domain, I18n.t("errors.messages.blank", default: "can't be blank"))
+                raise ActiveRecord::RecordInvalid, @portal
+              end
+            end
+
+            @portal.save!
+          end
+
+          redirect_to help_center_portals_path, notice: I18n.t("dashboard.portals.created_successfully", default: "Help Center created successfully.")
+        rescue ActiveRecord::RecordInvalid => e
+          if e.record.is_a?(Domain)
+            e.record.errors.each do |error|
+              @portal.errors.add(:base, I18n.t("dashboard.portals.subdomain_error", msg: error.full_message, default: "Subdomain %{msg}"))
+            end
+          end
+
+          set_available_domains
           prepare_form_state
           render :new, status: :unprocessable_entity
         end
@@ -145,6 +168,8 @@ module Dashboard
           :name,
           :hero_image,
           :domain_id,
+          :domain_type,
+          :subdomain_slug,
           :default_locale,
           locales: [],
           ui_configurations: [

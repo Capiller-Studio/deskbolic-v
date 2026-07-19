@@ -5,123 +5,43 @@
 import { application } from "./application"
 
 import AccordionController from "./accordion_controller"
-import DropzoneController from "./dropzone_controller"
-import FrameTogglerController from "./frame_toggler_controller"
-import ModalTogglerController from "./modal_toggler_controller"
-import HelloController from "./hello_controller"
-import TogglerController from "./toggler_controller"
-import TranslatorController from "./translator_controller"
-import SectionController from "./section_controller"
-import ChatController from "./chat_controller"
-import ConsumerController from "./consumer_controller"
-import RendererController from "./renderer_controller"
-import FormWizardController from "./form_wizard_controller"
-import SelectController from "./select_controller"
-import ChoicesController from "./choices_controller"
-import FormValidationController from "./form_validation_controller"
-import ConversationsController from "./conversations_controller"
-import MessageFormController from "./message_form_controller"
-import NestedTranslationsController from "./nested_translations_controller"
-
 application.register("accordion", AccordionController)
-application.register("nested-translations", NestedTranslationsController)
-application.register("dropzone", DropzoneController)
-application.register("frameToggler", FrameTogglerController)
-application.register("modalToggler", ModalTogglerController)
-application.register("hello", HelloController)
-application.register("toggler", TogglerController)
-application.register("translator", TranslatorController)
-import FacebookChannelController from "./facebook_channel_controller"
-application.register("facebook-channel", FacebookChannelController)
-application.register("section", SectionController)
-application.register("chat", ChatController)
-application.register("consumer", ConsumerController)
-application.register("renderer", RendererController)
-application.register("formWizard", FormWizardController)
-application.register("select", SelectController)
-application.register("choices", ChoicesController)
-application.register("formValidation", FormValidationController)
-application.register("conversations", ConversationsController)
-application.register("message-form", MessageFormController)
-
-import CustomFieldOptionsController from "./custom_field_options_controller"
-application.register("custom-field-options", CustomFieldOptionsController)
-
-import DispatcherController from "./dispatcher_controller"
-application.register("dispatcher", DispatcherController)
-
-import LocaleTabsController from "./locale_tabs_controller"
-application.register("locale-tabs", LocaleTabsController)
-
-import AutomationBuilderController from "./automation_builder_controller"
-application.register("automation-builder", AutomationBuilderController)
-
-import SortableController from "./sortable_controller"
-application.register("sortable", SortableController)
-
-import EmailBuilderController from "./email_builder_controller"
-application.register("email-builder", EmailBuilderController)
-
-import KeyValueBuilderController from "./key_value_builder_controller"
-application.register("key-value-builder", KeyValueBuilderController)
-
-import StripeElementsController from "./stripe_elements_controller"
-application.register("stripe-elements", StripeElementsController)
-
-import WalletTopupController from "./wallet_topup_controller"
-application.register("wallet-topup", WalletTopupController)
-
-import ModalController from "./modal_controller"
-application.register("modal", ModalController)
-
-import BillingWarningController from "./billing_warning_controller"
-application.register("billing-warning", BillingWarningController)
-
-import PlanSelectorController from "./plan_selector_controller"
-application.register("plan-selector", PlanSelectorController)
-
-import BillingToggleController from "./billing_toggle_controller"
-application.register("billing-toggle", BillingToggleController)
-
-import EmailChannelController from "./email_channel_controller"
-application.register("email-channel", EmailChannelController)
-
-import WebWidgetChannelController from "./web_widget_channel_controller"
-application.register("web-widget-channel", WebWidgetChannelController)
-
-import TestWebhookController from "./test_webhook_controller"
-application.register("test-webhook", TestWebhookController)
-
-import WebWidgetPreviewController from "./web_widget_preview_controller"
-application.register("web-widget-preview", WebWidgetPreviewController)
-
-
 
 import AssignmentPolicyController from "./assignment_policy_controller"
 application.register("assignment-policy", AssignmentPolicyController)
 
-import SlaPolicyController from "./sla_policy_controller"
-application.register("sla-policy", SlaPolicyController)
+import AutomationBuilderController from "./automation_builder_controller"
+application.register("automation-builder", AutomationBuilderController)
+
+import BillingToggleController from "./billing_toggle_controller"
+application.register("billing-toggle", BillingToggleController)
+
+import BillingWarningController from "./billing_warning_controller"
+application.register("billing-warning", BillingWarningController)
 
 import BusinessHoursController from "./business_hours_controller"
 application.register("business-hours", BusinessHoursController)
 
-import RolePermissionsController from "./role_permissions_controller"
-application.register("role-permissions", RolePermissionsController)
+import CannedResponsesController from "./canned_responses_controller"
+application.register("canned-responses", CannedResponsesController)
 
-import RegistrationWizardController from "./registration_wizard_controller"
-application.register("registration-wizard", RegistrationWizardController)
+import ChatController from "./chat_controller"
+application.register("chat", ChatController)
 
-import PasswordStrengthController from "./password_strength_controller"
-application.register("password-strength", PasswordStrengthController)
+import ChoicesController from "./choices_controller"
+application.register("choices", ChoicesController)
+
+import ClipboardController from "./clipboard_controller"
+application.register("clipboard", ClipboardController)
+
+import ConsumerController from "./consumer_controller"
+application.register("consumer", ConsumerController)
 
 import ContactFormChannelController from "./contact_form_channel_controller"
 application.register("contact-form-channel", ContactFormChannelController)
 
-
-
-import CustomFieldValidationsController from "./custom_field_validations_controller"
-application.register("custom-field-validations", CustomFieldValidationsController)
+import ConversationsController from "./conversations_controller"
+application.register("conversations", ConversationsController)
 
 import CustomFieldBuilderController from "./custom_field_builder_controller"
 application.register("custom-field-builder", CustomFieldBuilderController)
@@ -129,50 +49,152 @@ application.register("custom-field-builder", CustomFieldBuilderController)
 import CustomFieldFormController from "./custom_field_form_controller"
 application.register("custom-field-form", CustomFieldFormController)
 
-import PortalOptionGroupController from "./portal_option_group_controller"
-application.register("portal-option-group", PortalOptionGroupController)
+import CustomFieldOptionsController from "./custom_field_options_controller"
+application.register("custom-field-options", CustomFieldOptionsController)
+
+import CustomFieldValidationsController from "./custom_field_validations_controller"
+application.register("custom-field-validations", CustomFieldValidationsController)
+
+import DispatcherController from "./dispatcher_controller"
+application.register("dispatcher", DispatcherController)
+
+import DropzoneController from "./dropzone_controller"
+application.register("dropzone", DropzoneController)
+
+import EmailBuilderController from "./email_builder_controller"
+application.register("email-builder", EmailBuilderController)
+
+import EmailChannelController from "./email_channel_controller"
+application.register("email-channel", EmailChannelController)
+
+import FacebookChannelController from "./facebook_channel_controller"
+application.register("facebook-channel", FacebookChannelController)
+
+import FadeOutController from "./fade_out_controller"
+application.register("fade-out", FadeOutController)
+
+import FormValidationController from "./form_validation_controller"
+application.register("form-validation", FormValidationController)
+
+import FormWizardController from "./form_wizard_controller"
+application.register("form-wizard", FormWizardController)
+
+import FrameTogglerController from "./frame_toggler_controller"
+application.register("frame-toggler", FrameTogglerController)
+
+import HelloController from "./hello_controller"
+application.register("hello", HelloController)
+
+import HelpCenter__ArticleController from "./help_center/article_controller"
+application.register("help-center--article", HelpCenter__ArticleController)
+
+import HelpCenter__ArticleEditorController from "./help_center/article_editor_controller"
+application.register("help-center--article-editor", HelpCenter__ArticleEditorController)
+
+import HelpCenter__CategoryController from "./help_center/category_controller"
+application.register("help-center--category", HelpCenter__CategoryController)
 
 import InstagramChannelController from "./instagram_channel_controller"
 application.register("instagram-channel", InstagramChannelController)
+
+import KeyValueBuilderController from "./key_value_builder_controller"
+application.register("key-value-builder", KeyValueBuilderController)
+
+import LexicalController from "./lexical_controller"
+application.register("lexical", LexicalController)
+
+import LocaleTabsController from "./locale_tabs_controller"
+application.register("locale-tabs", LocaleTabsController)
+
+import MarkAsReadController from "./mark_as_read_controller"
+application.register("mark-as-read", MarkAsReadController)
+
+import MessageFormController from "./message_form_controller"
+application.register("message-form", MessageFormController)
+
+import ModalController from "./modal_controller"
+application.register("modal", ModalController)
+
+import ModalTogglerController from "./modal_toggler_controller"
+application.register("modal-toggler", ModalTogglerController)
+
+import NestedTranslationsController from "./nested_translations_controller"
+application.register("nested-translations", NestedTranslationsController)
+
+import PasswordStrengthController from "./password_strength_controller"
+application.register("password-strength", PasswordStrengthController)
+
+import PlanSelectorController from "./plan_selector_controller"
+application.register("plan-selector", PlanSelectorController)
+
+import PortalDomainController from "./portal_domain_controller"
+application.register("portal-domain", PortalDomainController)
+
+import PortalOptionGroupController from "./portal_option_group_controller"
+application.register("portal-option-group", PortalOptionGroupController)
+
+import PushNotificationsController from "./push_notifications_controller"
+application.register("push-notifications", PushNotificationsController)
+
+import RegistrationWizardController from "./registration_wizard_controller"
+application.register("registration-wizard", RegistrationWizardController)
+
+import RendererController from "./renderer_controller"
+application.register("renderer", RendererController)
+
+import RichtextEditorController from "./richtext_editor_controller"
+application.register("richtext-editor", RichtextEditorController)
+
+import RolePermissionsController from "./role_permissions_controller"
+application.register("role-permissions", RolePermissionsController)
+
+import ScrollToBottomController from "./scroll_to_bottom_controller"
+application.register("scroll-to-bottom", ScrollToBottomController)
+
+import SectionController from "./section_controller"
+application.register("section", SectionController)
+
+import SelectController from "./select_controller"
+application.register("select", SelectController)
+
+import SlaPolicyController from "./sla_policy_controller"
+application.register("sla-policy", SlaPolicyController)
+
+import SortableController from "./sortable_controller"
+application.register("sortable", SortableController)
+
+import StripeElementsController from "./stripe_elements_controller"
+application.register("stripe-elements", StripeElementsController)
+
+import TabsController from "./tabs_controller"
+application.register("tabs", TabsController)
+
+import TestWebhookController from "./test_webhook_controller"
+application.register("test-webhook", TestWebhookController)
+
+import TogglerController from "./toggler_controller"
+application.register("toggler", TogglerController)
+
+import TranslatorController from "./translator_controller"
+application.register("translator", TranslatorController)
+
+import UiSectionController from "./ui_section_controller"
+application.register("ui-section", UiSectionController)
+
+import UnreadBadgeController from "./unread_badge_controller"
+application.register("unread-badge", UnreadBadgeController)
+
+import WalletTopupController from "./wallet_topup_controller"
+application.register("wallet-topup", WalletTopupController)
+
+import WebWidgetChannelController from "./web_widget_channel_controller"
+application.register("web-widget-channel", WebWidgetChannelController)
+
+import WebWidgetPreviewController from "./web_widget_preview_controller"
+application.register("web-widget-preview", WebWidgetPreviewController)
 
 import WhatsappChannelController from "./whatsapp_channel_controller"
 application.register("whatsapp-channel", WhatsappChannelController)
 
 import WhatsappTabsController from "./whatsapp_tabs_controller"
 application.register("whatsapp-tabs", WhatsappTabsController)
-
-import MarkAsReadController from "./mark_as_read_controller"
-application.register("mark-as-read", MarkAsReadController)
-
-import FadeOutController from "./fade_out_controller"
-application.register("fade-out", FadeOutController)
-
-import ScrollToBottomController from "./scroll_to_bottom_controller"
-application.register("scroll-to-bottom", ScrollToBottomController)
-
-import UnreadBadgeController from "./unread_badge_controller"
-application.register("unread-badge", UnreadBadgeController)
-
-import CategoryController from "./help_center/category_controller"
-application.register("category", CategoryController)
-
-import ArticleController from "./help_center/article_controller"
-application.register("article", ArticleController)
-
-import RichtextEditorController from "./richtext_editor_controller"
-application.register("richtext-editor", RichtextEditorController)
-
-import PushNotificationsController from "./push_notifications_controller"
-application.register("push-notifications", PushNotificationsController)
-
-import ClipboardController from "./clipboard_controller"
-application.register("clipboard", ClipboardController)
-
-import UiSectionController from "./ui_section_controller"
-application.register("ui-section", UiSectionController)
-
-import LexicalController from "./lexical_controller"
-application.register("lexical", LexicalController)
-
-import CannedResponsesController from "./canned_responses_controller"
-application.register("canned-responses", CannedResponsesController)

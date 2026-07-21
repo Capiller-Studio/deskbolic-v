@@ -9,6 +9,8 @@ module Dashboard
     layout "auth"
     invisible_captcha only: :create, honeypot: :gift_vcode, scope: :user
 
+    before_action :check_registration_enabled, only: [:new, :create]
+
     def check_email
       exists = User.exists?(email: params[:email])
       render json: { exists: exists }
@@ -99,6 +101,16 @@ module Dashboard
 
     def configure_sign_up_params
       devise_parameter_sanitizer.permit(:sign_up, keys: %i[first_name last_name account_id remember_me password])
+    end
+
+    private
+
+    def check_registration_enabled
+      if ENV.fetch("DISABLE_REGISTRATION", "true") == "true"
+        authenticate_or_request_with_http_basic("Deskbolic Private Beta") do |username, password|
+          username == "techbolic" && password == "betaaccess2026"
+        end
+      end
     end
   end
 end

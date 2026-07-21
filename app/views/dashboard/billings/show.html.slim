@@ -69,7 +69,7 @@
                                 span.ap-billing-toggle-slider
                               span.f-semi-14.ap-billing-cycle-label class=(@active_subscription.annual? ? "ap-billing-cycle-active" : "")
                                 = I18n.t("dashboard.billing.yearly", default: "Yearly")
-                                span.ap-billing-save-badge = I18n.t("dashboard.billing.save_percent", default: "Save ~20%")
+                                span.ap-billing-save-badge = I18n.t("dashboard.billing.save_percent", default: "Save ~11%")
                             = f.hidden_field :billing_cycle, value: (@active_subscription.annual? ? "annual" : "monthly"), data: { plan_selector_target: "billingCycleInput" }
                             
                             .ap-billing-plan-grid

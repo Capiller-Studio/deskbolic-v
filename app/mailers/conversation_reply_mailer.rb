@@ -158,7 +158,7 @@ class ConversationReplyMailer < ApplicationMailer
 
   def build_csat_survey_url
     protocol = Rails.env.development? || Rails.env.test? ? "http" : "https"
-    host = ENV.fetch("PORTAL_HOST", "deskbolic.com")
+    host = ENV.fetch("MARKETING_HOST", "deskbolic.com")
     locale = @conversation.locale || @conversation.customers.first&.locale || I18n.default_locale
     csat_id = @message.csat_response_id || @message.data["csat_response_id"]
     "#{protocol}://csat.#{host}/#{locale}/#{csat_id}"

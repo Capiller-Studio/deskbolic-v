@@ -1,6 +1,12 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
+  REFERRAL_COOKIE = :ref_code
+  SELECTED_PLAN_COOKIE = :selected_plan_id
+  SELECTED_BILLING_CYCLE_COOKIE = :selected_billing_cycle
+  SELECTED_CURRENCY_COOKIE = :selected_currency
+
+  before_action :persist_onboarding_params
   around_action :switch_locale
 
   def switch_locale(&action)
@@ -27,5 +33,25 @@ class ApplicationController < ActionController::Base
     else
       { locale: nil }
     end
+  end
+
+  private
+
+  def persist_onboarding_params
+    persist_cookie(REFERRAL_COOKIE, params[:ref_code])
+    persist_cookie(SELECTED_PLAN_COOKIE, params[:plan_id])
+    persist_cookie(SELECTED_BILLING_CYCLE_COOKIE, params[:billing_cycle])
+    persist_cookie(SELECTED_CURRENCY_COOKIE, params[:currency])
+  end
+
+  def persist_cookie(key, value)
+    value = value.to_s.strip
+    return if value.blank?
+
+    cookies[key] = {
+      value: value,
+      expires: 24.hours.from_now,
+      same_site: :lax
+    }
   end
 end

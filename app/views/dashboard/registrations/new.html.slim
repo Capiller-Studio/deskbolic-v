@@ -5,7 +5,10 @@
 
     = form_with url: registration_path(resource_name), method: :post, local: true, data: { controller: "registration-wizard", action: "submit->registration-wizard#submitForm turbo:submit-end->registration-wizard#handleSubmitEnd" }, style: "height: calc(100% - 40px);" do |f|
       = invisible_captcha :gift_vcode
-      
+      = hidden_field_tag :plan_id, params[:plan_id].presence || cookies[:selected_plan_id].presence
+      = hidden_field_tag :billing_cycle, params[:billing_cycle].presence || cookies[:selected_billing_cycle].presence
+      = hidden_field_tag :ref_code, params[:ref_code].presence || cookies[:ref_code].presence
+
       #registration-form-errors style="padding: 0 20px;"
 
         /! Step 1: User Details
@@ -103,7 +106,7 @@
 
           .form-wrapper
             = f.label :currency, t("auth.currency"), class: "form-label"
-            = f.select :currency, [["USD ($)", "USD"], ["EUR (€)", "EUR"], ["GBP (£)", "GBP"]], {}, class: "form-control"
+            = f.select :currency, [["USD ($)", "USD"], ["EUR (€)", "EUR"], ["GBP (£)", "GBP"]], { selected: cookies[:selected_currency].presence || params[:currency] }, class: "form-control"
           p style="font-size: 12px; color: #565656; margin-top: -10px; margin-bottom: 15px;" = t("auth.currency_hint")
 
           .form-wrapper

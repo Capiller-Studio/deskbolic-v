@@ -41,12 +41,16 @@ module Dashboard
 
       if result.success?
         user = result.user
-        
-        if cookies[:ref_code].present? && result.account.present?
-          Affiliates::Referrals::Tracker.call(account: result.account, referral_code: cookies[:ref_code])
-          cookies.delete(:ref_code)
-          cookies.delete(:ref_sc)
+        @selected_plan_id = selected_plan_id
+        @selected_billing_cycle = selected_billing_cycle
+
+        referral_code = params[:ref_code].presence || cookies[:ref_code]
+
+        if referral_code.present? && result.account.present?
+          Affiliates::Referrals::Tracker.call(account: result.account, referral_code: referral_code)
         end
+
+        create_selected_subscription(result.account)
 
         if user.active_for_authentication?
           set_flash_message! :notice, :signed_up
@@ -56,6 +60,8 @@ module Dashboard
             cookies.signed[:current_account_id] = { value: result.account.id, expires: 1.year.from_now }
           end
 
+          clear_onboarding_cookies
+
           respond_to do |format|
             format.html { redirect_to after_sign_up_path_for(user), status: :see_other }
             format.turbo_stream { redirect_to after_sign_up_path_for(user), status: :see_other }
@@ -63,6 +69,7 @@ module Dashboard
         else
           set_flash_message! :notice, :"signed_up_but_#{user.inactive_message}"
           expire_data_after_sign_in!
+          clear_onboarding_cookies
 
           respond_to do |format|
             format.html { redirect_to after_inactive_sign_up_path_for(user), status: :see_other }
@@ -92,7 +99,14 @@ module Dashboard
     protected
 
     def after_sign_up_path_for(_resource)
-      root_path
+      if @selected_plan_id.present? && !@selected_subscription_created
+        new_subscription_path(
+          plan_id: @selected_plan_id,
+          billing_cycle: @selected_billing_cycle
+        )
+      else
+        root_path
+      end
     end
 
     def after_inactive_sign_up_path_for(_resource)
@@ -111,6 +125,43 @@ module Dashboard
           username == "techbolic" && password == "betaaccess2026"
         end
       end
+    end
+    def clear_onboarding_cookies
+      cookies.delete(:ref_code)
+      cookies.delete(:ref_sc)
+      cookies.delete(:selected_plan_id)
+      cookies.delete(:selected_billing_cycle)
+      cookies.delete(:selected_currency)
+      cookies.delete(:deskbolic_referral_code)
+    end
+
+    def selected_plan_id
+      params[:plan_id].presence || cookies[:selected_plan_id].presence
+    end
+
+    def selected_billing_cycle
+      cycle = params[:billing_cycle].presence || cookies[:selected_billing_cycle].presence || "monthly"
+      Subscription.billing_cycles.key?(cycle.to_s) ? cycle.to_s : "monthly"
+    end
+
+    def create_selected_subscription(account)
+      return if account.blank? || @selected_plan_id.blank?
+
+      plan = Plan.available.find_by(id: @selected_plan_id, currency: account.currency)
+      return if plan.blank? || account.subscriptions.current.exists?
+
+      Billing::SubscriptionCreator.call(
+        account: account,
+        plan: plan,
+        billing_cycle: @selected_billing_cycle.to_sym,
+        quantity: [account.users_count, plan.min_users].max
+      )
+      @selected_subscription_created = true
+    rescue StandardError => e
+      Rails.logger.warn(
+        "Failed to create onboarding subscription for account #{account&.id}: #{e.class} - #{e.message}"
+      )
+      @selected_subscription_created = false
     end
   end
 end

@@ -43,6 +43,8 @@ group :development do
   gem "letter_opener_web", "~> 3.0"
 end
 
+gem "whenever", require: false
+
 group :test do
   gem "capybara"
   gem "selenium-webdriver"

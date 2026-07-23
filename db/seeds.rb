@@ -14,5 +14,5 @@ elsif Rails.env.production?
   Seeds::CountriesSeeder.new.seed
   Seeds::StatesSeeder.new.seed
   Seeds::PlanSeeder.seed
-  Seeds::ApiDocumentationSeeder.seed(domain: "developers.deskbolic.com")
+  # Seeds::ApiDocumentationSeeder.seed(domain: "developers.deskbolic.com")
 end

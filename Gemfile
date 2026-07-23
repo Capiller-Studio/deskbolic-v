@@ -11,6 +11,7 @@ gem "pg", "~> 1.1"
 gem "puma", ">= 5.0"
 gem "bootsnap", require: false
 gem "jbuilder"
+gem "dotenv-rails"
 
 # Asset & View layers (Unique to Main App)
 gem "jsbundling-rails"
@@ -25,7 +26,6 @@ gem "chartkick"
 gem "groupdate"
 
 group :development, :test do
-  gem 'dotenv-rails'
   gem 'pry'
   gem 'pry-rails'
   gem 'awesome_print'

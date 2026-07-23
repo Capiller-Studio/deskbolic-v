@@ -37,7 +37,7 @@ Rails.application.configure do
   # config.action_cable.mount_path = nil
   # config.action_cable.url = "wss://example.com/cable"
   # config.action_cable.allowed_request_origins = [ "http://example.com", /http:\/\/example.*/ ]
-  config.action_cable.url = "wss://#{Rails.application.credentials.domain}:3334/cable"
+  config.action_cable.url = "wss://#{ENV.fetch("MAIN_DOMAIN", "deskbolic.com")}:3334/cable"
   config.action_cable.allowed_request_origins = [ %r{http://*}, %r{https://*}, %r{file://*}, "file://", nil, "" ]
 
   # Assume all access to the app is happening through a SSL-terminating reverse proxy.
@@ -73,7 +73,7 @@ Rails.application.configure do
   # config.action_mailer.raise_delivery_errors = false
 
   # Set host to be used by links generated in mailer templates.
-  config.action_mailer.default_url_options = { host: Rails.application.credentials.domain }
+  config.action_mailer.default_url_options = { host: ENV.fetch("MAIN_DOMAIN", "deskbolic.com") }
   config.action_mailer.delivery_method = :smtp
 
   config.action_mailer.smtp_settings = {
@@ -81,7 +81,7 @@ Rails.application.configure do
     password: Rails.application.credentials.smtp_password,
     address: "mail.deskbolic.com",
     port: 465,
-    domain: Rails.application.credentials.domain,
+    domain: ENV.fetch("MAIN_DOMAIN", "deskbolic.com"),
     authentication: "plain",
     enable_starttls_auto: true,
     ssl: true
@@ -106,8 +106,8 @@ Rails.application.configure do
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 
-  config.hosts << Rails.application.credentials.domain
-  config.hosts << ".#{Rails.application.credentials.domain}"
+  config.hosts << ENV.fetch("MAIN_DOMAIN", "deskbolic.com")
+  config.hosts << ".#{ENV.fetch("MAIN_DOMAIN", "deskbolic.com")}"
 
   config.host_authorization = {
     response_app: lambda { |_env|

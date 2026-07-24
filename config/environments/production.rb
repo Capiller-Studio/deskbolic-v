@@ -37,8 +37,6 @@ Rails.application.configure do
   # config.action_cable.mount_path = nil
   config.action_cable.url = ENV.fetch("ACTION_CABLE_URL", "wss://ws.deskbolic.com")
   config.action_cable.allowed_request_origins = [ %r{http://*}, %r{https://*}, %r{file://*}, "file://", nil, "" ]
-  config.action_cable.url = ENV.fetch("ACTION_CABLE_URL", "wss://ws.deskbolic.com")
-  config.action_cable.allowed_request_origins = [ %r{http://*}, %r{https://*}, %r{file://*}, "file://", nil, "" ]
 
   # Assume all access to the app is happening through a SSL-terminating reverse proxy.
   config.assume_ssl = true

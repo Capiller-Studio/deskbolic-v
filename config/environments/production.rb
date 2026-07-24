@@ -35,9 +35,9 @@ Rails.application.configure do
 
   # Mount Action Cable outside main process or domain.
   # config.action_cable.mount_path = nil
-  # config.action_cable.url = "wss://example.com/cable"
-  # config.action_cable.allowed_request_origins = [ "http://example.com", /http:\/\/example.*/ ]
-  config.action_cable.url = "wss://#{ENV.fetch("MAIN_DOMAIN", "deskbolic.com")}:3334/cable"
+  config.action_cable.url = ENV.fetch("ACTION_CABLE_URL", "wss://ws.deskbolic.com")
+  config.action_cable.allowed_request_origins = [ %r{http://*}, %r{https://*}, %r{file://*}, "file://", nil, "" ]
+  config.action_cable.url = ENV.fetch("ACTION_CABLE_URL", "wss://ws.deskbolic.com")
   config.action_cable.allowed_request_origins = [ %r{http://*}, %r{https://*}, %r{file://*}, "file://", nil, "" ]
 
   # Assume all access to the app is happening through a SSL-terminating reverse proxy.
@@ -73,7 +73,7 @@ Rails.application.configure do
   # config.action_mailer.raise_delivery_errors = false
 
   # Set host to be used by links generated in mailer templates.
-  config.action_mailer.default_url_options = { host: ENV.fetch("MAIN_DOMAIN", "deskbolic.com") }
+  config.action_mailer.default_url_options = { host: ENV.fetch("DESKBOLIC_URL", "https://app.deskbolic.com") }
   config.action_mailer.delivery_method = :smtp
 
   config.action_mailer.smtp_settings = {

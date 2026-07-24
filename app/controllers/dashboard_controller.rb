@@ -7,7 +7,7 @@ class DashboardController < ApplicationController
   before_action :set_unread_counts
   around_action :set_sharding_context
 
-  include Pundit
+  include Pundit::Authorization
   include CurrentAttributesAccessible
   include Pagy::Backend
 

@@ -1,0 +1,7 @@
+# deskbolic/config/sidekiq_payouts.yml
+
+:concurrency: 2
+:pidfile: tmp/pids/sidekiq_payouts.pid
+:logfile: log/sidekiq_payouts.log
+:queues:
+  - [payouts, 1]

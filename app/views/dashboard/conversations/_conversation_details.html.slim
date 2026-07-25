@@ -152,7 +152,7 @@
               - recent_conversations.each do |recent|
                 li.nav-item
                   = inline_svg_tag("chat1.svg", class:"user-img", alt:"chat")
-                  = link_to(dashboard_conversation_path(recent.id), class: "nav-link") do
+                  = link_to(conversation_path(recent.id), class: "nav-link") do
                     h4.f-semi-14 = recent.title.presence || "##{recent.identifier}"
                     p.f-reg-12 = truncate(recent.messages.last&.content || t('dashboard.conversation_details.no_messages', default: 'No messages'), length: 30)
                   .actions

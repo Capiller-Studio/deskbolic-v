@@ -10,7 +10,7 @@
           .browser-push-section style="margin-bottom: 30px; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px; background: #f8fafc;"
             h4.f-semi-18 style="color: #0f172a;" = t("notification_settings.browser_push", default: "Browser Push Notifications")
             p.f-reg-14 style="margin-top: 8px; margin-bottom: 16px; color: #64748b;" = t("notification_settings.browser_push_desc", default: "Enable push notifications to receive alerts even when Deskbolic is running in the background.")
-            - vapid_key = Rails.application.credentials.dig(:vapid, :public_key) || "BFktHT70vu9y-6mepwuLzFOKvfPgMiFH0Mzzo_oJXeSgbgckj8fdildJ1c-WxTa7DQwnj-dzPeLNPmnnSjwU1dQ"
+            - vapid_key = ENV['VAPID_PUBLIC_KEY'] || Rails.application.credentials.dig(:vapid, :public_key) || "BFktHT70vu9y-6mepwuLzFOKvfPgMiFH0Mzzo_oJXeSgbgckj8fdildJ1c-WxTa7DQwnj-dzPeLNPmnnSjwU1dQ"
             button.channel-btn.ui-btn-primary#enable-push-btn type="button" data-controller="push-notifications" data-action="click->push-notifications#toggle" data-push-notifications-vapid-public-key-value=vapid_key data-vapid-public-key=vapid_key
               = t("notification_settings.enable_browser_push", default: "Enable Browser Notifications")
 

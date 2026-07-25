@@ -15,7 +15,7 @@ class ApplicationMailbox < ActionMailbox::Base
     mail = inbound_email.mail
     
     # Must be originally sent by our system's channel domain
-    return false unless mail.from&.any? { |address| address.end_with?("@helpbolic.com") }
+    return false unless Array(mail.from).any? { |address| address.end_with?("@helpbolic.com") }
 
     # Must match the verification token subject format
     return false unless mail.subject.to_s.match?(/Deskbolic Forwarding Verification: \[.+?\]/)

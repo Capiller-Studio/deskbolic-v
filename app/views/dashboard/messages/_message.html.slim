@@ -20,7 +20,7 @@
               = message.content.strip
           - else
             .original.f-reg-14 data-translator-target="original"
-              == sanitize(message.content, tags: %w(p b i em strong s strike span code pre ul ol li br a), attributes: %w(class style href target rel dir spellcheck value))
+              == sanitize(message.content, tags: Parser::MailParser::ALLOWED_TAGS, attributes: Parser::MailParser::ALLOWED_ATTRIBUTES)
             .translate-text
               button.f-light-italic-10 data-action="click->translator#toggle_translate" = t('dashboard.messages.translate')
             .translated-text.d-none
@@ -79,7 +79,7 @@
                     polyline points="20 6 9 17 4 12"
         - else
           .original.f-reg-14 data-translator-target="original"
-            span == sanitize(message.content, tags: %w(p b i em strong s strike span code pre ul ol li br a), attributes: %w(class style href target rel dir spellcheck value))
+            span == sanitize(message.content, tags: Parser::MailParser::ALLOWED_TAGS, attributes: Parser::MailParser::ALLOWED_ATTRIBUTES)
             span.message-status-container style="display: inline-block; margin-left: 8px; vertical-align: text-bottom; height: 14px; margin-bottom: -2px;"
               - if message.failed?
                 span.status-tooltip style="color: #ef4444; display: flex;" data-tooltip="Failed to send"

@@ -89,6 +89,13 @@
               @mixin rect-back-gray;
               white-space: pre-wrap;
               word-break: break-word;
+              max-width: 100%;
+              overflow-x: auto;
+
+              img, table {
+                max-width: 100%;
+                height: auto;
+              }
             }
             .translate-text {
               button {
@@ -168,6 +175,13 @@
             @mixin rect-back-purple;
             white-space: pre-wrap;
             word-break: break-word;
+            max-width: 100%;
+            overflow-x: auto;
+
+            img, table {
+              max-width: 100%;
+              height: auto;
+            }
           }
           .translate-text {
             button {

@@ -7,7 +7,13 @@
     .ww-preview-screen
       / Chat Iframe
       .ww-iframe-wrapper
-        iframe src="#{ENV['WIDGET_APP_URL']}/w/#{current_account.id}/#{web_widget_channel.id}?preview=true" data-web-widget-preview-target="iframe"
+        - if web_widget_channel.persisted?
+          iframe src="#{ENV['WIDGET_APP_URL']}/w/#{current_account.id}/#{web_widget_channel.id}?preview=true" data-web-widget-preview-target="iframe"
+        - else
+          .ww-empty-preview style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; background: #f1f5f9; color: #64748b; text-align: center; padding: 24px; border-radius: 14px;"
+            svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 16px; opacity: 0.5;"
+              path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+            p.f-med-14 style="margin: 0;" Save your widget to see the live preview!
 
       / Launcher Button
       .ww-preview-launcher data-web-widget-preview-target="launcher"

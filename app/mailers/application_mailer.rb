@@ -9,7 +9,7 @@ class ApplicationMailer < ActionMailer::Base
   private
 
   def default_from_address
-    Rails.application.credentials.dig(:mailer, :from) || "noreply@deskbolic.com"
+    Rails.application.credentials.dig(:mailer, :from) || "no-reply@deskbolic.com"
   end
 
   # Dedicated from address for channel-based emails (helpdesk replies, CSAT, etc.)

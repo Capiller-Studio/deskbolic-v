@@ -31,7 +31,7 @@ class ApplicationMailbox < ActionMailbox::Base
     mail = inbound_email.mail
 
     # Gmail Forwarding Confirmation
-    return true if mail.from&.any? { |addr| addr.match?(/forwarding-noreply@google\.com/i) }
+    return true if Array(mail.from).any? { |addr| addr.match?(/forwarding-noreply@google\.com/i) }
 
     # Generic Forwarding Confirmations (Outlook/Microsoft/Yahoo)
     return true if mail.subject.to_s.match?(/forwarding confirmation/i)
@@ -55,7 +55,7 @@ class ApplicationMailbox < ActionMailbox::Base
     return true if %w[bulk junk list].include?(mail["Precedence"]&.value.to_s.downcase)
 
     # Mailer-daemon / postmaster bounces
-    return true if mail.from&.any? { |addr| addr.match?(/mailer-daemon|postmaster/i) }
+    return true if Array(mail.from).any? { |addr| addr.match?(/mailer-daemon|postmaster/i) }
 
     false
   end

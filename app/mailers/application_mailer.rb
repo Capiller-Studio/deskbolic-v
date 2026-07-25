@@ -30,15 +30,20 @@ class ApplicationMailer < ActionMailer::Base
     from_address = mail.from.first.to_s
     
     if from_address.end_with?("helpbolic.com")
-      mail.delivery_method(:smtp, {
-        address: "mail.helpbolic.com",
-        port: 587,
-        domain: "helpbolic.com",
-        user_name: Rails.application.credentials.helpbolic_smtp_username,
-        password: Rails.application.credentials.helpbolic_smtp_password,
-        authentication: "plain",
-        enable_starttls_auto: true
-      })
+      username = ENV["HELPBOLIC_SMTP_USERNAME"].presence || Rails.application.credentials.helpbolic_smtp_username
+      password = ENV["HELPBOLIC_SMTP_PASSWORD"].presence || Rails.application.credentials.helpbolic_smtp_password
+      
+      if username.present? && password.present?
+        mail.delivery_method(:smtp, {
+          address: ENV.fetch("HELPBOLIC_SMTP_ADDRESS", "mail.helpbolic.com"),
+          port: ENV.fetch("HELPBOLIC_SMTP_PORT", 587).to_i,
+          domain: ENV.fetch("HELPBOLIC_SMTP_DOMAIN", "helpbolic.com"),
+          user_name: username,
+          password: password,
+          authentication: "plain",
+          enable_starttls_auto: true
+        })
+      end
     end
   end
 end

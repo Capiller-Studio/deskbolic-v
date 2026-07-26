@@ -3,8 +3,8 @@ self.addEventListener("push", function(event) {
     const data = event.data.json()
     const options = {
       body: data.body,
-      icon: "/fav_icon.png", // Use deskbolic's fav icon
-      badge: "/fav_icon.png",
+      icon: "/icon.png", // Use deskbolic's fav icon
+      badge: "/icon.png",
       data: data.data
     }
     

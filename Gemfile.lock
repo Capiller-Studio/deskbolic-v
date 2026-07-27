@@ -15,6 +15,7 @@ PATH
       facebook-messenger
       flag_shih_tzu
       groupdate
+      hkdf
       httparty
       image_processing
       inline_svg
@@ -41,7 +42,6 @@ PATH
       stripe
       twilio-ruby
       typhoeus
-      web-push
 
 GEM
   remote: https://rubygems.org/
@@ -310,7 +310,7 @@ GEM
     has-guarded-handlers (1.6.3)
     hashie (5.1.0)
       logger
-    hkdf (0.3.0)
+    hkdf (1.0.0)
     http (5.3.1)
       addressable (~> 2.8)
       http-cookie (~> 1.0)
@@ -681,9 +681,6 @@ GEM
       actionview (>= 8.0.0)
       bindex (>= 0.4.0)
       railties (>= 8.0.0)
-    web-push (1.0.0)
-      hkdf (~> 0.2)
-      jwt (~> 2.0)
     websocket (1.2.11)
     websocket-driver (0.8.2)
       base64

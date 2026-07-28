@@ -11,13 +11,14 @@
       .modal-header-text
         h3.f-semi-18 = is_edit ? t("dashboard.popup.team.form.edit_title") : t("dashboard.popup.team.form.new_title")
         p.f-reg-14.modal-subtitle = is_edit ? t("dashboard.popup.team.form.edit_subtitle") : t("dashboard.popup.team.form.new_subtitle")
-      = inline_svg_tag("cross_button.svg", alt: "close", class: "conversation-icon m-close", data: { action: "click->modal-toggler#hideModal" })
+      = inline_svg_tag("cross_button.svg", alt: t("ui.dashboard.notifications.index.close"), class: "conversation-icon m-close", data: { action: "click->modal-toggler#hideModal" })
 
     .team-form-body
-      = form_with(model: team, url: form_url, method: form_method, data: { "controller" =>"formValidation", "formValidation-target" => "form", "turbo_frame" =>"teams_list" }, html: { class: "needs-validation team-form", novalidate: true } ) do |f|
+      = form_with(model: team, url: form_url, method: form_method, data: { "controller" =>"form-validation", "form-validation-target" => "form", "turbo_frame" =>"teams_list" }, html: { class: "needs-validation team-form", novalidate: true } ) do |f|
         .form-fields
           .form-floating
-            = f.label :name, t("dashboard.popup.team.form.name_label", default: "Team name"), class: "form-label f-reg-14" do
+            = f.label :name, class: "form-label f-reg-14" do
+              = t("dashboard.popup.team.form.name_label") 
               span.required-star *
             = f.text_field :name, value: team.name, class: "form-control f-reg-14", placeholder: t("dashboard.popup.team.form.name_placeholder"), required: true
 
@@ -29,10 +30,10 @@
             label.custom-checkbox.auto-assign-checkbox
               = f.check_box :auto_assign, class: "auto-assign-input"
               .checkmark
-              span.f-reg-14 = t("dashboard.popup.team.form.auto_assign", default: "Auto-assign new conversations to active members")
+              span.f-reg-14 = t("dashboard.popup.team.form.auto_assign")
 
           .team-users-section
-            p.section-label.f-reg-14 = t("dashboard.popup.team.form.team_members", default: "Team Members")
+            p.section-label.f-reg-14 = t("dashboard.popup.team.form.team_members")
             .users-list
               - if users.present?
                 - users.each do |user|
@@ -52,11 +53,11 @@
                       .checkmark
               - else
                 .no-users-placeholder
-                  p.f-reg-14 = t("dashboard.popup.team.form.no_users", default: "No users available")
+                  p.f-reg-14 = t("dashboard.popup.team.form.no_users")
 
           - if inboxes.present?
             .team-inboxes-section
-              p.section-label.f-reg-14 = t("dashboard.popup.team.form.connect_inboxes", default: "Connect to Inboxes")
+              p.section-label.f-reg-14 = t("dashboard.popup.team.form.connect_inboxes")
               .inboxes-list
                 - inboxes.each do |inbox|
                   - inbox_checked = is_edit && team.inboxes.include?(inbox)
@@ -68,7 +69,7 @@
                       .checkmark
 
         .form-actions
-          button.cancel-btn.f-med-14 type="button" data-action="click->modal-toggler#hideModal" = t("dashboard.popup.team.form.cancel", default: "Cancel")
-          = f.submit(is_edit ? t("dashboard.popup.team.form.save", default: "Save Changes") : t("dashboard.popup.team.form.create", default: "Create Team"),
+          button.cancel-btn.f-med-14 type="button" data-action="click->modal-toggler#hideModal" = t("dashboard.popup.team.form.cancel")
+          = f.submit(is_edit ? t("dashboard.popup.team.form.save") : t("dashboard.popup.team.form.create"),
               class: "submit-btn f-med-14",
-              data: { action: "click->formValidation#validate" })
+              data: { action: "click->form-validation#validate" })

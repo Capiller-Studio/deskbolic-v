@@ -10,20 +10,20 @@ div id="automation_#{automation.id}" class="auto-card #{automation.inactive? ? '
       - elsif automation.time_trigger?
         span.auto-badge.badge-time = t("dashboard.automations.types.time_trigger")
       - if automation.event_name.present?
-        span.auto-card-event = t("dashboard.automations.events.#{automation.event_name.tr('.', '_')}", default: automation.event_name)
+        span.auto-card-event = t("dashboard.automations.events.#{automation.event_name.tr('.', '_')}")
       - if automation.description.present?
         span.auto-card-event — #{truncate(automation.description, length: 60)}
 
   .auto-card-actions
     = button_to toggle_automation_path(automation), method: :patch, class: "auto-toggle #{automation.active? ? 'active' : ''}", data: { turbo_frame: "_top" } do
-      | Toggle
+      / | #{t("ui.dashboard.automations.automation.toggle")}
 
-    = link_to edit_automation_path(automation), class: "auto-action-btn", title: "Edit"
+    = link_to edit_automation_path(automation), class: "auto-action-btn", title: t("dashboard.skills.index.edit")
       | ✎
 
-    = button_to duplicate_automation_path(automation), method: :post, class: "auto-action-btn", title: "Duplicate"
+    = button_to duplicate_automation_path(automation), method: :post, class: "auto-action-btn", title: t("dashboard.automations.index.duplicate")
       | ⧉
 
     - unless automation.is_system?
-      = button_to automation_path(automation), method: :delete, class: "auto-action-btn danger", title: "Delete", data: { turbo_confirm: "Are you sure you want to delete this automation?" }
+      = button_to automation_path(automation), method: :delete, class: "auto-action-btn danger", title: t("dashboard.skills.index.delete"), data: { turbo_confirm: t("dashboard.automations.index.delete_confirm") }
         | ✕

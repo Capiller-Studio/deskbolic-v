@@ -1,21 +1,21 @@
 .model-content-section
   .model-content
     .modal-header
-      h3.f-semi-18 Email Channel
-      = inline_svg_tag("cross_button.svg", alt:"menu", class:"conversation-icon m-close", data: { action: "click->modal-toggler#hideModal" })
+      h3.f-semi-18 = t("ui.dashboard.popup.email_channel_modal.email_channel")
+      = inline_svg_tag("cross_button.svg", alt:t("ui.dashboard.agent.agent_sidebar.menu"), class:"conversation-icon m-close", data: { action: "click->modal-toggler#hideModal" })
     .modal-body.channel-form
-      = form_with(url: channels_path, data: {controller: "formValidation renderer", "formValidation-target" => "form", turbo: false}, html: {class: "needs-validation", novalidate: true, method: :post}) do |f|
+      = form_with(url: channels_path, data: {controller: "form-validation renderer", "form-validation-target" => "form", turbo: false}, html: {class: "needs-validation", novalidate: true, method: :post}) do |f|
         .form-fields
           = f.hidden_field :channel_type, value: "email"
           .form-floating
             .field-label
               span 1
-              = f.label :name, "Enter name of channel", class: "form-label f-reg-14"
-            = f.text_field :name, autofocus: true, class: "form-control f-reg-14", placeholder: "Channel Name", required: true
+              = f.label :name, t("forms.labels.enter_name_of_channel"), class: "form-label f-reg-14"
+            = f.text_field :name, autofocus: true, class: "form-control f-reg-14", placeholder: t("dashboard.email_channels.form.name_label"), required: true
           .form-floating
             .field-label
               span 2
-              = f.label :email, "Enter email", class: "form-label f-reg-14"
-            = f.email_field :email, class: "form-control f-reg-14", placeholder: "Email", required: true
+              = f.label :email, t("forms.labels.enter_email"), class: "form-label f-reg-14"
+            = f.email_field :email, class: "form-control f-reg-14", placeholder: t("dashboard.profile.index.email"), required: true
         .form-actions
-          = f.submit "Create Channel", class: "submit-btn f-med-14", data: { action: "click->formValidation#validate click->modal-toggler#hideModal" }
+          = f.submit t("dashboard.custom_channels.new.submit"), class: "submit-btn f-med-14", data: { action: "click->form-validation#validate click->modal-toggler#hideModal" }

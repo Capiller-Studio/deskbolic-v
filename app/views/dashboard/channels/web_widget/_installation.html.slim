@@ -2,35 +2,35 @@
   .ui-section-header data-action="click->web-widget-channel#toggleSection"
     .ui-section-title
       span.ui-section-icon 💻
-      span.ui-section-label = t("dashboard.web_widget_channels.form.installation_section", default: "Installation & Setup")
+      span.ui-section-label = t("dashboard.web_widget_channels.form.installation_section")
     span.ui-section-chevron ▼
   .ui-section-body
     .ww-credentials-grid style="display: grid; grid-template-columns: 1fr; gap: 16px; margin-bottom: 24px;"
       .ww-credential-box style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px;"
-        h4.f-semi-14 style="color: #475569; margin-bottom: 8px;" HMAC Secret Key
+        h4.f-semi-14 style="color: #475569; margin-bottom: 8px;" = t("dashboard.web_widget_channels.form.hmac_secret_key")
         .ui-copy-group
           input type="password" class="ui-input" value="#{web_widget_channel.hmac_token}" readonly=true
-          button.ui-copy-btn type="button" data-action="click->web-widget-channel#copyEmbedCode" data-code="#{web_widget_channel.hmac_token}" 📋 Copy
+          button.ui-copy-btn type="button" data-action="click->web-widget-channel#copyEmbedCode" data-code="#{web_widget_channel.hmac_token}" = t("ui.dashboard.channels.web_widget.installation.copy")
 
     p.text-muted style="margin-bottom: 16px; font-size: 14px;" 
-      | Embed the Deskbolic widget into your website or web app by placing the following snippet just before the closing <code>&lt;/body&gt;</code> tag.
+      | #{t("ui.dashboard.channels.web_widget.installation.embed_the_deskbolic_widget_into_your_website_or_web_app")}
 
     .ww-snippet-block style="margin-bottom: 24px;"
       .ww-snippet-header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;"
-        h4.f-semi-14 Standard HTML
+        h4.f-semi-14 = t("ui.dashboard.channels.web_widget.installation.standard_html")
       pre style="background: #1e293b; color: #e2e8f0; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 13px; overflow-x: auto;"
         code
           | &lt;script
           br
           |   src="#{ENV['WIDGET_APP_URL'] || 'https://widget.deskbolic.com'}/w/#{current_account.id}/#{web_widget_channel.id}/embed.js"
           br
-          |   data-locale="en"&gt;
+          |   data-locale="#{I18n.locale}"&gt;
           br
           | &lt;/script&gt;
 
     .ww-snippet-block style="margin-bottom: 24px;"
       .ww-snippet-header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;"
-        h4.f-semi-14 React / Next.js
+        h4.f-semi-14 = t("ui.dashboard.channels.web_widget.installation.react_next_js")
       pre style="background: #1e293b; color: #e2e8f0; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 13px; overflow-x: auto;"
         code
           | import { useEffect } from 'react';
@@ -44,7 +44,7 @@
           br
           |     script.src = "#{ENV['WIDGET_APP_URL'] || 'https://widget.deskbolic.com'}/w/#{current_account.id}/#{web_widget_channel.id}/embed.js";
           br
-          |     script.setAttribute('data-locale', 'en');
+          |     script.setAttribute('data-locale', '#{I18n.locale}');
           br
           |     document.body.appendChild(script);
           br
@@ -86,7 +86,7 @@
     - if web_widget_channel.secure_identity_enforced?
       .ww-alert style="margin-top: 24px; padding: 16px; background: #eff6ff; border-left: 4px solid #3b82f6; border-radius: 4px;"
         h4.f-semi-14 style="color: #1e3a8a; margin-bottom: 8px;" HMAC Signature Example (Ruby)
-        p.text-muted style="font-size: 13px; margin-bottom: 12px;" Because you have enabled <strong>Enforce Secure Identity</strong>, you must generate a signature on your backend and pass it to the frontend.
+        p.text-muted style="font-size: 13px; margin-bottom: 12px;" == t("dashboard.web_widget_channels.form.secure_identity_instruction")
         pre style="background: #1e293b; color: #e2e8f0; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 13px; overflow-x: auto;"
           code
             | require 'openssl'

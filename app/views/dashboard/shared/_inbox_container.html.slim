@@ -2,217 +2,217 @@
   .inbox-container data-controller="toggler"
     .inbox-nav
       .card
-        .f-semi-24 All Messages
+        .f-semi-24 = t("ui.dashboard.shared.inbox_container.all_messages")
         .search-bar 
-          = inline_svg_tag("search.svg", class:"search-icon", alt:"menu")
-          p.f-reg-14 Search
+          = inline_svg_tag("search.svg", class:"search-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+          p.f-reg-14 = t("dashboard.conversations.search")
         ul data-toggler-target="conversation hide"
           .inbox-nav-menu
             li.nav-item class="#{current_page=='cgh' ? 'inbox-nav-active' : ''}"
-              = image_tag("chat1.png", class:"user-img", alt:"menu")
+              = image_tag("chat1.png", class:"user-img", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
               = link_to("#", class: "nav-link") do
-                h4.f-semi-14 ProjectFlow Pro
-                p.f-reg-12 scdbe fnjw fhbwj
+                h4.f-semi-14 = t("ui.dashboard.shared.inbox_container.projectflow_pro")
+                p.f-reg-12 = t("ui.dashboard.shared.inbox_container.scdbe_fnjw_fhbwj")
               .actions
-                = inline_svg_tag("menu.svg", class:"menu-icon", alt:"menu")
-                = inline_svg_tag("close.svg", class:"close-icon", alt:"menu")
-                p.f-reg-10 10 Day
+                = inline_svg_tag("menu.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                = inline_svg_tag("close.svg", class:"close-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                p.f-reg-10 = t("ui.dashboard.shared.inbox_container.10_day")
                 
             li.nav-item class="#{current_page=='conv1' ? 'inbox-nav-active' : ''}"
-              = image_tag("chat1.png", class:"user-img", alt:"menu")
+              = image_tag("chat1.png", class:"user-img", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
               = link_to(conversations_path, class: "nav-link") do
-                h4.f-semi-14 ProjectFlow Pro
-                p.f-reg-12 scdbe fnjw fhbwj
+                h4.f-semi-14 = t("ui.dashboard.shared.inbox_container.projectflow_pro")
+                p.f-reg-12 = t("ui.dashboard.shared.inbox_container.scdbe_fnjw_fhbwj")
               .actions
-                = inline_svg_tag("menu.svg", class:"menu-icon", alt:"menu")
-                = inline_svg_tag("close.svg", class:"close-icon", alt:"menu")
-                p.f-reg-10 10 Day
+                = inline_svg_tag("menu.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                = inline_svg_tag("close.svg", class:"close-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                p.f-reg-10 = t("ui.dashboard.shared.inbox_container.10_day")
                 
             li.nav-item class="#{current_page=='cgh' ? 'inbox-nav-active' : ''}"
-              = image_tag("chat1.png", class:"user-img", alt:"menu")
+              = image_tag("chat1.png", class:"user-img", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
               = link_to("#", class: "nav-link") do
-                h4.f-semi-14 ProjectFlow Pro
-                p.f-reg-12 scdbe fnjw fhbwj
+                h4.f-semi-14 = t("ui.dashboard.shared.inbox_container.projectflow_pro")
+                p.f-reg-12 = t("ui.dashboard.shared.inbox_container.scdbe_fnjw_fhbwj")
               .actions
-                = inline_svg_tag("menu.svg", class:"menu-icon", alt:"menu")
-                = inline_svg_tag("close.svg", class:"close-icon", alt:"menu")
-                p.f-reg-10 10 Day
+                = inline_svg_tag("menu.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                = inline_svg_tag("close.svg", class:"close-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                p.f-reg-10 = t("ui.dashboard.shared.inbox_container.10_day")
             li.nav-item class="#{current_page=='cgh' ? 'inbox-nav-active' : ''}"
-              = image_tag("chat1.png", class:"user-img", alt:"menu")
+              = image_tag("chat1.png", class:"user-img", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
               = link_to("#", class: "nav-link") do
-                h4.f-semi-14 ProjectFlow Pro
-                p.f-reg-12 scdbe fnjw fhbwj
+                h4.f-semi-14 = t("ui.dashboard.shared.inbox_container.projectflow_pro")
+                p.f-reg-12 = t("ui.dashboard.shared.inbox_container.scdbe_fnjw_fhbwj")
               .actions
-                = inline_svg_tag("menu.svg", class:"menu-icon", alt:"menu")
-                = inline_svg_tag("close.svg", class:"close-icon", alt:"menu")
-                p.f-reg-10 10 Day
+                = inline_svg_tag("menu.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                = inline_svg_tag("close.svg", class:"close-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                p.f-reg-10 = t("ui.dashboard.shared.inbox_container.10_day")
             li.nav-item class="#{current_page=='cgh' ? 'inbox-nav-active' : ''}"
-              = image_tag("chat1.png", class:"user-img", alt:"menu")
+              = image_tag("chat1.png", class:"user-img", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
               = link_to("#", class: "nav-link") do
-                h4.f-semi-14 ProjectFlow Pro
-                p.f-reg-12 scdbe fnjw fhbwj
+                h4.f-semi-14 = t("ui.dashboard.shared.inbox_container.projectflow_pro")
+                p.f-reg-12 = t("ui.dashboard.shared.inbox_container.scdbe_fnjw_fhbwj")
               .actions
-                = inline_svg_tag("menu.svg", class:"menu-icon", alt:"menu")
-                = inline_svg_tag("close.svg", class:"close-icon", alt:"menu")
-                p.f-reg-10 10 Day
+                = inline_svg_tag("menu.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                = inline_svg_tag("close.svg", class:"close-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                p.f-reg-10 = t("ui.dashboard.shared.inbox_container.10_day")
             li.nav-item class="#{current_page=='cgh' ? 'inbox-nav-active' : ''}"
-              = image_tag("chat1.png", class:"user-img", alt:"menu")
+              = image_tag("chat1.png", class:"user-img", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
               = link_to("#", class: "nav-link") do
-                h4.f-semi-14 ProjectFlow Pro
-                p.f-reg-12 scdbe fnjw fhbwj
+                h4.f-semi-14 = t("ui.dashboard.shared.inbox_container.projectflow_pro")
+                p.f-reg-12 = t("ui.dashboard.shared.inbox_container.scdbe_fnjw_fhbwj")
               .actions
-                = inline_svg_tag("menu.svg", class:"menu-icon", alt:"menu")
-                = inline_svg_tag("close.svg", class:"close-icon", alt:"menu")
-                p.f-reg-10 10 Day
+                = inline_svg_tag("menu.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                = inline_svg_tag("close.svg", class:"close-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                p.f-reg-10 = t("ui.dashboard.shared.inbox_container.10_day")
             li.nav-item class="#{current_page=='cgh' ? 'inbox-nav-active' : ''}"
-              = image_tag("chat1.png", class:"user-img", alt:"menu")
+              = image_tag("chat1.png", class:"user-img", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
               = link_to("#", class: "nav-link") do
-                h4.f-semi-14 ProjectFlow Pro
-                p.f-reg-12 scdbe fnjw fhbwj
+                h4.f-semi-14 = t("ui.dashboard.shared.inbox_container.projectflow_pro")
+                p.f-reg-12 = t("ui.dashboard.shared.inbox_container.scdbe_fnjw_fhbwj")
               .actions
-                = inline_svg_tag("menu.svg", class:"menu-icon", alt:"menu")
-                = inline_svg_tag("close.svg", class:"close-icon", alt:"menu")
-                p.f-reg-10 10 Day
+                = inline_svg_tag("menu.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                = inline_svg_tag("close.svg", class:"close-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                p.f-reg-10 = t("ui.dashboard.shared.inbox_container.10_day")
             li.nav-item class="#{current_page=='cgh' ? 'inbox-nav-active' : ''}"
-              = image_tag("chat1.png", class:"user-img", alt:"menu")
+              = image_tag("chat1.png", class:"user-img", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
               = link_to("#", class: "nav-link") do
-                h4.f-semi-14 ProjectFlow Pro
-                p.f-reg-12 scdbe fnjw fhbwj
+                h4.f-semi-14 = t("ui.dashboard.shared.inbox_container.projectflow_pro")
+                p.f-reg-12 = t("ui.dashboard.shared.inbox_container.scdbe_fnjw_fhbwj")
               .actions
-                = inline_svg_tag("menu.svg", class:"menu-icon", alt:"menu")
-                = inline_svg_tag("close.svg", class:"close-icon", alt:"menu")
-                p.f-reg-10 10 Day
+                = inline_svg_tag("menu.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                = inline_svg_tag("close.svg", class:"close-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                p.f-reg-10 = t("ui.dashboard.shared.inbox_container.10_day")
             li.nav-item class="#{current_page=='cgh' ? 'inbox-nav-active' : ''}"
-              = image_tag("chat1.png", class:"user-img", alt:"menu")
+              = image_tag("chat1.png", class:"user-img", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
               = link_to("#", class: "nav-link") do
-                h4.f-semi-14 ProjectFlow Pro
-                p.f-reg-12 scdbe fnjw fhbwj
+                h4.f-semi-14 = t("ui.dashboard.shared.inbox_container.projectflow_pro")
+                p.f-reg-12 = t("ui.dashboard.shared.inbox_container.scdbe_fnjw_fhbwj")
               .actions
-                = inline_svg_tag("menu.svg", class:"menu-icon", alt:"menu")
-                = inline_svg_tag("close.svg", class:"close-icon", alt:"menu")
-                p.f-reg-10 10 Day
+                = inline_svg_tag("menu.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                = inline_svg_tag("close.svg", class:"close-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                p.f-reg-10 = t("ui.dashboard.shared.inbox_container.10_day")
             li.nav-item class="#{current_page=='cgh' ? 'inbox-nav-active' : ''}"
-              = image_tag("chat1.png", class:"user-img", alt:"menu")
+              = image_tag("chat1.png", class:"user-img", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
               = link_to("#", class: "nav-link") do
-                h4.f-semi-14 ProjectFlow Pro
-                p.f-reg-12 scdbe fnjw fhbwj
+                h4.f-semi-14 = t("ui.dashboard.shared.inbox_container.projectflow_pro")
+                p.f-reg-12 = t("ui.dashboard.shared.inbox_container.scdbe_fnjw_fhbwj")
               .actions
-                = inline_svg_tag("menu.svg", class:"menu-icon", alt:"menu")
-                = inline_svg_tag("close.svg", class:"close-icon", alt:"menu")
-                p.f-reg-10 10 Day
+                = inline_svg_tag("menu.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                = inline_svg_tag("close.svg", class:"close-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                p.f-reg-10 = t("ui.dashboard.shared.inbox_container.10_day")
                 
             li.nav-item class="#{current_page=='cgh' ? 'inbox-nav-active' : ''}"
-              = image_tag("chat1.png", class:"user-img", alt:"menu")
+              = image_tag("chat1.png", class:"user-img", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
               = link_to("#", class: "nav-link") do
-                h4.f-semi-14 ProjectFlow Pro
-                p.f-reg-12 scdbe fnjw fhbwj
+                h4.f-semi-14 = t("ui.dashboard.shared.inbox_container.projectflow_pro")
+                p.f-reg-12 = t("ui.dashboard.shared.inbox_container.scdbe_fnjw_fhbwj")
               .actions
-                = inline_svg_tag("menu.svg", class:"menu-icon", alt:"menu")
-                = inline_svg_tag("close.svg", class:"close-icon", alt:"menu")
-                p.f-reg-10 10 Day
+                = inline_svg_tag("menu.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                = inline_svg_tag("close.svg", class:"close-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                p.f-reg-10 = t("ui.dashboard.shared.inbox_container.10_day")
         ul data-toggler-target="ticket hide" style="display: none;"
           .inbox-nav-menu
             li.nav-item class="#{current_page=='cgh' ? 'inbox-nav-active' : ''}"
-              = image_tag("profile_pic.png", class:"user-img", alt:"menu")
+              = image_tag("profile_pic.png", class:"user-img", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
               = link_to("#", class: "nav-link") do
-                h4.f-semi-14 ProjectFlow Pro
-                p.f-reg-12 scdbe fnjw fhbwj
+                h4.f-semi-14 = t("ui.dashboard.shared.inbox_container.projectflow_pro")
+                p.f-reg-12 = t("ui.dashboard.shared.inbox_container.scdbe_fnjw_fhbwj")
               .actions
-                = inline_svg_tag("menu.svg", class:"menu-icon", alt:"menu")
-                = inline_svg_tag("close.svg", class:"close-icon", alt:"menu")
-                p.f-reg-10 10 Day
+                = inline_svg_tag("menu.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                = inline_svg_tag("close.svg", class:"close-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                p.f-reg-10 = t("ui.dashboard.shared.inbox_container.10_day")
                 
             li.nav-item class="#{current_page=='conv2' ? 'inbox-nav-active' : ''}"
-              = image_tag("profile_pic.png", class:"user-img", alt:"menu")
+              = image_tag("profile_pic.png", class:"user-img", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
               = link_to(conversations_path, class: "nav-link") do
-                h4.f-semi-14 ProjectFlow Pro
-                p.f-reg-12 scdbe fnjw fhbwj
+                h4.f-semi-14 = t("ui.dashboard.shared.inbox_container.projectflow_pro")
+                p.f-reg-12 = t("ui.dashboard.shared.inbox_container.scdbe_fnjw_fhbwj")
               .actions
-                = inline_svg_tag("menu.svg", class:"menu-icon", alt:"menu")
-                = inline_svg_tag("close.svg", class:"close-icon", alt:"menu")
-                p.f-reg-10 10 Day
+                = inline_svg_tag("menu.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                = inline_svg_tag("close.svg", class:"close-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                p.f-reg-10 = t("ui.dashboard.shared.inbox_container.10_day")
                 
             li.nav-item class="#{current_page=='cgh' ? 'inbox-nav-active' : ''}"
-              = image_tag("profile_pic.png", class:"user-img", alt:"menu")
+              = image_tag("profile_pic.png", class:"user-img", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
               = link_to("#", class: "nav-link") do
-                h4.f-semi-14 ProjectFlow Pro
-                p.f-reg-12 scdbe fnjw fhbwj
+                h4.f-semi-14 = t("ui.dashboard.shared.inbox_container.projectflow_pro")
+                p.f-reg-12 = t("ui.dashboard.shared.inbox_container.scdbe_fnjw_fhbwj")
               .actions
-                = inline_svg_tag("menu.svg", class:"menu-icon", alt:"menu")
-                = inline_svg_tag("close.svg", class:"close-icon", alt:"menu")
-                p.f-reg-10 10 Day
+                = inline_svg_tag("menu.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                = inline_svg_tag("close.svg", class:"close-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                p.f-reg-10 = t("ui.dashboard.shared.inbox_container.10_day")
             li.nav-item class="#{current_page=='conv1' ? 'inbox-nav-active' : ''}"
-              = image_tag("chat1.png", class:"user-img", alt:"menu")
+              = image_tag("chat1.png", class:"user-img", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
               = link_to("#", class: "nav-link") do
-                h4.f-semi-14 ProjectFlow Pro
-                p.f-reg-12 scdbe fnjw fhbwj
+                h4.f-semi-14 = t("ui.dashboard.shared.inbox_container.projectflow_pro")
+                p.f-reg-12 = t("ui.dashboard.shared.inbox_container.scdbe_fnjw_fhbwj")
               .actions
-                = inline_svg_tag("menu.svg", class:"menu-icon", alt:"menu")
-                = inline_svg_tag("close.svg", class:"close-icon", alt:"menu")
-                p.f-reg-10 10 Day
+                = inline_svg_tag("menu.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                = inline_svg_tag("close.svg", class:"close-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                p.f-reg-10 = t("ui.dashboard.shared.inbox_container.10_day")
             li.nav-item class="#{current_page=='cgh' ? 'inbox-nav-active' : ''}"
-              = image_tag("chat1.png", class:"user-img", alt:"menu")
+              = image_tag("chat1.png", class:"user-img", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
               = link_to("#", class: "nav-link") do
-                h4.f-semi-14 ProjectFlow Pro
-                p.f-reg-12 scdbe fnjw fhbwj
+                h4.f-semi-14 = t("ui.dashboard.shared.inbox_container.projectflow_pro")
+                p.f-reg-12 = t("ui.dashboard.shared.inbox_container.scdbe_fnjw_fhbwj")
               .actions
-                = inline_svg_tag("menu.svg", class:"menu-icon", alt:"menu")
-                = inline_svg_tag("close.svg", class:"close-icon", alt:"menu")
-                p.f-reg-10 10 Day
+                = inline_svg_tag("menu.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                = inline_svg_tag("close.svg", class:"close-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                p.f-reg-10 = t("ui.dashboard.shared.inbox_container.10_day")
             li.nav-item class="#{current_page=='cgh' ? 'inbox-nav-active' : ''}"
-              = image_tag("chat1.png", class:"user-img", alt:"menu")
+              = image_tag("chat1.png", class:"user-img", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
               = link_to("#", class: "nav-link") do
-                h4.f-semi-14 ProjectFlow Pro
-                p.f-reg-12 scdbe fnjw fhbwj
+                h4.f-semi-14 = t("ui.dashboard.shared.inbox_container.projectflow_pro")
+                p.f-reg-12 = t("ui.dashboard.shared.inbox_container.scdbe_fnjw_fhbwj")
               .actions
-                = inline_svg_tag("menu.svg", class:"menu-icon", alt:"menu")
-                = inline_svg_tag("close.svg", class:"close-icon", alt:"menu")
-                p.f-reg-10 10 Day
+                = inline_svg_tag("menu.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                = inline_svg_tag("close.svg", class:"close-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                p.f-reg-10 = t("ui.dashboard.shared.inbox_container.10_day")
             li.nav-item class="#{current_page=='cgh' ? 'inbox-nav-active' : ''}"
-              = image_tag("chat1.png", class:"user-img", alt:"menu")
+              = image_tag("chat1.png", class:"user-img", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
               = link_to("#", class: "nav-link") do
-                h4.f-semi-14 ProjectFlow Pro
-                p.f-reg-12 scdbe fnjw fhbwj
+                h4.f-semi-14 = t("ui.dashboard.shared.inbox_container.projectflow_pro")
+                p.f-reg-12 = t("ui.dashboard.shared.inbox_container.scdbe_fnjw_fhbwj")
               .actions
-                = inline_svg_tag("menu.svg", class:"menu-icon", alt:"menu")
-                = inline_svg_tag("close.svg", class:"close-icon", alt:"menu")
-                p.f-reg-10 10 Day
+                = inline_svg_tag("menu.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                = inline_svg_tag("close.svg", class:"close-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                p.f-reg-10 = t("ui.dashboard.shared.inbox_container.10_day")
             li.nav-item class="#{current_page=='cgh' ? 'inbox-nav-active' : ''}"
-              = image_tag("chat1.png", class:"user-img", alt:"menu")
+              = image_tag("chat1.png", class:"user-img", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
               = link_to("#", class: "nav-link") do
-                h4.f-semi-14 ProjectFlow Pro
-                p.f-reg-12 scdbe fnjw fhbwj
+                h4.f-semi-14 = t("ui.dashboard.shared.inbox_container.projectflow_pro")
+                p.f-reg-12 = t("ui.dashboard.shared.inbox_container.scdbe_fnjw_fhbwj")
               .actions
-                = inline_svg_tag("menu.svg", class:"menu-icon", alt:"menu")
-                = inline_svg_tag("close.svg", class:"close-icon", alt:"menu")
-                p.f-reg-10 10 Day
+                = inline_svg_tag("menu.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                = inline_svg_tag("close.svg", class:"close-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                p.f-reg-10 = t("ui.dashboard.shared.inbox_container.10_day")
             li.nav-item class="#{current_page=='cgh' ? 'inbox-nav-active' : ''}"
-              = image_tag("chat1.png", class:"user-img", alt:"menu")
+              = image_tag("chat1.png", class:"user-img", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
               = link_to("#", class: "nav-link") do
-                h4.f-semi-14 ProjectFlow Pro
-                p.f-reg-12 scdbe fnjw fhbwj
+                h4.f-semi-14 = t("ui.dashboard.shared.inbox_container.projectflow_pro")
+                p.f-reg-12 = t("ui.dashboard.shared.inbox_container.scdbe_fnjw_fhbwj")
               .actions
-                = inline_svg_tag("menu.svg", class:"menu-icon", alt:"menu")
-                = inline_svg_tag("close.svg", class:"close-icon", alt:"menu")
-                p.f-reg-10 10 Day
+                = inline_svg_tag("menu.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                = inline_svg_tag("close.svg", class:"close-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                p.f-reg-10 = t("ui.dashboard.shared.inbox_container.10_day")
             li.nav-item class="#{current_page=='cgh' ? 'inbox-nav-active' : ''}"
-              = image_tag("chat1.png", class:"user-img", alt:"menu")
+              = image_tag("chat1.png", class:"user-img", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
               = link_to("#", class: "nav-link") do
-                h4.f-semi-14 ProjectFlow Pro
-                p.f-reg-12 scdbe fnjw fhbwj
+                h4.f-semi-14 = t("ui.dashboard.shared.inbox_container.projectflow_pro")
+                p.f-reg-12 = t("ui.dashboard.shared.inbox_container.scdbe_fnjw_fhbwj")
               .actions
-                = inline_svg_tag("menu.svg", class:"menu-icon", alt:"menu")
-                = inline_svg_tag("close.svg", class:"close-icon", alt:"menu")
-                p.f-reg-10 10 Day
+                = inline_svg_tag("menu.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                = inline_svg_tag("close.svg", class:"close-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                p.f-reg-10 = t("ui.dashboard.shared.inbox_container.10_day")
                 
             li.nav-item class="#{current_page=='cgh' ? 'inbox-nav-active' : ''}"
-              = image_tag("chat1.png", class:"user-img", alt:"menu")
+              = image_tag("chat1.png", class:"user-img", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
               = link_to("#", class: "nav-link") do
-                h4.f-semi-14 ProjectFlow Pro
-                p.f-reg-12 scdbe fnjw fhbwj
+                h4.f-semi-14 = t("ui.dashboard.shared.inbox_container.projectflow_pro")
+                p.f-reg-12 = t("ui.dashboard.shared.inbox_container.scdbe_fnjw_fhbwj")
               .actions
-                = inline_svg_tag("menu.svg", class:"menu-icon", alt:"menu")
-                = inline_svg_tag("close.svg", class:"close-icon", alt:"menu")
-                p.f-reg-10 10 Day
+                = inline_svg_tag("menu.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                = inline_svg_tag("close.svg", class:"close-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                p.f-reg-10 = t("ui.dashboard.shared.inbox_container.10_day")
     .inbox-body
       == yield

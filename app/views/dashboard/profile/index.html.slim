@@ -11,7 +11,7 @@
                 = f.file_field :avatar, direct_upload: true, class: "profile-avatar-input", data: { "dropzone-target": "input" }
                 .dropzone-msg.dz-message.needsclick
                   - if @user.avatar.attached?
-                    = image_tag(@user.avatar, class: "profile-avatar", alt: "profile avatar")
+                    = image_tag(@user.avatar, class: "profile-avatar", alt: t("ui.dashboard.profile.index.profile_avatar"))
                   - else
                     .profile-avatar.avatar-fallback class=avatar_fallback_color_class(full_name(@user))
                       = initials(@user)
@@ -19,7 +19,7 @@
                   input.d-none type="checkbox" value="" data-dropzone-target="doneCheck"
                 span.d-none data-dropzone-target="fileName"
               .profile-avatar-edit-overlay data-action="click->dropzone#openFilePicker"
-                = inline_svg_tag("camera.svg", class: "profile-avatar-edit-icon", alt: "Change avatar")
+                = inline_svg_tag("camera.svg", class: "profile-avatar-edit-icon", alt: t("ui.dashboard.profile.index.change_avatar"))
             .profile-summary-content
               .profile-name
                 - full = [@user.first_name.presence, @user.last_name.presence].compact.join(" ").presence
@@ -74,7 +74,7 @@
                   .profile-row-icon-cell
                     = inline_svg_tag("calendar.svg", class: "profile-icon", alt: "")
                   .profile-row-content
-                    = f.select :status, options_for_select(User.statuses.keys.map { |s| [s.humanize, s] }, @user.status), {}, class: "profile-input profile-select"
+                    = f.select :status, options_for_select(User.statuses.keys.map { |s| [t("enums.user.status.#{s}"), s] }, @user.status), {}, class: "profile-input profile-select"
 
                 .profile-row
                   .profile-row-icon-cell

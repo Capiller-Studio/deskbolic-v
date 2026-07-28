@@ -3,9 +3,9 @@
     .ap-billing-warning-content
       span.ap-billing-warning-icon ⚠️
       div
-        p.f-semi-14.ap-billing-warning-title = I18n.t("dashboard.billing.action_required", default: "Action Required")
+        p.f-semi-14.ap-billing-warning-title = I18n.t("dashboard.billing.action_required")
         p.f-reg-13.ap-billing-warning-text = @billing_warning_message
     
     .ap-billing-warning-actions
-      = link_to I18n.t("dashboard.billing.update_payment_method", default: "Update Payment Method"), dashboard_billing_path, class: "ap-btn-primary ap-billing-warning-btn"
+      = link_to I18n.t("dashboard.billing.update_payment_method"), dashboard_billing_path, class: "ap-btn-primary ap-billing-warning-btn"
       button.ap-billing-warning-dismiss data-action="click->billing-warning#dismiss" ✕

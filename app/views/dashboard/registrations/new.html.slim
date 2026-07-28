@@ -28,7 +28,7 @@
 
           .form-wrapper
             = f.label :country, t("auth.country"), class: "form-label"
-            = f.select :country, Carmen::Country.all.sort_by(&:name).map { |c| [c.name, c.alpha_2_code] }, { prompt: t("auth.select_country", default: "Select Country") }, class: "form-control", data: { registration_wizard_target: "countryInput" }, required: true
+            = f.select :country, Carmen::Country.all.sort_by(&:name).map { |c| [c.name, c.alpha_2_code] }, { prompt: t("auth.select_country") }, class: "form-control", data: { registration_wizard_target: "countryInput" }, required: true
 
           .form-wrapper
             = f.label :email, t("auth.email"), class: "form-label"
@@ -111,7 +111,7 @@
 
           .form-wrapper
             = f.label :account_locale, t("auth.default_language"), class: "form-label"
-            = f.select :account_locale, Core::SUPPORTED_LOCALES.map { |l| [I18n.t("languages.#{l.to_s.downcase}", default: l.to_s.upcase), l] }, { selected: I18n.locale }, class: "form-control"
+            = f.select :account_locale, Core::SUPPORTED_LOCALES.map { |l| [I18n.t("languages.#{l.to_s.downcase}"), l] }, { selected: I18n.locale }, class: "form-control"
 
           div style="display: flex; gap: 15px;"
             button type="button" data-action="click->registration-wizard#prevStep" class="cont-btn" style="background-color: #f3f4f6; color: #374151;" = t("auth.back")
@@ -124,6 +124,6 @@
           div data-registration-wizard-target="progressFill" style="height: 100%; background: #4F46E5; width: 0%; transition: width 0.5s;"
 
   .image-section
-    = image_tag "register.png", class: "register-img", alt: "Graphic"
-    = image_tag "register-back.png", class: "back-img", alt: "Background"
+    = image_tag "register.png", class: "register-img", alt: t("ui.dashboard.registrations.new.graphic")
+    = image_tag "register-back.png", class: "back-img", alt: t("ui.dashboard.registrations.new.background")
     p = t("auth.registration.marketing_text")

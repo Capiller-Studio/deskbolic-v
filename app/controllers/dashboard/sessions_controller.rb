@@ -35,6 +35,16 @@ module Dashboard
     #   super
     # end
 
+    def switch
+      account = Account.find(params[:id])
+      if current_user.accounts.include?(account)
+        session[:current_account_id] = account.id
+        cookies.signed[:current_account_id] = { value: account.id, expires: 1.year.from_now }
+        redirect_to(root_url)
+      else
+        redirect_to(accounts_path, alert: "You are not authorized")
+      end
+    end
     protected
 
     def after_sign_in_path_for(resource)
@@ -50,16 +60,6 @@ module Dashboard
     #   devise_parameter_sanitizer.permit(:sign_in, keys: [:email, :password])
     # end
 
-    def switch
-      account = Account.find(params[:id])
-      if current_user.accounts.include?(account)
-        session[:current_account_id] = account.id
-        cookies.signed[:current_account_id] = { value: account.id, expires: 1.year.from_now }
-        redirect_to(root_url)
-      else
-        redirect_to(accounts_path, alert: "You are not authorized")
-      end
-    end
 
     private
 

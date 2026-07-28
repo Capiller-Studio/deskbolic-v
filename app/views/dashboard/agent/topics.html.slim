@@ -3,112 +3,112 @@
     .agent-body-section.agent-topic-body
       .agent-header.agent-workflow-header.agent-topic-header
         .topbar
-          h2.f-semi-18 Topic Explorer
+          h2.f-semi-18 = t("ui.dashboard.agent.topics.topic_explorer")
         .header-options
-          = image_tag("calender.png", class:"link-icon", alt:"image")
-          .f-reg-14 Jun 4, 2025 - Jul 1, 2025
+          = image_tag("calender.png", class:"link-icon", alt:t("ui.dashboard.agent.index.image"))
+          .f-reg-14 = t("ui.dashboard.agent.topics.jun_4_2025_jul_1_2025")
           .tag
             = inline_svg_tag("plus_black.svg", class:"btn-icon")
-            .f-reg-14 Add Filter
+            .f-reg-14 = t("ui.dashboard.agent.topics.add_filter")
       .agent-body.agent-topic-container data-controller="accordion modal-toggler frame-toggler"
-        h3.f-semi-14 10 highest volume topics
+        h3.f-semi-14 = t("ui.dashboard.agent.topics.10_highest_volume_topics")
         .topics-container
           .topics-grid
             .topic-row1
               .topic
-                .f-semi-14 Messenger Setup
+                .f-semi-14 = t("ui.dashboard.agent.topics.messenger_setup")
                 .detailed
-                  .f-reg-12 1.306 conversation
+                  .f-reg-12 = t("ui.dashboard.agent.topics.1_306_conversation")
                   = inline_svg_tag("arrow_export.svg", class:"btn-icon")
-                .f-reg-12 80.9% CX Score
+                .f-reg-12 = t("ui.dashboard.agent.topics.80_9_cx_score")
               .topic
-                .f-semi-14 Messenger Setup
+                .f-semi-14 = t("ui.dashboard.agent.topics.messenger_setup")
                 .detailed
-                  .f-reg-12 1.306 conversation
+                  .f-reg-12 = t("ui.dashboard.agent.topics.1_306_conversation")
                   = inline_svg_tag("arrow_export.svg", class:"btn-icon")
-                .f-reg-12 80.9% CX Score
+                .f-reg-12 = t("ui.dashboard.agent.topics.80_9_cx_score")
               .topic
-                .f-semi-14 Messenger Setup
+                .f-semi-14 = t("ui.dashboard.agent.topics.messenger_setup")
                 .detailed
-                  .f-reg-12 1.306 conversation
+                  .f-reg-12 = t("ui.dashboard.agent.topics.1_306_conversation")
                   = inline_svg_tag("arrow_export.svg", class:"btn-icon")
-                .f-reg-12 80.9% CX Score
+                .f-reg-12 = t("ui.dashboard.agent.topics.80_9_cx_score")
             .topic-row2
               .topic-col1
                 .topic
-                  .f-semi-14 Messenger Setup
+                  .f-semi-14 = t("ui.dashboard.agent.topics.messenger_setup")
                   .detailed
-                    .f-reg-12 1.306 conversation
+                    .f-reg-12 = t("ui.dashboard.agent.topics.1_306_conversation")
                     = inline_svg_tag("arrow_export.svg", class:"btn-icon")
-                  .f-reg-12 80.9% CX Score
+                  .f-reg-12 = t("ui.dashboard.agent.topics.80_9_cx_score")
                 .topic
-                  .f-semi-14 Messenger Setup
+                  .f-semi-14 = t("ui.dashboard.agent.topics.messenger_setup")
                   .detailed
-                    .f-reg-12 1.306 conversation
+                    .f-reg-12 = t("ui.dashboard.agent.topics.1_306_conversation")
                     = inline_svg_tag("arrow_export.svg", class:"btn-icon")
-                  .f-reg-12 80.9% CX Score
+                  .f-reg-12 = t("ui.dashboard.agent.topics.80_9_cx_score")
               .topic-col2
                 .row1
                   .topic
-                    .f-semi-14 Messenger Setup
-                    .f-reg-12 1.306 conversation
-                    .f-reg-12 80.9% CX Score
+                    .f-semi-14 = t("ui.dashboard.agent.topics.messenger_setup")
+                    .f-reg-12 = t("ui.dashboard.agent.topics.1_306_conversation")
+                    .f-reg-12 = t("ui.dashboard.agent.topics.80_9_cx_score")
                   .topic
-                    .f-semi-14 Messenger Setup
-                    .f-reg-12 1.306 conversation
-                    .f-reg-12 80.9% CX Score
+                    .f-semi-14 = t("ui.dashboard.agent.topics.messenger_setup")
+                    .f-reg-12 = t("ui.dashboard.agent.topics.1_306_conversation")
+                    .f-reg-12 = t("ui.dashboard.agent.topics.80_9_cx_score")
                   .topic
-                    .f-semi-14 Messenger Setup
-                    .f-reg-12 1.306 conversation
-                    .f-reg-12 80.9% CX Score
+                    .f-semi-14 = t("ui.dashboard.agent.topics.messenger_setup")
+                    .f-reg-12 = t("ui.dashboard.agent.topics.1_306_conversation")
+                    .f-reg-12 = t("ui.dashboard.agent.topics.80_9_cx_score")
                 .row2
                   .topic
-                    .f-semi-14 Messenger Setup
+                    .f-semi-14 = t("ui.dashboard.agent.topics.messenger_setup")
                     .detailed
-                      .f-reg-12 1.306 conversation
+                      .f-reg-12 = t("ui.dashboard.agent.topics.1_306_conversation")
                       = inline_svg_tag("arrow_export.svg", class:"btn-icon")
-                    .f-reg-12 80.9% CX Score
+                    .f-reg-12 = t("ui.dashboard.agent.topics.80_9_cx_score")
                   .topic
-                    .f-semi-14 Messenger Setup
+                    .f-semi-14 = t("ui.dashboard.agent.topics.messenger_setup")
                     .detailed
-                      .f-reg-12 1.306 conversation
+                      .f-reg-12 = t("ui.dashboard.agent.topics.1_306_conversation")
                       = inline_svg_tag("arrow_export.svg", class:"btn-icon")
-                    .f-reg-12 80.9% CX Score
+                    .f-reg-12 = t("ui.dashboard.agent.topics.80_9_cx_score")
             .progress 
               .f-semi-14 79%
               .bar 
               .f-semi-14 79%
           .topics-list
             .topic-stats
-              p.f-semi-12 Messenger Setup
-              = image_tag("chart1.png", class:"chart-img", alt:"image")
-              = image_tag("chart2.png", class:"chart-img", alt:"image")
-              = image_tag("chart3.png", class:"chart-img", alt:"image")
+              p.f-semi-12 = t("ui.dashboard.agent.topics.messenger_setup")
+              = image_tag("chart1.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
+              = image_tag("chart2.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
+              = image_tag("chart3.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
             .topic-stats
-              p.f-semi-12 Fin Features
-              = image_tag("chart1.png", class:"chart-img", alt:"image")
-              = image_tag("chart2.png", class:"chart-img", alt:"image")
-              = image_tag("chart3.png", class:"chart-img", alt:"image")
+              p.f-semi-12 = t("ui.dashboard.agent.topics.fin_features")
+              = image_tag("chart1.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
+              = image_tag("chart2.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
+              = image_tag("chart3.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
             .topic-stats
-              p.f-semi-12 Surveys
-              = image_tag("chart1.png", class:"chart-img", alt:"image")
-              = image_tag("chart2.png", class:"chart-img", alt:"image")
-              = image_tag("chart3.png", class:"chart-img", alt:"image")
+              p.f-semi-12 = t("ui.dashboard.agent.topics.surveys")
+              = image_tag("chart1.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
+              = image_tag("chart2.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
+              = image_tag("chart3.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
             .topic-stats
-              p.f-semi-12 Fin Agent
-              = image_tag("chart1.png", class:"chart-img", alt:"image")
-              = image_tag("chart2.png", class:"chart-img", alt:"image")
-              = image_tag("chart3.png", class:"chart-img", alt:"image")
+              p.f-semi-12 = t("ui.dashboard.agent.topics.fin_agent")
+              = image_tag("chart1.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
+              = image_tag("chart2.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
+              = image_tag("chart3.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
             .topic-stats
-              p.f-semi-12 Conversation data
-              = image_tag("chart1.png", class:"chart-img", alt:"image")
-              = image_tag("chart2.png", class:"chart-img", alt:"image")
-              = image_tag("chart3.png", class:"chart-img", alt:"image")
+              p.f-semi-12 = t("ui.dashboard.agent.topics.conversation_data")
+              = image_tag("chart1.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
+              = image_tag("chart2.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
+              = image_tag("chart3.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
             .topic-stats
-              p.f-semi-12 Fin Agent
-              = image_tag("chart1.png", class:"chart-img", alt:"image")
-              = image_tag("chart2.png", class:"chart-img", alt:"image")
-              = image_tag("chart3.png", class:"chart-img", alt:"image")
+              p.f-semi-12 = t("ui.dashboard.agent.topics.fin_agent")
+              = image_tag("chart1.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
+              = image_tag("chart2.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
+              = image_tag("chart3.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
             .progress 
               .f-semi-14 79%
               .bar 

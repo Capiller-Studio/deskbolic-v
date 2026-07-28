@@ -4,16 +4,16 @@
       .card
         button.accordian.ticket-type-search
           .main
-            = inline_svg_tag("search_black.svg", alt:"menu")
-            p.f-reg-14 API integration
+            = inline_svg_tag("search_black.svg", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+            p.f-reg-14 = t("ui.dashboard.popup.search_ticket_modal.api_integration")
           .cross-hover
             = inline_svg_tag("cross_sign.svg", data: { action: "click->frame-toggler#loadModal", popup_view:"_create_ticket_modal" })
     .ticket-types
       .card.ticket-round
-        = inline_svg_tag("ticket_round.svg", alt:"menu")
+        = inline_svg_tag("ticket_round.svg", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
       .card
-        p.f-semi-14 Ticket type not found
+        p.f-semi-14 = t("ui.dashboard.popup.search_ticket_modal.ticket_type_not_found")
       .card
         button.create-ticket-type
-            p.f-reg-12 Create New Ticket Type
+            p.f-reg-12 = t("ui.dashboard.popup.search_ticket_modal.create_new_ticket_type")
             = inline_svg_tag("plus_transparent.svg", class:"")

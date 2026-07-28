@@ -3,7 +3,7 @@ module Dashboard
     before_action :set_account_user, only: [:edit, :update, :destroy]
 
     def index
-      @account_users = current_account.account_users.includes(:user, :roles)
+      @account_users = current_account.account_users.includes(:roles, user: { avatar_attachment: :blob })
     end
 
     def search

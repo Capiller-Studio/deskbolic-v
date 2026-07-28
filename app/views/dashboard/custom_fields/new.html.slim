@@ -2,7 +2,7 @@
   = render("dashboard/settings/settings_sidebar", current_page: "custom-fields") do
     .ui-page-body
       .ui-form-header
-        = link_to "← Back to Custom Fields", custom_fields_path, class: "ui-back-link"
+        = link_to t("ui.dashboard.custom_fields.edit.back_to_custom_fields"), custom_fields_path, class: "ui-back-link"
         h2.f-semi-32 style="margin-top: 16px; color: #0f172a;" Create Custom Field
 
       .ui-card style="margin-top: 24px;"

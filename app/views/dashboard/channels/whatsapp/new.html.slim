@@ -12,7 +12,7 @@
           .ui-tabs-header
             button.ui-tab-btn disabled=true type="button" style="opacity: 0.6; cursor: not-allowed;"
               | ⚡ #{t("dashboard.whatsapp_channels.new.tabs.embedded")}
-              span style="background: var(--primary-50); color: var(--primary-600); font-size: 11px; padding: 2px 6px; border-radius: 4px; margin-left: 8px; font-weight: 600;" Coming Soon
+              span style="background: var(--primary-50); color: var(--primary-600); font-size: 11px; padding: 2px 6px; border-radius: 4px; margin-left: 8px; font-weight: 600;" = t("general.coming_soon")
             button.ui-tab-btn.active data-action="click->whatsapp-tabs#switch" data-target-tab="manual" type="button"
               | 🛠️ #{t("dashboard.whatsapp_channels.new.tabs.manual")}
 
@@ -57,11 +57,11 @@
                 .channel-phone-input-group
                   .ui-form-group style="width: 35%; margin-bottom: 0;"
                     = f.label :phone_code, t("dashboard.whatsapp_channels.form.phone_code_label"), class: "ui-label"
-                    = f.select :phone_code, options_for_select(whatsapp_country_codes), { include_blank: "Select Country Code" }, { class: "ui-select", required: true }
+                    = f.select :phone_code, options_for_select(whatsapp_country_codes), { include_blank: t("forms.options.select_country_code") }, { class: "ui-select", required: true }
                   
                   .ui-form-group style="flex: 2;"
                     = f.label :phone_number, t("dashboard.whatsapp_channels.form.phone_number_label"), class: "ui-label"
-                    = f.text_field :phone_number, class: "ui-input", placeholder: "e.g., 234567890", required: true
+                    = f.text_field :phone_number, class: "ui-input", placeholder: t("ui.dashboard.channels.whatsapp.new.e_g_234567890"), required: true
 
                 .ui-form-group
                   = f.label :phone_number_id, t("dashboard.whatsapp_channels.form.phone_id_label"), class: "ui-label"

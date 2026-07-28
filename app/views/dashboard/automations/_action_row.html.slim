@@ -1,23 +1,23 @@
 .auto-row data-action-row=""
-  = select_tag "action_type_#{action_index}", options_for_select(action_type_options, action["action"]), include_blank: "Select action...", class: "auto-row", data: { action: "change->automation-builder#actionTypeChanged", "action-type": true }
+  = select_tag "action_type_#{action_index}", options_for_select(action_type_options, action["action"]), include_blank: t("forms.options.select_action"), class: "auto-row", data: { action: "change->automation-builder#actionTypeChanged", "action-type": true }
 
   / Dynamic params area — rendered based on selected action type
   span data-action-params="" style="display: contents;"
     - case action["action"]
     - when "assign_agent"
-      = select_tag "action_param_#{action_index}", options_for_select(agent_options_for_select, action.dig("params", "agent_id")), include_blank: "Select agent...", class: "auto-row", data: { "action-param": "agent_id" }
+      = select_tag "action_param_#{action_index}", options_for_select(agent_options_for_select, action.dig("params", "agent_id")), include_blank: t("forms.options.select_agent"), class: "auto-row", data: { "action-param": "agent_id" }
     - when "assign_team"
-      = select_tag "action_param_#{action_index}", options_for_select(team_options_for_select, action.dig("params", "team_id")), include_blank: "Select team...", class: "auto-row", data: { "action-param": "team_id" }
+      = select_tag "action_param_#{action_index}", options_for_select(team_options_for_select, action.dig("params", "team_id")), include_blank: t("forms.options.select_team"), class: "auto-row", data: { "action-param": "team_id" }
     - when "set_status"
-      = select_tag "action_param_#{action_index}", options_for_select([["Active", "active"], ["Closed", "closed"], ["Snoozed", "snoozed"], ["Resolved", "resolved"]], action.dig("params", "status")), class: "auto-row", data: { "action-param": "status" }
+      = select_tag "action_param_#{action_index}", options_for_select([[t("forms.options.active"), "active"], [t("forms.options.closed"), "closed"], [t("forms.options.snoozed"), "snoozed"], [t("forms.options.resolved"), "resolved"]], action.dig("params", "status")), class: "auto-row", data: { "action-param": "status" }
     - when "set_priority"
-      = select_tag "action_param_#{action_index}", options_for_select([["Low", "low"], ["Medium", "medium"], ["High", "high"], ["Urgent", "urgent"]], action.dig("params", "priority")), class: "auto-row", data: { "action-param": "priority" }
+      = select_tag "action_param_#{action_index}", options_for_select([[t("forms.options.low"), "low"], [t("forms.options.medium"), "medium"], [t("forms.options.high"), "high"], [t("forms.options.urgent"), "urgent"]], action.dig("params", "priority")), class: "auto-row", data: { "action-param": "priority" }
     - when "send_message", "add_note"
-      = text_area_tag "action_param_#{action_index}", action.dig("params", "content"), placeholder: "Enter message...", rows: 2, data: { "action-param": "content" }, class: "auto-row"
+      = text_area_tag "action_param_#{action_index}", action.dig("params", "content"), placeholder: t("ui.dashboard.automations.action_row.enter_message"), rows: 2, data: { "action-param": "content" }, class: "auto-row"
     - when "snooze"
-      = number_field_tag "action_param_#{action_index}", action.dig("params", "duration_hours"), placeholder: "Hours", min: 1, data: { "action-param": "duration_hours" }, class: "auto-row"
+      = number_field_tag "action_param_#{action_index}", action.dig("params", "duration_hours"), placeholder: t("ui.dashboard.automations.action_row.hours"), min: 1, data: { "action-param": "duration_hours" }, class: "auto-row"
     - when "set_locale"
-      = text_field_tag "action_param_#{action_index}", action.dig("params", "locale"), placeholder: "e.g. en, fr, de", data: { "action-param": "locale" }, class: "auto-row"
+      = text_field_tag "action_param_#{action_index}", action.dig("params", "locale"), placeholder: t("ui.dashboard.automations.action_row.e_g_en_fr_de"), data: { "action-param": "locale" }, class: "auto-row"
     - when "trigger_webhook"
       = text_field_tag "action_param_url_#{action_index}", action.dig("params", "url"), placeholder: "https://...", data: { "action-param": "url" }, class: "auto-row"
       = select_tag "action_param_method_#{action_index}", options_for_select(%w[POST GET PUT PATCH], action.dig("params", "method") || "POST"), class: "auto-row", style: "max-width: 100px;", data: { "action-param": "method" }

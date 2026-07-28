@@ -1,36 +1,36 @@
 .model-content-section
   .model-content
     .modal-header
-      h3.f-semi-18 Widget Channel
-      = inline_svg_tag("cross_button.svg", alt:"menu", class:"conversation-icon m-close", data: { action: "click->modal-toggler#hideModal" })
+      h3.f-semi-18 = t("ui.dashboard.popup.widget_channel_modal.widget_channel")
+      = inline_svg_tag("cross_button.svg", alt:t("ui.dashboard.agent.agent_sidebar.menu"), class:"conversation-icon m-close", data: { action: "click->modal-toggler#hideModal" })
     .modal-body.channel-form
-      = form_with(url: channels_path, data: {controller: "formValidation renderer", "formValidation-target" => "form", turbo: false}, html: {class: "needs-validation", novalidate: true, method: :post}) do |f|
+      = form_with(url: channels_path, data: {controller: "form-validation renderer", "form-validation-target" => "form", turbo: false}, html: {class: "needs-validation", novalidate: true, method: :post}) do |f|
         .form-fields
           = f.hidden_field :channel_type, value: "widget"
           .form-floating
             .field-label
               span 1
-              = f.label :name, "Enter Channel Name", class: "form-label f-reg-14"
-            = f.text_field :name, class: "form-control f-reg-14", placeholder: "Channel Name", required: true
+              = f.label :name, t("forms.labels.enter_channel_name"), class: "form-label f-reg-14"
+            = f.text_field :name, class: "form-control f-reg-14", placeholder: t("dashboard.email_channels.form.name_label"), required: true
           .form-floating
             .field-label
               span 2
-              = f.label :secret, "Secret", class: "form-label f-reg-14"
-            = f.text_field :secret, class: "form-control f-reg-14", placeholder: "Secret", required: true
+              = f.label :secret, t("forms.labels.secret"), class: "form-label f-reg-14"
+            = f.text_field :secret, class: "form-control f-reg-14", placeholder: t("dashboard.popup.widget_channel.form.secret_label"), required: true
           .form-floating
             .field-label
               span 3
-              = f.label :website_url, "Enter Website Url", class: "form-label f-reg-14"
+              = f.label :website_url, t("forms.labels.enter_website_url"), class: "form-label f-reg-14"
             = f.text_field :website_url, class: "form-control f-reg-14", placeholder: "https://example.com", required: true
           / .form-floating
           /   .field-label
           /     span 4
-          /     = f.label :phone_number_id, "Phone number id", class: "form-label f-reg-14"
+          /     = f.label :phone_number_id, t("forms.labels.phone_number_id"), class: "form-label f-reg-14"
           /   = f.text_field :phone_number_id, class: "form-control f-reg-14", placeholder: "phone number id", required: true
           / .form-floating
           /   .field-label
           /     span 5
-          /     = f.label :business_account_id, "Business account id", class: "form-label f-reg-14"
+          /     = f.label :business_account_id, t("forms.labels.business_account_id"), class: "form-label f-reg-14"
           /   = f.text_field :business_account_id, class: "form-control f-reg-14", placeholder: "business account id", required: true
         .form-actions
-          = f.submit "Create Channel", class: "submit-btn f-med-14", data: { action: "click->formValidation#validate click->modal-toggler#hideModal" }
+          = f.submit t("dashboard.custom_channels.new.submit"), class: "submit-btn f-med-14", data: { action: "click->form-validation#validate click->modal-toggler#hideModal" }

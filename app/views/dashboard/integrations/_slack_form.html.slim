@@ -5,19 +5,19 @@
     .ui-section-header
       .ui-section-title
         = image_tag "https://cdn.worldvectorlogo.com/logos/slack-new-logo.svg", width: 20, height: 20, alt: "Slack", class: "ui-section-icon", style: "margin-right: 8px;"
-        span.ui-section-label = t("dashboard.settings.integrations.slack.basic_section", default: "Slack Setup")
+        span.ui-section-label = t("dashboard.settings.integrations.slack.basic_section")
     .ui-section-body
       p.ui-input-hint style="margin-top: 0; margin-bottom: 24px;" 
-        = t("dashboard.settings.integrations.slack.manual_hint", default: "Because Slack OAuth is not configured globally for this installation, you can connect Slack manually by creating an Incoming Webhook in your Slack Workspace and pasting the URL here.")
+        = t("dashboard.settings.integrations.slack.manual_hint")
         
       .ui-form-row
         div
-          = f.label :webhook_url, t("dashboard.settings.integrations.slack.url_label", default: "Slack Incoming Webhook URL"), class: "ui-label"
+          = f.label :webhook_url, t("dashboard.settings.integrations.slack.url_label"), class: "ui-label"
           = f.text_field :webhook_url, name: "integration[settings][webhook_url]", value: integration.settings["webhook_url"], class: "ui-input", placeholder: "https://hooks.slack.com/services/YOUR_WORKSPACE/YOUR_CHANNEL/YOUR_TOKEN", required: true
                 
   .ui-form-actions
     - if integration.persisted?
-      = f.submit t("dashboard.shared.update", default: "Update Slack Connection"), class: "ui-btn-primary"
+      = f.submit t("dashboard.shared.update"), class: "ui-btn-primary"
     - else
-      = f.submit t("dashboard.shared.save", default: "Save Slack Connection"), class: "ui-btn-primary"
-    = link_to t("dashboard.shared.cancel", default: "Cancel"), integrations_path, class: "ui-btn-secondary"
+      = f.submit t("dashboard.shared.save"), class: "ui-btn-primary"
+    = link_to t("dashboard.shared.cancel"), integrations_path, class: "ui-btn-secondary"

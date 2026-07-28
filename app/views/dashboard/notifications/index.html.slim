@@ -12,10 +12,10 @@ style
 .model-content-section
   .model-content.notifications-slide-over
     .notifications-header
-      h3 = t("notifications.title", default: "Notifications")
+      h3 = t("notifications.title")
       .actions style="display: flex; gap: 12px; align-items: center;"
-        = button_to t("notifications.mark_all_as_read", default: "Mark all as read"), mark_all_read_notifications_path, method: :post, class: "mark-all-btn", data: { turbo: true }
-        = inline_svg_tag("cross_button.svg", alt:"close", class:"m-close", data: { action: "click->modal-toggler#hideModal" }, style: "cursor: pointer; width: 20px; height: 20px; opacity: 0.5; transition: opacity 0.2s;")
+        = button_to t("notifications.mark_all_as_read"), mark_all_read_notifications_path, method: :post, class: "mark-all-btn", data: { turbo: true }
+        = inline_svg_tag("cross_button.svg", alt:t("ui.dashboard.notifications.index.close"), class:"m-close", data: { action: "click->modal-toggler#hideModal" }, style: "cursor: pointer; width: 20px; height: 20px; opacity: 0.5; transition: opacity 0.2s;")
     .notifications-body
       turbo-frame id="notifications-list"
         = render partial: "dashboard/notifications/list", locals: { notifications: @notifications }

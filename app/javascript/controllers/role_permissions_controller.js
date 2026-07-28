@@ -1,13 +1,33 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = [ "checkbox", "jsonOutput" ]
+  static targets = [ "checkbox", "jsonOutput", "preset" ]
 
   connect() {
     this.serialize()
   }
 
   toggle(event) {
+    if (this.hasPresetTarget) {
+      this.presetTargets.forEach((preset) => { preset.checked = false })
+    }
+    this.serialize()
+  }
+
+  applyPreset(event) {
+    let permissions = {}
+
+    try {
+      permissions = JSON.parse(event.currentTarget.dataset.permissions || "{}")
+    } catch (_error) {
+      permissions = {}
+    }
+
+    this.checkboxTargets.forEach((checkbox) => {
+      const resourcePermissions = permissions[checkbox.dataset.resource] || {}
+      checkbox.checked = resourcePermissions[checkbox.dataset.permissionAction] === true
+    })
+
     this.serialize()
   }
 

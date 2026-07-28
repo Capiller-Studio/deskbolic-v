@@ -4,12 +4,12 @@
       .logo
         = link_to root_path do
           = image_tag "logo.png", alt: "Deskbolic"
-      = link_to t("auth.login.submit", default: "Sign in"), new_user_session_path, class: "join-btn"
+      = link_to t("auth.login.submit"), new_user_session_path, class: "join-btn"
 
   .login-container
     .login-card
-      h2 style="font-size: 24px; font-weight: 600; margin-bottom: 10px;" = t("auth.passwords.reset_title", default: "Change your password")
-      p = t("auth.passwords.reset_subtitle", default: "Enter your new password below.")
+      h2 style="font-size: 24px; font-weight: 600; margin-bottom: 10px;" = t("auth.passwords.reset_title")
+      p = t("auth.passwords.reset_subtitle")
 
       .form-fields
         = form_with url: user_password_path, method: :put, local: true do |f|
@@ -17,17 +17,17 @@
 
           div data-controller="password-strength"
             .form-floating
-              = f.label :password, t("auth.passwords.new_password", default: "New password"), class: "form-label"
+              = f.label :password, t("auth.passwords.new_password"), class: "form-label"
               = f.password_field "user[password]", autofocus: true, autocomplete: "new-password", required: true, data: { password_strength_target: "password", action: "input->password-strength#validatePassword input->password-strength#validateConfirmation" }, class: "form-control"
               div style="height: 4px; background: #eee; border-radius: 2px; margin-top: 8px;"
                 div data-password-strength-target="strengthMeter" style="height: 100%; width: 0; border-radius: 2px; transition: width 0.3s;"
 
             .form-floating style="margin-top: 20px;"
-              = f.label :password_confirmation, t("auth.passwords.confirm_new_password", default: "Confirm new password"), class: "form-label"
+              = f.label :password_confirmation, t("auth.passwords.confirm_new_password"), class: "form-label"
               = f.password_field "user[password_confirmation]", autocomplete: "new-password", required: true, data: { password_strength_target: "confirmation", action: "input->password-strength#validateConfirmation" }, class: "form-control"
               p data-password-strength-target="matchStatus" style="font-size: 12px; margin-top: 4px;"
 
-            p style="font-size: 12px; color: #565656; margin-top: 10px; margin-bottom: 20px;" = t("auth.password_hint", default: "Must be at least 8 characters with a mix of uppercase, lowercase, numbers, and symbols.")
+            p style="font-size: 12px; color: #565656; margin-top: 10px; margin-bottom: 20px;" = t("auth.password_hint")
 
             .actions
-              = f.submit t("auth.passwords.change_my_password", default: "Change my password"), data: { password_strength_target: "submitButton" }, class: "button"
+              = f.submit t("auth.passwords.change_my_password"), data: { password_strength_target: "submitButton" }, class: "button"

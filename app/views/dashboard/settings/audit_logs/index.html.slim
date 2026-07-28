@@ -2,8 +2,8 @@
   = render("dashboard/settings/settings_sidebar", current_page: "audit-logs") do
     .ui-page-body
       .ui-form-header
-        h2.f-semi-32 style="margin-top: 16px; color: #0f172a;" = t("audit_logs.title", default: "Audit Logs")
-        p.f-reg-16 style="color: #64748b; margin-top: 4px;" = t("audit_logs.description", default: "Track and review all activities across your organization.")
+        h2.f-semi-32 style="margin-top: 16px; color: #0f172a;" = t("audit_logs.title")
+        p.f-reg-16 style="color: #64748b; margin-top: 4px;" = t("audit_logs.description")
 
       .ui-card style="margin-top: 24px;"
         .ui-card-body style="padding: 2rem;"
@@ -11,21 +11,21 @@
             table.channel-table style="width: 100%; border-collapse: collapse; margin-top: 20px;"
               thead
                 tr
-                  th.f-semi-14 style="text-align: left; padding: 12px; border-bottom: 1px solid #e2e8f0; color: #475569;" = t("audit_logs.timestamp", default: "Timestamp")
-                  th.f-semi-14 style="text-align: left; padding: 12px; border-bottom: 1px solid #e2e8f0; color: #475569;" = t("audit_logs.actor", default: "Actor")
-                  th.f-semi-14 style="text-align: left; padding: 12px; border-bottom: 1px solid #e2e8f0; color: #475569;" = t("audit_logs.event", default: "Event")
-                  th.f-semi-14 style="text-align: left; padding: 12px; border-bottom: 1px solid #e2e8f0; color: #475569;" = t("audit_logs.changes", default: "Changes")
-                  th.f-semi-14 style="text-align: right; padding: 12px; border-bottom: 1px solid #e2e8f0; color: #475569;" = t("audit_logs.actions", default: "Actions")
+                  th.f-semi-14 style="text-align: left; padding: 12px; border-bottom: 1px solid #e2e8f0; color: #475569;" = t("audit_logs.timestamp")
+                  th.f-semi-14 style="text-align: left; padding: 12px; border-bottom: 1px solid #e2e8f0; color: #475569;" = t("audit_logs.actor")
+                  th.f-semi-14 style="text-align: left; padding: 12px; border-bottom: 1px solid #e2e8f0; color: #475569;" = t("audit_logs.event")
+                  th.f-semi-14 style="text-align: left; padding: 12px; border-bottom: 1px solid #e2e8f0; color: #475569;" = t("audit_logs.changes")
+                  th.f-semi-14 style="text-align: right; padding: 12px; border-bottom: 1px solid #e2e8f0; color: #475569;" = t("audit_logs.actions")
               tbody
                 - if @activities.empty?
                   tr
                     td colspan="5" style="text-align: center; padding: 40px;"
-                      p.f-reg-14 style="color: #64748b;" = t("audit_logs.empty", default: "No audit logs found.")
+                      p.f-reg-14 style="color: #64748b;" = t("audit_logs.empty")
                 - else
                   - @activities.each do |activity|
                     tr style="border-bottom: 1px solid #f1f5f9;"
                       td.f-reg-14 style="padding: 16px 12px; color: #334155; vertical-align: top;"
-                        = l(activity.created_at, format: :short)
+                        = activity.created_at.strftime("%d %b %H:%M")
                       td.f-reg-14 style="padding: 16px 12px; color: #334155; vertical-align: top;"
                         = activity.actor.try(:name).presence || activity.actor.try(:display_name).presence || "System"
                       td.f-reg-14 style="padding: 16px 12px; color: #334155; vertical-align: top;"
@@ -53,14 +53,14 @@
                       td style="text-align: right; padding: 16px 12px; vertical-align: top;"
                         - if activity.object_changes.present? || activity.object_snapshot.present?
                           .revert-actions style="display: flex; gap: 8px; justify-content: flex-end;"
-                            = button_to t("audit_logs.undo", default: "Undo"), revert_settings_audit_log_path(activity, mode: 'undo'), method: :post, class: "channel-btn", style: "padding: 6px 12px; background: #ffffff; border: 1px solid #e2e8f0; color: #334155; border-radius: 6px; cursor: pointer; transition: all 0.2s;", data: { turbo: true, confirm: t("audit_logs.confirm_undo", default: "Are you sure you want to undo these specific changes?") }
-                            = button_to t("audit_logs.rollback", default: "Rollback"), revert_settings_audit_log_path(activity, mode: 'rollback'), method: :post, class: "channel-btn", style: "padding: 6px 12px; background: #ef4444; border: 1px solid #ef4444; color: #ffffff; border-radius: 6px; cursor: pointer; transition: all 0.2s;", data: { turbo: true, confirm: t("audit_logs.confirm_rollback", default: "Are you sure you want to completely rollback this object to its historical state?") }
+                            = button_to t("audit_logs.undo"), revert_settings_audit_log_path(activity, mode: 'undo'), method: :post, class: "channel-btn", style: "padding: 6px 12px; background: #ffffff; border: 1px solid #e2e8f0; color: #334155; border-radius: 6px; cursor: pointer; transition: all 0.2s;", data: { turbo: true, confirm: t("audit_logs.confirm_undo") }
+                            = button_to t("audit_logs.rollback"), revert_settings_audit_log_path(activity, mode: 'rollback'), method: :post, class: "channel-btn", style: "padding: 6px 12px; background: #ef4444; border: 1px solid #ef4444; color: #ffffff; border-radius: 6px; cursor: pointer; transition: all 0.2s;", data: { turbo: true, confirm: t("audit_logs.confirm_rollback") }
 
           - if @pagy && @pagy.last > 1
             .channel-pagination style="margin-top: 24px; display: flex; justify-content: center; align-items: center; gap: 16px;"
               - if @pagy.prev
                 = link_to settings_audit_logs_path(page: @pagy.prev), class: "channel-pagination-btn"
-                  | ← Previous
+                  | #{t("dashboard.help_center.categories.index.previous")}
               - else
                 span.channel-pagination-btn.disabled style="opacity: 0.5; cursor: not-allowed;" ← Previous
               
@@ -69,7 +69,7 @@
                 
               - if @pagy.next
                 = link_to settings_audit_logs_path(page: @pagy.next), class: "channel-pagination-btn"
-                  | Next →
+                  | #{t("dashboard.help_center.categories.index.next")}
               - else
                 span.channel-pagination-btn.disabled style="opacity: 0.5; cursor: not-allowed;" Next →
 

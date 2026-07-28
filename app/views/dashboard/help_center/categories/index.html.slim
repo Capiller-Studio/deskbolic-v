@@ -8,8 +8,8 @@
               span.hc-search-icon 🔍
               = text_field_tag :q, @query, class: "hc-search-row-input", placeholder: t("dashboard.help_center.categories.index.search_placeholder"), oninput: "clearTimeout(this._timer); this._timer=setTimeout(()=>Turbo.visit(this.form.action+'?'+new URLSearchParams(new FormData(this.form)).toString(),{action:'replace'}),300)"
               - if @query.present?
-                = link_to help_center_categories_path, class: "hc-search-clear", title: "Clear search" do
-                  = image_tag("cross_clear.svg", alt: "clear", class: "hc-search-clear-icon")
+                = link_to help_center_categories_path, class: "hc-search-clear", title: t("ui.dashboard.help_center.articles.index.clear_search") do
+                  = image_tag("cross_clear.svg", alt: t("ui.dashboard.help_center.articles.index.clear"), class: "hc-search-clear-icon")
 
         .hc-index-header
           .hc-title-area
@@ -44,7 +44,7 @@
                     td.hc-title-cell
                       .hc-title-wrapper
                         span.hc-article-title
-                          = category.name.presence || "Untitled collection"
+                          = category.name.presence || t("dashboard.help_center.categories.index.untitled_collection")
                     td
                       span.hc-date-text = category.slug.presence || "-"
                     td
@@ -87,13 +87,13 @@
                 .hc-category-form-fields
                   .hc-category-form-floating
                     = f.label :name, class: "hc-category-form-label f-reg-14" do
-                      = t("dashboard.help_center.categories.form.name_label", default: "Category name")
+                      = t("dashboard.help_center.categories.form.name_label")
                       span.required-star *
                     = f.text_field :name, class: "hc-category-form-control f-reg-14", placeholder: t("dashboard.help_center.categories.form.name_placeholder"), required: true
 
                   .hc-category-form-floating
                     = f.label :description, class: "hc-category-form-label f-reg-14" do
-                      = t("dashboard.help_center.categories.form.description_label", default: "Description")
+                      = t("dashboard.help_center.categories.form.description_label")
                     = f.text_area :description, class: "hc-category-form-control hc-category-form-textarea f-reg-14", placeholder: t("dashboard.help_center.categories.form.description_placeholder"), rows: 3
 
                   .hc-category-form-floating.hc-category-selects-row
@@ -102,7 +102,7 @@
                       = f.select :parent_id, @categories.map { |cat| [cat.name.presence || cat.id, cat.id] }, { include_blank: t("dashboard.help_center.categories.form.parent_none") }, class: "hc-category-form-select f-reg-14"
                     .hc-category-form-group
                       = f.label :visibility, t("dashboard.help_center.categories.form.visibility_label"), class: "hc-category-form-label f-reg-14"
-                      = f.select :visibility, ::HelpCenter::Category.visibilities.keys.map { |v| [v.humanize, v] }, {}, class: "hc-category-form-select f-reg-14"
+                      = f.select :visibility, ::HelpCenter::Category.visibilities.keys.map { |v| [t("enums.help_center.visibility.#{v}"), v] }, {}, class: "hc-category-form-select f-reg-14"
 
                 .hc-category-form-actions
                   button.hc-category-cancel-btn.f-med-14.close-modal-btn type="button" data-action="click->category#close" = t("dashboard.help_center.categories.form.cancel")

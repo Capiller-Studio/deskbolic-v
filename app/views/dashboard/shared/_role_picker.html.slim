@@ -1,0 +1,41 @@
+- selected_role_ids = Array(selected_role_ids).map(&:to_s)
+- if multiple
+  = hidden_field_tag field_name, ""
+
+.tm-role-grid
+  - roles.each_with_index do |role, index|
+    - permission_labels = invitation_permission_labels(role)
+    - checked = multiple ? selected_role_ids.include?(role.id.to_s) : (selected_role_ids.include?(role.id.to_s) || (selected_role_ids.empty? && index.zero?))
+    label.tm-role-card
+      - if multiple
+        = check_box_tag field_name, role.id, checked, data: { option_preview_target: "option", action: "change->option-preview#select" }
+      - else
+        = radio_button_tag field_name, role.id, checked, required: true, data: { option_preview_target: "option", action: "change->option-preview#select" }
+      span.tm-role-card-selection
+      span.tm-role-card-icon class=("tm-role-card-icon-shield" if role.system_provided?)
+        - if role.system_provided?
+          svg viewBox="0 0 24 24" aria-hidden="true"
+            path d="M12 3 5 6v5c0 4.8 2.9 8.6 7 10 4.1-1.4 7-5.2 7-10V6l-7-3Z"
+            path d="m9 12 2 2 4-4"
+        - else
+          svg viewBox="0 0 24 24" aria-hidden="true"
+            circle cx="12" cy="8" r="4"
+            path d="M5 21a7 7 0 0 1 14 0"
+      strong = role.name
+      span.tm-role-card-description = invitation_role_description(role)
+      span.tm-role-card-permissions
+        - if permission_labels.any?
+          - invitation_visible_permissions(permission_labels, limit: Dashboard::AccountInvitationsHelper::INVITATION_ROLE_BADGE_LIMIT).each do |permission|
+            span = permission
+          - remaining_count = invitation_remaining_permissions_count(permission_labels, limit: Dashboard::AccountInvitationsHelper::INVITATION_ROLE_BADGE_LIMIT)
+          - if remaining_count.positive?
+            span = "+#{remaining_count} more"
+        - else
+          span = invitation_no_permissions_text
+
+- roles.each do |role|
+  template data-option-preview-target="template" data-key=role.id
+    - invitation_permission_labels(role).each do |permission|
+      span.tm-permission data-option-preview-permission=true data-permission-key=permission
+        b ✓
+        = permission

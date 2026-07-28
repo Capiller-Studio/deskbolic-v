@@ -3,6 +3,6 @@
     .ap-form-container
       .ap-form-header
         = link_to skills_path, class: "ap-back-link"
-          | ← Back to skills
-        h2.f-semi-24 = t("dashboard.skills.edit.title", default: "Edit skill")
+          | #{t("ui.dashboard.skills.edit.back_to_skills")}
+        h2.f-semi-24 = t("dashboard.skills.edit.title")
       = render("dashboard/skills/form", skill: @skill)

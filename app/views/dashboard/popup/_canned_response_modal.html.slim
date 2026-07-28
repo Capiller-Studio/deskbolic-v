@@ -1,10 +1,10 @@
 .model-content-section
   .model-content
     .modal-header
-      h3.f-semi-18 Create a new reply
-      = inline_svg_tag("cross_button.svg", alt:"menu", class:"conversation-icon m-close", data: { action: "click->modal-toggler#hideModal" })
+      h3.f-semi-18 = t("ui.dashboard.popup.canned_response_modal.create_a_new_reply")
+      = inline_svg_tag("cross_button.svg", alt:t("ui.dashboard.agent.agent_sidebar.menu"), class:"conversation-icon m-close", data: { action: "click->modal-toggler#hideModal" })
     .modal-body.canned-response-modal
-      = form_with(model: CannedResponse.new, data: {controller: "formValidation renderer accordion", "formValidation-target" => "form"}, html: {class: "needs-validation", novalidate: true, method: :post}) do |f|
+      = form_with(model: CannedResponse.new, data: {controller: "form-validation renderer accordion", "form-validation-target" => "form"}, html: {class: "needs-validation", novalidate: true, method: :post}) do |f|
         .form-fields
           .form-floating
             = f.text_field :name, autofocus: true, class: "form-control rounded-3 f-reg-14", placeholder: t("dashboard.popup.canned_response.form.title_placeholder"), required: true
@@ -16,5 +16,5 @@
           .form-floating
             = f.text_area :description, class: "form-control f-reg-14", placeholder: t("dashboard.popup.canned_response.form.description_placeholder"), data: { accordion_target: "response" }, required: true
         .form-actions
-          button.button.f-med-14 type="button" data-action="click->modal-toggler#hideModal" = t("dashboard.popup.canned_response.form.cancel", default: "Cancel")
-          = f.submit t("dashboard.popup.canned_response.form.save", default: "Save"), class: "submit-btn f-med-14", data: { action: "click->formValidation#validate click->modal-toggler#hideModal" }
+          button.button.f-med-14 type="button" data-action="click->modal-toggler#hideModal" = t("dashboard.popup.canned_response.form.cancel")
+          = f.submit t("dashboard.popup.canned_response.form.save"), class: "submit-btn f-med-14", data: { action: "click->form-validation#validate click->modal-toggler#hideModal" }

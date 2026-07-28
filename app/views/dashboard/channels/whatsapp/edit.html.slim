@@ -18,9 +18,9 @@
               .ui-card-info
                 h4.f-semi-16 = @whatsapp_channel.name || @whatsapp_channel.full_phone_number
                 p.f-reg-14 
-                  | Phone: #{@whatsapp_channel.full_phone_number} 
+                  | #{t("ui.dashboard.channels.whatsapp.edit.phone", full_phone_number: @whatsapp_channel.full_phone_number)}
                   span.channel-page-connected
-                    | (WABA: #{@whatsapp_channel.business_account_id})
+                    | #{t("ui.dashboard.channels.whatsapp.edit.waba", business_account_id: @whatsapp_channel.business_account_id)}
 
           - if @whatsapp_channel.reauthorization_required?
             .channel-reauth-banner
@@ -70,12 +70,12 @@
               input.ui-input type="text" value="#{@whatsapp_channel.full_phone_number}" disabled=true style="background: var(--gray-50); color: var(--gray-500); cursor: not-allowed;"
 
             .ui-form-group
-              = f.label :api_key, t("dashboard.whatsapp_channels.form.api_key_label", default: "Access Token (API Key)"), class: "ui-label"
-              = f.password_field :api_key, value: @whatsapp_channel.api_key, class: "ui-input", placeholder: t("dashboard.whatsapp_channels.form.api_key_placeholder", default: "Paste your permanent access token"), required: true
+              = f.label :api_key, t("dashboard.whatsapp_channels.form.api_key_label"), class: "ui-label"
+              = f.password_field :api_key, value: @whatsapp_channel.api_key, class: "ui-input", placeholder: t("dashboard.whatsapp_channels.form.api_key_placeholder"), required: true
 
           - if @whatsapp_channel.primary_inbox
             .channel-inbox-settings style="margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--gray-200);"
-              h4.f-semi-14 = t("dashboard.whatsapp_channels.edit.inbox_settings_title")
+              h4.f-semi-14 = t("dashboard.whatsapp_channels.form.inbox_settings_title")
 
               = f.fields_for :primary_inbox, @whatsapp_channel.primary_inbox do |inbox|
                 = inbox.hidden_field :id
@@ -85,19 +85,19 @@
                   = inbox.label :csat_survey_enabled, t("dashboard.whatsapp_channels.form.enable_csat"), class: "ui-checkbox-label"
 
                 .ui-form-group
-                  = inbox.label :reopen_window_seconds, t("dashboard.whatsapp_channels.form.reopen_window_label", default: "Reopen Window"), class: "ui-label"
-                  = inbox.select :reopen_window_seconds, options_for_select([["Never (Always create new)", 0], ["1 Hour", 3600], ["12 Hours", 43200], ["24 Hours", 86400], ["7 Days", 604800], ["14 Days", 1209600]], inbox.object.reopen_window_seconds), {}, class: "ui-select"
+                  = inbox.label :reopen_window_seconds, t("dashboard.whatsapp_channels.form.reopen_window_label"), class: "ui-label"
+                  = inbox.select :reopen_window_seconds, options_for_select([[t("forms.options.never_always_create_new"), 0], [t("forms.options.one_hour"), 3600], [t("forms.options.twelve_hours"), 43200], [t("forms.options.twenty_four_hours"), 86400], [t("forms.options.seven_days"), 604800], [t("forms.options.fourteen_days"), 1209600]], inbox.object.reopen_window_seconds), {}, class: "ui-select"
 
                 .ui-form-group
                   = inbox.label :csat_survey_id, t("dashboard.whatsapp_channels.form.csat_survey_label"), class: "ui-label"
-                  = inbox.collection_select :csat_survey_id, current_account.csat_surveys, :id, :name, { include_blank: "Default System Survey" }, class: "ui-select"
+                  = inbox.collection_select :csat_survey_id, current_account.csat_surveys, :id, :name, { include_blank: t("forms.options.default_system_survey") }, class: "ui-select"
               
                 .ui-form-group
-                  = inbox.label :business_hour_group_id, "Business Hours", class: "ui-label"
-                  = inbox.collection_select :business_hour_group_id, current_account.business_hour_groups, :id, :name, { include_blank: "Always Online (24/7)" }, class: "ui-select"
+                  = inbox.label :business_hour_group_id, t("forms.labels.business_hours"), class: "ui-label"
+                  = inbox.collection_select :business_hour_group_id, current_account.business_hour_groups, :id, :name, { include_blank: t("forms.options.always_online_24_7") }, class: "ui-select"
               
                 .ui-form-group
-                  = inbox.label :sla_policy_ids, "SLA Policies", class: "ui-label"
+                  = inbox.label :sla_policy_ids, t("forms.labels.sla_policies"), class: "ui-label"
                   = inbox.collection_select :sla_policy_ids, current_account.sla_policies, :id, :name, {}, { multiple: true, class: "ui-select" }
         
           .ui-form-actions

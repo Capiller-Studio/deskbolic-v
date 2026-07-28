@@ -4,12 +4,12 @@
       .logo
         = link_to root_path do
           = image_tag "logo.png", alt: "Deskbolic"
-      = link_to t("auth.login.create_account", default: "Create Account"), new_user_registration_path, class: "join-btn"
+      = link_to t("auth.login.create_account"), new_user_registration_path, class: "join-btn"
 
   .login-container
     .login-card
-      h2 style="font-size: 24px; font-weight: 600; margin-bottom: 10px;" = t("auth.login.title", default: "Sign in to your account")
-      p = t("auth.login.subtitle", default: "Welcome back! Please enter your details.")
+      h2 style="font-size: 24px; font-weight: 600; margin-bottom: 10px;" = t("auth.login.title")
+      p = t("auth.login.subtitle")
 
       .form-fields
         = form_with url: user_session_path, method: :post, local: true do |f|
@@ -24,12 +24,12 @@
           div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px; text-align: left;"
             div style="display: flex; align-items: center;"
               = f.check_box "user[remember_me]", style: "margin-right: 8px; width: 16px; height: 16px; cursor: pointer;"
-              = f.label "user[remember_me]", t("auth.login.remember_me", default: "Remember me"), style: "font-size: 14px; color: #565656; cursor: pointer;"
+              = f.label t("ui.dashboard.sessions.new.user_remember_me"), t("auth.login.remember_me"), style: "font-size: 14px; color: #565656; cursor: pointer;"
             
-            = link_to t("auth.login.forgot_password", default: "Forgot password?"), new_user_password_path, style: "font-size: 14px; color: #4F46E5; text-decoration: none;"
+            = link_to t("auth.login.forgot_password"), new_user_password_path, style: "font-size: 14px; color: #4F46E5; text-decoration: none;"
 
           .actions
-            = f.submit t("auth.login.submit", default: "Sign in"), class: "button"
+            = f.submit t("auth.login.submit"), class: "button"
           
           div style="text-align: center; margin-top: 20px;"
-            = link_to t("auth.login.resend_confirmation", default: "Didn't receive confirmation instructions?"), new_user_confirmation_path, style: "font-size: 14px; color: #4F46E5; text-decoration: none;"
+            = link_to t("auth.login.resend_confirmation"), new_user_confirmation_path, style: "font-size: 14px; color: #4F46E5; text-decoration: none;"

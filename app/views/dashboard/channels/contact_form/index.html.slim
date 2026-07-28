@@ -1,33 +1,34 @@
 = render("dashboard/shared/dashboard_container", current_page: "settings") do
   = render("dashboard/settings/settings_sidebar", current_page: "contact-form-channels") do
-    .channel-theme-contact-form
-      .ui-index-header
-        .ui-title-area
-          h1.f-semi-32 = t("dashboard.contact_form_channels.index.title", default: "Contact Forms")
-          p.f-reg-16.text-muted = t("dashboard.contact_form_channels.index.subtitle", default: "Manage embeddable contact forms for your portals and websites.")
-        = link_to t("dashboard.contact_form_channels.index.new_button", default: "New Contact Form"), new_channels_contact_form_path, class: "ui-btn-primary"
+    .body-container
+      .channel-theme-contact-form
+        .ui-index-header
+          .ui-title-area
+            h1.f-semi-32 = t("dashboard.contact_form_channels.index.title")
+            p.f-reg-16.text-muted = t("dashboard.contact_form_channels.index.subtitle")
+          = link_to t("dashboard.contact_form_channels.index.new_button"), new_channels_contact_form_path, class: "ui-btn-primary"
 
-      .ui-list
-        - if @contact_form_channels.any?
-          - @contact_form_channels.each do |channel|
-            div.ui-card
-              .ui-card-top
-                .ui-card-info
-                  h3.f-semi-16 = channel.name
-                  p.f-reg-13.text-muted style="margin-top: 4px;" = "Created " + time_ago_in_words(channel.created_at) + " ago"
-                .ui-card-actions
-                  = link_to edit_channels_contact_form_path(channel), class: "ui-action-btn", title: "Edit"
-                    | ✏️
-                  = link_to channels_contact_form_path(channel), method: :delete, class: "ui-action-btn ui-action-delete", data: { turbo_method: :delete, turbo_confirm: t("dashboard.contact_form_channels.index.confirm_delete", default: "Are you sure?") }, title: "Delete"
-                    | 🗑️
+        .ui-list
+          - if @contact_form_channels.any?
+            - @contact_form_channels.each do |channel|
+              div.ui-card
+                .ui-card-top
+                  .ui-card-info
+                    h3.f-semi-16 = channel.name
+                    p.f-reg-13.text-muted style="margin-top: 4px;" = t("general.created_ago", time: time_ago_in_words(channel.created_at))
+                  .ui-card-actions
+                    = link_to edit_channels_contact_form_path(channel), class: "ui-action-btn", title: t("dashboard.skills.index.edit")
+                      | ✏️
+                    = link_to channels_contact_form_path(channel), method: :delete, class: "ui-action-btn ui-action-delete", data: { turbo_method: :delete, turbo_confirm: t("dashboard.contact_form_channels.index.confirm_delete") }, title: t("general.delete")
+                      | 🗑️
 
-              .ui-card-meta
-                .ui-meta-tag
-                  span.ui-meta-tag-icon 📬
-                  span Inboxes: #{channel.inboxes.size}
-                .channel-status-badge class="status-#{channel.status}" style="padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; background: #dcfce7; color: #166534;" = channel.status.titleize
-        - else
-          .ui-empty-state
-            h3.f-semi-18 = t("dashboard.contact_form_channels.index.empty_title", default: "No contact forms found")
-            p.f-reg-14.text-muted style="margin-top: 8px; margin-bottom: 24px;" = t("dashboard.contact_form_channels.index.empty_subtitle", default: "Create your first contact form to start receiving tickets.")
-            = link_to t("dashboard.contact_form_channels.index.new_button", default: "New Contact Form"), new_channels_contact_form_path, class: "ui-btn-primary"
+                .ui-card-meta
+                  .ui-meta-tag
+                    span.ui-meta-tag-icon 📬
+                    span Inboxes: #{channel.inboxes.size}
+                  .channel-status-badge class="status-#{channel.status}" style="padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; background: #dcfce7; color: #166534;" = channel.status.titleize
+          - else
+            .ui-empty-state
+              h3.f-semi-18 = t("dashboard.contact_form_channels.index.empty_title")
+              p.f-reg-14.text-muted style="margin-top: 8px; margin-bottom: 24px;" = t("dashboard.contact_form_channels.index.empty_subtitle")
+              = link_to t("dashboard.contact_form_channels.index.new_button"), new_channels_contact_form_path, class: "ui-btn-primary"

@@ -6,22 +6,22 @@
             p.f-semi-18 = full_name(customer)
       .actions style="display: flex; gap: 8px; align-items: center; margin-left: auto;"
         - if @conversation.resolved?
-          = button_to t('dashboard.messages.reopen', default: 'Reopen'), conversation_path(@conversation, conversation: { status: 'active' }), method: :patch, class: "ui-btn-secondary f-reg-12", style: "padding: 6px 12px; border-radius: 6px;"
+          = button_to t('dashboard.messages.reopen'), conversation_path(@conversation, conversation: { status: 'active' }), method: :patch, class: "ui-btn-secondary f-reg-12", style: "padding: 6px 12px; border-radius: 6px;"
         - else
-          = button_to t('dashboard.messages.resolve', default: 'Resolve'), conversation_path(@conversation, conversation: { status: 'resolved' }), method: :patch, class: "ui-btn-primary f-reg-12", style: "padding: 6px 12px; border-radius: 6px;"
+          = button_to t('dashboard.messages.resolve'), conversation_path(@conversation, conversation: { status: 'resolved' }), method: :patch, class: "ui-btn-primary f-reg-12", style: "padding: 6px 12px; border-radius: 6px;"
       / .actions data-controller="accordion conversations"
-        = inline_svg_tag("plus.svg", class:"chat-action", alt:"menu")
-        = inline_svg_tag("star.svg", class:"chat-action", alt:"menu")
-        = inline_svg_tag("ticket.svg", class:"chat-action", alt:"menu")
-        = inline_svg_tag("bell.svg", class:"chat-action", alt:"menu", data: { action: "click->conversations#open" })
-        = inline_svg_tag("close_black.svg", class:"chat-action", alt:"menu")
-        = inline_svg_tag("dots.svg", class:"chat-action", alt:"menu",  data: { "action" => "click->accordion#toggleMenu" })
+        = inline_svg_tag("plus.svg", class:"chat-action", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+        = inline_svg_tag("star.svg", class:"chat-action", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+        = inline_svg_tag("ticket.svg", class:"chat-action", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+        = inline_svg_tag("bell.svg", class:"chat-action", alt:t("ui.dashboard.agent.agent_sidebar.menu"), data: { action: "click->conversations#open" })
+        = inline_svg_tag("close_black.svg", class:"chat-action", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+        = inline_svg_tag("dots.svg", class:"chat-action", alt:t("ui.dashboard.agent.agent_sidebar.menu"),  data: { "action" => "click->accordion#toggleMenu" })
         .menu data-accordion-target="menu"
           = link_to("#", class: "menu-link") do
-            = inline_svg_tag("participent.svg", class:"menu-icon", alt:"menu")
+            = inline_svg_tag("participent.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
             p.f-reg-12 = t('dashboard.messages.manage_participant')
           = link_to("#", class: "menu-link") do
-            = inline_svg_tag("export.svg", class:"menu-icon", alt:"menu")
+            = inline_svg_tag("export.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
             p.f-reg-12 = t('dashboard.messages.export_conversation')
         
         = render "dashboard/conversations/snooz_conv_modal"
@@ -41,7 +41,7 @@
           .text-translation
             .response-type 
               button.f-semi-14.reply.active type="button" data-action="click->message-form#setReply" = t('dashboard.messages.reply')
-              button.f-semi-14.note type="button" data-action="click->message-form#setNote" = t('dashboard.messages.note', default: 'Private Message')
+              button.f-semi-14.note type="button" data-action="click->message-form#setNote" = t('dashboard.messages.note')
             .translation.f-semi-14
               = t('dashboard.messages.english')
               = inline_svg_tag("violet_dropdown.svg", class:"action-btn")
@@ -59,8 +59,10 @@
               button type="button" data-action="mousedown->lexical#formatStrike" data-lexical-target="strikeBtn" class="format-btn" title=t('dashboard.messages.editor.strike') S
               button type="button" data-action="mousedown->lexical#formatCode" data-lexical-target="codeBtn" class="format-btn" title=t('dashboard.messages.editor.code')
                 = inline_svg_tag("code_snipet.svg", class:"action-btn", style: "width: 14px; height: 14px;")
-              button type="button" data-action="mousedown->lexical#formatBulletList" data-lexical-target="ulBtn" class="format-btn" title=t('dashboard.messages.editor.ul_list') = t('dashboard.messages.editor.ul_list')
-              button type="button" data-action="mousedown->lexical#formatNumberedList" data-lexical-target="olBtn" class="format-btn" title=t('dashboard.messages.editor.ol_list') = t('dashboard.messages.editor.ol_list')
+              button type="button" data-action="mousedown->lexical#formatBulletList" data-lexical-target="ulBtn" class="format-btn" title=t('dashboard.messages.editor.ul_list')
+                = inline_svg_tag("bullet_list.svg", class:"action-btn", style: "width: 14px; height: 14px;")
+              button type="button" data-action="mousedown->lexical#formatNumberedList" data-lexical-target="olBtn" class="format-btn" title=t('dashboard.messages.editor.ol_list')
+                = inline_svg_tag("num_list.svg", class:"action-btn", style: "width: 14px; height: 14px;")
 
             .lexical-editor-root data-lexical-target="editor" class="form-control f-reg-14 response-area" contenteditable="true" role="textbox" aria-label=t('dashboard.messages.response_placeholder') data-action="keyup->message-form#checkMentions click->message-form#checkMentions"
             = f.text_area :response, class: "d-none", style: "display: none;", data: { message_form_target: "textarea", lexical_target: "hiddenInput" }
@@ -77,14 +79,14 @@
                 .menu.save-replies data-canned-responses-target="menu"
                   .menu-buttons
                     .menu-options
-                      = inline_svg_tag("star_plus.svg", class:"m-btn", alt:"menu",  data: { action: "click->modal-toggler#showModal click->frame-toggler#loadModal", popup_view:"_canned_response_modal" })
+                      = inline_svg_tag("star_plus.svg", class:"m-btn", alt:t("ui.dashboard.agent.agent_sidebar.menu"),  data: { action: "click->modal-toggler#showModal click->frame-toggler#loadModal", popup_view:"_canned_response_modal" })
                       = link_to(canned_responses_settings_path, class: "", data: { turbo: false}) do
-                        = inline_svg_tag("setting_button.svg", class:"m-btn", alt:"menu")
-                    = image_tag("cross_btn.png", class:"m-btn", alt:"menu", data: { action: "click->canned-responses#toggleMenu" })
+                        = inline_svg_tag("setting_button.svg", class:"m-btn", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                    = image_tag("cross_btn.png", class:"m-btn", alt:t("ui.dashboard.agent.agent_sidebar.menu"), data: { action: "click->canned-responses#toggleMenu" })
                   .panels
                     .left-panel data-canned-responses-conversation-id="#{@conversation.id}"
                       .search-container style="padding: 10px; border-bottom: 1px solid #e2e8f0;"
-                        input type="text" placeholder="Search canned responses..." data-action="input->canned-responses#searchCannedResponses keydown.enter->canned-responses#preventSubmit" style="width: 100%; padding: 6px; border: 1px solid #cbd5e1; border-radius: 4px; outline: none;" class="f-reg-12"
+                        input type="text" placeholder=t("dashboard.messages.search_canned_responses") data-action="input->canned-responses#searchCannedResponses keydown.enter->canned-responses#preventSubmit" style="width: 100%; padding: 6px; border: 1px solid #cbd5e1; border-radius: 4px; outline: none;" class="f-reg-12"
                       .results-container data-canned-responses-target="resultsContainer" style="max-height: 300px; overflow-y: auto;"
                         / Results will be injected here via Javascript
                     .right-panel data-canned-responses-target="response" style="display: none;"
@@ -92,13 +94,13 @@
                         p.f-semi-18.response-title
                         p.f-reg-14.response-text
                       .canned-submit.f-semi-12 type="button" data-action="click->canned-responses#switchResponse" = t('dashboard.messages.add')
-              button.response-action type="button" data-action="click->message-form#openFilePicker" title="Attach image or file"
+              button.response-action type="button" data-action="click->message-form#openFilePicker" title=t("dashboard.messages.attach_file")
                 = inline_svg_tag("file_attach.svg", class:"action-btn")
-              button.response-action type="button" data-action="click->message-form#toggleEmojiPicker" title="Add emoji"
+              button.response-action type="button" data-action="click->message-form#toggleEmojiPicker" title=t("dashboard.messages.add_emoji")
                 = inline_svg_tag("emoji.svg", class:"size-btn")
               / .response-action
               /   = inline_svg_tag("gif.svg", class:"size-btn")
-              button.response-action type="button" data-action="click->message-form#toggleVoiceRecording" data-message-form-target="voiceBtn" title="Record voice"
+              button.response-action type="button" data-action="click->message-form#toggleVoiceRecording" data-message-form-target="voiceBtn" title=t("dashboard.messages.record_voice")
                 = inline_svg_tag("mic.svg", class:"action-btn")
               / .chat-gpt
               /   .response-action data-controller="accordion"

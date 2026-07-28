@@ -9,32 +9,32 @@
           h3 = t('dashboard.settings_index.workspace')
           .cards.workspace-cards
             = link_to(dashboard_billing_path, class:"card") do
-              = inline_svg_tag("billing.svg", class:"card-icon", alt:"icon")
+              = inline_svg_tag("billing.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
               .card-desc
                 h4.f-semi-14 = t('dashboard.settings_index.billing')
                 p.f-reg-12 = t('dashboard.settings_index.billing_desc')
             = link_to(domains_path, class:"card") do
-              = inline_svg_tag("domain.svg", class:"card-icon", alt:"icon")
+              = inline_svg_tag("domain.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
               .card-desc
                 h4.f-semi-14 = t('dashboard.settings_index.domains')
                 p.f-reg-12 = t('dashboard.settings_index.domains_desc')
             = link_to(teams_path, class:"card") do
-              = inline_svg_tag("teams.svg", class:"card-icon", alt:"icon")
+              = inline_svg_tag("teams.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
               .card-desc
                 h4.f-semi-14 = t('dashboard.settings_index.teams')
                 p.f-reg-12 = t('dashboard.settings_index.teams_desc')
             = link_to(users_path, class:"card") do
-              = inline_svg_tag("teamates.svg", class:"card-icon", alt:"icon")
+              = inline_svg_tag("teamates.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
               .card-desc
                 h4.f-semi-14 = t('dashboard.settings_index.teammates')
                 p.f-reg-12 = t('dashboard.settings_index.teammates_desc')
             = link_to(roles_path, class:"card") do
-              = inline_svg_tag("roles.svg", class:"card-icon", alt:"icon")
+              = inline_svg_tag("roles.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
               .card-desc
                 h4.f-semi-14 = t('dashboard.settings_index.roles')
                 p.f-reg-12 = t('dashboard.settings_index.roles_desc')
             = link_to(identity_sources_path, class:"card") do
-              = inline_svg_tag("identity.svg", class:"card-icon", alt:"icon")
+              = inline_svg_tag("identity.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
               .card-desc
                 h4.f-semi-14 = t('dashboard.settings_index.identity_sources')
                 p.f-reg-12 = t('dashboard.settings_index.identity_sources_desc')
@@ -43,17 +43,17 @@
           h3 = t('dashboard.settings_index.help_center')
           .cards.help-center-cards
             = link_to(help_center_articles_path, class:"card") do
-              = inline_svg_tag("green_book.svg", class:"card-icon", alt:"icon")
+              = inline_svg_tag("green_book.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
               .card-desc
                 h4.f-semi-14 = t('dashboard.settings_index.help_center_articles')
                 p.f-reg-12 = t('dashboard.settings_index.help_center_articles_desc')
             = link_to(help_center_portals_path, class:"card") do
-              = inline_svg_tag("green_grid.svg", class:"card-icon", alt:"icon")
+              = inline_svg_tag("green_grid.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
               .card-desc
                 h4.f-semi-14 = t('dashboard.settings_index.all_help_centers')
                 p.f-reg-12 = t('dashboard.settings_index.all_help_centers_desc')
             = link_to(new_help_center_portal_path, class:"card") do
-              = inline_svg_tag("green_plus.svg", class:"card-icon", alt:"icon")
+              = inline_svg_tag("green_plus.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
               .card-desc
                 h4.f-semi-14 = t('dashboard.settings_index.new_help_center')
                 / p.f-reg-12 Add new help center.
@@ -63,32 +63,32 @@
           h3 = t('dashboard.settings_index.channels')
           .cards.channels-cards
             = link_to(channels_email_index_path, class:"card") do
-              = inline_svg_tag("ch_email.svg", class:"card-icon", alt:"icon")
+              = inline_svg_tag("ch_email.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
               .card-desc
                 h4.f-semi-14 = t('dashboard.settings_index.email')
                 p.f-reg-12 = t('dashboard.settings_index.email_desc')
             = link_to(channels_web_widget_index_path, class:"card") do
-              = inline_svg_tag("ch_widget.svg", class:"card-icon", alt:"icon")
+              = inline_svg_tag("ch_widget.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
               .card-desc
                 h4.f-semi-14 = t('dashboard.settings_index.web_widget')
                 p.f-reg-12 = t('dashboard.settings_index.web_widget_desc')
             = link_to(channels_contact_form_index_path, class:"card") do
-              = inline_svg_tag("ch_form.svg", class:"card-icon", alt:"icon")
+              = inline_svg_tag("ch_form.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
               .card-desc
                 h4.f-semi-14 = t('dashboard.settings_index.contact_form')
                 p.f-reg-12 = t('dashboard.settings_index.contact_form_desc')
             = link_to(channels_facebook_index_path, class:"card") do
-              = inline_svg_tag("ch_facebook.svg", class:"card-icon", alt:"icon")
+              = inline_svg_tag("ch_facebook.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
               .card-desc
                 h4.f-semi-14 = t('dashboard.settings_index.facebook')
                 p.f-reg-12 = t('dashboard.settings_index.facebook_desc')
             = link_to(channels_instagram_index_path, class:"card") do
-              = inline_svg_tag("ch_instagram.svg", class:"card-icon", alt:"icon")
+              = inline_svg_tag("ch_instagram.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
               .card-desc
                 h4.f-semi-14 = t('dashboard.settings_index.instagram')
                 p.f-reg-12 = t('dashboard.settings_index.instagram_desc')
             = link_to(channels_whatsapp_index_path, class:"card") do
-              = inline_svg_tag("ch_whatsapp.svg", class:"card-icon", alt:"icon")
+              = inline_svg_tag("ch_whatsapp.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
               .card-desc
                 h4.f-semi-14 = t('dashboard.settings_index.whatsapp')
                 p.f-reg-12 = t('dashboard.settings_index.whatsapp_desc')
@@ -97,32 +97,32 @@
           h3 = t('dashboard.settings_index.data')
           .cards.helpdesk-cards
             = link_to(custom_fields_path, class:"card") do
-              = inline_svg_tag("fields.svg", class:"card-icon", alt:"icon")
+              = inline_svg_tag("fields.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
               .card-desc
                 h4.f-semi-14 = t('dashboard.settings_index.custom_fields')
                 p.f-reg-12 = t('dashboard.settings_index.custom_fields_desc')
             = link_to(canned_responses_settings_path, class:"card") do
-              = inline_svg_tag("canned_response.svg", class:"card-icon", alt:"icon")
+              = inline_svg_tag("canned_response.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
               .card-desc
                 h4.f-semi-14 = t('dashboard.settings_index.canned_responses')
                 p.f-reg-12 = t('dashboard.settings_index.canned_responses_desc')
             = link_to(assignment_policies_path, class:"card") do
-              = inline_svg_tag("label.svg", class:"card-icon", alt:"icon")
+              = inline_svg_tag("label.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
               .card-desc
                 h4.f-semi-14 = t('dashboard.settings_index.labels')
                 p.f-reg-12 = t('dashboard.settings_index.labels_desc')
             = link_to(skills_path, class:"card") do
-              = inline_svg_tag("skills.svg", class:"card-icon", alt:"icon")
+              = inline_svg_tag("skills.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
               .card-desc
                 h4.f-semi-14 = t('dashboard.settings_index.skills')
                 p.f-reg-12 = t('dashboard.settings_index.skills_desc')
             = link_to(business_hour_groups_path, class:"card") do
-              = inline_svg_tag("clock.svg", class:"card-icon", alt:"icon")
+              = inline_svg_tag("clock.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
               .card-desc
                 h4.f-semi-14 = t('dashboard.business_hour_groups.index.title')
                 p.f-reg-12 = t('dashboard.business_hour_groups.index.description')
             = link_to(email_templates_path, class:"card") do
-              = inline_svg_tag("templates.svg", class:"card-icon", alt:"icon")
+              = inline_svg_tag("templates.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
               .card-desc
                 h4.f-semi-14 = t('dashboard.settings_index.email_templates')
                 p.f-reg-12 = t('dashboard.settings_index.email_templates_desc')

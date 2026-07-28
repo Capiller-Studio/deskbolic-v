@@ -2,4 +2,4 @@
   .note-edit
     .f-reg-12 = note.content
     = link_to edit_note_path(note), data: { turbo_frame: "response_#{note.id}" }, class: "btn" do
-      = image_tag("edit_note.png", class:"edit-icon", alt:"menu")
+      = image_tag("edit_note.png", class:"edit-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))

@@ -198,3 +198,9 @@ application.register("whatsapp-channel", WhatsappChannelController)
 
 import WhatsappTabsController from "./whatsapp_tabs_controller"
 application.register("whatsapp-tabs", WhatsappTabsController)
+
+import OptionPreviewController from "./option_preview_controller"
+application.register("option-preview", OptionPreviewController)
+
+import FilterableCollectionController from "./filterable_collection_controller"
+application.register("filterable-collection", FilterableCollectionController)

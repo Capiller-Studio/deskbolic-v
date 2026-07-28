@@ -1,33 +1,33 @@
 .ww-translation-card style="background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin-bottom: 16px; position: relative; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);"
   .ww-translation-header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #f1f5f9;"
     div style="display: flex; align-items: center; gap: 8px;"
-      span.f-semi-14 = I18n.t("languages.#{f.object.locale.to_s.downcase}", default: f.object.locale.to_s.upcase)
+      span.f-semi-14 = I18n.t("languages.#{f.object.locale.to_s.downcase}")
       = f.hidden_field :locale
-    button.ui-action-delete type="button" data-action="click->nested-translations#removeTranslation" title="Remove Language"
+    button.ui-action-delete type="button" data-action="click->nested-translations#removeTranslation" title=t("general.remove_language")
       svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
         path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"
     = f.hidden_field :_destroy, class: "destroy-flag"
   
   .ui-form-row.ww-translation-row
     div
-      label.ui-label Welcome Title
+      label.ui-label = t("dashboard.web_widget_channels.form.welcome_title_label")
       = f.text_field :welcome_title, class: "ui-input ww-translation-input", placeholder: t('dashboard.web_widget_channels.translations.eg_welcome_title')
     div
-      label.ui-label Welcome Tagline
+      label.ui-label = t("dashboard.web_widget_channels.form.welcome_tagline_label")
       = f.text_field :welcome_tagline, class: "ui-input ww-translation-input", placeholder: t('dashboard.web_widget_channels.translations.eg_welcome_tagline')
 
   .ui-form-row.ww-translation-row
     div
-      label.ui-label Launcher Text
+      label.ui-label = t("ui.dashboard.channels.web_widget.translation_fields.launcher_text")
       = f.text_field :launcher_text, class: "ui-input ww-translation-input", placeholder: t('dashboard.web_widget_channels.translations.eg_launcher_text')
     div
-      label.ui-label Reply Time Text
+      label.ui-label = t("ui.dashboard.channels.web_widget.translation_fields.reply_time_text")
       = f.text_field :reply_time_text, class: "ui-input ww-translation-input", placeholder: t('dashboard.web_widget_channels.translations.eg_reply_time_text')
       
   .ui-form-row
     div
-      label.ui-label Pre-Chat Title
+      label.ui-label = t("ui.dashboard.channels.web_widget.translation_fields.pre_chat_title")
       = f.text_field :pre_chat_title, class: "ui-input ww-translation-input", placeholder: t('dashboard.web_widget_channels.translations.eg_pre_chat_title')
     div
-      label.ui-label Pre-Chat Subtitle
+      label.ui-label = t("ui.dashboard.channels.web_widget.translation_fields.pre_chat_subtitle")
       = f.text_field :pre_chat_subtitle, class: "ui-input ww-translation-input", placeholder: t('dashboard.web_widget_channels.translations.eg_pre_chat_subtitle')

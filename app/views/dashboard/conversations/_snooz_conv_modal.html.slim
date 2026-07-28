@@ -2,11 +2,11 @@
   .model-content-section 
     .model-content
       .modal-header
-        h3.f-semi-18 Snooze Conversation
-        = inline_svg_tag("cross_button.svg", alt:"menu", class:"conversation-icon m-close", data: { action: "click->conversations#close" })
+        h3.f-semi-18 = t("ui.dashboard.conversations.snooz_conv_modal.snooze_conversation")
+        = inline_svg_tag("cross_button.svg", alt:t("ui.dashboard.agent.agent_sidebar.menu"), class:"conversation-icon m-close", data: { action: "click->conversations#close" })
       .modal-body.snooz-conv-modal
         = form_with url: snooz_conversation_conversation_path(@conversation), method: :patch do |f|
           .card
-            p.f-reg-14 Snooze Until
-            = f.datetime_field :snooze_until, class: "form-control", placeholder: "Pick a date & time", required: true
-            button.f-semi-14.apply-btn type="submit" data-action="click->conversations#close" Apply
+            p.f-reg-14 = t("dashboard.popup.schedule.snooze_until")
+            = f.datetime_field :snooze_until, class: "form-control", placeholder: t("dashboard.conversations.snooze.pick_datetime"), required: true
+            button.f-semi-14.apply-btn type="submit" data-action="click->conversations#close" = t("dashboard.conversations.snooze.apply")

@@ -1,0 +1,16 @@
+- permission_labels = invitation_permission_labels_for(selected_roles)
+
+.tm-permission-list data-option-preview-target="output"
+  - if permission_labels.any?
+    - invitation_visible_permissions(permission_labels).each do |permission|
+      span.tm-permission
+        b ✓
+        = permission
+    - remaining_count = invitation_remaining_permissions_count(permission_labels)
+    - if remaining_count.positive?
+      button.tm-permission.tm-permission-more type="button" data-option-preview-expand=true data-action="option-preview#expand"
+        = invitation_more_permissions_text(remaining_count)
+      button.tm-permission.tm-permission-more type="button" hidden=true data-option-preview-collapse=true data-action="option-preview#collapse"
+        = t("ui.dashboard.account_invitations.new.show_less")
+  - else
+    span.tm-permission.tm-permission-empty = invitation_no_permissions_text

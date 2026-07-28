@@ -11,8 +11,8 @@
                 .eb-card__header
                   h3.eb-card__name = invitation.email
                   .eb-card__badges
-                    span.eb-badge.eb-badge--draft Pending
-                p.eb-card__description = t("dashboard.invitations.index.invited_by", name: invitation.invited_by.name || invitation.invited_by.email, default: "Invited by %{name}")
+                    span.eb-badge.eb-badge--draft = t("dashboard.conversation_details.pending")
+                p.eb-card__description = t("dashboard.invitations.index.invited_by", name: invitation.invited_by.name || invitation.invited_by.email)
                 
                 div style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;"
                   - Access::Role.where(id: invitation.role_ids).each do |role|
@@ -21,12 +21,12 @@
               .eb-card__footer
                 span.eb-card__meta = t("dashboard.invitations.index.sent", time: time_ago_in_words(invitation.created_at))
                 .eb-card__actions
-                  = link_to invitation_path(invitation), data: { turbo_method: :delete, turbo_confirm: t("dashboard.invitations.index.revoke_confirm", default: "Are you sure you want to revoke this invitation?") }, class: "eb-btn eb-btn--danger"
-                    | 🗑️ Revoke
+                  = link_to invitation_path(invitation), data: { turbo_method: :delete, turbo_confirm: t("dashboard.invitations.index.revoke_confirm") }, class: "eb-btn eb-btn--danger"
+                    | #{t("ui.dashboard.account_invitations.index.revoke")}
       - else
         .auto-empty-state style="margin-top: 2rem;"
           .ui-empty-icon ✉️
-          h3.f-semi-18 = t("dashboard.invitations.index.empty_title", default: "No Pending Invitations")
-          p.f-reg-14 = t("dashboard.invitations.index.empty_description", default: "You don't have any pending invitations.")
+          h3.f-semi-18 = t("dashboard.invitations.index.empty_title")
+          p.f-reg-14 = t("dashboard.invitations.index.empty_description")
           = link_to new_invitation_path, class: "ui-btn-primary ui-btn-sm", style: "margin-top: 1rem;"
-            | + #{t("dashboard.invitations.new.title", default: "Invite Teammate")}
+            | + #{t("dashboard.invitations.new.title")}

@@ -20,19 +20,19 @@
       = inline_svg_tag("bell.svg", class: "notif-svg-icon")
   
   .notif-content
-    .notif-title = I18n.t("notifications.push.#{notification.event}.title", default: notification.event.humanize)
+    .notif-title = I18n.t("notifications.push.#{notification.event}.title")
     .notif-body-text
       - identifier = notification.resource.try(:identifier) || "##{notification.resource.try(:display_id) || notification.resource_id.to_s[0..6]}"
       - inbox_name = notification.resource.try(:inbox).try(:name) || ""
-      - team_name = notification.resource.try(:team).try(:name) || "a team"
-      - assignee_name = notification.resource.try(:assignee).try(:name) || "an agent"
+      - team_name = notification.resource.try(:team).try(:name) || t("forms.options.a_team")
+      - assignee_name = notification.resource.try(:assignee).try(:name) || t("forms.options.an_agent")
       - days = notification.resource.respond_to?(:days_until_trial_end) ? notification.resource.days_until_trial_end : 0
       - plan_name = notification.resource.respond_to?(:plan) ? notification.resource.plan&.name&.capitalize : ""
       - resource_name = notification.resource_type
       - percentage = 100
-      = I18n.t("notifications.push.#{notification.event}.body", identifier: identifier, inbox_name: inbox_name, team_name: team_name, assignee_name: assignee_name, days: days, plan_name: plan_name, resource: resource_name, percentage: percentage, default: "Updates in #{identifier}")
-    .notif-time = "#{time_ago_in_words(notification.created_at)} ago"
+      = I18n.t("notifications.push.#{notification.event}.body", identifier: identifier, inbox_name: inbox_name, team_name: team_name, assignee_name: assignee_name, days: days, plan_name: plan_name, resource: resource_name, percentage: percentage)
+    .notif-time = t("general.ago", time: time_ago_in_words(notification.created_at))
     
   - if is_unread
     .notif-actions
-      = button_to t("notifications.mark_read", default: "Mark Read"), mark_read_notification_path(notification), method: :post, class: "notif-action-btn", data: { turbo: true }
+      = button_to t("notifications.mark_read"), mark_read_notification_path(notification), method: :post, class: "notif-action-btn", data: { turbo: true }

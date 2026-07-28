@@ -15,5 +15,5 @@
         .form-actions
           = link_to(canned_response_path(response.id), class: "btn f-semi-14 btn-delete", data: { turbo_method: :delete })
             = inline_svg_tag("delete_red.svg", class: "del-icon")
-            = t("dashboard.canned_responses.form.delete", default: "Delete reply")
-          = f.submit t("dashboard.canned_responses.form.update", default: "Update"), class: "btn f-semi-14 btn-update"
+            = t("dashboard.canned_responses.form.delete")
+          = f.submit t("dashboard.canned_responses.form.update"), class: "btn f-semi-14 btn-update"

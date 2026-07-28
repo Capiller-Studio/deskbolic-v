@@ -4,12 +4,12 @@
       .logo
         = link_to root_path do
           = image_tag "logo.png", alt: "Deskbolic"
-      = link_to t("auth.login.submit", default: "Sign in"), new_user_session_path, class: "join-btn"
+      = link_to t("auth.login.submit"), new_user_session_path, class: "join-btn"
 
   .login-container
     .login-card
-      h2 style="font-size: 24px; font-weight: 600; margin-bottom: 10px;" = t("auth.confirmations.title", default: "Resend confirmation instructions")
-      p = t("auth.confirmations.subtitle", default: "Enter your email address and we will resend the instructions.")
+      h2 style="font-size: 24px; font-weight: 600; margin-bottom: 10px;" = t("auth.confirmations.title")
+      p = t("auth.confirmations.subtitle")
 
       .form-fields
         - if resource.errors.any?
@@ -20,8 +20,8 @@
 
         = form_with url: user_confirmation_path, method: :post, local: true, data: { turbo: false } do |f|
           .form-floating
-            = f.label :email, t("auth.email", default: "Email"), class: "form-label"
-            = f.email_field "user[email]", value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email), autofocus: true, autocomplete: "email", required: true, class: "form-control", placeholder: "you@example.com"
+            = f.label :email, t("auth.email"), class: "form-label"
+            = f.email_field "user[email]", value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email), autofocus: true, autocomplete: "email", required: true, class: "form-control", placeholder: t("ui.dashboard.confirmations.new.you_example_com")
 
           .actions
-            = f.submit t("auth.confirmations.resend", default: "Resend confirmation instructions"), class: "button"
+            = f.submit t("auth.confirmations.resend"), class: "button"

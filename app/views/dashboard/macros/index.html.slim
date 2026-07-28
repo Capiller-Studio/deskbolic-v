@@ -25,22 +25,22 @@
                     h3.f-semi-18 = macro.name
                     p.f-reg-14
                       - if macro.account_wide?
-                        span.ui-badge Account-wide
+                        span.ui-badge = t("ui.dashboard.macros.index.account_wide")
                       - elsif macro.personal?
-                        span.ui-badge Personal
+                        span.ui-badge = t("ui.dashboard.macros.index.personal")
                       - elsif macro.team?
-                        span.ui-badge Team
+                        span.ui-badge = t("dashboard.conversation_details.team")
                     p.f-reg-14 style="margin-top: 4px;"
                       - if macro.description.present?
                         span.ui-card-event = truncate(macro.description, length: 80)
                       span.ui-card-event style="margin-left: 8px; color: var(--gray-500);"
-                        | #{macro.actions&.length || 0} action(s)
+                        | #{t("ui.dashboard.macros.index.action_s", count: macro.actions&.length || 0)}
 
                 .ui-card-actions
-                  = link_to edit_macro_path(macro), class: "ui-action-btn", title: "Edit"
+                  = link_to edit_macro_path(macro), class: "ui-action-btn", title: t("dashboard.skills.index.edit")
                     | ✏️
                   - unless macro.is_system?
-                    = button_to macro_path(macro), method: :delete, class: "ui-action-btn ui-action-delete", title: "Delete", data: { turbo_confirm: "Are you sure?" }
+                    = button_to macro_path(macro), method: :delete, class: "ui-action-btn ui-action-delete", title: t("dashboard.skills.index.delete"), data: { turbo_confirm: t("dashboard.custom_fields.index.delete_confirm") }
                       | 🗑️
       - else
         .ui-empty-state

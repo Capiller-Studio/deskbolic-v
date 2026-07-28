@@ -7,23 +7,23 @@
     = render partial: "dashboard/conversations/labels_info", locals: { conversation: @conversation }
     .card.ticket-info
       button.accordian data-action="click->accordion#toggle"
-        p.f-reg-14 = t('dashboard.conversation_details.ticket_info', default: 'Ticket info')
+        p.f-reg-14 = t('dashboard.conversation_details.ticket_info')
         = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
       .panel data-accordion-target="panel"
         .section-flex 
-          h5.f-reg-14 = t('dashboard.conversation_details.ticket_id', default: 'Ticket ID:')
+          h5.f-reg-14 = t('dashboard.conversation_details.ticket_id')
           .status-tag.bg-gray.f-reg-12 = "##{@conversation.identifier}"
         .section-flex 
-          h5.f-reg-14 = t('dashboard.conversation_details.created', default: 'Created:')
+          h5.f-reg-14 = t('dashboard.conversation_details.created')
           p.f-reg-14 = @conversation.created_at.strftime("%d %b %Y")
         .section-flex style="align-items: center;"
-          h5.f-reg-14 = t('dashboard.conversation_details.status', default: 'Status:')
+          h5.f-reg-14 = t('dashboard.conversation_details.status')
           = form_with model: @conversation, url: conversation_path(@conversation), method: :patch do |f|
-            = f.select :status, Conversation.statuses.keys.map { |s| [s.titleize, s] }, {}, class: "status-tag bg-green f-reg-12", onchange: "this.form.requestSubmit()", style: "border: none; cursor: pointer; appearance: none;"
+            = f.select :status, Conversation.statuses.keys.map { |s| [t("enums.conversation.status.#{s}"), s] }, {}, class: "status-tag bg-green f-reg-12", onchange: "this.form.requestSubmit()", style: "border: none; cursor: pointer; appearance: none;"
         .section-flex style="align-items: center;"
-          h5.f-reg-14 = t('dashboard.conversation_details.priority', default: 'Priority:')
+          h5.f-reg-14 = t('dashboard.conversation_details.priority')
           = form_with model: @conversation, url: conversation_path(@conversation), method: :patch do |f|
-            = f.select :priority, Conversation.priorities.keys.map { |s| [s.titleize, s] }, {}, class: "status-tag bg-red f-reg-12", onchange: "this.form.requestSubmit()", style: "border: none; cursor: pointer; appearance: none;"
+            = f.select :priority, Conversation.priorities.keys.map { |s| [t("enums.conversation.priority.#{s}"), s] }, {}, class: "status-tag bg-red f-reg-12", onchange: "this.form.requestSubmit()", style: "border: none; cursor: pointer; appearance: none;"
     
     .card.sla-info
       button.accordian data-action="click->accordion#toggle"
@@ -59,7 +59,7 @@
               h5.f-reg-14 = identity.identity_source&.name || identity.identity_type.titleize
               p.f-reg-14.ml-auto = identity.identifier
         - else
-          p.f-reg-14 = t('dashboard.conversation_details.no_identities', default: 'No connected identities')
+          p.f-reg-14 = t('dashboard.conversation_details.no_identities')
                 
     .card.user-data
       button.accordian data-action="click->accordion#toggle"
@@ -70,7 +70,7 @@
           .user-info
             .profile-pic
               - if customer.avatar.attached?
-                = image_tag(customer.avatar, class:"img", alt:"menu")
+                = image_tag(customer.avatar, class:"img", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
               - else
                 .img.avatar-fallback.customer-initials-avatar.f-reg-12 class=avatar_fallback_color_class(full_name(customer))
                   = initials(customer)
@@ -79,12 +79,12 @@
           .menu data-accordion-target="menu"
             = link_to("#", class: "all menu-link") do
               p.f-reg-12 = t('dashboard.conversation_details.show_all')
-              = inline_svg_tag("export_arrow.svg", class:"menu-icon", alt:"menu")
+              = inline_svg_tag("export_arrow.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
             = link_to("#", class: "block menu-link") do
-              = inline_svg_tag("block.svg", class:"menu-icon", alt:"menu")
+              = inline_svg_tag("block.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
               p.f-reg-12 = t('dashboard.conversation_details.block')
             = link_to("#", class: "unsub menu-link") do
-              = inline_svg_tag("cross.svg", class:"menu-icon", alt:"menu")
+              = inline_svg_tag("cross.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
               p.f-reg-12 = t('dashboard.conversation_details.unsubscribe')
         .section-flex
           = inline_svg_tag("user_id.svg", class: "left-img")
@@ -101,7 +101,7 @@
         .section-flex 
           / = inline_svg_tag("location.svg", class: "left-img")
           h5.f-reg-12 = t('dashboard.conversation_details.status')
-          .status-tag.bg-green.f-reg-12 = @conversation.status.titleize
+          .status-tag.bg-green.f-reg-12 = t("enums.conversation.status.#{@conversation.status}")
     / .card.tickets
     /   button.accordian data-action="click->accordion#toggle"
     /     p.f-reg-14 Tickets
@@ -137,12 +137,12 @@
           = f.hidden_field :resource_type, value: "Conversation"
           = f.hidden_field :resource_id, value: @conversation.id
           .actions
-            = image_tag("delete_note.png", class:"note-btn cancel-note", data: { action: "click->accordion#toggleNote"}, alt:"cancel")
+            = image_tag("delete_note.png", class:"note-btn cancel-note", data: { action: "click->accordion#toggleNote"}, alt:t("ui.dashboard.conversations.conversation_details.cancel"))
             = image_submit_tag("update_note.png", class:"note-btn add-note", alt: t('dashboard.conversation_details.add'))
             
     .card.recent-chats
       button.accordian data-action="click->accordion#toggle"
-        p.f-reg-14 = t('dashboard.conversation_details.recent_chats', default: 'Recent chats')
+        p.f-reg-14 = t('dashboard.conversation_details.recent_chats')
         = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
       .panel data-accordion-target="panel"
         - recent_conversations = customer.conversations.where.not(id: @conversation.id).order(created_at: :desc).limit(5)
@@ -151,12 +151,12 @@
             .inbox-nav-menu
               - recent_conversations.each do |recent|
                 li.nav-item
-                  = inline_svg_tag("chat1.svg", class:"user-img", alt:"chat")
-                  = link_to(conversation_path(recent.id), class: "nav-link") do
+                  = inline_svg_tag("chat1.svg", class:"user-img", alt:t("ui.dashboard.conversations.conversation_details.chat"))
+                  = link_to(dashboard_conversation_path(recent.id), class: "nav-link") do
                     h4.f-semi-14 = recent.title.presence || "##{recent.identifier}"
-                    p.f-reg-12 = truncate(recent.messages.last&.content || t('dashboard.conversation_details.no_messages', default: 'No messages'), length: 30)
+                    p.f-reg-12 = truncate(recent.messages.last&.content || t('dashboard.conversation_details.no_messages'), length: 30)
                   .actions
-                    .status-tag.f-reg-10 class=(recent.resolved? || recent.closed? ? "bg-red" : "bg-green") = recent.status.titleize
+                    .status-tag.f-reg-10 class=(recent.resolved? || recent.closed? ? "bg-red" : "bg-green") = t("enums.conversation.status.#{recent.status}")
                     p.f-reg-10 = time_ago_in_words(recent.created_at)
         - else
-          p.f-reg-14 = t('dashboard.conversation_details.no_recent_chats', default: 'No recent conversations.')
+          p.f-reg-14 = t('dashboard.conversation_details.no_recent_chats')

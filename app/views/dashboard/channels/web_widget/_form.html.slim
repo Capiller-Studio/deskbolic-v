@@ -26,8 +26,8 @@
 
       .ui-form-row
         div
-          = f.label :default_locale, "Default Locale", class: "ui-label"
-          = f.select :default_locale, Core::SUPPORTED_LOCALES.map { |l| [I18n.t("languages.#{l.to_s.downcase}", default: l.to_s.upcase), l] }, {}, class: "ui-select"
+          = f.label :default_locale, t("forms.labels.default_locale"), class: "ui-label"
+          = f.select :default_locale, Core::SUPPORTED_LOCALES.map { |l| [I18n.t("languages.#{l.to_s.downcase}"), l] }, {}, class: "ui-select"
 
       - if web_widget_channel.primary_inbox
         .ui-section style="margin-top: 24px; padding: 16px; background: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 0;"
@@ -37,34 +37,34 @@
           = f.fields_for :primary_inbox do |inbox_f|
             .ui-toggle-row style="margin-bottom: 16px; display: flex; gap: 24px;"
               div style="display: flex; align-items: center; gap: 8px;"
-                span.ui-toggle-label Enable CSAT Surveys
+                span.ui-toggle-label = t("dashboard.custom_channels.form.enable_csat")
                 label.ui-toggle
                   = inbox_f.check_box :csat_survey_enabled
                   span.ui-toggle-slider
               div style="display: flex; align-items: center; gap: 8px;"
-                span.ui-toggle-label Auto Assign Conversations
+                span.ui-toggle-label = t("ui.dashboard.channels.contact_form.form.auto_assign_conversations")
                 label.ui-toggle
                   = inbox_f.check_box :auto_assign
                   span.ui-toggle-slider
             
             .ui-form-row
               div
-                = inbox_f.label :csat_survey_id, "CSAT Survey", class: "ui-label"
-                = inbox_f.collection_select :csat_survey_id, current_account.csat_surveys, :id, :name, { include_blank: "Default System Survey" }, class: "ui-select"
+                = inbox_f.label :csat_survey_id, t("forms.labels.csat_survey"), class: "ui-label"
+                = inbox_f.collection_select :csat_survey_id, current_account.csat_surveys, :id, :name, { include_blank: t("forms.options.default_system_survey") }, class: "ui-select"
 
               div
-                = inbox_f.label :conversation_reply_template_id, "Custom Reply Template", class: "ui-label"
-                = inbox_f.collection_select :conversation_reply_template_id, current_account.email_templates, :id, :name, { include_blank: "Default Mailer View" }, class: "ui-select"
+                = inbox_f.label :conversation_reply_template_id, t("forms.labels.custom_reply_template"), class: "ui-label"
+                = inbox_f.collection_select :conversation_reply_template_id, current_account.email_templates, :id, :name, { include_blank: t("forms.options.default_mailer_view") }, class: "ui-select"
             
             .ui-form-row
               div
-                = inbox_f.label :business_hour_group_id, "Business Hours", class: "ui-label"
-                = inbox_f.collection_select :business_hour_group_id, current_account.business_hour_groups, :id, :name, { include_blank: "Always Online (24/7)" }, class: "ui-select"
+                = inbox_f.label :business_hour_group_id, t("forms.labels.business_hours"), class: "ui-label"
+                = inbox_f.collection_select :business_hour_group_id, current_account.business_hour_groups, :id, :name, { include_blank: t("forms.options.always_online_24_7") }, class: "ui-select"
               div
 
             .ui-form-row
               div
-                = inbox_f.label :sla_policy_ids, "SLA Policies", class: "ui-label"
+                = inbox_f.label :sla_policy_ids, t("forms.labels.sla_policies"), class: "ui-label"
                 = inbox_f.collection_select :sla_policy_ids, current_account.sla_policies, :id, :name, {}, { multiple: true, class: "ui-select" }
 
   / ─── Appearance & Branding ───
@@ -86,7 +86,7 @@
           = select_tag "web_widget_channel[ui_configurations][position]", options_for_select([[t("dashboard.web_widget_channels.form.position_bottom_right"), "right"], [t("dashboard.web_widget_channels.form.position_bottom_left"), "left"]], web_widget_channel.ui_configurations&.dig("position") || "right"), class: "ui-select"
 
       .ui-toggle-row style="margin-top: 24px; position: relative;"
-        span.ui-toggle-label Custom Branding
+        span.ui-toggle-label = t("ui.dashboard.channels.web_widget.form.custom_branding")
         label.ui-toggle
           - if current_account.feature_enabled?(:custom_branding)
             = hidden_field_tag "web_widget_channel[custom_branding]", "0"
@@ -101,29 +101,29 @@
         .custom-branding-fields data-web-widget-channel-target="customBrandingFields" style="display: #{web_widget_channel.custom_branding ? 'block' : 'none'}; padding-top: 8px;"
           .ui-form-row style="margin-top: 16px; display: flex; gap: 16px;"
             div style="flex: 1;"
-              label.ui-label Widget Header Logo
+              label.ui-label = t("ui.dashboard.channels.web_widget.form.widget_header_logo")
               .dropzone.upload-paper.dropzone-default.dz-clickable data-controller="dropzone" data-dropzone-max-file-size="2" data-dropzone-max-files="1" data-dropzone-accepted-files=".jpeg,.jpg,.png,.svg" style="margin-top: 8px; padding: 16px; border: 2px dashed #cbd5e1; border-radius: 8px; text-align: center;"
                 = f.file_field :logo, direct_upload: true, "data-dropzone-target" => "input"
                 .dropzone-msg.dz-message.needsclick
-                  h3.f-semi-14.text-muted Drop logo here or click to upload.
+                  h3.f-semi-14.text-muted = t("ui.dashboard.channels.web_widget.form.drop_logo_here_or_click_to_upload")
               - if web_widget_channel.logo.attached?
                 .mt-2
                   = image_tag web_widget_channel.scaled_logo, style: "height: 40px; border-radius: 8px;"
             
             div style="flex: 1;"
-              label.ui-label Chat Bubble Icon (Launcher)
+              label.ui-label = t("ui.dashboard.channels.web_widget.form.chat_bubble_icon_launcher")
               .dropzone.upload-paper.dropzone-default.dz-clickable data-controller="dropzone" data-dropzone-max-file-size="2" data-dropzone-max-files="1" data-dropzone-accepted-files=".jpeg,.jpg,.png,.svg" style="margin-top: 8px; padding: 16px; border: 2px dashed #cbd5e1; border-radius: 8px; text-align: center;"
                 = f.file_field :launcher_icon, direct_upload: true, "data-dropzone-target" => "input"
                 .dropzone-msg.dz-message.needsclick
-                  h3.f-semi-14.text-muted Drop icon here or click to upload.
+                  h3.f-semi-14.text-muted = t("ui.dashboard.channels.web_widget.form.drop_icon_here_or_click_to_upload")
               - if web_widget_channel.launcher_icon.attached?
                 .mt-2
                   = image_tag web_widget_channel.scaled_launcher_icon, style: "height: 40px; width: 40px; border-radius: 50%; object-fit: cover;"
           
           .ui-form-row style="margin-top: 16px;"
             div style="width: 100%;"
-              label.ui-label Custom Footer Text
-              = text_field_tag "web_widget_channel[ui_configurations][footer_text]", web_widget_channel.ui_configurations&.dig("footer_text"), class: "ui-input", placeholder: "e.g. Powered by Acme Corp"
+              label.ui-label = t("dashboard.popup.ticket.form.custom_footer_label")
+              = text_field_tag "web_widget_channel[ui_configurations][footer_text]", web_widget_channel.ui_configurations&.dig("footer_text"), class: "ui-input", placeholder: t("dashboard.channels.web_widget.form.footer_text_placeholder")
 
   / ─── Module Integrations ───
   .ui-section data-web-widget-channel-target="integrationsSection"
@@ -136,15 +136,15 @@
       .ui-form-row
         div
           = f.label :portal_id, t("dashboard.web_widget_channels.form.portal_label"), class: "ui-label"
-          = f.collection_select :portal_id, @portals, :id, :name, { include_blank: "No Help Center Linked" }, class: "ui-select"
+          = f.collection_select :portal_id, @portals, :id, :name, { include_blank: t("forms.options.no_help_center_linked") }, class: "ui-select"
         div
-          label.ui-label Pre-Chat Form
-          = f.collection_select :pre_chat_form_id, @contact_forms, :id, :name, { include_blank: "No Pre-Chat Form Linked" }, class: "ui-select"
+          label.ui-label = t("ui.dashboard.channels.web_widget.form.pre_chat_form")
+          = f.collection_select :pre_chat_form_id, @contact_forms, :id, :name, { include_blank: t("forms.options.no_pre_chat_form_linked") }, class: "ui-select"
       .ui-form-row style="margin-top: 16px;"
         div
-          label.ui-label Offline Email Channel
+          label.ui-label = t("ui.dashboard.channels.web_widget.form.offline_email_channel")
           = f.hidden_field :fallback_channel_type, value: "Channel::Email"
-          = f.collection_select :fallback_channel_id, @email_channels, :id, :name, { include_blank: "No Email Channel Linked" }, class: "ui-select"
+          = f.collection_select :fallback_channel_id, @email_channels, :id, :name, { include_blank: t("forms.options.no_email_channel_linked") }, class: "ui-select"
         div
 
   / ─── Widget Behaviors ───
@@ -162,7 +162,7 @@
           span.ui-toggle-slider
 
       .ui-toggle-row
-        span.ui-toggle-label Enforce Secure Identity (HMAC)
+        span.ui-toggle-label = t("ui.dashboard.channels.web_widget.form.enforce_secure_identity_hmac")
         label.ui-toggle
           = check_box_tag "web_widget_channel[secure_identity_enforced]", "1", web_widget_channel.secure_identity_enforced?
           span.ui-toggle-slider
@@ -172,7 +172,7 @@
     .ui-section-header data-action="click->web-widget-channel#toggleSection"
       .ui-section-title
         span.ui-section-icon 🌐
-        span.ui-section-label Translations
+        span.ui-section-label = t("ui.dashboard.channels.contact_form.form.translations")
       span.ui-section-chevron ▼
     .ui-section-body data-controller="nested-translations"
       p.text-muted style="margin-bottom: 16px; font-size: 13px;" Provide localized strings for your web widget. These will automatically override the default locale based on the customer's browser.
@@ -187,13 +187,13 @@
       
       - current_locales = web_widget_channel.translations.reject(&:marked_for_destruction?).map(&:locale).map(&:to_s)
       - available_locales = Core::SUPPORTED_LOCALES.map(&:to_s) - current_locales
-      - available_locales_options = available_locales.map { |l| [I18n.t("languages.#{l.downcase}", default: l.upcase), l] }
+      - available_locales_options = available_locales.map { |l| [I18n.t("languages.#{l.downcase}"), l] }
       
       .ww-add-locale-wrapper style="margin-top: 16px; display: flex; gap: 8px; align-items: center;"
-        = select_tag "new_locale", options_for_select(available_locales_options), include_blank: "Select Language...", class: "ui-select", data: { "nested-translations-target": "localeSelect" }, style: "width: 200px;"
+        = select_tag "new_locale", options_for_select(available_locales_options), include_blank: t("forms.options.select_language"), class: "ui-select", data: { "nested-translations-target": "localeSelect" }, style: "width: 200px;"
         button.ui-btn-secondary type="button" data-action="click->nested-translations#addTranslation" style="display: inline-flex; align-items: center; gap: 6px;" 
           span +
-          | Add Language
+          | #{t("ui.dashboard.channels.contact_form.form.add_language")}
 
   / ─── Installation & Setup ───
   - if web_widget_channel.persisted?

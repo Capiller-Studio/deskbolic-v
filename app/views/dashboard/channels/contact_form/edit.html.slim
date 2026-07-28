@@ -4,8 +4,8 @@
       .ui-page-body style="display: flex; gap: 32px; align-items: flex-start; max-width: 1200px; margin: 0 auto; padding: 24px;"
         .form-section style="flex: 1; max-width: 800px; min-width: 0;"
           .ui-page-header
-            = link_to "← Back to Contact Forms", channels_contact_form_index_path, class: "ui-back-link"
-            h2.f-semi-32 style="margin-top: 16px; color: #0f172a;" = t("dashboard.contact_form_channels.edit.title", default: "Edit Contact Form")
+            = link_to t("ui.dashboard.channels.contact_form.edit.back_to_contact_forms"), channels_contact_form_index_path, class: "ui-back-link"
+            h2.f-semi-32 style="margin-top: 16px; color: #0f172a;" = t("dashboard.contact_form_channels.edit.title")
 
           .ui-form-wrapper
             = render "form", contact_form_channel: @contact_form_channel

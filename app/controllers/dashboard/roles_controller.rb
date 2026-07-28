@@ -6,8 +6,17 @@ module Dashboard
 
     def index
       authorize ::Access::Role
-      @system_roles = current_account.roles.system_roles.order(:name)
-      @custom_roles = current_account.roles.custom_roles.order(:name)
+      roles = current_account.roles.includes(:account_user_roles)
+      @system_roles = roles.system_roles.order(:name)
+      @custom_roles = roles.custom_roles.order(:name)
+      @team_members_count = current_account.account_users.count
+      @permissions_count = (@system_roles.to_a + @custom_roles.to_a).sum do |role|
+        role.permissions.to_h.sum do |_resource, actions|
+          actions.to_h.count do |_action, enabled|
+            enabled.present? && enabled != false && enabled != "false"
+          end
+        end
+      end
     end
 
     def new

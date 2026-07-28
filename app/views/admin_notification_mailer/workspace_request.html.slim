@@ -1,18 +1,18 @@
 p style="text-align: center; padding: 20px 25px; font-size: 20px; color: #512d0b;"
-  strong Workspace joining Request!
+  strong = t("ui.admin_notification_mailer.workspace_request.workspace_joining_request")
 
 p style="text-align: left; font-size: 18px; color: #512d0b; font-family: Arial;"
-  | Workspace ID: &nbsp;
+  | #{t("ui.admin_notification_mailer.workspace_request.workspace_id_nbsp")}
   = @account.id
 
 p style="text-align: left; font-size: 18px; color: #512d0b; font-family: Arial;"
-  | Name: &nbsp;
+  | #{t("ui.admin_notification_mailer.workspace_request.name_nbsp")}
   = @account.name
 
 p style="text-align: left; font-size: 18px; color: #512d0b; font-family: Arial;"
-  | Email: &nbsp;
+  | #{t("ui.admin_notification_mailer.workspace_request.email_nbsp")}
   = @account.email
 
 p style="text-align: left; font-size: 18px; color: #512d0b; font-family: Arial;"
-  | User: &nbsp;
+  | #{t("ui.admin_notification_mailer.workspace_request.user_nbsp")}
   = @user.email

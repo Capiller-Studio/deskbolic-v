@@ -1,0 +1,2909 @@
+---
+ko:
+  languages:
+    en: 영어
+    fr: 프랑스어
+    es: 스페인어
+    de: 독일어
+    pt-br: 포르투갈어(브라질)
+    ko: 한국어
+    ar: 아랍어
+  meta:
+    title: DESKBOLIC
+    description: ''
+    keywords: ''
+  dashboard:
+    billing:
+      save_percent: "~20% 할인"
+      yearly: 매년
+      action_required: 필요한 조치
+      active_subscription: 활성 구독
+      active_subscription_desc: 현재 요금제 세부정보 및 향후 요금
+      add_card: 카드 추가
+      add_payment_method: 결제 수단 추가
+      amount: 금액
+      are_you_sure: 확실합니까?
+      billed_annually_at: 매년 %{amount}로 청구됩니다.
+      billing_cycle_label: 청구 주기
+      cancel: 취소
+      cancel_confirm: 구독을 취소하시겠습니까?
+      cancel_subscription: 구독 취소
+      cancels_on: "%{date}에서 취소"
+      cancels_on_label: 취소 날짜
+      change_plan: 계획 변경
+      change_plan_trial_confirm: 정말로 계획을 변경하시겠습니까? 평가판은 정상적으로 계속되며 평가판이 종료되면 새 요금제에 대한 요금이 청구됩니다.
+      change_seats_trial_confirm: 정말로 좌석을 바꾸시겠어요? 평가판은 정상적으로 계속되며 평가판이 종료되면 새 사용자 수에 대한 비용이 청구됩니다.
+      choose_plan: 계획을 선택하세요
+      choose_plan_subtitle: 업무 공간을 시작하려면 완벽한 계획을 선택하세요.
+      current_balance: 현재 잔액
+      custom_amount: 맞춤 금액
+      date: 날짜
+      day_trial: "%{days} 일일 평가판"
+      default_label: 기본값
+      description: 설명
+      expired: 만료됨
+      expires: "%{month}/%{year} 만료"
+      make_default: 기본값
+      manage_seats: 좌석 관리
+      minimum_seats_required: 최소 %{count} 좌석 필요
+      monthly_label: 월간
+      next_charge_label: 다음 청구
+      no_active_subscription: 활성 구독이 없습니다. 모든 기능을 이용하려면 지금 구독하세요.
+      no_payment_methods: 아직 추가된 결제 수단이 없습니다.
+      no_transactions: 거래가 없습니다.
+      number_of_seats: 에이전트 좌석 수
+      past_due: 연체
+      payment_methods: 결제 방법
+      per_month: "/월"
+      per_month_annual: "/월(매년 청구)"
+      plan_label: 계획
+      plan_limits: '요금제 한도: 최소 %{min}, 최대 %{max}'
+      remove: 제거
+      resume_confirm: 구독을 재개하시겠습니까?
+      resume_subscription: 구독 재개
+      save_card: 카드 저장
+      seats_label: 좌석
+      secure_payment_notice: 결제는 Stripe에 의해 안전하게 처리됩니다. 귀하의 카드 정보는 암호화되어 있으며 절대 당사 서버에 접근하지 않습니다.
+      select_plan: 플랜 선택
+      status: 상태
+      subscribe_now: 지금 구독하세요
+      top_up: 충전
+      topup_balance: 충전 잔액
+      topup_wallet: 충전 지갑
+      transaction_history: 거래 내역
+      trial_ends_in: 평가판은 %{days}일 후에 종료됩니다.
+      unlimited: 무제한
+      update_payment_method: 결제 수단 업데이트
+      update_plan: 업데이트 계획
+      update_seats: 좌석 업데이트
+      update_seats_confirm: 좌석을 업데이트하시겠습니까? 이 조치를 취하면 즉시 일할 계산된 요금이 부과되거나 지갑 크레딧이 지급됩니다.
+      update_subscription_confirm: 구독을 업데이트하시겠습니까? 이 조치를 취하면 즉시 일할 계산된 요금이 부과되거나 지갑 크레딧이 지급됩니다.
+      wallet: 지갑
+      wallet_deduction: '지갑 공제:'
+    labels:
+      flash:
+        created: 라벨이 성공적으로 생성되었습니다.
+        updated: 라벨이 업데이트되었습니다.
+        deleted: 라벨이 삭제되었습니다.
+        error: '라벨 저장 실패: %{errors}'
+      edit:
+        title: 라벨 편집
+      form:
+        back: 라벨로 돌아가기
+        basic_section: 라벨 세부정보
+        cancel: 취소
+        color: 색상
+        description: 설명
+        description_placeholder: 이 라벨의 용도를 설명하세요...
+        error_heading: 다음 오류를 수정하세요.
+        submit: 라벨 생성
+        title: 제목
+        title_placeholder: 예를 들어 VIP 고객
+        update: 라벨 업데이트
+      index:
+        add_new_label: 새 라벨 추가
+        confirm_delete: 라벨을 삭제하시겠습니까?
+        description: 라벨을 관리하여 대화와 고객을 분류하세요.
+        empty_description: 대화를 더 잘 정리하고 필터링하려면 라벨을 만드세요.
+        empty_title: 라벨을 찾을 수 없습니다.
+        labels_for: "%{account}용 라벨"
+      new:
+        title: 새 라벨 추가
+    sidebar:
+      channels:
+        title: 헬프 데스크
+        inboxes: 받은편지함
+        email: 이메일
+        facebook: Facebook
+        instagram: Instagram
+        whatsapp: WhatsApp
+        widget: 위젯
+        contact_form: 문의 양식
+        all: 모두
+        teams: 팀
+        teammates: 팀원
+      settings:
+        title: 설정
+        home: 홈
+        teams: 팀
+        users: 사용자(팀원)
+        roles: 역할
+        billing: 청구 및 구독
+        notifications: 알림
+        audit_logs: 감사 로그
+        help_center: 도움말 센터
+        help_center_articles: 도움말 센터
+        all_help_centers: 모든 도움말 센터
+        new_help_center: 새로운 도움말 센터
+        channels: 채널
+        email_channels: 이메일 채널
+        web_widget_channels: 웹 위젯 채널
+        contact_form_channels: 문의 양식 채널
+        data: 데이터
+        custom_fields: 사용자 정의 필드
+        canned_responses: 미리 준비된 답변
+        automations: 자동화
+        macros: 매크로
+        sla_policies: SLA 정책
+        csat_surveys: CSAT 설문조사
+        integrations: 통합
+        labels: 라벨
+      reports: 보고 및 분석
+    settings_index:
+      title: 홈
+      workspace: 작업공간
+      billing: 청구
+      billing_desc: 구독 및 결제 세부정보를 관리하세요.
+      domains: 도메인
+      domains_desc: 도메인을 관리하세요.
+      teams: 팀
+      teams_desc: 팀원 그룹이 함께 작업할 수 있도록 팀을 만듭니다.
+      teammates: 팀원
+      teammates_desc: 팀원을 관리하거나 초대하고 모든 활동 로그를 확인하세요.
+      roles: 역할
+      roles_desc: 팀원의 액세스 및 권한을 관리하는 역할을 만듭니다.
+      identity_sources: 신원 소스
+      identity_sources_desc: 고객을 확인하기 위해 신원 소스를 관리하세요.
+      help_center: 도움말 센터
+      help_center_articles: 도움말 센터
+      help_center_articles_desc: 이 도움말 센터의 콘텐츠를 추가하거나 구성하세요.
+      all_help_centers: 모든 도움말 센터
+      all_help_centers_desc: 이 작업공간을 위해 생성된 모든 헬프 센터를 관리합니다.
+      new_help_center: 새로운 도움말 센터
+      channels: 채널
+      email: 이메일
+      email_desc: 이메일 채널을 관리하세요.
+      web_widget: 웹 위젯
+      web_widget_desc: 전달, 도메인 및 사용자 정의를 관리합니다.
+      contact_form: 문의 양식
+      contact_form_desc: 연락처 양식을 관리하세요.
+      facebook: Facebook
+      facebook_desc: Facebook 페이지를 관리하세요.
+      instagram: Instagram
+      instagram_desc: Instagram 페이지를 관리하세요.
+      whatsapp: WhatsApp
+      whatsapp_desc: WhatsApp 페이지를 관리하세요.
+      data: 데이터
+      custom_fields: 사용자 정의 필드
+      custom_fields_desc: 사용자 정의 필드를 편집, 생성, 내보내기 또는 삭제합니다.
+      canned_responses: 미리 준비된 답변
+      canned_responses_desc: 미리 준비된 답변을 편집, 생성, 내보내기 또는 삭제하세요.
+      labels: 할당 정책
+      labels_desc: 할당 정책을 편집, 생성, 내보내기 또는 삭제합니다.
+      skills: 기술
+      skills_desc: 기술을 편집, 생성, 내보내기 또는 삭제합니다.
+      email_templates: 이메일 템플릿
+      email_templates_desc: 이메일 템플릿을 편집, 생성, 내보내기 또는 삭제하세요.
+    conversations:
+      title: 모든 대화
+      search: 검색
+      filter_all: 모두
+      filter_assigned: 할당됨
+      filter_unassigned: 할당되지 않음
+      snooze:
+        apply: 적용
+        pick_datetime: 날짜 및 시간 선택
+    messages:
+      manage_participant: 참가자 관리
+      export_conversation: 대화 내보내기
+      translate: 번역하다
+      translation_header: '영어 번역:'
+      close: 닫기
+      reply: 답장하다
+      response_placeholder: 문제에 대한 답변을 작성하세요
+      english: 영어
+      schedule: 일정
+      send_and_close: 보내기 및 닫기
+      send: 보내기
+      add: 추가
+      recording_voice: 음성 녹음 중...
+      new_messages: 새 메시지
+      editor:
+        bold: 굵게
+        italic: 이탤릭체
+        strike: 취소선
+        code: 코드
+        ul_list: 글머리 기호 목록
+        ol_list: 번호 매기기 목록
+      status:
+        failed: 보내지 못했습니다.
+        read: 읽기
+        delivered: 배달됨
+        sent: 보냄
+      add_emoji: 이모티콘 추가
+      attach_file: 이미지 또는 파일 첨부
+      note: 비공개 메시지
+      private_note: 비공개 메시지
+      record_voice: 음성 녹음
+      reopen: 재개설
+      resolve: 해결
+      search_canned_responses: 미리 준비된 답변 검색...
+    conversation_details:
+      title: 세부정보
+      agent: 대리인
+      unassigned: 할당되지 않음
+      assignee: 양수인
+      assign_to_me: 나에게 할당
+      team: 팀
+      assign: 할당
+      unassign: 할당 취소
+      sla_status: SLA 상태
+      next_target: '다음 목표:'
+      not_applicable: 해당 없음
+      csat_rating: CSAT 평가
+      rating: '평가:'
+      pending: 보류 중
+      verified_identities: 확인된 신원
+      customer_data: 고객 데이터
+      show_all: 모두 표시
+      block: 블록
+      unsubscribe: 구독 취소
+      customer_id: 고객 ID
+      email: 이메일
+      user_notes: 사용자 메모
+      add_new_note: 새 메모 추가
+      add: 추가
+      ticket_info: 티켓정보
+      ticket_id: '티켓 ID:'
+      created: '생성됨:'
+      status: '상태:'
+      priority: '우선순위:'
+      no_identities: 연결된 ID 없음
+      recent_chats: 최근 채팅
+      no_messages: 메시지 없음
+      no_recent_chats: 최근 대화 없음
+    automations:
+      index:
+        title: 자동화
+        description: 이벤트 기반 및 시간 기반 규칙을 사용하여 반복적인 작업을 자동화합니다.
+        new_automation: 새로운 자동화
+        empty_title: 아직 자동화가 없습니다.
+        empty_description: 첫 번째 자동화를 만들어 자동으로 대화 처리를 시작하세요.
+        tab_all: 모두
+        tab_event_triggers: 이벤트 트리거
+        tab_time_triggers: 시간 트리거
+        edit: 편집
+        duplicate: 중복
+        delete: 삭제
+        delete_confirm: 이 자동화를 삭제하시겠습니까?
+      new:
+        title: 새로운 자동화
+      edit:
+        title: 자동화 편집
+      form:
+        name_placeholder: 예를 들어 VIP 대화 자동 할당
+        description_label: 설명(선택사항)
+        description_placeholder: 이 자동화는 무엇을 합니까?
+      builder:
+        trigger_section: 이런 일이 발생하면 ...
+        conditions_section: 이 조건이 충족된다면...
+        actions_section: 그럼 이렇게 하세요...
+        options_section: 옵션
+        type_label: 자동화 유형
+        event_label: 이벤트
+        match_label: 경기
+        match_all: 전체
+        match_any: 모두
+        add_condition: 조건 추가
+        add_condition_group: 조건 그룹 추가
+        add_action: 액션 추가
+        stop_processing: 후속 규칙 처리 중지
+        stop_processing_hint: 이 규칙이 실행되면 이 이벤트에 대해 우선순위가 낮은 규칙이 실행되지 않습니다.
+        save: 자동화 저장
+        cancel: 취소
+        remove: 제거
+      create:
+        created: 자동화가 성공적으로 생성되었습니다.
+      update:
+        updated: 자동화가 성공적으로 업데이트되었습니다.
+      destroy:
+        destroyed: 자동화가 삭제되었습니다.
+      toggle:
+        activated: 자동화가 활성화되었습니다.
+        deactivated: 자동화가 비활성화되었습니다.
+      duplicate:
+        duplicated: 자동화가 중복되었습니다. 아래 사본을 편집하세요.
+        duplicate_failed: 자동화를 복제하지 못했습니다.
+      types:
+        event_trigger: 이벤트 트리거
+        time_trigger: 시간 트리거
+        macro: 매크로
+      events:
+        conversation_created: 대화가 생성되었습니다.
+        conversation_updated: 대화가 업데이트되었습니다.
+        conversation_status_changed: 대화 상태가 변경되었습니다.
+        conversation_assigned: 대화가 할당됨
+        conversation_resolved: 대화가 해결되었습니다.
+        message_created: 메시지가 생성되었습니다.
+        message_incoming: 수신 메시지
+        message_outgoing: 보내는 메시지
+        customer_created: 고객이 생성됨
+        customer_updated: 고객이 업데이트됨
+        sla_breached: SLA 위반
+        hours_since_created: 생성 이후 시간
+        hours_since_updated: 업데이트 이후 시간
+        hours_since_resolved: 해결 이후 시간
+        hours_since_last_activity: 마지막 활동 이후 시간
+      attributes:
+        status: 대화 상태
+        priority: 우선순위
+        source: 소스
+        locale: 로케일
+        title: 대화 제목
+        identifier: 대화 식별자
+        inbox_id: 받은편지함
+        inbox_name: 받은 편지함 이름
+        inbox_channel_type: 채널 유형
+        assignee_id: 할당된 에이전트
+        assignee_name: 대리인 이름
+        assignee_email: 상담원 이메일
+        team_id: 팀
+        team_name: 팀 이름
+        customer_email: 고객 이메일
+        customer_name: 고객 이름
+        customer_locale: 고객 로케일
+        customer_customer_type: 고객 유형
+        message_content: 메시지 내용
+        message_content_type: 메시지 콘텐츠 유형
+        message_sender_type: 메시지 발신자 유형
+        labels: 라벨
+        hours_since_created: 생성 이후 시간
+        hours_since_updated: 업데이트 이후 시간
+        hours_since_resolved: 해결 이후 시간
+        hours_since_last_activity: 마지막 활동 이후 시간
+      operators:
+        equals: 같음
+        not_equals: 같지 않다
+        contains: 포함
+        not_contains: 포함하지 않습니다
+        starts_with: 다음으로 시작
+        ends_with: 다음으로 끝남
+        is_present: 존재한다
+        is_not_present: 존재하지 않습니다
+        greater_than: 보다 크다
+        less_than: 보다 작다
+        days_before: N일 이상 전이었습니다.
+      actions:
+        assign_agent: 에이전트에 할당
+        assign_team: 팀에 할당
+        unassign: 할당 취소
+        set_status: 상태 설정
+        set_priority: 우선순위 설정
+        add_label: 라벨 추가
+        remove_label: 라벨 제거
+        set_custom_field: 사용자 정의 필드 설정
+        send_message: 메시지 보내기
+        send_email_to_customer: 고객에게 이메일 보내기
+        send_email_to_team: 팀에 이메일 보내기
+        add_note: 내부 메모 추가
+        snooze: 스누즈
+        resolve: 해결
+        mute_conversation: 대화 음소거
+        trigger_webhook: 웹훅 트리거
+        set_locale: 로케일 설정
+    assignment_policies:
+      sidebar:
+        label: 할당 정책
+      index:
+        title: 할당 정책
+        description: 대화가 자동으로 라우팅되고 상담원에게 할당되는 방식을 구성합니다.
+        new_policy: 새로운 정책
+        tab_all: 모두
+        tab_round_robin: 라운드 로빈
+        tab_load_balanced: 로드 밸런싱
+        tab_skills_based: 기술 기반
+        tab_manual: 매뉴얼
+        empty_title: 아직 할당 정책이 없습니다.
+        empty_description: 대화 라우팅을 자동으로 시작하는 첫 번째 정책을 만듭니다.
+      new:
+        title: 새로운 할당 정책
+      edit:
+        title: 할당 정책 편집
+      show:
+        title: 할당 정책 세부정보
+      create:
+        created: 할당 정책이 성공적으로 생성되었습니다.
+      update:
+        updated: 할당 정책이 업데이트되었습니다.
+      destroy:
+        destroyed: 할당 정책이 삭제되었습니다.
+      toggle:
+        activated: 정책이 활성화되었습니다.
+        deactivated: 정책이 비활성화되었습니다.
+      strategies:
+        round_robin: 라운드 로빈
+        round_robin_desc: 교대로 대화를 에이전트 전체에 균등하게 분배합니다.
+        round_robin_icon: "\U0001F504"
+        load_balanced: 로드 밸런싱
+        load_balanced_desc: 진행 중인 대화가 가장 적은 상담원에게 할당하세요.
+        load_balanced_icon: "⚖️"
+        skills_based: 기술 기반
+        skills_based_desc: 기술 매칭을 바탕으로 가장 자격을 갖춘 상담원에게 연결하세요.
+        skills_based_icon: "\U0001F3AF"
+        manual: 매뉴얼
+        manual_desc: 상담원은 대기열에서 직접 대화를 선택합니다.
+        manual_icon: "✋"
+      form:
+        details_section: 정책 세부정보
+        strategy_section: 할당 전략
+        capacity_section: 에이전트 용량
+        conditions_section: 조건
+        inboxes_section: 받은 편지함에 적용
+        business_hours_section: 영업시간
+        options_section: 옵션
+        name_label: 이름
+        name_placeholder: '예: VIP 고객 라우팅'
+        description_label: 설명
+        description_placeholder: 이 정책의 역할을 설명하세요...
+        strategy_label: 전략
+        max_conversations_label: 상담원당 최대 대화 수
+        max_conversations_placeholder: '예: 10'
+        max_conversations_hint: 무제한으로 사용하려면 비워두세요.
+        respect_business_hours: 업무 시간에만 할당
+        business_hour_group_label: 영업시간표
+        business_hour_group_prompt: 일정을 선택하세요...
+        reassign_on_offline: 상담원이 오프라인 상태가 되면 재할당
+        idle_timeout_label: 유휴 시간 초과(분)
+        idle_timeout_placeholder: '예: 30'
+        idle_timeout_hint: 에이전트가 이 시간 동안 유휴 상태가 되면 다시 할당하세요.
+        prioritize_label: 대화 우선순위에 따라 우선순위 지정
+        prioritize_hint: 긴급한 대화가 먼저 할당됩니다.
+        select_inboxes: 이 정책이 적용되는 받은편지함을 선택하세요.
+        all_inboxes_hint: 받은편지함을 선택하지 않으면 모든 받은편지함에 정책이 적용되지 않습니다.
+        save: 정책 저장
+        cancel: 취소
+      flags:
+        consider_agent_skills: 할당 시 상담원 기술을 고려하세요.
+        allow_idle_reassignment: 유휴 재할당 허용
+        notify_on_assignment: 할당 시 상담원에게 알림
+        notify_team_leads: 할당 시 팀 리더에게 알리기
+      status:
+        active: 활성
+        inactive: 비활성
+      inboxes:
+        one: "%{count} 받은편지함"
+        other: "%{count} 받은편지함"
+      max_per_agent:
+        one: 에이전트당 최대 %{count} 대화
+        other: 에이전트당 최대 %{count} 대화
+    identity_sources:
+      sidebar:
+        label: 신원 소스
+      index:
+        title: 신원 소스
+        description: 고객 신원을 자동으로 가져오고 확인하도록 외부 웹후크와 API를 구성합니다.
+        create_button: ID 소스 생성
+        delete_confirm: 이 ID 소스를 삭제하시겠습니까? 이 작업은 취소할 수 없습니다.
+        url_label: 엔드포인트 URL
+        headers_label: 구성된 헤더
+        params_label: 구성된 매개변수
+        created: 생성됨
+        ago: 전
+      new:
+        title: 새 ID 소스
+      edit:
+        title: ID 소스 편집
+      form:
+        back: "← ID 소스로 돌아가기"
+        error_heading: 다음 %{count} 오류를 수정하세요.
+        name: 이름
+        name_placeholder: '예: 내부 CRM 검증 도구'
+        description: 설명
+        description_placeholder: 이 ID 소스는 무엇을 합니까?
+        source_type: 소스 유형
+        source_url: 소스 URL
+        liquid_help: URL, 헤더 및 매개변수에 {{ customer.email }}와 같은 동적 변수를 사용할 수 있습니다.
+        headers: 요청 헤더
+        add_header: "+ 헤더 추가"
+        params: 요청 매개변수
+        add_param: "+ 매개변수 추가"
+        save: ID 소스 저장
+        test_run: 연결 테스트
+        key_placeholder: 열쇠
+        value_placeholder: 가치
+        json_path_placeholder: 'JSON 경로(예: data.user.id)'
+        attribute_placeholder: 'Deskbolic 속성(예: external_id)'
+        add_mapping: "+ 매핑 추가"
+        details_section: 세부정보
+        insert_variable: '변수 삽입:'
+        response_mapping: 응답 매핑
+        response_mapping_desc: 'JSON 응답 경로(예: data.user.id)를 Deskbolic 고객 속성에 매핑합니다.'
+        source_section: 소스 세부정보
+      created: ID 소스가 성공적으로 생성되었습니다.
+      updated: ID 소스가 성공적으로 업데이트되었습니다.
+      deleted: ID 소스가 삭제되었습니다.
+    web_widget_channels:
+      translations:
+        eg_welcome_title: 예를 들어 환영!
+        eg_welcome_tagline: 예를 들어 어떻게 도와드릴까요?
+        eg_launcher_text: 예를 들어 우리와 채팅
+        eg_reply_time_text: 예를 들어 일반적으로 몇 분 안에 응답합니다.
+        eg_pre_chat_title: 예를 들어 자신에 대해 알려주세요
+        eg_pre_chat_subtitle: 예를 들어 곧 연락드리겠습니다.
+      index:
+        title: 웹 위젯
+        description: 웹사이트 채팅 위젯, 모양, 라우팅 규칙을 구성하세요.
+        new_channel: 새로운 웹 위젯
+        empty_title: 아직 웹 위젯이 없습니다.
+        empty_description: 첫 번째 웹 위젯을 만들어 웹사이트 방문자와 채팅을 시작해 보세요.
+        inboxes_count:
+          one: "%{count} 받은 편지함"
+          other: "%{count} 받은 편지함"
+        delete_confirm: 확실합니까? 이렇게 하면 이 웹 위젯과 관련된 모든 받은편지함이 영구적으로 삭제됩니다.
+        created_ago: "%{time} 전에 생성됨"
+      new:
+        title: 새로운 웹 위젯
+      edit:
+        title: 웹 위젯 편집
+      form:
+        back: "← 웹 위젯으로 돌아가기"
+        error_heading: 다음 오류를 수정하세요.
+        basic_section: 기본 세부정보
+        appearance_section: 외관 및 브랜딩
+        integrations_section: 모듈 통합
+        behaviors_section: 위젯 동작
+        name_label: 내부 이름
+        name_placeholder: '예: 마케팅 사이트 위젯'
+        website_url_label: 웹사이트 URL
+        website_url_placeholder: '예: https://yourcompany.com'
+        theme_color_label: 테마 색상
+        welcome_title_label: 환영 제목
+        welcome_title_placeholder: "예: 안녕하세요 \U0001F44B"
+        welcome_tagline_label: 환영 태그라인
+        welcome_tagline_placeholder: '예: 일반적으로 몇 분 안에 답변을 드립니다.'
+        position_label: 위젯 위치
+        position_bottom_right: 오른쪽 하단
+        position_bottom_left: 왼쪽 하단
+        hide_branding_label: Deskbolic 브랜딩 숨기기
+        portal_label: 도움말 센터 통합
+        contact_form_label: 문의 양식 통합
+        anonymous_allowed_label: 익명 메시지 허용
+        pre_chat_form_enabled_label: 사전 채팅 양식 필요
+        save: 위젯 저장
+        update: 위젯 업데이트
+        cancel: 취소
+        hmac_secret_key: HMAC 비밀 키
+        installation_section: 설치 및 설정
+        secure_identity_instruction: "<strong>Enforce Secure Identity</strong>를 활성화했으므로 백엔드에서 서명을 생성하여 프런트엔드에 전달해야 합니다."
+      created: Web Widget이 성공적으로 생성되었습니다.
+      updated: Web Widget이 성공적으로 업데이트되었습니다.
+      deleted: Web Widget이 삭제되었습니다.
+    email_channels:
+      sidebar:
+        label: 이메일 채널
+      index:
+        title: 이메일 채널
+        description: 사용자 정의 SMTP, IMAP 및 전달 설정으로 이메일 채널을 구성하십시오.
+        new_channel: 새 이메일 채널
+        empty_title: 아직 이메일 채널이 없습니다.
+        empty_description: 헬프데스크를 통해 이메일을 주고받으려면 첫 번째 이메일 채널을 만드세요.
+        smtp_configured: SMTP 활성
+        smtp_not_configured: 시스템 SMTP
+        imap_configured: IMAP 활성
+        imap_not_configured: IMAP 꺼짐
+        forwarding_verified: 확인됨
+        forwarding_pending: 보류 중
+        inboxes_count:
+          one: "%{count} 받은 편지함"
+          other: "%{count} 받은 편지함"
+        delete_confirm: 확실합니까? 이렇게 하면 이 이메일 채널과 관련된 모든 받은편지함이 영구적으로 삭제됩니다.
+        created_ago: "%{time} 전에 생성됨"
+      new:
+        title: 새 이메일 채널
+      edit:
+        title: 이메일 채널 편집
+      form:
+        back: "← 이메일 채널로 돌아가기"
+        error_heading: 다음 오류를 수정하세요.
+        basic_section: 기본 세부정보
+        smtp_section: SMTP 구성
+        smtp_section_desc: 선택 사항 - 자체 서버에서 이메일을 보내려면 사용자 지정 SMTP 자격 증명을 제공하세요.
+        imap_section: IMAP 구성
+        imap_section_desc: 선택 사항 - 수신 이메일을 사서함에서 직접 가져옵니다.
+        name_label: 채널 이름
+        name_placeholder: '예: 고객 지원'
+        email_label: 이메일 주소
+        email_placeholder: '예: support@yourcompany.com'
+        email_hint: 고객에게 이메일을 보낼 때 고객에게 표시되는 이메일 주소입니다.
+        smtp_address: SMTP 서버
+        smtp_address_placeholder: '예: smtp.gmail.com'
+        smtp_port: 항구
+        smtp_port_placeholder: '587'
+        smtp_username: 사용자 이름
+        smtp_username_placeholder: your-email@gmail.com
+        smtp_password: 비밀번호
+        smtp_password_placeholder: "••••••••"
+        smtp_domain: 도메인
+        smtp_domain_placeholder: '예: yourcompany.com'
+        smtp_authentication: 인증
+        smtp_starttls: STARTTLS 활성화
+        imap_address: IMAP 서버
+        imap_address_placeholder: '예: imap.gmail.com'
+        imap_port: 항구
+        imap_port_placeholder: '993'
+        imap_username: 사용자 이름
+        imap_username_placeholder: your-email@gmail.com
+        imap_password: 비밀번호
+        imap_password_placeholder: "••••••••"
+        imap_ssl: SSL 활성화
+        test_smtp: 테스트 SMTP
+        test_imap: IMAP 테스트
+        testing: 테스트 중...
+        test_success: 연결 성공!
+        test_failure: 연결 실패
+        save: 채널 저장
+        update: 채널 업데이트
+        cancel: 취소
+        enable_imap: IMAP 동기화 활성화
+        enable_smtp: SMTP 전송 활성화
+      forwarding:
+        title: 이메일 전달
+        description: 헬프데스크에서 이메일 수신을 시작하려면 이메일 제공업체의 이메일을 이 주소로 전달하세요.
+        your_forwarding_address: 귀하의 전달 주소
+        copy: 복사
+        copied: 복사되었습니다!
+        verify: 전달 확인
+        verifying: 확인 보내는 중...
+        verified: 전달 확인됨 ✓
+        not_verified: 아직 확인되지 않음
+        instructions_title: 전달 설정 방법
+        gmail_title: 지메일
+        gmail_step_1: Gmail 열기 → 설정 → 모든 설정 보기
+        gmail_step_2: "'전달 및 POP/IMAP' 탭으로 이동하세요."
+        gmail_step_3: '"전달 주소 추가"를 클릭하고 위의 주소를 붙여넣으세요.'
+        gmail_step_4: Gmail에서 확인 메시지를 보내드립니다. 승인한 후 '사본 전달'을 선택하세요.
+        outlook_title: 전망
+        outlook_step_1: Outlook 열기 → 설정 → 메일 → 전달
+        outlook_step_2: 전달을 활성화하고 위의 주소를 붙여넣으세요.
+        outlook_step_3: 선택적으로 전달된 메시지의 사본을 보관하세요.
+        outlook_step_4: 저장을 클릭하세요
+        yahoo_title: 야후
+        yahoo_step_1: 야후 메일 열기 → 설정 → 추가 설정
+        yahoo_step_2: '"사서함"으로 이동 → 받은 편지함을 선택하세요.'
+        yahoo_step_3: "'전달'에 위의 주소를 붙여넣으세요."
+        yahoo_step_4: 저장을 클릭하세요
+        other_title: 기타
+        other_step_1: 이메일 제공업체의 설정을 엽니다.
+        other_step_2: '"전달" 또는 "자동 전달" 옵션 찾기'
+        other_step_3: 위에 표시된 전달 주소를 추가하세요.
+        other_step_4: 공급자가 요구하는 경우 저장하고 확인하세요.
+      created: 이메일 채널이 성공적으로 생성되었습니다.
+      updated: 이메일 채널이 업데이트되었습니다.
+      destroyed: 이메일 채널이 삭제되었습니다.
+      limit_reached: 현재 요금제의 채널 한도에 도달했습니다. 더 많은 채널을 추가하려면 업그레이드하세요.
+    skills:
+      sidebar:
+        label: 기술
+      index:
+        title: 기술
+        description: 적합한 상담원과의 대화를 연결하는 기술을 정의하세요.
+        new_skill: 새로운 스킬
+        empty_title: 아직 정의된 기술이 없습니다.
+        empty_description: 기술 기반 라우팅을 활성화하려면 언어, 제품 또는 전문 분야와 같은 기술을 생성하세요.
+        tab_all: 모두
+        tab_language: 언어
+        tab_product: 제품
+        tab_technical: 기술
+        tab_general: 일반
+        delete_confirm: 정말로 이 스킬을 삭제하시겠습니까?
+        edit: 편집
+        delete: 삭제
+      new:
+        title: 새로운 스킬
+      edit:
+        title: 스킬 편집
+      create:
+        created: 스킬이 성공적으로 생성되었습니다.
+      update:
+        updated: 스킬이 성공적으로 업데이트되었습니다.
+      destroy:
+        destroyed: 스킬이 삭제되었습니다.
+      form:
+        details_section: 스킬 내용
+        name_label: 이름
+        name_placeholder: '예: 영어, 결제, API 통합'
+        type_label: 유형
+        description_label: 설명
+        description_placeholder: 이 스킬을 설명해주세요...
+        save: 스킬 저장
+        cancel: 취소
+      types:
+        language: 언어
+        product: 제품
+        technical: 기술
+        general: 일반
+      proficiency:
+        beginner: 초보자
+        intermediate: 중급
+        expert: 전문가
+    macros:
+      index:
+        title: 매크로
+        description: 원클릭 작업으로 작업 흐름 속도를 높일 수 있습니다.
+        new_macro: 새 매크로
+        empty_title: 아직 매크로가 없습니다.
+        empty_description: 클릭 한 번으로 일반적인 작업을 수행할 수 있는 재사용 가능한 매크로를 만듭니다.
+        tab_personal: 내 매크로
+        tab_shared: 공유됨
+        edit: 편집
+        delete: 삭제
+        delete_confirm: 이 매크로를 삭제하시겠습니까?
+      form:
+        name_placeholder: 예를 들어 닫기 및 피드백 이메일 보내기
+        description_label: 설명(선택사항)
+        description_placeholder: 이 매크로는 무엇을 합니까?
+      new:
+        title: 새 매크로
+      edit:
+        title: 매크로 편집
+      create:
+        created: 매크로가 성공적으로 생성되었습니다.
+      update:
+        updated: 매크로가 성공적으로 업데이트되었습니다.
+      destroy:
+        destroyed: 매크로가 삭제되었습니다.
+      execute:
+        executed: 매크로가 성공적으로 실행되었습니다.
+      scope:
+        personal: 개인(본인만)
+        shared: 공유됨(모든 상담원)
+    automation_executions:
+      index:
+        title: 실행 로그
+        description: 자동화 실행 기록을 검토합니다.
+        empty_title: 아직 실행이 없습니다.
+        empty_description: 자동화 실행이 시작되면 실행 로그가 여기에 표시됩니다.
+        filter_all: 모두
+        filter_success: 성공
+        filter_failed: 실패
+        filter_event: 이벤트
+        filter_schedule: 예정됨
+        filter_manual: 매뉴얼
+      statuses:
+        success: 성공
+        failed: 실패
+        skipped: 건너뛰었습니다.
+      triggered_by:
+        event: 이벤트
+        schedule: 예정됨
+        manual: 매뉴얼
+    domains:
+      index:
+        title: 도메인
+        add_custom_domain: 맞춤 도메인 추가
+        verify_dns: DNS 확인
+        edit: 편집
+        delete: 삭제
+        delete_confirm: 이 도메인을 삭제하시겠습니까?
+        system_subdomain:
+          title: 시스템 하위 도메인
+          description: 무료 helpbolic.com 하위 도메인 — 헬프 센터용으로 자동 생성됩니다.
+          empty: 아직 구성된 하위 도메인이 없습니다. 도움말 센터 포털을 만들어 자동 생성하세요.
+          active: 활성
+          ssl_active: SSL 활성
+          portal_label: '포털: %{name}'
+          no_portal: 연결된 포털 없음
+        custom_domains:
+          title: 맞춤 도메인
+          description: '자신의 도메인 이름(예: support.mycompany.com)을 추가하고 당사 서버를 가리킵니다.'
+          empty_title: 아직 추가된 맞춤 도메인이 없습니다.
+          empty_description: '사용자 정의 도메인을 사용하면 자체 도메인(예: support.mycompany.com)에서 헬프 센터를 제공할 수 있습니다.'
+          add_first: 첫 번째 맞춤 도메인 추가
+          unattached: 연결되지 않음
+        table:
+          domain: 도메인
+          dns_status: DNS 상태
+          ssl_status: SSL 상태
+          portal: 포털
+          actions: 작업
+        cname_instructions:
+          title: 맞춤 도메인을 설정하는 방법
+          step_1_title: 도메인 추가
+          step_1_desc: '위 버튼을 사용하여 사용자 정의 도메인 이름(예: support.mycompany.com)을 입력하세요.'
+          step_2_title: DNS 구성
+          step_2_desc: DNS 공급자로 이동하여 CNAME 레코드를 만듭니다.
+          step_3_title: 확인 및 SSL
+          step_3_desc: 기록이 전파되면(최대 48시간) "DNS 확인"을 클릭하세요. SSL은 확인 후 자동으로 프로비저닝됩니다.
+          cname_type: 유형
+          cname_host: 호스트
+          cname_host_value: 귀하의 하위 도메인
+          cname_target: 다음을 가리킨다
+      new:
+        title: 맞춤 도메인 추가
+        back: "← 도메인으로 돌아가기"
+        section_title: 도메인 세부정보
+        name_label: 표시 이름
+        name_placeholder: '예: 기본 지원 포털'
+        name_hint: 이 도메인에 대한 친숙한 레이블(선택 사항)입니다.
+        value_label: 도메인 이름
+        value_placeholder: '예: support.mycompany.com'
+        value_hint: 사용하려는 전체 도메인 이름을 입력하세요. 생성 후에는 변경할 수 없습니다.
+        after_adding_title: 이 도메인을 추가한 후
+        after_adding_desc: DNS 공급자에서 CNAME 레코드를 생성해야 합니다.
+        after_adding_note: DNS 전파에는 최대 48시간이 걸릴 수 있습니다. 구성이 완료되면 도메인 페이지에서 "DNS 확인"을 클릭하세요.
+        cname_host_value: "[하위 도메인]"
+        submit: 도메인 추가
+        cancel: 취소
+      edit:
+        title: 도메인 편집
+        back: "← 도메인으로 돌아가기"
+        section_title: 도메인 설정
+        name_label: 표시 이름
+        name_placeholder: '예: 기본 지원 포털'
+        name_hint: 이 도메인에 대한 친숙한 레이블입니다.
+        submit: 변경 사항 저장
+        cancel: 취소
+        status_labels:
+          domain: 도메인
+          type: 유형
+          dns_status: DNS 상태
+          ssl_status: SSL 상태
+          dns_verified_at: DNS 확인 시간
+          ssl_expires_at: SSL 만료 시간
+          last_checked: 마지막 확인
+          attached_portal: 연결된 포털
+          ago: "%{time} 전"
+        dns_config_title: DNS 구성 필요
+        dns_config_desc: 다음 CNAME 레코드를 추가하여 도메인이 당사 서버를 가리키도록 하세요.
+        verify_now: 지금 DNS 확인
+      create:
+        success: 도메인이 성공적으로 생성되었습니다.
+      update:
+        success: 도메인이 업데이트되었습니다.
+      destroy:
+        success: 도메인이 삭제되었습니다.
+        portal_attached: 포털에 연결된 도메인은 삭제할 수 없습니다. 먼저 분리하세요.
+      verify_dns:
+        success: DNS가 성공적으로 확인되었습니다! SSL 인증서 프로비저닝이 시작되었습니다.
+        failure: DNS 확인에 실패했습니다. CNAME 레코드가 %{target}를 가리키는지 확인하고 다시 시도하세요.
+      errors:
+        fix_errors: 다음 오류를 수정하세요.
+      dns_status_badge:
+        dns_verified: DNS 확인됨
+        dns_pending: DNS 보류 중
+        dns_failed: DNS 실패
+        dns_unverified: 확인되지 않은 DNS
+      ssl_status_badge:
+        ssl_active: SSL 활성
+        ssl_pending: SSL 보류 중
+        ssl_expired: SSL 만료됨
+        ssl_failed: SSL 실패
+        ssl_none: SSL 없음
+      sidebar:
+        label: 도메인
+      custom_domain_not_supported: 현재 계획에서는 사용자 정의 도메인이 지원되지 않습니다.
+    business_hour_groups:
+      shared:
+        no_description: 설명이 제공되지 않았습니다.
+      index:
+        title: 영업시간
+        description: 팀의 근무 시간과 예외를 구성하세요.
+        new_group: 새로운 일정
+        empty_title: 아직 영업시간이 없습니다
+        empty_description: 팀이 언제 온라인 상태인지 정의하는 일정을 만드세요.
+        timezone: '시간대: %{timezone}'
+      new:
+        title: 새로운 영업 시간
+        description: 팀의 새로운 일정을 만드세요.
+      edit:
+        title: 영업시간 수정
+        description: 팀의 일정을 업데이트하세요.
+      form:
+        general_settings: 일반 설정
+        general_settings_desc: 이 일정에 대한 기본 세부정보입니다.
+        name_placeholder: '예: 미국 지원팀'
+        weekly_schedule: 주간 일정
+        weekly_schedule_desc: 정규 근무 시간을 정의하세요. 하루에 여러 개의 시간 슬롯을 추가할 수 있습니다.
+        add_hours: 영업시간 추가
+        exceptions: 휴일 및 예외
+        exceptions_desc: 팀이 부재중일 경우 특정 날짜를 정의하세요.
+        add_exception: 예외 추가
+        save: 저장
+        cancel: 취소
+        error_heading: 다음 오류를 수정하세요.
+        remove_exception: 예외 제거
+        remove_hours: 영업시간 삭제
+      create:
+        created: 영업시간이 생성되었습니다.
+      update:
+        updated: 영업시간이 업데이트되었습니다.
+      destroy:
+        destroyed: 영업시간이 삭제되었습니다.
+    email_templates:
+      index:
+        title: 이메일 템플릿
+        subtitle: 드래그 앤 드롭 빌더를 사용하여 발신 이메일 템플릿을 사용자 정의하세요.
+        tab_templates: 템플릿
+        tab_layouts: 레이아웃
+        badge_draft: 초안
+        badge_active: 활성
+        badge_inactive: 비활성
+        default_description: 귀하의 브랜드에 맞게 이 이메일 템플릿을 사용자 정의하세요.
+        last_modified: "%{time} 전에 수정됨"
+        edit_design: 디자인 편집
+        empty_title: 이메일 템플릿 없음
+        empty_description: 계정을 설정할 때 이메일 템플릿이 생성됩니다.
+      sidebar:
+        label: 이메일 템플릿
+      new:
+        subtitle: 템플릿 유형을 선택하고 템플릿 이름을 지정합니다.
+        title: 이메일 템플릿 만들기
+    email_template_layouts:
+      index:
+        title: 이메일 레이아웃
+        subtitle: 레이아웃은 템플릿을 감싸며 일관된 머리글과 바닥글을 제공합니다.
+        tab_templates: 템플릿
+        tab_layouts: 레이아웃
+        badge_draft: 초안
+        layout_description: 머리글, 콘텐츠 영역, 바닥글이 포함된 공유 레이아웃입니다.
+        last_modified: "%{time} 전에 수정됨"
+        edit_design: 디자인 편집
+        empty_title: 레이아웃 없음
+        empty_description: 아직 이메일 레이아웃이 생성되지 않았습니다.
+    email_builder:
+      draft: 초안
+      locale: 로케일
+      layout: 레이아웃
+      no_layout: 레이아웃 없음
+      preview: 미리보기
+      send_test: 테스트 보내기
+      save_draft: 초안 저장
+      saving: 저장 중...
+      publish: 게시
+      discard: 폐기
+      blocks: 블록
+      styles: 스타일
+      variables: 변수
+      email_preview: 이메일 미리보기
+      layout_preview: 레이아웃 미리보기
+      draft_saved: 초안이 성공적으로 저장되었습니다.
+      published: 템플릿이 게시되었습니다. 이제 실시간 이메일에서 이 디자인을 사용합니다.
+      draft_discarded: 초안 변경사항이 삭제되었습니다.
+      locale_copied: "%{from}에서 %{to}로 콘텐츠가 복사되었습니다. 변경사항을 유지하려면 저장하세요."
+      copy_from: "%{from_locale}에서 복사"
+      copy_locale: 로케일 복사
+      test_prefix: 테스트
+      test_sent: "%{email}로 테스트 이메일이 전송되었습니다."
+      template_descriptions:
+        conversation_reply: 상담원이 대화에 응답하면 고객에게 전송됩니다.
+        agent_notification: 새 이벤트 및 할당에 대해 에이전트에게 알림이 전송됩니다.
+        welcome_email: 새로 등록한 사용자에게 환영 이메일이 발송되었습니다.
+        password_reset: 사용자에게 비밀번호 재설정 지침이 전송되었습니다.
+        email_verification: 새 계정에 대한 이메일 주소 확인.
+        team_invitation: 새 팀 구성원을 추가할 때 발송되는 초대 이메일입니다.
+      sample:
+        message_content: 문의해 주셔서 감사합니다! 귀하의 요청을 검토했으며 해결책을 찾았습니다. 아래 단계를 따르고 추가 지원이 필요한 경우 알려주시기 바랍니다.
+        conversation_subject: 내 계정에 대한 도움말
+        event_title: 새 대화가 할당됨
+        event_description: 지원 받은 편지함에 새 대화가 할당되었습니다.
+      add_locale: 로케일 추가
+      edit_subject: 주제 편집
+      settings: 설정
+      subject: 이메일 제목
+      subject_placeholder: 여기에 제목을 입력하세요...
+    contact_form_channels:
+      index:
+        title: 문의 양식
+        subtitle: 포털 및 웹사이트에 삽입 가능한 문의 양식을 관리하세요.
+        new_button: 새로운 문의 양식
+        edit: 설정
+        delete: 삭제
+        confirm_delete: 이 양식을 삭제하시겠습니까?
+        empty_title: 문의 양식을 찾을 수 없습니다.
+        empty_subtitle: 티켓 수신을 시작하려면 첫 번째 문의 양식을 만드세요.
+      new:
+        title: 새로운 문의 양식
+      edit:
+        title: 문의 양식 편집
+      form:
+        error_heading: 아래 문제를 검토해 보세요.
+        basic_section: 기본 세부정보
+        name_label: 양식 이름
+        name_placeholder: 예를 들어 웹사이트 지원 양식
+        redirect_url_label: 제출 후 URL 리디렉션
+        redirect_url_placeholder: https://yourwebsite.com/thank-you
+        appearance_section: 외관 및 브랜딩
+        theme_color_label: 테마 색상
+        position_label: 레이아웃 위치
+        fields_section: 양식 필드
+        search_fields: 검색 필드...
+        behaviors_section: 행동 및 스팸 방지
+        require_login_label: 제출하려면 로그인이 필요합니다
+        allow_attachments_label: 첨부 파일 허용
+        send_confirmation_email_label: 고객에게 확인 이메일 보내기
+        spam_protection_enabled_label: 스팸 방지 활성화(reCAPTCHA)
+        update: 문의 양식 업데이트
+        save: 문의 양식 만들기
+        cancel: 취소
+        required_label: 필수
+        full_width: 전체 폭
+        half_width: 반폭
+        available_customer_fields: 사용 가능한 고객 필드
+        available_conversation_fields: 사용 가능한 대화 필드
+        customer_field: 고객 분야
+        conversation_field: 대화 필드
+        mapped_to: '매핑 대상: %{mapped_to}'
+        entity_field: "%{entity_type} 필드"
+    facebook_channels:
+      sidebar:
+        label: Facebook 페이지
+      limit_reached: 현재 요금제의 채널 한도에 도달했습니다. 더 많은 채널을 추가하려면 업그레이드하세요.
+      created: Facebook 페이지가 성공적으로 연결되었습니다.
+      updated: Facebook 페이지 설정이 업데이트되었습니다.
+      destroyed: Facebook 페이지 연결이 끊어졌습니다.
+      create_failed: Facebook 페이지 연결에 실패했습니다. 다시 시도해 주세요.
+      callback_error: Facebook에 연결하는 중에 오류가 발생했습니다. 다시 시도해 주세요.
+      reconnected: Facebook 페이지가 성공적으로 다시 연결되었습니다.
+      reconnect_failed: Facebook 페이지를 다시 연결하지 못했습니다. 페이스북 로그인을 통해 재인증해주세요.
+      index:
+        title: Facebook 페이지
+        description: Facebook 페이지를 연결하여 메신저 대화를 받고 응답하세요.
+        connect_page: Facebook 페이지 연결
+        delete_confirm: 정말로 이 Facebook 페이지 연결을 해제하시겠습니까? 받은편지함과 관련된 모든 대화가 삭제됩니다.
+        status_active: 연결됨
+        status_disconnected: 연결이 끊김
+        status_reauth: 재승인 필요
+        reconnect: 다시 연결
+        inboxes_count:
+          one: "%{count} 받은편지함"
+          other: "%{count} 받은편지함"
+        created_ago: "%{time} 전에 생성됨"
+        empty_title: 연결된 Facebook 페이지가 없습니다.
+        empty_description: Facebook 페이지를 연결하면 받은편지함에서 바로 메신저 대화를 받을 수 있습니다.
+      new:
+        title: Facebook 페이지 연결
+        step1_title: Facebook와 연결
+        step1_description: Facebook 계정으로 로그인하고 페이지 관리 권한을 부여하세요.
+        connect_button: Facebook로 계속하기
+        connect_note: 페이지 받은 편지함을 관리하는 데 필요한 권한만 요청합니다.
+        step2_title: 페이지 선택
+        step2_description: 연결하려는 Facebook 페이지를 선택하세요. 각 페이지는 별도의 받은 편지함을 만듭니다.
+        already_connected: 이미 연결됨
+        step3_title: 채널 구성
+        name_label: 채널 이름
+        name_placeholder: '예: 고객 지원 페이지'
+        permissions_title: 우리가 요청할 권한
+        scope_messages: 페이지에서 메시지 읽기 및 보내기
+        scope_view: 페이지 보기
+        step3_description: 새로운 Facebook 채널 구성
+      edit:
+        title: Facebook 페이지 편집
+        reauth_title: 재승인 필요
+        reauth_description: 이 페이지의 액세스 토큰이 무효화되었습니다. 메시지를 복원하려면 다시 연결하세요.
+        inbox_settings_title: 받은편지함 설정
+        csat_enabled: 대화 후 CSAT 설문조사 활성화
+        danger_title: 위험지대
+        danger_description: 이 페이지의 연결을 해제하면 받은편지함이 삭제되고 새 메시지 수신이 중단됩니다. 기존 대화는 유지됩니다.
+        disconnect: 연결 해제 페이지
+      form:
+        back: Facebook 페이지로 돌아가기
+        cancel: 취소
+        save: 변경 사항 저장
+        create: 연결 페이지
+        connection_section: 연결 상태
+        inbox_section: 받은 편지함 구성
+    instagram_channels:
+      sidebar:
+        label: Instagram
+      limit_reached: 현재 요금제의 채널 한도에 도달했습니다. 더 많은 채널을 추가하려면 업그레이드하세요.
+      created: Instagram 계정이 성공적으로 연결되었습니다.
+      updated: Instagram 채널 설정이 업데이트되었습니다.
+      destroyed: Instagram 계정이 연결 해제되었습니다.
+      create_failed: Instagram 계정 연결에 실패했습니다. 다시 시도해 주세요.
+      callback_error: Instagram에 연결하는 동안 오류가 발생했습니다. 다시 시도해 주세요.
+      invalid_state: 인증 상태가 잘못되었습니다. 다시 연결해 보세요.
+      index:
+        title: Instagram
+        description: Instagram 비즈니스 계정을 연결하여 대시보드에서 DM을 관리하세요.
+        connect_account: Instagram 연결
+        delete_confirm: 정말로 이 Instagram 계정을 연결 해제하시겠습니까? 받은편지함과 관련된 모든 대화가 삭제됩니다.
+        status_active: 연결됨
+        status_expired: 토큰이 만료되었습니다.
+        status_expiring: 토큰이 곧 만료됩니다
+        status_reauth: 재승인 필요
+        inboxes_count:
+          one: "%{count} 받은편지함"
+          other: "%{count} 받은편지함"
+        token_expires: 토큰은 %{time}에 만료됩니다.
+        created_ago: "%{time} 전에 생성됨"
+        empty_title: 연결된 Instagram 계정이 없습니다.
+        empty_description: Instagram 비즈니스 또는 크리에이터 계정을 연결하여 대시보드에서 다이렉트 메시지를 관리하세요.
+      new:
+        title: Instagram 연결
+        connect_title: Instagram 계정을 연결하세요
+        connect_description: Instagram 비즈니스 또는 크리에이터 계정을 연결하여 DM을 받고 답장하세요.
+        permissions_title: 우리가 요청할 권한
+        scope_basic: Instagram 프로필 및 미디어 보기
+        scope_messages: Instagram 다이렉트 메시지 읽기 및 보내기
+        connect_button: Instagram로 계속하기
+        connect_note: 액세스 승인을 위해 Instagram으로 리디렉션됩니다. 전문 계정(Business 또는 Creator)만 지원됩니다.
+      edit:
+        title: Instagram 채널 편집
+        reauth_title: 재승인 필요
+        reauth_description: 액세스 토큰이 만료되었거나 무효화되었습니다. 메시지를 복원하려면 다시 연결하세요.
+        reconnect: 다시 연결
+        token_expires_at: '토큰 만료: %{time}'
+        name_label: 채널 이름
+        name_placeholder: '예: 브랜드 Instagram'
+        inbox_settings_title: 받은편지함 설정
+        csat_enabled: 대화 후 CSAT 설문조사 활성화
+        danger_title: 위험지대
+        danger_description: 이 계정을 연결 해제하면 받은편지함이 제거되고 새 DM 수신이 중단됩니다. 기존 대화는 유지됩니다.
+        disconnect: 계정 연결 해제
+      form:
+        back: Instagram로 돌아가기
+        cancel: 취소
+        save: 변경 사항 저장
+        connection_section: 연결 상태
+        inbox_section: 받은 편지함 구성
+    whatsapp_channels:
+      sidebar:
+        label: WhatsApp
+      limit_reached: 현재 요금제의 채널 한도에 도달했습니다. 더 많은 채널을 추가하려면 업그레이드하세요.
+      created: WhatsApp 채널이 성공적으로 연결되었습니다.
+      updated: WhatsApp 채널 설정이 업데이트되었습니다.
+      destroyed: WhatsApp 채널이 연결 해제되었습니다.
+      create_failed: WhatsApp 채널 연결에 실패했습니다. 다시 시도해 주세요.
+      callback_error: WhatsApp에 연결하는 중에 오류가 발생했습니다. 다시 시도해 주세요.
+      reconnect_not_supported_yet: 재접속은 아직 지원되지 않습니다. 토큰이 만료되면 채널을 삭제하고 다시 생성하세요.
+      index:
+        title: WhatsApp
+        description: WhatsApp Business API를 연결하여 고객 대화를 관리하세요.
+        connect_channel: WhatsApp에 연결
+        delete_confirm: 이 WhatsApp 채널을 연결 해제하시겠습니까? 받은편지함과 관련된 모든 대화가 삭제됩니다.
+        status_active: 연결됨
+        status_disconnected: 연결이 끊김
+        status_reauth: 재승인 필요
+        reconnect: 다시 연결
+        inboxes_count:
+          one: "%{count} 받은편지함"
+          other: "%{count} 받은편지함"
+        created_ago: "%{time} 전에 생성됨"
+        empty_title: 연결된 WhatsApp 채널이 없습니다.
+        empty_description: WhatsApp 비즈니스 계정을 연결하여 받은편지함에서 직접 메시지를 받아보세요.
+      new:
+        title: WhatsApp에 연결
+        subtitle: WhatsApp 비즈니스 계정에 연결할 방법을 선택하세요.
+        tabs:
+          embedded: 빠른 연결(권장)
+          manual: 수동 설정
+        embedded:
+          step1_title: 메타와 연결
+          step1_description: Facebook 계정으로 로그인하고 WhatsApp 비즈니스 계정을 선택하세요.
+          guide_1: 귀하는 메타 비즈니스 포트폴리오의 관리자여야 합니다.
+          guide_2: 유효한 전화번호가 준비되어 있는지 확인하세요.
+          guide_3: 연결에는 5분도 채 걸리지 않습니다.
+          connect_button: 메타와 연결
+        manual:
+          guide_title: 수동 설정 가이드
+          guide_1: Meta 개발자 앱으로 이동하여 WhatsApp > API 설정을 선택하세요.
+          guide_2: 전화번호 ID와 WhatsApp 비즈니스 계정 ID를 복사하세요.
+          guide_3: 영구 액세스 토큰을 복사하세요.
+          guide_4: 복사한 세부정보를 아래 양식에 입력하세요.
+          guide_5: 생성 후 생성된 Webhook URL을 Meta App에 복사하세요.
+      edit:
+        title: WhatsApp 채널 편집
+        reauth_title: 재승인 필요
+        reauth_description: 액세스 토큰이 만료되었거나 무효화되었습니다. 메시지를 복원하려면 다시 연결하세요.
+        danger_title: 위험지대
+        danger_description: 이 채널을 연결 해제하면 받은편지함이 제거되고 새 메시지 수신이 중단됩니다. 기존 대화는 유지됩니다.
+        disconnect: 채널 연결 끊기
+        webhook:
+          title: 웹훅 구성
+          description: 메시지 수신을 시작하려면 이 웹훅 URL을 추가하고 Meta App의 WhatsApp 구성에 토큰을 확인하세요.
+          url_label: 웹훅 URL
+          secret_label: 토큰 확인
+      form:
+        back: WhatsApp으로 돌아가기
+        name_label: 채널 이름
+        name_placeholder: '예: 지원 라인'
+        full_phone_label: 전체 전화번호
+        phone_code_label: 국가 코드
+        phone_number_label: 전화번호
+        phone_id_label: 전화번호 아이디
+        waba_id_label: WhatsApp 비즈니스 계정 ID
+        api_key_label: 액세스 토큰
+        api_key_placeholder: 여기에 영구 또는 시스템 사용자 액세스 토큰을 붙여넣으세요.
+        create: 채널 만들기
+        save: 변경 사항 저장
+        cancel: 취소
+        reopen_window_label: 자동 다시 열기 창
+        inbox_settings: 받은편지함 설정
+        enable_csat: 대화 후 CSAT 설문조사 활성화
+        csat_survey_label: CSAT 설문조사 선택
+        inbox_settings_title: 받은편지함 설정
+    profile:
+      index:
+        title: 개인정보
+        public_profile: 공개 프로필
+        save: 저장
+        created_at: 생성 날짜
+        email: 이메일
+        name_label: 사용자 이름
+        display_name_label: 표시 이름
+        status_label: 상태
+        organization_label: 조직
+        phone_label: 전화번호
+        city_placeholder: 도시
+        state_placeholder: 상태
+        you: 당신
+        unnamed_user: 이름이 없는 사용자
+        no_organization: 아직 조직이 없습니다.
+        no_phone: 아직 전화번호가 없습니다
+        active_in_last: 최근에 활동 중
+        nil: 없음
+    teams:
+      sidebar:
+        label: 팀
+      index:
+        title: 팀
+        new_team: 새로운 팀
+        empty_title: 아직 팀을 만들지 않았습니다.
+        empty_description: 시작하려면 첫 번째 팀을 만드세요.
+        manage_description: 모든 팀, 사용자 및 팀 액세스 관리
+        add_teammates: 팀원 추가
+        no_description: 제공된 설명이 없습니다.
+        created: 생성됨
+        status:
+          active: 활성
+          inactive: 비활성
+      new:
+        title: 새로운 팀
+      edit:
+        title: 팀 편집
+      form:
+        name_label: 팀 이름
+        name_placeholder: '예: 지원팀'
+        description_label: 설명
+        description_placeholder: 이 팀이 하는 일을 설명해주세요...
+        save: 팀 저장
+        cancel: 취소
+      create:
+        created: 팀이 성공적으로 생성되었습니다.
+      update:
+        updated: 팀이 업데이트되었습니다.
+      destroy:
+        destroyed: 팀이 삭제되었습니다.
+    users:
+      sidebar:
+        label: 사용자(팀원)
+      index:
+        title: 팀원
+        subtitle: 사용자 및 보류 중인 초대를 관리합니다.
+        tab_active: 활성 사용자
+        tab_invitations: 보류 중인 초대
+        joined: "%{time} 전에 가입함"
+        you: 당신
+        edit: 역할 편집
+        delete: 제거
+        delete_confirm: 정말로 이 사용자를 계정에서 삭제하시겠습니까?
+        empty_title: 사용자를 찾을 수 없습니다
+        empty_description: 이 계정에는 활성 사용자가 없습니다.
+        no_roles: 할당된 역할 없음
+      edit:
+        title: 팀원 역할 편집
+        description: "%{name}에 할당된 역할을 수정합니다."
+      form:
+        back: "← 팀원으로 돌아가기"
+        email_label: 이메일 주소
+        roles_title: 할당된 역할
+        roles_desc: 이 팀원에 대한 역할을 하나 이상 선택하세요.
+        submit: 역할 업데이트
+        cancel: 취소
+        system_default: 시스템 기본값
+        assign: 할당
+      invitations:
+        new:
+          title: 팀원 초대
+          description: 새로운 팀원에게 초대장을 보내고 역할을 할당합니다.
+        form:
+          back: "← 팀원으로 돌아가기"
+          email_label: 이메일 주소
+          roles_title: 역할 할당
+          roles_desc: 이 팀원에 대한 역할을 하나 이상 선택하세요.
+          submit: 초대장 보내기
+          cancel: 취소
+    roles:
+      sidebar:
+        label: 역할
+      index:
+        title: 역할 및 권한
+        description: 팀원의 액세스 수준과 세분화된 권한을 관리하세요.
+        new_role: 새 역할 만들기
+        users_count:
+          one: "%{count} 사용자"
+          other: "%{count} 사용자"
+        created_ago: "%{time} 전에 생성됨"
+        delete_confirm: 이 맞춤 역할을 삭제하시겠습니까?
+        empty_title: 역할을 찾을 수 없습니다.
+        empty_description: 이 계정에 구성된 역할이 없습니다.
+        all_roles: 모든 역할
+        create_role: 역할 생성
+        custom_roles: 맞춤 역할
+        filter_label: 역할 필터링
+        members_count:
+          one: "%{count} 회원"
+          other: "%{count} 회원들"
+        most_members: 대부분의 회원
+        name_ascending: 이름 A~Z
+        no_matching_roles: 일치하는 역할이 없습니다.
+        permission_count:
+          one: "%{count} 권한"
+          other: "%{count} 권한"
+        permissions: 권한
+        recently_updated: 최근 업데이트됨
+        role_actions: 역할 작업
+        search_placeholder: 역할 검색...
+        sort_by: '정렬 기준:'
+        sort_label: 역할 정렬
+        summary: 역할 요약
+        system_roles: 시스템 역할
+        team_members: 팀원
+        total_roles: 총 역할
+        try_another_search: 다른 검색이나 필터를 사용해 보세요.
+        updated: 업데이트됨
+        updated_ago: "%{time} 전"
+        descriptions:
+          administrator: 전체 시스템 액세스 및 모든 관리 권한.
+          owner: 결제 및 설정 액세스 권한이 있는 계정 소유자입니다.
+          agent: 대화 및 받은편지함 기능에 액세스합니다.
+      form:
+        back: "← 역할로 돌아가기"
+        back_label: 뒤로
+        errors_found: "%{count} 오류로 인해 이 역할을 저장할 수 없습니다."
+        name_label: 역할 이름
+        optional: "(선택사항)"
+        permission_preset: 권한 사전 설정
+        permissions_desc: 아래에서 이 역할에 대한 세분화된 권한을 전환하세요.
+        permissions_matrix: 권한 매트릭스
+        preset_description: 빠르게 시작하려면 사전 설정을 선택하세요.
+        role_details: 역할 세부정보
+        save: 역할 저장
+      edit:
+        description: 이 역할과 관련된 권한을 수정합니다.
+        title: '역할 편집: %{name}'
+      new:
+        description: 특정 액세스 제어를 사용하여 사용자 정의 역할을 정의합니다.
+        title: 새 역할 만들기
+    canned_responses:
+      index:
+        replies_for: 다음에 대한 답글
+        add_new_reply: 새 답글 추가
+        search_placeholder: 검색
+      form:
+        title_placeholder: 제목 추가
+        description_placeholder: 메시지 추가
+        delete: 답글 삭제
+        update: 업데이트
+    sla_policies:
+      index:
+        title: SLA 정책
+        description: 적시에 응답할 수 있도록 다양한 받은 편지함에 대한 서비스 수준 목표를 설정하세요.
+        new_policy: 새로운 정책
+        empty_title: SLA 정책 없음
+        empty_description: 에이전트 응답 시간 추적을 시작하려면 첫 번째 SLA 정책을 만드세요.
+      new:
+        title: 새로운 SLA 정책
+        description: 팀이 제 시간에 고객에게 응답할 수 있도록 목표를 정의하세요.
+      edit:
+        title: SLA 정책 편집
+        description: 팀이 제 시간에 고객에게 응답할 수 있도록 목표를 업데이트하세요.
+      form:
+        all_inboxes_hint: 이 SLA 정책이 적용되는 받은 편지함을 선택하세요.
+        business_hour_group_label: 영업시간 일정 선택
+        business_hours_section: 영업시간
+        cancel: 취소
+        description_label: 설명
+        details_section: 정책 세부정보
+        during_working_hours: 업무 시간에만 SLA 목표를 추적하세요.
+        first_response_label: 첫 번째 응답 시간
+        inboxes_section: 받은 편지함에 적용
+        name_label: 정책 이름
+        name_placeholder: '예: VIP 고객 SLA'
+        next_response_label: 다음 응답 시간
+        resolution_label: 해결 시간
+        save: SLA 정책 저장
+        targets_section: SLA 목표
+      policy_card:
+        first_response: '첫 번째 응답: %{value}'
+        inboxes:
+          one: "%{count} 받은편지함"
+          other: "%{count} 받은편지함"
+    csat_surveys:
+      index:
+        title: CSAT 설문조사
+        description: 맞춤형 고객 만족도 설문조사를 만들고 관리하세요.
+        new_survey: 맞춤형 설문조사 만들기
+        prompt_label: '프롬프트:'
+        default_prompt: 귀하가 받은 지원을 어떻게 평가하시겠습니까?
+        uses_template: '용도: %{name}'
+        default_template: 기본 시스템 템플릿
+        empty_title: CSAT 설문조사 없음
+        empty_description: 고객 피드백 수집을 시작하려면 첫 번째 설문조사를 만드세요.
+        delete_confirm: 이 설문조사를 삭제하시겠습니까?
+      new:
+        title: CSAT 설문조사 만들기
+        description: 맞춤형 고객 만족도 설문조사 구성
+      edit:
+        title: CSAT 설문조사 편집
+        description: 맞춤형 고객 만족도 설문조사 업데이트
+      form:
+        name_placeholder: 예를 들어 지원 피드백
+        email_prompt_label: 이메일 프롬프트(이메일 내부)
+        email_prompt_placeholder: 예를 들어 귀하가 받은 지원을 어떻게 평가하시겠습니까?
+        portal_title_label: 포털 제목(피드백 페이지)
+        portal_title_placeholder: 예를 들어 우리는 어떻게 했나요?
+        portal_subtitle_label: 포털 자막
+        portal_subtitle_placeholder: 예를 들어 최근 지원 경험에 대한 피드백을 듣고 싶습니다.
+        feedback_label_label: 피드백 텍스트 상자 라벨
+        feedback_label_placeholder: 예를 들어 자세히 알려주세요(선택사항)
+    custom_fields:
+      form:
+        label_placeholder: 예를 들어 회사 규모
+        description_label: 설명/도우미 텍스트
+        description_placeholder: 예를 들어 정규 직원 수를 입력해 주세요.
+        options:
+          value_placeholder: 값(내부)
+          label_placeholder: 라벨(디스플레이)
+          remove_button_title: 옵션 제거
+        default_value_placeholder: 선택적 기본값...
+        validations_pattern_label: 정규식 패턴
+        validations_pattern_placeholder: "^[AZ]"
+        error_heading: 다음 오류를 수정하세요.
+      translations:
+        label_placeholder: 예를 들어 회사 규모
+      index:
+        edit: 편집
+        delete: 삭제
+        delete_confirm: 확실합니까?
+    channels:
+      web_widget:
+        form:
+          form_title_label: 양식 제목
+          footer_text_placeholder: 예를 들어 Acme Corp 제공
+      contact_form:
+        form:
+          default_value_label: 기본값
+          valid_url_hint: http:// 또는 https://로 시작하는 유효한 URL을 입력하세요.
+        index:
+          edit: 편집
+          delete: 삭제
+          confirm_delete: 확실합니까?
+    articles:
+      search_placeholder: 검색...
+      clear_search: 검색 지우기
+      all_articles: 모든 기사
+      new_article: "+ 새 기사"
+      count_articles: "%{count} 기사"
+      display_columns: 표시 열
+      columns: 열
+      col_title: 제목
+      col_last_edit: 마지막 편집
+      col_status: 상태
+      col_collection: 컬렉션
+      apply: 적용
+      untitled: 제목 없는 기사
+      uncategorized: 분류되지 않음
+      prev: "← 이전"
+      page_info: "%{total}의 페이지 %{page}"
+      next: 다음 →
+      no_articles_found: 기사를 찾을 수 없습니다.
+      create_first_article: 첫 번째 기사를 만들거나 현재 검색 및 필터를 조정하세요.
+      no_portal_found: 고객센터 포털을 찾을 수 없습니다.
+      create_portal_first: 모든 문서는 포털에 속해야 하므로 문서를 추가하기 전에 헬프 센터 포털을 만드세요.
+      fix_errors: 다음 오류를 수정하세요.
+      untitled_placeholder: 제목 없는 기사
+      select_category_label: 카테고리 선택
+      select_category: 카테고리 선택
+      search_categories: 카테고리 검색...
+      locale: 로케일
+      add_locale: 로케일 추가
+      copy_from_another_locale: 다른 로캘에서 복사
+      copy_content_from: 다음에서 콘텐츠 복사
+      copy_from_locale: "%{locale_name}에서 복사"
+      unsaved_changes: 저장되지 않은 변경사항
+      cancel: 취소
+      save: 저장
+      publishing: 게시 중...
+      publish: 게시
+      knowledge_base: 기술 자료
+      articles: 기사
+      create_article: 기사 작성
+      back_link: "> 뒤로"
+    help_center:
+      portals:
+        form:
+          template_name_label: 템플릿 이름
+          template_name_placeholder: 고객지원센터
+          name_label: 도움말 센터 이름
+          name_placeholder: 예를 들어 시작하기
+          description_label: 설명
+          description_placeholder: 이 카테고리에 대한 간략한 설명
+        index:
+          edit: 편집
+          search_placeholder: 검색...
+          hero_image_alt: "%{name} 히어로 이미지"
+          untitled: 제목 없는 도움말 센터
+      articles:
+        form:
+          title_placeholder: 제목 없는 기사
+          content_placeholder: 여기에 기사 내용을 작성하세요...
+          slug_label: 슬러그
+          slug_placeholder: 시작하기
+          meta_title_label: 메타 제목
+          meta_title_placeholder: 최적의 60자...
+          meta_description_label: 메타 설명
+          meta_description_placeholder: 간단한 SEO 설명
+        index:
+          search_placeholder: 검색...
+      categories:
+        index:
+          title: 컬렉션
+          search_placeholder: 컬렉션 검색...
+          new_collection: "+ 새 컬렉션"
+          collections_count: "%{count} 컬렉션"
+          name_header: 이름
+          slug_header: 슬러그
+          articles_header: 기사
+          previous: "← 이전"
+          next: 다음 →
+          page_info: "%{total}의 페이지 %{page}"
+          empty_title: 컬렉션을 찾을 수 없습니다.
+          empty_description: 기사를 정리하려면 첫 번째 컬렉션을 만드세요.
+          untitled_collection: 제목 없는 컬렉션
+        form:
+          name_label: 카테고리 이름
+          name_placeholder: 예를 들어 시작하기
+          description_label: 설명
+          description_placeholder: 이 카테고리에 대한 간략한 설명
+          parent_label: 상위 카테고리
+          parent_none: 없음
+          visibility_label: 가시성
+          cancel: 취소
+          submit: 카테고리 생성
+          modal_title: 새 카테고리 추가
+          modal_subtitle: 기사를 정리하려면 새 카테고리를 만드세요.
+    notes:
+      form:
+        content_placeholder: 메시지 추가
+    popup:
+      canned_response:
+        form:
+          title_placeholder: 제목 추가
+          description_placeholder: 안녕하세요, {{ customer.name }} 어떻게 도와드릴까요?
+          cancel: 취소
+          save: 저장
+      email_conv:
+        form:
+          email_label: 이메일
+          response_placeholder: 문제에 대한 답변을 작성하세요
+      invite_teammate:
+        form:
+          email_placeholder: 이메일
+          permission_note: 팀원 기본 설정 권한을 부여해 드립니다. 나중에 더 많은 권한을 부여할 수 있습니다.
+          cancel: 취소
+          submit: 초대장 보내기
+      team:
+        form:
+          name_label: 팀 이름
+          name_placeholder: 예를 들어 고객 성공
+          description_label: 설명(선택사항)
+          description_placeholder: 이 팀이 하는 일을 설명해주세요...
+          auto_assign: 활성 회원에게 새 대화 자동 할당
+          team_members: 팀원
+          no_users: 사용 가능한 사용자가 없습니다.
+          connect_inboxes: 받은 편지함에 연결
+          cancel: 취소
+          create: 팀 만들기
+          edit_subtitle: 팀 세부 정보, 구성원 및 받은 편지함을 업데이트합니다.
+          edit_title: 팀 편집
+          new_subtitle: 팀을 만들고 구성원과 받은 편지함을 할당하세요.
+          new_title: 새로운 팀
+          save: 변경 사항 저장
+      team_inbox:
+        form:
+          name_placeholder: 제목 추가
+      ticket:
+        form:
+          response_placeholder: 문제에 대한 답변을 작성하세요
+          title_label: 제목
+          title_placeholder: 제목 추가
+          description_label: 설명
+          description_placeholder: 설명 쓰기
+          custom_footer_label: 사용자 정의 바닥글 텍스트
+      topic_questions:
+        form:
+          channel_name_label: 채널 이름을 입력하세요
+      widget_channel:
+        form:
+          channel_name_placeholder: 채널 이름
+          secret_label: 비밀
+          secret_placeholder: 비밀
+      messenger_channel:
+        form:
+          app_id_placeholder: 앱 ID
+      messenger_inbox:
+        form:
+          channel_name_placeholder: 채널 이름
+      email_channel:
+        form:
+          channel_name_placeholder: 채널 이름
+          email_label: 이메일을 입력하세요
+          email_placeholder: 이메일
+      email_inbox:
+        form:
+          channel_name_label: 채널 이름을 입력하세요
+          channel_name_placeholder: 채널 이름
+      whatsapp_channel:
+        form:
+          channel_name_placeholder: 채널 이름
+      fb_conv:
+        form:
+          name_label: 이름
+          response_placeholder: 문제에 대한 답변을 작성하세요
+      schedule:
+        snooze_until: 다음 시간까지 다시 알림
+    agent:
+      form:
+        survey_name_label: 설문조사 이름
+        name_placeholder: Deskbolic
+    workspace:
+      email_invitation:
+        title: 작업 공간에 참여
+        description: Lorem Ipsum은 인쇄 및 조판 산업의 단순한 더미 텍스트입니다.
+        members:
+          one: "%{count} 정회원"
+          other: "%{count} 활성 회원"
+        join_button: 작업 공간에 참여
+        joining_header: 가입 중입니다.
+        workspace_name: 작업공간
+        form:
+          first_name: 이름
+          last_name: 성
+          email: 귀하의 이메일
+          password: 비밀번호
+          confirm_password: 비밀번호 확인
+          submit: 가입
+      new:
+        who_you_are: 당신은 누구입니까?
+        subtitle: Lorem Ipsum은 인쇄 및 조판 산업의 단순한 더미 텍스트입니다.
+        agent: 대리인
+        agent_description: 더 많은 정보가 필요하시면 확인해 보세요.
+        company: 회사
+        company_description: 다수의 사용자에게 법인 계정을 생성하세요.
+        continue: 계속
+        workspace: 작업공간
+        workspace_subtitle: Deskbolic에 들어가기 위해 계정을 생성해 봅시다.
+        send_request: 요청 보내기
+        request_sent: 요청이 전송되었습니다.
+        company_details: 회사 세부정보
+        company_details_subtitle: Deskbolic 웹사이트에 접속하기 위한 계정을 생성해 봅시다.
+        company_name: 회사명
+        company_name_placeholder: 이름
+        create_new_workspace: 새 작업공간 만들기
+        workspace_name_label: WorkSpace 이름
+        workspace_name_placeholder: WorkSpace 이름
+        workspace_size: 작업 공간 크기
+        workspace_size_options:
+          small: 1-9
+          medium: 10-30
+          large: 50+
+        workspace_subtitle2: Deskbolic 웹사이트에 접속하기 위한 계정을 생성해 봅시다.
+        create_workspace_button: 새 작업공간 만들기
+        created_successfully: 새 WorkSpace가 성공적으로 생성되었습니다.
+        go_to_dashboard: 대시보드로 이동
+        marketing_text: 고객, 상담원, 리더를 위한 첫 번째 고객 서비스
+        logo: 로고
+        new_workspace: 새 작업공간
+      submitted:
+        next_steps: 다음 단계
+        go_to_dashboard: 대시보드로 이동
+        marketing_text: 고객, 상담원, 리더를 위한 첫 번째 고객 서비스
+    custom_channels:
+      index:
+        title: 사용자 정의 웹훅 채널
+        description: 웹후크를 사용하여 사용자 정의 백엔드를 Deskbolic에 연결하세요.
+        add_new: 맞춤 채널 추가
+        delete_confirm: 이 맞춤 채널을 삭제하시겠습니까? 연결된 모든 받은편지함과 메시지도 삭제됩니다.
+        status_active: 활성
+        status_disconnected: 연결이 끊김
+        inboxes_count: "%{count} 받은편지함"
+        created_ago: "%{time} 전에 생성됨"
+        empty_title: 맞춤 채널 없음
+        empty_description: 웹후크를 통해 백엔드 시스템을 연결하여 강력한 맞춤형 통합을 구축하세요.
+      new:
+        title: 새 맞춤 채널 추가
+        description: 새로운 커스텀 백엔드를 연결하려면 세부정보를 입력하세요.
+        back: 맞춤 채널로 돌아가기
+        error_heading: "%{count} 오류로 인해 이 채널을 저장할 수 없습니다."
+        name_label: 채널 이름
+        description_label: 설명
+        webhook_url_label: 아웃바운드 웹훅 URL
+        webhook_url_help: Deskbolic이 발신 메시지를 보내는 URL입니다.
+        submit: 채널 만들기
+        cancel: 취소
+      edit:
+        back: 맞춤 채널로 돌아가기
+      tabs:
+        configuration: 구성
+        instructions: 지침
+        testing: 샌드박스 테스트
+      form:
+        error_heading: "%{count} 오류로 인해 이 채널을 저장할 수 없습니다."
+        details_section: 채널 세부정보
+        name: 이름
+        description: 설명
+        outbound_section: 아웃바운드 웹훅(Deskbolic -> 사용자 정의 서버)
+        outbound_desc: 상담원이 응답할 때마다 Deskbolic은 이 URL로 POST 요청을 보냅니다.
+        webhook_url: 웹훅 URL
+        headers: 맞춤 헤더
+        headers_help: '서버에 필요한 사용자 정의 인증 헤더(예: Authorization: Bearer xyz)를 추가하세요.'
+        add_header: "+ 헤더 추가"
+        inbound_section: 인바운드 웹훅(커스텀 서버 -> Deskbolic)
+        inbound_desc: 귀하의 서버가 우리에게 보내는 JSON 페이로드를 Deskbolic 고객 속성에 매핑하세요.
+        add_mapping: "+ 매핑 추가"
+        save: 구성 저장
+        csat_survey: CSAT 설문조사
+        csat_default: 기본 시스템 설문조사
+        inbox_settings: 받은편지함 설정
+        inbox_desc: 고객 만족도 조사 및 SLA 정책을 구성합니다.
+        enable_csat: CSAT 설문조사 활성화
+        sla_policies: SLA 정책
+        header_name_placeholder: 헤더 이름
+        header_value_placeholder: 헤더 값
+        deskbolic_attribute_placeholder: Deskbolic 속성
+        json_path_placeholder: 'JSON 경로(예: data.user.id)'
+      instructions:
+        outbound_title: 아웃바운드 웹훅 수신
+        webhook_secret: 귀하의 웹훅 비밀
+        inbound_title: 인바운드 웹훅 보내기
+        hmac_token: 귀하의 HMAC 토큰
+        outbound_desc1: 상담원이 Deskbolic 대화에 응답하면 귀하에게 POST 요청이 전송됩니다.
+        outbound_webhook_url_bold: 아웃바운드 웹훅 URL
+        outbound_desc2: 다음 JSON 페이로드를 사용합니다.
+        verify_desc1: 요청이 실제로 Deskbolic에서 왔는지 확인하기 위해 우리는 다음을 사용하여 페이로드에 서명합니다.
+        webhook_secret_bold: 웹훅 비밀
+        verify_desc2: ". 우리는 이 서명을"
+        header_text: 헤더.
+        inbound_desc1: 사용자 정의 백엔드에서 Deskbolic으로 메시지를 보내려면 다음과 같이 POST 요청을 하세요.
+        inbound_desc2: HMAC 토큰을 포함하여 이 요청을 인증해야 합니다.
+        inbound_payload1: 보내는 JSON 페이로드는 원하는 대로 구성할 수 있습니다. Deskbolic은 귀하의
+        response_mapping_bold: 응답 매핑
+        inbound_payload2: 고객의 식별자, 이름, 메시지 내용을 추출하는 구성입니다.
+      testing:
+        sandbox_title: 샌드박스 테스트
+        test_outbound: 아웃바운드 웹훅 테스트
+        fire_outbound: 화재 아웃바운드 웹훅
+        response: '응답:'
+        test_inbound: 인바운드 매핑 시뮬레이션
+        test_mapping: 테스트 매핑
+        mapped_attributes: '매핑된 속성:'
+    settings:
+      integrations:
+        integrations:
+          index:
+            title: 통합
+            description: 즐겨 사용하는 도구와 Deskbolic을 연결하세요.
+          new:
+            title: "%{provider} 구성"
+            description: 통합 설정을 지정하세요.
+          edit:
+            title: "%{provider} 통합 편집"
+            description: 통합 설정을 업데이트하세요.
+          slack:
+            description: Slack 채널에서 직접 새로운 대화와 업데이트에 대한 즉각적인 알림을 받으세요.
+            connect: Slack에 추가
+            not_configured: 이 서버에는 Slack 자격 증명이 구성되어 있지 않습니다.
+            auth_failed: Slack 인증이 실패했거나 취소되었습니다.
+            exchange_failed: 'Slack 토큰 교환 실패: %{error}'
+            unexpected_error: Slack 인증 중에 예상치 못한 오류가 발생했습니다.
+            connected: Slack이 성공적으로 연결되었습니다.
+          webhooks:
+            description: 실시간 이벤트 알림을 Deskbolic에서 자체 서버 및 외부 서비스로 푸시하세요.
+            configured_count: "%{count} 구성됨"
+            connect: 웹훅 구성
+            url_label: 웹훅 URL
+            url_hint: Deskbolic이 이벤트에 대한 POST 요청을 보내는 엔드포인트입니다.
+            secret_label: 웹훅 비밀
+            secret_hint: 이 비밀을 사용하여 수신 요청의 HMAC 서명을 확인하세요.
+            events_label: 구독한 이벤트
+          google_translate:
+            description: 들어오는 메시지와 나가는 응답을 실시간으로 자동 번역합니다.
+          coming_soon: 출시 예정
+          connected: 연결됨
+          disconnect: 연결 끊기
+          manage: 관리하다
+          not_supported: 이 공급자에 대한 구성은 이 인터페이스를 통해 지원되지 않습니다.
+          invalid_provider: 잘못된 통합 공급자입니다.
+          created: 통합이 성공적으로 생성되었습니다.
+          updated: 통합이 성공적으로 업데이트되었습니다.
+          destroyed: 통합이 성공적으로 제거되었습니다.
+        created: 통합이 성공적으로 구성되었습니다.
+        updated: 통합 설정이 업데이트되었습니다.
+        destroyed: 통합이 성공적으로 연결 해제되었습니다.
+        invalid_provider: 선택한 통합 공급자가 잘못되었습니다.
+        slack:
+          auth_failed: Slack 인증에 실패했습니다. 다시 시도해 주세요.
+          not_configured: Slack OAuth 자격 증명이 이 서버에 구성되어 있지 않습니다.
+          connected: Slack에 성공적으로 연결되었습니다!
+          exchange_failed: 'Slack OAuth 토큰 교환 실패: %{error}'
+          unexpected_error: Slack 인증 중에 예상치 못한 오류가 발생했습니다.
+          basic_section: Slack 설정
+          manual_hint: Slack OAuth는 이 설치에 대해 전역적으로 구성되지 않으므로 Slack Workspace에서 수신 웹후크를 생성하고 여기에 URL을 붙여넣어 Slack을 수동으로 연결할 수 있습니다.
+          url_label: Slack 수신 웹훅 URL
+          description: Slack 채널에서 직접 새로운 대화와 업데이트에 대한 즉각적인 알림을 받으세요.
+          connect: Slack에 추가
+        not_supported: 이 공급자에 대한 구성은 이 인터페이스를 통해 지원되지 않습니다.
+        coming_soon: 출시 예정
+        connected: 연결됨
+        disconnect: 연결 끊기
+        manage: 관리하다
+        form:
+          back: "← 통합으로 돌아가기"
+        new:
+          title: "%{provider} 구성"
+        edit:
+          title: "%{provider} 통합 편집"
+        webhooks:
+          description: 실시간 이벤트 알림을 Deskbolic에서 자체 서버 및 외부 서비스로 푸시하세요.
+          connect: 웹훅 구성
+          configured_count: "%{count} 구성됨"
+          manage: 관리하다
+          basic_section: 웹훅 설정
+          url_label: 웹훅 URL
+          url_hint: Deskbolic이 이벤트에 대한 POST 요청을 보내는 엔드포인트입니다.
+          secret_label: 웹훅 비밀
+          secret_hint: 이 비밀을 사용하여 수신 요청의 HMAC 서명을 확인하세요.
+          events_label: 구독한 이벤트
+          instructions_title: 웹훅 수신
+        google_translate:
+          description: 들어오는 메시지와 나가는 응답을 실시간으로 자동 번역합니다.
+        index:
+          description: 즐겨 사용하는 도구와 Deskbolic을 연결하세요.
+          title: 통합
+      api_keys:
+        index:
+          created_ago: "%{date} 전에 생성됨"
+          description: 프로그래밍 방식으로 Deskbolic 계정에 액세스하기 위한 API 키를 관리하세요.
+          empty: 아직 API 키를 생성하지 않았습니다.
+          empty_title: 아직 API 키가 없습니다.
+          generate: 새 키 생성
+          key_title: API 키
+          revoke_confirm: 이 키를 취소하시겠습니까? 이를 사용하면 모든 통합이 즉시 중단됩니다.
+          title: 개발자 API 키
+    custom_fields_builder:
+      available_fields: 사용 가능한 필드
+      form_structure: 양식 구조
+    invitations:
+      index:
+        empty_description: 대기 중인 초대가 없습니다.
+        empty_title: 보류 중인 초대 없음
+        invited_by: "%{name}님이 초대함"
+        revoke_confirm: 이 초대를 취소하시겠습니까?
+        sent: 보냄
+      new:
+        title: 팀원 초대
+    portals:
+      domain_assignment: 도메인 할당
+      free_subdomain: 무료 Helpbolic 하위 도메인
+      manage_domains: 도메인 관리
+      no_custom_domains: 사용 가능한 도메인이 없습니다. 헬프 센터를 만들기 전에 사용자 정의 도메인을 추가하세요.
+      subdomain_hint: 헬프 센터의 고유한 이름을 선택하세요.
+      subdomain_name: 하위 도메인 이름
+      use_custom_domain: 사용자 정의 도메인 사용
+    reports:
+      agent: 대리인
+      agent_workload: 상담원 작업량(지난 30일)
+      avg_csat: 평균 CSAT 점수
+      conversations: 처리된 대화
+      conversations_volume: 대화량
+      no_data_desc: 이 기간에는 할당된 대화가 없습니다.
+      no_data_title: 사용 가능한 데이터가 없습니다.
+      overview: 개요(지난 30일)
+      sla_breaches: SLA 위반
+      total_conversations: 총 대화
+    shared:
+      are_you_sure: 확실합니까?
+      cancel: 취소
+      edit: 편집
+      save: Slack 연결 저장
+      update: Slack 연결 업데이트
+  auth:
+    workspace:
+      email_invitation:
+        title: 작업 공간에 참여
+        description: 귀하는 Deskbolic 팀에 합류하도록 초대되었습니다
+        members:
+          one: "%{count} 정회원"
+          other: "%{count} 활성 회원"
+        join_button: 작업 공간에 참여
+        joining_header: 가입 중입니다.
+        workspace_name: 작업공간
+        form:
+          first_name: 이름
+          last_name: 성
+          email: 귀하의 이메일
+          password: 비밀번호
+          confirm_password: 비밀번호 확인
+          submit: 가입
+    email: 이메일
+    password: 비밀번호
+    password_confirmation: 비밀번호 확인
+    first_name: 이름
+    last_name: 성
+    country: 국가
+    workspace_name: 작업공간 / 회사명
+    currency: 통화
+    currency_hint: 등록 후에는 변경할 수 없습니다.
+    default_language: 기본 작업공간 언어
+    datacenter: 데이터센터
+    datacenter_info: 맞춤형 데이터 센터 위치를 찾고 계십니까? 우리는 일부 기업 고객에게 맞춤형 위치를 제공합니다. 글로벌 라우팅 및 인증 목적을 위해 핵심 계정과 사용자 메타데이터는 기본 유럽 데이터베이스에 안전하게 유지됩니다.
+    datacenters:
+      europe_germany: 유럽(독일)
+      europe_germany_desc: 기본 EU 데이터베이스
+    next: 다음
+    back: 뒤로
+    submit_registration: 계정 만들기
+    submitting: 기다려 주세요...
+    login:
+      title: 귀하의 계정에 로그인하세요
+      subtitle: 돌아온 것을 환영합니다! 귀하의 세부 정보를 입력하십시오.
+      submit: 로그인
+      remember_me: 나를 기억해
+      forgot_password: 비밀번호를 잊으셨나요?
+      create_account: 계정 만들기
+      resend_confirmation: 확인 지침을 받지 못하셨나요?
+      existing_account: 이미 계정이 있나요? 로그인
+    registration:
+      step1_title: 사용자 세부정보
+      step2_title: 계정 세부정보
+      step2_subtitle: 작업 공간 설정
+      subtitle: 새 계정을 만드세요
+      setting_up: 계정 설정 중...
+      marketing_text: 고객 지원을 효율적으로 관리하세요.
+    passwords:
+      forgot_title: 비밀번호를 잊으셨나요?
+      forgot_subtitle: 이메일 주소를 입력하시면 비밀번호를 재설정할 수 있는 링크를 보내드립니다.
+      send_instructions: 재설정 지침 보내기
+      reset_title: 비밀번호 변경
+      reset_subtitle: 아래에 새 비밀번호를 입력하세요.
+      new_password: 새 비밀번호
+      confirm_new_password: 새 비밀번호 확인
+      change_my_password: 내 비밀번호 변경
+    confirmations:
+      title: 확인 지침 다시 보내기
+      subtitle: 귀하의 이메일 주소를 입력하시면 지침을 다시 보내드리겠습니다.
+      resend: 확인 지침 다시 보내기
+    unlocks:
+      title: 잠금 해제 지침 다시 보내기
+      subtitle: 잠금 해제 지침을 받으려면 이메일 주소를 입력하세요.
+      resend: 잠금 해제 지침 다시 보내기
+    placeholders:
+      first_name: 존
+      last_name: 미상
+      email: john@company.com
+      workspace: 애크미 주식회사
+    select_country: 국가 선택
+    password_rules:
+      length: 8자 이상
+      uppercase: 대문자 1개
+      number: 하나의 숫자
+      special: 특수 문자 1개
+    password_hint: 대문자, 소문자, 숫자, 기호를 혼합하여 8자 이상이어야 합니다.
+    current_password: 현재 비밀번호
+    edit_profile:
+      title: 프로필 편집
+      submit: 업데이트
+    registrations:
+      registered_title: 환영합니다!
+      registered_message: 귀하의 계정이 성공적으로 생성되었습니다.
+      back_to_login: 계속 로그인
+  activities:
+    conversation:
+      conversation_resolved: 대화가 해결되었습니다.
+      conversation_closed: 대화가 종료되었습니다.
+      conversation_active: 대화가 다시 열렸습니다.
+      conversation_snoozed: 대화가 일시중지되었습니다.
+      update: 대화 세부정보가 업데이트되었습니다.
+      priority_updated: 우선순위가 변경되었습니다.
+      label_added: 라벨 %{label}가 추가되었습니다.
+      label_removed: 라벨 %{label}가 삭제되었습니다.
+  audit_logs:
+    actions: 작업
+    actor: 배우
+    changes: 변경 사항
+    confirm_rollback: 이 개체를 이전 상태로 완전히 롤백하시겠습니까?
+    confirm_undo: 이러한 특정 변경사항을 실행취소하시겠습니까?
+    description: 조직 전체의 모든 활동을 추적하고 검토하세요.
+    empty: 감사 로그를 찾을 수 없습니다.
+    event: 이벤트
+    rollback: 롤백
+    timestamp: 타임스탬프
+    title: 감사 로그
+    undo: 실행 취소
+  devise:
+    registrations:
+      back_to_login: 로그인으로 돌아가기
+      registered_message: 계정이 성공적으로 생성되었습니다.
+      registered_title: 받은 편지함을 확인하세요!
+  forms:
+    labels:
+      api_key: API 키
+      assigned_email_template_optional: 할당된 이메일 템플릿(선택 사항)
+      business_account_id: 비즈니스 계정 ID
+      business_hours: 영업시간
+      chat_prompt_whatsapp_widget: 채팅 프롬프트(WhatsApp, 위젯)
+      csat_survey: CSAT 설문조사
+      custom_reply_template: 사용자 정의 응답 템플릿
+      default_locale: 기본 로케일
+      default_value: 기본값
+      description: 설명
+      description_helper_text: 설명/도우미 텍스트
+      email: 이메일
+      enter_app_id: 앱 ID를 입력하세요
+      enter_channel_name: 채널 이름을 입력하세요
+      enter_email: 이메일을 입력하세요
+      enter_name_of_channel: 채널 이름을 입력하세요
+      enter_name_of_inbox: 받은편지함 이름을 입력하세요.
+      enter_website_url: 웹사이트 URL을 입력하세요
+      feedback_textbox_label: 피드백 텍스트 상자 라벨
+      field_key: 필드 키
+      field_label: 필드 라벨
+      form_name: 양식 이름
+      form_subtitle: 양식 부제
+      form_title: 양식 제목
+      full_phone_number: 전체 전화번호
+      help_center_name: 도움말 센터 이름
+      input_type: 입력 유형
+      max_length: 최대 길이
+      max_value: 최대값
+      min_length: 최소 길이
+      min_value: 최소값
+      name: 이름
+      notification_emails_comma_separated: 알림 이메일(쉼표로 구분)
+      outbound_channel: 아웃바운드 채널
+      phone_number_id: 전화번호 아이디
+      placeholder: 자리 표시자
+      portal_subtitle: 포털 자막
+      portal_title_on_the_feedback_page: 포털 제목(피드백 페이지)
+      record_type: 레코드 유형
+      redirect_url_on_submit_optional: 제출 시 URL 리디렉션(선택 사항)
+      regex_pattern: 정규식 패턴
+      resource_mapping: 리소스 매핑
+      secret: 비밀
+      select_channel: 채널 선택
+      sla_policies: SLA 정책
+      submit_button_text: 제출 버튼 텍스트
+      success_message: 성공 메시지
+      success_message_key: 성공 메시지 키
+      survey_name: 설문조사 이름
+      template_name: 템플릿 이름
+      template_type: 템플릿 유형
+    options:
+      a_team: 팀
+      account_wide: 계정 전체(모든 상담원)
+      active: 활성
+      all: 전체
+      always_online_24_7: 항상 온라인(연중무휴)
+      an_agent: 대리인
+      any: 모두
+      any_website: 모든 웹사이트
+      back_office_ticket: 백오피스 티켓
+      center_aligned: 중앙 정렬
+      closed: 휴무
+      customer_ticket: 고객 티켓
+      days: 일
+      default_email_view: 기본 이메일 보기
+      default_mailer_view: 기본 메일러 보기
+      default_survey: 기본 설문조사
+      default_system_survey: 기본 시스템 설문조사
+      event_trigger: 이벤트 트리거
+      formal: 정장
+      fourteen_days: 14일
+      high: 높음
+      hours: 시간
+      informal: 비공식
+      left_aligned: 왼쪽 정렬
+      let_fin_decide: 핀이 결정하게 해주세요
+      low: 낮음
+      medium: 중간
+      minutes: 분
+      never_always_create_new: 안함(항상 새로 생성)
+      no_email_channel_linked: 연결된 이메일 채널이 없습니다.
+      no_help_center_linked: 연결된 도움말 센터 없음
+      no_pre_chat_form_linked: 연결된 사전 채팅 양식이 없습니다.
+      not_mapped: 매핑되지 않음
+      one_hour: 1시간
+      personal: 개인(본인만)
+      resolved: 해결됨
+      right_aligned: 오른쪽 정렬
+      select_a_channel: 채널 선택
+      select_a_customer: 고객을 선택하세요
+      select_a_schedule: 일정을 선택하세요
+      select_action: 작업 선택...
+      select_agent: 에이전트 선택...
+      select_attribute: 속성 선택...
+      select_country_code: 국가 코드 선택
+      select_deskbolic_attribute: Deskbolic 속성 선택
+      select_email_channel: 이메일 채널 선택...
+      select_event: 이벤트 선택...
+      select_language: 언어 선택...
+      select_operator: 연산자 선택...
+      select_team: 팀 선택...
+      seven_days: 7일
+      snoozed: 일시 중지됨
+      team: 팀
+      time_trigger: 시간 트리거
+      tracker_ticket: 트래커 티켓
+      twelve_hours: 12시간
+      twenty_four_hours: 24시간
+      urgent: 긴급
+      use_system_default_design: 시스템 기본 디자인 사용
+  general:
+    activate: 활성화
+    add: 추가
+    ago: "%{time} 전"
+    assign: 할당
+    cancel: 취소
+    cancel_upload: 업로드 취소
+    coming_soon: 출시 예정
+    copy: 복사
+    created_ago: "%{time} 전에 생성됨"
+    deactivate: 비활성화
+    delete: 삭제
+    devices:
+      desktop: 데스크탑
+      mobile: 모바일
+      tablet: 태블릿
+    edit: 편집
+    minutes_short:
+      one: "%{count} 분"
+      other: "%{count} 분"
+    none: 없음
+    remove: 제거
+    remove_language: 언어 삭제
+    remove_option: 옵션 제거
+    remove_translation: 번역 삭제
+    revoke: 취소
+    save_changes: 변경 사항 저장
+    unassign: 할당 취소
+  global:
+    buttons:
+      done: 완료
+  mailers:
+    system_mailer:
+      forward_email_verification:
+        almost_complete: 설정이 거의 완료되었습니다!
+        ignore_notice: 이 이메일을 무시하세요. 이는 이메일 전달 규칙이 올바르게 작동하는지 확인하기 위해 Deskbolic에서 자동으로 생성됩니다.
+  notification_settings:
+    browser_push: 브라우저 푸시 알림
+    browser_push_desc: Deskbolic이 백그라운드에서 실행되는 동안에도 알림을 받으려면 푸시 알림을 활성화하세요.
+    description: 이메일 및 푸시 알림 기본 설정을 관리하세요.
+    email: 이메일
+    enable_browser_push: 브라우저 알림 활성화
+    event: 이벤트
+    push: 푸시
+    title: 알림 설정
+  notifications:
+    empty: 여러분 모두 따라잡혔어요!
+    empty_sub: 읽지 않은 알림이 있으면 여기에 표시됩니다.
+    mark_all_as_read: 모두 읽음으로 표시
+    mark_read: 마크 리드
+    title: 알림
+    events:
+      conversation_created: 새 대화가 생성되었습니다.
+      conversation_assigned: 나에게 할당된 대화
+      conversation_resolved: 대화가 해결되었습니다.
+      sla_breached: SLA 위반 경고
+      message_created: 새 메시지가 수신되었습니다.
+      conversation_mention: 대화에서 내가 언급되었습니다.
+      subscription_created: 구독이 활성화되었습니다
+      subscription_renewed: 구독이 갱신되었습니다
+      subscription_cancelled: 구독이 취소되었습니다.
+      trial_expiring: 무료 평가판이 곧 종료됩니다
+      payment_failed: 결제 실패
+      limit_approaching: 요금제 한도에 거의 도달했습니다.
+      limit_reached: 요금제 한도에 도달함
+      team_assigned: 팀에 할당된 대화
+    push:
+      conversation_created:
+        title: 새로운 대화
+        body: "%{inbox_name}에 새 대화가 생성되었습니다."
+      conversation_assigned:
+        title: 대화가 할당됨
+        body: '대화 #%{identifier}가 귀하에게 할당되었습니다'
+      conversation_resolved:
+        title: 대화가 해결되었습니다.
+        body: '대화 #%{identifier}가 해결되었습니다.'
+      sla_breached:
+        title: SLA 위반 경고
+        body: '대화 #%{identifier}에 대한 SLA 위반'
+      message_created:
+        title: 새 메시지
+        body: '대화 #%{identifier}의 새 메시지'
+      conversation_mention:
+        title: 언급됨
+        body: '대화 #%{identifier}에서 귀하가 언급되었습니다.'
+      subscription_created:
+        title: 구독이 활성화되었습니다
+        body: 귀하의 %{plan_name} 계획이 이제 활성화되었습니다
+      subscription_renewed:
+        title: 구독이 갱신되었습니다
+        body: 귀하의 %{plan_name} 요금제가 갱신되었습니다
+      subscription_cancelled:
+        title: 구독이 취소되었습니다
+        body: 구독이 취소되었습니다
+      trial_expiring:
+        title: 평가판 곧 종료
+        body: 무료 평가판은 %{days}일 후에 종료됩니다.
+      payment_failed:
+        title: 결제 실패
+        body: 결제를 처리할 수 없습니다. 결제 수단을 업데이트하세요.
+      limit_approaching:
+        title: 한계에 접근
+        body: "%{resource} 한도의 %{percentage}%%에 도달했습니다."
+      limit_reached:
+        title: 한도 도달
+        body: "%{resource} 한도에 도달했습니다. 계속하려면 계획을 업그레이드하세요."
+      team_assigned:
+        title: 팀 과제
+        body: '대화 #%{identifier}가 %{team_name}에게 할당되었습니다'
+  settings:
+    csat:
+      configuration: CSAT 구성
+      description: 대화가 해결된 후 자동으로 고객에게 설문조사를 보냅니다.
+      enable_label: CSAT 설문조사 활성화
+      info_text: 활성화하면 고객은 티켓 상태가 해결됨으로 변경된 후 기본적으로 채팅 위젯이나 이메일 링크를 통해 평가 메시지를 받게 됩니다.
+      save: 설정 저장
+      title: 고객 만족도(CSAT)
+  shared:
+    back: 뒤로
+    confirm_delete: 이 항목을 삭제하시겠습니까?
+    delete: 삭제
+    edit: 편집
+    error_heading: 다음 오류를 수정하세요.
+  ui:
+    admin_notification_mailer:
+      workspace_request:
+        email_nbsp: '이메일:  '
+        name_nbsp: '이름:  '
+        user_nbsp: '사용자:  '
+        workspace_id_nbsp: '작업공간 ID:  '
+        workspace_joining_request: 워크스페이스 가입 요청!
+    conversation_reply_mailer:
+      reply:
+        reply_to_this_email_to_continue_the_conversation: 대화를 계속하려면 이 이메일에 답장하세요.
+    dashboard:
+      account_invitations:
+        email_invitation:
+          community_icon: 커뮤니티 아이콘
+          deskbolic_logo: Deskbolic 로고
+          email_joining_icon: 이메일 가입 아이콘
+        index:
+          revoke: "\U0001F5D1️ 취소"
+        new:
+          an_invitation_email_will_be_sent_to_the_member_with: 워크스페이스에 참여하기 위한 지침이 포함된 초대 이메일이 멤버에게 전송됩니다.
+          assign_role: 역할 할당
+          choose_a_role_for_this_member: 이 회원의 역할을 선택하세요.
+          invitation_summary: 초대 요약
+          invite_member: 회원 초대
+          invite_someone_to_join_your_workspace_and_assign_permissions: 작업 공간에 참여할 사람을 초대하고 권한을 할당하세요.
+          invite_team_member: 팀원 초대
+          name_company_com: name@company.com
+          permission_preview: 권한 미리보기
+          show_less: 간략히 보기
+          this_member_will_receive: '이 회원은 다음을 받게 됩니다:'
+      account_users:
+        edit:
+          role: 역할
+          select: 선택
+        index:
+          all_roles: 모든 역할
+          edit_role: 역할 편집
+          filter_by_role: 역할별로 필터링
+          joined_on: 가입 날짜
+          last_active: 마지막 활동
+          manage_your_workspace_members_permissions_and_invitations: 워크스페이스 멤버, 권한, 초대를 관리하세요.
+          member_actions: 회원 활동
+          no_matching_members: 일치하는 회원이 없습니다.
+          remove_member: 회원 삭제
+          search_members: 회원 검색...
+          sort_members: 멤버 정렬
+          sort_name: '정렬: 이름'
+          sort_newest: '정렬: 최신'
+          sort_oldest: '정렬: 가장 오래된 것'
+          try_a_different_search_or_role_filter: 다른 검색 또는 역할 필터를 사용해 보세요.
+      agent:
+        agent_sidebar:
+          ai_agent: AI 에이전트
+          analyse: 분석하다
+          content: 내용
+          conversation: 대화
+          custom_answers: 맞춤 답변
+          deploye: 배포
+          fin_testing: 핀 테스트
+          guidance: 안내
+          menu: 메뉴
+          optimize: 최적화
+          performance: 성능
+          profiles: 프로필
+          tags: 태그
+          task: 작업
+          test: 테스트
+          testing: 테스트
+          topics_explorer: 주제 탐색기
+          train: 기차
+          workflows: 워크플로우
+        fin_test:
+          add_question: 질문 추가
+          add_questions: 질문 추가
+          answer_rating_is_any: 답변 등급은 모두입니다.
+          answer_status_is_any: 답변 상태는 any입니다.
+          batch_test_fin_s_answers_to_go_live_with_confidence: 일괄 테스트를 통해 Fin의 답변을 자신있게 공개하세요
+          create_a_new_group: 새 그룹 만들기
+          generate_from_past_conversations: 과거 대화에서 생성
+          matthew_attard: 매튜 아타드
+          others: 기타
+          preview_user: 사용자 미리보기
+          start_testing_by_adding_questions_for_fin_to_answer: Fin이 답변할 질문을 추가하여 테스트를 시작하세요.
+          testing_as: 다음으로 테스트
+          there_group_has_no_questions: 질문이 없는 그룹이 있습니다.
+          update_a_minute_ago_by: '1분 전 업데이트:'
+          upload_a_cv: 이력서 업로드
+        guidance:
+          all_guidance_0_100: 모든 안내 (0/100)
+          communication_style: 커뮤니케이션 스타일
+          context_and_clarification: 맥락과 설명
+          enabled: 활성화됨
+          follow_up_questions_fin_should_ask_to_ensure_accurate_answers: 핀이 정확한 답변을 위해 물어봐야 할 후속 질문
+          hallo_ich_bin_fitbot_ich_bin_dein_pers_nlicher_sportassistent: "안녕하세요, FitBot입니다! \U0001F44B Ich bin dein persönlicher Sportassistant. Wie kann ich dir helfen?"
+          handover_and_escalation: 핸드오버 및 '에스컬레이션'
+          how_to_handle_cases_that_should_be_routed_straight_to: 귀하의 팀에 직접 전달되어야 하는 케이스를 처리하는 방법
+          icon: 아이콘
+          message: 메시지...
+          messages: 메시지
+          new: 새로운
+          not_enabled: 활성화되지 않음
+          specific_vocabulary_and_terminology_fin_should_use: Fin이 사용해야 하는 특정 어휘 및 용어
+        index:
+          choose_formal_or_informal_pronouns_for_all_applicable_languages: 공식 또는 비공식 대명사 선택(해당되는 모든 언어에 대해)
+          choose_how_fin_phrases_the_options_it_presents_to_your: 고객에게 제공되는 옵션을 핀프레이즈로 표현하는 방법을 선택하세요.
+          control_the_language_fin_will_use_to_create_ai_answers: Fin이 AI 답변을 생성하는 데 사용할 언어를 제어하세요.
+          customize_fin_s_profile_picture_and_name_this_identity_will: Fin의 프로필 사진과 이름을 맞춤설정하세요. 이 ID는 작업 흐름의 봇에도 사용됩니다.
+          customize_the_reply_buttons_here: 여기에서 답장 버튼을 맞춤설정하세요...
+          default_language_english: 기본 언어(영어)
+          deskbolic_s_multilingual_support: Deskbolic의 다국어 지원
+          deskbolic_s_pronoun_formality: Deskbolic의 대명사 형식
+          deskbolic_s_reply_buttons: Deskbolic의 응답 버튼
+          english_default: 영어(기본)
+          fin_s_pronoun_formality: 핀의 대명사 형식
+          fin_will_automatically_detect_and_reply_to_customer_in_the: Fin은 아래에 추가한 지원 언어를 자동으로 감지하여 고객에게 응답합니다. 더 많은 언어 추가
+          fin_will_follow_the_same_language_style_as_the_user: Fin은 사용자와 동일한 언어 스타일을 따르므로 사용자가 "du" 또는 "tu"인 경우 Fin은 비공식 대명사로 대답합니다. 사용자가 "Sie" 또는 "vous"를 사용하는 경우.
+          identity: 아이덴티티
+          image: 이미지
+          multilingual_fin: 다국어 핀
+          real_time_translation: 실시간 번역
+          resolves_the_conversation: 대화를 해결합니다
+          routes_the_customer_to_teammates: 고객을 팀원에게 연결합니다.
+          supported_languages: 지원되는 언어
+          wed_8_21_am: 수 오전 8:21
+          you_can_pick_what_works_best_for_your_audience_this: 청중에게 가장 적합한 것을 선택할 수 있습니다. 버튼의 기능은 변경되지 않습니다.
+        task:
+          cancel_subscription: 구독 취소
+          not_designed_yet: 아직 설계되지 않았습니다.
+          process_a_refund: 환불 처리
+          tasks: 작업
+          use_this_when_a_customer_asks_to_cancel_to_subscription: 고객이 구독 취소를 요청할 때 사용하세요.
+          use_this_workflow_to_process_refund_request_from_users_always: 이 워크플로를 사용하여 사용자의 환불 요청을 처리합니다. 가능한 다른 작업보다 항상 이 워크플로를 우선시하세요.
+        test:
+          48_questions: 48개의 질문
+          al_agent_while_there_isn_t_a_definitive_cure_for: Al Agent 심각한 알레르기에 대한 확실한 치료법은 없지만 장기적인 관리 전략에 대한 정보를 제공할 수 있습니다. 알레르기 치료에는 가능하면 알레르기 항원을 피하고, 항히스타민제 및 스테로이드 크림과 같은 약물을 사용하고, 경우에 따라 심각한 반응에 대해서는 응급약을 사용하는 것이 포함됩니다. 장기적인 해결책을 위해 면역요법이 크게 발전했습니다. 이 치료에는 시간이 지남에 따라 알레르겐에 조심스럽게 노출되어 신체가 내성을 갖도록 돕는 것이 포함됩니다. 이러한 목적을 위해 맞춤형 설하 정제가 더욱 정확해지고 널리 보급되고 있습니다. 치료의 효과는 사람마다 다를 수 있다는 점에 유의하는 것이 중요합니다. 귀하의 특정 상황에 가장 적합한 조언을 얻으려면 자격을 갖춘 의료 전문가 또는 알레르기 전문의와 상담하는 것이 좋습니다. 그들은 귀하의 개인적인 필요와 증상에 따라 포괄적인 알레르기 관리 계획을 제공할 수 있습니다.
+          allegies_updated: 주장 업데이트
+          allergies_questions_testing: 알레르기 질문 테스트
+          answer_rating: 답변 평가
+          answer_status: 답변 상태
+          are_seasonal_allergies_different_from_other_types: 계절성 알레르기는 다른 유형과 다른가요?
+          arrow: 화살
+          can_allergies_be_life_threatening: 알레르기가 생명을 위협할 수도 있나요?
+          can_avoiding_allergens_help_reduce_symptoms: 알레르기 유발 물질을 피하면 증상을 줄이는 데 도움이 됩니까?
+          can_children_outgrow_allergies: 아이들이 알레르기를 극복할 수 있나요?
+          can_i_be_allergic_to_more_than_one_thing: 한 가지 이상의 것에 알레르기가 있을 수 있나요?
+          can_i_self_diagnose_an_allergy: 알레르기를 자가 진단할 수 있나요?
+          content_2: 내용(2)
+          evaluate_answer: 답변 평가
+          guidance_3: 안내 (3)
+          hay_fever_allergis_in_2025_what_you_need_to_know: '2025년 고초열 알레르기: 당신이 알아야 할 것.'
+          how_can_i_avoid_allergens_in_daily_life: 일상생활에서 알레르기 유발물질을 어떻게 피할 수 있나요?
+          how_does_desensitisation_help_manage_allergies: 탈감작은 알레르기 관리에 어떻게 도움이 됩니까?
+          is_there_a_cure_or_long_term_solution_for_severe: 심각한 알레르기에 대한 치료법이나 장기적인 해결책이 있습니까?
+          new_role: 새로운 역할
+          questions: 질문
+          should_i_carry_an_edipen_rf_lye_had_a_severe: 과거에 심한 반응을 보인 EDIPen rf 잿물을 가지고 다녀야 할까요?
+          this_answer_uses: 이 답변에서는 다음을 사용합니다.
+          tick: 진드기
+          what_is_an_allergy_management_plan: 알레르기 관리 계획이란 무엇입니까?
+          what_is_hayfever: 건초열이란 무엇입니까?
+          what_should_i_tell_my_gp_about_my_symptoms: 내 증상에 대해 GP에게 무엇을 말해야 합니까?
+          who_should_administer_immunotherapy: 면역치료는 누가 실시해야 합니까?
+        topics:
+          10_highest_volume_topics: 가장 많은 양의 주제 10개
+          1_306_conversation: 1.306 대화
+          80_9_cx_score: 80.9% CX 점수
+          add_filter: 필터 추가
+          conversation_data: 대화 데이터
+          fin_agent: 핀 에이전트
+          fin_features: 핀 특징
+          jun_4_2025_jul_1_2025: 2025년 6월 4일 - 2025년 7월 1일
+          messenger_setup: 메신저 설정
+          surveys: 설문조사
+          topic_explorer: 주제 탐색기
+        workflow:
+          1_more: 1개 더
+          ask_if_it_helped: 도움이 됐는지 물어보세요
+          ask_the_suer_which_subscription_they_want_to_cancel: 사용자에게 어떤 구독을 취소하고 싶은지 물어보세요.
+          cancel_subscription: 구독 취소
+          channel: 채널
+          fin_hands_over: 핀이 넘겨진다
+          if_unable_to_complete: 완료할 수 없는 경우
+          once_complete: 완료되면
+          overview: 개요
+          path: 경로
+          path_analysis: 경로 분석
+          set_live: 라이브 설정
+          trigger: 트리거
+          unable_to_complete: 완료할 수 없습니다
+          use_this_when_a_customer_asks_to_cancel_a_subscription: 고객이 구독 취소를 요청할 때 사용하세요.
+          web_and_zendesk_messaging: 웹 및 Zendesk 메시징
+          workflow: 작업흐름
+      assignment_policies:
+        edit:
+          back_to_policies: "← 정책으로 돌아가기"
+        policy_card:
+          are_you_sure_you_want_to_delete_this_policy: 이 정책을 삭제하시겠습니까?
+          auto_reassign: 자동 재할당
+          business_hours: 영업시간
+          priority_routing: 우선순위 라우팅
+      automation_executions:
+        index:
+          automation: 자동화
+          duration: 기간
+          executed_at: 실행 시간
+          ms: "%{time}ms"
+          triggered_by: 트리거 원인
+      automations:
+        action_row:
+          e_g_en_fr_de: 예를 들어 엥, 프랑스, 드
+          enter_message: 메시지를 입력하세요...
+          hours: 시간
+        automation:
+          toggle: 토글
+        condition_group:
+          group_match: 그룹 %{value} — 경기
+          remove_group: 그룹 삭제
+          value: 가치...
+        form:
+          of_the_following_condition_groups: '다음 조건 그룹 중 하나:'
+      channels:
+        channels:
+          img: img
+          inbox_icon: 받은편지함 아이콘
+        contact_form:
+          edit:
+            back_to_contact_forms: "← 문의 양식으로 돌아가기"
+          form:
+            add_custom_field: 사용자 정의 필드 추가
+            add_field: 필드 추가
+            add_language: 언어 추가
+            auto_assign_conversations: 자동 할당 대화
+            enable_csat_survey: CSAT 설문조사 활성화
+            translations: 번역
+          translation_fields:
+            e_g_contact_support: 예를 들어 지원팀에 문의
+            e_g_send_message: 예를 들어 메시지 보내기
+            e_g_thanks_for_reaching_out_we_ve_received_your: 예를 들어 문의해 주셔서 감사합니다. 귀하의 메시지를 받았습니다.
+            e_g_we_will_reply_as_soon_as_possible: 예를 들어 최대한 빨리 답변해드리겠습니다.
+        contact_form_channel_modal:
+          create_form: 양식 만들기
+          e_g_sales_inquiry: 예를 들어 판매문의
+          require_user_login: 사용자 로그인 필요
+          sales_example_com_support_example_com: sales@example.com, support@example.com
+        custom:
+          form:
+            json_path_e_g_data_user_id: 'JSON 경로(예: data.user.id)'
+          index:
+            identifier: '식별자: %{identifier}'
+          instructions:
+            deskbolic_signature: Deskbolic-서명
+            for_example_in_ruby: ". 예를 들어 Ruby에서는 다음과 같습니다."
+            header_using_the_format: 형식을 사용하는 헤더
+            t_timestamp_v1_signature: t={타임스탬프},v1={서명}
+            to_verify_that_the_request_actually_came_from_deskbolic_we: 요청이 실제로 Deskbolic에서 왔는지 확인하기 위해 우리는 다음을 사용하여 페이로드에 서명합니다.
+            we_include_this_signature_in_the: ". 우리는 이 서명을"
+            you_must_authenticate_this_request_by_signing_your_json_payload: SHA256을 사용하여 HMAC 토큰으로 JSON 페이로드에 서명하여 이 요청을 인증해야 합니다. 에 서명을 전달하세요.
+            you_should_verify_the_signature_on_your_server_to_prevent: 재생 공격을 방지하고 신뢰성을 보장하려면 서버에서 서명을 확인해야 합니다. 예를 들어 Ruby에서는 다음과 같습니다.
+          new:
+            brief_description_of_what_this_channel_connects_to: 이 채널이 연결되는 대상에 대한 간략한 설명
+            e_g_my_internal_dashboard: 예를 들어 내 내부 대시보드
+          testing_sandbox:
+            paste_a_sample_json_payload_that_your_server_would_send: 서버가 Deskbolic으로 보낼 샘플 JSON 페이로드를 붙여넣고 응답 매핑이 이를 어떻게 구문 분석하는지 확인하세요.
+            sends_a_mock_message_created_payload_to_your_configured_webhook: 모의 <code>message.created</code> 페이로드를 구성된 웹훅 URL로 보냅니다.
+            use_these_tools_to_verify_that_your_outbound_webhook_url: 이러한 도구를 사용하여 아웃바운드 웹후크 URL이 페이로드를 올바르게 수신하고 있는지, 그리고 응답 매핑이 인바운드 데이터를 정확하게 구문 분석하는지 확인하세요.
+        email:
+          form:
+            support_yourcompany_com: support@yourcompany.com
+        facebook:
+          edit:
+            page_id: '페이지 ID: %{identifier}'
+        instagram:
+          edit:
+            text: "@%{username}"
+        web_widget:
+          form:
+            chat_bubble_icon_launcher: 채팅 풍선 아이콘(런처)
+            custom_branding: 맞춤형 브랜딩
+            drop_icon_here_or_click_to_upload: 여기에 아이콘을 놓거나 클릭하여 업로드하세요.
+            drop_logo_here_or_click_to_upload: 여기에 로고를 놓거나 클릭하여 업로드하세요.
+            enforce_secure_identity_hmac: 보안 ID 시행(HMAC)
+            offline_email_channel: 오프라인 이메일 채널
+            pre_chat_form: 사전 채팅 양식
+            widget_header_logo: 위젯 헤더 로고
+          index:
+            anonymous_allowed: 익명 허용
+            anonymous_restricted: 익명 제한
+            contact_form_linked: 문의 양식 링크됨
+            help_center_linked: 도움말 센터가 연결됨
+          installation:
+            copy: "\U0001F4CB 복사"
+            embed_the_deskbolic_widget_into_your_website_or_web_app: 닫는 <code>&lt;/body&gt;</code> 태그 바로 앞에 다음 스니펫을 배치하여 Deskbolic 위젯을 웹사이트나 웹 앱에 삽입하세요.
+            react_next_js: 반응 / Next.js
+            standard_html: 표준 HTML
+          preview:
+            live_preview: 실시간 미리보기
+            see_how_your_widget_will_appear_to_customers: 귀하의 위젯이 고객에게 어떻게 표시되는지 확인하세요.
+          translation_fields:
+            launcher_text: 런처 텍스트
+            pre_chat_subtitle: 채팅 전 자막
+            pre_chat_title: 채팅 전 제목
+            reply_time_text: 응답 시간 텍스트
+        whatsapp:
+          edit:
+            phone: '전화: %{full_phone_number}'
+            waba: "(와바: %{business_account_id})"
+          new:
+            e_g_234567890: '예: 234567890'
+      confirmations:
+        new:
+          you_example_com: you@example.com
+      conversations:
+        agent_info:
+          avatar: 아바타
+          unassigned: 할당되지 않음
+        conversation_details:
+          cancel: 취소하다
+          chat: 채팅
+        labels_info:
+          manage_labels: 라벨 관리
+        snooz_conv_modal:
+          snooze_conversation: 대화 일시중지
+      csat_surveys:
+        form:
+          basic_configuration: 기본 구성
+          localized_content: 현지화된 콘텐츠
+          save_survey: 설문조사 저장
+          saved_to_your_default_language_english_as_a_fallback: 대체 언어로 기본 언어(영어)로 저장되었습니다.
+          the_question_asked_in_chat_channels_emails_use_the_assigned: 채팅채널에서 물어본 질문입니다. 이메일은 할당된 이메일 템플릿을 사용합니다.
+      custom_fields:
+        edit:
+          back_to_custom_fields: "← 사용자 정의 필드로 돌아가기"
+        form:
+          e_g_company_size: 예를 들어 회사_규모
+          field_is_required: 필드는 필수입니다
+          hidden_from_ui: UI에서 숨겨짐
+          read_only_agents_cannot_edit: 읽기 전용(상담원은 편집할 수 없음)
+          save_custom_field: 사용자 정의 필드 저장
+          searchable: 검색 가능
+          validations_rules: 검증 및 규칙
+        index:
+          create_new_field: "+ 새 필드 만들기"
+          create_your_first_custom_field_to_start_tracking_rich_customer: 풍부한 고객 데이터 추적을 시작하려면 첫 번째 사용자 정의 필드를 만드세요.
+          created_ago: "%{date} 전에 생성됨"
+          input_type: '입력 유형: %{titleize}'
+          master_data_attributes_for_personalized_customer_experiences: 개인화된 고객 경험을 위한 마스터 데이터 속성입니다.
+          no_custom_fields_found: 사용자 정의 필드를 찾을 수 없습니다
+        translation_fields:
+          add_option: "+ 옵션 추가"
+          e_g_1_10_employees: 예를 들어 직원 1~10명
+      custom_fields_builder:
+        show:
+          back_to_channels: 채널로 돌아가기
+          drag_and_drop_fields_to_reorder_or_add_them_to: 필드를 끌어서 놓아 재정렬하거나 연락처 양식에 추가하세요.
+          form_builder: '폼 빌더: %{name}'
+          no_fields_added_yet_add_fields_from_the_right_to: 아직 추가된 필드가 없습니다. 추가하려면 오른쪽에서 필드를 추가하세요.
+      domains:
+        index:
+          add: 추가하다
+          delete: 삭제
+          edit: 편집하다
+          verify: 확인하다
+      email_templates:
+        edit:
+          text: "{{%{grp}.%{prop}}}"
+          text_2: "{{%{grp}}}"
+        index:
+          are_you_sure_you_want_to_delete_this_template: 이 템플릿을 삭제하시겠습니까?
+        new:
+          create_template: 템플릿 생성
+          e_g_my_custom_reply: 예를 들어 내 맞춤 답장
+      help_center:
+        articles:
+          index:
+            clear: 명확한
+            clear_search: 검색 지우기
+        help_center_sidebar:
+          all_articles: 모든 기사
+          all_articles_2: 모든 기사
+          articles: 기사
+          collections: 컬렉션
+          collections_2: 컬렉션
+          draft: 초안
+          published: 출판됨
+          published_2: 게시됨
+          settings: 설정
+        portals:
+          edit:
+            appearance_settings: 외모 설정
+            basic_information: 기본정보
+            category_layout: 카테고리 레이아웃
+            default: 기본값
+            domain_assignment: 도메인 할당
+            edit_help_center: 도움말 센터 편집
+            hero_style: 영웅 스타일
+            languages: 언어
+            manage_domains: 도메인 관리
+            no_available_domains_add_a_subdomain_or_custom_domain_before: 사용 가능한 도메인이 없습니다. 헬프 센터를 만들기 전에 하위 도메인 또는 사용자 정의 도메인을 추가하세요.
+            png_jpg_or_svg_up_to_5mb: PNG, JPG 또는 SVG(최대 5MB)
+            primary_color: 기본 색상
+            secondary_color: 보조 색상
+            the_public_facing_name_internal_id_will_be_generated_automatically: 공개 이름입니다. 내부 ID는 자동으로 생성됩니다.
+            theme_preference: 테마 선호도
+            update_branding_appearance_languages_and_domain_settings_for_this_help: 이 도움말 센터의 브랜딩, 모양, 언어 및 도메인 설정을 업데이트하세요.
+            update_help_center: 도움말 센터 업데이트
+            x: 엑스
+          index:
+            create_a_help_center_to_configure_branding_languages_and_its: 브랜딩, 언어 및 공개 도메인을 구성하려면 헬프 센터를 만드세요.
+            create_help_center: 헬프 센터 만들기
+            manage_the_help_centers_created_for_this_workspace: 이 작업 공간을 위해 생성된 헬프 센터를 관리하세요.
+            no_help_centers_yet: 아직 헬프 센터가 없습니다
+      identity_sources:
+        form:
+          https_api_example_com_identities_customer_email: https://api.example.com/identities/{{ customer.email }}
+      integrations:
+        index:
+          google_translate: 구글 번역
+          webhooks: 웹훅
+        webhook_form:
+          when_subscribed_events_occur_deskbolic_will_send_an_http_post: 구독된 이벤트가 발생하면 Deskbolic은 사용자에게 HTTP POST 요청을 보냅니다.
+      macros:
+        edit:
+          add_action: "+ 액션 추가"
+          save_macro: 매크로 저장
+        index:
+          account_wide: 계정 전체
+          action_s:
+            one: "%{count} 액션"
+            other: "%{count} 작업"
+          personal: 개인
+      notifications:
+        index:
+          close: 닫기
+        list:
+          loading_more_notifications: 더 많은 알림 로드 중...
+      pages:
+        community_forum:
+          deskbolic_community_forum: Deskbolic 커뮤니티 포럼
+          your_account: 귀하의 계정
+        help_center:
+          deskbolic_help_center: Deskbolic 도움말 센터
+        service_terms:
+          deskbolic_terms_and_policies: Deskbolic 약관 및 정책
+      popup:
+        canned_response_modal:
+          create_a_new_reply: 새 답글 작성
+        email_channel_modal:
+          email_channel: 이메일 채널
+        email_conv_modal:
+          new_conversation: 새로운 대화
+          to: 받는 사람
+        email_inbox_modal:
+          create_inbox: 받은 편지함 만들기
+          email_inbox: 이메일 받은편지함
+        invite_teammate_modal:
+          invite_a_teammates_to_help: 도움을 줄 팀원을 초대하세요
+        messenger_channel_modal:
+          messenger_channel: 메신저 채널
+        messenger_inbox_modal:
+          messenger_inbox: 메신저 받은 편지함
+        schedule_modal:
+          set_schedule: 일정 설정
+        search_ticket_modal:
+          api_integration: API 통합
+          create_new_ticket_type: 새 티켓 유형 만들기
+          ticket_type_not_found: 티켓 유형을 찾을 수 없습니다.
+        suggested_ticket_modal:
+          create_ticket: 티켓 생성
+          line: 라인
+          messenger: 메신저
+          sms: SMS
+          telegram: 텔레그램
+          twilio: 트윌리오
+          twitter: 트위터
+          whatsapp: 왓츠앱
+        team_inbox_modal:
+          add_member: 회원 추가
+          new_team_inbox: 새 팀 받은 편지함
+          size_exceeded: 크기가 초과되었습니다
+        ticket_modal:
+          add_customer: 고객 추가
+        topic_questions_modal:
+          generate_more_by_topic: 주제별로 더 많은 생성
+          generate_more_questions_from_your_inbox_using_the_selected_topic: 선택한 주제를 사용하여 받은 편지함에서 더 많은 질문을 생성하세요. 자세히 알아보기
+        whatsapp_channel_modal:
+          api_key: API 키
+          business_account_id: 비즈니스 계정 ID
+          phone_number_id: 전화번호 아이디
+          whatsapp_channel: WhatsApp 채널
+        widget_channel_modal:
+          widget_channel: 위젯 채널
+      profile:
+        index:
+          change_avatar: 아바타 변경
+          profile_avatar: 프로필 아바타
+      registrations:
+        new:
+          background: 배경
+          graphic: 그래픽
+      reports:
+        index:
+          conversations: 대화
+          csat: CSAT
+          sla_breaches: SLA 위반
+      roles:
+        form:
+          e_g_billing_manager: '예: 결제 관리자'
+          permissions: 권한
+          resource: 자원
+      sessions:
+        new:
+          user_remember_me: 사용자[remember_me]
+      settings:
+        api_keys:
+          index:
+            text: "%{token}"
+        messenger:
+          angular: Angular
+          choose_how_to_install_the_messenger: 메신저 설치 방법을 선택하세요
+          code_snipet: 코드 조각
+          configure_your_code_snippet: 코드 조각 구성
+          ember: Ember
+          for_users_with_logins: 로그인이 있는 사용자의 경우
+          for_website_visitors_logins: 웹사이트 방문자 로그인의 경우
+          google_tag_manager: 구글 태그 관리자
+          install: 설치
+          install_for_mobile: 모바일용으로 설치
+          install_for_web: 웹용으로 설치
+          install_the_messenger_for_anonymous_website_visitors_who_are_t: 로그인하지 않은 익명의 웹사이트 방문자를 위해 메신저를 설치하세요. 대화는 쿠키를 통해 브라우저에 저장됩니다.
+          install_the_messenger_for_logged_in_users_the_messenger_will: 로그인한 사용자를 위한 메신저를 설치하세요. 메신저는 고객 이름, 기기 전반의 이전 대화 등의 정보를 표시합니다.
+          install_the_messenger_on_your_site_or_app: 귀하의 사이트나 앱에 메신저를 설치하세요
+          invite_teammates: 팀원을 초대합니다.
+          mobile_sdks: 모바일 SDK
+          need_help_ask_a_teammate_like_an_engineer_to_complete: 도움이 필요하신가요? 엔지니어 같은 팀원에게 설치를 완료하도록 요청하고,
+          react: React
+          segment: Segment
+          shopify: Shopify
+          the_messenger_helps_you_support_your_customers_and_learn_more: 메신저는 고객을 지원하고 고객에 대해 더 많은 정보를 얻을 수 있도록 도와줍니다.
+          turn_on_user_traffic_to_start_accepting_user_request_from: 메신저에서 사용자 요청을 수락하려면 사용자 트래픽을 켜세요. 요청 실패를 방지하려면 메신저를 설치하기 전에 이 작업을 수행하세요.
+          vue: Vue
+          web: 웹
+          wordpress: Wordpress
+        office_timings:
+          slim:
+            default_office_hours: 기본 근무 시간
+            friday: 금요일
+            from: 에서
+            monday: 월요일
+            office_hours: 근무시간
+            saturday: 토요일
+            sunday: 일요일
+            these_apply_to_all_conversations_in_your_workspace: 이는 작업 공간의 모든 대화에 적용됩니다.
+            thursday: 목요일
+            tuesday: 화요일
+            wednesday: 수요일
+        settings_sidebar:
+          custom_channels: 맞춤 채널
+          developer_api_keys: 개발자 API 키
+        team_inboxes:
+          add_new_inbox: 새 받은편지함 추가
+          complete_access: 완전한 접근
+          delete_team_inbox: 팀 받은 편지함 삭제
+          jd: JD
+          john_doe: 존 도우
+          new_team_member: 새로운 팀원
+          permission: 허가
+          record: 기록
+          team_inboxes: 팀 받은 편지함
+          user: 사용자
+      shared:
+        dashboard_container:
+          dashboard_logo: 대시보드 로고
+          help_desk_community_forum: "“헬프데스크” 커뮤니티 포럼"
+          help_desk_help_center: "“헬프 데스크” 도움말 센터"
+          login: 로그인
+          login_here: 여기에서 로그인하세요
+          notifications: 알림
+          sign_out: 로그아웃
+          switch_account: 계정 전환
+          terms_policies: 이용약관
+        inbox_container:
+          10_day: 10일
+          all_messages: 모든 메시지
+          projectflow_pro: 프로젝트플로우 프로
+          scdbe_fnjw_fhbwj: scdbe fnjw fhbwj
+      skills:
+        edit:
+          back_to_skills: "← 스킬로 돌아가기"
+      sla_policies:
+        form:
+          e_g_15: '예: 15'
+  domains:
+    statuses:
+      domain_type:
+        subdomain: 하위 도메인
+        custom: 맞춤
+  enums:
+    account_user:
+      availability:
+        online: 온라인
+        offline: 오프라인
+    conversation:
+      priority:
+        low: 낮음
+        medium: 중간
+        high: 높음
+        urgent: 긴급
+      status:
+        active: 활성
+        closed: 휴무
+        snoozed: 일시 중지됨
+        resolved: 해결됨
+    email_template:
+      template_type:
+        conversation_reply: 대화 답장
+        csat_survey: CSAT 설문조사
+    help_center:
+      visibility:
+        everyone: 모두
+        unlisted: 미등록
+        internal: 내부
+    user:
+      status:
+        active: 활성

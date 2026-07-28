@@ -1,7 +1,7 @@
 li.nav-item id=dom_id(conversation) class="#{(@active_conversation_id.to_s == conversation.id.to_s || @conversation&.id == conversation.id) ? 'inbox-nav-active' : ''}"
   - customer = conversation.customers.first
   - if customer&.avatar&.attached?
-    = image_tag(customer.avatar, class:"user-img", alt:"menu")
+    = image_tag(customer.avatar, class:"user-img", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
   - else
     .user-img.avatar-fallback.customer-list-initials-avatar.f-reg-12 class=avatar_fallback_color_class(full_name(customer))
       = initials(customer)
@@ -13,6 +13,6 @@ li.nav-item id=dom_id(conversation) class="#{(@active_conversation_id.to_s == co
     - unread_count = @unread_counts && @unread_counts[:conversations] ? @unread_counts[:conversations][conversation.id].to_i : 0
     .unread-badge data-controller="unread-badge" data-action="deskbolic:unread-counts-updated@window->unread-badge#update" data-unread-badge-target="badge" data-unread-badge-id-value=conversation.id data-unread-badge-type-value="conversation" style="background: var(--primary-500, #4F46E5); color: white; border-radius: 12px; padding: 2px 8px; align-items: center; justify-content: center; display: #{unread_count > 0 ? 'flex' : 'none'};"
       p.f-semi-12 = unread_count
-    = inline_svg_tag("menu.svg", class:"menu-icon", alt:"menu")
-    = inline_svg_tag("close.svg", class:"close-icon", alt:"menu")
+    = inline_svg_tag("menu.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+    = inline_svg_tag("close.svg", class:"close-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
     p.f-reg-10 id="conversation-#{conversation.id}-date" = conversation.last_message_date

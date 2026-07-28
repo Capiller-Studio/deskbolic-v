@@ -3,15 +3,15 @@
   .auto-section
     .auto-section-header
       span.auto-section-icon 📝
-      | Details
+      | #{t("dashboard.conversation_details.title")}
     .auto-section-body
       .auto-row style="flex-direction: column; align-items: stretch; gap: 16px;"
         div
           label.f-semi-13 style="display: block; margin-bottom: 6px; color: #334155;" Name
-          = f.text_field :name, class: "auto-row", placeholder: "e.g. Auto-assign VIP conversations", style: "width: 100%; padding: 10px 14px; border: 1px solid #e2e8f0; border-radius: 8px;"
+          = f.text_field :name, class: "auto-row", placeholder: t("dashboard.automations.form.name_placeholder"), style: "width: 100%; padding: 10px 14px; border: 1px solid #e2e8f0; border-radius: 8px;"
         div
           label.f-semi-13 style="display: block; margin-bottom: 6px; color: #334155;" Description (optional)
-          = f.text_area :description, class: "auto-row", rows: 2, placeholder: "What does this automation do?", style: "width: 100%; padding: 10px 14px; border: 1px solid #e2e8f0; border-radius: 8px; resize: vertical;"
+          = f.text_area :description, class: "auto-row", rows: 2, placeholder: t("dashboard.automations.form.description_placeholder"), style: "width: 100%; padding: 10px 14px; border: 1px solid #e2e8f0; border-radius: 8px; resize: vertical;"
 
   / --- Trigger Section ---
   .auto-section
@@ -22,10 +22,10 @@
       .auto-row
         div style="flex: 1;"
           label.f-semi-13 style="display: block; margin-bottom: 6px; color: #334155;" = t("dashboard.automations.builder.type_label")
-          = f.select :automation_type, options_for_select([["Event Trigger", "event_trigger"], ["Time Trigger", "time_trigger"]], automation.automation_type), {}, class: "auto-row", style: "width: 100%;", data: { action: "change->automation-builder#typeChanged" }
+          = f.select :automation_type, options_for_select([[t("forms.options.event_trigger"), "event_trigger"], [t("forms.options.time_trigger"), "time_trigger"]], automation.automation_type), {}, class: "auto-row", style: "width: 100%;", data: { action: "change->automation-builder#typeChanged" }
         div style="flex: 1;"
           label.f-semi-13 style="display: block; margin-bottom: 6px; color: #334155;" = t("dashboard.automations.builder.event_label")
-          = f.select :event_name, options_for_select(event_options_for_type(automation.automation_type), automation.event_name), { include_blank: "Select event..." }, class: "auto-row", style: "width: 100%;", data: { "automation-builder-target": "eventSelect", action: "change->automation-builder#eventChanged" }
+          = f.select :event_name, options_for_select(event_options_for_type(automation.automation_type), automation.event_name), { include_blank: t("forms.options.select_event") }, class: "auto-row", style: "width: 100%;", data: { "automation-builder-target": "eventSelect", action: "change->automation-builder#eventChanged" }
 
   / --- Conditions Section ---
   .auto-section
@@ -36,8 +36,8 @@
       / Top-level operator
       .auto-group-header
         = t("dashboard.automations.builder.match_label")
-        = select_tag "automation[conditions][operator]", options_for_select([["ALL", "AND"], ["ANY", "OR"]], automation.conditions.dig("operator") || "AND"), class: "auto-row", style: "width: auto; padding: 4px 28px 4px 10px;"
-        | of the following condition groups:
+        = select_tag "automation[conditions][operator]", options_for_select([[t("forms.options.all"), "AND"], [t("forms.options.any"), "OR"]], automation.conditions.dig("operator") || "AND"), class: "auto-row", style: "width: auto; padding: 4px 28px 4px 10px;"
+        | #{t("ui.dashboard.automations.form.of_the_following_condition_groups")}
 
       / Condition groups rendered by Stimulus
       div data-automation-builder-target="conditionGroups"

@@ -4,7 +4,7 @@
       .card
         .f-semi-24 = t('dashboard.conversations.title')
         .search-bar 
-          = inline_svg_tag("search.svg", class:"search-icon", alt:"menu")
+          = inline_svg_tag("search.svg", class:"search-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
           p.f-reg-14 = t('dashboard.conversations.search')
 
         = turbo_frame_tag "conversations-list-frame" do
@@ -21,7 +21,7 @@
                 - conversation_url = conversation_path(conversation.id, filter: @filter.presence)
                 li.nav-item id=dom_id(conversation) class="#{@conversation&.id == conversation.id ? 'inbox-nav-active' : ''}"
                   - if customer&.avatar&.attached?
-                    = image_tag(customer.avatar, class:"user-img", alt:"menu")
+                    = image_tag(customer.avatar, class:"user-img", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
                   - else
                     .user-img.avatar-fallback.customer-list-initials-avatar.f-reg-12 class=avatar_fallback_color_class(full_name(customer))
                       = initials(customer)
@@ -33,9 +33,9 @@
                     - unread_count = @unread_counts && @unread_counts[:conversations] ? @unread_counts[:conversations][conversation.id].to_i : 0
                     .unread-badge data-controller="unread-badge" data-action="deskbolic:unread-counts-updated@window->unread-badge#update" data-unread-badge-target="badge" data-unread-badge-id-value=conversation.id data-unread-badge-type-value="conversation" style="background: var(--primary-500, #4F46E5); color: white; border-radius: 12px; padding: 2px 8px; align-items: center; justify-content: center; display: #{unread_count > 0 ? 'flex' : 'none'};"
                       p.f-semi-12 = unread_count
-                    = inline_svg_tag("menu.svg", class:"menu-icon", alt:"menu")
-                    = inline_svg_tag("close.svg", class:"close-icon", alt:"menu")
-                    p.f-reg-10 id="conversation-#{conversation.id}-date" = conversation.last_message_date
+                    = inline_svg_tag("menu.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                    = inline_svg_tag("close.svg", class:"close-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                    p.f-reg-10 id="conversation-#{conversation.id}-date" = conversation.messages.order(:created_at).last&.created_at&.strftime("%d %b")
               
               - if @pagy_conversations&.next
                 turbo-frame.inbox-nav-menu id="conversations-page-#{@pagy_conversations.next}" src=conversations_path(page: @pagy_conversations.next, resource_id: @inbox&.id, filter: @filter) loading="lazy"

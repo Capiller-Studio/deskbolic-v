@@ -514,7 +514,7 @@
             border-radius: 10px 10px 0px 0px;
             .response-type {
               @mixin flex-row $justify-between, $align-center;
-              width: 120px;
+              /* width: 120px; */
               button {
                 padding: 7px;
                 background: transparent;
@@ -1595,9 +1595,10 @@
     border: none;
     border-radius: 6px;
     background: transparent;
-    color: #64748b;
+    color: $black;
     cursor: pointer;
     font-size: 14px;
+    font-family: $font-family-inter-medium;
     transition: all 0.2s ease;
 
     &:hover {
@@ -1608,11 +1609,11 @@
     &.active {
       background: #cbd5e1 !important;
       color: #000000 !important;
-      font-weight: bold;
+      /* font-weight: bold; */
     }
 
-    &[data-lexical-target="boldBtn"] { font-weight: 700; font-family: serif; }
-    &[data-lexical-target="italicBtn"] { font-style: italic; font-family: serif; }
+    &[data-lexical-target="boldBtn"] { font-weight: 700; font-family: $font-family-inter-regular; }
+    &[data-lexical-target="italicBtn"] { font-style: italic; font-family: $font-family-inter-regular; }
     &[data-lexical-target="strikeBtn"] { text-decoration: line-through; }
     &[data-lexical-target="codeBtn"] { font-family: monospace; font-weight: 600; }
     &[data-lexical-target="ulBtn"],

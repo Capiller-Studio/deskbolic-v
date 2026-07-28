@@ -6,7 +6,7 @@
         - if current_account.feature_enabled?(:custom_domains)
           = link_to(new_domain_path, class: "new-domain-btn") do
             span.f-reg-14 = t("dashboard.domains.index.add_custom_domain")
-            = inline_svg_tag("plus_white.svg", class: "plus-icon", alt: "add")
+            = inline_svg_tag("plus_white.svg", class: "plus-icon", alt: t("ui.dashboard.domains.index.add"))
         - else
           = link_to(dashboard_billing_path, class: "new-domain-btn btn-upgrade", style: "background: #f59e0b;") do
             span.f-reg-14 Upgrade to Add Domain
@@ -47,7 +47,7 @@
                     span.f-reg-12 = t("dashboard.domains.index.system_subdomain.no_portal")
             .domain-actions
               = link_to edit_domain_path(@subdomain), class: "action-link"
-                = inline_svg_tag("edit.svg", class: "link-icon", alt: "edit")
+                = inline_svg_tag("edit.svg", class: "link-icon", alt: t("ui.dashboard.domains.index.edit"))
         - else
           .domain-empty
             p.f-reg-12 = t("dashboard.domains.index.system_subdomain.empty")
@@ -85,13 +85,13 @@
                       span.f-reg-12.text-muted = t("dashboard.domains.index.custom_domains.unattached")
                   td.actions
                     - unless domain.dns_verified?
-                      = link_to verify_dns_domain_path(domain), method: :post, class: "action-link verify-btn", title: "Verify DNS"
-                        = inline_svg_tag("refresh.svg", class: "link-icon", alt: "verify")
-                    = link_to edit_domain_path(domain), class: "action-link", title: "Edit"
-                      = inline_svg_tag("edit.svg", class: "link-icon", alt: "edit")
+                      = link_to verify_dns_domain_path(domain), method: :post, class: "action-link verify-btn", title: t("dashboard.domains.index.verify_dns")
+                        = inline_svg_tag("refresh.svg", class: "link-icon", alt: t("ui.dashboard.domains.index.verify"))
+                    = link_to edit_domain_path(domain), class: "action-link", title: t("dashboard.skills.index.edit")
+                      = inline_svg_tag("edit.svg", class: "link-icon", alt: t("ui.dashboard.domains.index.edit"))
                     - unless domain.portal.present?
-                      = link_to domain_path(domain), method: :delete, data: { confirm: "Are you sure you want to delete this domain?" }, class: "action-link delete-btn", title: "Delete"
-                        = inline_svg_tag("delete_red.svg", class: "link-icon", alt: "delete")
+                      = link_to domain_path(domain), method: :delete, data: { confirm: t("dashboard.domains.index.delete_confirm") }, class: "action-link delete-btn", title: t("dashboard.skills.index.delete")
+                        = inline_svg_tag("delete_red.svg", class: "link-icon", alt: t("ui.dashboard.domains.index.delete"))
         - else
           .domain-empty
             p.f-reg-14 = t("dashboard.domains.index.custom_domains.empty_title")

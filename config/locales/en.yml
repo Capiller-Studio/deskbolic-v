@@ -14,14 +14,101 @@ en:
     keywords: ''
   dashboard:
     billing:
-      save_percent: "Save ~11%"
-      yearly: "Yearly"
+      save_percent: Save ~20%
+      yearly: Yearly
+      action_required: Action Required
+      active_subscription: Active Subscription
+      active_subscription_desc: Current plan details and upcoming charges
+      add_card: Add Card
+      add_payment_method: Add Payment Method
+      amount: Amount
+      are_you_sure: Are you sure?
+      billed_annually_at: Billed annually at %{amount}
+      billing_cycle_label: Billing Cycle
+      cancel: Cancel
+      cancel_confirm: Are you sure you want to cancel your subscription?
+      cancel_subscription: Cancel Subscription
+      cancels_on: Cancels on %{date}
+      cancels_on_label: Cancels On
+      change_plan: Change Plan
+      change_plan_trial_confirm: Are you sure you want to change your plan? Your trial will continue normally, and you'll be billed for this new plan when your trial ends.
+      change_seats_trial_confirm: Are you sure you want to change your seats? Your trial will continue normally, and you'll be billed for this new seat count when your trial ends.
+      choose_plan: Choose Your Plan
+      choose_plan_subtitle: Select the perfect plan to get started with your workspace.
+      current_balance: Current Balance
+      custom_amount: Custom Amount
+      date: Date
+      day_trial: "%{days} Day Trial"
+      default_label: Default
+      description: Description
+      expired: Expired
+      expires: Expires %{month}/%{year}
+      make_default: Default
+      manage_seats: Manage Seats
+      minimum_seats_required: Minimum %{count} seats required
+      monthly_label: Monthly
+      next_charge_label: Next Charge
+      no_active_subscription: You do not have an active subscription. Subscribe now to access all features.
+      no_payment_methods: No payment methods added yet.
+      no_transactions: No transactions found.
+      number_of_seats: Number of Agent Seats
+      past_due: Past Due
+      payment_methods: Payment Methods
+      per_month: "/ month"
+      per_month_annual: "/ mo (billed yearly)"
+      plan_label: Plan
+      plan_limits: 'Your plan limits: Min %{min}, Max %{max}'
+      remove: Remove
+      resume_confirm: Are you sure you want to resume your subscription?
+      resume_subscription: Resume Subscription
+      save_card: Save Card
+      seats_label: Seats
+      secure_payment_notice: Payments are securely processed by Stripe. Your card details are encrypted and never touch our servers.
+      select_plan: Select Plan
+      status: Status
+      subscribe_now: Subscribe Now
+      top_up: Top Up
+      topup_balance: Top-up Balance
+      topup_wallet: Top-up Wallet
+      transaction_history: Transaction History
+      trial_ends_in: Trial ends in %{days} days
+      unlimited: Unlimited
+      update_payment_method: Update Payment Method
+      update_plan: Update Plan
+      update_seats: Update Seats
+      update_seats_confirm: Are you sure you want to update your seats? This action will result in immediate prorated charges or wallet credits.
+      update_subscription_confirm: Are you sure you want to update your subscription? This action will result in immediate prorated charges or wallet credits.
+      wallet: Wallet
+      wallet_deduction: 'Wallet Deduction:'
     labels:
       flash:
         created: Label created successfully.
         updated: Label updated successfully.
         deleted: Label deleted successfully.
         error: 'Failed to save label: %{errors}'
+      edit:
+        title: Edit Label
+      form:
+        back: Back to Labels
+        basic_section: Label Details
+        cancel: Cancel
+        color: Color
+        description: Description
+        description_placeholder: Explain what this label is for...
+        error_heading: 'Please fix the following errors:'
+        submit: Create Label
+        title: Title
+        title_placeholder: e.g. VIP Customer
+        update: Update Label
+      index:
+        add_new_label: Add New Label
+        confirm_delete: Delete label?
+        description: Manage labels to categorize your conversations and customers.
+        empty_description: Create labels to better organize and filter your conversations.
+        empty_title: No labels found
+        labels_for: Labels for %{account}
+      new:
+        title: Add New Label
     sidebar:
       channels:
         title: Help Desk
@@ -60,6 +147,8 @@ en:
         sla_policies: SLA Policies
         csat_surveys: CSAT Surveys
         integrations: Integrations
+        labels: Labels
+      reports: Reports & Analytics
     settings_index:
       title: Home
       workspace: Workspace
@@ -141,6 +230,14 @@ en:
         read: Read
         delivered: Delivered
         sent: Sent
+      add_emoji: Add emoji
+      attach_file: Attach image or file
+      note: Private Message
+      private_note: Private Message
+      record_voice: Record voice
+      reopen: Reopen
+      resolve: Resolve
+      search_canned_responses: Search canned responses...
     conversation_details:
       title: Details
       agent: Agent
@@ -181,8 +278,7 @@ en:
         description: Automate repetitive tasks with event-based and time-based rules.
         new_automation: New Automation
         empty_title: No automations yet
-        empty_description: Create your first automation to start handling conversations
-          automatically.
+        empty_description: Create your first automation to start handling conversations automatically.
         tab_all: All
         tab_event_triggers: Event Triggers
         tab_time_triggers: Time Triggers
@@ -212,8 +308,7 @@ en:
         add_condition_group: Add Condition Group
         add_action: Add Action
         stop_processing: Stop processing subsequent rules
-        stop_processing_hint: When this rule fires, no lower-priority rules will execute
-          for this event.
+        stop_processing_hint: When this rule fires, no lower-priority rules will execute for this event.
         save: Save Automation
         cancel: Cancel
         remove: Remove
@@ -311,8 +406,7 @@ en:
         label: Assignment Policies
       index:
         title: Assignment Policies
-        description: Configure how conversations are automatically routed and assigned
-          to agents.
+        description: Configure how conversations are automatically routed and assigned to agents.
         new_policy: New Policy
         tab_all: All
         tab_round_robin: Round Robin
@@ -320,8 +414,7 @@ en:
         tab_skills_based: Skills Based
         tab_manual: Manual
         empty_title: No assignment policies yet
-        empty_description: Create your first policy to start routing conversations
-          automatically.
+        empty_description: Create your first policy to start routing conversations automatically.
       new:
         title: New Assignment Policy
       edit:
@@ -339,8 +432,7 @@ en:
         deactivated: Policy deactivated.
       strategies:
         round_robin: Round Robin
-        round_robin_desc: Distribute conversations evenly across agents in rotating
-          order.
+        round_robin_desc: Distribute conversations evenly across agents in rotating order.
         round_robin_icon: "\U0001F504"
         load_balanced: Load Balanced
         load_balanced_desc: Assign to the agent with the fewest open conversations.
@@ -388,16 +480,20 @@ en:
       status:
         active: Active
         inactive: Inactive
+      inboxes:
+        one: "%{count} inbox"
+        other: "%{count} inboxes"
+      max_per_agent:
+        one: Maximum %{count} conversation per agent
+        other: Maximum %{count} conversations per agent
     identity_sources:
       sidebar:
         label: Identity Sources
       index:
         title: Identity Sources
-        description: Configure external webhooks and APIs to fetch and verify customer
-          identities automatically.
+        description: Configure external webhooks and APIs to fetch and verify customer identities automatically.
         create_button: Create Identity Source
-        delete_confirm: Are you sure you want to delete this identity source? This
-          action cannot be undone.
+        delete_confirm: Are you sure you want to delete this identity source? This action cannot be undone.
         url_label: Endpoint URL
         headers_label: Configured Headers
         params_label: Configured Params
@@ -416,8 +512,7 @@ en:
         description_placeholder: What does this identity source do?
         source_type: Source Type
         source_url: Source URL
-        liquid_help: You can use dynamic variables like {{ customer.email }} in the
-          URL, headers, and params.
+        liquid_help: You can use dynamic variables like {{ customer.email }} in the URL, headers, and params.
         headers: Request Headers
         add_header: "+ Add Header"
         params: Request Parameters
@@ -428,6 +523,12 @@ en:
         value_placeholder: Value
         json_path_placeholder: JSON Path (e.g., data.user.id)
         attribute_placeholder: Deskbolic Attribute (e.g., external_id)
+        add_mapping: "+ Add Mapping"
+        details_section: Details
+        insert_variable: 'Insert Variable:'
+        response_mapping: Response Mapping
+        response_mapping_desc: Map JSON response paths (e.g., data.user.id) to Deskbolic customer attributes.
+        source_section: Source Details
       created: Identity source was successfully created.
       updated: Identity source was successfully updated.
       deleted: Identity source was successfully deleted.
@@ -441,17 +542,14 @@ en:
         eg_pre_chat_subtitle: e.g. We will get back to you shortly.
       index:
         title: Web Widgets
-        description: Configure your website chat widgets, appearance, and routing
-          rules.
+        description: Configure your website chat widgets, appearance, and routing rules.
         new_channel: New Web Widget
         empty_title: No web widgets yet
-        empty_description: Create your first web widget to start chatting with your
-          website visitors.
+        empty_description: Create your first web widget to start chatting with your website visitors.
         inboxes_count:
           one: "%{count} Inbox"
           other: "%{count} Inboxes"
-        delete_confirm: Are you sure? This will permanently delete this web widget
-          and all associated inboxes.
+        delete_confirm: Are you sure? This will permanently delete this web widget and all associated inboxes.
         created_ago: Created %{time} ago
       new:
         title: New Web Widget
@@ -484,6 +582,9 @@ en:
         save: Save Widget
         update: Update Widget
         cancel: Cancel
+        hmac_secret_key: HMAC Secret Key
+        installation_section: Installation & Setup
+        secure_identity_instruction: Because you have enabled <strong>Enforce Secure Identity</strong>, you must generate a signature on your backend and pass it to the frontend.
       created: Web Widget was successfully created.
       updated: Web Widget was successfully updated.
       deleted: Web Widget was successfully deleted.
@@ -492,12 +593,10 @@ en:
         label: Email Channels
       index:
         title: Email Channels
-        description: Configure your email channels with custom SMTP, IMAP, and forwarding
-          settings.
+        description: Configure your email channels with custom SMTP, IMAP, and forwarding settings.
         new_channel: New Email Channel
         empty_title: No email channels yet
-        empty_description: Create your first email channel to start receiving and
-          sending emails through your helpdesk.
+        empty_description: Create your first email channel to start receiving and sending emails through your helpdesk.
         smtp_configured: SMTP Active
         smtp_not_configured: System SMTP
         imap_configured: IMAP Active
@@ -507,8 +606,7 @@ en:
         inboxes_count:
           one: "%{count} Inbox"
           other: "%{count} Inboxes"
-        delete_confirm: Are you sure? This will permanently delete this email channel
-          and all associated inboxes.
+        delete_confirm: Are you sure? This will permanently delete this email channel and all associated inboxes.
         created_ago: Created %{time} ago
       new:
         title: New Email Channel
@@ -519,8 +617,7 @@ en:
         error_heading: 'Please fix the following errors:'
         basic_section: Basic Details
         smtp_section: SMTP Configuration
-        smtp_section_desc: Optional — provide custom SMTP credentials to send emails
-          from your own server.
+        smtp_section_desc: Optional — provide custom SMTP credentials to send emails from your own server.
         imap_section: IMAP Configuration
         imap_section_desc: Optional — fetch incoming emails directly from your mailbox.
         name_label: Channel Name
@@ -557,10 +654,11 @@ en:
         save: Save Channel
         update: Update Channel
         cancel: Cancel
+        enable_imap: Enable IMAP Sync
+        enable_smtp: Enable SMTP Sending
       forwarding:
         title: Email Forwarding
-        description: Forward emails from your email provider to this address to start
-          receiving them in your helpdesk.
+        description: Forward emails from your email provider to this address to start receiving them in your helpdesk.
         your_forwarding_address: Your forwarding address
         copy: Copy
         copied: Copied!
@@ -573,8 +671,7 @@ en:
         gmail_step_1: Open Gmail → Settings → See all settings
         gmail_step_2: Go to "Forwarding and POP/IMAP" tab
         gmail_step_3: Click "Add a forwarding address" and paste the address above
-        gmail_step_4: Gmail will send a confirmation — approve it, then select "Forward
-          a copy"
+        gmail_step_4: Gmail will send a confirmation — approve it, then select "Forward a copy"
         outlook_title: Outlook
         outlook_step_1: Open Outlook → Settings → Mail → Forwarding
         outlook_step_2: Enable forwarding and paste the address above
@@ -593,8 +690,7 @@ en:
       created: Email channel created successfully.
       updated: Email channel updated successfully.
       destroyed: Email channel deleted successfully.
-      limit_reached: Channel limit reached for your current plan. Please upgrade to
-        add more channels.
+      limit_reached: Channel limit reached for your current plan. Please upgrade to add more channels.
     skills:
       sidebar:
         label: Skills
@@ -603,8 +699,7 @@ en:
         description: Define skills to match conversations with the right agents.
         new_skill: New Skill
         empty_title: No skills defined yet
-        empty_description: Create skills like languages, products, or expertise areas
-          to enable skills-based routing.
+        empty_description: Create skills like languages, products, or expertise areas to enable skills-based routing.
         tab_all: All
         tab_language: Language
         tab_product: Product
@@ -647,8 +742,7 @@ en:
         description: One-click actions to speed up your workflow.
         new_macro: New Macro
         empty_title: No macros yet
-        empty_description: Create reusable macros to perform common actions with a
-          single click.
+        empty_description: Create reusable macros to perform common actions with a single click.
         tab_personal: My Macros
         tab_shared: Shared
         edit: Edit
@@ -678,8 +772,7 @@ en:
         title: Execution Log
         description: Review the history of automation executions.
         empty_title: No executions yet
-        empty_description: Execution logs will appear here once automations start
-          running.
+        empty_description: Execution logs will appear here once automations start running.
         filter_all: All
         filter_success: Success
         filter_failed: Failed
@@ -704,21 +797,17 @@ en:
         delete_confirm: Are you sure you want to delete this domain?
         system_subdomain:
           title: System Subdomain
-          description: Your free helpbolic.com subdomain — auto-generated for your
-            help center.
-          empty: No subdomain configured yet. Create a help center portal to auto-generate
-            one.
+          description: Your free helpbolic.com subdomain — auto-generated for your help center.
+          empty: No subdomain configured yet. Create a help center portal to auto-generate one.
           active: Active
           ssl_active: SSL Active
           portal_label: 'Portal: %{name}'
           no_portal: No Portal Attached
         custom_domains:
           title: Custom Domains
-          description: Add your own domain name (e.g., support.mycompany.com) and
-            point it to our servers.
+          description: Add your own domain name (e.g., support.mycompany.com) and point it to our servers.
           empty_title: No custom domains added yet.
-          empty_description: Custom domains let you serve your help center on your
-            own domain (e.g., support.mycompany.com).
+          empty_description: Custom domains let you serve your help center on your own domain (e.g., support.mycompany.com).
           add_first: Add your first custom domain
           unattached: Unattached
         table:
@@ -730,13 +819,11 @@ en:
         cname_instructions:
           title: How to set up a custom domain
           step_1_title: Add your domain
-          step_1_desc: Enter your custom domain name (e.g., support.mycompany.com)
-            using the button above.
+          step_1_desc: Enter your custom domain name (e.g., support.mycompany.com) using the button above.
           step_2_title: Configure DNS
           step_2_desc: 'Go to your DNS provider and create a CNAME record:'
           step_3_title: Verify & SSL
-          step_3_desc: Click "Verify DNS" once your record propagates (up to 48 hours).
-            SSL will be provisioned automatically after verification.
+          step_3_desc: Click "Verify DNS" once your record propagates (up to 48 hours). SSL will be provisioned automatically after verification.
           cname_type: Type
           cname_host: Host
           cname_host_value: your-subdomain
@@ -750,12 +837,10 @@ en:
         name_hint: A friendly label for this domain (optional).
         value_label: Domain Name
         value_placeholder: e.g., support.mycompany.com
-        value_hint: Enter the full domain name you want to use. This cannot be changed
-          after creation.
+        value_hint: Enter the full domain name you want to use. This cannot be changed after creation.
         after_adding_title: After adding this domain
         after_adding_desc: 'You will need to create a CNAME record at your DNS provider:'
-        after_adding_note: DNS propagation can take up to 48 hours. Once configured,
-          click "Verify DNS" on the domains page.
+        after_adding_note: DNS propagation can take up to 48 hours. Once configured, click "Verify DNS" on the domains page.
         cname_host_value: "[your subdomain]"
         submit: Add Domain
         cancel: Cancel
@@ -787,12 +872,10 @@ en:
         success: Domain updated successfully.
       destroy:
         success: Domain deleted successfully.
-        portal_attached: Cannot delete a domain that is attached to a portal. Detach
-          it first.
+        portal_attached: Cannot delete a domain that is attached to a portal. Detach it first.
       verify_dns:
         success: DNS verified successfully! SSL certificate provisioning has started.
-        failure: DNS verification failed. Please ensure your CNAME record points to
-          %{target} and try again.
+        failure: DNS verification failed. Please ensure your CNAME record points to %{target} and try again.
       errors:
         fix_errors: 'Please fix the following errors:'
       dns_status_badge:
@@ -808,6 +891,7 @@ en:
         ssl_none: No SSL
       sidebar:
         label: Domains
+      custom_domain_not_supported: Custom domains are not supported on your current plan.
     business_hour_groups:
       shared:
         no_description: No description provided.
@@ -817,6 +901,7 @@ en:
         new_group: New Schedule
         empty_title: No business hours yet
         empty_description: Create a schedule to define when your team is online.
+        timezone: 'Timezone: %{timezone}'
       new:
         title: New Business Hours
         description: Create a new schedule for your team.
@@ -828,14 +913,16 @@ en:
         general_settings_desc: Basic details about this schedule.
         name_placeholder: e.g., US Support Team
         weekly_schedule: Weekly Schedule
-        weekly_schedule_desc: Define your regular working hours. You can add multiple
-          time slots per day.
+        weekly_schedule_desc: Define your regular working hours. You can add multiple time slots per day.
         add_hours: Add Hours
         exceptions: Holidays & Exceptions
         exceptions_desc: Define specific dates when your team is unavailable.
         add_exception: Add Exception
         save: Save
         cancel: Cancel
+        error_heading: 'Please fix the following errors:'
+        remove_exception: Remove Exception
+        remove_hours: Remove Hours
       create:
         created: Business hours created successfully.
       update:
@@ -858,11 +945,13 @@ en:
         empty_description: Email templates will be created when you set up your account.
       sidebar:
         label: Email Templates
+      new:
+        subtitle: Choose a template type and name your template.
+        title: Create Email Template
     email_template_layouts:
       index:
         title: Email Layouts
-        subtitle: Layouts wrap around your templates providing consistent headers
-          and footers.
+        subtitle: Layouts wrap around your templates providing consistent headers and footers.
         tab_templates: Templates
         tab_layouts: Layouts
         badge_draft: Draft
@@ -903,13 +992,15 @@ en:
         email_verification: Email address verification for new accounts.
         team_invitation: Invitation email sent when adding new team members.
       sample:
-        message_content: Thank you for reaching out! We've reviewed your request and
-          have a solution for you. Please follow the steps below and let us know if
-          you need further assistance.
+        message_content: Thank you for reaching out! We've reviewed your request and have a solution for you. Please follow the steps below and let us know if you need further assistance.
         conversation_subject: Help with my account
         event_title: New conversation assigned
-        event_description: A new conversation has been assigned to you in the Support
-          inbox.
+        event_description: A new conversation has been assigned to you in the Support inbox.
+      add_locale: Add Locale
+      edit_subject: Edit Subject
+      settings: Settings
+      subject: Email Subject
+      subject_placeholder: Enter subject here...
     contact_form_channels:
       index:
         title: Contact Forms
@@ -935,6 +1026,7 @@ en:
         theme_color_label: Theme Color
         position_label: Layout Position
         fields_section: Form Fields
+        search_fields: Search fields...
         behaviors_section: Behaviors & Spam Protection
         require_login_label: Require Login to Submit
         allow_attachments_label: Allow Attachments
@@ -955,23 +1047,19 @@ en:
     facebook_channels:
       sidebar:
         label: Facebook Pages
-      limit_reached: You've reached the channel limit for your current plan. Please
-        upgrade to add more channels.
+      limit_reached: You've reached the channel limit for your current plan. Please upgrade to add more channels.
       created: Facebook Page has been connected successfully.
       updated: Facebook Page settings updated.
       destroyed: Facebook Page has been disconnected.
       create_failed: Failed to connect Facebook Page. Please try again.
       callback_error: There was an error connecting to Facebook. Please try again.
       reconnected: Facebook Page has been reconnected successfully.
-      reconnect_failed: Failed to reconnect Facebook Page. Please re-authorize through
-        the Facebook login.
+      reconnect_failed: Failed to reconnect Facebook Page. Please re-authorize through the Facebook login.
       index:
         title: Facebook Pages
-        description: Connect your Facebook Pages to receive and respond to Messenger
-          conversations.
+        description: Connect your Facebook Pages to receive and respond to Messenger conversations.
         connect_page: Connect Facebook Page
-        delete_confirm: Are you sure you want to disconnect this Facebook Page? This
-          will remove the inbox and all related conversations.
+        delete_confirm: Are you sure you want to disconnect this Facebook Page? This will remove the inbox and all related conversations.
         status_active: Connected
         status_disconnected: Disconnected
         status_reauth: Re-authorization needed
@@ -981,33 +1069,31 @@ en:
           other: "%{count} inboxes"
         created_ago: Created %{time} ago
         empty_title: No Facebook Pages connected
-        empty_description: Connect your Facebook Pages to start receiving Messenger
-          conversations directly in your inbox.
+        empty_description: Connect your Facebook Pages to start receiving Messenger conversations directly in your inbox.
       new:
         title: Connect a Facebook Page
         step1_title: Connect with Facebook
-        step1_description: Sign in with your Facebook account and grant permissions
-          to manage your Pages.
+        step1_description: Sign in with your Facebook account and grant permissions to manage your Pages.
         connect_button: Continue with Facebook
-        connect_note: We'll only ask for the permissions needed to manage your Page
-          inbox.
+        connect_note: We'll only ask for the permissions needed to manage your Page inbox.
         step2_title: Select a Page
-        step2_description: Choose which Facebook Page you'd like to connect. Each
-          page creates a separate inbox.
+        step2_description: Choose which Facebook Page you'd like to connect. Each page creates a separate inbox.
         already_connected: Already connected
         step3_title: Configure your channel
         name_label: Channel Name
         name_placeholder: e.g., Customer Support Page
+        permissions_title: Permissions we'll request
+        scope_messages: Read and send messages from your Pages
+        scope_view: View your Pages
+        step3_description: Configure your new Facebook channel
       edit:
         title: Edit Facebook Page
         reauth_title: Re-authorization required
-        reauth_description: The access token for this page has been invalidated. Please
-          reconnect to restore messaging.
+        reauth_description: The access token for this page has been invalidated. Please reconnect to restore messaging.
         inbox_settings_title: Inbox Settings
         csat_enabled: Enable CSAT survey after conversations
         danger_title: Danger Zone
-        danger_description: Disconnecting this page will remove the inbox and stop
-          receiving new messages. Existing conversations will be preserved.
+        danger_description: Disconnecting this page will remove the inbox and stop receiving new messages. Existing conversations will be preserved.
         disconnect: Disconnect Page
       form:
         back: Back to Facebook Pages
@@ -1019,8 +1105,7 @@ en:
     instagram_channels:
       sidebar:
         label: Instagram
-      limit_reached: You've reached the channel limit for your current plan. Please
-        upgrade to add more channels.
+      limit_reached: You've reached the channel limit for your current plan. Please upgrade to add more channels.
       created: Instagram account has been connected successfully.
       updated: Instagram channel settings updated.
       destroyed: Instagram account has been disconnected.
@@ -1029,11 +1114,9 @@ en:
       invalid_state: Invalid authorization state. Please try connecting again.
       index:
         title: Instagram
-        description: Connect your Instagram business accounts to manage DMs from your
-          dashboard.
+        description: Connect your Instagram business accounts to manage DMs from your dashboard.
         connect_account: Connect Instagram
-        delete_confirm: Are you sure you want to disconnect this Instagram account?
-          This will remove the inbox and all related conversations.
+        delete_confirm: Are you sure you want to disconnect this Instagram account? This will remove the inbox and all related conversations.
         status_active: Connected
         status_expired: Token expired
         status_expiring: Token expiring soon
@@ -1044,24 +1127,20 @@ en:
         token_expires: Token expires in %{time}
         created_ago: Created %{time} ago
         empty_title: No Instagram accounts connected
-        empty_description: Connect your Instagram business or creator accounts to
-          manage direct messages from your dashboard.
+        empty_description: Connect your Instagram business or creator accounts to manage direct messages from your dashboard.
       new:
         title: Connect Instagram
         connect_title: Connect your Instagram Account
-        connect_description: Link your Instagram business or creator account to start
-          receiving and replying to DMs.
+        connect_description: Link your Instagram business or creator account to start receiving and replying to DMs.
         permissions_title: Permissions we'll request
         scope_basic: View your Instagram profile and media
         scope_messages: Read and send Instagram direct messages
         connect_button: Continue with Instagram
-        connect_note: You'll be redirected to Instagram to authorize access. Only
-          professional accounts (Business or Creator) are supported.
+        connect_note: You'll be redirected to Instagram to authorize access. Only professional accounts (Business or Creator) are supported.
       edit:
         title: Edit Instagram Channel
         reauth_title: Re-authorization required
-        reauth_description: The access token has expired or been invalidated. Please
-          reconnect to restore messaging.
+        reauth_description: The access token has expired or been invalidated. Please reconnect to restore messaging.
         reconnect: Reconnect
         token_expires_at: 'Token expires: %{time}'
         name_label: Channel Name
@@ -1069,8 +1148,7 @@ en:
         inbox_settings_title: Inbox Settings
         csat_enabled: Enable CSAT survey after conversations
         danger_title: Danger Zone
-        danger_description: Disconnecting this account will remove the inbox and stop
-          receiving new DMs. Existing conversations will be preserved.
+        danger_description: Disconnecting this account will remove the inbox and stop receiving new DMs. Existing conversations will be preserved.
         disconnect: Disconnect Account
       form:
         back: Back to Instagram
@@ -1081,21 +1159,18 @@ en:
     whatsapp_channels:
       sidebar:
         label: WhatsApp
-      limit_reached: You've reached the channel limit for your current plan. Please
-        upgrade to add more channels.
+      limit_reached: You've reached the channel limit for your current plan. Please upgrade to add more channels.
       created: WhatsApp channel has been connected successfully.
       updated: WhatsApp channel settings updated.
       destroyed: WhatsApp channel has been disconnected.
       create_failed: Failed to connect WhatsApp channel. Please try again.
       callback_error: There was an error connecting to WhatsApp. Please try again.
-      reconnect_not_supported_yet: Reconnection is not supported yet. Please delete
-        and recreate the channel if the token expires.
+      reconnect_not_supported_yet: Reconnection is not supported yet. Please delete and recreate the channel if the token expires.
       index:
         title: WhatsApp
         description: Connect your WhatsApp Business API to manage customer conversations.
         connect_channel: Connect WhatsApp
-        delete_confirm: Are you sure you want to disconnect this WhatsApp channel?
-          This will remove the inbox and all related conversations.
+        delete_confirm: Are you sure you want to disconnect this WhatsApp channel? This will remove the inbox and all related conversations.
         status_active: Connected
         status_disconnected: Disconnected
         status_reauth: Re-authorization needed
@@ -1105,8 +1180,7 @@ en:
           other: "%{count} inboxes"
         created_ago: Created %{time} ago
         empty_title: No WhatsApp channels connected
-        empty_description: Connect your WhatsApp Business Account to start receiving
-          messages directly in your inbox.
+        empty_description: Connect your WhatsApp Business Account to start receiving messages directly in your inbox.
       new:
         title: Connect WhatsApp
         subtitle: Choose how you'd like to connect your WhatsApp Business Account.
@@ -1115,8 +1189,7 @@ en:
           manual: Manual Setup
         embedded:
           step1_title: Connect with Meta
-          step1_description: Log in with your Facebook account and select your WhatsApp
-            Business Account.
+          step1_description: Log in with your Facebook account and select your WhatsApp Business Account.
           guide_1: You must be an admin of the Meta Business Portfolio.
           guide_2: Make sure you have a valid phone number ready.
           guide_3: The connection takes less than 5 minutes.
@@ -1131,16 +1204,13 @@ en:
       edit:
         title: Edit WhatsApp Channel
         reauth_title: Re-authorization required
-        reauth_description: The access token has expired or been invalidated. Please
-          reconnect to restore messaging.
+        reauth_description: The access token has expired or been invalidated. Please reconnect to restore messaging.
         danger_title: Danger Zone
-        danger_description: Disconnecting this channel will remove the inbox and stop
-          receiving new messages. Existing conversations will be preserved.
+        danger_description: Disconnecting this channel will remove the inbox and stop receiving new messages. Existing conversations will be preserved.
         disconnect: Disconnect Channel
         webhook:
           title: Webhook Configuration
-          description: Add this webhook URL and verify token to your Meta App's WhatsApp
-            configuration to start receiving messages.
+          description: Add this webhook URL and verify token to your Meta App's WhatsApp configuration to start receiving messages.
           url_label: Webhook URL
           secret_label: Verify Token
       form:
@@ -1161,6 +1231,7 @@ en:
         inbox_settings: Inbox Settings
         enable_csat: Enable CSAT survey after conversations
         csat_survey_label: Select CSAT Survey
+        inbox_settings_title: Inbox Settings
     profile:
       index:
         title: Personal Details
@@ -1266,8 +1337,54 @@ en:
         delete_confirm: Are you sure you want to delete this custom role?
         empty_title: No Roles Found
         empty_description: There are no roles configured for this account.
+        all_roles: All Roles
+        create_role: Create Role
+        custom_roles: Custom Roles
+        filter_label: Filter roles
+        members_count:
+          one: "%{count} Member"
+          other: "%{count} Members"
+        most_members: Most Members
+        name_ascending: Name A–Z
+        no_matching_roles: No matching roles
+        permission_count:
+          one: "%{count} Permission"
+          other: "%{count} Permissions"
+        permissions: Permissions
+        recently_updated: Recently Updated
+        role_actions: Role actions
+        search_placeholder: Search roles...
+        sort_by: 'Sort by:'
+        sort_label: Sort roles
+        summary: Roles summary
+        system_roles: System Roles
+        team_members: Team Members
+        total_roles: Total Roles
+        try_another_search: Try another search or filter.
+        updated: Updated
+        updated_ago: "%{time} ago"
+        descriptions:
+          administrator: Full system access and all administrative permissions.
+          owner: Account owner with billing and settings access.
+          agent: Access to conversation and inbox features.
       form:
         back: "← Back to Roles"
+        back_label: Back
+        errors_found: "%{count} errors prohibited this role from being saved:"
+        name_label: Role Name
+        optional: "(Optional)"
+        permission_preset: Permission Preset
+        permissions_desc: Toggle the granular permissions below for this role.
+        permissions_matrix: Permissions Matrix
+        preset_description: Choose a preset to get started quickly.
+        role_details: Role Details
+        save: Save Role
+      edit:
+        description: Modify the permissions associated with this role.
+        title: 'Edit Role: %{name}'
+      new:
+        description: Define a custom role with specific access controls.
+        title: Create New Role
     canned_responses:
       index:
         replies_for: Replies for
@@ -1276,21 +1393,42 @@ en:
       form:
         title_placeholder: Add title
         description_placeholder: Add message
+        delete: Delete reply
+        update: Update
     sla_policies:
       index:
         title: SLA Policies
-        description: Set service level targets for different inboxes to ensure timely
-          responses.
+        description: Set service level targets for different inboxes to ensure timely responses.
         new_policy: New Policy
         empty_title: No SLA Policies
-        empty_description: Create your first SLA policy to start tracking agent response
-          times.
+        empty_description: Create your first SLA policy to start tracking agent response times.
       new:
         title: New SLA Policy
         description: Define targets to ensure your team responds to customers on time.
       edit:
         title: Edit SLA Policy
         description: Update targets to ensure your team responds to customers on time.
+      form:
+        all_inboxes_hint: Select which inboxes this SLA policy applies to.
+        business_hour_group_label: Select Business Hours Schedule
+        business_hours_section: Business Hours
+        cancel: Cancel
+        description_label: Description
+        details_section: Policy Details
+        during_working_hours: Only track SLA targets during business hours
+        first_response_label: First Response Time
+        inboxes_section: Apply to Inboxes
+        name_label: Policy Name
+        name_placeholder: e.g., VIP Customers SLA
+        next_response_label: Next Response Time
+        resolution_label: Resolution Time
+        save: Save SLA Policy
+        targets_section: SLA Targets
+      policy_card:
+        first_response: 'First response: %{value}'
+        inboxes:
+          one: "%{count} inbox"
+          other: "%{count} inboxes"
     csat_surveys:
       index:
         title: CSAT Surveys
@@ -1316,8 +1454,7 @@ en:
         portal_title_label: Portal Title (On the feedback page)
         portal_title_placeholder: e.g. How did we do?
         portal_subtitle_label: Portal Subtitle
-        portal_subtitle_placeholder: e.g. We'd love to hear your feedback on your
-          recent support experience.
+        portal_subtitle_placeholder: e.g. We'd love to hear your feedback on your recent support experience.
         feedback_label_label: Feedback Textbox Label
         feedback_label_placeholder: e.g. Tell us more (Optional)
     custom_fields:
@@ -1332,6 +1469,7 @@ en:
         default_value_placeholder: Optional default value...
         validations_pattern_label: Regex Pattern
         validations_pattern_placeholder: "^[A-Z]"
+        error_heading: 'Please fix the following errors:'
       translations:
         label_placeholder: e.g. Company Size
       index:
@@ -1346,50 +1484,51 @@ en:
       contact_form:
         form:
           default_value_label: Default Value
+          valid_url_hint: Please enter a valid URL starting with http:// or https://
         index:
           edit: Edit
           delete: Delete
           confirm_delete: Are you sure?
     articles:
-      search_placeholder: "Search..."
-      clear_search: "Clear search"
-      all_articles: "All Articles"
+      search_placeholder: Search...
+      clear_search: Clear search
+      all_articles: All Articles
       new_article: "+ New Article"
       count_articles: "%{count} Articles"
-      display_columns: "Display Columns"
-      columns: "Columns"
-      col_title: "Title"
-      col_last_edit: "Last Edit"
-      col_status: "Status"
-      col_collection: "Collection"
-      apply: "Apply"
-      untitled: "Untitled article"
-      uncategorized: "Uncategorized"
+      display_columns: Display Columns
+      columns: Columns
+      col_title: Title
+      col_last_edit: Last Edit
+      col_status: Status
+      col_collection: Collection
+      apply: Apply
+      untitled: Untitled article
+      uncategorized: Uncategorized
       prev: "← Previous"
-      page_info: "Page %{page} of %{total}"
-      next: "Next →"
-      no_articles_found: "No articles found"
-      create_first_article: "Create your first article or adjust the current search and filters."
-      no_portal_found: "No help center portal found"
-      create_portal_first: "Create a help center portal before adding articles, because every article must belong to a portal."
-      fix_errors: "Please fix the following errors:"
-      untitled_placeholder: "Untitled Article "
-      select_category_label: "Select Category"
-      select_category: "Select category"
-      search_categories: "Search categories..."
-      locale: "Locale"
-      add_locale: "Add Locale"
-      copy_from_another_locale: "Copy from another locale"
-      copy_content_from: "Copy content from"
-      copy_from_locale: "Copy from %{locale_name}"
-      unsaved_changes: "Unsaved changes"
-      cancel: "Cancel"
-      save: "Save"
-      publishing: "Publishing..."
-      publish: "Publish"
-      knowledge_base: "Knowledge Base"
-      articles: "Articles"
-      create_article: "Create Article"
+      page_info: Page %{page} of %{total}
+      next: Next →
+      no_articles_found: No articles found
+      create_first_article: Create your first article or adjust the current search and filters.
+      no_portal_found: No help center portal found
+      create_portal_first: Create a help center portal before adding articles, because every article must belong to a portal.
+      fix_errors: 'Please fix the following errors:'
+      untitled_placeholder: 'Untitled Article '
+      select_category_label: Select Category
+      select_category: Select category
+      search_categories: Search categories...
+      locale: Locale
+      add_locale: Add Locale
+      copy_from_another_locale: Copy from another locale
+      copy_content_from: Copy content from
+      copy_from_locale: Copy from %{locale_name}
+      unsaved_changes: Unsaved changes
+      cancel: Cancel
+      save: Save
+      publishing: Publishing...
+      publish: Publish
+      knowledge_base: Knowledge Base
+      articles: Articles
+      create_article: Create Article
       back_link: "> Back"
     help_center:
       portals:
@@ -1403,6 +1542,8 @@ en:
         index:
           edit: Edit
           search_placeholder: Search...
+          hero_image_alt: "%{name} hero image"
+          untitled: Untitled Help Center
       articles:
         form:
           title_placeholder: Untitled Article
@@ -1459,8 +1600,7 @@ en:
       invite_teammate:
         form:
           email_placeholder: Email
-          permission_note: We'll give you teammate basic settings permissions. you
-            can give them more permissions later.
+          permission_note: We'll give you teammate basic settings permissions. you can give them more permissions later.
           cancel: Cancel
           submit: Send Invite
       team:
@@ -1473,6 +1613,13 @@ en:
           team_members: Team Members
           no_users: No users available
           connect_inboxes: Connect to Inboxes
+          cancel: Cancel
+          create: Create Team
+          edit_subtitle: Update team details, members, and inboxes.
+          edit_title: Edit Team
+          new_subtitle: Create a team and assign its members and inboxes.
+          new_title: New Team
+          save: Save Changes
       team_inbox:
         form:
           name_placeholder: Add title
@@ -1523,8 +1670,7 @@ en:
     workspace:
       email_invitation:
         title: Join Workspace
-        description: Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry.
+        description: Lorem Ipsum is simply dummy text of the printing and typesetting industry.
         members:
           one: "%{count} Active Member"
           other: "%{count} Active Members"
@@ -1540,8 +1686,7 @@ en:
           submit: Join
       new:
         who_you_are: Who you are?
-        subtitle: Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry.
+        subtitle: Lorem Ipsum is simply dummy text of the printing and typesetting industry.
         agent: Agent
         agent_description: If you need more info, please check it out.
         company: Company
@@ -1568,6 +1713,8 @@ en:
         created_successfully: New WorkSpace Created Successfully
         go_to_dashboard: Go to Dashboard
         marketing_text: First customer service for customers, agents, and leaders
+        logo: Logo
+        new_workspace: New Workspace
       submitted:
         next_steps: Next Steps
         go_to_dashboard: Go to Dashboard
@@ -1577,15 +1724,13 @@ en:
         title: Custom Webhook Channels
         description: Connect your custom backends to Deskbolic using webhooks.
         add_new: Add Custom Channel
-        delete_confirm: Are you sure you want to delete this custom channel? All associated
-          inboxes and messages will also be deleted.
+        delete_confirm: Are you sure you want to delete this custom channel? All associated inboxes and messages will also be deleted.
         status_active: Active
         status_disconnected: Disconnected
         inboxes_count: "%{count} inboxes"
         created_ago: Created %{time} ago
         empty_title: No Custom Channels
-        empty_description: Connect your backend systems via webhooks to build powerful
-          custom integrations.
+        empty_description: Connect your backend systems via webhooks to build powerful custom integrations.
       new:
         title: Add New Custom Channel
         description: Enter the details to connect a new custom backend.
@@ -1609,16 +1754,13 @@ en:
         name: Name
         description: Description
         outbound_section: Outbound Webhook (Deskbolic -> Custom Server)
-        outbound_desc: Whenever an agent replies, Deskbolic will send a POST request
-          to this URL.
+        outbound_desc: Whenever an agent replies, Deskbolic will send a POST request to this URL.
         webhook_url: Webhook URL
         headers: Custom Headers
-        headers_help: 'Add any custom authentication headers (e.g. Authorization:
-          Bearer xyz) required by your server.'
+        headers_help: 'Add any custom authentication headers (e.g. Authorization: Bearer xyz) required by your server.'
         add_header: "+ Add Header"
         inbound_section: Inbound Webhook (Custom Server -> Deskbolic)
-        inbound_desc: Map the JSON payload your server sends us to Deskbolic customer
-          attributes.
+        inbound_desc: Map the JSON payload your server sends us to Deskbolic customer attributes.
         add_mapping: "+ Add Mapping"
         save: Save Configuration
         csat_survey: CSAT Survey
@@ -1636,24 +1778,18 @@ en:
         webhook_secret: Your Webhook Secret
         inbound_title: Sending Inbound Webhooks
         hmac_token: Your HMAC Token
-        outbound_desc1: 'When an agent replies to a conversation in Deskbolic, we
-          will send a POST request to your '
+        outbound_desc1: 'When an agent replies to a conversation in Deskbolic, we will send a POST request to your '
         outbound_webhook_url_bold: 'Outbound Webhook URL '
         outbound_desc2: 'with the following JSON payload:'
-        verify_desc1: 'To verify that the request actually came from Deskbolic, we
-          sign the payload using your '
+        verify_desc1: 'To verify that the request actually came from Deskbolic, we sign the payload using your '
         webhook_secret_bold: Webhook Secret
         verify_desc2: ". We include this signature in the "
         header_text: " header."
-        inbound_desc1: 'To send a message from your custom backend into Deskbolic,
-          make a POST request to:'
-        inbound_desc2: 'You must authenticate this request by including your HMAC
-          Token in the '
-        inbound_payload1: 'The JSON payload you send can be structured however you
-          like. Deskbolic will use your '
+        inbound_desc1: 'To send a message from your custom backend into Deskbolic, make a POST request to:'
+        inbound_desc2: 'You must authenticate this request by including your HMAC Token in the '
+        inbound_payload1: 'The JSON payload you send can be structured however you like. Deskbolic will use your '
         response_mapping_bold: 'Response Mapping '
-        inbound_payload2: configuration to extract the customer's identifier, name,
-          and the message content.
+        inbound_payload2: configuration to extract the customer's identifier, name, and the message content.
       testing:
         sandbox_title: Testing Sandbox
         test_outbound: Test Outbound Webhook
@@ -1675,8 +1811,7 @@ en:
             title: Edit %{provider} Integration
             description: Update your integration settings.
           slack:
-            description: Get instant notifications for new conversations and updates
-              directly in your Slack channels.
+            description: Get instant notifications for new conversations and updates directly in your Slack channels.
             connect: Add to Slack
             not_configured: Slack credentials are not configured on this server.
             auth_failed: Slack authentication failed or was cancelled.
@@ -1684,25 +1819,21 @@ en:
             unexpected_error: An unexpected error occurred during Slack authentication.
             connected: Slack has been successfully connected.
           webhooks:
-            description: Push real-time event notifications from Deskbolic to your
-              own servers and external services.
+            description: Push real-time event notifications from Deskbolic to your own servers and external services.
             configured_count: "%{count} configured"
             connect: Configure Webhooks
             url_label: Webhook URL
             url_hint: The endpoint where Deskbolic will send POST requests for events.
             secret_label: Webhook Secret
-            secret_hint: Use this secret to verify the HMAC signature of incoming
-              requests.
+            secret_hint: Use this secret to verify the HMAC signature of incoming requests.
             events_label: Subscribed Events
           google_translate:
-            description: Automatically translate incoming messages and outgoing replies
-              in real-time.
+            description: Automatically translate incoming messages and outgoing replies in real-time.
           coming_soon: Coming Soon
           connected: Connected
           disconnect: Disconnect
           manage: Manage
-          not_supported: Configuration for this provider is not supported via this
-            interface.
+          not_supported: Configuration for this provider is not supported via this interface.
           invalid_provider: Invalid integration provider.
           created: Integration created successfully.
           updated: Integration updated successfully.
@@ -1718,12 +1849,9 @@ en:
           exchange_failed: 'Failed to exchange Slack OAuth token: %{error}'
           unexpected_error: An unexpected error occurred during Slack authentication.
           basic_section: Slack Setup
-          manual_hint: Because Slack OAuth is not configured globally for this installation,
-            you can connect Slack manually by creating an Incoming Webhook in your
-            Slack Workspace and pasting the URL here.
+          manual_hint: Because Slack OAuth is not configured globally for this installation, you can connect Slack manually by creating an Incoming Webhook in your Slack Workspace and pasting the URL here.
           url_label: Slack Incoming Webhook URL
-          description: Get instant notifications for new conversations and updates
-            directly in your Slack channels.
+          description: Get instant notifications for new conversations and updates directly in your Slack channels.
           connect: Add to Slack
         not_supported: Configuration for this provider is not supported via this interface.
         coming_soon: Coming Soon
@@ -1737,8 +1865,7 @@ en:
         edit:
           title: Edit %{provider} Integration
         webhooks:
-          description: Push real-time event notifications from Deskbolic to your own
-            servers and external services.
+          description: Push real-time event notifications from Deskbolic to your own servers and external services.
           connect: Configure Webhooks
           configured_count: "%{count} configured"
           manage: Manage
@@ -1750,8 +1877,57 @@ en:
           events_label: Subscribed Events
           instructions_title: Receiving Webhooks
         google_translate:
-          description: Automatically translate incoming messages and outgoing replies
-            in real-time.
+          description: Automatically translate incoming messages and outgoing replies in real-time.
+        index:
+          description: Connect Deskbolic with your favorite tools.
+          title: Integrations
+      api_keys:
+        index:
+          created_ago: Generated %{date} ago
+          description: Manage API keys for accessing your Deskbolic account programmatically.
+          empty: You haven't generated any API keys yet.
+          empty_title: No API Keys Yet
+          generate: Generate New Key
+          key_title: API Key
+          revoke_confirm: Revoke this key? It will instantly break any integration using it.
+          title: Developer API Keys
+    custom_fields_builder:
+      available_fields: Available Fields
+      form_structure: Form Structure
+    invitations:
+      index:
+        empty_description: You don't have any pending invitations.
+        empty_title: No Pending Invitations
+        invited_by: Invited by %{name}
+        revoke_confirm: Are you sure you want to revoke this invitation?
+        sent: Sent
+      new:
+        title: Invite Teammate
+    portals:
+      domain_assignment: DOMAIN ASSIGNMENT
+      free_subdomain: Free Helpbolic Subdomain
+      manage_domains: Manage Domains
+      no_custom_domains: No available domains. Add a custom domain before creating a Help Center.
+      subdomain_hint: Choose a unique name for your Help Center.
+      subdomain_name: Subdomain Name
+      use_custom_domain: Use a Custom Domain
+    reports:
+      agent: Agent
+      agent_workload: Agent Workload (Last 30 Days)
+      avg_csat: Average CSAT Score
+      conversations: Conversations Handled
+      conversations_volume: Conversation Volume
+      no_data_desc: There are no assigned conversations in this period.
+      no_data_title: No data available
+      overview: Overview (Last 30 Days)
+      sla_breaches: SLA Breaches
+      total_conversations: Total Conversations
+    shared:
+      are_you_sure: Are you sure?
+      cancel: Cancel
+      edit: Edit
+      save: Save Slack Connection
+      update: Update Slack Connection
   auth:
     workspace:
       email_invitation:
@@ -1781,10 +1957,7 @@ en:
     currency_hint: Cannot be changed after registration.
     default_language: Default Workspace Language
     datacenter: Datacenter
-    datacenter_info: Looking for a custom datacenter location? We offer custom locations
-      for some of our Enterprise customers. Please note that for global routing and
-      authentication purposes, core account and user metadata will securely remain
-      in our primary European database.
+    datacenter_info: Looking for a custom datacenter location? We offer custom locations for some of our Enterprise customers. Please note that for global routing and authentication purposes, core account and user metadata will securely remain in our primary European database.
     datacenters:
       europe_germany: Europe (Germany)
       europe_germany_desc: Primary EU Database
@@ -1810,8 +1983,7 @@ en:
       marketing_text: Manage your customer support efficiently.
     passwords:
       forgot_title: Forgot your password?
-      forgot_subtitle: Enter your email address and we will send you a link to reset
-        your password.
+      forgot_subtitle: Enter your email address and we will send you a link to reset your password.
       send_instructions: Send reset instructions
       reset_title: Change your password
       reset_subtitle: Enter your new password below.
@@ -1837,8 +2009,7 @@ en:
       uppercase: One uppercase letter
       number: One number
       special: One special character
-    password_hint: Must be at least 8 characters with a mix of uppercase, lowercase,
-      numbers, and symbols.
+    password_hint: Must be at least 8 characters with a mix of uppercase, lowercase, numbers, and symbols.
     current_password: Current Password
     edit_profile:
       title: Edit Profile
@@ -1857,3 +2028,882 @@ en:
       priority_updated: Priority was changed
       label_added: Label %{label} was added
       label_removed: Label %{label} was removed
+  audit_logs:
+    actions: Actions
+    actor: Actor
+    changes: Changes
+    confirm_rollback: Are you sure you want to completely rollback this object to its historical state?
+    confirm_undo: Are you sure you want to undo these specific changes?
+    description: Track and review all activities across your organization.
+    empty: No audit logs found.
+    event: Event
+    rollback: Rollback
+    timestamp: Timestamp
+    title: Audit Logs
+    undo: Undo
+  devise:
+    registrations:
+      back_to_login: Continue to Login
+      registered_message: Your account has been successfully created.
+      registered_title: Welcome!
+  forms:
+    labels:
+      api_key: API key
+      assigned_email_template_optional: Assigned Email Template (optional)
+      business_account_id: Business account ID
+      business_hours: Business Hours
+      chat_prompt_whatsapp_widget: Chat Prompt (WhatsApp, Widget)
+      csat_survey: CSAT Survey
+      custom_reply_template: Custom Reply Template
+      default_locale: Default Locale
+      default_value: Default Value
+      description: Description
+      description_helper_text: Description / Helper Text
+      email: Email
+      enter_app_id: Enter app ID
+      enter_channel_name: Enter Channel Name
+      enter_email: Enter email
+      enter_name_of_channel: Enter channel name
+      enter_name_of_inbox: Enter inbox name
+      enter_website_url: Enter Website URL
+      feedback_textbox_label: Feedback Textbox Label
+      field_key: Field Key
+      field_label: Field Label
+      form_name: Form Name
+      form_subtitle: Form Subtitle
+      form_title: Form Title
+      full_phone_number: Full phone number
+      help_center_name: Help Center Name
+      input_type: Input Type
+      max_length: Maximum Length
+      max_value: Maximum Value
+      min_length: Minimum Length
+      min_value: Minimum Value
+      name: Name
+      notification_emails_comma_separated: Notification Emails (comma-separated)
+      outbound_channel: Outbound Channel
+      phone_number_id: Phone number ID
+      placeholder: Placeholder
+      portal_subtitle: Portal Subtitle
+      portal_title_on_the_feedback_page: Portal Title (on the feedback page)
+      record_type: Record Type
+      redirect_url_on_submit_optional: Redirect URL on Submit (Optional)
+      regex_pattern: Regex Pattern
+      resource_mapping: Resource Mapping
+      secret: Secret
+      select_channel: Select Channel
+      sla_policies: SLA Policies
+      submit_button_text: Submit Button Text
+      success_message: Success Message
+      success_message_key: Success Message Key
+      survey_name: Survey Name
+      template_name: Template Name
+      template_type: Template Type
+    options:
+      a_team: a team
+      account_wide: Account-wide (all agents)
+      active: Active
+      all: ALL
+      always_online_24_7: Always Online (24/7)
+      an_agent: an agent
+      any: ANY
+      any_website: Any website
+      back_office_ticket: Back Office Ticket
+      center_aligned: Center Aligned
+      closed: Closed
+      customer_ticket: Customer Ticket
+      days: Days
+      default_email_view: Default Email View
+      default_mailer_view: Default Mailer View
+      default_survey: Default Survey
+      default_system_survey: Default System Survey
+      event_trigger: Event Trigger
+      formal: Formal
+      fourteen_days: 14 Days
+      high: High
+      hours: Hours
+      informal: Informal
+      left_aligned: Left Aligned
+      let_fin_decide: Let Fin decide
+      low: Low
+      medium: Medium
+      minutes: Minutes
+      never_always_create_new: Never (always create new)
+      no_email_channel_linked: No Email Channel Linked
+      no_help_center_linked: No Help Center Linked
+      no_pre_chat_form_linked: No Pre-Chat Form Linked
+      not_mapped: Not Mapped
+      one_hour: 1 Hour
+      personal: Personal (only you)
+      resolved: Resolved
+      right_aligned: Right Aligned
+      select_a_channel: Select a channel
+      select_a_customer: Select a customer
+      select_a_schedule: Select a schedule
+      select_action: Select action...
+      select_agent: Select agent...
+      select_attribute: Select attribute...
+      select_country_code: Select Country Code
+      select_deskbolic_attribute: Select Deskbolic Attribute
+      select_email_channel: Select Email Channel...
+      select_event: Select event...
+      select_language: Select Language...
+      select_operator: Select operator...
+      select_team: Select team...
+      seven_days: 7 Days
+      snoozed: Snoozed
+      team: Team
+      time_trigger: Time Trigger
+      tracker_ticket: Tracker Ticket
+      twelve_hours: 12 Hours
+      twenty_four_hours: 24 Hours
+      urgent: Urgent
+      use_system_default_design: Use System Default Design
+  general:
+    activate: Activate
+    add: Add
+    ago: "%{time} ago"
+    assign: Assign
+    cancel: Cancel
+    cancel_upload: Cancel upload
+    coming_soon: Coming Soon
+    copy: Copy
+    created_ago: Created %{time} ago
+    deactivate: Deactivate
+    delete: Delete
+    devices:
+      desktop: Desktop
+      mobile: Mobile
+      tablet: Tablet
+    edit: Edit
+    minutes_short:
+      one: "%{count} min"
+      other: "%{count} min"
+    none: None
+    remove: Remove
+    remove_language: Remove language
+    remove_option: Remove option
+    remove_translation: Remove translation
+    revoke: Revoke
+    save_changes: Save Changes
+    unassign: Unassign
+  global:
+    buttons:
+      done: Done
+  mailers:
+    system_mailer:
+      forward_email_verification:
+        almost_complete: Your setup is almost complete!
+        ignore_notice: Please ignore this email. It is automatically generated by Deskbolic to verify that your email forwarding rules are working correctly.
+  notification_settings:
+    browser_push: Browser Push Notifications
+    browser_push_desc: Enable push notifications to receive alerts even when Deskbolic is running in the background.
+    description: Manage your email and push notification preferences.
+    email: Email
+    enable_browser_push: Enable Browser Notifications
+    event: Event
+    push: Push
+    title: Notification Settings
+  notifications:
+    empty: You're all caught up!
+    empty_sub: When you have unread notifications, they will appear here.
+    mark_all_as_read: Mark all as read
+    mark_read: Mark Read
+    title: Notifications
+    events:
+      conversation_created: New conversation created
+      conversation_assigned: Conversation assigned to you
+      conversation_resolved: Conversation resolved
+      sla_breached: SLA Breach Alert
+      message_created: New message received
+      conversation_mention: You were mentioned in a conversation
+      subscription_created: Subscription activated
+      subscription_renewed: Subscription renewed
+      subscription_cancelled: Subscription cancelled
+      trial_expiring: Your free trial is ending soon
+      payment_failed: Payment failed
+      limit_approaching: You are approaching your plan limit
+      limit_reached: Plan limit reached
+      team_assigned: Conversation assigned to your team
+    push:
+      conversation_created:
+        title: New Conversation
+        body: A new conversation has been created in %{inbox_name}
+      conversation_assigned:
+        title: Conversation Assigned
+        body: 'Conversation #%{identifier} has been assigned to you'
+      conversation_resolved:
+        title: Conversation Resolved
+        body: 'Conversation #%{identifier} has been resolved'
+      sla_breached:
+        title: SLA Breach Alert
+        body: 'SLA breached for conversation #%{identifier}'
+      message_created:
+        title: New Message
+        body: 'New message in conversation #%{identifier}'
+      conversation_mention:
+        title: Mentioned
+        body: 'You were mentioned in conversation #%{identifier}'
+      subscription_created:
+        title: Subscription Activated
+        body: Your %{plan_name} plan is now active
+      subscription_renewed:
+        title: Subscription Renewed
+        body: Your %{plan_name} plan has been renewed
+      subscription_cancelled:
+        title: Subscription Cancelled
+        body: Your subscription has been cancelled
+      trial_expiring:
+        title: Trial Ending Soon
+        body: Your free trial ends in %{days} days
+      payment_failed:
+        title: Payment Failed
+        body: We couldn't process your payment. Please update your payment method.
+      limit_approaching:
+        title: Approaching Limit
+        body: You're at %{percentage}%% of your %{resource} limit
+      limit_reached:
+        title: Limit Reached
+        body: You've reached your %{resource} limit. Upgrade your plan to continue.
+      team_assigned:
+        title: Team Assignment
+        body: 'Conversation #%{identifier} has been assigned to %{team_name}'
+  settings:
+    csat:
+      configuration: CSAT Configuration
+      description: Automatically send surveys to customers after a conversation is resolved.
+      enable_label: Enable CSAT Surveys
+      info_text: When enabled, customers will receive a rating prompt natively in the chat widget or via email link after their ticket status is changed to Resolved.
+      save: Save Settings
+      title: Customer Satisfaction (CSAT)
+  shared:
+    back: Back
+    confirm_delete: Are you sure you want to delete this item?
+    delete: Delete
+    edit: Edit
+    error_heading: 'Please fix the following errors:'
+  ui:
+    admin_notification_mailer:
+      workspace_request:
+        email_nbsp: 'Email: &nbsp;'
+        name_nbsp: 'Name: &nbsp;'
+        user_nbsp: 'User: &nbsp;'
+        workspace_id_nbsp: 'Workspace ID: &nbsp;'
+        workspace_joining_request: Workspace joining Request!
+    conversation_reply_mailer:
+      reply:
+        reply_to_this_email_to_continue_the_conversation: Reply to this email to continue the conversation.
+    dashboard:
+      account_invitations:
+        email_invitation:
+          community_icon: Community Icon
+          deskbolic_logo: Deskbolic logo
+          email_joining_icon: Email Joining Icon
+        index:
+          revoke: "\U0001F5D1️ Revoke"
+        new:
+          an_invitation_email_will_be_sent_to_the_member_with: An invitation email will be sent to the member with instructions to join the workspace.
+          assign_role: Assign Role
+          choose_a_role_for_this_member: Choose a role for this member
+          invitation_summary: Invitation Summary
+          invite_member: Invite Member
+          invite_someone_to_join_your_workspace_and_assign_permissions: Invite someone to join your workspace and assign permissions.
+          invite_team_member: Invite Team Member
+          name_company_com: name@company.com
+          permission_preview: Permission Preview
+          show_less: Show less
+          this_member_will_receive: 'This member will receive:'
+      account_users:
+        edit:
+          role: Role
+          select: Select
+        index:
+          all_roles: All Roles
+          edit_role: Edit Role
+          filter_by_role: Filter by role
+          joined_on: Joined on
+          last_active: Last active
+          manage_your_workspace_members_permissions_and_invitations: Manage your workspace members, permissions and invitations.
+          member_actions: Member actions
+          no_matching_members: No matching members
+          remove_member: Remove Member
+          search_members: Search members...
+          sort_members: Sort members
+          sort_name: 'Sort: Name'
+          sort_newest: 'Sort: Newest'
+          sort_oldest: 'Sort: Oldest'
+          try_a_different_search_or_role_filter: Try a different search or role filter.
+      agent:
+        agent_sidebar:
+          ai_agent: AI Agent
+          analyse: Analyse
+          content: Content
+          conversation: Conversation
+          custom_answers: Custom Answers
+          deploye: Deploye
+          fin_testing: Fin Testing
+          guidance: Guidance
+          menu: menu
+          optimize: Optimize
+          performance: Performance
+          profiles: Profiles
+          tags: Tags
+          task: Task
+          test: Test
+          testing: Testing
+          topics_explorer: Topics Explorer
+          train: Train
+          workflows: Workflows
+        fin_test:
+          add_question: Add Question
+          add_questions: Add Questions
+          answer_rating_is_any: Answer rating is any
+          answer_status_is_any: Answer status is any
+          batch_test_fin_s_answers_to_go_live_with_confidence: Batch test Fin’s answers to go live with confidence
+          create_a_new_group: Create a new group
+          generate_from_past_conversations: Generate from past conversations
+          matthew_attard: Matthew Attard
+          others: Others
+          preview_user: Preview User
+          start_testing_by_adding_questions_for_fin_to_answer: Start testing by adding questions for Fin to answer
+          testing_as: Testing as
+          there_group_has_no_questions: There group has no questions
+          update_a_minute_ago_by: Update a minute ago by
+          upload_a_cv: Upload a CV
+        guidance:
+          all_guidance_0_100: All Guidance (0/100)
+          communication_style: Communication Style
+          context_and_clarification: Context and clarification
+          enabled: Enabled
+          follow_up_questions_fin_should_ask_to_ensure_accurate_answers: Follow-up questions fin should ask, to ensure accurate answers
+          hallo_ich_bin_fitbot_ich_bin_dein_pers_nlicher_sportassistent: "Hallo, ich bin FitBot! \U0001F44B Ich bin dein persönlicher Sportassistent. Wie kann ich dir helfen?"
+          handover_and_escalation: Handover and `escalation`
+          how_to_handle_cases_that_should_be_routed_straight_to: How to handle cases that should be routed straight to you team
+          icon: icon
+          message: message...
+          messages: Messages
+          new: New
+          not_enabled: Not Enabled
+          specific_vocabulary_and_terminology_fin_should_use: Specific vocabulary and terminology fin should use
+        index:
+          choose_formal_or_informal_pronouns_for_all_applicable_languages: Choose formal or informal pronouns(for all applicable languages)
+          choose_how_fin_phrases_the_options_it_presents_to_your: Choose how fin phrases the options it presents to your customers
+          control_the_language_fin_will_use_to_create_ai_answers: Control the language Fin will use to create AI answers
+          customize_fin_s_profile_picture_and_name_this_identity_will: Customize Fin’s Profile picture and name. this identity will also be used for bots in workfloes
+          customize_the_reply_buttons_here: Customize the reply buttons here...
+          default_language_english: Default language (English)
+          deskbolic_s_multilingual_support: Deskbolic’s multilingual support
+          deskbolic_s_pronoun_formality: Deskbolic’s pronoun formality
+          deskbolic_s_reply_buttons: Deskbolic’s reply buttons
+          english_default: English (Default)
+          fin_s_pronoun_formality: Fin’s pronoun formality
+          fin_will_automatically_detect_and_reply_to_customer_in_the: Fin will Automatically detect and reply to customer in the supported language you have added below. Add more language
+          fin_will_follow_the_same_language_style_as_the_user: Fin will follow the same language style as the user, so if the user “du” or “tu” then Fin answer with informal pronouns. if the user uses “Sie” or “vous”.
+          identity: Identity
+          image: image
+          multilingual_fin: Multilingual Fin
+          real_time_translation: Real-time translation
+          resolves_the_conversation: Resolves the conversation
+          routes_the_customer_to_teammates: Routes the customer to teammates
+          supported_languages: Supported Languages
+          wed_8_21_am: Wed 8:21 AM
+          you_can_pick_what_works_best_for_your_audience_this: You can pick what works best for your audience. This will not changes what the buttons do.
+        task:
+          cancel_subscription: Cancel subscription
+          not_designed_yet: Not designed yet
+          process_a_refund: Process a refund
+          tasks: Tasks
+          use_this_when_a_customer_asks_to_cancel_to_subscription: Use this when a customer asks to cancel to subscription.
+          use_this_workflow_to_process_refund_request_from_users_always: Use this workflow to process refund request from users, Always prioritize this workflow over any other action that might be available
+        test:
+          48_questions: 48 Questions
+          al_agent_while_there_isn_t_a_definitive_cure_for: Al Agent While there isn't a definitive cure for severe allergies, we can provide information on long-term management strategies. Treatments for allergies include avoiding allergens when Possible, using medications like antihistamines and steroid creams, and in some cases, emergency medicines for severe reactions. For long-term solutions, immunotherapy has advanced significantly. This treatment involves carefully exposing you to allergens over time, helping your body build tolerance. Customized sublingual tablets are becoming more precise and widely available for this purpose. Its important to note that the effectiveness of treatments can vary from person to person. For the most appropriate advice tailored to your specific situation, we strongly recommend consulting with a qualified healthcare professional or allergist. They can provide a comprehensive allergy management plan based on your individual needs and symptoms.
+          allegies_updated: Allegies-Updated
+          allergies_questions_testing: Allergies Questions Testing
+          answer_rating: Answer Rating
+          answer_status: Answer Status
+          are_seasonal_allergies_different_from_other_types: Are seasonal allergies different from other types?
+          arrow: arrow
+          can_allergies_be_life_threatening: Can allergies be life-threatening?
+          can_avoiding_allergens_help_reduce_symptoms: Can avoiding allergens help reduce symptoms?
+          can_children_outgrow_allergies: Can children outgrow allergies?
+          can_i_be_allergic_to_more_than_one_thing: Can I be allergic to more than one thing?
+          can_i_self_diagnose_an_allergy: Can I self-diagnose an allergy?
+          content_2: Content (2)
+          evaluate_answer: Evaluate Answer
+          guidance_3: Guidance (3)
+          hay_fever_allergis_in_2025_what_you_need_to_know: 'Hay fever Allergis in 2025: what you need to know.'
+          how_can_i_avoid_allergens_in_daily_life: How can I avoid allergens in daily life?
+          how_does_desensitisation_help_manage_allergies: How does desensitisation help manage allergies?
+          is_there_a_cure_or_long_term_solution_for_severe: Is there a cure or long-term solution for severe allergies?
+          new_role: New Role
+          questions: Questions
+          should_i_carry_an_edipen_rf_lye_had_a_severe: Should I carry an EDIPen rf lye had a severe reaction in the past?
+          this_answer_uses: 'This Answer Uses:'
+          tick: tick
+          what_is_an_allergy_management_plan: What is an allergy management plan?
+          what_is_hayfever: What is hayfever
+          what_should_i_tell_my_gp_about_my_symptoms: What should I tell my GP about my symptoms?
+          who_should_administer_immunotherapy: Who should administer immunotherapy?
+        topics:
+          10_highest_volume_topics: 10 highest volume topics
+          1_306_conversation: 1.306 conversation
+          80_9_cx_score: 80.9% CX Score
+          add_filter: Add Filter
+          conversation_data: Conversation data
+          fin_agent: Fin Agent
+          fin_features: Fin Features
+          jun_4_2025_jul_1_2025: Jun 4, 2025 - Jul 1, 2025
+          messenger_setup: Messenger Setup
+          surveys: Surveys
+          topic_explorer: Topic Explorer
+        workflow:
+          1_more: 1 More
+          ask_if_it_helped: Ask if it helped
+          ask_the_suer_which_subscription_they_want_to_cancel: Ask the suer which subscription they want to cancel
+          cancel_subscription: Cancel Subscription
+          channel: Channel
+          fin_hands_over: Fin hands over
+          if_unable_to_complete: If unable to complete
+          once_complete: Once Complete
+          overview: Overview
+          path: Path
+          path_analysis: Path Analysis
+          set_live: Set Live
+          trigger: Trigger
+          unable_to_complete: unable to complete
+          use_this_when_a_customer_asks_to_cancel_a_subscription: Use this when a customer asks to cancel a subscription
+          web_and_zendesk_messaging: Web and Zendesk Messaging
+          workflow: Workflow
+      assignment_policies:
+        edit:
+          back_to_policies: "← Back to Policies"
+        policy_card:
+          are_you_sure_you_want_to_delete_this_policy: Are you sure you want to delete this policy?
+          auto_reassign: Auto-reassign
+          business_hours: Business hours
+          priority_routing: Priority routing
+      automation_executions:
+        index:
+          automation: Automation
+          duration: Duration
+          executed_at: Executed At
+          ms: "%{time}ms"
+          triggered_by: Triggered By
+      automations:
+        action_row:
+          e_g_en_fr_de: e.g. en, fr, de
+          enter_message: Enter message...
+          hours: Hours
+        automation:
+          toggle: Toggle
+        condition_group:
+          group_match: Group %{value} — Match
+          remove_group: Remove group
+          value: Value...
+        form:
+          of_the_following_condition_groups: 'of the following condition groups:'
+      channels:
+        channels:
+          img: img
+          inbox_icon: inbox icon
+        contact_form:
+          edit:
+            back_to_contact_forms: "← Back to Contact Forms"
+          form:
+            add_custom_field: Add Custom Field
+            add_field: Add Field
+            add_language: Add Language
+            auto_assign_conversations: Auto Assign Conversations
+            enable_csat_survey: Enable CSAT Survey
+            translations: Translations
+          translation_fields:
+            e_g_contact_support: e.g. Contact Support
+            e_g_send_message: e.g. Send Message
+            e_g_thanks_for_reaching_out_we_ve_received_your: e.g. Thanks for reaching out! We've received your message.
+            e_g_we_will_reply_as_soon_as_possible: e.g. We will reply as soon as possible
+        contact_form_channel_modal:
+          create_form: Create Form
+          e_g_sales_inquiry: e.g. Sales Inquiry
+          require_user_login: Require User Login
+          sales_example_com_support_example_com: sales@example.com, support@example.com
+        custom:
+          form:
+            json_path_e_g_data_user_id: JSON Path (e.g. data.user.id)
+          index:
+            identifier: 'Identifier: %{identifier}'
+          instructions:
+            deskbolic_signature: Deskbolic-Signature
+            for_example_in_ruby: ". For example in Ruby:"
+            header_using_the_format: header using the format
+            t_timestamp_v1_signature: t={timestamp},v1={signature}
+            to_verify_that_the_request_actually_came_from_deskbolic_we: To verify that the request actually came from Deskbolic, we sign the payload using your
+            we_include_this_signature_in_the: ". We include this signature in the"
+            you_must_authenticate_this_request_by_signing_your_json_payload: You must authenticate this request by signing your JSON payload with your HMAC Token using SHA256. Pass the signature in the
+            you_should_verify_the_signature_on_your_server_to_prevent: 'You should verify the signature on your server to prevent replay attacks and ensure authenticity. For example in Ruby:'
+          new:
+            brief_description_of_what_this_channel_connects_to: Brief description of what this channel connects to
+            e_g_my_internal_dashboard: e.g. My Internal Dashboard
+          testing_sandbox:
+            paste_a_sample_json_payload_that_your_server_would_send: Paste a sample JSON payload that your server would send to Deskbolic, and see how your Response Mapping parses it.
+            sends_a_mock_message_created_payload_to_your_configured_webhook: 'Sends a mock <code>message.created</code> payload to your configured Webhook URL:'
+            use_these_tools_to_verify_that_your_outbound_webhook_url: Use these tools to verify that your Outbound Webhook URL is receiving payloads correctly, and that your Response Mapping accurately parses inbound data.
+        email:
+          form:
+            support_yourcompany_com: support@yourcompany.com
+        facebook:
+          edit:
+            page_id: 'Page ID: %{identifier}'
+        instagram:
+          edit:
+            text: "@%{username}"
+        web_widget:
+          form:
+            chat_bubble_icon_launcher: Chat Bubble Icon (Launcher)
+            custom_branding: Custom Branding
+            drop_icon_here_or_click_to_upload: Drop icon here or click to upload.
+            drop_logo_here_or_click_to_upload: Drop logo here or click to upload.
+            enforce_secure_identity_hmac: Enforce Secure Identity (HMAC)
+            offline_email_channel: Offline Email Channel
+            pre_chat_form: Pre-Chat Form
+            widget_header_logo: Widget Header Logo
+          index:
+            anonymous_allowed: Anonymous allowed
+            anonymous_restricted: Anonymous restricted
+            contact_form_linked: Contact Form linked
+            help_center_linked: Help Center linked
+          installation:
+            copy: "\U0001F4CB Copy"
+            embed_the_deskbolic_widget_into_your_website_or_web_app: Embed the Deskbolic widget into your website or web app by placing the following snippet just before the closing <code>&lt;/body&gt;</code> tag.
+            react_next_js: React / Next.js
+            standard_html: Standard HTML
+          preview:
+            live_preview: Live Preview
+            see_how_your_widget_will_appear_to_customers: See how your widget will appear to customers.
+          translation_fields:
+            launcher_text: Launcher Text
+            pre_chat_subtitle: Pre-Chat Subtitle
+            pre_chat_title: Pre-Chat Title
+            reply_time_text: Reply Time Text
+        whatsapp:
+          edit:
+            phone: 'Phone: %{full_phone_number}'
+            waba: "(WABA: %{business_account_id})"
+          new:
+            e_g_234567890: e.g., 234567890
+      confirmations:
+        new:
+          you_example_com: you@example.com
+      conversations:
+        agent_info:
+          avatar: avatar
+          unassigned: unassigned
+        conversation_details:
+          cancel: cancel
+          chat: chat
+        labels_info:
+          manage_labels: Manage Labels
+        snooz_conv_modal:
+          snooze_conversation: Snooze Conversation
+      csat_surveys:
+        form:
+          basic_configuration: Basic Configuration
+          localized_content: Localized Content
+          save_survey: Save Survey
+          saved_to_your_default_language_english_as_a_fallback: Saved to your default language (English) as a fallback.
+          the_question_asked_in_chat_channels_emails_use_the_assigned: The question asked in chat channels. Emails use the Assigned Email Template.
+      custom_fields:
+        edit:
+          back_to_custom_fields: "← Back to Custom Fields"
+        form:
+          e_g_company_size: e.g. company_size
+          field_is_required: Field is Required
+          hidden_from_ui: Hidden from UI
+          read_only_agents_cannot_edit: Read-Only (Agents cannot edit)
+          save_custom_field: Save Custom Field
+          searchable: Searchable
+          validations_rules: Validations & Rules
+        index:
+          create_new_field: "+ Create New Field"
+          create_your_first_custom_field_to_start_tracking_rich_customer: Create your first custom field to start tracking rich customer data.
+          created_ago: Created %{date} ago
+          input_type: 'Input Type: %{titleize}'
+          master_data_attributes_for_personalized_customer_experiences: Master data attributes for personalized customer experiences.
+          no_custom_fields_found: No Custom Fields found
+        translation_fields:
+          add_option: "+ Add Option"
+          e_g_1_10_employees: e.g. 1-10 employees
+      custom_fields_builder:
+        show:
+          back_to_channels: Back to Channels
+          drag_and_drop_fields_to_reorder_or_add_them_to: Drag and drop fields to reorder or add them to your contact form.
+          form_builder: 'Form Builder: %{name}'
+          no_fields_added_yet_add_fields_from_the_right_to: No fields added yet. Add fields from the right to add them.
+      domains:
+        index:
+          add: add
+          delete: delete
+          edit: edit
+          verify: verify
+      email_templates:
+        edit:
+          text: "{{%{grp}.%{prop}}}"
+          text_2: "{{%{grp}}}"
+        index:
+          are_you_sure_you_want_to_delete_this_template: Are you sure you want to delete this template?
+        new:
+          create_template: Create Template
+          e_g_my_custom_reply: e.g. My Custom Reply
+      help_center:
+        articles:
+          index:
+            clear: clear
+            clear_search: Clear search
+        help_center_sidebar:
+          all_articles: all articles
+          all_articles_2: All Articles
+          articles: ARTICLES
+          collections: COLLECTIONS
+          collections_2: collections
+          draft: draft
+          published: published
+          published_2: Published
+          settings: settings
+        portals:
+          edit:
+            appearance_settings: APPEARANCE SETTINGS
+            basic_information: BASIC INFORMATION
+            category_layout: Category Layout
+            default: Default
+            domain_assignment: DOMAIN ASSIGNMENT
+            edit_help_center: Edit Help Center
+            hero_style: Hero Style
+            languages: LANGUAGES
+            manage_domains: Manage Domains
+            no_available_domains_add_a_subdomain_or_custom_domain_before: No available domains. Add a subdomain or custom domain before creating a Help Center.
+            png_jpg_or_svg_up_to_5mb: PNG, JPG, or SVG up to 5MB.
+            primary_color: Primary Color
+            secondary_color: Secondary Color
+            the_public_facing_name_internal_id_will_be_generated_automatically: The public-facing name. Internal ID will be generated automatically.
+            theme_preference: Theme Preference
+            update_branding_appearance_languages_and_domain_settings_for_this_help: Update branding, appearance, languages, and domain settings for this Help Center.
+            update_help_center: Update Help Center
+            x: x
+          index:
+            create_a_help_center_to_configure_branding_languages_and_its: Create a Help Center to configure branding, languages, and its public domain.
+            create_help_center: Create Help Center
+            manage_the_help_centers_created_for_this_workspace: Manage the Help Centers created for this workspace.
+            no_help_centers_yet: No Help Centers yet
+      identity_sources:
+        form:
+          https_api_example_com_identities_customer_email: https://api.example.com/identities/{{ customer.email }}
+      integrations:
+        index:
+          google_translate: Google Translate
+          webhooks: Webhooks
+        webhook_form:
+          when_subscribed_events_occur_deskbolic_will_send_an_http_post: When subscribed events occur, Deskbolic will send an HTTP POST request to your
+      macros:
+        edit:
+          add_action: "+ Add Action"
+          save_macro: Save Macro
+        index:
+          account_wide: Account-wide
+          action_s:
+            one: "%{count} action"
+            other: "%{count} actions"
+          personal: Personal
+      notifications:
+        index:
+          close: close
+        list:
+          loading_more_notifications: Loading more notifications...
+      pages:
+        community_forum:
+          deskbolic_community_forum: Deskbolic Community Forum
+          your_account: Your Account
+        help_center:
+          deskbolic_help_center: Deskbolic Help Center
+        service_terms:
+          deskbolic_terms_and_policies: Deskbolic Terms and Policies
+      popup:
+        canned_response_modal:
+          create_a_new_reply: Create a new reply
+        email_channel_modal:
+          email_channel: Email Channel
+        email_conv_modal:
+          new_conversation: New Conversation
+          to: To
+        email_inbox_modal:
+          create_inbox: Create Inbox
+          email_inbox: Email Inbox
+        invite_teammate_modal:
+          invite_a_teammates_to_help: Invite a teammates to help
+        messenger_channel_modal:
+          messenger_channel: Messenger Channel
+        messenger_inbox_modal:
+          messenger_inbox: Messenger Inbox
+        schedule_modal:
+          set_schedule: Set Schedule
+        search_ticket_modal:
+          api_integration: API integration
+          create_new_ticket_type: Create New Ticket Type
+          ticket_type_not_found: Ticket type not found
+        suggested_ticket_modal:
+          create_ticket: Create Ticket
+          line: Line
+          messenger: Messenger
+          sms: SMS
+          telegram: Telegram
+          twilio: Twilio
+          twitter: Twitter
+          whatsapp: Whatsapp
+        team_inbox_modal:
+          add_member: Add Member
+          new_team_inbox: New Team Inbox
+          size_exceeded: size exceeded
+        ticket_modal:
+          add_customer: Add Customer
+        topic_questions_modal:
+          generate_more_by_topic: Generate more by topic
+          generate_more_questions_from_your_inbox_using_the_selected_topic: Generate more questions from your inbox using the selected topic, Learn More
+        whatsapp_channel_modal:
+          api_key: api key
+          business_account_id: business account id
+          phone_number_id: phone number id
+          whatsapp_channel: WhatsApp Channel
+        widget_channel_modal:
+          widget_channel: Widget Channel
+      profile:
+        index:
+          change_avatar: Change avatar
+          profile_avatar: profile avatar
+      registrations:
+        new:
+          background: Background
+          graphic: Graphic
+      reports:
+        index:
+          conversations: conversations
+          csat: csat
+          sla_breaches: sla breaches
+      roles:
+        form:
+          e_g_billing_manager: e.g., Billing Manager
+          permissions: Permissions
+          resource: Resource
+      sessions:
+        new:
+          user_remember_me: user[remember_me]
+      settings:
+        api_keys:
+          index:
+            text: "%{token}"
+        messenger:
+          angular: Angular
+          choose_how_to_install_the_messenger: Choose how to install the messenger
+          code_snipet: Code Snipet
+          configure_your_code_snippet: Configure your code snippet
+          ember: Ember
+          for_users_with_logins: For users with logins
+          for_website_visitors_logins: For website visitors logins
+          google_tag_manager: Google Tag Manager
+          install: Install
+          install_for_mobile: Install for mobile
+          install_for_web: Install for web
+          install_the_messenger_for_anonymous_website_visitors_who_are_t: install the messenger for anonymous website visitors who are’t logged-in. Conversation will be saved in the browser via cookie
+          install_the_messenger_for_logged_in_users_the_messenger_will: install the messenger for logged-in users. The messenger will show info like customer names and previous conversations across devices
+          install_the_messenger_on_your_site_or_app: Install the messenger on your site or app
+          invite_teammates: Invite teammates.
+          mobile_sdks: Mobile SDKs
+          need_help_ask_a_teammate_like_an_engineer_to_complete: Need help? Ask a teammate, like an engineer, to complete the installation,
+          react: React
+          segment: Segment
+          shopify: Shopify
+          the_messenger_helps_you_support_your_customers_and_learn_more: The messenger helps you support your customers and learn more about them.
+          turn_on_user_traffic_to_start_accepting_user_request_from: Turn on user traffic to start accepting user request from your messenger. Do this before your install the messenger to avoid failed request
+          vue: Vue
+          web: Web
+          wordpress: Wordpress
+        office_timings:
+          slim:
+            default_office_hours: Default office hours
+            friday: Friday
+            from: From
+            monday: Monday
+            office_hours: Office hours
+            saturday: Saturday
+            sunday: Sunday
+            these_apply_to_all_conversations_in_your_workspace: These apply to all conversations in your workspace.
+            thursday: Thursday
+            tuesday: Tuesday
+            wednesday: Wednesday
+        settings_sidebar:
+          custom_channels: Custom Channels
+          developer_api_keys: Developer API Keys
+        team_inboxes:
+          add_new_inbox: Add new inbox
+          complete_access: Complete Access
+          delete_team_inbox: Delete Team Inbox
+          jd: JD
+          john_doe: John Doe
+          new_team_member: New Team Member
+          permission: Permission
+          record: record
+          team_inboxes: Team Inboxes
+          user: User
+      shared:
+        dashboard_container:
+          dashboard_logo: dashboard logo
+          help_desk_community_forum: "“Help desk” Community forum"
+          help_desk_help_center: "“Help desk” Help Center"
+          login: Login
+          login_here: login Here
+          notifications: notifications
+          sign_out: Sign Out
+          switch_account: Switch Account
+          terms_policies: Terms & policies
+        inbox_container:
+          10_day: 10 Day
+          all_messages: All Messages
+          projectflow_pro: ProjectFlow Pro
+          scdbe_fnjw_fhbwj: scdbe fnjw fhbwj
+      skills:
+        edit:
+          back_to_skills: "← Back to skills"
+      sla_policies:
+        form:
+          e_g_15: e.g., 15
+  domains:
+    statuses:
+      domain_type:
+        subdomain: Subdomain
+        custom: Custom
+  enums:
+    account_user:
+      availability:
+        online: Online
+        offline: Offline
+    conversation:
+      priority:
+        low: Low
+        medium: Medium
+        high: High
+        urgent: Urgent
+      status:
+        active: Active
+        closed: Closed
+        snoozed: Snoozed
+        resolved: Resolved
+    email_template:
+      template_type:
+        conversation_reply: Conversation reply
+        csat_survey: CSAT survey
+    help_center:
+      visibility:
+        everyone: Everyone
+        unlisted: Unlisted
+        internal: Internal
+    user:
+      status:
+        active: Active

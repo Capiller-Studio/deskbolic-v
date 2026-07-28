@@ -3,48 +3,48 @@
     .helpdesk-nav
       .card
         .header data-controller="modal-toggler frame-toggler"
-          = inline_svg_tag("sidebar.svg", class:"link-icon", alt:"menu")
+          = inline_svg_tag("sidebar.svg", class:"link-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
           p.f-reg-14 = t('dashboard.sidebar.channels.title')
-          = inline_svg_tag("note_pencil.svg", class:"note-pencil-icon ml-auto", alt:"menu", data: { action: "click->modal-toggler#showModal click->frame-toggler#loadModal", popup_view:"_suggested_ticket_modal"})
+          = inline_svg_tag("note_pencil.svg", class:"note-pencil-icon ml-auto", alt:t("ui.dashboard.agent.agent_sidebar.menu"), data: { action: "click->modal-toggler#showModal click->frame-toggler#loadModal", popup_view:"_suggested_ticket_modal"})
           = render("dashboard/shared/modal_popper")
           turbo-frame#facebook-page-frame
         .channel-header.list-header data-controller="accordion modal-toggler frame-toggler"
-          = inline_svg_tag("dropdown_icon.svg", class:"channel-icon", alt:"menu")
+          = inline_svg_tag("dropdown_icon.svg", class:"channel-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
           h4.f-reg-14 = t('dashboard.sidebar.channels.inboxes')
           .toggle-menu.ml-auto data-action="click->accordion#toggleMenu"
-            = inline_svg_tag("menu.svg", class:"channel-menu ml-auto", alt:"menu")
+            = inline_svg_tag("menu.svg", class:"channel-menu ml-auto", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
           .menu data-accordion-target="menu"
             = link_to new_channels_email_path, class: "menu-link"
-              = inline_svg_tag("email.svg", class:"menu-icon", alt:"menu")
+              = inline_svg_tag("email.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
               p.f-reg-14 = t('dashboard.sidebar.channels.email')
-              = inline_svg_tag("plus.svg", class:"menu-icon ml-auto", alt:"menu")
+              = inline_svg_tag("plus.svg", class:"menu-icon ml-auto", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
             = link_to new_channels_facebook_path, class: "menu-link"
-              = inline_svg_tag("facebook.svg", class:"menu-icon", alt:"menu")
+              = inline_svg_tag("facebook.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
               p.f-reg-14 = t('dashboard.sidebar.channels.facebook')
-              = inline_svg_tag("plus.svg", class:"menu-icon ml-auto", alt:"menu")
+              = inline_svg_tag("plus.svg", class:"menu-icon ml-auto", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
             = link_to new_channels_instagram_path, class: "menu-link"
-              = inline_svg_tag("instagram.svg", class:"menu-icon", alt:"menu")
+              = inline_svg_tag("instagram.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
               p.f-reg-14 = t('dashboard.sidebar.channels.instagram')
-              = inline_svg_tag("plus.svg", class:"menu-icon ml-auto", alt:"menu")
+              = inline_svg_tag("plus.svg", class:"menu-icon ml-auto", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
             = link_to new_channels_whatsapp_path, class: "menu-link"
-              = inline_svg_tag("whatsapp.svg", class:"menu-icon", alt:"menu")
+              = inline_svg_tag("whatsapp.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
               p.f-reg-14 = t('dashboard.sidebar.channels.whatsapp')
-              = inline_svg_tag("plus.svg", class:"menu-icon ml-auto", alt:"menu")
+              = inline_svg_tag("plus.svg", class:"menu-icon ml-auto", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
             = link_to new_channels_web_widget_path, class: "menu-link"
-              = inline_svg_tag("widget.svg", class:"menu-icon", alt:"menu")
+              = inline_svg_tag("widget.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
               p.f-reg-14 = t('dashboard.sidebar.channels.widget')
-              = inline_svg_tag("plus.svg", class:"menu-icon ml-auto", alt:"menu")
+              = inline_svg_tag("plus.svg", class:"menu-icon ml-auto", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
             = link_to new_channels_contact_form_path, class: "menu-link"
-              = inline_svg_tag("contact_form.svg", class:"menu-icon", alt:"menu")
+              = inline_svg_tag("contact_form.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
               p.f-reg-14 = t('dashboard.sidebar.channels.contact_form')
-              = inline_svg_tag("plus.svg", class:"menu-icon ml-auto", alt:"menu")
+              = inline_svg_tag("plus.svg", class:"menu-icon ml-auto", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
         ul.channel-list  data-controller="accordion modal-toggler frame-toggler"
           .help-nav-menu
             / All inboxes
             li.nav-item class=""
               .nav-link.link data-target-id="conversations-frame" data-controller="section" data-action="click->section#toggleSection" data-url="#{conversations_path}"
                 .link-text
-                  = inline_svg_tag("inbox.svg", class:"link-icon", alt:"inbox icon")
+                  = inline_svg_tag("inbox.svg", class:"link-icon", alt:t("ui.dashboard.channels.channels.inbox_icon"))
                   p.f-reg-14 = t('dashboard.sidebar.channels.all')
                 .nav-link-badges style="display: flex; gap: 4px;"
                   - all_unread = @inboxes&.sum { |inbox| @unread_counts[:inboxes][inbox.id].to_i } || 0
@@ -64,10 +64,42 @@
                       p.f-semi-12 = unread
                     .back-oval-gray
                       p.f-reg-12 = inbox.conversations&.count
+            li.nav-item class=""
+              .nav-link.link
+                .link-text
+                  = inline_svg_tag("whatsapp_badge.svg", class: 'link-icon', alt: 'inbox icon')
+                  p.f-reg-14 Marketing
+                .nav-link-badges style="display: flex; gap: 4px;"
+                  .back-oval-gray
+                    p.f-reg-12 13
+            li.nav-item class=""
+              .nav-link.link
+                .link-text
+                  = inline_svg_tag("facebook.svg", class: 'link-icon', alt: 'inbox icon')
+                  p.f-reg-14 Ads Support
+                .nav-link-badges style="display: flex; gap: 4px;"
+                  .back-oval-gray
+                    p.f-reg-12 13
+            li.nav-item class=""
+              .nav-link.link
+                .link-text
+                  = inline_svg_tag("insta.svg", class: 'link-icon', alt: 'inbox icon')
+                  p.f-reg-14 Marketing
+                .nav-link-badges style="display: flex; gap: 4px;"
+                  .back-oval-gray
+                    p.f-reg-12 13
+            li.nav-item class=""
+              .nav-link.link
+                .link-text
+                  = inline_svg_tag("email.svg", class: 'link-icon', alt: 'inbox icon')
+                  p.f-reg-14 Email Support
+                .nav-link-badges style="display: flex; gap: 4px;"
+                  .back-oval-gray
+                    p.f-reg-12 7
         
         / teams
         .teams-header.list-header
-          = inline_svg_tag("dropdown_icon.svg", class:"channel-icon", alt:"menu")
+          = inline_svg_tag("dropdown_icon.svg", class:"channel-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
           h4.f-reg-14 = t('dashboard.sidebar.channels.teams')
         ul.teams-list.channel-list
           .help-nav-menu
@@ -75,14 +107,14 @@
               li.nav-item class=""
                 .nav-link.pad-link
                   .link-text
-                    = inline_svg_tag("users.svg", class:"link-icon", alt:"menu")
+                    = inline_svg_tag("users.svg", class:"link-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
                     p.f-reg-14 = team.name
                   .back-oval-gray
                     p.f-reg-12 = team.team_users.count
 
         / teammates
         .teams-header.list-header
-          = inline_svg_tag("dropdown_icon.svg", class:"channel-icon", alt:"menu")
+          = inline_svg_tag("dropdown_icon.svg", class:"channel-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
           h4.f-reg-14 = t('dashboard.sidebar.channels.teammates')
         ul.teams-list.channel-list
           .help-nav-menu
@@ -91,7 +123,7 @@
                 .nav-link.pad-link
                   .link-text
                     - if team_user.user.avatar&.attached?
-                      = image_tag(team_user.user.avatar, class:"user-icon", alt:"img")
+                      = image_tag(team_user.user.avatar, class:"user-icon", alt:t("ui.dashboard.channels.channels.img"))
                     - else
                       .link-icon.avatar-fallback.customer-list-initials-avatar.f-reg-12 class=avatar_fallback_color_class(team_user.user.display_name)
                         = (team_user.user.display_name)&.first&.upcase

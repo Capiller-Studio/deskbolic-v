@@ -4,7 +4,7 @@
       .ui-page-body
         .form-section style="max-width: 800px; margin: 0 auto;"
           .ui-page-header
-            = link_to t("dashboard.custom_channels.edit.back", default: "Back to Custom Channels"), channels_custom_index_path, class: "ui-back-link"
+            = link_to t("dashboard.custom_channels.edit.back"), channels_custom_index_path, class: "ui-back-link"
             
             h2.f-semi-24 style="color: #0f172a; margin-top: 12px;" = @custom_channel.name
             p.f-reg-14 style="color: #64748b; margin-top: 4px;" = @custom_channel.identifier

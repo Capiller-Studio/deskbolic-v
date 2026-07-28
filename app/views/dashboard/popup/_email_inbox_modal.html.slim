@@ -1,21 +1,21 @@
 .model-content-section
   .model-content
     .modal-header
-      h3.f-semi-18 Email Inbox
-      = inline_svg_tag("cross_button.svg", alt:"menu", class:"conversation-icon m-close", data: { action: "click->modal-toggler#hideModal" })
+      h3.f-semi-18 = t("ui.dashboard.popup.email_inbox_modal.email_inbox")
+      = inline_svg_tag("cross_button.svg", alt:t("ui.dashboard.agent.agent_sidebar.menu"), class:"conversation-icon m-close", data: { action: "click->modal-toggler#hideModal" })
     .modal-body.channel-form
-      = form_with(url: inboxes_path, data: {controller: "formValidation renderer", "formValidation-target" => "form"}, html: {class: "needs-validation", novalidate: true, method: :post}) do |f|
+      = form_with(url: inboxes_path, data: {controller: "form-validation renderer", "form-validation-target" => "form"}, html: {class: "needs-validation", novalidate: true, method: :post}) do |f|
         .form-fields
           = f.hidden_field :inbox_type, value: "email"
           .form-floating
             .field-label
               span 1
-              = f.label :name, "Enter name of Inbox", class: "form-label f-reg-14"
-            = f.text_field :name, autofocus: true, class: "form-control f-reg-14", placeholder: "Channel Name", required: true
+              = f.label :name, t("forms.labels.enter_name_of_inbox"), class: "form-label f-reg-14"
+            = f.text_field :name, autofocus: true, class: "form-control f-reg-14", placeholder: t("dashboard.email_channels.form.name_label"), required: true
           .form-floating.ui-select
             .field-label
               span 2
-              = f.label :channel_id, "Select Channel", class: "form-label f-reg-14"
+              = f.label :channel_id, t("forms.labels.select_channel"), class: "form-label f-reg-14"
             = select_tag :channel_id, options_for_select(Channel::Email.where(account: current_account).all.map { |c| [c.name, c.id] }), data: { controller: "select" } 
         .form-actions
-          = f.submit "Create Inbox", class: "submit-btn f-med-14", data: { action: "click->formValidation#validate click->modal-toggler#hideModal" }
+          = f.submit t("ui.dashboard.popup.email_inbox_modal.create_inbox"), class: "submit-btn f-med-14", data: { action: "click->form-validation#validate click->modal-toggler#hideModal" }

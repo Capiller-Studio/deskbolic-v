@@ -1,17 +1,17 @@
 .model-content-section
   .model-content
     .modal-header 
-      .f-semi-14 Set Schedule
-      = inline_svg_tag("cross_button.svg", alt:"menu", class:"conversation-icon m-close", data: { action: "click->modal-toggler#hideModal" })
+      .f-semi-14 = t("ui.dashboard.popup.schedule_modal.set_schedule")
+      = inline_svg_tag("cross_button.svg", alt:t("ui.dashboard.agent.agent_sidebar.menu"), class:"conversation-icon m-close", data: { action: "click->modal-toggler#hideModal" })
     .modal-body.schedule-modal
       = form_with(url:"#", method: :post) do |form|
         .datetime-container   
           = form.date_field(:date, required: true, class: "date-box form-control")
           = form.time_field(:time, required: true, class: "time-box form-control")
         .schedule-buttons
-          button.cancel type="button" data-action="click->modal-toggler#hideModal" Cancel
-          = form.submit "Set Schedule", class: "set-schedule", data: { action: "click->formValidation#validate" }
-          / button.set-schedule type="button" data-action="click->formValidation#validate " Set Schedule
+          button.cancel type="button" data-action="click->modal-toggler#hideModal" = t("dashboard.teams.form.cancel")
+          = form.submit t("ui.dashboard.popup.schedule_modal.set_schedule"), class: "set-schedule", data: { action: "click->form-validation#validate" }
+          / button.set-schedule type="button" data-action="click->form-validation#validate " Set Schedule
           / .cancel data-action="click->modal-toggler#hideModal"
           /   p.f-reg-12 Cancel
           / .set-schedule

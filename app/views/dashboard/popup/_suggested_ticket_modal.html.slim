@@ -9,54 +9,54 @@
       .card.create-ticket data-action="click->frame-toggler#loadModal" data-popup-view="_ticket_modal"
         button.accordian
           .main
-            = inline_svg_tag("ticket_no_background.svg", alt:"menu", class:"conversation-icon")
-            p.f-reg-14 Create Ticket
+            = inline_svg_tag("ticket_no_background.svg", alt:t("ui.dashboard.agent.agent_sidebar.menu"), class:"conversation-icon")
+            p.f-reg-14 = t("ui.dashboard.popup.suggested_ticket_modal.create_ticket")
           = inline_svg_tag("arrow.svg", class:"")
       .card data-action="click->frame-toggler#loadModal" data-popup-view="_fb_conv_modal"
         button.accordian.inactive
           .main
-            = inline_svg_tag("messenger.svg", alt:"menu", class:"conversation-icon")
-            p.f-reg-14 Messenger
+            = inline_svg_tag("messenger.svg", alt:t("ui.dashboard.agent.agent_sidebar.menu"), class:"conversation-icon")
+            p.f-reg-14 = t("ui.dashboard.popup.suggested_ticket_modal.messenger")
           = inline_svg_tag("arrow.svg", class:"")
       .card data-action="click->frame-toggler#loadModal" data-popup-view="_email_conv_modal"
         button.accordian.inactive
           .main
-            = inline_svg_tag("envelope.svg", alt:"menu", class:"conversation-icon")
-            p.f-reg-14 Email
+            = inline_svg_tag("envelope.svg", alt:t("ui.dashboard.agent.agent_sidebar.menu"), class:"conversation-icon")
+            p.f-reg-14 = t("dashboard.profile.index.email")
           = inline_svg_tag("arrow.svg", class:"")
       .card
         button.accordian.inactive
           .main
-            = inline_svg_tag("whatsapp.svg", alt:"menu", class:"conversation-icon")
-            p.f-reg-14 Whatsapp
+            = inline_svg_tag("whatsapp.svg", alt:t("ui.dashboard.agent.agent_sidebar.menu"), class:"conversation-icon")
+            p.f-reg-14 = t("ui.dashboard.popup.suggested_ticket_modal.whatsapp")
           = inline_svg_tag("arrow.svg", class:"")
       .card
         button.accordian.inactive
           .main
-            = inline_svg_tag("twitter.svg", alt:"menu", class:"conversation-icon")
-            p.f-reg-14 Twitter
+            = inline_svg_tag("twitter.svg", alt:t("ui.dashboard.agent.agent_sidebar.menu"), class:"conversation-icon")
+            p.f-reg-14 = t("ui.dashboard.popup.suggested_ticket_modal.twitter")
           = inline_svg_tag("arrow.svg", class:"")
       .card
         button.accordian.inactive
           .main
-            = inline_svg_tag("twilio.svg", alt:"menu", class:"conversation-icon")
-            p.f-reg-14 Twilio
+            = inline_svg_tag("twilio.svg", alt:t("ui.dashboard.agent.agent_sidebar.menu"), class:"conversation-icon")
+            p.f-reg-14 = t("ui.dashboard.popup.suggested_ticket_modal.twilio")
           = inline_svg_tag("arrow.svg", class:"")
       .card
         button.accordian.inactive
           .main
-            = inline_svg_tag("telegram.svg", alt:"menu", class:"conversation-icon")
-            p.f-reg-14 Telegram
+            = inline_svg_tag("telegram.svg", alt:t("ui.dashboard.agent.agent_sidebar.menu"), class:"conversation-icon")
+            p.f-reg-14 = t("ui.dashboard.popup.suggested_ticket_modal.telegram")
           = inline_svg_tag("arrow.svg", class:"")
       .card
         button.accordian.inactive
           .main
-            = inline_svg_tag("line.svg", alt:"menu", class:"conversation-icon")
-            p.f-reg-14 Line
+            = inline_svg_tag("line.svg", alt:t("ui.dashboard.agent.agent_sidebar.menu"), class:"conversation-icon")
+            p.f-reg-14 = t("ui.dashboard.popup.suggested_ticket_modal.line")
           = inline_svg_tag("arrow.svg", class:"")
       .card
         button.accordian.inactive
           .main
-            = inline_svg_tag("sms.svg", alt:"menu", class:"conversation-icon")
-            p.f-reg-14 SMS
+            = inline_svg_tag("sms.svg", alt:t("ui.dashboard.agent.agent_sidebar.menu"), class:"conversation-icon")
+            p.f-reg-14 = t("ui.dashboard.popup.suggested_ticket_modal.sms")
           = inline_svg_tag("arrow.svg", class:"")

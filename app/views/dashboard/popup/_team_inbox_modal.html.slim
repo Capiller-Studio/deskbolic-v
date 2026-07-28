@@ -1,10 +1,10 @@
 .model-content-section
   .model-content
     .modal-header
-      h3.f-semi-18 New Team Inbox
-      = inline_svg_tag("cross_button.svg", alt:"menu", class:"conversation-icon m-close", data: { action: "click->modal-toggler#hideModal" })
+      h3.f-semi-18 = t("ui.dashboard.popup.team_inbox_modal.new_team_inbox")
+      = inline_svg_tag("cross_button.svg", alt:t("ui.dashboard.agent.agent_sidebar.menu"), class:"conversation-icon m-close", data: { action: "click->modal-toggler#hideModal" })
     .modal-body.team-inbox-modal
-      = form_with(model: Team.new, data: {controller: "formValidation renderer accordion", "formValidation-target" => "form"}, html: {class: "needs-validation", novalidate: true, method: :post}) do |f|
+      = form_with(model: Team.new, data: {controller: "form-validation renderer accordion", "form-validation-target" => "form"}, html: {class: "needs-validation", novalidate: true, method: :post}) do |f|
         .form-fields
           .dropzone.upload-paper.dropzone-default.dz-clickable data-controller="dropzone" data-dropzone-max-file-size="1" data-dropzone-max-files="1" data-dropzone-accepted-files=".jpeg,.jpg,.png"
             = f.file_field :avatar, direct_upload: true, "data-dropzone-target" => "input"
@@ -12,11 +12,11 @@
               / = inline_svg_tag("plus_black.svg", class: "img-paper", alt:"cloud image")
             .form-check style="min-height: 0;"
               input.d-none type="checkbox" value="" data-dropzone-target='doneCheck' required=true
-              .invalid-feedback size exceeded
+              .invalid-feedback = t("ui.dashboard.popup.team_inbox_modal.size_exceeded")
           .form-floating
-            = f.text_field :name, autofocus: true, class: "form-control rounded-3 f-reg-14", placeholder: "Add title", required: true
+            = f.text_field :name, autofocus: true, class: "form-control rounded-3 f-reg-14", placeholder: t("dashboard.popup.team_inbox.form.name_placeholder"), required: true
           .form-group
-            label.group-label.f-med-14.mb-2 Add Member
+            label.group-label.f-med-14.mb-2 = t("ui.dashboard.popup.team_inbox_modal.add_member")
             .user-list
               - current_account.users.all.each do |user|
                 .form-check
@@ -28,5 +28,5 @@
                       .bullet
                       span.f-reg-12 = user.status.capitalize
         .form-actions
-          button.button.f-med-14 type="button" data-action="click->modal-toggler#hideModal" Cancel
-          = f.submit "Save", class: "submit-btn f-med-14", data: { action: "click->formValidation#validate click->modal-toggler#hideModal" }
+          button.button.f-med-14 type="button" data-action="click->modal-toggler#hideModal" = t("dashboard.teams.form.cancel")
+          = f.submit t("dashboard.profile.index.save"), class: "submit-btn f-med-14", data: { action: "click->form-validation#validate click->modal-toggler#hideModal" }

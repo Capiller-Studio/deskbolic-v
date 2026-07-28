@@ -1,11 +1,11 @@
 .user-signup-container.center-wrapper
   .form-section data-controller="renderer form-wizard"
-    = image_tag("logo.png", class:"img", alt:"logo")
+    = image_tag("logo.png", class:"img", alt:t("dashboard.workspace.new.logo"))
     = form_for(@account, url: workspace_path(@account), html: {class: "js-form-wizard form-wizard needs-validation", novalidate: true}) do |f|
       fieldset
         .set-header
-          h2 = t("auth.workspace.new.who_you_are")
-          p = t("auth.workspace.new.subtitle")
+          h2 = t("dashboard.workspace.new.who_you_are")
+          p = t("dashboard.workspace.new.subtitle")
         .form-fields
           .radio-button-group
             .radio-button
@@ -13,69 +13,69 @@
               label for="agent_radio"
                 = inline_svg_tag("agent.svg", class:"icon")
                 .details
-                   h3 = t("auth.workspace.new.agent")
-                   p = t("auth.workspace.new.agent_description")
+                   h3 = t("dashboard.workspace.new.agent")
+                   p = t("dashboard.workspace.new.agent_description")
 
             .radio-button
               = radio_button_tag 'user_type', 'company', id: 'company_radio', data: { form-wizard_target: "roleRadio" }
               label for="company_radio"
                 = inline_svg_tag("company.svg", class:"icon")
                 .details
-                   h3 = t("auth.workspace.new.company")
-                   p = t("auth.workspace.new.company_description")
-          button.cont-btn.js-next-button type="button" data-action="click->form-wizard#toggleFieldsets click->form-wizard#nextStep" = t("auth.workspace.new.continue")
+                   h3 = t("dashboard.workspace.new.company")
+                   p = t("dashboard.workspace.new.company_description")
+          button.cont-btn.js-next-button type="button" data-action="click->form-wizard#toggleFieldsets click->form-wizard#nextStep" = t("dashboard.workspace.new.continue")
         
       fieldset.agent-section
         .set-header
-          h2 = t("auth.workspace.new.workspace")
-          p = t("auth.workspace.new.workspace_subtitle")
+          h2 = t("dashboard.workspace.new.workspace")
+          p = t("dashboard.workspace.new.workspace_subtitle")
         .form-fields
           .form-floating
             = f.label :email, class: "form-label"
             = select_tag :email, options_for_select(@accounts.map { |a| [a.name, a.email] }), data: {controller: "select"}, required: true
-          = f.submit t("auth.workspace.new.send_request"), class: "cont-btn js-next-button"
+          = f.submit t("dashboard.workspace.new.send_request"), class: "cont-btn js-next-button"
       
       fieldset.agent-section
         .set-header
           
           = inline_svg_tag("tick.svg", class:"set-icon") 
-          h2 = t("auth.workspace.new.request_sent")
+          h2 = t("dashboard.workspace.new.request_sent")
         .form-fields
-          button.cont-btn.js-next-button type="button" data-action="" Continue
+          button.cont-btn.js-next-button type="button" data-action="" = t("dashboard.workspace.new.continue")
       
       fieldset.company-section
         .set-header
-          h2 = t("auth.workspace.new.company_details")
-          p = t("auth.workspace.new.company_details_subtitle")
+          h2 = t("dashboard.workspace.new.company_details")
+          p = t("dashboard.workspace.new.company_details_subtitle")
         .form-fields
           .form-floating
-            = label_tag :company_name, t("auth.workspace.new.company_name"), class: "form-label"
-            = text_field_tag :company_name, "", class: "form-control", placeholder: t("auth.workspace.new.company_name_placeholder"), required: true, disabled: true
-          button.cont-btn.js-next-button type="button" data-action="click->form-wizard#nextStep" = t("auth.workspace.new.continue")
+            = label_tag :company_name, t("dashboard.workspace.new.company_name"), class: "form-label"
+            = text_field_tag :company_name, "", class: "form-control", placeholder: t("dashboard.workspace.new.company_name_placeholder"), required: true, disabled: true
+          button.cont-btn.js-next-button type="button" data-action="click->form-wizard#nextStep" = t("dashboard.workspace.new.continue")
       
       fieldset.company-section
         .form-fields
-          h2 = t("auth.workspace.new.create_new_workspace")
+          h2 = t("dashboard.workspace.new.create_new_workspace")
           .form-floating
-            = f.label :name, t("auth.workspace.new.workspace_name_label") , class: "form-label"
-            = f.text_field :name, autofocus: true, class: "form-control", placeholder: t("auth.workspace.new.workspace_name_placeholder"), required: true, disabled: true
+            = f.label :name, t("dashboard.workspace.new.workspace_name_label") , class: "form-label"
+            = f.text_field :name, autofocus: true, class: "form-control", placeholder: t("dashboard.workspace.new.workspace_name_placeholder"), required: true, disabled: true
           .form-floating
-            = label_tag :workspace_size, t("auth.workspace.new.workspace_size"), class: "form-label"
-            = select_tag :workspace_size, options_for_select([[t("auth.workspace.new.workspace_size_options.small"), "1-9"], [t("auth.workspace.new.workspace_size_options.medium"), "10-30"], [t("auth.workspace.new.workspace_size_options.large"), "50+"]]), data: {controller: "select"}
-          p = t("auth.workspace.new.workspace_subtitle2")
-          = f.submit t("auth.workspace.new.create_workspace_button"), class: "cont-btn js-next-button"
+            = label_tag :workspace_size, t("dashboard.workspace.new.workspace_size"), class: "form-label"
+            = select_tag :workspace_size, options_for_select([[t("dashboard.workspace.new.workspace_size_options.small"), "1-9"], [t("dashboard.workspace.new.workspace_size_options.medium"), "10-30"], [t("dashboard.workspace.new.workspace_size_options.large"), "50+"]]), data: {controller: "select"}
+          p = t("dashboard.workspace.new.workspace_subtitle2")
+          = f.submit t("dashboard.workspace.new.create_workspace_button"), class: "cont-btn js-next-button"
       
       
       fieldset.company-section
         .set-header
           = inline_svg_tag("tick.svg", class:"set-icon")
           h2 
-            span ”New WorkSpace” 
-            | = t("auth.workspace.new.created_successfully")
+            span = t("dashboard.workspace.new.new_workspace")
+            | = t("dashboard.workspace.new.created_successfully")
         .form-fields
-          button.cont-btn.js-next-button type="button" = t("auth.workspace.new.go_to_dashboard")
+          button.cont-btn.js-next-button type="button" = t("dashboard.workspace.new.go_to_dashboard")
       
   .image-section
-    = image_tag("register.png", class:"register-img", alt:"image")
-    = image_tag("register-back.png", class:"back-img", alt:"image")
-    p = t("auth.workspace.new.marketing_text")
+    = image_tag("register.png", class:"register-img", alt:t("ui.dashboard.agent.index.image"))
+    = image_tag("register-back.png", class:"back-img", alt:t("ui.dashboard.agent.index.image"))
+    p = t("dashboard.workspace.new.marketing_text")

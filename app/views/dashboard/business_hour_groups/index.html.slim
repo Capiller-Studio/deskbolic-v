@@ -19,7 +19,7 @@
                   div
                     h3.f-semi-18 = group.name
                     p.f-reg-14 = group.description.presence || t("dashboard.business_hour_groups.shared.no_description")
-                    p.f-reg-12.mt-2 = "Timezone: #{group.timezone}"
+                    p.f-reg-12.mt-2 = t("dashboard.business_hour_groups.index.timezone", timezone: group.timezone)
                 .ui-card-actions
                   = link_to edit_business_hour_group_path(group), class: "ui-action-btn", title: t("shared.edit") do
                     | ✏️

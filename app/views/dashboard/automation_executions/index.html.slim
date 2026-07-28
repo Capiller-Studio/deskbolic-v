@@ -24,12 +24,12 @@
     table.auto-exec-table
       thead
         tr
-          th Name
-          th Type
-          th Status
-          th Triggered By
-          th Duration
-          th Executed At
+          th = t("dashboard.skills.form.name_label")
+          th = t("dashboard.skills.form.type_label")
+          th = t("dashboard.profile.index.status_label")
+          th = t("ui.dashboard.automation_executions.index.triggered_by")
+          th = t("ui.dashboard.automation_executions.index.duration")
+          th = t("ui.dashboard.automation_executions.index.executed_at")
       tbody
         - @executions.each do |exec|
           tr
@@ -40,9 +40,9 @@
                 span style="color: #94a3b8; font-style: italic;" (deleted)
             td
               - if exec.executable_type == "Automation"
-                span.auto-badge.badge-event Automation
+                span.auto-badge.badge-event = t("ui.dashboard.automation_executions.index.automation")
               - else
-                span.auto-badge.badge-macro Macro
+                span.auto-badge.badge-macro = t("dashboard.automations.types.macro")
             td
               - if exec.success?
                 span.auto-badge.badge-success = t("dashboard.automation_executions.statuses.success")
@@ -59,10 +59,10 @@
             td
               span.auto-exec-duration
                 - if exec.execution_duration_ms
-                  | #{exec.execution_duration_ms}ms
+                  | #{t("ui.dashboard.automation_executions.index.ms", time: exec.execution_duration_ms)}
                 - else
                   | —
-            td = l(exec.executed_at, format: :short) if exec.executed_at
+            td = exec.executed_at.strftime("%d %b %H:%M") if exec.executed_at
 
     / Pagination
     - if defined?(pagy) && @pagy

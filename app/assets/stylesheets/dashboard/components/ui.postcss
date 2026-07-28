@@ -9,8 +9,10 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding: 32px 40px 24px;
-  border-bottom: 1px solid $black-5;
+  /* padding: 32px 40px 24px; */
+  padding: 0px;
+  padding-bottom: 15px;
+  border-bottom: none;
 }
 
 .ui-title-area {
@@ -246,8 +248,8 @@
 /* ─── New Page (Connect Flow) ─── */
 .ui-page-header,
 .ui-page-header {
-  padding: 32px 40px 24px;
-  border-bottom: 1px solid $black-5;
+  /* padding: 32px 40px 24px; */
+  /* border-bottom: 1px solid $black-5; */
 }
 
 .ui-back-link {
@@ -735,8 +737,8 @@ input:checked + .ui-toggle-slider::before {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding: 32px 40px 24px;
-  border-bottom: 1px solid $black-5;
+  /* padding: 32px 40px 24px; */
+  /* border-bottom: 1px solid $black-5; */
 }
 
 .ui-title-area {
@@ -1690,3 +1692,206 @@ input:checked + .ui-toggle-slider::before {
 .ui-mb-16 { margin-bottom: 16px; }
 .ui-mb-24 { margin-bottom: 24px; }
 .ui-inst-desc-sm { margin-bottom: 8px; }
+
+/* Assignment policy index cards — matches the automation index card pattern. */
+.ui-policy-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 24px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    opacity 0.2s ease;
+
+  &:hover {
+    border-color: #c7d2fe;
+    box-shadow: 0 2px 8px rgba(79, 70, 229, 0.06);
+  }
+
+  &.inactive {
+    opacity: 0.55;
+  }
+
+  &.dragging {
+    opacity: 0.4;
+    border: 2px dashed #818cf8;
+  }
+
+  &.drag-over {
+    border-top: 3px solid #4f46e5;
+  }
+}
+
+.ui-policy-drag-handle {
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  color: #cbd5e1;
+  cursor: grab;
+
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+.ui-policy-card-leading-icon {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  color: #cbd5e1;
+  font-size: 14px;
+}
+
+.ui-policy-card-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.ui-policy-card-name {
+  margin-bottom: 4px;
+  color: #1e293b;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.ui-policy-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.ui-policy-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+
+  &.ui-policy-badge--round-robin {
+    background: #e0f2fe;
+    color: #0369a1;
+  }
+
+  &.ui-policy-badge--load-balanced {
+    background: #ede9fe;
+    color: #6d28d9;
+  }
+
+  &.ui-policy-badge--skills-based {
+    background: #dcfce7;
+    color: #166534;
+  }
+
+  &.ui-policy-badge--manual {
+    background: #f1f5f9;
+    color: #475569;
+  }
+
+  &.ui-policy-badge--sla {
+    background: #fef3c7;
+    color: #92400e;
+  }
+}
+
+.ui-policy-card-detail {
+  color: #64748b;
+  font-size: 13px;
+}
+
+.ui-policy-card-actions {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 6px;
+}
+
+.ui-policy-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  color: #64748b;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.15s ease;
+
+  &:hover {
+    color: #4f46e5;
+    background: #f5f3ff;
+    border-color: #c7d2fe;
+  }
+
+  &.danger:hover {
+    color: #dc2626;
+    background: #fef2f2;
+    border-color: #fecaca;
+  }
+}
+
+.ui-policy-toggle {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  padding: 0;
+  background: #cbd5e1;
+  border: 0;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+
+  &::after {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 20px;
+    height: 20px;
+    content: "";
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s ease;
+  }
+
+  &.active {
+    background: #4f46e5;
+
+    &::after {
+      transform: translateX(20px);
+    }
+  }
+}
+
+.ui-sla-card {
+  margin-bottom: 12px;
+}
+
+@media (max-width: 768px) {
+  .ui-policy-card {
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 16px;
+  }
+
+  .ui-policy-card-info {
+    flex-basis: calc(100% - 42px);
+  }
+
+  .ui-policy-card-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}

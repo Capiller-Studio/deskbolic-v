@@ -2,7 +2,7 @@
   .ap-form-container
     .ap-form-header
       = link_to assignment_policies_path, class: "ap-back-link"
-        | ← Back to Policies
+        | #{t("ui.dashboard.assignment_policies.edit.back_to_policies")}
       h2.f-semi-24 = @policy.name
 
     .ap-section
@@ -72,4 +72,4 @@
 
     .ap-form-footer
       = link_to t("dashboard.assignment_policies.form.cancel"), assignment_policies_path, class: "ap-btn-secondary"
-      = link_to "Edit", edit_assignment_policy_path(@policy), class: "ap-btn-primary"
+      = link_to t("dashboard.skills.index.edit"), edit_assignment_policy_path(@policy), class: "ap-btn-primary"

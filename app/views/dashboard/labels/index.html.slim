@@ -1,12 +1,12 @@
 = render("dashboard/shared/dashboard_container", current_page: "labels") do
   = render("dashboard/settings/settings_sidebar", current_page: "labels") do
-    div
+    .body-container
       .ui-index-header
         .ui-title-area
-          h2.f-semi-32 = t("dashboard.labels.index.labels_for", default: "Labels for %{account}", account: current_account.name)
-          p.f-reg-16 = t("dashboard.labels.index.description", default: "Manage labels to categorize your conversations and customers.")
+          h2.f-semi-32 = t("dashboard.labels.index.labels_for", account: current_account.name)
+          p.f-reg-16 = t("dashboard.labels.index.description")
         = link_to new_label_path, class: "ui-btn-primary" do
-          | + #{t("dashboard.labels.index.add_new_label", default: "Add New Label")}
+          | + #{t("dashboard.labels.index.add_new_label")}
 
       .ui-list style="margin-top: 24px;"
         - if @labels.any?
@@ -15,7 +15,7 @@
         - else
           .ui-empty-state
             .ui-empty-icon 🏷️
-            h3.f-semi-18 = t("dashboard.labels.index.empty_title", default: "No labels found")
-            p.f-reg-14 = t("dashboard.labels.index.empty_description", default: "Create labels to better organize and filter your conversations.")
+            h3.f-semi-18 = t("dashboard.labels.index.empty_title")
+            p.f-reg-14 = t("dashboard.labels.index.empty_description")
             = link_to new_label_path, class: "ui-btn-primary ui-btn-sm" do
-              | + #{t("dashboard.labels.index.add_new_label", default: "Add New Label")}
+              | + #{t("dashboard.labels.index.add_new_label")}

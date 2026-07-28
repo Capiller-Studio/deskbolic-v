@@ -3,43 +3,43 @@
     = form_with(url: channels_path, method: :post, local: true, class: "new-channel-form") do |f|
       = f.hidden_field :channel_type, value: "contact_form"
       .modal-header
-        h3.f-semi-18 Create Contact Form
-        = inline_svg_tag("cross.svg", class:"cross-icon", alt:"menu", data: { action: "click->frame-toggler#hideModal" })
+        h3.f-semi-18 = t("dashboard.contact_form_channels.form.save")
+        = inline_svg_tag("cross.svg", class:"cross-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"), data: { action: "click->frame-toggler#hideModal" })
       .modal-body
         .form-group
-          = f.label :name, "Form Name", class: "f-semi-14"
-          = f.text_field :name, class: "form-control", placeholder: "e.g. Sales Inquiry", required: true
+          = f.label :name, t("forms.labels.form_name"), class: "f-semi-14"
+          = f.text_field :name, class: "form-control", placeholder: t("ui.dashboard.channels.contact_form_channel_modal.e_g_sales_inquiry"), required: true
           
         .form-group
-          = f.label :submit_redirect_url, "Redirect URL on Submit (Optional)", class: "f-semi-14"
+          = f.label :submit_redirect_url, t("forms.labels.redirect_url_on_submit_optional"), class: "f-semi-14"
           = f.text_field :submit_redirect_url, class: "form-control", placeholder: "https://yourwebsite.com/thank-you"
 
         .form-group
-          = f.label :notification_emails, "Notification Emails (Comma separated)", class: "f-semi-14"
-          = f.text_field :notification_emails, class: "form-control", placeholder: "sales@example.com, support@example.com"
+          = f.label :notification_emails, t("forms.labels.notification_emails_comma_separated"), class: "f-semi-14"
+          = f.text_field :notification_emails, class: "form-control", placeholder: t("ui.dashboard.channels.contact_form_channel_modal.sales_example_com_support_example_com")
 
         .form-group
-          = f.label :success_message_i18n_key, "Success Message Key", class: "f-semi-14"
+          = f.label :success_message_i18n_key, t("forms.labels.success_message_key"), class: "f-semi-14"
           = f.text_field :success_message_i18n_key, class: "form-control", placeholder: "contact_form.success", value: "contact_form.success"
 
         .form-group
           label.checkbox-container
             = f.check_box :require_login, value: "true"
             span.checkmark
-            span.f-reg-14 Require User Login
+            span.f-reg-14 = t("ui.dashboard.channels.contact_form_channel_modal.require_user_login")
 
         .form-group
           label.checkbox-container
             = f.check_box :allow_attachments, value: "true", checked: true
             span.checkmark
-            span.f-reg-14 Allow Attachments
+            span.f-reg-14 = t("dashboard.contact_form_channels.form.allow_attachments_label")
 
         .form-group
           label.checkbox-container
             = f.check_box :send_confirmation_email, value: "true", checked: true
             span.checkmark
-            span.f-reg-14 Send Confirmation Email to Customer
+            span.f-reg-14 = t("dashboard.contact_form_channels.form.send_confirmation_email_label")
 
       .modal-footer
         = button_tag "Cancel", type: "button", class: "btn-secondary", data: { action: "click->frame-toggler#hideModal" }
-        = f.submit "Create Form", class: "btn-primary"
+        = f.submit t("ui.dashboard.channels.contact_form_channel_modal.create_form"), class: "btn-primary"

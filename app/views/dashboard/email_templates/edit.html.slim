@@ -13,7 +13,7 @@
 
     .eb-toolbar__divider
 
-    - language_names = { "en" => "English", "de" => "German", "es" => "Spanish", "fr" => "French", "ur" => "Urdu", "hi" => "Hindi", "ar" => "Arabic", "zh" => "Chinese" }
+    - language_names = I18n.available_locales.index_with { |locale| t("languages.#{locale.to_s.downcase}") }.transform_keys(&:to_s)
     - active_locales = @email_template.translations.map(&:locale)
     - available_locales = I18n.available_locales.map(&:to_s)
     - addable_locales = available_locales - active_locales
@@ -28,7 +28,7 @@
             
       - if addable_locales.any?
         .eb-toolbar__add-locale
-          button.eb-btn.eb-btn--ghost.eb-btn--icon type="button" data-action="click->email-builder#toggleAddLocaleMenu" title=t("dashboard.email_builder.add_locale", default: "Add Locale")
+          button.eb-btn.eb-btn--ghost.eb-btn--icon type="button" data-action="click->email-builder#toggleAddLocaleMenu" title=t("dashboard.email_builder.add_locale")
             svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
               line x1="12" y1="5" x2="12" y2="19"
               line x1="5" y1="12" x2="19" y2="12"
@@ -64,16 +64,16 @@
 
     /! Device Toggle
     .eb-toolbar__devices
-      button.eb-toolbar__device.eb-toolbar__device--active type="button" data-action="click->email-builder#toggleDevice" data-device="Desktop" title="Desktop"
+      button.eb-toolbar__device.eb-toolbar__device--active type="button" data-action="click->email-builder#toggleDevice" data-device="Desktop" title=t("general.devices.desktop")
         svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
           rect x="2" y="3" width="20" height="14" rx="2"
           line x1="8" y1="21" x2="16" y2="21"
           line x1="12" y1="17" x2="12" y2="21"
-      button.eb-toolbar__device type="button" data-action="click->email-builder#toggleDevice" data-device="Tablet" title="Tablet"
+      button.eb-toolbar__device type="button" data-action="click->email-builder#toggleDevice" data-device="Tablet" title=t("general.devices.tablet")
         svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
           rect x="4" y="2" width="16" height="20" rx="2"
           line x1="12" y1="18" x2="12" y2="18"
-      button.eb-toolbar__device type="button" data-action="click->email-builder#toggleDevice" data-device="Mobile" title="Mobile"
+      button.eb-toolbar__device type="button" data-action="click->email-builder#toggleDevice" data-device="Mobile" title=t("general.devices.mobile")
         svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
           rect x="5" y="2" width="14" height="20" rx="2"
           line x1="12" y1="18" x2="12.01" y2="18"
@@ -86,7 +86,7 @@
         svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
           path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
           path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"
-        = t("dashboard.email_builder.edit_subject", default: "Edit Subject")
+        = t("dashboard.email_builder.edit_subject")
         
       button.eb-btn.eb-btn--outline type="button" data-action="click->email-builder#preview"
         svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -120,7 +120,7 @@
         button.eb-sidebar__tab.eb-sidebar__tab--active type="button" data-tab="blocks" data-action="click->email-builder#switchTab"
           = t("dashboard.email_builder.blocks")
         button.eb-sidebar__tab type="button" data-tab="settings" data-action="click->email-builder#switchTab"
-          = t("dashboard.email_builder.settings", default: "Settings")
+          = t("dashboard.email_builder.settings")
         button.eb-sidebar__tab type="button" data-tab="styles" data-action="click->email-builder#switchTab"
           = t("dashboard.email_builder.styles")
         button.eb-sidebar__tab type="button" data-tab="variables" data-action="click->email-builder#switchTab"
@@ -145,10 +145,10 @@
                 - if props.present? && props.any?
                   - props.each do |prop|
                     button.eb-variables__chip type="button" data-action="mousedown->email-builder#preventFocus click->email-builder#insertVariable" data-variable="{{#{grp}.#{prop}}}"
-                      | {{#{grp}.#{prop}}}
+                      | #{t("ui.dashboard.email_templates.edit.text", grp: grp, prop: prop)}
                 - else
                   button.eb-variables__chip type="button" data-action="mousedown->email-builder#preventFocus click->email-builder#insertVariable" data-variable="{{#{grp}}}"
-                    | {{#{grp}}}
+                    | #{t("ui.dashboard.email_templates.edit.text_2", grp: grp)}
 
   /! ─── Preview Modal ───
   .eb-modal data-email-builder-target="previewModal"
@@ -178,19 +178,19 @@
     .eb-modal__backdrop data-action="click->email-builder#closeSubjectModal"
     .eb-modal__content.eb-modal__content--small
       .eb-modal__header
-        h3.eb-modal__title = t("dashboard.email_builder.edit_subject", default: "Edit Subject")
+        h3.eb-modal__title = t("dashboard.email_builder.edit_subject")
         button.eb-modal__close type="button" data-action="click->email-builder#closeSubjectModal"
           svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
             line x1="18" y1="6" x2="6" y2="18"
             line x1="6" y1="6" x2="18" y2="18"
       .eb-modal__body
         .eb-form-group style="width: 100%"
-          label.eb-toolbar__label = t("dashboard.email_builder.subject", default: "Email Subject")
+          label.eb-toolbar__label = t("dashboard.email_builder.subject")
           - current_translation = @email_template.translations.find { |t| t.locale.to_s == @locale.to_s }
           - current_subject = current_translation&.draft_subject.presence || current_translation&.subject || @email_template.subject
-          input.eb-form-input type="text" data-email-builder-target="subjectInput" value=current_subject placeholder=t("dashboard.email_builder.subject_placeholder", default: "Enter subject here...")
+          input.eb-form-input type="text" data-email-builder-target="subjectInput" value=current_subject placeholder=t("dashboard.email_builder.subject_placeholder")
       .eb-modal__footer
-        button.eb-btn.eb-btn--primary type="button" data-action="click->email-builder#closeSubjectModal" = t("global.buttons.done", default: "Done")
+        button.eb-btn.eb-btn--primary type="button" data-action="click->email-builder#closeSubjectModal" = t("global.buttons.done")
 
   /! Toast Container
   div data-email-builder-target="toastContainer"

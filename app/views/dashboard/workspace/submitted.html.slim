@@ -1,6 +1,6 @@
 .user-signup-container.center-wrapper
   .form-section data-controller="renderer form-wizard"
-    = image_tag("logo.png", class:"img", alt:"logo")
+    = image_tag("logo.png", class:"img", alt:t("dashboard.workspace.new.logo"))
     .request-response
       fieldset.company-section
         .set-header
@@ -8,11 +8,11 @@
           - if flash[:notice]
             h2 = flash[:notice]
           - else
-            h2 = t("auth.workspace.submitted.next_steps")
+            h2 = t("dashboard.workspace.submitted.next_steps")
         .form-fields
-          = button_to t("auth.workspace.submitted.go_to_dashboard"), root_path, method: :get, class: "cont-btn js-next-button"
+          = button_to t("dashboard.workspace.submitted.go_to_dashboard"), root_path, method: :get, class: "cont-btn js-next-button"
       
   .image-section
-    = image_tag("register.png", class:"register-img", alt:"image")
-    = image_tag("register-back.png", class:"back-img", alt:"image")
-    p = t("auth.workspace.submitted.marketing_text")
+    = image_tag("register.png", class:"register-img", alt:t("ui.dashboard.agent.index.image"))
+    = image_tag("register-back.png", class:"back-img", alt:t("ui.dashboard.agent.index.image"))
+    p = t("dashboard.workspace.submitted.marketing_text")

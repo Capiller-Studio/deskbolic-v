@@ -9,7 +9,7 @@
       .chat-user
         - customer = message.sender
         - if customer.avatar.attached?
-          = image_tag(customer.avatar, class:"img", alt:"menu")
+          = image_tag(customer.avatar, class:"img", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
         - else
           .img.avatar-fallback.customer-message-initials-avatar.f-reg-12 class=avatar_fallback_color_class(full_name(customer))
             = initials(customer)
@@ -51,7 +51,7 @@
           svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
             rect x="3" y="11" width="18" height="11" rx="2" ry="2"
             path d="M7 11V7a5 5 0 0 1 10 0v4"
-          = t('dashboard.messages.private_note', default: 'Private Message')
+          = t('dashboard.messages.private_note')
       - if message.content.present?
         - if single_emoji_message?(message.content)
           .original.single-emoji-message data-translator-target="original"

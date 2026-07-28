@@ -1,11 +1,15 @@
 = render("dashboard/shared/dashboard_container", current_page: "settings") do
   = render("dashboard/settings/settings_sidebar", current_page: "roles") do
-    .ui-page-body
-      .ui-form-header
-        = link_to t("dashboard.roles.form.back"), roles_path, class: "ui-back-link"
-        h2.f-semi-32 style="margin-top: 16px; color: #0f172a;" = t("dashboard.roles.new.title", default: "Create New Role")
-        p.f-reg-16 style="color: #64748b; margin-top: 4px;" = t("dashboard.roles.new.description", default: "Define a custom role with specific access controls.")
-
-      .ui-card style="margin-top: 24px;"
-        .ui-card-body style="padding: 2rem;"
-          = render "form", role: @role
+    .roles-editor-page
+      .roles-editor-backbar
+        = link_to roles_path, class: "roles-back-link" do
+          = inline_svg_tag("arrow_left.svg", class: "roles-icon")
+          = t("dashboard.roles.form.back_label", default: "Back")
+      .roles-editor-content
+        .roles-editor-header
+          div
+            h1 = t("dashboard.roles.new.title")
+            p = t("dashboard.roles.new.description")
+          button.roles-primary-button type="submit" form=dom_id(@role, :form)
+            = t("dashboard.roles.form.save")
+        = render "form", role: @role

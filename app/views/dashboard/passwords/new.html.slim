@@ -4,12 +4,12 @@
       .logo
         = link_to root_path do
           = image_tag "logo.png", alt: "Deskbolic"
-      = link_to t("auth.login.submit", default: "Sign in"), new_user_session_path, class: "join-btn"
+      = link_to t("auth.login.submit"), new_user_session_path, class: "join-btn"
 
   .login-container
     .login-card
-      h2 style="font-size: 24px; font-weight: 600; margin-bottom: 10px;" = t("auth.passwords.forgot_title", default: "Forgot your password?")
-      p = t("auth.passwords.forgot_subtitle", default: "Enter your email address and we will send you a link to reset your password.")
+      h2 style="font-size: 24px; font-weight: 600; margin-bottom: 10px;" = t("auth.passwords.forgot_title")
+      p = t("auth.passwords.forgot_subtitle")
 
       .form-fields
         = form_with url: user_password_path, method: :post, local: true do |f|

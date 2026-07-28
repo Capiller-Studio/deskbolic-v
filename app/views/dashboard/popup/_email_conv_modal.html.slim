@@ -1,19 +1,19 @@
 .model-content-section
   .model-content
     .modal-header
-      h3 New Conversation
-      = inline_svg_tag("cross_button.svg", alt:"menu", class:"conversation-icon m-close", data: { action: "click->modal-toggler#hideModal" })
+      h3 = t("ui.dashboard.popup.email_conv_modal.new_conversation")
+      = inline_svg_tag("cross_button.svg", alt:t("ui.dashboard.agent.agent_sidebar.menu"), class:"conversation-icon m-close", data: { action: "click->modal-toggler#hideModal" })
     .modal-body.email-con
-      = form_with(url: "#", data: {controller: "formValidation renderer", "formValidation-target" => "form"}, html: {class: "needs-validation", novalidate: true, method: :post}) do |f|
+      = form_with(url: "#", data: {controller: "form-validation renderer", "form-validation-target" => "form"}, html: {class: "needs-validation", novalidate: true, method: :post}) do |f|
         .form-fields
           .form-floating.ui-select
-            p.f-semi-14.to To
-            = select_tag :customer_id, options_for_select(current_account.customers.map { |c| [c.name, c.id] }),{ class: "f-reg-14 field form-control ", data: { controller: "select" },required: true,include_blank: "Select a customer"}
+            p.f-semi-14.to = t("ui.dashboard.popup.email_conv_modal.to")
+            = select_tag :customer_id, options_for_select(current_account.customers.map { |c| [c.name, c.id] }),{ class: "f-reg-14 field form-control ", data: { controller: "select" },required: true,include_blank: t("forms.options.select_a_customer")}
           .form-floating.ui-select
-            p.f-semi-14.channel Channel
-            = select_tag :channel_id, options_for_select(Channel::Email.where(account: current_account).all.map { |c| [c.name, c.id] }),{ class: "f-reg-14 field form-control", data: { controller: "select" },required: true,include_blank: "Select a channel"}
+            p.f-semi-14.channel = t("ui.dashboard.agent.workflow.channel")
+            = select_tag :channel_id, options_for_select(Channel::Email.where(account: current_account).all.map { |c| [c.name, c.id] }),{ class: "f-reg-14 field form-control", data: { controller: "select" },required: true,include_blank: t("forms.options.select_a_channel")}
           .message-box
-            = f.text_area :response, class: "f-reg-14  note-area form-control", placeholder: "Write your response for issue", required: true
+            = f.text_area :response, class: "f-reg-14  note-area form-control", placeholder: t("dashboard.messages.response_placeholder"), required: true
             .commands
               / .actions
               /   button
@@ -59,5 +59,5 @@
               /           = link_to("#", class: "menu-link options") do
               /             = inline_svg_tag("arrow_down.svg", class:"menu-icon", alt:"menu")
               .send-button
-                = f.submit "Send",class: "f-semi-12 button",data: { action: "click->formValidation#validate click->modal-toggler#hideModal" }
+                = f.submit t("dashboard.messages.send"),class: "f-semi-12 button",data: { action: "click->form-validation#validate click->modal-toggler#hideModal" }
                 / = inline_svg_tag("arrow_down_white.svg")

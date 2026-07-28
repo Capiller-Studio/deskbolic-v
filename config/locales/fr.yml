@@ -1,0 +1,2909 @@
+---
+fr:
+  languages:
+    en: Anglais
+    fr: Français
+    es: Espagnol
+    de: Allemand
+    pt-br: Portugais (Brésil)
+    ko: Coréen
+    ar: arabe
+  meta:
+    title: DESKBOLIC
+    description: ''
+    keywords: ''
+  dashboard:
+    billing:
+      save_percent: Économisez ~20 %
+      yearly: Annuel
+      action_required: Action requise
+      active_subscription: Abonnement actif
+      active_subscription_desc: Détails du forfait actuel et frais à venir
+      add_card: Ajouter une carte
+      add_payment_method: Ajouter un mode de paiement
+      amount: Montant
+      are_you_sure: Etes-vous sûr ?
+      billed_annually_at: Facturé annuellement à %{amount}
+      billing_cycle_label: Cycle de facturation
+      cancel: Annuler
+      cancel_confirm: Etes-vous sûr de vouloir annuler votre abonnement ?
+      cancel_subscription: Annuler l'abonnement
+      cancels_on: Annule sur %{date}
+      cancels_on_label: Annule le
+      change_plan: Changer de forfait
+      change_plan_trial_confirm: Êtes-vous sûr de vouloir modifier votre forfait ? Votre essai se poursuivra normalement et vous serez facturé pour ce nouveau forfait à la fin de votre essai.
+      change_seats_trial_confirm: Êtes-vous sûr de vouloir changer de siège ? Votre essai se poursuivra normalement et ce nouveau nombre de sièges vous sera facturé à la fin de votre essai.
+      choose_plan: Choisissez votre forfait
+      choose_plan_subtitle: Sélectionnez le plan idéal pour démarrer avec votre espace de travail.
+      current_balance: Solde actuel
+      custom_amount: Montant personnalisé
+      date: Date
+      day_trial: Essai d'une journée %{days}
+      default_label: Par défaut
+      description: Descriptif
+      expired: Expiré
+      expires: Expire %{month}/%{year}
+      make_default: Par défaut
+      manage_seats: Gérer les sièges
+      minimum_seats_required: Nombre minimum de sièges %{count} requis
+      monthly_label: Mensuel
+      next_charge_label: Charge suivante
+      no_active_subscription: Vous n'avez pas d'abonnement actif. Abonnez-vous maintenant pour accéder à toutes les fonctionnalités.
+      no_payment_methods: Aucun mode de paiement ajouté pour l'instant.
+      no_transactions: Aucune transaction trouvée.
+      number_of_seats: Nombre de sièges d'agent
+      past_due: En souffrance
+      payment_methods: Méthodes de paiement
+      per_month: "/mois"
+      per_month_annual: "/ mois (facturé annuellement)"
+      plan_label: Planifier
+      plan_limits: 'Limites de votre forfait : Min %{min}, Max %{max}'
+      remove: Supprimer
+      resume_confirm: Êtes-vous sûr de vouloir reprendre votre abonnement ?
+      resume_subscription: Reprendre l'abonnement
+      save_card: Enregistrer la carte
+      seats_label: Sièges
+      secure_payment_notice: Les paiements sont traités en toute sécurité par Stripe. Les détails de votre carte sont cryptés et ne touchent jamais nos serveurs.
+      select_plan: Sélectionnez le forfait
+      status: Statut
+      subscribe_now: Abonnez-vous maintenant
+      top_up: Recharger
+      topup_balance: Solde complémentaire
+      topup_wallet: Portefeuille de recharge
+      transaction_history: Historique des transactions
+      trial_ends_in: L'essai se termine dans %{days} jours
+      unlimited: Illimité
+      update_payment_method: Mettre à jour le mode de paiement
+      update_plan: Plan de mise à jour
+      update_seats: Mettre à jour les sièges
+      update_seats_confirm: Êtes-vous sûr de vouloir mettre à jour vos sièges ? Cette action entraînera des frais immédiats au prorata ou des crédits de portefeuille.
+      update_subscription_confirm: Êtes-vous sûr de vouloir mettre à jour votre abonnement ? Cette action entraînera des frais immédiats au prorata ou des crédits de portefeuille.
+      wallet: Portefeuille
+      wallet_deduction: 'Déduction du portefeuille :'
+    labels:
+      flash:
+        created: Étiquette créée avec succès.
+        updated: Étiquette mise à jour avec succès.
+        deleted: Étiquette supprimée avec succès.
+        error: 'Échec de l''enregistrement du libellé : %{errors}'
+      edit:
+        title: Modifier l'étiquette
+      form:
+        back: Retour aux étiquettes
+        basic_section: Détails de l'étiquette
+        cancel: Annuler
+        color: Couleur
+        description: Descriptif
+        description_placeholder: Expliquez à quoi sert cette étiquette...
+        error_heading: 'Veuillez corriger les erreurs suivantes :'
+        submit: Créer une étiquette
+        title: Titre
+        title_placeholder: par ex. Client VIP
+        update: Mettre à jour l'étiquette
+      index:
+        add_new_label: Ajouter une nouvelle étiquette
+        confirm_delete: Supprimer l'étiquette ?
+        description: Gérez les étiquettes pour catégoriser vos conversations et vos clients.
+        empty_description: Créez des étiquettes pour mieux organiser et filtrer vos conversations.
+        empty_title: Aucune étiquette trouvée
+        labels_for: Étiquettes pour %{account}
+      new:
+        title: Ajouter une nouvelle étiquette
+    sidebar:
+      channels:
+        title: Service d'assistance
+        inboxes: Boîtes de réception
+        email: Courriel
+        facebook: Facebook
+        instagram: Instagram
+        whatsapp: WhatsApp
+        widget: Widget
+        contact_form: Formulaire de contact
+        all: Tout
+        teams: Équipes
+        teammates: Coéquipiers
+      settings:
+        title: Paramètres
+        home: Accueil
+        teams: Équipes
+        users: Utilisateurs (coéquipiers)
+        roles: Rôles
+        billing: Facturation et abonnement
+        notifications: Notifications
+        audit_logs: Journaux d'audit
+        help_center: Centre d'aide
+        help_center_articles: Centre d'aide
+        all_help_centers: Tous les centres d'aide
+        new_help_center: Nouveau centre d'aide
+        channels: Canaux
+        email_channels: Canaux de messagerie
+        web_widget_channels: Canaux de widgets Web
+        contact_form_channels: Canaux du formulaire de contact
+        data: Données
+        custom_fields: Champs personnalisés
+        canned_responses: Réponses standardisées
+        automations: Automatisations
+        macros: Macro
+        sla_policies: Politiques SLA
+        csat_surveys: Enquêtes CSAT
+        integrations: Intégrations
+        labels: Étiquettes
+      reports: Rapports et analyses
+    settings_index:
+      title: Accueil
+      workspace: Espace de travail
+      billing: Facturation
+      billing_desc: Gérez vos détails d'abonnement et de paiement.
+      domains: Domaines
+      domains_desc: Gérez vos domaines.
+      teams: Équipes
+      teams_desc: Créez des équipes pour que des groupes de coéquipiers puissent travailler ensemble.
+      teammates: Coéquipiers
+      teammates_desc: Gérez ou invitez des coéquipiers et consultez tous les journaux d'activité.
+      roles: Rôles
+      roles_desc: Créez des rôles pour gérer l'accès et les autorisations des coéquipiers.
+      identity_sources: Sources d'identité
+      identity_sources_desc: Gérez vos sources d’identité pour vérifier vos clients.
+      help_center: Centre d'aide
+      help_center_articles: Centre d'aide
+      help_center_articles_desc: Ajouter ou configurer le contenu de ce centre d'aide
+      all_help_centers: Tout le centre d'aide
+      all_help_centers_desc: Gérez tous les centres d'aide créés pour cet espace de travail.
+      new_help_center: Nouveau centre d'aide
+      channels: Canaux
+      email: Courriel
+      email_desc: Gérez vos canaux de messagerie.
+      web_widget: Widget Web
+      web_widget_desc: Gérez le transfert, les domaines et la personnalisation.
+      contact_form: Formulaire de contact
+      contact_form_desc: Gérez votre formulaire de contact.
+      facebook: Facebook
+      facebook_desc: Gérez vos pages Facebook.
+      instagram: Instagram
+      instagram_desc: Gérez vos pages Instagram.
+      whatsapp: WhatsApp
+      whatsapp_desc: Gérez vos pages WhatsApp.
+      data: Données
+      custom_fields: Champs personnalisés
+      custom_fields_desc: Modifiez, créez, exportez ou supprimez vos champs personnalisés.
+      canned_responses: Réponses standardisées
+      canned_responses_desc: Modifiez, créez, exportez ou supprimez vos réponses standardisées.
+      labels: Politiques d'affectation
+      labels_desc: Modifiez, créez, exportez ou supprimez vos politiques d'affectation.
+      skills: Compétences
+      skills_desc: Modifiez, créez, exportez ou supprimez vos compétences.
+      email_templates: Modèles d'e-mails
+      email_templates_desc: Modifiez, créez, exportez ou supprimez vos modèles d'e-mails.
+    conversations:
+      title: Toutes les conversations
+      search: Rechercher
+      filter_all: Tout
+      filter_assigned: Attribué
+      filter_unassigned: Non attribué
+      snooze:
+        apply: Postuler
+        pick_datetime: Choisissez une date et une heure
+    messages:
+      manage_participant: Gérer les participants
+      export_conversation: Exporter la conversation
+      translate: Traduire
+      translation_header: 'TRADUCTION EN ANGLAIS :'
+      close: Fermer
+      reply: Répondre
+      response_placeholder: Écrivez votre réponse au problème
+      english: Anglais
+      schedule: Calendrier
+      send_and_close: Envoyer et fermer
+      send: Envoyer
+      add: Ajouter
+      recording_voice: Enregistrement de la voix...
+      new_messages: Nouveaux messages
+      editor:
+        bold: Audacieux
+        italic: Italique
+        strike: Barré
+        code: Coder
+        ul_list: Liste à puces
+        ol_list: Liste numérotée
+      status:
+        failed: Échec de l'envoi
+        read: Lire
+        delivered: Livré
+        sent: Envoyé
+      add_emoji: Ajouter des emoji
+      attach_file: Joindre une image ou un fichier
+      note: Message privé
+      private_note: Message privé
+      record_voice: Enregistrer la voix
+      reopen: Réouvrir
+      resolve: Résoudre
+      search_canned_responses: Rechercher des réponses standardisées...
+    conversation_details:
+      title: Détails
+      agent: Agent
+      unassigned: Non attribué
+      assignee: Cessionnaire
+      assign_to_me: Attribuez-moi
+      team: Équipe
+      assign: Attribuer
+      unassign: Annuler l'attribution
+      sla_status: Statut du SLA
+      next_target: 'Prochaine cible :'
+      not_applicable: N/D
+      csat_rating: Note CSAT
+      rating: 'Note :'
+      pending: En attente
+      verified_identities: Identités vérifiées
+      customer_data: Données client
+      show_all: Afficher tout
+      block: Bloquer
+      unsubscribe: Se désabonner
+      customer_id: Numéro client
+      email: Courriel
+      user_notes: Notes d'utilisateur
+      add_new_note: Ajouter une nouvelle note
+      add: Ajouter
+      ticket_info: Informations sur les billets
+      ticket_id: 'Identifiant du billet :'
+      created: 'Créé :'
+      status: 'Statut :'
+      priority: 'Priorité :'
+      no_identities: Aucune identité connectée
+      recent_chats: Discussions récentes
+      no_messages: Aucun message
+      no_recent_chats: Aucune conversation récente
+    automations:
+      index:
+        title: Automatisations
+        description: Automatisez les tâches répétitives avec des règles basées sur les événements et le temps.
+        new_automation: Nouvelle automatisation
+        empty_title: Pas encore d'automatisations
+        empty_description: Créez votre première automatisation pour commencer à gérer automatiquement les conversations.
+        tab_all: Tout
+        tab_event_triggers: Déclencheurs d'événements
+        tab_time_triggers: Déclencheurs temporels
+        edit: Modifier
+        duplicate: Dupliquer
+        delete: Supprimer
+        delete_confirm: Êtes-vous sûr de vouloir supprimer cette automatisation ?
+      new:
+        title: Nouvelle automatisation
+      edit:
+        title: Modifier l'automatisation
+      form:
+        name_placeholder: par ex. Attribuer automatiquement des conversations VIP
+        description_label: Description (facultatif)
+        description_placeholder: A quoi sert cette automatisation ?
+      builder:
+        trigger_section: Quand cela arrive...
+        conditions_section: Si ces conditions sont remplies...
+        actions_section: Alors fais ça...
+        options_section: Possibilités
+        type_label: Type d'automatisation
+        event_label: Événement
+        match_label: Correspondance
+        match_all: TOUS
+        match_any: TOUT
+        add_condition: Ajouter une condition
+        add_condition_group: Ajouter un groupe de conditions
+        add_action: Ajouter une action
+        stop_processing: Arrêter de traiter les règles suivantes
+        stop_processing_hint: Lorsque cette règle se déclenche, aucune règle de priorité inférieure ne sera exécutée pour cet événement.
+        save: Enregistrer l'automatisation
+        cancel: Annuler
+        remove: Supprimer
+      create:
+        created: Automatisation créée avec succès.
+      update:
+        updated: Automatisation mise à jour avec succès.
+      destroy:
+        destroyed: Automatisation supprimée.
+      toggle:
+        activated: Automatisation activée.
+        deactivated: Automatisation désactivée.
+      duplicate:
+        duplicated: Automatisation dupliquée. Modifiez la copie ci-dessous.
+        duplicate_failed: Échec de la duplication de l'automatisation.
+      types:
+        event_trigger: Déclencheur d'événement
+        time_trigger: Déclencheur temporel
+        macro: Macro
+      events:
+        conversation_created: Conversation créée
+        conversation_updated: Conversation mise à jour
+        conversation_status_changed: Statut de la conversation modifié
+        conversation_assigned: Conversation attribuée
+        conversation_resolved: Conversation résolue
+        message_created: Message créé
+        message_incoming: Message entrant
+        message_outgoing: Message sortant
+        customer_created: Client créé
+        customer_updated: Client mis à jour
+        sla_breached: SLA violé
+        hours_since_created: Heures depuis la création
+        hours_since_updated: Heures depuis la mise à jour
+        hours_since_resolved: Heures depuis la résolution
+        hours_since_last_activity: Heures depuis la dernière activité
+      attributes:
+        status: Statut de la conversation
+        priority: Priorité
+        source: Source
+        locale: Paramètres régionaux
+        title: Titre de la conversation
+        identifier: Identifiant de conversation
+        inbox_id: Boîte de réception
+        inbox_name: Nom de la boîte de réception
+        inbox_channel_type: Type de canal
+        assignee_id: Agent assigné
+        assignee_name: Nom de l'agent
+        assignee_email: Courriel de l'agent
+        team_id: Équipe
+        team_name: Nom de l'équipe
+        customer_email: E-mail du client
+        customer_name: Nom du client
+        customer_locale: Paramètres régionaux du client
+        customer_customer_type: Type de client
+        message_content: Contenu du message
+        message_content_type: Type de contenu du message
+        message_sender_type: Type d'expéditeur du message
+        labels: Étiquettes
+        hours_since_created: Heures depuis la création
+        hours_since_updated: Heures depuis la mise à jour
+        hours_since_resolved: Heures depuis la résolution
+        hours_since_last_activity: Heures depuis la dernière activité
+      operators:
+        equals: est égal
+        not_equals: n'est pas égal
+        contains: contient
+        not_contains: ne contient pas
+        starts_with: commence par
+        ends_with: se termine par
+        is_present: est présent
+        is_not_present: n'est pas présent
+        greater_than: est supérieur à
+        less_than: est inférieur à
+        days_before: c'était il y a plus de N jours
+      actions:
+        assign_agent: Attribuer à l'agent
+        assign_team: Attribuer à l'équipe
+        unassign: Annuler l'attribution
+        set_status: Définir le statut
+        set_priority: Définir la priorité
+        add_label: Ajouter une étiquette
+        remove_label: Supprimer l'étiquette
+        set_custom_field: Définir un champ personnalisé
+        send_message: Envoyer un message
+        send_email_to_customer: Envoyer un e-mail au client
+        send_email_to_team: Envoyer un e-mail à l'équipe
+        add_note: Ajouter une note interne
+        snooze: Répéter
+        resolve: Résoudre
+        mute_conversation: Conversation muette
+        trigger_webhook: Webhook de déclenchement
+        set_locale: Définir les paramètres régionaux
+    assignment_policies:
+      sidebar:
+        label: Politiques d'affectation
+      index:
+        title: Politiques d'affectation
+        description: Configurez la manière dont les conversations sont automatiquement acheminées et attribuées aux agents.
+        new_policy: Nouvelle politique
+        tab_all: Tout
+        tab_round_robin: Tournoi à la ronde
+        tab_load_balanced: Charge équilibrée
+        tab_skills_based: Basé sur les compétences
+        tab_manual: Manuel
+        empty_title: Aucune politique d'attribution pour l'instant
+        empty_description: Créez votre première stratégie pour démarrer le routage automatique des conversations.
+      new:
+        title: Nouvelle politique d'affectation
+      edit:
+        title: Modifier la stratégie d'attribution
+      show:
+        title: Détails de la politique d'affectation
+      create:
+        created: La stratégie d’attribution a été créée avec succès.
+      update:
+        updated: La stratégie d’attribution a été mise à jour avec succès.
+      destroy:
+        destroyed: Stratégie d'attribution supprimée.
+      toggle:
+        activated: Politique activée.
+        deactivated: Politique désactivée.
+      strategies:
+        round_robin: Tournoi à la ronde
+        round_robin_desc: Répartissez les conversations de manière égale entre les agents, par ordre rotatif.
+        round_robin_icon: "\U0001F504"
+        load_balanced: Charge équilibrée
+        load_balanced_desc: Attribuez-le à l'agent ayant le moins de conversations ouvertes.
+        load_balanced_icon: "⚖️"
+        skills_based: Basé sur les compétences
+        skills_based_desc: Itinéraire vers l'agent le plus qualifié en fonction de l'adéquation des compétences.
+        skills_based_icon: "\U0001F3AF"
+        manual: Manuel
+        manual_desc: Les agents récupèrent eux-mêmes les conversations dans la file d’attente.
+        manual_icon: "✋"
+      form:
+        details_section: Détails de la politique
+        strategy_section: Stratégie d'affectation
+        capacity_section: Capacité des agents
+        conditions_section: Conditions
+        inboxes_section: Appliquer aux boîtes de réception
+        business_hours_section: Heures d'ouverture
+        options_section: Possibilités
+        name_label: Nom
+        name_placeholder: par exemple, routage des clients VIP
+        description_label: Descriptif
+        description_placeholder: Décrivez ce que fait cette politique...
+        strategy_label: Stratégie
+        max_conversations_label: Nombre maximum de conversations par agent
+        max_conversations_placeholder: par exemple, 10
+        max_conversations_hint: Laissez vide pour illimité.
+        respect_business_hours: Attribuer uniquement pendant les heures de bureau
+        business_hour_group_label: Horaire des heures de travail
+        business_hour_group_prompt: Sélectionnez un horaire...
+        reassign_on_offline: Réaffecter lorsque l'agent se déconnecte
+        idle_timeout_label: Délai d'inactivité (minutes)
+        idle_timeout_placeholder: par exemple, 30
+        idle_timeout_hint: Réaffectez une fois que l'agent est inactif pendant ce nombre de minutes.
+        prioritize_label: Prioriser par priorité de conversation
+        prioritize_hint: Les conversations urgentes sont attribuées en premier.
+        select_inboxes: Sélectionnez les boîtes de réception auxquelles cette politique s'applique
+        all_inboxes_hint: Si aucune boîte de réception n’est sélectionnée, la politique ne s’appliquera à aucune boîte de réception.
+        save: Enregistrer la politique
+        cancel: Annuler
+      flags:
+        consider_agent_skills: Tenir compte des compétences des agents lors de l'affectation
+        allow_idle_reassignment: Autoriser la réaffectation inactive
+        notify_on_assignment: Informer l'agent de la mission
+        notify_team_leads: Informer les chefs d'équipe de la mission
+      status:
+        active: Actif
+        inactive: Inactif
+      inboxes:
+        one: Boîte de réception %{count}
+        other: Boîtes de réception %{count}
+      max_per_agent:
+        one: Conversation %{count} maximale par agent
+        other: Nombre maximal de conversations %{count} par agent
+    identity_sources:
+      sidebar:
+        label: Sources d'identité
+      index:
+        title: Sources d'identité
+        description: Configurez des webhooks et des API externes pour récupérer et vérifier automatiquement les identités des clients.
+        create_button: Créer une source d'identité
+        delete_confirm: Êtes-vous sûr de vouloir supprimer cette source d'identité ? Cette action ne peut pas être annulée.
+        url_label: URL du point de terminaison
+        headers_label: En-têtes configurés
+        params_label: Paramètres configurés
+        created: Créé
+        ago: il y a
+      new:
+        title: Nouvelle source d'identité
+      edit:
+        title: Modifier la source d'identité
+      form:
+        back: "← Retour aux sources d'identité"
+        error_heading: 'Veuillez corriger les erreurs %{count} suivantes :'
+        name: Nom
+        name_placeholder: par exemple, vérificateur CRM interne
+        description: Descriptif
+        description_placeholder: À quoi sert cette source d’identité ?
+        source_type: Type de source
+        source_url: URL source
+        liquid_help: Vous pouvez utiliser des variables dynamiques telles que {{ customer.email }} dans l'URL, les en-têtes et les paramètres.
+        headers: En-têtes de demande
+        add_header: "+ Ajouter un en-tête"
+        params: Paramètres de la demande
+        add_param: "+ Ajouter un paramètre"
+        save: Enregistrer la source d'identité
+        test_run: Tester la connexion
+        key_placeholder: Clé
+        value_placeholder: Valeur
+        json_path_placeholder: Chemin JSON (par exemple, data.user.id)
+        attribute_placeholder: Attribut Deskbolic (par exemple, external_id)
+        add_mapping: "+ Ajouter une cartographie"
+        details_section: Détails
+        insert_variable: 'Insérer une variable :'
+        response_mapping: Cartographie des réponses
+        response_mapping_desc: Mappez les chemins de réponse JSON (par exemple, data.user.id) aux attributs client Deskbolic.
+        source_section: Détails de la source
+      created: La source d'identité a été créée avec succès.
+      updated: La source d'identité a été mise à jour avec succès.
+      deleted: La source d'identité a été supprimée avec succès.
+    web_widget_channels:
+      translations:
+        eg_welcome_title: par ex. Accueillir!
+        eg_welcome_tagline: par ex. Comment pouvons-nous vous aider ?
+        eg_launcher_text: par ex. Discutez avec nous
+        eg_reply_time_text: par ex. Répond généralement en quelques minutes
+        eg_pre_chat_title: par ex. Parlez-nous de vous
+        eg_pre_chat_subtitle: par ex. Nous vous répondrons sous peu.
+      index:
+        title: Widgets Web
+        description: Configurez les widgets de discussion, l'apparence et les règles de routage de votre site Web.
+        new_channel: Nouveau widget Web
+        empty_title: Aucun widget Web pour l'instant
+        empty_description: Créez votre premier widget Web pour commencer à discuter avec les visiteurs de votre site Web.
+        inboxes_count:
+          one: Boîte de réception %{count}
+          other: Boîtes de réception %{count}
+        delete_confirm: Es-tu sûr? Cela supprimera définitivement ce widget Web et toutes les boîtes de réception associées.
+        created_ago: Créé il y a %{time}
+      new:
+        title: Nouveau widget Web
+      edit:
+        title: Modifier le widget Web
+      form:
+        back: "← Retour aux Widgets Web"
+        error_heading: 'Veuillez corriger les erreurs suivantes :'
+        basic_section: Détails de base
+        appearance_section: Apparence et image de marque
+        integrations_section: Intégrations de modules
+        behaviors_section: Comportements des widgets
+        name_label: Nom interne
+        name_placeholder: par exemple, widget de site marketing
+        website_url_label: URL du site Web
+        website_url_placeholder: par exemple, https://yourcompany.com
+        theme_color_label: Couleur du thème
+        welcome_title_label: Titre de bienvenue
+        welcome_title_placeholder: "par exemple, Bonjour \U0001F44B"
+        welcome_tagline_label: Slogan de bienvenue
+        welcome_tagline_placeholder: Par exemple, nous répondons généralement en quelques minutes
+        position_label: Position des widgets
+        position_bottom_right: En bas à droite
+        position_bottom_left: En bas à gauche
+        hide_branding_label: Masquer la marque Deskbolic
+        portal_label: Intégration du centre d'aide
+        contact_form_label: Intégration du formulaire de contact
+        anonymous_allowed_label: Autoriser les messages anonymes
+        pre_chat_form_enabled_label: Exiger un formulaire préalable au chat
+        save: Enregistrer le widget
+        update: Mettre à jour le widget
+        cancel: Annuler
+        hmac_secret_key: Clé secrète HMAC
+        installation_section: Installation et configuration
+        secure_identity_instruction: Étant donné que vous avez activé <strong>Enforce Secure Identity</strong>, vous devez générer une signature sur votre backend et la transmettre au frontend.
+      created: Le widget Web a été créé avec succès.
+      updated: Le Web Widget a été mis à jour avec succès.
+      deleted: Le widget Web a été supprimé avec succès.
+    email_channels:
+      sidebar:
+        label: Canaux de messagerie
+      index:
+        title: Canaux de messagerie
+        description: Configurez vos canaux de messagerie avec des paramètres SMTP, IMAP et de transfert personnalisés.
+        new_channel: Nouveau canal de messagerie
+        empty_title: Aucun canal de messagerie pour l'instant
+        empty_description: Créez votre premier canal de messagerie pour commencer à recevoir et à envoyer des e-mails via votre service d'assistance.
+        smtp_configured: SMTP actif
+        smtp_not_configured: Système SMTP
+        imap_configured: IMAP actif
+        imap_not_configured: IMAP désactivé
+        forwarding_verified: Vérifié
+        forwarding_pending: En attente
+        inboxes_count:
+          one: Boîte de réception %{count}
+          other: Boîtes de réception %{count}
+        delete_confirm: Etes-vous sûr ? Cela supprimera définitivement ce canal de messagerie et toutes les boîtes de réception associées.
+        created_ago: Créé il y a %{time}
+      new:
+        title: Nouveau canal de messagerie
+      edit:
+        title: Modifier le canal de messagerie
+      form:
+        back: "← Retour aux canaux de messagerie"
+        error_heading: 'Veuillez corriger les erreurs suivantes :'
+        basic_section: Détails de base
+        smtp_section: Configuration SMTP
+        smtp_section_desc: 'Facultatif : fournissez des informations d''identification SMTP personnalisées pour envoyer des e-mails depuis votre propre serveur.'
+        imap_section: Configuration IMAP
+        imap_section_desc: 'Facultatif : récupérez les e-mails entrants directement depuis votre boîte aux lettres.'
+        name_label: Nom de la chaîne
+        name_placeholder: par exemple, support client
+        email_label: Adresse e-mail
+        email_placeholder: par exemple, support@yourcompany.com
+        email_hint: L'adresse e-mail que vos clients voient lorsque vous leur envoyez des e-mails.
+        smtp_address: Serveur SMTP
+        smtp_address_placeholder: par exemple, smtp.gmail.com
+        smtp_port: Port
+        smtp_port_placeholder: '587'
+        smtp_username: Nom d'utilisateur
+        smtp_username_placeholder: your-email@gmail.com
+        smtp_password: Mot de passe
+        smtp_password_placeholder: "••••••••"
+        smtp_domain: Domaine
+        smtp_domain_placeholder: par exemple, votreentreprise.com
+        smtp_authentication: Authentification
+        smtp_starttls: Activer STARTTLS
+        imap_address: Serveur IMAP
+        imap_address_placeholder: par exemple, imap.gmail.com
+        imap_port: Port
+        imap_port_placeholder: '993'
+        imap_username: Nom d'utilisateur
+        imap_username_placeholder: your-email@gmail.com
+        imap_password: Mot de passe
+        imap_password_placeholder: "••••••••"
+        imap_ssl: Activer SSL
+        test_smtp: Tester SMTP
+        test_imap: Tester IMAP
+        testing: Test...
+        test_success: Connexion réussie !
+        test_failure: La connexion a échoué
+        save: Enregistrer la chaîne
+        update: Mettre à jour la chaîne
+        cancel: Annuler
+        enable_imap: Activer la synchronisation IMAP
+        enable_smtp: Activer l'envoi SMTP
+      forwarding:
+        title: Transfert d'e-mails
+        description: Transférez les e-mails de votre fournisseur de messagerie vers cette adresse pour commencer à les recevoir dans votre service d'assistance.
+        your_forwarding_address: Votre adresse de réexpédition
+        copy: Copier
+        copied: Copié!
+        verify: Vérifier le transfert
+        verifying: Envoi de la vérification...
+        verified: Transfert vérifié ✓
+        not_verified: Pas encore vérifié
+        instructions_title: Comment configurer le transfert
+        gmail_title: Gmail
+        gmail_step_1: Ouvrez Gmail → Paramètres → Voir tous les paramètres
+        gmail_step_2: Allez dans l'onglet "Redirection et POP/IMAP"
+        gmail_step_3: Cliquez sur "Ajouter une adresse de transfert" et collez l'adresse ci-dessus
+        gmail_step_4: 'Gmail enverra une confirmation : approuvez-la, puis sélectionnez "Transférer une copie".'
+        outlook_title: Perspectives
+        outlook_step_1: Ouvrez Outlook → Paramètres → Mail → Transfert
+        outlook_step_2: Activez le transfert et collez l'adresse ci-dessus
+        outlook_step_3: Conservez éventuellement une copie des messages transférés
+        outlook_step_4: Cliquez sur Enregistrer
+        yahoo_title: Yahoo
+        yahoo_step_1: Ouvrez Yahoo Mail → Paramètres → Plus de paramètres
+        yahoo_step_2: Allez dans « Boîtes aux lettres » → sélectionnez votre boîte de réception
+        yahoo_step_3: Sous "Transfert", collez l'adresse ci-dessus
+        yahoo_step_4: Cliquez sur Enregistrer
+        other_title: Autre
+        other_step_1: Ouvrez les paramètres de votre fournisseur de messagerie
+        other_step_2: Recherchez l'option « Transfert » ou « Transfert automatique »
+        other_step_3: Ajoutez l'adresse de transfert indiquée ci-dessus
+        other_step_4: Enregistrez et confirmez si votre fournisseur l'exige
+      created: Canal de messagerie créé avec succès.
+      updated: Le canal de messagerie a été mis à jour avec succès.
+      destroyed: Canal de messagerie supprimé avec succès.
+      limit_reached: Limite de chaînes atteinte pour votre forfait actuel. Veuillez mettre à niveau pour ajouter plus de chaînes.
+    skills:
+      sidebar:
+        label: Compétences
+      index:
+        title: Compétences
+        description: Définissez les compétences pour faire correspondre les conversations avec les bons agents.
+        new_skill: Nouvelle compétence
+        empty_title: Aucune compétence définie pour l'instant
+        empty_description: Créez des compétences telles que des langues, des produits ou des domaines d'expertise pour permettre un routage basé sur les compétences.
+        tab_all: Tout
+        tab_language: Langue
+        tab_product: Produit
+        tab_technical: Technique
+        tab_general: Général
+        delete_confirm: Êtes-vous sûr de vouloir supprimer cette compétence ?
+        edit: Modifier
+        delete: Supprimer
+      new:
+        title: Nouvelle compétence
+      edit:
+        title: Modifier la compétence
+      create:
+        created: Compétence créée avec succès.
+      update:
+        updated: Compétence mise à jour avec succès.
+      destroy:
+        destroyed: Compétence supprimée.
+      form:
+        details_section: Détails des compétences
+        name_label: Nom
+        name_placeholder: Par exemple, anglais, facturation, intégration API
+        type_label: Tapez
+        description_label: Descriptif
+        description_placeholder: Décrivez cette compétence...
+        save: Enregistrer la compétence
+        cancel: Annuler
+      types:
+        language: Langue
+        product: Produit
+        technical: Technique
+        general: Général
+      proficiency:
+        beginner: Débutant
+        intermediate: Intermédiaire
+        expert: Expert
+    macros:
+      index:
+        title: Macro
+        description: Actions en un clic pour accélérer votre flux de travail.
+        new_macro: Nouvelle macro
+        empty_title: Pas encore de macros
+        empty_description: Créez des macros réutilisables pour effectuer des actions courantes en un seul clic.
+        tab_personal: Mes macros
+        tab_shared: Partagé
+        edit: Modifier
+        delete: Supprimer
+        delete_confirm: Êtes-vous sûr de vouloir supprimer cette macro ?
+      form:
+        name_placeholder: par ex. Fermer et envoyer un e-mail de commentaires
+        description_label: Description (facultatif)
+        description_placeholder: A quoi sert cette macro ?
+      new:
+        title: Nouvelle macro
+      edit:
+        title: Modifier la macro
+      create:
+        created: Macro créée avec succès.
+      update:
+        updated: Macro mise à jour avec succès.
+      destroy:
+        destroyed: Macro supprimée.
+      execute:
+        executed: Macro exécutée avec succès.
+      scope:
+        personal: Personnel (uniquement vous)
+        shared: Partagé (tous les agents)
+    automation_executions:
+      index:
+        title: Journal d'exécution
+        description: Consultez l’historique des exécutions d’automatisation.
+        empty_title: Aucune exécution pour l'instant
+        empty_description: Les journaux d'exécution apparaîtront ici une fois que les automatisations commenceront à s'exécuter.
+        filter_all: Tout
+        filter_success: Succès
+        filter_failed: Échec
+        filter_event: Événement
+        filter_schedule: Programmé
+        filter_manual: Manuel
+      statuses:
+        success: Succès
+        failed: Échec
+        skipped: Sauté
+      triggered_by:
+        event: Événement
+        schedule: Programmé
+        manual: Manuel
+    domains:
+      index:
+        title: Domaines
+        add_custom_domain: Ajouter un domaine personnalisé
+        verify_dns: Vérifier le DNS
+        edit: Modifier
+        delete: Supprimer
+        delete_confirm: Êtes-vous sûr de vouloir supprimer ce domaine ?
+        system_subdomain:
+          title: Sous-domaine système
+          description: Votre sous-domaine helpbolic.com gratuit — généré automatiquement pour votre centre d'aide.
+          empty: Aucun sous-domaine configuré pour l'instant. Créez un portail de centre d'aide pour en générer un automatiquement.
+          active: Actif
+          ssl_active: SSL actif
+          portal_label: 'Portail : %{name}'
+          no_portal: Aucun portail connecté
+        custom_domains:
+          title: Domaines personnalisés
+          description: Ajoutez votre propre nom de domaine (par exemple, support.mycompany.com) et pointez-le vers nos serveurs.
+          empty_title: Aucun domaine personnalisé ajouté pour l'instant.
+          empty_description: Les domaines personnalisés vous permettent de diffuser votre centre d'aide sur votre propre domaine (par exemple, support.mycompany.com).
+          add_first: Ajoutez votre premier domaine personnalisé
+          unattached: Sans attaches
+        table:
+          domain: Domaine
+          dns_status: Statut DNS
+          ssl_status: Statut SSL
+          portal: Portail
+          actions: Actions
+        cname_instructions:
+          title: Comment configurer un domaine personnalisé
+          step_1_title: Ajoutez votre domaine
+          step_1_desc: Entrez votre nom de domaine personnalisé (par exemple, support.mycompany.com) en utilisant le bouton ci-dessus.
+          step_2_title: Configurer le DNS
+          step_2_desc: 'Accédez à votre fournisseur DNS et créez un enregistrement CNAME :'
+          step_3_title: Vérifier et SSL
+          step_3_desc: Cliquez sur « Vérifier DNS » une fois votre enregistrement propagé (jusqu'à 48 heures). SSL sera fourni automatiquement après vérification.
+          cname_type: Tapez
+          cname_host: Hôte
+          cname_host_value: votre-sous-domaine
+          cname_target: Points à
+      new:
+        title: Ajouter un domaine personnalisé
+        back: "← Retour aux Domaines"
+        section_title: Détails du domaine
+        name_label: Nom d'affichage
+        name_placeholder: par exemple, portail d'assistance principal
+        name_hint: Un label convivial pour ce domaine (facultatif).
+        value_label: Nom de domaine
+        value_placeholder: par exemple, support.mycompany.com
+        value_hint: Entrez le nom de domaine complet que vous souhaitez utiliser. Cela ne peut pas être modifié après la création.
+        after_adding_title: Après avoir ajouté ce domaine
+        after_adding_desc: 'Vous devrez créer un enregistrement CNAME auprès de votre fournisseur DNS :'
+        after_adding_note: La propagation DNS peut prendre jusqu'à 48 heures. Une fois configuré, cliquez sur « Vérifier DNS » sur la page des domaines.
+        cname_host_value: "[votre sous-domaine]"
+        submit: Ajouter un domaine
+        cancel: Annuler
+      edit:
+        title: Modifier le domaine
+        back: "← Retour aux Domaines"
+        section_title: Paramètres de domaine
+        name_label: Nom d'affichage
+        name_placeholder: par exemple, portail d'assistance principal
+        name_hint: Un label convivial pour ce domaine.
+        submit: Enregistrer les modifications
+        cancel: Annuler
+        status_labels:
+          domain: Domaine
+          type: Tapez
+          dns_status: Statut DNS
+          ssl_status: Statut SSL
+          dns_verified_at: DNS vérifié à
+          ssl_expires_at: SSL expire à
+          last_checked: Dernière vérification
+          attached_portal: Portail attaché
+          ago: Il y a %{time}
+        dns_config_title: Configuration DNS requise
+        dns_config_desc: 'Faites pointer votre domaine vers nos serveurs en ajoutant cet enregistrement CNAME :'
+        verify_now: Vérifiez le DNS maintenant
+      create:
+        success: Domaine créé avec succès.
+      update:
+        success: Domaine mis à jour avec succès.
+      destroy:
+        success: Domaine supprimé avec succès.
+        portal_attached: Impossible de supprimer un domaine attaché à un portail. Détachez-le d'abord.
+      verify_dns:
+        success: DNS vérifié avec succès ! La fourniture du certificat SSL a commencé.
+        failure: La vérification DNS a échoué. Veuillez vous assurer que votre enregistrement CNAME pointe vers %{target} et réessayez.
+      errors:
+        fix_errors: 'Veuillez corriger les erreurs suivantes :'
+      dns_status_badge:
+        dns_verified: DNS vérifié
+        dns_pending: DNS en attente
+        dns_failed: Échec du DNS
+        dns_unverified: DNS non vérifié
+      ssl_status_badge:
+        ssl_active: SSL actif
+        ssl_pending: SSL en attente
+        ssl_expired: SSL expiré
+        ssl_failed: Échec du SSL
+        ssl_none: Pas de SSL
+      sidebar:
+        label: Domaines
+      custom_domain_not_supported: Les domaines personnalisés ne sont pas pris en charge sur votre forfait actuel.
+    business_hour_groups:
+      shared:
+        no_description: Aucune description fournie.
+      index:
+        title: Heures d'ouverture
+        description: Configurez les horaires de travail et les exceptions pour vos équipes.
+        new_group: Nouvel horaire
+        empty_title: Pas encore d'heures d'ouverture
+        empty_description: Créez un planning pour définir quand votre équipe est en ligne.
+        timezone: 'Fuseau horaire : %{timezone}'
+      new:
+        title: Nouveaux horaires d'ouverture
+        description: Créez un nouvel horaire pour votre équipe.
+      edit:
+        title: Modifier les heures de travail
+        description: Mettez à jour le planning de votre équipe.
+      form:
+        general_settings: Paramètres généraux
+        general_settings_desc: Détails de base sur cet horaire.
+        name_placeholder: par exemple, l'équipe d'assistance américaine
+        weekly_schedule: Programme hebdomadaire
+        weekly_schedule_desc: Définissez vos horaires réguliers de travail. Vous pouvez ajouter plusieurs plages horaires par jour.
+        add_hours: Ajouter des heures
+        exceptions: Jours fériés et exceptions
+        exceptions_desc: Définissez des dates précises pendant lesquelles votre équipe n'est pas disponible.
+        add_exception: Ajouter une exception
+        save: Enregistrer
+        cancel: Annuler
+        error_heading: 'Veuillez corriger les erreurs suivantes :'
+        remove_exception: Supprimer l'exception
+        remove_hours: Supprimer les heures
+      create:
+        created: Heures d'ouverture créées avec succès.
+      update:
+        updated: Les heures d'ouverture ont été mises à jour avec succès.
+      destroy:
+        destroyed: Heures d'ouverture supprimées avec succès.
+    email_templates:
+      index:
+        title: Modèles d'e-mails
+        subtitle: Personnalisez vos modèles d'e-mails sortants avec le générateur glisser-déposer.
+        tab_templates: Modèles
+        tab_layouts: Mises en page
+        badge_draft: Brouillon
+        badge_active: Actif
+        badge_inactive: Inactif
+        default_description: Personnalisez ce modèle d'e-mail pour qu'il corresponde à votre marque.
+        last_modified: Modifié il y a %{time}
+        edit_design: Modifier la conception
+        empty_title: Aucun modèle d'e-mail
+        empty_description: Des modèles d'e-mails seront créés lors de la création de votre compte.
+      sidebar:
+        label: Modèles d'e-mails
+      new:
+        subtitle: Choisissez un type de modèle et nommez votre modèle.
+        title: Créer un modèle d'e-mail
+    email_template_layouts:
+      index:
+        title: Dispositions d'e-mails
+        subtitle: Les mises en page s'enroulent autour de vos modèles et fournissent des en-têtes et des pieds de page cohérents.
+        tab_templates: Modèles
+        tab_layouts: Mises en page
+        badge_draft: Brouillon
+        layout_description: Mise en page partagée avec en-tête, zone de contenu et pied de page.
+        last_modified: Modifié il y a %{time}
+        edit_design: Modifier la conception
+        empty_title: Aucune mise en page
+        empty_description: Aucune mise en page d'e-mail n'a encore été créée.
+    email_builder:
+      draft: Brouillon
+      locale: Paramètres régionaux
+      layout: Disposition
+      no_layout: Aucune mise en page
+      preview: Aperçu
+      send_test: Envoyer le test
+      save_draft: Enregistrer le brouillon
+      saving: Sauvegarde...
+      publish: Publier
+      discard: Jeter
+      blocks: Blocs
+      styles: Styles
+      variables: Variables
+      email_preview: Aperçu du courrier électronique
+      layout_preview: Aperçu de la mise en page
+      draft_saved: Brouillon enregistré avec succès.
+      published: Modèle publié. Les e-mails en direct utilisent désormais cette conception.
+      draft_discarded: Les brouillons de modifications ont été rejetés.
+      locale_copied: Contenu copié de %{from} vers %{to}. Enregistrez pour conserver les modifications.
+      copy_from: Copier depuis %{from_locale}
+      copy_locale: Copier les paramètres régionaux
+      test_prefix: ESSAYER
+      test_sent: E-mail de test envoyé à %{email}.
+      template_descriptions:
+        conversation_reply: Envoyé aux clients lorsqu'un agent répond à leur conversation.
+        agent_notification: Notification envoyée aux agents concernant les nouveaux événements et missions.
+        welcome_email: E-mail de bienvenue envoyé aux utilisateurs nouvellement enregistrés.
+        password_reset: Instructions de réinitialisation du mot de passe envoyées aux utilisateurs.
+        email_verification: Vérification de l'adresse e-mail pour les nouveaux comptes.
+        team_invitation: E-mail d'invitation envoyé lors de l'ajout de nouveaux membres de l'équipe.
+      sample:
+        message_content: Merci d'avoir tendu la main ! Nous avons examiné votre demande et avons une solution pour vous. Veuillez suivre les étapes ci-dessous et faites-nous savoir si vous avez besoin d'aide supplémentaire.
+        conversation_subject: Aide avec mon compte
+        event_title: Nouvelle conversation attribuée
+        event_description: Une nouvelle conversation vous a été attribuée dans la boîte de réception du support.
+      add_locale: Ajouter des paramètres régionaux
+      edit_subject: Modifier le sujet
+      settings: Paramètres
+      subject: Objet de l'e-mail
+      subject_placeholder: Entrez le sujet ici...
+    contact_form_channels:
+      index:
+        title: Formulaires de contact
+        subtitle: Gérez des formulaires de contact intégrables pour vos portails et sites Web.
+        new_button: Nouveau formulaire de contact
+        edit: Paramètres
+        delete: Supprimer
+        confirm_delete: Êtes-vous sûr de vouloir supprimer ce formulaire ?
+        empty_title: Aucun formulaire de contact trouvé
+        empty_subtitle: Créez votre premier formulaire de contact pour commencer à recevoir des tickets.
+      new:
+        title: Nouveau formulaire de contact
+      edit:
+        title: Modifier le formulaire de contact
+      form:
+        error_heading: 'Veuillez examiner les problèmes ci-dessous :'
+        basic_section: Détails de base
+        name_label: Nom du formulaire
+        name_placeholder: par ex. Formulaire d'assistance du site Web
+        redirect_url_label: URL de redirection après la soumission
+        redirect_url_placeholder: https://yourwebsite.com/thank-you
+        appearance_section: Apparence et image de marque
+        theme_color_label: Couleur du thème
+        position_label: Position de mise en page
+        fields_section: Champs de formulaire
+        search_fields: Champs de recherche...
+        behaviors_section: Comportements et protection anti-spam
+        require_login_label: Exiger une connexion pour soumettre
+        allow_attachments_label: Autoriser les pièces jointes
+        send_confirmation_email_label: Envoyer un e-mail de confirmation au client
+        spam_protection_enabled_label: Activer la protection anti-spam (reCAPTCHA)
+        update: Mettre à jour le formulaire de contact
+        save: Créer un formulaire de contact
+        cancel: Annuler
+        required_label: Obligatoire
+        full_width: Pleine largeur
+        half_width: Demi-largeur
+        available_customer_fields: Champs client disponibles
+        available_conversation_fields: Champs de conversation disponibles
+        customer_field: Champ client
+        conversation_field: Champ de conversation
+        mapped_to: 'Mappé sur : %{mapped_to}'
+        entity_field: Champ %{entity_type}
+    facebook_channels:
+      sidebar:
+        label: Pages Facebook
+      limit_reached: Vous avez atteint la limite de chaînes pour votre forfait actuel. Veuillez mettre à niveau pour ajouter plus de chaînes.
+      created: La page Facebook a été connectée avec succès.
+      updated: Paramètres de la page Facebook mis à jour.
+      destroyed: La page Facebook a été déconnectée.
+      create_failed: Échec de la connexion de la page Facebook. Veuillez réessayer.
+      callback_error: Une erreur s'est produite lors de la connexion à Facebook. Veuillez réessayer.
+      reconnected: La page Facebook a été reconnectée avec succès.
+      reconnect_failed: Échec de la reconnexion de la page Facebook. Veuillez réautoriser via la connexion Facebook.
+      index:
+        title: Pages Facebook
+        description: Connectez vos pages Facebook pour recevoir et répondre aux conversations Messenger.
+        connect_page: Connecter la page Facebook
+        delete_confirm: Êtes-vous sûr de vouloir déconnecter cette page Facebook ? Cela supprimera la boîte de réception et toutes les conversations associées.
+        status_active: Connecté
+        status_disconnected: Déconnecté
+        status_reauth: Ré-autorisation nécessaire
+        reconnect: Reconnecter
+        inboxes_count:
+          one: Boîte de réception %{count}
+          other: Boîtes de réception %{count}
+        created_ago: Créé il y a %{time}
+        empty_title: Aucune page Facebook connectée
+        empty_description: Connectez vos pages Facebook pour commencer à recevoir des conversations Messenger directement dans votre boîte de réception.
+      new:
+        title: Connecter une page Facebook
+        step1_title: Connectez-vous avec Facebook
+        step1_description: Connectez-vous avec votre compte Facebook et accordez les autorisations pour gérer vos pages.
+        connect_button: Continuer avec Facebook
+        connect_note: Nous vous demanderons uniquement les autorisations nécessaires pour gérer la boîte de réception de votre Page.
+        step2_title: Sélectionnez une page
+        step2_description: Choisissez la page Facebook à laquelle vous souhaitez vous connecter. Chaque page crée une boîte de réception distincte.
+        already_connected: Déjà connecté
+        step3_title: Configurez votre chaîne
+        name_label: Nom de la chaîne
+        name_placeholder: par exemple, la page d'assistance client
+        permissions_title: Autorisations que nous demanderons
+        scope_messages: Lire et envoyer des messages depuis vos pages
+        scope_view: Afficher vos pages
+        step3_description: Configurez votre nouvelle chaîne Facebook
+      edit:
+        title: Modifier la page Facebook
+        reauth_title: Ré-autorisation requise
+        reauth_description: Le jeton d'accès à cette page a été invalidé. Veuillez vous reconnecter pour restaurer la messagerie.
+        inbox_settings_title: Paramètres de la boîte de réception
+        csat_enabled: Activer l'enquête CSAT après les conversations
+        danger_title: Zone dangereuse
+        danger_description: La déconnexion de cette page supprimera la boîte de réception et cessera de recevoir de nouveaux messages. Les conversations existantes seront conservées.
+        disconnect: Page de déconnexion
+      form:
+        back: Retour aux pages Facebook
+        cancel: Annuler
+        save: Enregistrer les modifications
+        create: Page de connexion
+        connection_section: État de la connexion
+        inbox_section: Configuration de la boîte de réception
+    instagram_channels:
+      sidebar:
+        label: Instagram
+      limit_reached: Vous avez atteint la limite de chaînes pour votre forfait actuel. Veuillez mettre à niveau pour ajouter plus de chaînes.
+      created: Le compte Instagram a été connecté avec succès.
+      updated: Paramètres de la chaîne Instagram mis à jour.
+      destroyed: Le compte Instagram a été déconnecté.
+      create_failed: Échec de la connexion au compte Instagram. Veuillez réessayer.
+      callback_error: Une erreur s'est produite lors de la connexion à Instagram. Veuillez réessayer.
+      invalid_state: État d'autorisation invalide. Veuillez réessayer de vous connecter.
+      index:
+        title: Instagram
+        description: Connectez vos comptes professionnels Instagram pour gérer les DM depuis votre tableau de bord.
+        connect_account: Connectez Instagram
+        delete_confirm: Êtes-vous sûr de vouloir déconnecter ce compte Instagram ? Cela supprimera la boîte de réception et toutes les conversations associées.
+        status_active: Connecté
+        status_expired: Jeton expiré
+        status_expiring: Le jeton expire bientôt
+        status_reauth: Ré-autorisation nécessaire
+        inboxes_count:
+          one: Boîte de réception %{count}
+          other: Boîtes de réception %{count}
+        token_expires: Le jeton expire dans %{time}
+        created_ago: Créé il y a %{time}
+        empty_title: Aucun compte Instagram connecté
+        empty_description: Connectez vos comptes d'entreprise ou de créateur Instagram pour gérer les messages directs depuis votre tableau de bord.
+      new:
+        title: Connectez Instagram
+        connect_title: Connectez votre compte Instagram
+        connect_description: Liez votre compte d'entreprise ou de créateur Instagram pour commencer à recevoir et à répondre aux DM.
+        permissions_title: Autorisations que nous demanderons
+        scope_basic: Afficher votre profil et vos médias Instagram
+        scope_messages: Lire et envoyer des messages directs Instagram
+        connect_button: Continuer avec Instagram
+        connect_note: Vous serez redirigé vers Instagram pour autoriser l'accès. Seuls les comptes professionnels (Business ou Creator) sont pris en charge.
+      edit:
+        title: Modifier la chaîne Instagram
+        reauth_title: Ré-autorisation requise
+        reauth_description: Le jeton d'accès a expiré ou a été invalidé. Veuillez vous reconnecter pour restaurer la messagerie.
+        reconnect: Reconnecter
+        token_expires_at: 'Le jeton expire : %{time}'
+        name_label: Nom de la chaîne
+        name_placeholder: par exemple, marque Instagram
+        inbox_settings_title: Paramètres de la boîte de réception
+        csat_enabled: Activer l'enquête CSAT après les conversations
+        danger_title: Zone dangereuse
+        danger_description: La déconnexion de ce compte supprimera la boîte de réception et cessera de recevoir de nouveaux DM. Les conversations existantes seront conservées.
+        disconnect: Déconnecter le compte
+      form:
+        back: Retour sur Instagram
+        cancel: Annuler
+        save: Enregistrer les modifications
+        connection_section: État de la connexion
+        inbox_section: Configuration de la boîte de réception
+    whatsapp_channels:
+      sidebar:
+        label: WhatsApp
+      limit_reached: Vous avez atteint la limite de chaînes pour votre forfait actuel. Veuillez mettre à niveau pour ajouter plus de chaînes.
+      created: Le canal WhatsApp a été connecté avec succès.
+      updated: Paramètres du canal WhatsApp mis à jour.
+      destroyed: Le canal WhatsApp a été déconnecté.
+      create_failed: Échec de la connexion au canal WhatsApp. Veuillez réessayer.
+      callback_error: Une erreur s'est produite lors de la connexion à WhatsApp. Veuillez réessayer.
+      reconnect_not_supported_yet: La reconnexion n'est pas encore prise en charge. Veuillez supprimer et recréer la chaîne si le jeton expire.
+      index:
+        title: WhatsApp
+        description: Connectez votre API WhatsApp Business pour gérer les conversations clients.
+        connect_channel: Connectez WhatsApp
+        delete_confirm: Êtes-vous sûr de vouloir déconnecter ce canal WhatsApp ? Cela supprimera la boîte de réception et toutes les conversations associées.
+        status_active: Connecté
+        status_disconnected: Déconnecté
+        status_reauth: Ré-autorisation nécessaire
+        reconnect: Reconnecter
+        inboxes_count:
+          one: Boîte de réception %{count}
+          other: Boîtes de réception %{count}
+        created_ago: Créé il y a %{time}
+        empty_title: Aucun canal WhatsApp connecté
+        empty_description: Connectez votre compte WhatsApp Business pour commencer à recevoir des messages directement dans votre boîte de réception.
+      new:
+        title: Connectez WhatsApp
+        subtitle: Choisissez comment vous souhaitez connecter votre compte WhatsApp Business.
+        tabs:
+          embedded: Connexion rapide (recommandé)
+          manual: Configuration manuelle
+        embedded:
+          step1_title: Connectez-vous avec Meta
+          step1_description: Connectez-vous avec votre compte Facebook et sélectionnez votre compte WhatsApp Business.
+          guide_1: Vous devez être un administrateur du Meta Business Portfolio.
+          guide_2: Assurez-vous d'avoir un numéro de téléphone valide à portée de main.
+          guide_3: La connexion prend moins de 5 minutes.
+          connect_button: Connectez-vous avec Meta
+        manual:
+          guide_title: Guide de configuration manuelle
+          guide_1: Accédez à votre application Meta Developer et sélectionnez WhatsApp > Configuration de l'API.
+          guide_2: Copiez l'ID du numéro de téléphone et l'ID du compte WhatsApp Business.
+          guide_3: Copiez votre jeton d'accès permanent.
+          guide_4: Remplissez le formulaire ci-dessous avec les détails copiés.
+          guide_5: Après la création, copiez l'URL du Webhook générée dans votre méta-application.
+      edit:
+        title: Modifier la chaîne WhatsApp
+        reauth_title: Ré-autorisation requise
+        reauth_description: Le jeton d'accès a expiré ou a été invalidé. Veuillez vous reconnecter pour restaurer la messagerie.
+        danger_title: Zone dangereuse
+        danger_description: La déconnexion de cette chaîne supprimera la boîte de réception et cessera de recevoir de nouveaux messages. Les conversations existantes seront conservées.
+        disconnect: Déconnecter la chaîne
+        webhook:
+          title: Configuration du webhook
+          description: Ajoutez cette URL de webhook et vérifiez le jeton à la configuration WhatsApp de votre méta-application pour commencer à recevoir des messages.
+          url_label: URL du webhook
+          secret_label: Vérifier le jeton
+      form:
+        back: Retour à WhatsApp
+        name_label: Nom de la chaîne
+        name_placeholder: par exemple, ligne d'assistance
+        full_phone_label: Numéro de téléphone complet
+        phone_code_label: Indicatif du pays
+        phone_number_label: Numéro de téléphone
+        phone_id_label: Numéro de téléphone
+        waba_id_label: Identifiant de compte professionnel WhatsApp
+        api_key_label: Jeton d'accès
+        api_key_placeholder: Collez ici votre jeton d'accès utilisateur permanent ou système
+        create: Créer une chaîne
+        save: Enregistrer les modifications
+        cancel: Annuler
+        reopen_window_label: Fenêtre de réouverture automatique
+        inbox_settings: Paramètres de la boîte de réception
+        enable_csat: Activer l'enquête CSAT après les conversations
+        csat_survey_label: Sélectionnez l'enquête CSAT
+        inbox_settings_title: Paramètres de la boîte de réception
+    profile:
+      index:
+        title: Détails personnels
+        public_profile: Profil public
+        save: Enregistrer
+        created_at: Créé à
+        email: Courriel
+        name_label: Nom d'utilisateur
+        display_name_label: Nom d'affichage
+        status_label: Statut
+        organization_label: Organisation
+        phone_label: Numéro de téléphone
+        city_placeholder: Ville
+        state_placeholder: État
+        you: Vous
+        unnamed_user: Utilisateur anonyme
+        no_organization: Aucune organisation pour l'instant
+        no_phone: Pas encore de numéro de téléphone
+        active_in_last: Actif dans le dernier
+        nil: Néant
+    teams:
+      sidebar:
+        label: Équipes
+      index:
+        title: Équipes
+        new_team: Nouvelle équipe
+        empty_title: Vous n'avez pas encore créé d'équipes
+        empty_description: Créez votre première équipe pour commencer
+        manage_description: Gérer toutes les équipes, les utilisateurs et l'accès de leur équipe
+        add_teammates: Ajouter des coéquipiers
+        no_description: Aucune description fournie
+        created: Créé
+        status:
+          active: Actif
+          inactive: Inactif
+      new:
+        title: Nouvelle équipe
+      edit:
+        title: Modifier l'équipe
+      form:
+        name_label: Nom de l'équipe
+        name_placeholder: par exemple, l'équipe d'assistance
+        description_label: Descriptif
+        description_placeholder: Décrivez ce que fait cette équipe...
+        save: Enregistrer l'équipe
+        cancel: Annuler
+      create:
+        created: Équipe créée avec succès.
+      update:
+        updated: L'équipe a été mise à jour avec succès.
+      destroy:
+        destroyed: Équipe supprimée.
+    users:
+      sidebar:
+        label: Utilisateurs (coéquipiers)
+      index:
+        title: Coéquipiers
+        subtitle: Gérez les utilisateurs et les invitations en attente.
+        tab_active: Utilisateurs actifs
+        tab_invitations: Invitations en attente
+        joined: A rejoint %{time} il y a
+        you: Vous
+        edit: Modifier les rôles
+        delete: Supprimer
+        delete_confirm: Êtes-vous sûr de vouloir supprimer cet utilisateur du compte ?
+        empty_title: Aucun utilisateur trouvé
+        empty_description: Il n'y a aucun utilisateur actif dans ce compte.
+        no_roles: Aucun rôle attribué
+      edit:
+        title: Modifier les rôles des coéquipiers
+        description: Modifiez les rôles attribués à %{name}.
+      form:
+        back: "← Retour à Coéquipiers"
+        email_label: Adresse e-mail
+        roles_title: Rôles assignés
+        roles_desc: Sélectionnez un ou plusieurs rôles pour ce coéquipier.
+        submit: Mettre à jour les rôles
+        cancel: Annuler
+        system_default: Système par défaut
+        assign: Attribuer
+      invitations:
+        new:
+          title: Inviter un coéquipier
+          description: Envoyez une invitation à un nouveau coéquipier et attribuez-lui des rôles.
+        form:
+          back: "← Retour à Coéquipiers"
+          email_label: Adresse e-mail
+          roles_title: Attribuer des rôles
+          roles_desc: Sélectionnez un ou plusieurs rôles pour ce coéquipier.
+          submit: Envoyer une invitation
+          cancel: Annuler
+    roles:
+      sidebar:
+        label: Rôles
+      index:
+        title: Rôles et autorisations
+        description: Gérez les niveaux d'accès et les autorisations granulaires pour vos coéquipiers.
+        new_role: Créer un nouveau rôle
+        users_count:
+          one: Utilisateur %{count}
+          other: Utilisateurs de %{count}
+        created_ago: Créé il y a %{time}
+        delete_confirm: Êtes-vous sûr de vouloir supprimer ce rôle personnalisé ?
+        empty_title: Aucun rôle trouvé
+        empty_description: Aucun rôle n'est configuré pour ce compte.
+        all_roles: Tous les rôles
+        create_role: Créer un rôle
+        custom_roles: Rôles personnalisés
+        filter_label: Filtrer les rôles
+        members_count:
+          one: Membre %{count}
+          other: Membres %{count}
+        most_members: La plupart des membres
+        name_ascending: Nom A à Z
+        no_matching_roles: Aucun rôle correspondant
+        permission_count:
+          one: Autorisation %{count}
+          other: Autorisations %{count}
+        permissions: Autorisations
+        recently_updated: Récemment mis à jour
+        role_actions: Actions de rôle
+        search_placeholder: Rechercher des rôles...
+        sort_by: 'Trier par :'
+        sort_label: Trier les rôles
+        summary: Résumé des rôles
+        system_roles: Rôles système
+        team_members: Membres de l'équipe
+        total_roles: Total des rôles
+        try_another_search: Essayez une autre recherche ou un autre filtre.
+        updated: Mis à jour
+        updated_ago: Il y a %{time}
+        descriptions:
+          administrator: Accès complet au système et toutes les autorisations administratives.
+          owner: Propriétaire du compte avec accès à la facturation et aux paramètres.
+          agent: Accès aux fonctionnalités de conversation et de boîte de réception.
+      form:
+        back: "← Retour aux rôles"
+        back_label: Retour
+        errors_found: 'Les erreurs %{count} ont empêché l''enregistrement de ce rôle :'
+        name_label: Nom du rôle
+        optional: "(Facultatif)"
+        permission_preset: Autorisation prédéfinie
+        permissions_desc: Basculez les autorisations granulaires ci-dessous pour ce rôle.
+        permissions_matrix: Matrice des autorisations
+        preset_description: Choisissez un préréglage pour démarrer rapidement.
+        role_details: Détails du rôle
+        save: Enregistrer le rôle
+      edit:
+        description: Modifiez les autorisations associées à ce rôle.
+        title: 'Modifier le rôle : %{name}'
+      new:
+        description: Définissez un rôle personnalisé avec des contrôles d'accès spécifiques.
+        title: Créer un nouveau rôle
+    canned_responses:
+      index:
+        replies_for: Réponses pour
+        add_new_reply: Ajouter une nouvelle réponse
+        search_placeholder: rechercher
+      form:
+        title_placeholder: Ajouter un titre
+        description_placeholder: Ajouter un message
+        delete: Supprimer la réponse
+        update: Mise à jour
+    sla_policies:
+      index:
+        title: Politiques SLA
+        description: Définissez des objectifs de niveau de service pour différentes boîtes de réception afin de garantir des réponses rapides.
+        new_policy: Nouvelle politique
+        empty_title: Aucune politique SLA
+        empty_description: Créez votre première politique SLA pour commencer à suivre les temps de réponse des agents.
+      new:
+        title: Nouvelle politique SLA
+        description: Définissez des objectifs pour garantir que votre équipe réponde aux clients à temps.
+      edit:
+        title: Modifier la politique SLA
+        description: Mettez à jour les objectifs pour garantir que votre équipe réponde aux clients à temps.
+      form:
+        all_inboxes_hint: Sélectionnez les boîtes de réception auxquelles cette politique SLA s'applique.
+        business_hour_group_label: Sélectionnez l'horaire des heures de bureau
+        business_hours_section: Heures d'ouverture
+        cancel: Annuler
+        description_label: Descriptif
+        details_section: Détails de la politique
+        during_working_hours: Suivez les objectifs SLA uniquement pendant les heures de bureau
+        first_response_label: Temps de première réponse
+        inboxes_section: Appliquer aux boîtes de réception
+        name_label: Nom de la stratégie
+        name_placeholder: par exemple, SLA pour les clients VIP
+        next_response_label: Temps de réponse suivant
+        resolution_label: Temps de résolution
+        save: Enregistrer la politique SLA
+        targets_section: Objectifs SLA
+      policy_card:
+        first_response: 'Première réponse : %{value}'
+        inboxes:
+          one: Boîte de réception %{count}
+          other: Boîtes de réception %{count}
+    csat_surveys:
+      index:
+        title: Enquêtes CSAT
+        description: Créez et gérez des enquêtes de satisfaction client personnalisées.
+        new_survey: Créer une enquête personnalisée
+        prompt_label: 'Invite :'
+        default_prompt: Comment évaluez-vous le soutien que vous avez reçu ?
+        uses_template: 'Utilisations : %{name}'
+        default_template: Modèle système par défaut
+        empty_title: Aucune enquête CSAT
+        empty_description: Créez votre première enquête pour commencer à recueillir les commentaires des clients.
+        delete_confirm: Êtes-vous sûr de vouloir supprimer cette enquête ?
+      new:
+        title: Créer une enquête CSAT
+        description: Configurez votre enquête de satisfaction client personnalisée
+      edit:
+        title: Modifier l'enquête CSAT
+        description: Mettez à jour votre enquête de satisfaction client personnalisée
+      form:
+        name_placeholder: par ex. Commentaires sur l'assistance
+        email_prompt_label: Invite d'e-mail (à l'intérieur de l'e-mail)
+        email_prompt_placeholder: par ex. Comment évaluez-vous le soutien que vous avez reçu ?
+        portal_title_label: Titre du portail (sur la page de commentaires)
+        portal_title_placeholder: par ex. Comment avons-nous fait ?
+        portal_subtitle_label: Sous-titre du portail
+        portal_subtitle_placeholder: par ex. Nous serions ravis d’entendre vos commentaires sur votre récente expérience d’assistance.
+        feedback_label_label: Étiquette de la zone de texte des commentaires
+        feedback_label_placeholder: par ex. Dites-nous en plus (facultatif)
+    custom_fields:
+      form:
+        label_placeholder: par ex. Taille de l'entreprise
+        description_label: Description / Texte d'aide
+        description_placeholder: par ex. Veuillez saisir le nombre d'employés à temps plein.
+        options:
+          value_placeholder: Valeur (interne)
+          label_placeholder: Étiquette (affichage)
+          remove_button_title: Supprimer l'option
+        default_value_placeholder: Valeur par défaut facultative...
+        validations_pattern_label: Modèle d'expression régulière
+        validations_pattern_placeholder: "^[A-Z]"
+        error_heading: 'Veuillez corriger les erreurs suivantes :'
+      translations:
+        label_placeholder: par ex. Taille de l'entreprise
+      index:
+        edit: Modifier
+        delete: Supprimer
+        delete_confirm: Etes-vous sûr ?
+    channels:
+      web_widget:
+        form:
+          form_title_label: Titre du formulaire
+          footer_text_placeholder: par ex. Propulsé par Acme Corp.
+      contact_form:
+        form:
+          default_value_label: Valeur par défaut
+          valid_url_hint: Veuillez saisir une URL valide commençant par http:// ou https://
+        index:
+          edit: Modifier
+          delete: Supprimer
+          confirm_delete: Etes-vous sûr ?
+    articles:
+      search_placeholder: Rechercher...
+      clear_search: Effacer la recherche
+      all_articles: Tous les articles
+      new_article: "+ Nouvel article"
+      count_articles: Articles %{count}
+      display_columns: Afficher les colonnes
+      columns: Colonnes
+      col_title: Titre
+      col_last_edit: Dernière modification
+      col_status: Statut
+      col_collection: Collecte
+      apply: Postuler
+      untitled: Article sans titre
+      uncategorized: Non classé
+      prev: "← Précédent"
+      page_info: Page %{page} de %{total}
+      next: Suivant →
+      no_articles_found: Aucun article trouvé
+      create_first_article: Créez votre premier article ou ajustez la recherche et les filtres actuels.
+      no_portal_found: Aucun portail du centre d'aide trouvé
+      create_portal_first: Créez un portail de centre d'aide avant d'ajouter des articles, car chaque article doit appartenir à un portail.
+      fix_errors: 'Veuillez corriger les erreurs suivantes :'
+      untitled_placeholder: Article sans titre
+      select_category_label: Sélectionnez une catégorie
+      select_category: Sélectionnez la catégorie
+      search_categories: Catégories de recherche...
+      locale: Paramètres régionaux
+      add_locale: Ajouter des paramètres régionaux
+      copy_from_another_locale: Copier depuis une autre langue
+      copy_content_from: Copier le contenu de
+      copy_from_locale: Copier depuis %{locale_name}
+      unsaved_changes: Modifications non enregistrées
+      cancel: Annuler
+      save: Enregistrer
+      publishing: Publication...
+      publish: Publier
+      knowledge_base: Base de connaissances
+      articles: Articles
+      create_article: Créer un article
+      back_link: "> Retour"
+    help_center:
+      portals:
+        form:
+          template_name_label: Nom du modèle
+          template_name_placeholder: Centre de support client
+          name_label: Nom du centre d'aide
+          name_placeholder: par ex. Commencer
+          description_label: Descriptif
+          description_placeholder: Brève description de cette catégorie
+        index:
+          edit: Modifier
+          search_placeholder: Rechercher...
+          hero_image_alt: Image du héros %{name}
+          untitled: Centre d'aide sans titre
+      articles:
+        form:
+          title_placeholder: Article sans titre
+          content_placeholder: Écrivez le contenu de l'article ici...
+          slug_label: Limace
+          slug_placeholder: Mise en route
+          meta_title_label: Méta-titre
+          meta_title_placeholder: 60 caractères optimaux...
+          meta_description_label: Méta-description
+          meta_description_placeholder: Brève description SEO
+        index:
+          search_placeholder: Rechercher...
+      categories:
+        index:
+          title: Collections
+          search_placeholder: Rechercher des collections...
+          new_collection: "+ Nouvelle collection"
+          collections_count: Collections %{count}
+          name_header: Nom
+          slug_header: Limace
+          articles_header: Articles
+          previous: "← Précédent"
+          next: Suivant →
+          page_info: Page %{page} de %{total}
+          empty_title: Aucune collection trouvée
+          empty_description: Créez votre première collection pour organiser vos articles.
+          untitled_collection: Collection sans titre
+        form:
+          name_label: Nom de la catégorie
+          name_placeholder: par ex. Commencer
+          description_label: Descriptif
+          description_placeholder: Brève description de cette catégorie
+          parent_label: Catégorie parente
+          parent_none: Aucun
+          visibility_label: Visibilité
+          cancel: Annuler
+          submit: Créer une catégorie
+          modal_title: Ajouter une nouvelle catégorie
+          modal_subtitle: Créez une nouvelle catégorie pour organiser votre article
+    notes:
+      form:
+        content_placeholder: Ajouter un message
+    popup:
+      canned_response:
+        form:
+          title_placeholder: Ajouter un titre
+          description_placeholder: Bonjour {{ customer.name }}, comment puis-je vous aider ?
+          cancel: Annuler
+          save: Enregistrer
+      email_conv:
+        form:
+          email_label: Courriel
+          response_placeholder: Écrivez votre réponse au problème
+      invite_teammate:
+        form:
+          email_placeholder: Courriel
+          permission_note: Nous vous donnerons les autorisations de paramètres de base de votre coéquipier. vous pourrez leur donner plus d'autorisations plus tard.
+          cancel: Annuler
+          submit: Envoyer une invitation
+      team:
+        form:
+          name_label: Nom de l'équipe
+          name_placeholder: par ex. Succès client
+          description_label: Description (Facultatif)
+          description_placeholder: Décrivez ce que fait cette équipe...
+          auto_assign: Attribuer automatiquement de nouvelles conversations aux membres actifs
+          team_members: Membres de l'équipe
+          no_users: Aucun utilisateur disponible
+          connect_inboxes: Connectez-vous aux boîtes de réception
+          cancel: Annuler
+          create: Créer une équipe
+          edit_subtitle: Mettez à jour les détails de l’équipe, les membres et les boîtes de réception.
+          edit_title: Modifier l'équipe
+          new_subtitle: Créez une équipe et attribuez ses membres et ses boîtes de réception.
+          new_title: Nouvelle équipe
+          save: Enregistrer les modifications
+      team_inbox:
+        form:
+          name_placeholder: Ajouter un titre
+      ticket:
+        form:
+          response_placeholder: Écrivez votre réponse au problème
+          title_label: Titre
+          title_placeholder: Ajouter un titre
+          description_label: Descriptif
+          description_placeholder: Écrire une description
+          custom_footer_label: Texte de pied de page personnalisé
+      topic_questions:
+        form:
+          channel_name_label: Entrez le nom de la chaîne
+      widget_channel:
+        form:
+          channel_name_placeholder: Nom de la chaîne
+          secret_label: Secret
+          secret_placeholder: Secret
+      messenger_channel:
+        form:
+          app_id_placeholder: Identifiant de l'application
+      messenger_inbox:
+        form:
+          channel_name_placeholder: Nom de la chaîne
+      email_channel:
+        form:
+          channel_name_placeholder: Nom de la chaîne
+          email_label: Entrez l'e-mail
+          email_placeholder: Courriel
+      email_inbox:
+        form:
+          channel_name_label: Entrez le nom de la chaîne
+          channel_name_placeholder: Nom de la chaîne
+      whatsapp_channel:
+        form:
+          channel_name_placeholder: Nom de la chaîne
+      fb_conv:
+        form:
+          name_label: Nom
+          response_placeholder: Écrivez votre réponse au problème
+      schedule:
+        snooze_until: Répéter jusqu'à
+    agent:
+      form:
+        survey_name_label: Nom de l'enquête
+        name_placeholder: Deskbolic
+    workspace:
+      email_invitation:
+        title: Rejoindre l'espace de travail
+        description: Lorem Ipsum est tout simplement un faux texte de l’industrie de l’imprimerie et de la composition.
+        members:
+          one: "%{count} Membre actif"
+          other: Membres actifs %{count}
+        join_button: Rejoindre l'espace de travail
+        joining_header: Vous rejoignez
+        workspace_name: Espace de travail
+        form:
+          first_name: Prénom
+          last_name: Nom de famille
+          email: Votre e-mail
+          password: Mot de passe
+          confirm_password: Confirmer le mot de passe
+          submit: Rejoindre
+      new:
+        who_you_are: Qui es-tu ?
+        subtitle: Lorem Ipsum est tout simplement un faux texte de l’industrie de l’imprimerie et de la composition.
+        agent: Agent
+        agent_description: Si vous avez besoin de plus d'informations, veuillez consulter.
+        company: Entreprise
+        company_description: Créez un compte d'entreprise pour de nombreux utilisateurs.
+        continue: Continuer
+        workspace: Espace de travail
+        workspace_subtitle: Créons un compte pour accéder à Deskbolic.
+        send_request: Envoyer la demande
+        request_sent: Demande envoyée
+        company_details: Détails de l'entreprise
+        company_details_subtitle: Créons un compte pour accéder au site Web Deskbolic.
+        company_name: Nom de l'entreprise
+        company_name_placeholder: Nom
+        create_new_workspace: Créer un nouvel espace de travail
+        workspace_name_label: Nom de l'espace de travail
+        workspace_name_placeholder: Nom de l'espace de travail
+        workspace_size: Taille de l'espace de travail
+        workspace_size_options:
+          small: 1-9
+          medium: 10-30
+          large: 50+
+        workspace_subtitle2: Créons un compte pour accéder au site Web Deskbolic.
+        create_workspace_button: Créer un nouvel espace de travail
+        created_successfully: Nouveau WorkSpace créé avec succès
+        go_to_dashboard: Aller au tableau de bord
+        marketing_text: Premier service client pour les clients, les agents et les dirigeants
+        logo: Logo
+        new_workspace: Nouvel espace de travail
+      submitted:
+        next_steps: Prochaines étapes
+        go_to_dashboard: Aller au tableau de bord
+        marketing_text: Premier service client pour les clients, les agents et les dirigeants
+    custom_channels:
+      index:
+        title: Canaux de webhook personnalisés
+        description: Connectez vos backends personnalisés à Deskbolic à l'aide de webhooks.
+        add_new: Ajouter une chaîne personnalisée
+        delete_confirm: Êtes-vous sûr de vouloir supprimer cette chaîne personnalisée ? Toutes les boîtes de réception et messages associés seront également supprimés.
+        status_active: Actif
+        status_disconnected: Déconnecté
+        inboxes_count: Boîtes de réception %{count}
+        created_ago: Créé il y a %{time}
+        empty_title: Aucune chaîne personnalisée
+        empty_description: Connectez vos systèmes backend via des webhooks pour créer de puissantes intégrations personnalisées.
+      new:
+        title: Ajouter une nouvelle chaîne personnalisée
+        description: Entrez les détails pour connecter un nouveau backend personnalisé.
+        back: Retour aux chaînes personnalisées
+        error_heading: 'Les erreurs %{count} ont empêché l''enregistrement de cette chaîne :'
+        name_label: Nom de la chaîne
+        description_label: Descriptif
+        webhook_url_label: URL du webhook sortant
+        webhook_url_help: L'URL à laquelle Deskbolic enverra les messages sortants.
+        submit: Créer une chaîne
+        cancel: Annuler
+      edit:
+        back: Retour aux chaînes personnalisées
+      tabs:
+        configuration: Configuration
+        instructions: Instructions
+        testing: Test du bac à sable
+      form:
+        error_heading: 'Les erreurs %{count} ont empêché l''enregistrement de cette chaîne :'
+        details_section: Détails de la chaîne
+        name: Nom
+        description: Descriptif
+        outbound_section: Webhook sortant (Deskbolic -> Serveur personnalisé)
+        outbound_desc: Chaque fois qu'un agent répond, Deskbolic enverra une requête POST à cette URL.
+        webhook_url: URL du webhook
+        headers: En-têtes personnalisés
+        headers_help: 'Ajoutez tous les en-têtes d''authentification personnalisés (par exemple, Autorisation : Bearer xyz) requis par votre serveur.'
+        add_header: "+ Ajouter un en-tête"
+        inbound_section: Webhook entrant (serveur personnalisé -> Deskbolic)
+        inbound_desc: Mappez la charge utile JSON que votre serveur nous envoie aux attributs client de Deskbolic.
+        add_mapping: "+ Ajouter une cartographie"
+        save: Enregistrer la configuration
+        csat_survey: Enquête CSAT
+        csat_default: Enquête sur le système par défaut
+        inbox_settings: Paramètres de la boîte de réception
+        inbox_desc: Configurez les enquêtes de satisfaction client et les politiques SLA.
+        enable_csat: Activer les enquêtes CSAT
+        sla_policies: Politiques SLA
+        header_name_placeholder: Nom de l'en-tête
+        header_value_placeholder: Valeur d'en-tête
+        deskbolic_attribute_placeholder: Attribut Deskbolic
+        json_path_placeholder: Chemin JSON (par exemple, data.user.id)
+      instructions:
+        outbound_title: Réception de webhooks sortants
+        webhook_secret: Votre secret Webhook
+        inbound_title: Envoi de webhooks entrants
+        hmac_token: Votre jeton HMAC
+        outbound_desc1: Lorsqu'un agent répond à une conversation dans Deskbolic, nous enverrons une demande POST à votre
+        outbound_webhook_url_bold: URL du webhook sortant
+        outbound_desc2: 'avec la charge utile JSON suivante :'
+        verify_desc1: Pour vérifier que la demande provient bien de Deskbolic, nous signons la charge utile en utilisant votre
+        webhook_secret_bold: Secret du webhook
+        verify_desc2: ". Nous incluons cette signature dans le"
+        header_text: en-tête.
+        inbound_desc1: 'Pour envoyer un message depuis votre backend personnalisé vers Deskbolic, effectuez une requête POST à :'
+        inbound_desc2: Vous devez authentifier cette demande en incluant votre jeton HMAC dans le
+        inbound_payload1: La charge utile JSON que vous envoyez peut être structurée comme vous le souhaitez. Deskbolic utilisera votre
+        response_mapping_bold: Cartographie des réponses
+        inbound_payload2: configuration pour extraire l'identifiant, le nom et le contenu du message du client.
+      testing:
+        sandbox_title: Test du bac à sable
+        test_outbound: Tester le webhook sortant
+        fire_outbound: Webhook sortant d'incendie
+        response: 'Réponse :'
+        test_inbound: Simuler le mappage entrant
+        test_mapping: Cartographie des tests
+        mapped_attributes: 'Attributs mappés :'
+    settings:
+      integrations:
+        integrations:
+          index:
+            title: Intégrations
+            description: Connectez Deskbolic à vos outils préférés.
+          new:
+            title: Configurer %{provider}
+            description: Configurez vos paramètres d'intégration.
+          edit:
+            title: Modifier l'intégration %{provider}
+            description: Mettez à jour vos paramètres d'intégration.
+          slack:
+            description: Recevez des notifications instantanées pour les nouvelles conversations et mises à jour directement dans vos chaînes Slack.
+            connect: Ajouter à Slack
+            not_configured: Les informations d'identification Slack ne sont pas configurées sur ce serveur.
+            auth_failed: L'authentification Slack a échoué ou a été annulée.
+            exchange_failed: 'Échec de l''échange du jeton Slack : %{error}'
+            unexpected_error: Une erreur inattendue s'est produite lors de l'authentification Slack.
+            connected: Slack a été connecté avec succès.
+          webhooks:
+            description: Envoyez des notifications d'événements en temps réel depuis Deskbolic vers vos propres serveurs et services externes.
+            configured_count: "%{count} configuré"
+            connect: Configurer les webhooks
+            url_label: URL du webhook
+            url_hint: Le point de terminaison auquel Deskbolic enverra les requêtes POST pour les événements.
+            secret_label: Secret du webhook
+            secret_hint: Utilisez ce secret pour vérifier la signature HMAC des demandes entrantes.
+            events_label: Événements abonnés
+          google_translate:
+            description: Traduisez automatiquement les messages entrants et les réponses sortantes en temps réel.
+          coming_soon: Bientôt disponible
+          connected: Connecté
+          disconnect: Déconnecter
+          manage: Gérer
+          not_supported: La configuration de ce fournisseur n'est pas prise en charge via cette interface.
+          invalid_provider: Fournisseur d'intégration non valide.
+          created: Intégration créée avec succès.
+          updated: Intégration mise à jour avec succès.
+          destroyed: Intégration supprimée avec succès.
+        created: L'intégration a été configurée avec succès.
+        updated: Les paramètres d'intégration ont été mis à jour avec succès.
+        destroyed: L'intégration a été déconnectée avec succès.
+        invalid_provider: Le fournisseur d'intégration sélectionné n'est pas valide.
+        slack:
+          auth_failed: L'authentification Slack a échoué. Veuillez réessayer.
+          not_configured: Les informations d'identification Slack OAuth ne sont pas configurées sur ce serveur.
+          connected: Connexion réussie à Slack !
+          exchange_failed: 'Échec de l''échange du jeton Slack OAuth : %{error}'
+          unexpected_error: Une erreur inattendue s'est produite lors de l'authentification Slack.
+          basic_section: Configuration Slack
+          manual_hint: Étant donné que Slack OAuth n'est pas configuré globalement pour cette installation, vous pouvez connecter Slack manuellement en créant un Webhook entrant dans votre espace de travail Slack et en collant l'URL ici.
+          url_label: URL du webhook entrant Slack
+          description: Recevez des notifications instantanées pour les nouvelles conversations et mises à jour directement dans vos chaînes Slack.
+          connect: Ajouter à Slack
+        not_supported: La configuration de ce fournisseur n'est pas prise en charge via cette interface.
+        coming_soon: Bientôt disponible
+        connected: Connecté
+        disconnect: Déconnecter
+        manage: Gérer
+        form:
+          back: "← Retour aux intégrations"
+        new:
+          title: Configurer %{provider}
+        edit:
+          title: Modifier l'intégration %{provider}
+        webhooks:
+          description: Envoyez des notifications d'événements en temps réel depuis Deskbolic vers vos propres serveurs et services externes.
+          connect: Configurer les webhooks
+          configured_count: "%{count} configuré"
+          manage: Gérer
+          basic_section: Paramètres du webhook
+          url_label: URL du webhook
+          url_hint: Le point de terminaison auquel Deskbolic enverra les requêtes POST pour les événements.
+          secret_label: Secret du webhook
+          secret_hint: Utilisez ce secret pour vérifier la signature HMAC des demandes entrantes.
+          events_label: Événements abonnés
+          instructions_title: Réception de webhooks
+        google_translate:
+          description: Traduisez automatiquement les messages entrants et les réponses sortantes en temps réel.
+        index:
+          description: Connectez Deskbolic à vos outils préférés.
+          title: Intégrations
+      api_keys:
+        index:
+          created_ago: Généré il y a %{date}
+          description: Gérez les clés API pour accéder à votre compte Deskbolic par programmation.
+          empty: Vous n'avez pas encore généré de clé API.
+          empty_title: Aucune clé API pour l'instant
+          generate: Générer une nouvelle clé
+          key_title: Clé API
+          revoke_confirm: Révoquer cette clé ? Cela brisera instantanément toute intégration qui l’utilise.
+          title: Clés API du développeur
+    custom_fields_builder:
+      available_fields: Champs disponibles
+      form_structure: Structure du formulaire
+    invitations:
+      index:
+        empty_description: Vous n'avez aucune invitation en attente.
+        empty_title: Aucune invitation en attente
+        invited_by: Invité par %{name}
+        revoke_confirm: Êtes-vous sûr de vouloir révoquer cette invitation ?
+        sent: Envoyé
+      new:
+        title: Inviter un coéquipier
+    portals:
+      domain_assignment: AFFECTATION DE DOMAINE
+      free_subdomain: Sous-domaine Helpbolic gratuit
+      manage_domains: Gérer les domaines
+      no_custom_domains: Aucun domaine disponible. Ajoutez un domaine personnalisé avant de créer un centre d'aide.
+      subdomain_hint: Choisissez un nom unique pour votre centre d'aide.
+      subdomain_name: Nom du sous-domaine
+      use_custom_domain: Utiliser un domaine personnalisé
+    reports:
+      agent: Agent
+      agent_workload: Charge de travail de l'agent (30 derniers jours)
+      avg_csat: Score CSAT moyen
+      conversations: Conversations traitées
+      conversations_volume: Volume des conversations
+      no_data_desc: Il n’y a aucune conversation assignée pendant cette période.
+      no_data_title: Aucune donnée disponible
+      overview: Aperçu (30 derniers jours)
+      sla_breaches: Violations des SLA
+      total_conversations: Conversations totales
+    shared:
+      are_you_sure: Etes-vous sûr ?
+      cancel: Annuler
+      edit: Modifier
+      save: Enregistrer la connexion Slack
+      update: Mettre à jour la connexion Slack
+  auth:
+    workspace:
+      email_invitation:
+        title: Rejoindre l'espace de travail
+        description: Vous avez été invité à rejoindre une équipe sur Deskbolic
+        members:
+          one: "%{count} Membre actif"
+          other: Membres actifs %{count}
+        join_button: Rejoindre l'espace de travail
+        joining_header: Vous rejoignez
+        workspace_name: Espace de travail
+        form:
+          first_name: Prénom
+          last_name: Nom de famille
+          email: Votre e-mail
+          password: Mot de passe
+          confirm_password: Confirmer le mot de passe
+          submit: Rejoindre
+    email: Courriel
+    password: Mot de passe
+    password_confirmation: Confirmer le mot de passe
+    first_name: Prénom
+    last_name: Nom de famille
+    country: Pays
+    workspace_name: Espace de travail/Nom de l'entreprise
+    currency: Devise
+    currency_hint: Ne peut pas être modifié après l'inscription.
+    default_language: Langue par défaut de l'espace de travail
+    datacenter: Centre de données
+    datacenter_info: Vous recherchez un emplacement de centre de données personnalisé ? Nous proposons des emplacements personnalisés pour certains de nos clients Entreprise. Veuillez noter qu'à des fins de routage et d'authentification globales, les métadonnées du compte principal et des utilisateurs resteront en toute sécurité dans notre base de données européenne principale.
+    datacenters:
+      europe_germany: Europe (Allemagne)
+      europe_germany_desc: Base de données primaire de l'UE
+    next: Suivant
+    back: Retour
+    submit_registration: Créer un compte
+    submitting: Veuillez patienter...
+    login:
+      title: Connectez-vous à votre compte
+      subtitle: Bon retour ! Veuillez entrer vos coordonnées.
+      submit: Connectez-vous
+      remember_me: Souviens-toi de moi
+      forgot_password: Mot de passe oublié ?
+      create_account: Créer un compte
+      resend_confirmation: Vous n'avez pas reçu d'instructions de confirmation ?
+      existing_account: Vous avez déjà un compte ? Se connecter
+    registration:
+      step1_title: Détails de l'utilisateur
+      step2_title: Détails du compte
+      step2_subtitle: Configurez votre espace de travail
+      subtitle: Créez votre nouveau compte
+      setting_up: Configuration de votre compte...
+      marketing_text: Gérez efficacement votre support client.
+    passwords:
+      forgot_title: Vous avez oublié votre mot de passe ?
+      forgot_subtitle: Entrez votre adresse e-mail et nous vous enverrons un lien pour réinitialiser votre mot de passe.
+      send_instructions: Envoyer les instructions de réinitialisation
+      reset_title: Changez votre mot de passe
+      reset_subtitle: Entrez votre nouveau mot de passe ci-dessous.
+      new_password: Nouveau mot de passe
+      confirm_new_password: Confirmer le nouveau mot de passe
+      change_my_password: Changer mon mot de passe
+    confirmations:
+      title: Renvoyer les instructions de confirmation
+      subtitle: Entrez votre adresse e-mail et nous vous renverrons les instructions.
+      resend: Renvoyer les instructions de confirmation
+    unlocks:
+      title: Renvoyer les instructions de déverrouillage
+      subtitle: Entrez votre adresse e-mail pour recevoir les instructions de déverrouillage.
+      resend: Renvoyer les instructions de déverrouillage
+    placeholders:
+      first_name: Jean
+      last_name: Biche
+      email: john@company.com
+      workspace: Acme Corp.
+    select_country: Sélectionnez un pays
+    password_rules:
+      length: Au moins 8 caractères
+      uppercase: Une lettre majuscule
+      number: Un numéro
+      special: Un personnage spécial
+    password_hint: Doit contenir au moins 8 caractères avec un mélange de majuscules, de minuscules, de chiffres et de symboles.
+    current_password: Mot de passe actuel
+    edit_profile:
+      title: Modifier le profil
+      submit: Mise à jour
+    registrations:
+      registered_title: Bienvenue !
+      registered_message: Votre compte a été créé avec succès.
+      back_to_login: Continuer à vous connecter
+  activities:
+    conversation:
+      conversation_resolved: La conversation a été résolue
+      conversation_closed: La conversation était fermée
+      conversation_active: La conversation a été rouverte
+      conversation_snoozed: La conversation a été mise en attente
+      update: Les détails de la conversation ont été mis à jour
+      priority_updated: La priorité a été modifiée
+      label_added: L'étiquette %{label} a été ajoutée
+      label_removed: L'étiquette %{label} a été supprimée
+  audit_logs:
+    actions: Actions
+    actor: Acteur
+    changes: Changements
+    confirm_rollback: Êtes-vous sûr de vouloir restaurer complètement cet objet à son état historique ?
+    confirm_undo: Êtes-vous sûr de vouloir annuler ces modifications spécifiques ?
+    description: Suivez et examinez toutes les activités au sein de votre organisation.
+    empty: Aucun journal d'audit trouvé.
+    event: Événement
+    rollback: Restauration
+    timestamp: Horodatage
+    title: Journaux d'audit
+    undo: Annuler
+  devise:
+    registrations:
+      back_to_login: Retour à la connexion
+      registered_message: Votre compte a été créé avec succès.
+      registered_title: Vérifiez votre boîte de réception !
+  forms:
+    labels:
+      api_key: Clé API
+      assigned_email_template_optional: Modèle d'e-mail attribué (facultatif)
+      business_account_id: Identifiant du compte professionnel
+      business_hours: Heures d'ouverture
+      chat_prompt_whatsapp_widget: Invite de discussion (WhatsApp, Widget)
+      csat_survey: Enquête CSAT
+      custom_reply_template: Modèle de réponse personnalisé
+      default_locale: Paramètres régionaux par défaut
+      default_value: Valeur par défaut
+      description: Descriptif
+      description_helper_text: Description / Texte d'aide
+      email: Courriel
+      enter_app_id: Saisissez l'identifiant de l'application
+      enter_channel_name: Entrez le nom de la chaîne
+      enter_email: Entrez l'e-mail
+      enter_name_of_channel: Entrez le nom de la chaîne
+      enter_name_of_inbox: Entrez le nom de la boîte de réception
+      enter_website_url: Entrez l'URL du site Web
+      feedback_textbox_label: Étiquette de la zone de texte des commentaires
+      field_key: Clé de champ
+      field_label: Libellé du champ
+      form_name: Nom du formulaire
+      form_subtitle: Sous-titre du formulaire
+      form_title: Titre du formulaire
+      full_phone_number: Numéro de téléphone complet
+      help_center_name: Nom du centre d'aide
+      input_type: Type d'entrée
+      max_length: Longueur maximale
+      max_value: Valeur maximale
+      min_length: Longueur minimale
+      min_value: Valeur minimale
+      name: Nom
+      notification_emails_comma_separated: E-mails de notification (séparés par des virgules)
+      outbound_channel: Canal sortant
+      phone_number_id: Identifiant du numéro de téléphone
+      placeholder: Espace réservé
+      portal_subtitle: Sous-titre du portail
+      portal_title_on_the_feedback_page: Titre du portail (sur la page de commentaires)
+      record_type: Type d'enregistrement
+      redirect_url_on_submit_optional: URL de redirection lors de la soumission (facultatif)
+      regex_pattern: Modèle d'expression régulière
+      resource_mapping: Cartographie des ressources
+      secret: Secret
+      select_channel: Sélectionnez la chaîne
+      sla_policies: Politiques SLA
+      submit_button_text: Texte du bouton Soumettre
+      success_message: Message de réussite
+      success_message_key: Clé du message de réussite
+      survey_name: Nom de l'enquête
+      template_name: Nom du modèle
+      template_type: Type de modèle
+    options:
+      a_team: une équipe
+      account_wide: À l’échelle du compte (tous les agents)
+      active: Actif
+      all: TOUS
+      always_online_24_7: Toujours en ligne (24h/24 et 7j/7)
+      an_agent: un agent
+      any: TOUT
+      any_website: N'importe quel site Web
+      back_office_ticket: Billet de back-office
+      center_aligned: Aligné au centre
+      closed: Fermé
+      customer_ticket: Billet client
+      days: Jours
+      default_email_view: Vue de courrier électronique par défaut
+      default_mailer_view: Vue du courrier par défaut
+      default_survey: Enquête par défaut
+      default_system_survey: Enquête sur le système par défaut
+      event_trigger: Déclencheur d'événement
+      formal: Formel
+      fourteen_days: 14 jours
+      high: Élevé
+      hours: Horaires
+      informal: Informel
+      left_aligned: Aligné à gauche
+      let_fin_decide: Laissons Fin décider
+      low: Faible
+      medium: Moyen
+      minutes: Procès-verbal
+      never_always_create_new: Jamais (toujours créer du nouveau)
+      no_email_channel_linked: Aucun canal de messagerie lié
+      no_help_center_linked: Aucun centre d'aide lié
+      no_pre_chat_form_linked: Aucun formulaire de pré-chat lié
+      not_mapped: Non mappé
+      one_hour: 1 heure
+      personal: Personnel (uniquement vous)
+      resolved: Résolu
+      right_aligned: Aligné à droite
+      select_a_channel: Sélectionnez une chaîne
+      select_a_customer: Sélectionnez un client
+      select_a_schedule: Sélectionnez un horaire
+      select_action: Sélectionnez une action...
+      select_agent: Sélectionnez un agent...
+      select_attribute: Sélectionnez l'attribut...
+      select_country_code: Sélectionnez le code du pays
+      select_deskbolic_attribute: Sélectionnez l'attribut Deskbolic
+      select_email_channel: Sélectionnez le canal de messagerie...
+      select_event: Sélectionnez un événement...
+      select_language: Sélectionnez la langue...
+      select_operator: Sélectionnez l'opérateur...
+      select_team: Sélectionnez l'équipe...
+      seven_days: 7 jours
+      snoozed: Répété
+      team: Équipe
+      time_trigger: Déclencheur temporel
+      tracker_ticket: Billet de suivi
+      twelve_hours: 12 heures
+      twenty_four_hours: 24 heures
+      urgent: Urgent
+      use_system_default_design: Utiliser la conception par défaut du système
+  general:
+    activate: Activer
+    add: Ajouter
+    ago: Il y a %{time}
+    assign: Attribuer
+    cancel: Annuler
+    cancel_upload: Annuler le téléchargement
+    coming_soon: Bientôt disponible
+    copy: Copier
+    created_ago: Créé il y a %{time}
+    deactivate: Désactiver
+    delete: Supprimer
+    devices:
+      desktop: Bureau
+      mobile: Mobile
+      tablet: Tablette
+    edit: Modifier
+    minutes_short:
+      one: "%{count} min."
+      other: "%{count} min."
+    none: Aucun
+    remove: Supprimer
+    remove_language: Supprimer la langue
+    remove_option: Supprimer l'option
+    remove_translation: Supprimer la traduction
+    revoke: Révoquer
+    save_changes: Enregistrer les modifications
+    unassign: Annuler l'attribution
+  global:
+    buttons:
+      done: Terminé
+  mailers:
+    system_mailer:
+      forward_email_verification:
+        almost_complete: Votre configuration est presque terminée !
+        ignore_notice: Veuillez ignorer cet e-mail. Il est automatiquement généré par Deskbolic pour vérifier que vos règles de transfert de courrier électronique fonctionnent correctement.
+  notification_settings:
+    browser_push: Notifications push du navigateur
+    browser_push_desc: Activez les notifications push pour recevoir des alertes même lorsque Deskbolic s'exécute en arrière-plan.
+    description: Gérez vos préférences de courrier électronique et de notification push.
+    email: Courriel
+    enable_browser_push: Activer les notifications du navigateur
+    event: Événement
+    push: Pousser
+    title: Paramètres de notification
+  notifications:
+    empty: Vous êtes tous rattrapés !
+    empty_sub: Lorsque vous avez des notifications non lues, elles apparaîtront ici.
+    mark_all_as_read: Marquer tout comme lu
+    mark_read: Marquer comme lu
+    title: Notifications
+    events:
+      conversation_created: Nouvelle conversation créée
+      conversation_assigned: Conversation qui vous est attribuée
+      conversation_resolved: Conversation résolue
+      sla_breached: Alerte de violation du SLA
+      message_created: Nouveau message reçu
+      conversation_mention: Vous avez été mentionné dans une conversation
+      subscription_created: Abonnement activé
+      subscription_renewed: Abonnement renouvelé
+      subscription_cancelled: Abonnement annulé
+      trial_expiring: Votre essai gratuit se termine bientôt
+      payment_failed: Échec du paiement
+      limit_approaching: Vous approchez de la limite de votre forfait
+      limit_reached: Limite du forfait atteinte
+      team_assigned: Conversation attribuée à votre équipe
+    push:
+      conversation_created:
+        title: Nouvelle conversation
+        body: Une nouvelle conversation a été créée dans %{inbox_name}
+      conversation_assigned:
+        title: Conversation attribuée
+        body: 'La conversation #%{identifier} vous a été attribuée'
+      conversation_resolved:
+        title: Conversation résolue
+        body: La conversation n° %{identifier} a été résolue.
+      sla_breached:
+        title: Alerte de violation du SLA
+        body: 'SLA violé pour la conversation #%{identifier}'
+      message_created:
+        title: Nouveau message
+        body: 'Nouveau message dans la conversation #%{identifier}'
+      conversation_mention:
+        title: Mentionné
+        body: 'Vous avez été mentionné dans la conversation #%{identifier}'
+      subscription_created:
+        title: Abonnement activé
+        body: Votre forfait %{plan_name} est maintenant actif
+      subscription_renewed:
+        title: Abonnement renouvelé
+        body: Votre forfait %{plan_name} a été renouvelé
+      subscription_cancelled:
+        title: Abonnement annulé
+        body: Votre abonnement a été annulé
+      trial_expiring:
+        title: L'essai se termine bientôt
+        body: Votre essai gratuit se termine dans %{days} jours
+      payment_failed:
+        title: Échec du paiement
+        body: Nous n'avons pas pu traiter votre paiement. Veuillez mettre à jour votre mode de paiement.
+      limit_approaching:
+        title: Approche de la limite
+        body: Vous êtes à %{percentage}%% de votre limite %{resource}
+      limit_reached:
+        title: Limite atteinte
+        body: Vous avez atteint votre limite %{resource}. Mettez à niveau votre forfait pour continuer.
+      team_assigned:
+        title: Affectation de l'équipe
+        body: La conversation n° %{identifier} a été attribuée à %{team_name}.
+  settings:
+    csat:
+      configuration: Configuration CSAT
+      description: Envoyez automatiquement des sondages aux clients une fois qu'une conversation est résolue.
+      enable_label: Activer les enquêtes CSAT
+      info_text: Lorsqu'il est activé, les clients recevront une invite d'évaluation de manière native dans le widget de chat ou via un lien de courrier électronique une fois que le statut de leur ticket est passé à Résolu.
+      save: Enregistrer les paramètres
+      title: Satisfaction client (CSAT)
+  shared:
+    back: Retour
+    confirm_delete: Êtes-vous sûr de vouloir supprimer cet élément ?
+    delete: Supprimer
+    edit: Modifier
+    error_heading: 'Veuillez corriger les erreurs suivantes :'
+  ui:
+    admin_notification_mailer:
+      workspace_request:
+        email_nbsp: 'Courriel :  '
+        name_nbsp: 'Nom :  '
+        user_nbsp: 'Utilisateur :  '
+        workspace_id_nbsp: 'ID de l''espace de travail :  '
+        workspace_joining_request: Demande d'adhésion à l'espace de travail !
+    conversation_reply_mailer:
+      reply:
+        reply_to_this_email_to_continue_the_conversation: Répondez à cet e-mail pour poursuivre la conversation.
+    dashboard:
+      account_invitations:
+        email_invitation:
+          community_icon: Icône de la communauté
+          deskbolic_logo: Logo Deskbolic
+          email_joining_icon: Icône de connexion par e-mail
+        index:
+          revoke: "\U0001F5D1️ Révoquer"
+        new:
+          an_invitation_email_will_be_sent_to_the_member_with: Un e-mail d'invitation sera envoyé au membre avec les instructions pour rejoindre l'espace de travail.
+          assign_role: Attribuer un rôle
+          choose_a_role_for_this_member: Choisissez un rôle pour ce membre
+          invitation_summary: Résumé des invitations
+          invite_member: Inviter un membre
+          invite_someone_to_join_your_workspace_and_assign_permissions: Invitez quelqu'un à rejoindre votre espace de travail et attribuez des autorisations.
+          invite_team_member: Inviter un membre de l'équipe
+          name_company_com: name@company.com
+          permission_preview: Aperçu des autorisations
+          show_less: Afficher moins
+          this_member_will_receive: 'Ce membre recevra :'
+      account_users:
+        edit:
+          role: Rôle
+          select: Sélectionnez
+        index:
+          all_roles: Tous les rôles
+          edit_role: Modifier le rôle
+          filter_by_role: Filtrer par rôle
+          joined_on: Rejoint le
+          last_active: Dernier actif
+          manage_your_workspace_members_permissions_and_invitations: Gérez les membres, les autorisations et les invitations de votre espace de travail.
+          member_actions: Actions des membres
+          no_matching_members: Aucun membre correspondant
+          remove_member: Supprimer un membre
+          search_members: Rechercher des membres...
+          sort_members: Trier les membres
+          sort_name: 'Trier : Nom'
+          sort_newest: Trier : Les plus récents
+          sort_oldest: 'Trier : Le plus ancien'
+          try_a_different_search_or_role_filter: Essayez une autre recherche ou un autre filtre de rôle.
+      agent:
+        agent_sidebar:
+          ai_agent: Agent IA
+          analyse: Analyser
+          content: Contenu
+          conversation: Conversation
+          custom_answers: Réponses personnalisées
+          deploye: Déployer
+          fin_testing: Test des ailerons
+          guidance: Conseils
+          menu: menus
+          optimize: Optimiser
+          performance: Performances
+          profiles: Profils
+          tags: Balises
+          task: Tâche
+          test: Tester
+          testing: Tests
+          topics_explorer: Explorateur de sujets
+          train: Former
+          workflows: Flux de travail
+        fin_test:
+          add_question: Ajouter une question
+          add_questions: Ajouter des questions
+          answer_rating_is_any: La note de réponse est quelconque
+          answer_status_is_any: Le statut de la réponse est quelconque
+          batch_test_fin_s_answers_to_go_live_with_confidence: Testez par lots les réponses de Fin pour une mise en ligne en toute confiance
+          create_a_new_group: Créer un nouveau groupe
+          generate_from_past_conversations: Générer à partir de conversations passées
+          matthew_attard: Matthieu Attard
+          others: D'autres
+          preview_user: Aperçu de l'utilisateur
+          start_testing_by_adding_questions_for_fin_to_answer: Commencez les tests en ajoutant des questions auxquelles Fin devra répondre
+          testing_as: Test comme
+          there_group_has_no_questions: Ce groupe n'a pas de questions
+          update_a_minute_ago_by: Mis à jour il y a une minute par
+          upload_a_cv: Télécharger un CV
+        guidance:
+          all_guidance_0_100: Tous les conseils (0/100)
+          communication_style: Style de communication
+          context_and_clarification: Contexte et précisions
+          enabled: Activé
+          follow_up_questions_fin_should_ask_to_ensure_accurate_answers: Questions de suivi que Fin devrait poser, pour garantir des réponses précises
+          hallo_ich_bin_fitbot_ich_bin_dein_pers_nlicher_sportassistent: "Bonjour, je suis FitBot ! \U0001F44B Je suis votre assistant sportif personnel. Comment puis-je vous aider ?"
+          handover_and_escalation: Transfert et « escalade »
+          how_to_handle_cases_that_should_be_routed_straight_to: Comment gérer les cas qui doivent être acheminés directement à votre équipe
+          icon: icône
+          message: message...
+          messages: Messages
+          new: Nouveau
+          not_enabled: Non activé
+          specific_vocabulary_and_terminology_fin_should_use: Vocabulaire et terminologie spécifiques que fin devrait utiliser
+        index:
+          choose_formal_or_informal_pronouns_for_all_applicable_languages: Choisissez des pronoms formels ou informels (pour toutes les langues applicables)
+          choose_how_fin_phrases_the_options_it_presents_to_your: Choisissez comment formuler les options qu'il présente à vos clients
+          control_the_language_fin_will_use_to_create_ai_answers: Contrôlez le langage que Fin utilisera pour créer des réponses IA
+          customize_fin_s_profile_picture_and_name_this_identity_will: Personnalisez la photo et le nom du profil de Fin. cette identité sera également utilisée pour les bots dans les workfloes
+          customize_the_reply_buttons_here: Personnalisez les boutons de réponse ici...
+          default_language_english: Langue par défaut (anglais)
+          deskbolic_s_multilingual_support: Support multilingue de Deskbolic
+          deskbolic_s_pronoun_formality: Formalité du pronom de Deskbolic
+          deskbolic_s_reply_buttons: Boutons de réponse de Deskbolic
+          english_default: Anglais (par défaut)
+          fin_s_pronoun_formality: Formalité du pronom de Fin
+          fin_will_automatically_detect_and_reply_to_customer_in_the: Fin détectera automatiquement le client et y répondra dans la langue prise en charge que vous avez ajoutée ci-dessous. Ajouter plus de langue
+          fin_will_follow_the_same_language_style_as_the_user: Fin suivra le même style de langage que l'utilisateur, donc si l'utilisateur « du » ou « tu », alors Fin répondra avec des pronoms informels. si l'utilisateur utilise « Sie » ou « vous ».
+          identity: Identité
+          image: photo
+          multilingual_fin: Fin multilingue
+          real_time_translation: Traduction en temps réel
+          resolves_the_conversation: Résout la conversation
+          routes_the_customer_to_teammates: Achemine le client vers ses coéquipiers
+          supported_languages: Langues prises en charge
+          wed_8_21_am: mer 08h21
+          you_can_pick_what_works_best_for_your_audience_this: Vous pouvez choisir ce qui fonctionne le mieux pour votre public. Cela ne changera pas ce que font les boutons.
+        task:
+          cancel_subscription: Annuler l'abonnement
+          not_designed_yet: Pas encore conçu
+          process_a_refund: Traiter un remboursement
+          tasks: Tâches
+          use_this_when_a_customer_asks_to_cancel_to_subscription: Utilisez-le lorsqu'un client demande à annuler son abonnement.
+          use_this_workflow_to_process_refund_request_from_users_always: Utilisez ce workflow pour traiter les demandes de remboursement des utilisateurs. Donnez toujours la priorité à ce workflow par rapport à toute autre action qui pourrait être disponible.
+        test:
+          48_questions: 48 questions
+          al_agent_while_there_isn_t_a_definitive_cure_for: Al Agent Bien qu'il n'existe pas de remède définitif aux allergies graves, nous pouvons fournir des informations sur les stratégies de gestion à long terme. Les traitements des allergies consistent à éviter les allergènes lorsque cela est possible, à utiliser des médicaments comme des antihistaminiques et des crèmes stéroïdes et, dans certains cas, des médicaments d'urgence en cas de réactions graves. Pour les solutions à long terme, l’immunothérapie a considérablement progressé. Ce traitement consiste à vous exposer soigneusement aux allergènes au fil du temps, aidant ainsi votre corps à développer sa tolérance. Les comprimés sublinguaux personnalisés sont de plus en plus précis et largement disponibles à cet effet. Il est important de noter que l’efficacité des traitements peut varier d’une personne à l’autre. Pour obtenir les conseils les plus appropriés et adaptés à votre situation spécifique, nous vous recommandons fortement de consulter un professionnel de la santé qualifié ou un allergologue. Ils peuvent fournir un plan complet de gestion des allergies basé sur vos besoins et symptômes individuels.
+          allegies_updated: Allégies-Mise à jour
+          allergies_questions_testing: Tests de questions sur les allergies
+          answer_rating: Note de réponse
+          answer_status: Statut de la réponse
+          are_seasonal_allergies_different_from_other_types: Les allergies saisonnières sont-elles différentes des autres types ?
+          arrow: flèche
+          can_allergies_be_life_threatening: Les allergies peuvent-elles mettre la vie en danger ?
+          can_avoiding_allergens_help_reduce_symptoms: Le fait d’éviter les allergènes peut-il aider à réduire les symptômes ?
+          can_children_outgrow_allergies: Les enfants peuvent-ils surmonter les allergies ?
+          can_i_be_allergic_to_more_than_one_thing: Puis-je être allergique à plus d’une chose ?
+          can_i_self_diagnose_an_allergy: Puis-je auto-diagnostiquer une allergie ?
+          content_2: Contenu (2)
+          evaluate_answer: Évaluer la réponse
+          guidance_3: Conseils (3)
+          hay_fever_allergis_in_2025_what_you_need_to_know: 'Rhume des foins Allergis en 2025 : ce qu''il faut savoir.'
+          how_can_i_avoid_allergens_in_daily_life: Comment puis-je éviter les allergènes dans la vie quotidienne ?
+          how_does_desensitisation_help_manage_allergies: Comment la désensibilisation aide-t-elle à gérer les allergies ?
+          is_there_a_cure_or_long_term_solution_for_severe: Existe-t-il un remède ou une solution à long terme pour les allergies graves ?
+          new_role: Nouveau rôle
+          questions: Questions
+          should_i_carry_an_edipen_rf_lye_had_a_severe: Dois-je emporter avec moi une lessive EDIPen rf qui a eu une réaction grave dans le passé ?
+          this_answer_uses: 'Cette réponse utilise :'
+          tick: cocher
+          what_is_an_allergy_management_plan: Qu'est-ce qu'un plan de gestion des allergies ?
+          what_is_hayfever: Qu'est-ce que le rhume des foins
+          what_should_i_tell_my_gp_about_my_symptoms: Que dois-je dire à mon médecin généraliste de mes symptômes ?
+          who_should_administer_immunotherapy: Qui doit administrer l’immunothérapie ?
+        topics:
+          10_highest_volume_topics: 10 sujets les plus volumineux
+          1_306_conversation: 1.306 conversation
+          80_9_cx_score: 80,9 % de score d'expérience client
+          add_filter: Ajouter un filtre
+          conversation_data: Données de conversation
+          fin_agent: Agent Financier
+          fin_features: Caractéristiques des ailerons
+          jun_4_2025_jul_1_2025: 4 juin 2025 - 1 juillet 2025
+          messenger_setup: Configuration de Messenger
+          surveys: Enquêtes
+          topic_explorer: Explorateur de sujets
+        workflow:
+          1_more: 1 de plus
+          ask_if_it_helped: Demandez si cela a aidé
+          ask_the_suer_which_subscription_they_want_to_cancel: Demandez au utilisateur quel abonnement il souhaite annuler
+          cancel_subscription: Annuler l'abonnement
+          channel: Chaîne
+          fin_hands_over: Fin remet la main
+          if_unable_to_complete: Si vous ne parvenez pas à terminer
+          once_complete: Une fois terminé
+          overview: Aperçu
+          path: Chemin
+          path_analysis: Analyse du chemin
+          set_live: Mettre en direct
+          trigger: Déclencheur
+          unable_to_complete: incapable de terminer
+          use_this_when_a_customer_asks_to_cancel_a_subscription: Utilisez-le lorsqu'un client demande d'annuler un abonnement
+          web_and_zendesk_messaging: Messagerie Web et Zendesk
+          workflow: Flux de travail
+      assignment_policies:
+        edit:
+          back_to_policies: "← Retour aux politiques"
+        policy_card:
+          are_you_sure_you_want_to_delete_this_policy: Êtes-vous sûr de vouloir supprimer cette stratégie ?
+          auto_reassign: Réaffectation automatique
+          business_hours: Heures d'ouverture
+          priority_routing: Routage prioritaire
+      automation_executions:
+        index:
+          automation: Automatisation
+          duration: Durée
+          executed_at: Exécuté à
+          ms: "%{time}ms"
+          triggered_by: Déclenché par
+      automations:
+        action_row:
+          e_g_en_fr_de: par ex. en, fr, de
+          enter_message: Entrez le message...
+          hours: Horaires
+        automation:
+          toggle: Basculer
+        condition_group:
+          group_match: Groupe %{value} — Correspondance
+          remove_group: Supprimer le groupe
+          value: Valeur...
+        form:
+          of_the_following_condition_groups: 'des groupes de conditions suivants :'
+      channels:
+        channels:
+          img: img
+          inbox_icon: icône de la boîte de réception
+        contact_form:
+          edit:
+            back_to_contact_forms: "← Retour aux formulaires de contact"
+          form:
+            add_custom_field: Ajouter un champ personnalisé
+            add_field: Ajouter un champ
+            add_language: Ajouter une langue
+            auto_assign_conversations: Attribution automatique des conversations
+            enable_csat_survey: Activer l'enquête CSAT
+            translations: Traductions
+          translation_fields:
+            e_g_contact_support: par ex. Contacter l'assistance
+            e_g_send_message: par ex. Envoyer un message
+            e_g_thanks_for_reaching_out_we_ve_received_your: par ex. Merci d'avoir contacté ! Nous avons reçu votre message.
+            e_g_we_will_reply_as_soon_as_possible: par ex. Nous vous répondrons dans les plus brefs délais
+        contact_form_channel_modal:
+          create_form: Créer un formulaire
+          e_g_sales_inquiry: par ex. Demande de vente
+          require_user_login: Exiger une connexion utilisateur
+          sales_example_com_support_example_com: sales@example.com, support@example.com
+        custom:
+          form:
+            json_path_e_g_data_user_id: Chemin JSON (par exemple data.user.id)
+          index:
+            identifier: 'Identifiant : %{identifier}'
+          instructions:
+            deskbolic_signature: Signature Deskbolic
+            for_example_in_ruby: ". Par exemple en Ruby :"
+            header_using_the_format: en-tête utilisant le format
+            t_timestamp_v1_signature: t={horodatage},v1={signature}
+            to_verify_that_the_request_actually_came_from_deskbolic_we: Pour vérifier que la demande provient bien de Deskbolic, nous signons la charge utile en utilisant votre
+            we_include_this_signature_in_the: ". Nous incluons cette signature dans le"
+            you_must_authenticate_this_request_by_signing_your_json_payload: Vous devez authentifier cette demande en signant votre charge utile JSON avec votre jeton HMAC à l'aide de SHA256. Passez la signature dans le
+            you_should_verify_the_signature_on_your_server_to_prevent: 'Vous devez vérifier la signature sur votre serveur pour empêcher les attaques par relecture et garantir l''authenticité. Par exemple en Ruby :'
+          new:
+            brief_description_of_what_this_channel_connects_to: Brève description de ce à quoi ce canal se connecte
+            e_g_my_internal_dashboard: par ex. Mon tableau de bord interne
+          testing_sandbox:
+            paste_a_sample_json_payload_that_your_server_would_send: Collez un exemple de charge utile JSON que votre serveur enverrait à Deskbolic et voyez comment votre mappage de réponse l'analyse.
+            sends_a_mock_message_created_payload_to_your_configured_webhook: 'Envoie une charge utile simulée <code>message.created</code> à votre URL de Webhook configurée :'
+            use_these_tools_to_verify_that_your_outbound_webhook_url: Utilisez ces outils pour vérifier que votre URL de Webhook sortant reçoit correctement les charges utiles et que votre mappage de réponse analyse avec précision les données entrantes.
+        email:
+          form:
+            support_yourcompany_com: support@yourcompany.com
+        facebook:
+          edit:
+            page_id: 'Identifiant de la page : %{identifier}'
+        instagram:
+          edit:
+            text: "@%{username}"
+        web_widget:
+          form:
+            chat_bubble_icon_launcher: Icône de bulle de discussion (lanceur)
+            custom_branding: Image de marque personnalisée
+            drop_icon_here_or_click_to_upload: Déposez l'icône ici ou cliquez pour télécharger.
+            drop_logo_here_or_click_to_upload: Déposez le logo ici ou cliquez pour télécharger.
+            enforce_secure_identity_hmac: Appliquer une identité sécurisée (HMAC)
+            offline_email_channel: Canal de messagerie hors ligne
+            pre_chat_form: Formulaire de pré-chat
+            widget_header_logo: Logo d’en-tête du widget
+          index:
+            anonymous_allowed: Anonyme autorisé
+            anonymous_restricted: Anonyme restreint
+            contact_form_linked: Formulaire de contact lié
+            help_center_linked: Centre d'aide lié
+          installation:
+            copy: "\U0001F4CB Copie"
+            embed_the_deskbolic_widget_into_your_website_or_web_app: Intégrez le widget Deskbolic dans votre site Web ou votre application Web en plaçant l'extrait suivant juste avant la balise de fermeture <code>&lt;/body&gt;</code>.
+            react_next_js: Réagir / Next.js
+            standard_html: HTML standard
+          preview:
+            live_preview: Aperçu en direct
+            see_how_your_widget_will_appear_to_customers: Découvrez comment votre widget apparaîtra aux clients.
+          translation_fields:
+            launcher_text: Texte du lanceur
+            pre_chat_subtitle: Sous-titre avant le chat
+            pre_chat_title: Titre du pré-chat
+            reply_time_text: Texte de l'heure de réponse
+        whatsapp:
+          edit:
+            phone: 'Téléphone : %{full_phone_number}'
+            waba: "(WABA : %{business_account_id})"
+          new:
+            e_g_234567890: par exemple, 234567890
+      confirmations:
+        new:
+          you_example_com: you@example.com
+      conversations:
+        agent_info:
+          avatar: avatar
+          unassigned: non attribué
+        conversation_details:
+          cancel: annuler
+          chat: discuter
+        labels_info:
+          manage_labels: Gérer les étiquettes
+        snooz_conv_modal:
+          snooze_conversation: Mettre en attente une conversation
+      csat_surveys:
+        form:
+          basic_configuration: Configuration de base
+          localized_content: Contenu localisé
+          save_survey: Enregistrer l'enquête
+          saved_to_your_default_language_english_as_a_fallback: Enregistré dans votre langue par défaut (anglais) comme solution de secours.
+          the_question_asked_in_chat_channels_emails_use_the_assigned: La question posée dans les canaux de discussion. Les e-mails utilisent le modèle d'e-mail attribué.
+      custom_fields:
+        edit:
+          back_to_custom_fields: "← Retour aux champs personnalisés"
+        form:
+          e_g_company_size: par ex. taille_entreprise
+          field_is_required: Le champ est obligatoire
+          hidden_from_ui: Masqué de l'interface utilisateur
+          read_only_agents_cannot_edit: Lecture seule (les agents ne peuvent pas modifier)
+          save_custom_field: Enregistrer le champ personnalisé
+          searchable: Consultable
+          validations_rules: Validations et règles
+        index:
+          create_new_field: "+ Créer un nouveau champ"
+          create_your_first_custom_field_to_start_tracking_rich_customer: Créez votre premier champ personnalisé pour commencer à suivre des données client riches.
+          created_ago: Créé il y a %{date}
+          input_type: 'Type d''entrée : %{titleize}'
+          master_data_attributes_for_personalized_customer_experiences: Attributs de données de base pour des expériences client personnalisées.
+          no_custom_fields_found: Aucun champ personnalisé trouvé
+        translation_fields:
+          add_option: "+ Ajouter une option"
+          e_g_1_10_employees: par ex. 1 à 10 employés
+      custom_fields_builder:
+        show:
+          back_to_channels: Retour aux chaînes
+          drag_and_drop_fields_to_reorder_or_add_them_to: Faites glisser et déposez les champs pour les réorganiser ou les ajouter à votre formulaire de contact.
+          form_builder: 'Générateur de formulaires : %{name}'
+          no_fields_added_yet_add_fields_from_the_right_to: Aucun champ ajouté pour l'instant. Ajoutez des champs à droite pour les ajouter.
+      domains:
+        index:
+          add: ajouter
+          delete: supprimer
+          edit: modifier
+          verify: vérifier
+      email_templates:
+        edit:
+          text: "{{%{grp}.%{prop}}}"
+          text_2: "{{%{grp}}}"
+        index:
+          are_you_sure_you_want_to_delete_this_template: Êtes-vous sûr de vouloir supprimer ce modèle ?
+        new:
+          create_template: Créer un modèle
+          e_g_my_custom_reply: par ex. Ma réponse personnalisée
+      help_center:
+        articles:
+          index:
+            clear: clair
+            clear_search: Effacer la recherche
+        help_center_sidebar:
+          all_articles: tous les articles
+          all_articles_2: Tous les articles
+          articles: ARTICLES
+          collections: COLLECTIONS
+          collections_2: collections
+          draft: brouillon
+          published: publié
+          published_2: Publié
+          settings: paramètres
+        portals:
+          edit:
+            appearance_settings: PARAMÈTRES D'APPARENCE
+            basic_information: INFORMATIONS DE BASE
+            category_layout: Disposition des catégories
+            default: Par défaut
+            domain_assignment: AFFECTATION DE DOMAINE
+            edit_help_center: Modifier le centre d'aide
+            hero_style: Style de héros
+            languages: LANGUES
+            manage_domains: Gérer les domaines
+            no_available_domains_add_a_subdomain_or_custom_domain_before: Aucun domaine disponible. Ajoutez un sous-domaine ou un domaine personnalisé avant de créer un centre d'aide.
+            png_jpg_or_svg_up_to_5mb: PNG, JPG ou SVG jusqu'à 5 Mo.
+            primary_color: Couleur primaire
+            secondary_color: Couleur secondaire
+            the_public_facing_name_internal_id_will_be_generated_automatically: Le nom destiné au public. L’ID interne sera généré automatiquement.
+            theme_preference: Préférence de thème
+            update_branding_appearance_languages_and_domain_settings_for_this_help: Mettez à jour les paramètres de marque, d'apparence, de langues et de domaine pour ce centre d'aide.
+            update_help_center: Mettre à jour le centre d'aide
+            x: x
+          index:
+            create_a_help_center_to_configure_branding_languages_and_its: Créez un centre d'aide pour configurer la marque, les langues et son domaine public.
+            create_help_center: Créer un centre d'aide
+            manage_the_help_centers_created_for_this_workspace: Gérez les centres d'aide créés pour cet espace de travail.
+            no_help_centers_yet: Aucun centre d'aide pour l'instant
+      identity_sources:
+        form:
+          https_api_example_com_identities_customer_email: https://api.example.com/identities/{{ customer.email }}
+      integrations:
+        index:
+          google_translate: Google Traduction
+          webhooks: Webhooks
+        webhook_form:
+          when_subscribed_events_occur_deskbolic_will_send_an_http_post: Lorsque des événements souscrits se produisent, Deskbolic enverra une requête HTTP POST à votre
+      macros:
+        edit:
+          add_action: "+ Ajouter une action"
+          save_macro: Enregistrer la macro
+        index:
+          account_wide: À l'échelle du compte
+          action_s:
+            one: Action %{count}
+            other: Actions %{count}
+          personal: Personnel
+      notifications:
+        index:
+          close: fermer
+        list:
+          loading_more_notifications: Chargement de plus de notifications...
+      pages:
+        community_forum:
+          deskbolic_community_forum: Forum communautaire Deskbolic
+          your_account: Votre compte
+        help_center:
+          deskbolic_help_center: Centre d'aide Deskbolic
+        service_terms:
+          deskbolic_terms_and_policies: Conditions et politiques de Deskbolic
+      popup:
+        canned_response_modal:
+          create_a_new_reply: Créer une nouvelle réponse
+        email_channel_modal:
+          email_channel: Canal de messagerie
+        email_conv_modal:
+          new_conversation: Nouvelle conversation
+          to: À
+        email_inbox_modal:
+          create_inbox: Créer une boîte de réception
+          email_inbox: Boîte de réception e-mail
+        invite_teammate_modal:
+          invite_a_teammates_to_help: Inviter un coéquipier à vous aider
+        messenger_channel_modal:
+          messenger_channel: Chaîne de messagerie
+        messenger_inbox_modal:
+          messenger_inbox: Boîte de réception Messenger
+        schedule_modal:
+          set_schedule: Définir le calendrier
+        search_ticket_modal:
+          api_integration: Intégration API
+          create_new_ticket_type: Créer un nouveau type de billet
+          ticket_type_not_found: Type de billet introuvable
+        suggested_ticket_modal:
+          create_ticket: Créer un ticket
+          line: Ligne
+          messenger: Messager
+          sms: SMS
+          telegram: Télégramme
+          twilio: Twilio
+          twitter: Twitter
+          whatsapp: WhatsApp
+        team_inbox_modal:
+          add_member: Ajouter un membre
+          new_team_inbox: Boîte de réception de la nouvelle équipe
+          size_exceeded: taille dépassée
+        ticket_modal:
+          add_customer: Ajouter un client
+        topic_questions_modal:
+          generate_more_by_topic: Générer davantage par sujet
+          generate_more_questions_from_your_inbox_using_the_selected_topic: Générez plus de questions depuis votre boîte de réception en utilisant le sujet sélectionné, En savoir plus
+        whatsapp_channel_modal:
+          api_key: clé API
+          business_account_id: identifiant de compte professionnel
+          phone_number_id: identifiant du numéro de téléphone
+          whatsapp_channel: Chaîne WhatsApp
+        widget_channel_modal:
+          widget_channel: Chaîne de widgets
+      profile:
+        index:
+          change_avatar: Changer d'avatar
+          profile_avatar: avatar de profil
+      registrations:
+        new:
+          background: Contexte
+          graphic: Graphique
+      reports:
+        index:
+          conversations: conversation
+          csat: csat
+          sla_breaches: violations des ANS
+      roles:
+        form:
+          e_g_billing_manager: par exemple, le gestionnaire de facturation
+          permissions: Autorisations
+          resource: Ressource
+      sessions:
+        new:
+          user_remember_me: utilisateur[remember_me]
+      settings:
+        api_keys:
+          index:
+            text: "%{token}"
+        messenger:
+          angular: Angular
+          choose_how_to_install_the_messenger: Choisissez comment installer le messager
+          code_snipet: Extrait de code
+          configure_your_code_snippet: Configurez votre extrait de code
+          ember: Ember
+          for_users_with_logins: Pour les utilisateurs disposant de connexions
+          for_website_visitors_logins: Pour les connexions des visiteurs du site Web
+          google_tag_manager: Gestionnaire de balises Google
+          install: Installer
+          install_for_mobile: Installer pour mobile
+          install_for_web: Installer pour le Web
+          install_the_messenger_for_anonymous_website_visitors_who_are_t: installez le messager pour les visiteurs anonymes du site Web qui ne sont pas connectés. La conversation sera enregistrée dans le navigateur via un cookie
+          install_the_messenger_for_logged_in_users_the_messenger_will: installez le messager pour les utilisateurs connectés. Le messager affichera des informations telles que les noms des clients et les conversations précédentes sur tous les appareils.
+          install_the_messenger_on_your_site_or_app: Installez le messager sur votre site ou votre application
+          invite_teammates: Invitez des coéquipiers.
+          mobile_sdks: SDK mobiles
+          need_help_ask_a_teammate_like_an_engineer_to_complete: Besoin d'aide ? Demandez à un coéquipier, comme un ingénieur, de terminer l'installation,
+          react: React
+          segment: Segment
+          shopify: Shopify
+          the_messenger_helps_you_support_your_customers_and_learn_more: Le messager vous aide à soutenir vos clients et à en savoir plus sur eux.
+          turn_on_user_traffic_to_start_accepting_user_request_from: Activez le trafic utilisateur pour commencer à accepter les demandes des utilisateurs de votre messagerie. Faites-le avant d'installer le messager pour éviter l'échec de la demande
+          vue: Vue
+          web: Web
+          wordpress: Wordpress
+        office_timings:
+          slim:
+            default_office_hours: Horaires de bureau par défaut
+            friday: vendredi
+            from: De
+            monday: Lundi
+            office_hours: Horaires de bureau
+            saturday: samedi
+            sunday: dimanche
+            these_apply_to_all_conversations_in_your_workspace: Celles-ci s'appliquent à toutes les conversations de votre espace de travail.
+            thursday: jeudi
+            tuesday: mardi
+            wednesday: mercredi
+        settings_sidebar:
+          custom_channels: Canaux personnalisés
+          developer_api_keys: Clés API du développeur
+        team_inboxes:
+          add_new_inbox: Ajouter une nouvelle boîte de réception
+          complete_access: Accès complet
+          delete_team_inbox: Supprimer la boîte de réception de l'équipe
+          jd: JD
+          john_doe: John Doe
+          new_team_member: Nouveau membre de l'équipe
+          permission: Autorisation
+          record: enregistrer
+          team_inboxes: Boîtes de réception des équipes
+          user: Utilisateur
+      shared:
+        dashboard_container:
+          dashboard_logo: logo du tableau de bord
+          help_desk_community_forum: Forum communautaire « Helpdesk »
+          help_desk_help_center: Centre d'aide « Helpdesk »
+          login: Connexion
+          login_here: connectez-vous ici
+          notifications: avis
+          sign_out: Se déconnecter
+          switch_account: Changer de compte
+          terms_policies: Conditions et politiques
+        inbox_container:
+          10_day: 10 jours
+          all_messages: Tous les messages
+          projectflow_pro: ProjetFlow Pro
+          scdbe_fnjw_fhbwj: scdbe fnjw fhbwj
+      skills:
+        edit:
+          back_to_skills: "← Retour aux compétences"
+      sla_policies:
+        form:
+          e_g_15: par exemple, 15
+  domains:
+    statuses:
+      domain_type:
+        subdomain: Sous-domaine
+        custom: Personnalisé
+  enums:
+    account_user:
+      availability:
+        online: En ligne
+        offline: Hors ligne
+    conversation:
+      priority:
+        low: Faible
+        medium: Moyen
+        high: Élevé
+        urgent: Urgent
+      status:
+        active: Actif
+        closed: Fermé
+        snoozed: Répété
+        resolved: Résolu
+    email_template:
+      template_type:
+        conversation_reply: Réponse à la conversation
+        csat_survey: Enquête CSAT
+    help_center:
+      visibility:
+        everyone: Tout le monde
+        unlisted: Non répertorié
+        internal: Interne
+    user:
+      status:
+        active: Actif

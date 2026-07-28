@@ -2,8 +2,8 @@
   .macro-container
     .macro-header
       .macro-title
-        = image_tag("gold_star.png", class:"macro-icon", alt:"menu")
+        = image_tag("gold_star.png", class:"macro-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
         h3.f-semi-24 = response.name
       = link_to edit_canned_response_path(response), data: { turbo_frame: "response_#{response.id}" }, class: "btn btn--light" do
-        = inline_svg_tag("pencil_edit.svg", class:"edit-icon", alt:"menu")
+        = inline_svg_tag("pencil_edit.svg", class:"edit-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
     p.f-reg-14 = response.description

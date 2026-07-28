@@ -1,18 +1,18 @@
 div.ap-subscription-page
   div.ap-subscription-container data-controller="billing-toggle"
     div.ap-subscription-header
-      h2.f-semi-24.ap-subscription-title = I18n.t("dashboard.billing.choose_plan", default: "Choose Your Plan")
-      p.f-reg-16.ap-subscription-subtitle = I18n.t("dashboard.billing.choose_plan_subtitle", default: "Select the perfect plan to get started with your workspace.")
+      h2.f-semi-24.ap-subscription-title = I18n.t("dashboard.billing.choose_plan")
+      p.f-reg-16.ap-subscription-subtitle = I18n.t("dashboard.billing.choose_plan_subtitle")
 
     / Billing cycle toggle
     .ap-billing-cycle-toggle.ap-subscription-cycle-toggle
-      span.f-semi-14.ap-billing-cycle-label.ap-billing-cycle-active data-billing-toggle-target="monthlyLabel" = I18n.t("dashboard.billing.monthly_label", default: "Monthly")
+      span.f-semi-14.ap-billing-cycle-label.ap-billing-cycle-active data-billing-toggle-target="monthlyLabel" = I18n.t("dashboard.billing.monthly_label")
       label.ap-billing-toggle-switch
         input type="checkbox" data-billing-toggle-target="toggle" data-action="change->billing-toggle#toggle"
         span.ap-billing-toggle-slider
       span.f-semi-14.ap-billing-cycle-label data-billing-toggle-target="yearlyLabel"
-        = I18n.t("dashboard.billing.yearly", default: "Yearly")
-        span.ap-billing-save-badge = I18n.t("dashboard.billing.save_percent", default: "Save ~11%")
+        = I18n.t("dashboard.billing.yearly")
+        span.ap-billing-save-badge = I18n.t("dashboard.billing.save_percent")
 
     .ap-subscription-grid
       - @available_plans.each do |plan|
@@ -22,17 +22,17 @@ div.ap-subscription-page
               h3.f-semi-20.ap-subscription-plan-name = plan.display_name
               - if plan.trial_days.positive?
                 span.ap-strategy-badge.ap-subscription-trial-badge
-                  = I18n.t("dashboard.billing.day_trial", days: plan.trial_days, default: "%{days} Day Trial")
+                  = I18n.t("dashboard.billing.day_trial", days: plan.trial_days)
                   
             .ap-subscription-price-row
               span.f-semi-24.ap-subscription-price data-billing-toggle-target="price" data-monthly-price=plan.base_price data-annual-price=plan.annual_price data-currency=plan.currency.upcase
                 = number_to_currency(plan.base_price, unit: plan.currency.upcase + " ")
               span.f-semi-14.ap-subscription-period data-billing-toggle-target="period"
-                = I18n.t("dashboard.billing.per_month", default: "/mo")
+                = I18n.t("dashboard.billing.per_month")
               
             - if plan.annual_price.positive? && plan.base_price.positive?
               p.f-reg-12.ap-subscription-annual-note data-billing-toggle-target="annualNote" style="display: none; color: var(--ap-text-muted); margin-top: 4px;"
-                = I18n.t("dashboard.billing.billed_annually_at", amount: number_to_currency(plan.annual_price * 12, unit: plan.currency.upcase + " "), default: "Billed annually at %{amount}")
+                = I18n.t("dashboard.billing.billed_annually_at", amount: number_to_currency(plan.annual_price * 12, unit: plan.currency.upcase + " "))
 
             p.f-reg-14.ap-subscription-desc
               = plan.description
@@ -43,7 +43,7 @@ div.ap-subscription-page
                   svg.ap-subscription-feature-icon aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
                     path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"
                   span.f-reg-14.ap-subscription-feature-text
-                    = I18n.t("dashboard.billing.minimum_seats_required", count: plan.min_users, default: "Minimum %{count} seats required")
+                    = I18n.t("dashboard.billing.minimum_seats_required", count: plan.min_users)
 
           div.ap-subscription-footer
             = form_with url: subscriptions_path, method: :post do |f|
@@ -51,8 +51,8 @@ div.ap-subscription-page
               = f.hidden_field :billing_cycle, value: "monthly", class: "billing-cycle-field", data: { billing_toggle_target: "cycleField" }
               
               div.ap-subscription-form-group
-                = f.label :quantity, I18n.t("dashboard.billing.number_of_seats", default: "Number of Seats"), class: "f-semi-14 ap-subscription-label"
+                = f.label :quantity, I18n.t("dashboard.billing.number_of_seats"), class: "f-semi-14 ap-subscription-label"
                 - max_seats_val = plan.unlimited?(:users_max) ? nil : plan.max_users
                 = f.number_field :quantity, value: [plan.min_users, 1].max, min: [plan.min_users, 1].max, max: max_seats_val, class: "ap-input", style: "width: 100%;"
                   
-              = f.submit I18n.t("dashboard.billing.select_plan", default: "Select Plan"), class: "ap-btn-primary ap-subscription-submit"
+              = f.submit I18n.t("dashboard.billing.select_plan"), class: "ap-btn-primary ap-subscription-submit"

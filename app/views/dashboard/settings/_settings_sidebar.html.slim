@@ -18,7 +18,7 @@
                 = link_to(reports_path, class: "nav-link", data: { turbo: false }) do
                   .link-text
                     .conversation-name.inbox-conv
-                      p.f-reg-14 = t('dashboard.sidebar.reports', default: 'Reports')
+                      p.f-reg-14 = t('dashboard.sidebar.reports')
             li.nav-item class="#{current_page == 'domains' ? 'st-list-active' : ''}" data-action="click->accordion#toggle"
               .nav-link
                 = link_to(domains_path, class: "nav-link") do
@@ -72,7 +72,7 @@
             li.nav-item class="" data-action="click->accordion#toggle"
               .nav-link
                 .link-text.conversation-padding
-                  = inline_svg_tag("arrow_down.svg", class:"st-dropdown-icon", alt:"menu")
+                  = inline_svg_tag("arrow_down.svg", class:"st-dropdown-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
                   p.f-reg-14 = t('dashboard.sidebar.settings.help_center')
             .st-panel data-accordion-target="panel"
               ul.chats
@@ -95,7 +95,7 @@
             li.nav-item class="" data-action="click->accordion#toggle"
               .nav-link
                 .link-text.conversation-padding
-                  = inline_svg_tag("arrow_down.svg", class:"st-dropdown-icon", alt:"menu")
+                  = inline_svg_tag("arrow_down.svg", class:"st-dropdown-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
                   p.f-reg-14 = t('dashboard.sidebar.settings.channels')
             .st-panel data-accordion-target="panel"
               ul.chats
@@ -146,13 +146,13 @@
                     .link-text
                       .conversation-name.inbox-conv
                         p.f-reg-12
-                          | Custom Channels
+                          | #{t("ui.dashboard.settings.settings_sidebar.custom_channels")}
                           = plan_upgrade_bubble('channels.custom')
             / data
             li.nav-item class="" data-action="click->accordion#toggle"
               .nav-link
                 .link-text.conversation-padding
-                  = inline_svg_tag("arrow_down.svg", class:"st-dropdown-icon", alt:"menu")
+                  = inline_svg_tag("arrow_down.svg", class:"st-dropdown-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
                   p.f-reg-14 = t('dashboard.sidebar.settings.data')
             .st-panel data-accordion-target="panel"
               ul.chats
@@ -213,7 +213,7 @@
                   = link_to(labels_path, class: "nav-link") do
                     .link-text
                       .conversation-name.inbox-conv
-                        p.f-reg-12 = t('dashboard.sidebar.settings.labels', default: "Labels")
+                        p.f-reg-12 = t('dashboard.sidebar.settings.labels')
                 li.nav-item class="#{current_page == 'macros' ? 'st-list-active' : ''}"
                   = link_to(macros_path, class: "nav-link") do
                     .link-text
@@ -242,7 +242,7 @@
                   .link-text
                     .conversation-name.inbox-conv
                       p.f-reg-14
-                        | Developer API Keys
+                        | #{t("ui.dashboard.settings.settings_sidebar.developer_api_keys")}
                         = plan_upgrade_bubble(:api_access)
                         
             - if policy(:integration).index?
@@ -251,7 +251,7 @@
                   = link_to(integrations_path, class: "nav-link") do
                     .link-text
                       .conversation-name.inbox-conv
-                        p.f-reg-14 = t('dashboard.sidebar.settings.integrations', default: 'Integrations')
+                        p.f-reg-14 = t('dashboard.sidebar.settings.integrations')
 
     .helpdesk-body.settings-body
       turbo-frame#conversations-frame[data-turbo-permanent]

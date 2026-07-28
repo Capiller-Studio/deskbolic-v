@@ -2,7 +2,7 @@
   - is_system = custom_field.system_provided?
   - if custom_field.errors.any?
     .ui-error-summary
-      h3 = t("dashboard.custom_fields.form.error_heading", default: "Please fix the following errors:")
+      h3 = t("dashboard.custom_fields.form.error_heading")
       ul
         - custom_field.errors.full_messages.each do |message|
           li = message
@@ -11,38 +11,38 @@
     .ui-section-header
       .ui-section-title
         span.ui-section-icon ⚙️
-        span.ui-section-label Basic Configuration
+        span.ui-section-label = t("ui.dashboard.csat_surveys.form.basic_configuration")
     .ui-section-body
       .ui-form-row
         div
-          = f.label :key, "Field Key", class: "ui-label"
-          = f.text_field :key, class: "ui-input", placeholder: "e.g. company_size", disabled: custom_field.persisted?
+          = f.label :key, t("forms.labels.field_key"), class: "ui-label"
+          = f.text_field :key, class: "ui-input", placeholder: t("ui.dashboard.custom_fields.form.e_g_company_size"), disabled: custom_field.persisted?
           p.f-reg-12.text-muted style="margin-top: 4px;" The unique identifier for this field.
         
         div
-          = f.label :entity_type, "Record Type", class: "ui-label"
+          = f.label :entity_type, t("forms.labels.record_type"), class: "ui-label"
           = f.select :entity_type, CustomField.entity_types.keys.map { |k| [k.titleize, k] }, {}, class: "ui-select", disabled: custom_field.persisted?, data: { "custom-field-form-target": "entityType", action: "change->custom-field-form#filterMappings" }
 
       .ui-form-row style="margin-top: 16px;"
         div
-          = f.label :field_type, "Input Type", class: "ui-label"
+          = f.label :field_type, t("forms.labels.input_type"), class: "ui-label"
           = f.select :field_type, CustomField.field_types.keys.map { |k| [k.titleize, k] }, {}, class: "ui-select", id: "custom_field_field_type_select", data: { action: "change->custom-field-options#checkFieldType" }, disabled: custom_field.persisted?
         div
-          = f.label :mapped_to, "Resource Mapping", class: "ui-label"
-          = f.select :mapped_to, CustomField::MAPPING_TARGETS.map { |k| [k, k] }, { include_blank: "Not Mapped" }, class: "ui-select", disabled: custom_field.persisted?, data: { "custom-field-form-target": "mappedTo" }
+          = f.label :mapped_to, t("forms.labels.resource_mapping"), class: "ui-label"
+          = f.select :mapped_to, CustomField::MAPPING_TARGETS.map { |k| [k, k] }, { include_blank: t("forms.options.not_mapped") }, class: "ui-select", disabled: custom_field.persisted?, data: { "custom-field-form-target": "mappedTo" }
           p.f-reg-12.text-muted style="margin-top: 4px;" Map this field's value to a core Deskbolic attribute.
 
       .ui-form-row style="margin-top: 16px;"
         div
-          = f.label :default_value, "Default Value", class: "ui-label"
-          = f.text_field :default_value, class: "ui-input", placeholder: "Optional default value..."
+          = f.label :default_value, t("forms.labels.default_value"), class: "ui-label"
+          = f.text_field :default_value, class: "ui-input", placeholder: t("dashboard.custom_fields.form.default_value_placeholder")
         div
 
   .ui-section.ui-section--always-open
     .ui-section-header
       .ui-section-title
         span.ui-section-icon 🌐
-        span.ui-section-label Localized Content
+        span.ui-section-label = t("ui.dashboard.csat_surveys.form.localized_content")
     .ui-section-body
       div data-controller="nested-translations"
         p.text-muted style="margin-bottom: 16px; font-size: 13px;" Provide localized strings for your custom field. These will override the default locale based on the customer's browser.
@@ -57,66 +57,66 @@
         
         - current_locales = custom_field.translations.reject(&:marked_for_destruction?).map(&:locale).map(&:to_s)
         - available_locales = Core::SUPPORTED_LOCALES.map(&:to_s) - current_locales
-        - available_locales_options = available_locales.map { |l| [I18n.t("languages.#{l.downcase}", default: l.upcase), l] }
+        - available_locales_options = available_locales.map { |l| [I18n.t("languages.#{l.downcase}"), l] }
         
         .cf-add-locale-wrapper style="margin-top: 16px; display: flex; gap: 8px; align-items: center;"
-          = select_tag "new_locale", options_for_select(available_locales_options), include_blank: "Select Language...", class: "ui-select", data: { "nested-translations-target": "localeSelect" }, style: "width: 200px;"
+          = select_tag "new_locale", options_for_select(available_locales_options), include_blank: t("forms.options.select_language"), class: "ui-select", data: { "nested-translations-target": "localeSelect" }, style: "width: 200px;"
           button.ui-btn-secondary type="button" data-action="click->nested-translations#addTranslation" style="display: inline-flex; align-items: center; gap: 6px;" 
             span +
-            | Add Language
+            | #{t("ui.dashboard.channels.contact_form.form.add_language")}
 
   .ui-section.ui-section--always-open
     .ui-section-header
       .ui-section-title
         span.ui-section-icon 🛡️
-        span.ui-section-label Validations & Rules
+        span.ui-section-label = t("ui.dashboard.custom_fields.form.validations_rules")
     .ui-section-body
       .ui-toggle-row style="margin-bottom: 12px; display: flex; gap: 24px; flex-wrap: wrap;"
         div style="display: flex; align-items: center; gap: 8px;"
-          span.ui-toggle-label Field is Required
+          span.ui-toggle-label = t("ui.dashboard.custom_fields.form.field_is_required")
           label.ui-toggle
             = f.check_box :required
             span.ui-toggle-slider
             
         div style="display: flex; align-items: center; gap: 8px;"
-          span.ui-toggle-label Searchable
+          span.ui-toggle-label = t("ui.dashboard.custom_fields.form.searchable")
           label.ui-toggle
             = f.check_box :searchable
             span.ui-toggle-slider
 
         div style="display: flex; align-items: center; gap: 8px;"
-          span.ui-toggle-label Read-Only (Agents cannot edit)
+          span.ui-toggle-label = t("ui.dashboard.custom_fields.form.read_only_agents_cannot_edit")
           label.ui-toggle
             = f.check_box :is_readonly
             span.ui-toggle-slider
 
         div style="display: flex; align-items: center; gap: 8px;"
-          span.ui-toggle-label Hidden from UI
+          span.ui-toggle-label = t("ui.dashboard.custom_fields.form.hidden_from_ui")
           label.ui-toggle
             = f.check_box :hidden
             span.ui-toggle-slider
 
       .ui-form-row style="margin-top: 16px;" data-controller="custom-field-validations"
         div data-custom-field-validations-target="textGroup"
-          = f.label :validations_min_length, "Min Length", class: "ui-label"
+          = f.label :validations_min_length, t("forms.labels.min_length"), class: "ui-label"
           = text_field_tag "custom_field[validations][min_length]", custom_field.validations["min_length"], class: "ui-input", type: "number"
         
         div data-custom-field-validations-target="textGroup"
-          = f.label :validations_max_length, "Max Length", class: "ui-label"
+          = f.label :validations_max_length, t("forms.labels.max_length"), class: "ui-label"
           = text_field_tag "custom_field[validations][max_length]", custom_field.validations["max_length"], class: "ui-input", type: "number"
 
         div data-custom-field-validations-target="textGroup"
-          = f.label :validations_pattern, "Regex Pattern", class: "ui-label"
-          = text_field_tag "custom_field[validations][pattern]", custom_field.validations["pattern"], class: "ui-input", placeholder: "^[A-Z]"
+          = f.label :validations_pattern, t("forms.labels.regex_pattern"), class: "ui-label"
+          = text_field_tag "custom_field[validations][pattern]", custom_field.validations["pattern"], class: "ui-input", placeholder: t("dashboard.custom_fields.form.validations_pattern_placeholder")
 
         div data-custom-field-validations-target="numberGroup" style="display: none;"
-          = f.label :validations_min_value, "Min Value", class: "ui-label"
+          = f.label :validations_min_value, t("forms.labels.min_value"), class: "ui-label"
           = text_field_tag "custom_field[validations][min_value]", custom_field.validations["min_value"], class: "ui-input", type: "number"
         
         div data-custom-field-validations-target="numberGroup" style="display: none;"
-          = f.label :validations_max_value, "Max Value", class: "ui-label"
+          = f.label :validations_max_value, t("forms.labels.max_value"), class: "ui-label"
           = text_field_tag "custom_field[validations][max_value]", custom_field.validations["max_value"], class: "ui-input", type: "number"
 
   .ui-form-actions style="margin-top: 24px;"
-    = f.submit "Save Custom Field", class: "ui-btn-primary"
-    = link_to "Cancel", custom_fields_path, class: "ui-btn-secondary"
+    = f.submit t("ui.dashboard.custom_fields.form.save_custom_field"), class: "ui-btn-primary"
+    = link_to t("dashboard.teams.form.cancel"), custom_fields_path, class: "ui-btn-secondary"

@@ -2,7 +2,7 @@
   = render("dashboard/agent/agent_sidebar", current_page: "agent-test") do
     .agent-body-section.agent-task-body
       .agent-header.agent-task-header
-        h2.f-semi-18 Tasks
+        h2.f-semi-18 = t("ui.dashboard.agent.task.tasks")
       .agent-body.agent-task-container
         ul.agent-configs-list  data-controller="accordion modal-toggler frame-toggler"
           .configs-nav-menu
@@ -10,24 +10,24 @@
               li.config-nav-item class="" data-action="click->accordion#toggle"
                 .config-nav-link
                   .link-text
-                    = inline_svg_tag("setting_button.svg", class:"link-icon avatar", alt:"menu")
+                    = inline_svg_tag("setting_button.svg", class:"link-icon avatar", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
                     .left
-                      p.f-semi-14 Process a refund
-                      p.f-reg-12 Use this workflow to process refund request from users, Always prioritize this workflow over any other action that might be available
-                    = inline_svg_tag("arrow_down.svg", class:"team-dropdown-icon", alt:"menu")
+                      p.f-semi-14 = t("ui.dashboard.agent.task.process_a_refund")
+                      p.f-reg-12 = t("ui.dashboard.agent.task.use_this_workflow_to_process_refund_request_from_users_always")
+                    = inline_svg_tag("arrow_down.svg", class:"team-dropdown-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
               .config-panel.panel data-accordion-target="panel"
                 .config-body
-                  .f-semi-12 Not designed yet
+                  .f-semi-12 = t("ui.dashboard.agent.task.not_designed_yet")
             
             .config-item
               li.config-nav-item class="" data-action="click->accordion#toggle"
                 .config-nav-link
                   .link-text
-                    = inline_svg_tag("setting_button.svg", class:"link-icon avatar", alt:"menu")
+                    = inline_svg_tag("setting_button.svg", class:"link-icon avatar", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
                     .left
-                      p.f-semi-14 Cancel subscription
-                      p.f-reg-12 Use this when a customer asks to cancel to subscription.
-                    = inline_svg_tag("arrow_down.svg", class:"team-dropdown-icon", alt:"menu")
+                      p.f-semi-14 = t("ui.dashboard.agent.task.cancel_subscription")
+                      p.f-reg-12 = t("ui.dashboard.agent.task.use_this_when_a_customer_asks_to_cancel_to_subscription")
+                    = inline_svg_tag("arrow_down.svg", class:"team-dropdown-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
               .config-panel.panel data-accordion-target="panel"
                 .config-body.replies-body
-                  .f-semi-12 Not designed yet
+                  .f-semi-12 = t("ui.dashboard.agent.task.not_designed_yet")

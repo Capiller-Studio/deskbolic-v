@@ -13,7 +13,7 @@
 
     .eb-toolbar__divider
 
-    - language_names = { "en" => "English", "de" => "German", "es" => "Spanish", "fr" => "French", "ur" => "Urdu", "hi" => "Hindi", "ar" => "Arabic", "zh" => "Chinese" }
+    - language_names = I18n.available_locales.index_with { |locale| t("languages.#{locale.to_s.downcase}") }.transform_keys(&:to_s)
     - active_locales = @email_template_layout.translations.map(&:locale)
     - available_locales = I18n.available_locales.map(&:to_s)
     - addable_locales = available_locales - active_locales
@@ -28,7 +28,7 @@
             
       - if addable_locales.any?
         .eb-toolbar__add-locale
-          button.eb-btn.eb-btn--ghost.eb-btn--icon type="button" data-action="click->email-builder#toggleAddLocaleMenu" title=t("dashboard.email_builder.add_locale", default: "Add Locale")
+          button.eb-btn.eb-btn--ghost.eb-btn--icon type="button" data-action="click->email-builder#toggleAddLocaleMenu" title=t("dashboard.email_builder.add_locale")
             svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
               line x1="12" y1="5" x2="12" y2="19"
               line x1="5" y1="12" x2="19" y2="12"
@@ -55,12 +55,12 @@
 
     /! Device Toggle
     .eb-toolbar__devices
-      button.eb-toolbar__device.eb-toolbar__device--active type="button" data-action="click->email-builder#toggleDevice" data-device="Desktop" title="Desktop"
+      button.eb-toolbar__device.eb-toolbar__device--active type="button" data-action="click->email-builder#toggleDevice" data-device="Desktop" title=t("general.devices.desktop")
         svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
           rect x="2" y="3" width="20" height="14" rx="2"
           line x1="8" y1="21" x2="16" y2="21"
           line x1="12" y1="17" x2="12" y2="21"
-      button.eb-toolbar__device type="button" data-action="click->email-builder#toggleDevice" data-device="Mobile" title="Mobile"
+      button.eb-toolbar__device type="button" data-action="click->email-builder#toggleDevice" data-device="Mobile" title=t("general.devices.mobile")
         svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
           rect x="5" y="2" width="14" height="20" rx="2"
           line x1="12" y1="18" x2="12.01" y2="18"
@@ -93,7 +93,7 @@
         button.eb-sidebar__tab.eb-sidebar__tab--active type="button" data-tab="blocks" data-action="click->email-builder#switchTab"
           = t("dashboard.email_builder.blocks")
         button.eb-sidebar__tab type="button" data-tab="settings" data-action="click->email-builder#switchTab"
-          = t("dashboard.email_builder.settings", default: "Settings")
+          = t("dashboard.email_builder.settings")
         button.eb-sidebar__tab type="button" data-tab="styles" data-action="click->email-builder#switchTab"
           = t("dashboard.email_builder.styles")
 

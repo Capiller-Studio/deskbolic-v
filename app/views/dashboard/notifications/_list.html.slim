@@ -20,8 +20,8 @@ style
 - if notifications.empty?
   .empty-state style="text-align: center; padding: 60px 20px; color: #6B7280; display: flex; flex-direction: column; align-items: center;"
     = inline_svg_tag("bell.svg", style: "width: 48px; height: 48px; opacity: 0.2; margin-bottom: 16px;")
-    p style="font-size: 16px; font-weight: 500; color: #374151;" = t("notifications.empty", default: "You're all caught up!")
-    p style="font-size: 14px; margin-top: 6px; color: #6B7280;" = t("notifications.empty_sub", default: "When you have unread notifications, they will appear here.")
+    p style="font-size: 16px; font-weight: 500; color: #374151;" = t("notifications.empty")
+    p style="font-size: 14px; margin-top: 6px; color: #6B7280;" = t("notifications.empty_sub")
 - else
   .notifications-list style="display: flex; flex-direction: column; gap: 12px;"
     - notifications.each do |notification|
@@ -29,4 +29,4 @@ style
     - if @pagy && @pagy.next
       turbo-frame id="notifications-page-#{@pagy.next}" src=dashboard_notifications_path(page: @pagy.next) loading="lazy"
         .loading-spinner style="text-align: center; padding: 20px; color: #9CA3AF;"
-          p.f-reg-14 Loading more notifications...
+          p.f-reg-14 = t("ui.dashboard.notifications.list.loading_more_notifications")

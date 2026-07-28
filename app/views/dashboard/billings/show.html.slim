@@ -14,62 +14,62 @@
           .ap-card-body.ap-billing-card-body
             .ap-billing-card-top
               div
-                h3.f-semi-20.ap-billing-section-title = I18n.t("dashboard.billing.active_subscription", default: "Active Subscription")
-                p.f-reg-14.ap-billing-section-subtitle = I18n.t("dashboard.billing.active_subscription_desc", default: "Current plan details and upcoming charges")
+                h3.f-semi-20.ap-billing-section-title = I18n.t("dashboard.billing.active_subscription")
+                p.f-reg-14.ap-billing-section-subtitle = I18n.t("dashboard.billing.active_subscription_desc")
               
               - if @active_subscription&.cancelled_at.present?
                 .ap-strategy-badge.ap-billing-badge-danger
-                  = I18n.t("dashboard.billing.cancels_on", date: @active_subscription.current_period_end&.strftime("%b %d, %Y"), default: "Cancels on %{date}")
+                  = I18n.t("dashboard.billing.cancels_on", date: @active_subscription.current_period_end&.strftime("%b %d, %Y"))
               - elsif @active_subscription&.trialing?
                 .ap-strategy-badge.ap-billing-badge-warning
-                  = I18n.t("dashboard.billing.trial_ends_in", days: @active_subscription.days_until_trial_end, default: "Trial ends in %{days} days")
+                  = I18n.t("dashboard.billing.trial_ends_in", days: @active_subscription.days_until_trial_end)
               - elsif @active_subscription&.past_due?
                 .ap-strategy-badge.ap-billing-badge-danger
-                  = I18n.t("dashboard.billing.past_due", default: "Past Due")
+                  = I18n.t("dashboard.billing.past_due")
               - elsif @active_subscription&.expired?
                 .ap-strategy-badge.ap-billing-badge-danger
-                  = I18n.t("dashboard.billing.expired", default: "Expired")
+                  = I18n.t("dashboard.billing.expired")
 
             - if @active_subscription
               .ap-billing-plan-details
                 div
-                  p.f-reg-12.ap-billing-detail-label = I18n.t("dashboard.billing.plan_label", default: "Plan")
+                  p.f-reg-12.ap-billing-detail-label = I18n.t("dashboard.billing.plan_label")
                   p.f-semi-16.ap-billing-detail-value = @active_subscription.plan.display_name
                 div
-                  p.f-reg-12.ap-billing-detail-label = I18n.t("dashboard.billing.billing_cycle_label", default: "Billing Cycle")
-                  p.f-semi-16.ap-billing-detail-value = @active_subscription.annual? ? I18n.t("dashboard.billing.yearly", default: "Yearly") : I18n.t("dashboard.billing.monthly_label", default: "Monthly")
+                  p.f-reg-12.ap-billing-detail-label = I18n.t("dashboard.billing.billing_cycle_label")
+                  p.f-semi-16.ap-billing-detail-value = @active_subscription.annual? ? I18n.t("dashboard.billing.yearly") : I18n.t("dashboard.billing.monthly_label")
                 div
-                  p.f-reg-12.ap-billing-detail-label = I18n.t("dashboard.billing.seats_label", default: "Seats")
+                  p.f-reg-12.ap-billing-detail-label = I18n.t("dashboard.billing.seats_label")
                   p.f-semi-16.ap-billing-detail-value = @active_subscription.quantity
                 div
-                  p.f-reg-12.ap-billing-detail-label = @active_subscription.cancelled_at.present? ? I18n.t("dashboard.billing.cancels_on_label", default: "Cancels On") : I18n.t("dashboard.billing.next_charge_label", default: "Next Charge")
+                  p.f-reg-12.ap-billing-detail-label = @active_subscription.cancelled_at.present? ? I18n.t("dashboard.billing.cancels_on_label") : I18n.t("dashboard.billing.next_charge_label")
                   p.f-semi-16.ap-billing-detail-value = @active_subscription.current_period_end&.strftime("%B %d, %Y") || "N/A"
 
               - if @active_subscription.cancelled_at.present?
                 .ap-billing-actions
-                  = link_to I18n.t("dashboard.billing.resume_subscription", default: "Resume Subscription"), resume_subscription_path(@active_subscription), method: :post, data: { turbo_method: :post, turbo_confirm: I18n.t("dashboard.billing.resume_confirm", default: "Are you sure you want to resume your subscription?") }, class: "ap-btn-primary"
+                  = link_to I18n.t("dashboard.billing.resume_subscription"), resume_subscription_path(@active_subscription), method: :post, data: { turbo_method: :post, turbo_confirm: I18n.t("dashboard.billing.resume_confirm") }, class: "ap-btn-primary"
               - else
                 .ap-billing-actions
                   div data-controller="modal"
                     button.ap-btn-primary data-action="click->modal#open"
-                      = I18n.t("dashboard.billing.change_plan", default: "Change Plan")
+                      = I18n.t("dashboard.billing.change_plan")
                     
                     #changePlanModal.ap-billing-modal-overlay data-modal-target="dialog" data-action="click->modal#closeOnOutsideClick"
                       .ap-billing-modal-content.large
                         .ap-billing-modal-header
-                          h3.f-semi-20 = I18n.t("dashboard.billing.change_plan", default: "Change Plan")
+                          h3.f-semi-20 = I18n.t("dashboard.billing.change_plan")
                           button.ap-action-btn data-action="click->modal#close" ✕
                         .ap-billing-modal-body
                           = form_with url: subscription_path(@active_subscription), method: :patch, data: { controller: "plan-selector" } do |f|
                             / Billing cycle toggle
                             .ap-billing-cycle-toggle
-                              span.f-semi-14.ap-billing-cycle-label class=(@active_subscription.monthly? ? "ap-billing-cycle-active" : "") = I18n.t("dashboard.billing.monthly_label", default: "Monthly")
+                              span.f-semi-14.ap-billing-cycle-label class=(@active_subscription.monthly? ? "ap-billing-cycle-active" : "") = I18n.t("dashboard.billing.monthly_label")
                               label.ap-billing-toggle-switch
                                 = f.check_box :billing_cycle_annual, { checked: @active_subscription.annual?, data: { plan_selector_target: "billingCycleToggle", action: "change->plan-selector#toggleBillingCycle" } }, "1", "0"
                                 span.ap-billing-toggle-slider
                               span.f-semi-14.ap-billing-cycle-label class=(@active_subscription.annual? ? "ap-billing-cycle-active" : "")
-                                = I18n.t("dashboard.billing.yearly", default: "Yearly")
-                                span.ap-billing-save-badge = I18n.t("dashboard.billing.save_percent", default: "Save ~11%")
+                                = I18n.t("dashboard.billing.yearly")
+                                span.ap-billing-save-badge = I18n.t("dashboard.billing.save_percent")
                             = f.hidden_field :billing_cycle, value: (@active_subscription.annual? ? "annual" : "monthly"), data: { plan_selector_target: "billingCycleInput" }
                             
                             .ap-billing-plan-grid
@@ -80,64 +80,64 @@
                                     h4.f-semi-16 = plan.display_name
                                     p.f-reg-14.ap-billing-plan-price data-plan-selector-target="planPrice"
                                       span.ap-billing-price-amount data-plan-selector-target="priceAmount" = ActionController::Base.helpers.number_to_currency((@active_subscription.annual? ? plan.annual_price : plan.base_price), unit: plan.currency.upcase + " ")
-                                      span.ap-billing-price-period data-plan-selector-target="pricePeriod" = @active_subscription.annual? ? I18n.t("dashboard.billing.per_month_annual", default: " / mo (billed yearly)") : I18n.t("dashboard.billing.per_month", default: " / month")
+                                      span.ap-billing-price-period data-plan-selector-target="pricePeriod" = @active_subscription.annual? ? I18n.t("dashboard.billing.per_month_annual") : I18n.t("dashboard.billing.per_month")
                                     p.f-reg-12.ap-billing-plan-desc = plan.description
                             
                             .ap-billing-form-group
-                              label.f-semi-14.ap-billing-form-label = I18n.t("dashboard.billing.number_of_seats", default: "Number of Agent Seats")
+                              label.f-semi-14.ap-billing-form-label = I18n.t("dashboard.billing.number_of_seats")
                               p.f-reg-13.ap-billing-form-hint data-plan-selector-target="planLimitText"
-                                = I18n.t("dashboard.billing.plan_limits", min: @active_subscription.plan.min_users, max: @active_subscription.plan.unlimited?(:users_max) ? I18n.t("dashboard.billing.unlimited", default: 'Unlimited') : @active_subscription.plan.max_users, default: "Your plan limits: Min %{min}, Max %{max}")
+                                = I18n.t("dashboard.billing.plan_limits", min: @active_subscription.plan.min_users, max: @active_subscription.plan.unlimited?(:users_max) ? I18n.t("dashboard.billing.unlimited") : @active_subscription.plan.max_users)
                               - max_seats_val = @active_subscription.plan.unlimited?(:users_max) ? nil : @active_subscription.plan.max_users
                               = f.number_field :quantity, value: @active_subscription.quantity, min: [@active_subscription.plan.min_users, current_account.users_count].max, max: max_seats_val, class: "ap-input ap-billing-form-input", data: { plan_selector_target: "quantityInput", current_users: current_account.users_count }
                               
                             .ap-billing-modal-actions
-                              button.ap-btn-secondary type="button" data-action="click->modal#close" = I18n.t("dashboard.billing.cancel", default: "Cancel")
-                              - confirm_msg = @active_subscription.trialing? ? I18n.t("dashboard.billing.change_plan_trial_confirm", default: "Are you sure you want to change your plan? Your trial will continue normally, and you'll be billed for this new plan when your trial ends.") : I18n.t("dashboard.billing.update_subscription_confirm", default: "Are you sure you want to update your subscription? This action will result in immediate prorated charges or wallet credits.")
-                              = f.submit I18n.t("dashboard.billing.update_plan", default: "Update Plan"), class: "ap-btn-primary", data: { turbo_confirm: confirm_msg }
+                              button.ap-btn-secondary type="button" data-action="click->modal#close" = I18n.t("dashboard.billing.cancel")
+                              - confirm_msg = @active_subscription.trialing? ? I18n.t("dashboard.billing.change_plan_trial_confirm") : I18n.t("dashboard.billing.update_subscription_confirm")
+                              = f.submit I18n.t("dashboard.billing.update_plan"), class: "ap-btn-primary", data: { turbo_confirm: confirm_msg }
                   
                   div data-controller="modal"
                     button.ap-btn-secondary.ap-billing-btn-secondary-outline data-action="click->modal#open"
-                      = I18n.t("dashboard.billing.manage_seats", default: "Manage Seats")
+                      = I18n.t("dashboard.billing.manage_seats")
 
                     #manageSeatsModal.ap-billing-modal-overlay data-modal-target="dialog" data-action="click->modal#closeOnOutsideClick"
                       .ap-billing-modal-content.small
                         .ap-billing-modal-header
-                          h3.f-semi-20 = I18n.t("dashboard.billing.manage_seats", default: "Manage Seats")
+                          h3.f-semi-20 = I18n.t("dashboard.billing.manage_seats")
                           button.ap-action-btn data-action="click->modal#close" ✕
                         .ap-billing-modal-body
                           = form_with url: subscription_path(@active_subscription), method: :patch do |f|
-                            label.f-semi-14.ap-billing-form-label = I18n.t("dashboard.billing.number_of_seats", default: "Number of Agent Seats")
+                            label.f-semi-14.ap-billing-form-label = I18n.t("dashboard.billing.number_of_seats")
                             p.f-reg-13.ap-billing-form-hint
-                              = I18n.t("dashboard.billing.plan_limits", min: @active_subscription.plan.min_users, max: @active_subscription.plan.unlimited?(:users_max) ? I18n.t("dashboard.billing.unlimited", default: 'Unlimited') : @active_subscription.plan.max_users, default: "Your plan limits: Min %{min}, Max %{max}")
+                              = I18n.t("dashboard.billing.plan_limits", min: @active_subscription.plan.min_users, max: @active_subscription.plan.unlimited?(:users_max) ? I18n.t("dashboard.billing.unlimited") : @active_subscription.plan.max_users)
                             - max_seats_val = @active_subscription.plan.unlimited?(:users_max) ? nil : @active_subscription.plan.max_users
                             = f.number_field :quantity, value: @active_subscription.quantity, min: @active_subscription.plan.min_users, max: max_seats_val, class: "ap-input ap-billing-form-input"
                             
                             .ap-billing-modal-actions
-                              button.ap-btn-secondary type="button" data-action="click->modal#close" = I18n.t("dashboard.billing.cancel", default: "Cancel")
-                              - confirm_msg = @active_subscription.trialing? ? I18n.t("dashboard.billing.change_seats_trial_confirm", default: "Are you sure you want to change your seats? Your trial will continue normally, and you'll be billed for this new seat count when your trial ends.") : I18n.t("dashboard.billing.update_seats_confirm", default: "Are you sure you want to update your seats? This action will result in immediate prorated charges or wallet credits.")
-                              = f.submit I18n.t("dashboard.billing.update_seats", default: "Update Seats"), class: "ap-btn-primary", data: { turbo_confirm: confirm_msg }
+                              button.ap-btn-secondary type="button" data-action="click->modal#close" = I18n.t("dashboard.billing.cancel")
+                              - confirm_msg = @active_subscription.trialing? ? I18n.t("dashboard.billing.change_seats_trial_confirm") : I18n.t("dashboard.billing.update_seats_confirm")
+                              = f.submit I18n.t("dashboard.billing.update_seats"), class: "ap-btn-primary", data: { turbo_confirm: confirm_msg }
 
-                  = link_to I18n.t("dashboard.billing.cancel_subscription", default: "Cancel Subscription"), cancel_subscription_path(@active_subscription), method: :post, data: { turbo_method: :post, turbo_confirm: I18n.t("dashboard.billing.cancel_confirm", default: "Are you sure you want to cancel your subscription?") }, class: "ap-btn-secondary ap-billing-btn-danger-outline"
+                  = link_to I18n.t("dashboard.billing.cancel_subscription"), cancel_subscription_path(@active_subscription), method: :post, data: { turbo_method: :post, turbo_confirm: I18n.t("dashboard.billing.cancel_confirm") }, class: "ap-btn-secondary ap-billing-btn-danger-outline"
             - else
               div style="margin-top: 16px;"
-                p.f-reg-14 style="margin-bottom: 16px; color: #64748b;" = I18n.t("dashboard.billing.no_active_subscription", default: "You do not have an active subscription. Subscribe now to access all features.")
-                = link_to I18n.t("dashboard.billing.subscribe_now", default: "Subscribe Now"), new_subscription_path, class: "ap-btn-primary"
+                p.f-reg-14 style="margin-bottom: 16px; color: #64748b;" = I18n.t("dashboard.billing.no_active_subscription")
+                = link_to I18n.t("dashboard.billing.subscribe_now"), new_subscription_path, class: "ap-btn-primary"
 
         / Wallet section
         .ap-card
           .ap-card-body.ap-billing-card-body
-            h3.f-semi-20.ap-billing-wallet-header = I18n.t("dashboard.billing.wallet", default: "Wallet")
+            h3.f-semi-20.ap-billing-wallet-header = I18n.t("dashboard.billing.wallet")
             .ap-billing-wallet-balance-row
               div
-                p.f-reg-14.ap-billing-wallet-label = I18n.t("dashboard.billing.current_balance", default: "Current Balance")
+                p.f-reg-14.ap-billing-wallet-label = I18n.t("dashboard.billing.current_balance")
                 p.f-semi-24.ap-billing-wallet-amount = ActionController::Base.helpers.number_to_currency(@wallet.balance, unit: current_account.currency.upcase + " ")
               div data-controller="wallet-topup modal"
-                button.ap-btn-primary data-action="click->modal#open" = I18n.t("dashboard.billing.topup_balance", default: "Top-up Balance")
+                button.ap-btn-primary data-action="click->modal#open" = I18n.t("dashboard.billing.topup_balance")
                 
                 #topupModal.ap-billing-modal-overlay data-modal-target="dialog" data-action="click->modal#closeOnOutsideClick"
                   .ap-billing-modal-content.small
                     .ap-billing-modal-header
-                      h3.f-semi-20 = I18n.t("dashboard.billing.topup_wallet", default: "Top-up Wallet")
+                      h3.f-semi-20 = I18n.t("dashboard.billing.topup_wallet")
                       button.ap-action-btn data-action="click->modal#close" ✕
                     .ap-billing-modal-body
                       = form_with url: topup_wallet_path, method: :post do |f|
@@ -146,18 +146,18 @@
                           button.ap-btn-secondary type="button" data-action="click->wallet-topup#selectPreset" data-wallet-topup-amount-param="50" $50
                           button.ap-btn-secondary type="button" data-action="click->wallet-topup#selectPreset" data-wallet-topup-amount-param="100" $100
                         
-                        label.f-semi-14.ap-billing-form-label = I18n.t("dashboard.billing.custom_amount", default: "Custom Amount")
+                        label.f-semi-14.ap-billing-form-label = I18n.t("dashboard.billing.custom_amount")
                         = f.number_field :amount, data: { wallet_topup_target: "input" }, min: 10, max: 50000, step: "0.01", class: "ap-input ap-billing-form-input"
                         
                         .ap-billing-modal-actions
-                          button.ap-btn-secondary type="button" data-action="click->modal#close" = I18n.t("dashboard.billing.cancel", default: "Cancel")
-                          = f.submit I18n.t("dashboard.billing.top_up", default: "Top Up"), class: "ap-btn-primary"
+                          button.ap-btn-secondary type="button" data-action="click->modal#close" = I18n.t("dashboard.billing.cancel")
+                          = f.submit I18n.t("dashboard.billing.top_up"), class: "ap-btn-primary"
 
       / Right column: Payment Methods
       .ap-billing-sidebar
         .ap-card
           .ap-card-body.ap-billing-card-body
-            h3.f-semi-20.ap-billing-section-title.ap-billing-wallet-header = I18n.t("dashboard.billing.payment_methods", default: "Payment Methods")
+            h3.f-semi-20.ap-billing-section-title.ap-billing-wallet-header = I18n.t("dashboard.billing.payment_methods")
             
             - if @payment_methods.any?
               .ap-billing-pm-list
@@ -167,24 +167,24 @@
                       .ap-billing-pm-icon 💳
                       div
                         p.f-semi-14.ap-billing-pm-brand = "#{pm.brand&.capitalize} •••• #{pm.last_four}"
-                        p.f-reg-12.ap-billing-pm-expiry = I18n.t("dashboard.billing.expires", month: pm.expiry_month, year: pm.expiry_year, default: "Expires %{month}/%{year}")
+                        p.f-reg-12.ap-billing-pm-expiry = I18n.t("dashboard.billing.expires", month: pm.expiry_month, year: pm.expiry_year)
                     .ap-billing-pm-actions
                       - unless pm.is_default
-                        = link_to I18n.t("dashboard.billing.make_default", default: "Default"), make_default_payment_method_path(pm), data: { turbo_method: :post }, class: "f-reg-13 ap-billing-pm-default-link"
+                        = link_to I18n.t("dashboard.billing.make_default"), make_default_payment_method_path(pm), data: { turbo_method: :post }, class: "f-reg-13 ap-billing-pm-default-link"
                       - else
-                        span.f-reg-12.ap-billing-pm-default-badge = I18n.t("dashboard.billing.default_label", default: "Default")
-                      = link_to I18n.t("dashboard.billing.remove", default: "Remove"), payment_method_path(pm), data: { turbo_method: :delete, turbo_confirm: I18n.t("dashboard.billing.are_you_sure", default: "Are you sure?") }, class: "f-reg-13 ap-billing-pm-remove"
+                        span.f-reg-12.ap-billing-pm-default-badge = I18n.t("dashboard.billing.default_label")
+                      = link_to I18n.t("dashboard.billing.remove"), payment_method_path(pm), data: { turbo_method: :delete, turbo_confirm: I18n.t("dashboard.billing.are_you_sure") }, class: "f-reg-13 ap-billing-pm-remove"
             - else
-              p.f-reg-14.ap-billing-pm-empty = I18n.t("dashboard.billing.no_payment_methods", default: "No payment methods added yet.")
+              p.f-reg-14.ap-billing-pm-empty = I18n.t("dashboard.billing.no_payment_methods")
             
             - if @stripe_publishable_key.present? && @setup_intent.present?
               div data-controller="modal stripe-elements" data-stripe-elements-client-secret-value=@setup_intent.client_secret data-stripe-elements-publishable-key-value=@stripe_publishable_key
-                button.ap-btn-secondary.ap-billing-pm-add-btn data-action="click->modal#open click->stripe-elements#mount" = I18n.t("dashboard.billing.add_payment_method", default: "Add Payment Method")
+                button.ap-btn-secondary.ap-billing-pm-add-btn data-action="click->modal#open click->stripe-elements#mount" = I18n.t("dashboard.billing.add_payment_method")
                 
                 #addCardModal.ap-billing-modal-overlay data-modal-target="dialog" data-action="click->modal#closeOnOutsideClick"
                   .ap-billing-modal-content.medium
                     .ap-billing-modal-header
-                      h3.f-semi-20 = I18n.t("dashboard.billing.add_card", default: "Add Card")
+                      h3.f-semi-20 = I18n.t("dashboard.billing.add_card")
                       button.ap-action-btn data-action="click->modal#close" ✕
                     .ap-billing-modal-body
                       form data-stripe-elements-target="form" data-action="submit->stripe-elements#submit"
@@ -195,25 +195,25 @@
                           svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ap-billing-secure-icon"
                             rect x="3" y="11" width="18" height="11" rx="2" ry="2"
                             path d="M7 11V7a5 5 0 0 1 10 0v4"
-                          span.f-reg-13 = I18n.t("dashboard.billing.secure_payment_notice", default: "Payments are securely processed by Stripe. Your card details are encrypted and never touch our servers.")
+                          span.f-reg-13 = I18n.t("dashboard.billing.secure_payment_notice")
                         
                         .ap-billing-modal-actions
-                          button.ap-btn-secondary type="button" data-action="click->modal#close" = I18n.t("dashboard.billing.cancel", default: "Cancel")
-                          button.ap-btn-primary type="submit" data-stripe-elements-target="submitButton" = I18n.t("dashboard.billing.save_card", default: "Save Card")
+                          button.ap-btn-secondary type="button" data-action="click->modal#close" = I18n.t("dashboard.billing.cancel")
+                          button.ap-btn-primary type="submit" data-stripe-elements-target="submitButton" = I18n.t("dashboard.billing.save_card")
 
     / Full width: Transactions
     .ap-card.ap-billing-tx-card
       .ap-card-body.ap-billing-card-body
-        h3.f-semi-20.ap-billing-section-title = I18n.t("dashboard.billing.transaction_history", default: "Transaction History")
+        h3.f-semi-20.ap-billing-section-title = I18n.t("dashboard.billing.transaction_history")
         
         - if @transactions.any?
           table.ap-billing-table
             thead
               tr.ap-billing-tr
-                th.f-semi-13.ap-billing-th = I18n.t("dashboard.billing.date", default: "Date")
-                th.f-semi-13.ap-billing-th = I18n.t("dashboard.billing.description", default: "Description")
-                th.f-semi-13.ap-billing-th = I18n.t("dashboard.billing.amount", default: "Amount")
-                th.f-semi-13.ap-billing-th = I18n.t("dashboard.billing.status", default: "Status")
+                th.f-semi-13.ap-billing-th = I18n.t("dashboard.billing.date")
+                th.f-semi-13.ap-billing-th = I18n.t("dashboard.billing.description")
+                th.f-semi-13.ap-billing-th = I18n.t("dashboard.billing.amount")
+                th.f-semi-13.ap-billing-th = I18n.t("dashboard.billing.status")
             tbody
               - @transactions.each do |t|
                 tr.ap-billing-tr
@@ -221,12 +221,12 @@
                   td.f-reg-14.ap-billing-td
                     - desc = t.description.to_s
                     - if desc.start_with?("billing.events.") || desc.start_with?("wallet.events.")
-                      - desc = I18n.t(desc, **(t.data || {}).symbolize_keys, default: desc)
+                      - desc = I18n.t(desc, **(t.data || {}).symbolize_keys) if I18n.exists?(desc)
                     - else
                       - desc = desc.presence || t.transaction_type.titleize
                     
                     - if t.provider == "wallet" && t.charge?
-                      | #{I18n.t("dashboard.billing.wallet_deduction", default: "Wallet Deduction:")} 
+                      | #{I18n.t("dashboard.billing.wallet_deduction")}
                     = desc
                   td.f-semi-14.ap-billing-td
                     - sign, color = t.charge? ? ["-", "var(--ap-text-dark)"] : ["+", "var(--ap-success)"]
@@ -237,4 +237,4 @@
           .mt-4
             == pagy_nav(@pagy)
         - else
-          p.f-reg-14.ap-billing-pm-empty = I18n.t("dashboard.billing.no_transactions", default: "No transactions found.")
+          p.f-reg-14.ap-billing-pm-empty = I18n.t("dashboard.billing.no_transactions")

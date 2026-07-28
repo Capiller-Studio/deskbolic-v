@@ -3,7 +3,7 @@
     .dashboard-nav
       .card
         = link_to(root_path, class: "dash-logo") do
-          = image_tag('deskbolic_logo.png', alt: 'dashboard logo', class: 'dash-logo')
+          = image_tag('deskbolic_logo.png', alt: t("ui.dashboard.shared.dashboard_container.dashboard_logo"), class: 'dash-logo')
         ul
           .nav-menu
             / li.nav-item
@@ -14,20 +14,20 @@
                 = form_with url: switch_account_path(id: account.id), method: :post, class: "switch-form" do
                   = hidden_field_tag :id, account.id
                   = button_tag(type: 'submit', class: 'switch-button nav-link', style: 'border: none; background: none; padding: 0;') do
-                    = image_tag('helpdesk_icon.svg', alt: 'Switch Account', class: 'switch-icon')
+                    = image_tag('helpdesk_icon.svg', alt: t("ui.dashboard.shared.dashboard_container.switch_account"), class: 'switch-icon')
             li.nav-item
               = link_to(workspace_path, class: "nav-link") do
-                = inline_svg_tag("plus.svg", class:"link-icon", alt:"menu")
+                = inline_svg_tag("plus.svg", class:"link-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
             li.nav-item data-controller="modal-toggler frame-toggler" style="position: relative;"
               .nav-link data-action="click->modal-toggler#showModal click->frame-toggler#loadModal" data-url=notifications_path
-                = inline_svg_tag("bell.svg", class:"link-icon", alt:"notifications")
+                = inline_svg_tag("bell.svg", class:"link-icon", alt:t("ui.dashboard.shared.dashboard_container.notifications"))
               - if current_user
                 = render "dashboard/notifications/badge"
               = render "dashboard/shared/modal_popper"
         
         .channel-header.list-header data-controller="accordion"
           - if current_user&.avatar&.attached?
-            = image_tag(current_user.avatar, class: "account dashboard-account-avatar", alt: "dashboard logo", data: { "action" => "click->accordion#toggleMenu" })
+            = image_tag(current_user.avatar, class: "account dashboard-account-avatar", alt: t("ui.dashboard.shared.dashboard_container.dashboard_logo"), data: { "action" => "click->accordion#toggleMenu" })
           - else
             .account.dashboard-account-avatar.avatar-fallback.dashboard-account-initials.f-reg-12 class=avatar_fallback_color_class(full_name(current_user)) data-action="click->accordion#toggleMenu"
               = initials(current_user)
@@ -35,7 +35,7 @@
             - if current_user
               = link_to(profile_path, class: "header profile-menu-header") do
                 - if current_user.avatar.attached?
-                  = image_tag(current_user.avatar, class:"user-img", alt:"menu")
+                  = image_tag(current_user.avatar, class:"user-img", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
                 - else
                   .user-img.avatar-fallback.dashboard-user-initials.f-reg-14 class=avatar_fallback_color_class(full_name(current_user))
                     = initials(current_user)
@@ -48,24 +48,24 @@
                 /   p.f-semi-14 Theme
                 /   = inline_svg_tag("light_theme.svg", class:"ml-auto", alt:"menu")
                 = link_to(help_center_path, class: "menu-link") do
-                  p.f-semi-14 “Help desk” Help Center
+                  p.f-semi-14 = t("ui.dashboard.shared.dashboard_container.help_desk_help_center")
                 = link_to(community_path, class: "menu-link") do
-                  p.f-semi-14 “Help desk” Community forum
+                  p.f-semi-14 = t("ui.dashboard.shared.dashboard_container.help_desk_community_forum")
                 = link_to(terms_path, class: "menu-link") do
-                  p.f-semi-14 Terms & policies
+                  p.f-semi-14 = t("ui.dashboard.shared.dashboard_container.terms_policies")
                 = link_to(settings_path, class: "menu-link", data: { turbo: false }) do
-                  = inline_svg_tag("settings.svg", class:"menu-icon", alt:"menu")
-                  p.f-semi-14 Settings
+                  = inline_svg_tag("settings.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                  p.f-semi-14 = t("dashboard.sidebar.settings.title")
                 
               .logout
                 = button_to(destroy_user_session_path, class: "menu-link nav-link", method: :delete) do
-                  = inline_svg_tag("logout.svg", class:"link-icon", alt:"menu")
-                  p Sign Out
+                  = inline_svg_tag("logout.svg", class:"link-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                  p = t("ui.dashboard.shared.dashboard_container.sign_out")
             - else 
               .login
-                p login Here
+                p = t("ui.dashboard.shared.dashboard_container.login_here")
                 = link_to new_user_ses sion_path, class: "menu-link nav-link" do
-                  = inline_svg_tag("logout.svg", class:"link-icon", alt:"menu")
-                  p Login
+                  = inline_svg_tag("logout.svg", class:"link-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                  p = t("ui.dashboard.shared.dashboard_container.login")
     .dashboard-body
       == yield

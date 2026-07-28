@@ -1,7 +1,7 @@
 .email-joining-container.center-wrapper
   .header
     .logo
-      = image_tag("logo.png", alt: "Deskbolic logo")
+      = image_tag("logo.png", alt: t("ui.dashboard.account_invitations.email_invitation.deskbolic_logo"))
   = form_for(:user, url: email_invitation_path(invitation_token: @invitation.token), html: {method: :post, class: "js-form-wizard form-wizard needs-validation", novalidate: true}) do |f|
     = hidden_field_tag :invitation_token, @invitation.token
 
@@ -9,12 +9,12 @@
       .view-workspace-container
         .joining-card
           .logo
-            = image_tag("deskbolic_icon_v.png", alt: "Deskbolic logo")
+            = image_tag("deskbolic_icon_v.png", alt: t("ui.dashboard.account_invitations.email_invitation.deskbolic_logo"))
           p = t("auth.workspace.email_invitation.description")
           .joining-sub-container
             .joining-sub-card
               .joining-header
-                = image_tag("email_join_icon.png", class: "community-logo", alt: "Email Joining Icon")
+                = image_tag("email_join_icon.png", class: "community-logo", alt: t("ui.dashboard.account_invitations.email_invitation.email_joining_icon"))
                 .community-details
                   p.workspace-name = @account.name
                   - if @role_names.any?
@@ -26,7 +26,7 @@
     fieldset style="display: none;"
       .join-workspace-container
         .joining-card
-          = image_tag("email_join_icon.png", alt: "Community Icon", class: "community-logo")
+          = image_tag("email_join_icon.png", alt: t("ui.dashboard.account_invitations.email_invitation.community_icon"), class: "community-logo")
           p.title = @account.name
           - if @role_names.any?
             p.members = t("auth.workspace.email_invitation.members", count: @role_names.length)

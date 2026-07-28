@@ -3,7 +3,7 @@
     .helpdesk-nav
       .card
         .header data-controller="modal-toggler frame-toggler"
-          p.f-reg-14 AI Agent
+          p.f-reg-14 = t("ui.dashboard.agent.agent_sidebar.ai_agent")
           = render("dashboard/shared/modal_popper")
         ul.channel-list.st-sidebar  data-controller="accordion modal-toggler frame-toggler"
           .help-nav-menu
@@ -13,69 +13,69 @@
                 = link_to(agent_index_path, class: "nav-link") do
                   .link-text
                     .conversation-name.inbox-conv
-                      p.f-reg-14 Home
+                      p.f-reg-14 = t("dashboard.settings_index.title")
             / Analyse            
             li.nav-item class="" data-action="click->accordion#toggle"
               .nav-link
                 .link-text.conversation-padding
-                  = inline_svg_tag("arrow_down.svg", class:"st-dropdown-icon", alt:"menu")
-                  p.f-reg-14 Analyse
+                  = inline_svg_tag("arrow_down.svg", class:"st-dropdown-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                  p.f-reg-14 = t("ui.dashboard.agent.agent_sidebar.analyse")
             .st-panel data-accordion-target="panel"
               ul.chats
                 li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
                   = link_to("#", class: "nav-link") do
                     .link-text
                       .conversation-name.inbox-conv
-                        p.f-reg-12 Performance
+                        p.f-reg-12 = t("ui.dashboard.agent.agent_sidebar.performance")
                 li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
                   = link_to("#", class: "nav-link") do
                     .link-text
                       .conversation-name.inbox-conv
-                        p.f-reg-12 Optimize
+                        p.f-reg-12 = t("ui.dashboard.agent.agent_sidebar.optimize")
                 li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
                   = link_to(topics_agent_index_path, class: "nav-link") do
                     .link-text
                       .conversation-name.inbox-conv
-                        p.f-reg-12 Topics Explorer
+                        p.f-reg-12 = t("ui.dashboard.agent.agent_sidebar.topics_explorer")
                 li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
                   = link_to("#", class: "nav-link") do
                     .link-text
                       .conversation-name.inbox-conv
-                        p.f-reg-12 Conversation
+                        p.f-reg-12 = t("ui.dashboard.agent.agent_sidebar.conversation")
             
             / Train            
             li.nav-item class="" data-action="click->accordion#toggle"
               .nav-link
                 .link-text.conversation-padding
-                  = inline_svg_tag("arrow_down.svg", class:"st-dropdown-icon", alt:"menu")
-                  p.f-reg-14 Train
+                  = inline_svg_tag("arrow_down.svg", class:"st-dropdown-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                  p.f-reg-14 = t("ui.dashboard.agent.agent_sidebar.train")
             .st-panel data-accordion-target="panel"
               ul.chats
                 li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
                   = link_to("#", class: "nav-link") do
                     .link-text
                       .conversation-name.inbox-conv
-                        p.f-reg-12 Content
+                        p.f-reg-12 = t("ui.dashboard.agent.agent_sidebar.content")
                 li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
                   = link_to(guidance_agent_index_path, class: "nav-link") do
                     .link-text
                       .conversation-name.inbox-conv
-                        p.f-reg-12 Guidance
+                        p.f-reg-12 = t("ui.dashboard.agent.agent_sidebar.guidance")
                 li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
                   = link_to("#", class: "nav-link") do
                     .link-text
                       .conversation-name.inbox-conv
-                        p.f-reg-12 Custom Answers
+                        p.f-reg-12 = t("ui.dashboard.agent.agent_sidebar.custom_answers")
                 li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
                   = link_to("#", class: "nav-link") do
                     .link-text
                       .conversation-name.inbox-conv
-                        p.f-reg-12 Profiles
+                        p.f-reg-12 = t("ui.dashboard.agent.agent_sidebar.profiles")
                 li.nav-item class="#{"#"=='' ? 'help-nav-active' : ''}"
                   = link_to(task_agent_index_path, class: "nav-link") do
                     .link-text
                       .conversation-name.inbox-conv
-                        p.f-reg-12 Task
+                        p.f-reg-12 = t("ui.dashboard.agent.agent_sidebar.task")
             
             / / Test
             / li.nav-item class="" data-action="click->accordion#toggle"
@@ -88,40 +88,40 @@
             li.nav-item class="" data-action="click->accordion#toggle"
               .nav-link
                 .link-text.conversation-padding
-                  = inline_svg_tag("arrow_down.svg", class:"st-dropdown-icon", alt:"menu")
-                  p.f-reg-14 Test
+                  = inline_svg_tag("arrow_down.svg", class:"st-dropdown-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                  p.f-reg-14 = t("ui.dashboard.agent.agent_sidebar.test")
             .st-panel data-accordion-target="panel"
               ul.chats
                 li.nav-item class="#{"#"=='' ? 'active' : ''}"
                   = link_to(test_agent_index_path, class: "nav-link") do
                     .link-text
                       .conversation-name.inbox-conv
-                        p.f-reg-12 Testing
+                        p.f-reg-12 = t("ui.dashboard.agent.agent_sidebar.testing")
                 li.nav-item class="#{"#"=='' ? 'active' : ''}"
                   = link_to(fin_test_agent_index_path, class: "nav-link") do
                     .link-text
                       .conversation-name.inbox-conv
-                        p.f-reg-12 Fin Testing
+                        p.f-reg-12 = t("ui.dashboard.agent.agent_sidebar.fin_testing")
             / Deploye
             li.nav-item class="" data-action="click->accordion#toggle"
               .nav-link
                 .link-text.conversation-padding
-                  = inline_svg_tag("arrow_down.svg", class:"st-dropdown-icon", alt:"menu")
-                  p.f-reg-14 Deploye
+                  = inline_svg_tag("arrow_down.svg", class:"st-dropdown-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                  p.f-reg-14 = t("ui.dashboard.agent.agent_sidebar.deploye")
             .st-panel data-accordion-target="panel"
               ul.chats
                 li.nav-item class="#{"#"=='' ? 'active' : ''}"
                   = link_to("#", class: "nav-link") do
                     .link-text
                       .conversation-name.inbox-conv
-                        p.f-reg-12 Tags
+                        p.f-reg-12 = t("ui.dashboard.agent.agent_sidebar.tags")
             / Workflows
             li.nav-item class="" data-action="click->accordion#toggle"
               .nav-link
                 = link_to(workflow_agent_index_path, class: "nav-link") do
                   .link-text
                     .conversation-name.inbox-conv
-                      p.f-reg-14 Workflows
+                      p.f-reg-14 = t("ui.dashboard.agent.agent_sidebar.workflows")
 
     .helpdesk-body.agent-body
       turbo-frame#conversations-frame[data-turbo-permanent]

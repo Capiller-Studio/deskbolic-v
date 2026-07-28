@@ -7,7 +7,7 @@
           p.eb-templates__subtitle = t("dashboard.email_templates.index.subtitle")
         .eb-templates__nav
           = link_to new_email_template_path, class: "eb-btn eb-btn--primary"
-            = "Create Custom Template"
+            = t("ui.dashboard.email_templates.new.create_template")
           = link_to email_templates_path, class: "eb-btn eb-btn--outline"
             = t("dashboard.email_templates.index.tab_templates")
           = link_to email_template_layouts_path, class: "eb-btn eb-btn--outline"
@@ -25,15 +25,16 @@
                       span.eb-badge.eb-badge--draft = t("dashboard.email_templates.index.badge_draft")
                     span class="eb-badge eb-badge--#{template.status}"
                       = t("dashboard.email_templates.index.badge_#{template.status}")
-                p.eb-card__description = t("dashboard.email_builder.template_descriptions.#{template.name}", default: t("dashboard.email_templates.index.default_description"))
+                - description_key = "dashboard.email_builder.template_descriptions.#{template.name}"
+                p.eb-card__description = I18n.exists?(description_key) ? t(description_key) : t("dashboard.email_templates.index.default_description")
 
               .eb-card__footer
                 span.eb-card__meta = t("dashboard.email_templates.index.last_modified", time: time_ago_in_words(template.updated_at))
                 .eb-card__actions
                   = link_to edit_email_template_path(template), class: "eb-btn eb-btn--primary"
                     = t("dashboard.email_templates.index.edit_design")
-                  = link_to email_template_path(template), data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete this template?" }, class: "eb-btn eb-btn--danger"
-                    = "Delete"
+                  = link_to email_template_path(template), data: { turbo_method: :delete, turbo_confirm: t("ui.dashboard.email_templates.index.are_you_sure_you_want_to_delete_this_template") }, class: "eb-btn eb-btn--danger"
+                    = t("general.delete")
       - else
         .auto-empty-state
           h3.f-semi-18 = t("dashboard.email_templates.index.empty_title")

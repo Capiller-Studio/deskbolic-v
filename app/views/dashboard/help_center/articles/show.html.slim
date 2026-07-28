@@ -47,7 +47,7 @@
                   | 🕐
                 .hc-overview-row-content
                   span Last Edit
-                  p = l(@article.updated_at, format: :long)
+                  p = @article.updated_at.strftime("%B %d, %Y %H:%M")
               .hc-overview-row
                 .hc-overview-row-icon-cell
                   | 👤

@@ -2,77 +2,77 @@
   = render("dashboard/settings/settings_sidebar", current_page: "") do
     .body-section.st-messenger-body
       .st-header.st-messenger-header
-        h2.f-semi-18 Messenger
+        h2.f-semi-18 = t("ui.dashboard.popup.suggested_ticket_modal.messenger")
         .tabs
-          .f-reg-14 Web
-          .f-reg-14 Mobile SDKs 
-          .f-reg-14 Conversation  
-          .f-reg-14 General 
-          .f-reg-14.active Install 
+          .f-reg-14 = t("ui.dashboard.settings.messenger.web")
+          .f-reg-14 = t("ui.dashboard.settings.messenger.mobile_sdks")
+          .f-reg-14 = t("ui.dashboard.agent.agent_sidebar.conversation")
+          .f-reg-14 = t("dashboard.skills.types.general")
+          .f-reg-14.active = t("ui.dashboard.settings.messenger.install")
       .st-container.st-messenger-container data-controller="modal-toggler frame-toggler"
         .messenger-section
           .messenger-header
             .tabs
               .tab.active
-                = image_tag("avatar1.png", class:"tab-icon", alt:"icon")
-                .f-semi-14 Install for web
+                = image_tag("avatar1.png", class:"tab-icon", alt:t("ui.dashboard.agent.guidance.icon"))
+                .f-semi-14 = t("ui.dashboard.settings.messenger.install_for_web")
               .tab
-                = image_tag("avatar1.png", class:"tab-icon", alt:"icon")
-                .f-semi-14 Install for mobile
+                = image_tag("avatar1.png", class:"tab-icon", alt:t("ui.dashboard.agent.guidance.icon"))
+                .f-semi-14 = t("ui.dashboard.settings.messenger.install_for_mobile")
           .messenger-description
             .title-bar
-              = inline_svg_tag("tick.svg", class:"tag-icon", alt:"menu")
+              = inline_svg_tag("tick.svg", class:"tag-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
               .title
-                h3.f-semi-16 Install the messenger on your site or app
-                p.f-reg-12 The messenger helps you support your customers and  learn more about them. 
+                h3.f-semi-16 = t("ui.dashboard.settings.messenger.install_the_messenger_on_your_site_or_app")
+                p.f-reg-12 = t("ui.dashboard.settings.messenger.the_messenger_helps_you_support_your_customers_and_learn_more")
             .steps data-controller="modal-toggler frame-toggler"
               .tech-stack
                 .tech-header 
                   span 1
-                  h3.f-semi-16 Choose how to install the messenger
+                  h3.f-semi-16 = t("ui.dashboard.settings.messenger.choose_how_to_install_the_messenger")
                 .technologies
                   .tech
-                    = inline_svg_tag("code_snipet.svg", class:"tech-icon", alt:"icon")
-                    .f-semi-14 Code Snipet
+                    = inline_svg_tag("code_snipet.svg", class:"tech-icon", alt:t("ui.dashboard.agent.guidance.icon"))
+                    .f-semi-14 = t("ui.dashboard.settings.messenger.code_snipet")
                   .tech
-                    = inline_svg_tag("react.svg", class:"tech-icon", alt:"icon")
-                    .f-semi-14 React
+                    = inline_svg_tag("react.svg", class:"tech-icon", alt:t("ui.dashboard.agent.guidance.icon"))
+                    .f-semi-14 = t("ui.dashboard.settings.messenger.react")
                   .tech
-                    = inline_svg_tag("angular.svg", class:"tech-icon", alt:"icon")
-                    .f-semi-14 Angular 
+                    = inline_svg_tag("angular.svg", class:"tech-icon", alt:t("ui.dashboard.agent.guidance.icon"))
+                    .f-semi-14 = t("ui.dashboard.settings.messenger.angular")
                   .tech
-                    = inline_svg_tag("vue.svg", class:"tech-icon", alt:"icon")
-                    .f-semi-14 Vue 
+                    = inline_svg_tag("vue.svg", class:"tech-icon", alt:t("ui.dashboard.agent.guidance.icon"))
+                    .f-semi-14 = t("ui.dashboard.settings.messenger.vue")
                   .tech
-                    = inline_svg_tag("ember.svg", class:"tech-icon", alt:"icon")
-                    .f-semi-14 Ember
+                    = inline_svg_tag("ember.svg", class:"tech-icon", alt:t("ui.dashboard.agent.guidance.icon"))
+                    .f-semi-14 = t("ui.dashboard.settings.messenger.ember")
                   .tech
-                    = inline_svg_tag("wordpress.svg", class:"tech-icon", alt:"icon")
-                    .f-semi-14 Wordpress 
+                    = inline_svg_tag("wordpress.svg", class:"tech-icon", alt:t("ui.dashboard.agent.guidance.icon"))
+                    .f-semi-14 = t("ui.dashboard.settings.messenger.wordpress")
                   .tech
-                    = inline_svg_tag("gtm.svg", class:"tech-icon", alt:"icon")
-                    .f-semi-14 Google Tag Manager
+                    = inline_svg_tag("gtm.svg", class:"tech-icon", alt:t("ui.dashboard.agent.guidance.icon"))
+                    .f-semi-14 = t("ui.dashboard.settings.messenger.google_tag_manager")
                   .tech
-                    = inline_svg_tag("shopify.svg", class:"tech-icon", alt:"icon")
-                    .f-semi-14 Shopify 
+                    = inline_svg_tag("shopify.svg", class:"tech-icon", alt:t("ui.dashboard.agent.guidance.icon"))
+                    .f-semi-14 = t("ui.dashboard.settings.messenger.shopify")
                   .tech
-                    = inline_svg_tag("segment.svg", class:"tech-icon", alt:"icon")
-                    .f-semi-14 Segment
+                    = inline_svg_tag("segment.svg", class:"tech-icon", alt:t("ui.dashboard.agent.guidance.icon"))
+                    .f-semi-14 = t("ui.dashboard.settings.messenger.segment")
                 p.f-reg-14
-                  | Need help? Ask a teammate, like an engineer, to complete the installation, 
-                  span data-action="click->modal-toggler#showModal click->frame-toggler#loadModal" data-popup-view="_invite_teammate_modal" invite teammates.
+                  | #{t("ui.dashboard.settings.messenger.need_help_ask_a_teammate_like_an_engineer_to_complete")}
+                  span data-action="click->modal-toggler#showModal click->frame-toggler#loadModal" data-popup-view="_invite_teammate_modal" = t("ui.dashboard.settings.messenger.invite_teammates")
               .config-stack
                 .config-header.tech-header
                   span 2
-                  h3.f-semi-16 Configure your code snippet
+                  h3.f-semi-16 = t("ui.dashboard.settings.messenger.configure_your_code_snippet")
                 .tabs
                   .tab.active
-                    .f-semi-14 For users with logins
-                    .f-reg-12 install the messenger for logged-in users. The messenger will show info like customer names and previous conversations across devices
+                    .f-semi-14 = t("ui.dashboard.settings.messenger.for_users_with_logins")
+                    .f-reg-12 = t("ui.dashboard.settings.messenger.install_the_messenger_for_logged_in_users_the_messenger_will")
                   .tab
-                    .f-semi-14 For website visitors logins
-                    .f-reg-12 install the messenger for anonymous website visitors who are’t logged-in. Conversation will be saved in the browser via cookie
+                    .f-semi-14 = t("ui.dashboard.settings.messenger.for_website_visitors_logins")
+                    .f-reg-12 = t("ui.dashboard.settings.messenger.install_the_messenger_for_anonymous_website_visitors_who_are_t")
                 .user-options
                   .tab.active
-                    .f-semi-14 For users with logins
-                    .f-reg-12 Turn on user traffic to start accepting user request from your messenger. Do this before your install the messenger to avoid failed request
+                    .f-semi-14 = t("ui.dashboard.settings.messenger.for_users_with_logins")
+                    .f-reg-12 = t("ui.dashboard.settings.messenger.turn_on_user_traffic_to_start_accepting_user_request_from")

@@ -1,51 +1,51 @@
 = render("dashboard/shared/dashboard_container", current_page: "reports") do
   = render("dashboard/settings/settings_sidebar", current_page: "reports") do
-    .body-section.st-home-body
-      h2.f-semi-18 style="margin-bottom: 20px;" = t('dashboard.sidebar.reports', default: 'Reports & Analytics')
+    .body-section
+      h2.f-semi-18 style="margin-bottom: 20px;" = t('dashboard.sidebar.reports')
       
       .st-home-container
         .st-home-section
-          h3.f-semi-16 = t('dashboard.reports.overview', default: 'Overview (Last 30 Days)')
+          h3.f-semi-16 = t('dashboard.reports.overview')
           
           .cards.workspace-cards
             .card style="cursor: default;"
-              = inline_svg_tag("ticket.svg", class:"card-icon", alt:"conversations")
+              = inline_svg_tag("ticket.svg", class:"card-icon", alt:t("ui.dashboard.reports.index.conversations"))
               .card-desc
-                h4.f-semi-14 = t('dashboard.reports.total_conversations', default: 'Total Conversations')
+                h4.f-semi-14 = t('dashboard.reports.total_conversations')
                 p.f-bold-24 style="font-size: 28px; color: #111827; margin-top: 5px;" = @total_conversations_count
             
             .card style="cursor: default;"
-              = inline_svg_tag("bell.svg", class:"card-icon", alt:"sla breaches")
+              = inline_svg_tag("bell.svg", class:"card-icon", alt:t("ui.dashboard.reports.index.sla_breaches"))
               .card-desc
-                h4.f-semi-14 = t('dashboard.reports.sla_breaches', default: 'SLA Breaches')
+                h4.f-semi-14 = t('dashboard.reports.sla_breaches')
                 p.f-bold-24 style="font-size: 28px; color: #EF4444; margin-top: 5px;" = @sla_breaches_count
                 
             .card style="cursor: default;"
-              = inline_svg_tag("star.svg", class:"card-icon", alt:"csat")
+              = inline_svg_tag("star.svg", class:"card-icon", alt:t("ui.dashboard.reports.index.csat"))
               .card-desc
-                h4.f-semi-14 = t('dashboard.reports.avg_csat', default: 'Average CSAT Score')
+                h4.f-semi-14 = t('dashboard.reports.avg_csat')
                 p.f-bold-24 style="font-size: 28px; color: #10B981; margin-top: 5px;" = "#{@csat_avg} / 5.0"
                 
         .st-home-section style="margin-top: 40px; width: 100%; max-width: 900px;"
-          h3.f-semi-16 = t('dashboard.reports.conversations_volume', default: 'Conversation Volume')
+          h3.f-semi-16 = t('dashboard.reports.conversations_volume')
           div style="background: white; border: 1px solid #E5E7EB; border-radius: 12px; padding: 20px; margin-top: 15px;"
             = line_chart @conversations_by_day, colors: ["#4F46E5"]
             
         .st-home-section style="margin-top: 40px; width: 100%; max-width: 900px;"
-          h3.f-semi-16 = t('dashboard.reports.agent_workload', default: 'Agent Workload (Last 30 Days)')
+          h3.f-semi-16 = t('dashboard.reports.agent_workload')
           
           div style="margin-top: 15px; background: white; border-radius: 12px; border: 1px solid #E5E7EB; overflow: hidden;"
             - if @agent_workload.empty?
               .auto-empty-state style="padding: 40px 20px;"
                 .ui-empty-icon 📊
-                h3.f-semi-18 = t('dashboard.reports.no_data_title', default: 'No data available')
-                p.f-reg-14 = t('dashboard.reports.no_data_desc', default: 'There are no assigned conversations in this period.')
+                h3.f-semi-18 = t('dashboard.reports.no_data_title')
+                p.f-reg-14 = t('dashboard.reports.no_data_desc')
             - else
               table style="width: 100%; border-collapse: collapse; text-align: left;"
                 thead style="background: #F9FAFB; border-bottom: 1px solid #E5E7EB;"
                   tr
-                    th.f-semi-14 style="padding: 16px 24px; color: #6B7280;" = t('dashboard.reports.agent', default: 'Agent')
-                    th.f-semi-14 style="padding: 16px 24px; color: #6B7280; text-align: right;" = t('dashboard.reports.conversations', default: 'Conversations Handled')
+                    th.f-semi-14 style="padding: 16px 24px; color: #6B7280;" = t('dashboard.reports.agent')
+                    th.f-semi-14 style="padding: 16px 24px; color: #6B7280; text-align: right;" = t('dashboard.reports.conversations')
                 tbody
                   - @agent_workload.each do |agent_id, count|
                     - agent = @agents[agent_id]

@@ -19,9 +19,9 @@
                     - if source.description.present?
                       p.f-reg-13.ap-card-desc = truncate(source.description, length: 80)
                   .ap-card-actions
-                    = link_to edit_identity_source_path(source), class: "ap-action-btn", title: "Edit"
+                    = link_to edit_identity_source_path(source), class: "ap-action-btn", title: t("dashboard.skills.index.edit")
                       | ✏️
-                    = link_to identity_source_path(source), method: :delete, class: "ap-action-btn ap-action-delete", data: { turbo_method: :delete, turbo_confirm: t("dashboard.identity_sources.index.delete_confirm") }, title: "Delete"
+                    = link_to identity_source_path(source), method: :delete, class: "ap-action-btn ap-action-delete", data: { turbo_method: :delete, turbo_confirm: t("dashboard.identity_sources.index.delete_confirm") }, title: t("general.delete")
                       | 🗑️
                 .ap-card-meta
                   .ap-strategy-badge style="background: #e0f2fe; color: #0369a1;"

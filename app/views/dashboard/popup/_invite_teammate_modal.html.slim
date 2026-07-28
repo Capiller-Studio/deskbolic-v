@@ -1,17 +1,17 @@
 .model-content-section
   .model-content
     .modal-header
-      h3.f-semi-18 Invite a teammates to help
-      = inline_svg_tag("cross_button.svg", alt:"menu", class:"conversation-icon m-close", data: { action: "click->modal-toggler#hideModal" })
+      h3.f-semi-18 = t("ui.dashboard.popup.invite_teammate_modal.invite_a_teammates_to_help")
+      = inline_svg_tag("cross_button.svg", alt:t("ui.dashboard.agent.agent_sidebar.menu"), class:"conversation-icon m-close", data: { action: "click->modal-toggler#hideModal" })
     .modal-body.channel-form
-      = form_with(url: "#", data: {controller: "formValidation renderer", "formValidation-target" => "form", turbo: false}, html: {class: "needs-validation", novalidate: true, method: :post}) do |f|
+      = form_with(url: "#", data: {controller: "form-validation renderer", "form-validation-target" => "form", turbo: false}, html: {class: "needs-validation", novalidate: true, method: :post}) do |f|
         .form-fields
           / = f.hidden_field :channel_type, value: "email"
           .form-floating
             .field-label
-              = f.label :email, "Email", class: "form-label f-reg-14 reg-label"
+              = f.label :email, t("forms.labels.email"), class: "form-label f-reg-14 reg-label"
             = f.email_field :email, class: "form-control f-reg-14", placeholder: t("dashboard.popup.invite_teammate.form.email_placeholder"), required: true
           .f-reg-12 = t("dashboard.popup.invite_teammate.form.permission_note")
         .form-actions
-          .btn-cancel data-action="click->modal-toggler#hideModal" = t("dashboard.popup.invite_teammate.form.cancel", default: "Cancel")
-          = f.submit t("dashboard.popup.invite_teammate.form.submit", default: "Send Invite"), class: "submit-btn f-med-14", data: { action: "click->formValidation#validate click->modal-toggler#hideModal" }
+          .btn-cancel data-action="click->modal-toggler#hideModal" = t("dashboard.popup.invite_teammate.form.cancel")
+          = f.submit t("dashboard.popup.invite_teammate.form.submit"), class: "submit-btn f-med-14", data: { action: "click->form-validation#validate click->modal-toggler#hideModal" }

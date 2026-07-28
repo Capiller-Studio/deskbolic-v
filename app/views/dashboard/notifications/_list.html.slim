@@ -27,6 +27,6 @@ style
     - notifications.each do |notification|
       = render partial: "dashboard/notifications/notification", locals: { notification: notification }
     - if @pagy && @pagy.next
-      turbo-frame id="notifications-page-#{@pagy.next}" src=dashboard_notifications_path(page: @pagy.next) loading="lazy"
+      turbo-frame id="notifications-page-#{@pagy.next}" src=notifications_path(page: @pagy.next) loading="lazy"
         .loading-spinner style="text-align: center; padding: 20px; color: #9CA3AF;"
           p.f-reg-14 = t("ui.dashboard.notifications.list.loading_more_notifications")

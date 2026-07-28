@@ -2,7 +2,7 @@
   .model-content
     .modal-header
       h3.f-semi-18 WhatsApp Channel
-      = inline_svg_tag("cross_button.svg", alt:"menu", class:"conversation-icon m-close", data: { action: "click->modalToggler#hideModal" })
+      = inline_svg_tag("cross_button.svg", alt:"menu", class:"conversation-icon m-close", data: { action: "click->modal-toggler#hideModal" })
     .modal-body.channel-form
       = form_with(url: channels_path, data: {controller: "formValidation renderer", "formValidation-target" => "form", turbo: false}, html: {class: "needs-validation", novalidate: true, method: :post}) do |f|
         .form-fields
@@ -33,4 +33,4 @@
               = f.label :business_account_id, "Business account id", class: "form-label f-reg-14"
             = f.text_field :business_account_id, class: "form-control f-reg-14", placeholder: "business account id", required: true
         .form-actions
-          = f.submit "Create Channel", class: "submit-btn f-med-14", data: { action: "click->formValidation#validate click->modalToggler#hideModal" }
+          = f.submit "Create Channel", class: "submit-btn f-med-14", data: { action: "click->formValidation#validate click->modal-toggler#hideModal" }

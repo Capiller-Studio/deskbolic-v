@@ -2,10 +2,10 @@
   .helpdesk-container
     .helpdesk-nav
       .card
-        .header data-controller="modalToggler frameToggler"
+        .header data-controller="modal-toggler frame-toggler"
           p.f-reg-14 AI Agent
           = render("dashboard/shared/modal_popper")
-        ul.channel-list.st-sidebar  data-controller="accordion modalToggler frameToggler"
+        ul.channel-list.st-sidebar  data-controller="accordion modal-toggler frame-toggler"
           .help-nav-menu
             / Home
             li.nav-item class="" data-action="click->accordion#toggle"

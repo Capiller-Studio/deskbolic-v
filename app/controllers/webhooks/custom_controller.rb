@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 module Webhooks
-  class CustomController < ApplicationController
-    skip_before_action :verify_authenticity_token
+  class CustomController < Webhooks::BaseController
     before_action :set_channel
     before_action :authenticate_webhook!
 
     def create
-      ::Webhooks::CustomEventListenWorker.perform_async(@channel.account_id, @channel.id, params.to_unsafe_h)
+      webhook = store_incoming_webhook(source: "custom", payload: params.to_unsafe_h)
+      ::Webhooks::CustomEventListenWorker.perform_async(webhook.id)
       head :ok
     end
 

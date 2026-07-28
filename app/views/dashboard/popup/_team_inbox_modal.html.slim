@@ -2,7 +2,7 @@
   .model-content
     .modal-header
       h3.f-semi-18 New Team Inbox
-      = inline_svg_tag("cross_button.svg", alt:"menu", class:"conversation-icon m-close", data: { action: "click->modalToggler#hideModal" })
+      = inline_svg_tag("cross_button.svg", alt:"menu", class:"conversation-icon m-close", data: { action: "click->modal-toggler#hideModal" })
     .modal-body.team-inbox-modal
       = form_with(model: Team.new, data: {controller: "formValidation renderer accordion", "formValidation-target" => "form"}, html: {class: "needs-validation", novalidate: true, method: :post}) do |f|
         .form-fields
@@ -28,5 +28,5 @@
                       .bullet
                       span.f-reg-12 = user.status.capitalize
         .form-actions
-          button.button.f-med-14 type="button" data-action="click->modalToggler#hideModal" Cancel
-          = f.submit "Save", class: "submit-btn f-med-14", data: { action: "click->formValidation#validate click->modalToggler#hideModal" }
+          button.button.f-med-14 type="button" data-action="click->modal-toggler#hideModal" Cancel
+          = f.submit "Save", class: "submit-btn f-med-14", data: { action: "click->formValidation#validate click->modal-toggler#hideModal" }

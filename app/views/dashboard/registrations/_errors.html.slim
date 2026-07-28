@@ -1,0 +1,16 @@
+- if errors.present?
+  #registration-form-errors style="padding: 0 20px;"
+    .bg-red-50.border-l-4.border-red-400.p-4.mb-4 style="background-color: #fef2f2; border-left: 4px solid #f87171; padding: 16px; margin-bottom: 16px;"
+      .flex
+        .flex-shrink-0
+          svg.h-5.w-5.text-red-400 style="height: 20px; width: 20px; color: #f87171;" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
+            path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd"
+        .ml-3 style="margin-left: 12px;"
+          h3.text-sm.font-medium.text-red-800 style="font-size: 14px; font-weight: 500; color: #991b1b; margin: 0;"
+            = t("auth.registration.errors_title", default: "There were errors with your submission:")
+          .mt-2.text-sm.text-red-700 style="margin-top: 8px; font-size: 14px; color: #b91c1c;"
+            ul.list-disc.pl-5.space-y-1 style="list-style-type: disc; padding-left: 20px; margin: 0;"
+              - errors.each do |error|
+                li = error[:message]
+- else
+  #registration-form-errors style="padding: 0 20px;"

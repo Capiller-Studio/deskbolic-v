@@ -51,6 +51,12 @@ export default class extends Controller {
           }).then((response) => response.text()).then((html) => {
             Turbo.renderStreamMessage(html);
           });
+
+          // Reorder the conversation to the top of the sidebar
+          const conversationId = objectData.conversation?.id;
+          if (conversationId) {
+            this.reorderConversation(conversationId);
+          }
         } else if (eventType === "activity.created") {
           if (document.getElementById(`activity_${resourceId}`)) return;
           const activeConversationId = document.querySelector(".conversation#oppp")?.dataset.conversationId;
@@ -64,7 +70,8 @@ export default class extends Controller {
         } else {
           const url = this.configureUrl(eventType);
           if (url) {
-            this.appendData(url, resourceId);
+            const activeConversationId = document.querySelector(".conversation#oppp")?.dataset.conversationId;
+            this.appendData(url, resourceId, activeConversationId);
           } else {
             console.warn(`[Deskbolic] Unhandled broadcast event: ${eventType}`);
           }
@@ -87,6 +94,8 @@ export default class extends Controller {
       return "/messages/append_message"
     } else if (broadcast_event == "conversation.created") {
       return "/conversations/append_conversation"
+    } else if (broadcast_event == "conversation.updated") {
+      return "/conversations/reorder_conversation"
     } else if (broadcast_event == "message.updated") {
       return "/messages/update_message"
     } else if (broadcast_event == "activity.created") {
@@ -96,14 +105,32 @@ export default class extends Controller {
     }
   }
   
-  appendData(url, resourceId) {
-    fetch(`${url}?id=${resourceId}`, {
+  appendData(url, resourceId, activeConversationId) {
+    let fetchUrl = `${url}?id=${resourceId}`;
+    if (activeConversationId) {
+      fetchUrl += `&active_conversation_id=${activeConversationId}`;
+    }
+    fetch(fetchUrl, {
       method: 'GET',
       headers: {
         Accept: 'text/vnd.turbo-stream.html'
       },
     }).then((response) => response.text()).
     then((html) => {
+      Turbo.renderStreamMessage(html);
+    })
+  }
+
+  reorderConversation(conversationId) {
+    const activeConversationId = document.querySelector(".conversation#oppp")?.dataset.conversationId;
+    let fetchUrl = `/conversations/reorder_conversation?id=${conversationId}`;
+    if (activeConversationId) {
+      fetchUrl += `&active_conversation_id=${activeConversationId}`;
+    }
+    fetch(fetchUrl, {
+      method: 'GET',
+      headers: { Accept: 'text/vnd.turbo-stream.html' },
+    }).then((response) => response.text()).then((html) => {
       Turbo.renderStreamMessage(html);
     })
   }

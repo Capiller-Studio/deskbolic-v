@@ -65,3 +65,8 @@ end
 every 2.minutes do
   runner "ImapFetchWorker.perform_async"
 end
+
+# Retry incoming webhooks that were dropped by Sidekiq
+every 30.minutes do
+  runner "Webhooks::RetryFailedWorker.perform_async"
+end

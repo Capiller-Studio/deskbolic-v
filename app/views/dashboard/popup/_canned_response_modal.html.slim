@@ -2,7 +2,7 @@
   .model-content
     .modal-header
       h3.f-semi-18 Create a new reply
-      = inline_svg_tag("cross_button.svg", alt:"menu", class:"conversation-icon m-close", data: { action: "click->modalToggler#hideModal" })
+      = inline_svg_tag("cross_button.svg", alt:"menu", class:"conversation-icon m-close", data: { action: "click->modal-toggler#hideModal" })
     .modal-body.canned-response-modal
       = form_with(model: CannedResponse.new, data: {controller: "formValidation renderer accordion", "formValidation-target" => "form"}, html: {class: "needs-validation", novalidate: true, method: :post}) do |f|
         .form-fields
@@ -16,5 +16,5 @@
           .form-floating
             = f.text_area :description, class: "form-control f-reg-14", placeholder: t("dashboard.popup.canned_response.form.description_placeholder"), data: { accordion_target: "response" }, required: true
         .form-actions
-          button.button.f-med-14 type="button" data-action="click->modalToggler#hideModal" = t("dashboard.popup.canned_response.form.cancel", default: "Cancel")
-          = f.submit t("dashboard.popup.canned_response.form.save", default: "Save"), class: "submit-btn f-med-14", data: { action: "click->formValidation#validate click->modalToggler#hideModal" }
+          button.button.f-med-14 type="button" data-action="click->modal-toggler#hideModal" = t("dashboard.popup.canned_response.form.cancel", default: "Cancel")
+          = f.submit t("dashboard.popup.canned_response.form.save", default: "Save"), class: "submit-btn f-med-14", data: { action: "click->formValidation#validate click->modal-toggler#hideModal" }

@@ -3,8 +3,8 @@ self.addEventListener("push", function(event) {
     const data = event.data.json()
     const options = {
       body: data.body,
-      icon: "/icon.png", // Use deskbolic's fav icon
-      badge: "/icon.png",
+      icon: self.location.origin + "/icon.png", // Use absolute URL for desktop push support
+      badge: self.location.origin + "/icon.png",
       data: data.data
     }
     
@@ -23,10 +23,8 @@ self.addEventListener("notificationclick", function(event) {
   
   if (data && data.resource_type === "Conversation") {
     url = `/conversations/${data.resource_id}`
-  } else if (data && data.resource_type === "Message") {
-    // Assuming messages belong to a conversation, wait, we don't have conversation_id in the basic data payload
-    // We can just open the dashboard root for now.
-    url = "/"
+  } else if (data && data.resource_type === "Message" && data.conversation_id) {
+    url = `/conversations/${data.conversation_id}`
   }
   
   event.waitUntil(

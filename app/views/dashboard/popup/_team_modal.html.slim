@@ -11,7 +11,7 @@
       .modal-header-text
         h3.f-semi-18 = is_edit ? t("dashboard.popup.team.form.edit_title") : t("dashboard.popup.team.form.new_title")
         p.f-reg-14.modal-subtitle = is_edit ? t("dashboard.popup.team.form.edit_subtitle") : t("dashboard.popup.team.form.new_subtitle")
-      = inline_svg_tag("cross_button.svg", alt: "close", class: "conversation-icon m-close", data: { action: "click->modalToggler#hideModal" })
+      = inline_svg_tag("cross_button.svg", alt: "close", class: "conversation-icon m-close", data: { action: "click->modal-toggler#hideModal" })
 
     .team-form-body
       = form_with(model: team, url: form_url, method: form_method, data: { "controller" =>"formValidation", "formValidation-target" => "form", "turbo_frame" =>"teams_list" }, html: { class: "needs-validation team-form", novalidate: true } ) do |f|
@@ -68,7 +68,7 @@
                       .checkmark
 
         .form-actions
-          button.cancel-btn.f-med-14 type="button" data-action="click->modalToggler#hideModal" = t("dashboard.popup.team.form.cancel", default: "Cancel")
+          button.cancel-btn.f-med-14 type="button" data-action="click->modal-toggler#hideModal" = t("dashboard.popup.team.form.cancel", default: "Cancel")
           = f.submit(is_edit ? t("dashboard.popup.team.form.save", default: "Save Changes") : t("dashboard.popup.team.form.create", default: "Create Team"),
               class: "submit-btn f-med-14",
               data: { action: "click->formValidation#validate" })

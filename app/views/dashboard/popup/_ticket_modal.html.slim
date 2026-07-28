@@ -2,7 +2,7 @@
   .model-content
     .modal-header
       h3 New Conversation
-      = inline_svg_tag("cross_button.svg", alt:"menu", class:"conversation-icon m-close", data: { action: "click->modalToggler#hideModal" })
+      = inline_svg_tag("cross_button.svg", alt:"menu", class:"conversation-icon m-close", data: { action: "click->modal-toggler#hideModal" })
     .modal-body 
       = form_with(url: "#", data: {controller: "formValidation renderer", "formValidation-target" => "form"}, html: {class: "needs-validation", novalidate: true, method: :post}) do |f|
         .add-customer-container
@@ -17,7 +17,7 @@
               = f.text_area :response, class: "f-reg-14  note-area form-control", placeholder: "Write your response for issue", required: true  
               .commands
                 .send-button
-                  = f.submit "Send", class: "f-semi-12 button",data: { action: "click->formValidation#validate click->modalToggler#hideModal" }
+                  = f.submit "Send", class: "f-semi-12 button",data: { action: "click->formValidation#validate click->modal-toggler#hideModal" }
           .right-panel.ui-select
             = select_tag :ticket_type, options_for_select([["Customer Ticket"], ["Back Office Ticket"], ["Tracker Ticket"]]), { class: "f-reg-14 form-control ", data: { controller: "select" }} 
 

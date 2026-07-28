@@ -1,10 +1,10 @@
-.modal-bg data-frameToggler-target="modalBg"
-  .modal-container data-frameToggler-target="modalContainer"
+.modal-bg data-frame-toggler-target="modalBg"
+  .modal-container data-frame-toggler-target="modalContainer"
     = form_with(url: channels_path, method: :post, local: true, class: "new-channel-form") do |f|
       = f.hidden_field :channel_type, value: "contact_form"
       .modal-header
         h3.f-semi-18 Create Contact Form
-        = inline_svg_tag("cross.svg", class:"cross-icon", alt:"menu", data: { action: "click->frameToggler#hideModal" })
+        = inline_svg_tag("cross.svg", class:"cross-icon", alt:"menu", data: { action: "click->frame-toggler#hideModal" })
       .modal-body
         .form-group
           = f.label :name, "Form Name", class: "f-semi-14"
@@ -41,5 +41,5 @@
             span.f-reg-14 Send Confirmation Email to Customer
 
       .modal-footer
-        = button_tag "Cancel", type: "button", class: "btn-secondary", data: { action: "click->frameToggler#hideModal" }
+        = button_tag "Cancel", type: "button", class: "btn-secondary", data: { action: "click->frame-toggler#hideModal" }
         = f.submit "Create Form", class: "btn-primary"

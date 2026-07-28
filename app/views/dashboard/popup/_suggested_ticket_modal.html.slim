@@ -6,19 +6,19 @@
       /     .main
       /       = inline_svg_tag("search.svg", alt:"menu")
       /       p.f-reg-14 Search
-      .card.create-ticket data-action="click->frameToggler#loadModal" data-popup-view="_ticket_modal"
+      .card.create-ticket data-action="click->frame-toggler#loadModal" data-popup-view="_ticket_modal"
         button.accordian
           .main
             = inline_svg_tag("ticket_no_background.svg", alt:"menu", class:"conversation-icon")
             p.f-reg-14 Create Ticket
           = inline_svg_tag("arrow.svg", class:"")
-      .card data-action="click->frameToggler#loadModal" data-popup-view="_fb_conv_modal"
+      .card data-action="click->frame-toggler#loadModal" data-popup-view="_fb_conv_modal"
         button.accordian.inactive
           .main
             = inline_svg_tag("messenger.svg", alt:"menu", class:"conversation-icon")
             p.f-reg-14 Messenger
           = inline_svg_tag("arrow.svg", class:"")
-      .card data-action="click->frameToggler#loadModal" data-popup-view="_email_conv_modal"
+      .card data-action="click->frame-toggler#loadModal" data-popup-view="_email_conv_modal"
         button.accordian.inactive
           .main
             = inline_svg_tag("envelope.svg", alt:"menu", class:"conversation-icon")

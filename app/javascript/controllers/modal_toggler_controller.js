@@ -4,39 +4,43 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["model"];
 
+  get modelContainer() {
+    if (this.hasModelTarget) return this.modelTarget;
+    return this.element.matches(".model") ? this.element : this.element.querySelector(".model");
+  }
+
   showModal() {
-    const model = document.querySelector(".model");
-    model.style.display = "block"
+    this.modelContainer.style.display = "block"
     document.querySelectorAll(".menu[data-accordion-target='menu']").forEach(menu => {
       menu.style.display = "none";
     });
 
     document.addEventListener('click', e => {
-      if(model.firstChild === e.target) {
+      if(this.modelContainer.firstChild === e.target) {
         this.hideModal();
       }
     })
   }
   
   loadModal() {
-    this.modelTarget.style.display = "block"
+    this.modelContainer.style.display = "block"
 
     document.addEventListener('click', e => {
-      if(model.firstChild === e.target) {
+      if(this.modelContainer.firstChild === e.target) {
         this.hideModal();
       }
     })
   }
 
   hideModal() {
-    this.modelTarget.style.display = "none"
+    this.modelContainer.style.display = "none"
     document.querySelectorAll(".menu[data-accordion-target='menu']").forEach(menu => {
       menu.style.display = "";
     });
   }
 
   closeOnOutsideClick(event) {
-    const contentBox = this.modelTarget.querySelector(".model-content");
+    const contentBox = this.modelContainer.querySelector(".model-content");
     if (contentBox && !contentBox.contains(event.target)) {
       this.hideModal();
     }

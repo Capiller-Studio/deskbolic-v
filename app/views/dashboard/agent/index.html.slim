@@ -1,10 +1,10 @@
 = render("dashboard/shared/dashboard_container", current_page: "roles") do
   = render("dashboard/agent/agent_sidebar", current_page: "roles") do
-    .agent-body-section data-controller="modalToggler frameToggler"
+    .agent-body-section data-controller="modal-toggler frame-toggler"
       .agent-header
         h2.f-semi-18 Settings
       .agent-body
-        ul.agent-configs-list  data-controller="accordion modalToggler frameToggler"
+        ul.agent-configs-list  data-controller="accordion modal-toggler frame-toggler"
           .configs-nav-menu
             .config-item
               li.config-nav-item class="" data-action="click->accordion#toggle"

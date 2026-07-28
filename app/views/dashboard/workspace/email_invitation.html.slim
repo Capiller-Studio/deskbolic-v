@@ -1,8 +1,8 @@
-.email-joining-container.center-wrapper data-controller="renderer formWizard"
+.email-joining-container.center-wrapper data-controller="renderer form-wizard"
   .header
     .logo
       = image_tag("logo.png", alt: "Deskbolic logo")
-  = form_for(:user, url: "#", data: {controller: "formValidation renderer formWizard", "formValidation-target" => "form"}, html: {class: "js-form-wizard form-wizard needs-validation", novalidate: true, method: :post}) do |f|   
+  = form_for(:user, url: "#", data: {controller: "formValidation renderer form-wizard", "formValidation-target" => "form"}, html: {class: "js-form-wizard form-wizard needs-validation", novalidate: true, method: :post}) do |f|   
     fieldset
       .view-workspace-container
         .joining-card
@@ -18,7 +18,7 @@
                    p.workspace-name = @workspace.name
                    p.members = t("auth.workspace.email_invitation.members", count: @workspace.users.count)
                p.description = t("auth.workspace.email_invitation.description")
-               button.join-btn.js-next-button.f-med-12 type="button" data-action="click->formWizard#nextEmailStep" = t("auth.workspace.email_invitation.join_button")
+               button.join-btn.js-next-button.f-med-12 type="button" data-action="click->form-wizard#nextEmailStep" = t("auth.workspace.email_invitation.join_button")
 
     fieldset
       .join-workspace-container

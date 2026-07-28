@@ -4,7 +4,7 @@
       h2.f-semi-18 
         = t("dashboard.canned_responses.index.replies_for")
         = current_account.name
-      .macros-container data-controller="modalToggler frameToggler"
+      .macros-container data-controller="modal-toggler frame-toggler"
         .macros-section
           = form_tag(canned_responses_settings_path, method: :get, class: "filter-form") do
             .form-floating
@@ -14,7 +14,7 @@
             - @canned_responses.each do |response|
               = render 'dashboard/canned_responses/canned_response', response: response
         .macros-list
-          .new-macro data-action="click->modalToggler#showModal click->frameToggler#loadModal" data-popup-view="_canned_response_modal"
+          .new-macro data-action="click->modal-toggler#showModal click->frame-toggler#loadModal" data-popup-view="_canned_response_modal"
             = inline_svg_tag("plus_white.svg", class:"plus-icon", alt:"menu")
             span.f-semi-14 = t("dashboard.canned_responses.index.add_new_reply")
           .list

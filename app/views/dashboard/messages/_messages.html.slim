@@ -68,7 +68,7 @@
             = f.hidden_field :visibility, value: "global", data: { message_form_target: "visibility" }
             = f.file_field :attachments, multiple: true, class: "message-attachments-input", accept: "image/*,video/*,audio/*,.pdf,.doc,.docx,.txt,.zip", data: { message_form_target: "input", action: "change->message-form#previewFiles" }
           .commands
-            .actions data-controller="modalToggler frameToggler"
+            .actions data-controller="modal-toggler frame-toggler"
               / .response-action
                 = inline_svg_tag("menu.svg", class:"action-btn")
               .response-action data-controller="canned-responses" data-canned-responses-lexical-outlet=".note-area" data-canned-responses-conversation-id-value="#{@conversation.id}"
@@ -77,7 +77,7 @@
                 .menu.save-replies data-canned-responses-target="menu"
                   .menu-buttons
                     .menu-options
-                      = inline_svg_tag("star_plus.svg", class:"m-btn", alt:"menu",  data: { action: "click->modalToggler#showModal click->frameToggler#loadModal", popup_view:"_canned_response_modal" })
+                      = inline_svg_tag("star_plus.svg", class:"m-btn", alt:"menu",  data: { action: "click->modal-toggler#showModal click->frame-toggler#loadModal", popup_view:"_canned_response_modal" })
                       = link_to(canned_responses_settings_path, class: "", data: { turbo: false}) do
                         = inline_svg_tag("setting_button.svg", class:"m-btn", alt:"menu")
                     = image_tag("cross_btn.png", class:"m-btn", alt:"menu", data: { action: "click->canned-responses#toggleMenu" })
@@ -133,14 +133,14 @@
               /         = link_to("#", class: "menu-link options") do
               /           = inline_svg_tag("arrow_down.svg", class:"menu-icon", alt:"menu")
                         
-            .send-button data-controller="accordion modalToggler frameToggler"
+            .send-button data-controller="accordion modal-toggler frame-toggler"
               = f.submit t('dashboard.messages.send'), class: "f-semi-12", data: { turbo_submits_with: "Sending..." }
               .arrow-container data-action="click->accordion#toggleMenu" 
                 = inline_svg_tag("arrow_down_white.svg")
 
               .menu data-accordion-target="menu"
                 .schedule-options 
-                  .menu-link data-action="click->modalToggler#showModal click->frameToggler#loadModal" data-popup-view="_schedule_modal"
+                  .menu-link data-action="click->modal-toggler#showModal click->frame-toggler#loadModal" data-popup-view="_schedule_modal"
                     = inline_svg_tag("timer.svg",class:"option-icon")
                     p.f-reg-14 = t('dashboard.messages.schedule')
                   .menu-link.send-close

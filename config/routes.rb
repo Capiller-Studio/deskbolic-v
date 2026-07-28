@@ -87,6 +87,7 @@ Rails.application.routes.draw do
     resources :conversations do
       resources :canned_responses, only: [:index], module: :conversations
       get :append_conversation, on: :collection
+      get :reorder_conversation, on: :collection
       member do
         patch :snooz_conversation
         patch :close_conversation

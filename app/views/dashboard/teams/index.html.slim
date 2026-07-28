@@ -1,22 +1,22 @@
 = render("dashboard/shared/dashboard_container", current_page: "teams") do
   = render("dashboard/settings/settings_sidebar", current_page: "teams") do
-    .body-section.roles-body.team-inboxes-body data-controller="modalToggler frameToggler"
+    .body-section.roles-body.team-inboxes-body data-controller="modal-toggler frame-toggler"
       .roles-header.team-inboxes-header
         .topbar
           h2.f-semi-18 = t("dashboard.teams.index.title")
-          .new-inbox data-action="click->modalToggler#showModal click->frameToggler#loadModal" data-popup-view="_team_modal" style="cursor: pointer;"
+          .new-inbox data-action="click->modal-toggler#showModal click->frame-toggler#loadModal" data-popup-view="_team_modal" style="cursor: pointer;"
             span.f-reg-14 = t("dashboard.teams.index.new_team")
             = inline_svg_tag("plus_white.svg", class:"plus-icon", alt:"menu")
         .header-options
           .f-reg-16 = t("dashboard.teams.index.manage_description")
       .roles-container
         - if @teams.any?
-          .roles-section data-controller="modalToggler frameToggler"
+          .roles-section data-controller="modal-toggler frame-toggler"
             - @teams.each do |team|
               .card
                 .card-header
                   h4.f-semi-16 = team.name
-                  = inline_svg_tag("settings.svg", class: "card-icon", alt: "icon", data: { action: "click->modalToggler#showModal click->frameToggler#loadModal", popup_view: "_team_modal", item_id: team.id }, style: "cursor: pointer;")
+                  = inline_svg_tag("settings.svg", class: "card-icon", alt: "icon", data: { action: "click->modal-toggler#showModal click->frame-toggler#loadModal", popup_view: "_team_modal", item_id: team.id }, style: "cursor: pointer;")
                 p.f-reg-14 = team.description.presence || t("dashboard.teams.index.no_description")
                 .card-footer
                   - team.users.limit(3).each_with_index do |team_user, idx|
@@ -25,7 +25,7 @@
                     - else
                       .avatar-icon.avatar-fallback.customer-list-initials-avatar.f-reg-12 class="avatar#{idx+1} #{avatar_fallback_color_class(full_name(team_user))}"
                         = initials(team_user)
-                  .new-teammates data-action="click->modalToggler#showModal click->frameToggler#loadModal" data-popup-view="_team_modal" data-item-id=team.id style="cursor: pointer;"
+                  .new-teammates data-action="click->modal-toggler#showModal click->frame-toggler#loadModal" data-popup-view="_team_modal" data-item-id=team.id style="cursor: pointer;"
                     = inline_svg_tag("plus_blue.svg", class:"plus-icon", alt:"menu")
                     span.f-reg-12 = t("dashboard.teams.index.add_teammates")
                 .card-status
@@ -39,6 +39,6 @@
               = image_tag("empity_tag.png", class:"empity-tag", alt:"img")
               h3.f-semi-24 = t("dashboard.teams.index.empty_title")
               p.f-reg-14 = t("dashboard.teams.index.empty_description")
-              .new-inbox data-action="click->modalToggler#showModal click->frameToggler#loadModal" data-popup-view="_team_modal" style="margin-top: 16px; cursor: pointer;"
+              .new-inbox data-action="click->modal-toggler#showModal click->frame-toggler#loadModal" data-popup-view="_team_modal" style="margin-top: 16px; cursor: pointer;"
                 span.f-reg-14 = t("dashboard.teams.index.new_team")
                 = inline_svg_tag("plus_white.svg", class:"plus-icon", alt:"menu")

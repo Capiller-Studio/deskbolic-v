@@ -1,13 +1,13 @@
 = render("dashboard/shared/dashboard_container", current_page: "team-inboxes") do
   = render("dashboard/settings/settings_sidebar", current_page: "team-inboxes") do
-    .body-section.team-inboxes-body data-controller="modalToggler frameToggler"
+    .body-section.team-inboxes-body data-controller="modal-toggler frame-toggler"
       .team-inboxes-header
         h2.f-semi-18 Team Inboxes
-        .new-inbox data-action="click->modalToggler#showModal click->frameToggler#loadModal" data-popup-view="_team_inbox_modal"
+        .new-inbox data-action="click->modal-toggler#showModal click->frame-toggler#loadModal" data-popup-view="_team_inbox_modal"
           span.f-reg-14 Add new inbox
           = inline_svg_tag("plus_white.svg", class:"plus-icon", alt:"menu")
       .team-inboxes-body
-        ul.team-inboxes-list  data-controller="accordion modalToggler frameToggler"
+        ul.team-inboxes-list  data-controller="accordion modal-toggler frame-toggler"
           .teams-nav-menu
             - @teams.each do |team|            
               li.team-nav-item class="" data-action="click->accordion#toggle"
@@ -21,7 +21,7 @@
               .members-panel.panel data-accordion-target="panel"
                 .members-header
                   h3.f-semi-18 Team Members
-                  .new-member data-action="click->modalToggler#showModal click->frameToggler#loadModal" data-popup-view="_team_inbox_modal"
+                  .new-member data-action="click->modal-toggler#showModal click->frame-toggler#loadModal" data-popup-view="_team_inbox_modal"
                     span.f-reg-14 New Team Member
                     = inline_svg_tag("plus_white.svg", class:"plus-icon", alt:"menu")
                 ul.members-list
@@ -113,7 +113,7 @@
               / .members-panel.panel data-accordion-target="panel"
               /   .members-header
               /     h3.f-semi-18 Team Members
-              /     .new-member data-action="click->modalToggler#showModal click->frameToggler#loadModal" data-popup-view="_team_inbox_modal"
+              /     .new-member data-action="click->modal-toggler#showModal click->frame-toggler#loadModal" data-popup-view="_team_inbox_modal"
               /       span.f-reg-14 New Team Member
               /       = inline_svg_tag("plus_white.svg", class:"plus-icon", alt:"menu")
               /   ul.members-list

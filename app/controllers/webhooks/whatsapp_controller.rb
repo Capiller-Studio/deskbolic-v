@@ -5,19 +5,18 @@
 # Website: https://techbolic.com/
 
 module Webhooks
-  class WhatsappController < ApplicationController
-    skip_forgery_protection only: [:index, :hub]
+  class WhatsappController < Webhooks::BaseController
 
     def index
-      # Support both per-channel routing and global routing
       native_params = JSON.parse(params.to_unsafe_h.to_json)
-      
-      # Inject channel_id if passed in URL (manual setup)
-      native_params["channel_id"] = params[:channel_id] if params[:channel_id].present?
 
-      Webhooks::WhatsappEventListenWorker.perform_async(native_params)
+      webhook = store_incoming_webhook(source: "whatsapp", payload: native_params)
+      Webhooks::WhatsappEventListenWorker.perform_async(webhook.id)
 
       head(:ok)
+    rescue StandardError => e
+      Rails.logger.error("WhatsApp webhook error: #{e.message}")
+      head(:internal_server_error)
     end
 
     def hub

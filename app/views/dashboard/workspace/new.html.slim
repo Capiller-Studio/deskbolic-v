@@ -1,5 +1,5 @@
 .user-signup-container.center-wrapper
-  .form-section data-controller="renderer formWizard"
+  .form-section data-controller="renderer form-wizard"
     = image_tag("logo.png", class:"img", alt:"logo")
     = form_for(@account, url: workspace_path(@account), html: {class: "js-form-wizard form-wizard needs-validation", novalidate: true}) do |f|
       fieldset
@@ -9,7 +9,7 @@
         .form-fields
           .radio-button-group
             .radio-button
-              = radio_button_tag 'user_type', 'agent', id: 'agent_radio', checked: true, data: { formWizard_target: "roleRadio" }
+              = radio_button_tag 'user_type', 'agent', id: 'agent_radio', checked: true, data: { form-wizard_target: "roleRadio" }
               label for="agent_radio"
                 = inline_svg_tag("agent.svg", class:"icon")
                 .details
@@ -17,13 +17,13 @@
                    p = t("auth.workspace.new.agent_description")
 
             .radio-button
-              = radio_button_tag 'user_type', 'company', id: 'company_radio', data: { formWizard_target: "roleRadio" }
+              = radio_button_tag 'user_type', 'company', id: 'company_radio', data: { form-wizard_target: "roleRadio" }
               label for="company_radio"
                 = inline_svg_tag("company.svg", class:"icon")
                 .details
                    h3 = t("auth.workspace.new.company")
                    p = t("auth.workspace.new.company_description")
-          button.cont-btn.js-next-button type="button" data-action="click->formWizard#toggleFieldsets click->formWizard#nextStep" = t("auth.workspace.new.continue")
+          button.cont-btn.js-next-button type="button" data-action="click->form-wizard#toggleFieldsets click->form-wizard#nextStep" = t("auth.workspace.new.continue")
         
       fieldset.agent-section
         .set-header
@@ -51,7 +51,7 @@
           .form-floating
             = label_tag :company_name, t("auth.workspace.new.company_name"), class: "form-label"
             = text_field_tag :company_name, "", class: "form-control", placeholder: t("auth.workspace.new.company_name_placeholder"), required: true, disabled: true
-          button.cont-btn.js-next-button type="button" data-action="click->formWizard#nextStep" = t("auth.workspace.new.continue")
+          button.cont-btn.js-next-button type="button" data-action="click->form-wizard#nextStep" = t("auth.workspace.new.continue")
       
       fieldset.company-section
         .form-fields

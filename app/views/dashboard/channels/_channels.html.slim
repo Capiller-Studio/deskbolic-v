@@ -2,13 +2,13 @@
   .helpdesk-container
     .helpdesk-nav
       .card
-        .header data-controller="modalToggler frameToggler"
+        .header data-controller="modal-toggler frame-toggler"
           = inline_svg_tag("sidebar.svg", class:"link-icon", alt:"menu")
           p.f-reg-14 = t('dashboard.sidebar.channels.title')
-          = inline_svg_tag("note_pencil.svg", class:"note-pencil-icon ml-auto", alt:"menu", data: { action: "click->modalToggler#showModal click->frameToggler#loadModal", popup_view:"_suggested_ticket_modal"})
+          = inline_svg_tag("note_pencil.svg", class:"note-pencil-icon ml-auto", alt:"menu", data: { action: "click->modal-toggler#showModal click->frame-toggler#loadModal", popup_view:"_suggested_ticket_modal"})
           = render("dashboard/shared/modal_popper")
           turbo-frame#facebook-page-frame
-        .channel-header.list-header data-controller="accordion modalToggler frameToggler"
+        .channel-header.list-header data-controller="accordion modal-toggler frame-toggler"
           = inline_svg_tag("dropdown_icon.svg", class:"channel-icon", alt:"menu")
           h4.f-reg-14 = t('dashboard.sidebar.channels.inboxes')
           .toggle-menu.ml-auto data-action="click->accordion#toggleMenu"
@@ -38,7 +38,7 @@
               = inline_svg_tag("contact_form.svg", class:"menu-icon", alt:"menu")
               p.f-reg-14 = t('dashboard.sidebar.channels.contact_form')
               = inline_svg_tag("plus.svg", class:"menu-icon ml-auto", alt:"menu")
-        ul.channel-list  data-controller="accordion modalToggler frameToggler"
+        ul.channel-list  data-controller="accordion modal-toggler frame-toggler"
           .help-nav-menu
             / All inboxes
             li.nav-item class=""

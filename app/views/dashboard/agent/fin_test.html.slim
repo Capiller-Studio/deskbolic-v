@@ -30,7 +30,7 @@
           = inline_svg_tag("question.svg", class:"icon", alt:"menu")
           h3.f-semi-18 There group has no questions
           p.f-reg-14 Start testing by adding questions for Fin to answer
-          .question-menu data-controller="accordion modalToggler frameToggler"
+          .question-menu data-controller="accordion modal-toggler frame-toggler"
             .q-text.f-reg-14 Add Questions
             .toggle-menu data-action="click->accordion#toggleMenu"
               = inline_svg_tag("arrow_down_white.svg", class:"st-dropdown-icon", alt:"menu")
@@ -38,7 +38,7 @@
               h4.f-semi-14 Inbox
               hr
               .menu-link.f-semi-14 Generate from past conversations
-              .menu-link.f-semi-14 data-action="click->modalToggler#showModal click->frameToggler#loadModal" data-popup-view="_topic_questions_modal" Generate by topics
+              .menu-link.f-semi-14 data-action="click->modal-toggler#showModal click->frame-toggler#loadModal" data-popup-view="_topic_questions_modal" Generate by topics
               hr
               h4.f-semi-14 Others
               .menu-link.f-semi-14 Upload a CV

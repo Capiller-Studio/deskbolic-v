@@ -9,7 +9,7 @@
         .form-fields
           .radio-button-group
             .radio-button
-              = radio_button_tag 'user_type', 'agent', id: 'agent_radio', checked: true, data: { form-wizard_target: "roleRadio" }
+              = radio_button_tag 'user_type', 'agent', id: 'agent_radio', checked: true, data: { form_wizard_target: "roleRadio" }
               label for="agent_radio"
                 = inline_svg_tag("agent.svg", class:"icon")
                 .details
@@ -17,7 +17,7 @@
                    p = t("dashboard.workspace.new.agent_description")
 
             .radio-button
-              = radio_button_tag 'user_type', 'company', id: 'company_radio', data: { form-wizard_target: "roleRadio" }
+              = radio_button_tag 'user_type', 'company', id: 'company_radio', data: { form_wizard_target: "roleRadio" }
               label for="company_radio"
                 = inline_svg_tag("company.svg", class:"icon")
                 .details

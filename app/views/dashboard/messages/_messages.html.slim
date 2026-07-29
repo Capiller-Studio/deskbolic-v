@@ -1,4 +1,5 @@
-.card.conversation-card
+.card.conversation-card data-controller="modal-toggler frame-toggler"
+  = render("dashboard/shared/modal_popper")
   .chat-section
     .header
       .user-details
@@ -70,7 +71,7 @@
             = f.hidden_field :visibility, value: "global", data: { message_form_target: "visibility" }
             = f.file_field :attachments, multiple: true, class: "message-attachments-input", accept: "image/*,video/*,audio/*,.pdf,.doc,.docx,.txt,.zip", data: { message_form_target: "input", action: "change->message-form#previewFiles" }
           .commands
-            .actions data-controller="modal-toggler frame-toggler"
+            .actions
               / .response-action
                 = inline_svg_tag("menu.svg", class:"action-btn")
               .response-action data-controller="canned-responses" data-canned-responses-lexical-outlet=".note-area" data-canned-responses-conversation-id-value="#{@conversation.id}"
@@ -135,7 +136,7 @@
               /         = link_to("#", class: "menu-link options") do
               /           = inline_svg_tag("arrow_down.svg", class:"menu-icon", alt:"menu")
                         
-            .send-button data-controller="accordion modal-toggler frame-toggler"
+            .send-button data-controller="accordion"
               = f.submit t('dashboard.messages.send'), class: "f-semi-12", data: { turbo_submits_with: "Sending..." }
               .arrow-container data-action="click->accordion#toggleMenu" 
                 = inline_svg_tag("arrow_down_white.svg")

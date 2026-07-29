@@ -22,19 +22,19 @@
                   span.channel-page-connected
                     | #{t("ui.dashboard.channels.whatsapp.edit.waba", business_account_id: @whatsapp_channel.business_account_id)}
 
-          - if @whatsapp_channel.reauthorization_required?
-            .channel-reauth-banner
-              .channel-reauth-icon ⚠️
-              .channel-reauth-text
-                p.f-semi-14 = t("dashboard.whatsapp_channels.edit.reauth_title")
-                p.f-reg-12 = t("dashboard.whatsapp_channels.edit.reauth_description")
-              = link_to reconnect_channels_whatsapp_path(@whatsapp_channel), method: :post, class: "channel-reconnect-btn", data: { turbo_method: :post }
-                | 🔄 #{t("dashboard.whatsapp_channels.index.reconnect")}
-          - else
-            .channel-status-active
-              .ui-badge.ui-badge-active
-                span.ui-badge-icon 🟢
-                span = t("dashboard.whatsapp_channels.index.status_active")
+            - if @whatsapp_channel.reauthorization_required?
+              .channel-reauth-banner
+                .channel-reauth-icon ⚠️
+                .channel-reauth-text
+                  p.f-semi-14 = t("dashboard.whatsapp_channels.edit.reauth_title")
+                  p.f-reg-12 = t("dashboard.whatsapp_channels.edit.reauth_description")
+                = link_to reconnect_channels_whatsapp_path(@whatsapp_channel), method: :post, class: "channel-reconnect-btn", data: { turbo_method: :post }
+                  | 🔄 #{t("dashboard.whatsapp_channels.index.reconnect")}
+            - else
+              .channel-status-active
+                .ui-badge.ui-badge-active
+                  span.ui-badge-icon 🟢
+                  span = t("dashboard.whatsapp_channels.index.status_active")
 
         .ui-section
           .ui-section-header
@@ -56,7 +56,7 @@
                 button.ui-btn-secondary type="button" onclick="navigator.clipboard.writeText('#{@whatsapp_channel.webhook_secret}')"
                   | 📋 #{t("general.copy")}
 
-        = form_with model: @whatsapp_channel, url: channels_whatsapp_path(@whatsapp_channel), class: "ui-form-wrapper" do |f|
+        = form_with model: @whatsapp_channel, url: channels_whatsapp_path(@whatsapp_channel), class: "ui-form-wrapper wa-wrapper" do |f|
           .ui-section
             .ui-section-header
               h3.f-semi-18 = t("dashboard.whatsapp_channels.form.inbox_settings")
@@ -74,8 +74,8 @@
               = f.password_field :api_key, value: @whatsapp_channel.api_key, class: "ui-input", placeholder: t("dashboard.whatsapp_channels.form.api_key_placeholder"), required: true
 
           - if @whatsapp_channel.primary_inbox
-            .channel-inbox-settings style="margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--gray-200);"
-              h4.f-semi-14 = t("dashboard.whatsapp_channels.form.inbox_settings_title")
+            .channel-inbox-settings style="margin-top: 24px; padding: 18px 24px; border: 1px solid rgba(0, 0, 0, 5%); border-radius: 16px;"
+              / h4.f-semi-14 = t("dashboard.whatsapp_channels.form.inbox_settings_title")
 
               = f.fields_for :primary_inbox, @whatsapp_channel.primary_inbox do |inbox|
                 = inbox.hidden_field :id

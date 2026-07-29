@@ -41,26 +41,28 @@
               .channel-connect-note
                 p.f-reg-12 = t("dashboard.facebook_channels.new.connect_note")
 
-        /! Step 2: Select a Page (rendered via Turbo Stream after callback)
-        #page-selector data-facebook-channel-target="step2"
+          /! Step 2: Select a Page (rendered via Turbo Stream after callback)
+          #page-selector.facebook-channel-step.ui-step-hidden data-facebook-channel-target="step2"
 
-        /! Step 3: Configure (hidden form, shown after page selection)
-        .channel-connect-card.ui-step-hidden data-facebook-channel-target="step3" style="margin-top: 24px;"
-          h3 = t("dashboard.facebook_channels.new.step3_title")
-          p = t("dashboard.facebook_channels.new.step3_description")
+          /! Step 3: Configure (hidden form, shown after page selection)
+          .channel-connect-card.facebook-channel-step-card.ui-step-hidden data-facebook-channel-target="step3"
+            .facebook-channel-step-heading
+              .facebook-channel-step-number 3
+              h3 = t("dashboard.facebook_channels.new.step3_title")
+              p = t("dashboard.facebook_channels.new.step3_description")
 
-          = form_with url: channels_facebook_index_path, method: :post, class: "ui-form-wrapper" do |f|
-            input type="hidden" name="facebook_channel[access_token]" data-facebook-channel-target="accessToken"
-            input type="hidden" name="facebook_channel[user_access_token]" data-facebook-channel-target="userAccessToken"
-            input type="hidden" name="facebook_channel[page_identifier]" data-facebook-channel-target="pageIdentifier"
-            input type="hidden" name="facebook_channel[avatar_url]" data-facebook-channel-target="avatarUrl"
+            = form_with url: channels_facebook_index_path, method: :post, class: "ui-form-wrapper facebook-channel-config-form" do |f|
+              input type="hidden" name="facebook_channel[access_token]" data-facebook-channel-target="accessToken"
+              input type="hidden" name="facebook_channel[user_access_token]" data-facebook-channel-target="userAccessToken"
+              input type="hidden" name="facebook_channel[page_identifier]" data-facebook-channel-target="pageIdentifier"
+              input type="hidden" name="facebook_channel[avatar_url]" data-facebook-channel-target="avatarUrl"
 
-            .ui-form-group
-              label.ui-label for="facebook_channel_name" = t("dashboard.facebook_channels.new.name_label")
-              input.ui-input type="text" name="facebook_channel[name]" id="facebook_channel_name" placeholder=t("dashboard.facebook_channels.new.name_placeholder") data-facebook-channel-target="channelName" required=true
+              .ui-form-group
+                label.ui-label for="facebook_channel_name" = t("dashboard.facebook_channels.new.name_label")
+                input.ui-input type="text" name="facebook_channel[name]" id="facebook_channel_name" placeholder=t("dashboard.facebook_channels.new.name_placeholder") data-facebook-channel-target="channelName" required=true
 
-            .ui-form-actions
-              = link_to channels_facebook_index_path, class: "ui-btn-secondary"
-                | #{t("dashboard.facebook_channels.form.cancel")}
-              button.ui-btn-primary type="submit"
-                | #{t("dashboard.facebook_channels.form.create")}
+              .ui-form-actions
+                = link_to channels_facebook_index_path, class: "ui-btn-secondary"
+                  | #{t("dashboard.facebook_channels.form.cancel")}
+                button.ui-btn-primary type="submit"
+                  | #{t("dashboard.facebook_channels.form.create")}

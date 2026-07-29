@@ -1,6 +1,7 @@
 = render("dashboard/shared/dashboard_container", current_page: "teams") do
   = render("dashboard/settings/settings_sidebar", current_page: "teams") do
     .body-section.roles-body.team-inboxes-body data-controller="modal-toggler frame-toggler"
+      = render("dashboard/shared/modal_popper")
       .roles-header.team-inboxes-header
         .topbar
           h2.f-semi-18 = t("dashboard.teams.index.title")
@@ -11,7 +12,7 @@
           .f-reg-16 = t("dashboard.teams.index.manage_description")
       .roles-container
         - if @teams.any?
-          .roles-section data-controller="modal-toggler frame-toggler"
+          .roles-section
             - @teams.each do |team|
               .card
                 .card-header

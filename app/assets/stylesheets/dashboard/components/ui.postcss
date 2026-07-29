@@ -361,15 +361,15 @@
 
 /* ─── Form Elements ─── */
 .ui-form-group {
-  margin-bottom: 16px;
+  margin-bottom: 24px;
 }
 
 .ui-label {
   display: block;
   font-family: $font-family-inter-medium;
-  font-size: 13px;
+  font-size: 12px;
   color: #334155;
-  margin-bottom: 6px;
+  margin-bottom: 10px;
 }
 
 .ui-input,
@@ -507,6 +507,12 @@ input:checked + .ui-toggle-slider::before {
 
 .ui-form-wrapper {
   width: 100%;
+  padding: 18px 24px;
+  padding-top: 0px;
+}
+
+.ui-form-wrapper.wa-wrapper {
+  padding: 0px;
 }
 
 /* ─── Danger Zone ─── */
@@ -521,6 +527,7 @@ input:checked + .ui-toggle-slider::before {
   p {
     color: #7f1d1d;
     margin-bottom: 16px;
+    padding: 0px 24px;
   }
 }
 
@@ -538,6 +545,8 @@ input:checked + .ui-toggle-slider::before {
   cursor: pointer;
   text-decoration: none;
   transition: background 0.2s ease;
+  margin: 18px 24px;
+  margin-top: 0px;
 
   &:hover {
     background: #b91c1c;
@@ -1008,6 +1017,14 @@ input:checked + .ui-toggle-slider::before {
   overflow: hidden;
 }
 
+.ui-section.wa-section {
+  padding: 0px 24px;
+}
+
+.ui-section.wa-section .ui-section-header {
+  padding: 18px 0px;
+}
+
 .ui-section-header {
   display: flex;
   align-items: center;
@@ -1088,9 +1105,9 @@ input:checked + .ui-toggle-slider::before {
 .ui-label {
   display: block;
   font-family: $font-family-inter-medium;
-  font-size: 13px;
+  font-size: 12px;
   color: #334155;
-  margin-bottom: 6px;
+  margin-bottom: 10px;
 }
 
 .ui-input {
@@ -1493,6 +1510,7 @@ input:checked + .ui-toggle-slider::before {
   font-size: 16px;
   color: var(--gray-900);
   margin: 0;
+  margin-top: 5px;
 }
 
 /* Token Info */

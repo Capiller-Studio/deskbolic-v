@@ -108,6 +108,15 @@ export default class extends Controller {
         const html = await response.text()
         // Turbo Stream will handle the DOM update automatically
         Turbo.renderStreamMessage(html)
+        if (html.includes('data-facebook-channel-step-success="true"')) {
+          this.showStep(this.step2Target)
+        } else {
+          // Keep the connect step available when the callback renders an error.
+          this.step2Target.classList.remove("ui-step-hidden")
+        }
+        requestAnimationFrame(() => {
+          this.step2Target.scrollIntoView({ behavior: "smooth", block: "center" })
+        })
       } else {
         console.error("Token exchange failed:", response.status)
       }
@@ -142,9 +151,21 @@ export default class extends Controller {
 
     // Show step 3
     if (this.hasStep3Target) {
-      this.step3Target.classList.remove("ui-step-hidden")
+      this.showStep(this.step3Target)
       this.step3Target.scrollIntoView({ behavior: "smooth", block: "center" })
       this.channelNameTarget.focus()
     }
+  }
+
+  showStep(activeStep) {
+    const steps = [
+      this.hasStep1Target ? this.step1Target : null,
+      this.hasStep2Target ? this.step2Target : null,
+      this.hasStep3Target ? this.step3Target : null
+    ]
+
+    steps.filter(Boolean).forEach((step) => {
+      step.classList.toggle("ui-step-hidden", step !== activeStep)
+    })
   }
 }

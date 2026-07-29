@@ -1,81 +1,144 @@
 = render("dashboard/shared/dashboard_container", current_page: "settings") do
   = render("dashboard/settings/settings_sidebar", current_page: "whatsapp-channels") do
     .channel-theme-whatsapp
-      .ui-page-body
-        .ui-page-header
-          = link_to channels_whatsapp_index_path, class: "ui-back-link"
-            | ← #{t("dashboard.whatsapp_channels.form.back")}
-          h2.f-semi-32 = t("dashboard.whatsapp_channels.new.title")
-          p.f-reg-16 = t("dashboard.whatsapp_channels.new.subtitle")
+      .ui-page-body.whatsapp-new-page
+        .whatsapp-new-shell
+          .whatsapp-new-header
+            = link_to channels_whatsapp_index_path, class: "ui-back-link whatsapp-back-link"
+              svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"
+                path stroke-linecap="round" stroke-linejoin="round" d="M15.5 10H4.5m0 0 4-4m-4 4 4 4"
+              span = t("dashboard.whatsapp_channels.form.back")
 
-        .channel-setup-tabs data-controller="whatsapp-tabs"
-          .ui-tabs-header
-            button.ui-tab-btn disabled=true type="button" style="opacity: 0.6; cursor: not-allowed;"
-              | ⚡ #{t("dashboard.whatsapp_channels.new.tabs.embedded")}
-              span style="background: var(--primary-50); color: var(--primary-600); font-size: 11px; padding: 2px 6px; border-radius: 4px; margin-left: 8px; font-weight: 600;" = t("general.coming_soon")
-            button.ui-tab-btn.active data-action="click->whatsapp-tabs#switch" data-target-tab="manual" type="button"
-              | 🛠️ #{t("dashboard.whatsapp_channels.new.tabs.manual")}
+            .whatsapp-title-row
+              .whatsapp-brand-mark aria-hidden="true"
+                svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor"
+                  path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.198.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.521.149-.173.198-.297.298-.496.099-.198.05-.372-.025-.521-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.075-.792.372-.273.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.262.489 1.693.625.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.981.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884a9.82 9.82 0 017.021 2.91 9.825 9.825 0 012.9 7.025c-.003 5.45-4.437 9.884-9.887 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"
 
-          /! Quick Connect (Embedded Signup)
-          #tab-embedded.ui-tab-content data-whatsapp-tabs-target="tabContent" data-tab-name="embedded" data-controller="whatsapp-channel" data-whatsapp-channel-app-id-value="#{@whatsapp_app_id}" data-whatsapp-channel-config-id-value="#{@whatsapp_config_id}" data-whatsapp-channel-callback-url-value="#{callback_channels_whatsapp_index_path}"
-            .ui-step
-              .ui-step-header
-                .ui-step-number 1
-                .ui-step-title
-                  h3.f-semi-18 = t("dashboard.whatsapp_channels.new.embedded.step1_title")
-                  p.f-reg-14 = t("dashboard.whatsapp_channels.new.embedded.step1_description")
-                  ul.ui-guide-list
-                    li = t("dashboard.whatsapp_channels.new.embedded.guide_1")
-                    li = t("dashboard.whatsapp_channels.new.embedded.guide_2")
-                    li = t("dashboard.whatsapp_channels.new.embedded.guide_3")
+              .whatsapp-title-copy
+                h1 = t("dashboard.whatsapp_channels.new.title")
+                p = t("dashboard.whatsapp_channels.new.subtitle")
 
-              .channel-connect-action
-                button.ui-btn-primary type="button" data-action="click->whatsapp-channel#connectWa"
-                  | 💬 #{t("dashboard.whatsapp_channels.new.embedded.connect_button")}
+              .whatsapp-security-badge
+                svg viewBox="0 0 20 20" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"
+                  path stroke-linecap="round" stroke-linejoin="round" d="M10 2.5 16 5v4.25c0 3.75-2.45 6.7-6 8.25-3.55-1.55-6-4.5-6-8.25V5l6-2.5Z"
+                  path stroke-linecap="round" stroke-linejoin="round" d="m7.5 10 1.6 1.6 3.5-3.7"
+                span = t("dashboard.whatsapp_channels.new.secure_setup", default: "Secure setup")
 
-            /! Form submitted automatically by JS on success
-            = form_with url: callback_channels_whatsapp_index_path, method: :post, class: "channel-hidden-form", data: { whatsapp_channel_target: "callbackForm" }, style: "display: none;" do |f|
+          .whatsapp-method-panel
+            .whatsapp-method-heading
+              span.whatsapp-eyebrow = t("dashboard.whatsapp_channels.new.connection_method", default: "Connection method")
+              p = t("dashboard.whatsapp_channels.new.connection_method_hint", default: "Choose how you want to connect your WhatsApp Business account.")
+
+            .whatsapp-method-options role="tablist" aria-label=t("dashboard.whatsapp_channels.new.connection_method", default: "Connection method")
+              button.whatsapp-method-option type="button" disabled=true aria-disabled="true"
+                span.whatsapp-method-icon
+                  svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"
+                    path stroke-linecap="round" stroke-linejoin="round" d="m11.25 2.5-6 8h4.5l-1 7 6-9h-4.5l1-6Z"
+                span.whatsapp-method-copy
+                  strong = t("dashboard.whatsapp_channels.new.tabs.embedded")
+                  small = t("dashboard.whatsapp_channels.new.quick_connect_hint", default: "Connect through your Meta account")
+                span.whatsapp-coming-soon = t("general.coming_soon")
+
+              button.whatsapp-method-option.is-active type="button" role="tab" aria-selected="true"
+                span.whatsapp-method-icon
+                  svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"
+                    path stroke-linecap="round" stroke-linejoin="round" d="M10 2.75v2.5m0 9.5v2.5M4.9 4.9l1.77 1.77m6.66 6.66 1.77 1.77M2.75 10h2.5m9.5 0h2.5M4.9 15.1l1.77-1.77m6.66-6.66L15.1 4.9"
+                    circle cx="10" cy="10" r="2.75"
+                span.whatsapp-method-copy
+                  strong = t("dashboard.whatsapp_channels.new.tabs.manual")
+                  small = t("dashboard.whatsapp_channels.new.manual_connect_hint", default: "Use credentials from Meta Developer")
+                span.whatsapp-selected-check aria-hidden="true"
+                  svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2"
+                    path stroke-linecap="round" stroke-linejoin="round" d="m5.5 10 3 3 6-6"
+
+          /! Retained for the embedded signup callback when Quick Connect is enabled.
+          #tab-embedded.ui-tab-content data-controller="whatsapp-channel" data-whatsapp-channel-app-id-value="#{@whatsapp_app_id}" data-whatsapp-channel-config-id-value="#{@whatsapp_config_id}" data-whatsapp-channel-callback-url-value="#{callback_channels_whatsapp_index_path}"
+            = form_with url: callback_channels_whatsapp_index_path, method: :post, class: "channel-hidden-form", data: { whatsapp_channel_target: "callbackForm" }, style: "display: none;" do
               input type="hidden" name="code" data-whatsapp-channel-target="code"
 
-          /! Manual Setup
-          #tab-manual.ui-tab-content.active data-whatsapp-tabs-target="tabContent" data-tab-name="manual"
-            .channel-manual-container
-              .ui-guide-box
-                h4.f-semi-16 = t("dashboard.whatsapp_channels.new.manual.guide_title")
-                ol.ui-guide-list
-                  li = t("dashboard.whatsapp_channels.new.manual.guide_1")
-                  li = t("dashboard.whatsapp_channels.new.manual.guide_2")
-                  li = t("dashboard.whatsapp_channels.new.manual.guide_3")
-                  li = t("dashboard.whatsapp_channels.new.manual.guide_4")
-                  li = t("dashboard.whatsapp_channels.new.manual.guide_5")
+          .whatsapp-setup-layout
+            = form_with model: @whatsapp_channel, url: channels_whatsapp_index_path, class: "whatsapp-form-card" do |f|
+              .whatsapp-form-section
+                .whatsapp-section-heading
+                  span.whatsapp-section-number 1
+                  .whatsapp-section-copy
+                    h2 = t("dashboard.whatsapp_channels.new.channel_details_title", default: "Channel details")
+                    p = t("dashboard.whatsapp_channels.new.channel_details_hint", default: "Give this connection a clear name your team will recognize.")
 
-              = form_with model: @whatsapp_channel, url: channels_whatsapp_index_path, class: "ui-form-wrapper" do |f|
-                .ui-form-group
-                  = f.label :name, t("dashboard.whatsapp_channels.form.name_label"), class: "ui-label"
-                  = f.text_field :name, class: "ui-input", placeholder: t("dashboard.whatsapp_channels.form.name_placeholder"), required: true
-              
-                .channel-phone-input-group
-                  .ui-form-group style="width: 35%; margin-bottom: 0;"
-                    = f.label :phone_code, t("dashboard.whatsapp_channels.form.phone_code_label"), class: "ui-label"
-                    = f.select :phone_code, options_for_select(whatsapp_country_codes), { include_blank: t("forms.options.select_country_code") }, { class: "ui-select", required: true }
-                  
-                  .ui-form-group style="flex: 2;"
-                    = f.label :phone_number, t("dashboard.whatsapp_channels.form.phone_number_label"), class: "ui-label"
-                    = f.text_field :phone_number, class: "ui-input", placeholder: t("ui.dashboard.channels.whatsapp.new.e_g_234567890"), required: true
+                .whatsapp-section-fields
+                  .ui-form-group
+                    = f.label :name, t("dashboard.whatsapp_channels.form.name_label"), class: "ui-label"
+                    = f.text_field :name, class: "ui-input", placeholder: t("dashboard.whatsapp_channels.form.name_placeholder"), required: true, autocomplete: "off"
 
-                .ui-form-group
-                  = f.label :phone_number_id, t("dashboard.whatsapp_channels.form.phone_id_label"), class: "ui-label"
-                  = f.text_field :phone_number_id, class: "ui-input", required: true
+              .whatsapp-form-section
+                .whatsapp-section-heading
+                  span.whatsapp-section-number 2
+                  .whatsapp-section-copy
+                    h2 = t("dashboard.whatsapp_channels.new.business_number_title", default: "Business phone number")
+                    p = t("dashboard.whatsapp_channels.new.business_number_hint", default: "Enter the WhatsApp number customers use to contact your business.")
 
-                .ui-form-group
-                  = f.label :business_account_id, t("dashboard.whatsapp_channels.form.waba_id_label"), class: "ui-label"
-                  = f.text_field :business_account_id, class: "ui-input", required: true
+                .whatsapp-section-fields
+                  .whatsapp-phone-grid
+                    .ui-form-group
+                      = f.label :phone_code, t("dashboard.whatsapp_channels.form.phone_code_label"), class: "ui-label"
+                      = f.select :phone_code, options_for_select(whatsapp_country_codes), { include_blank: t("forms.options.select_country_code") }, { class: "ui-select", required: true }
 
-                .ui-form-group
-                  = f.label :api_key, t("dashboard.whatsapp_channels.form.api_key_label"), class: "ui-label"
-                  = f.text_area :api_key, class: "ui-input", rows: 3, placeholder: t("dashboard.whatsapp_channels.form.api_key_placeholder"), required: true
+                    .ui-form-group
+                      = f.label :phone_number, t("dashboard.whatsapp_channels.form.phone_number_label"), class: "ui-label"
+                      = f.telephone_field :phone_number, class: "ui-input", placeholder: t("ui.dashboard.channels.whatsapp.new.e_g_234567890"), required: true, inputmode: "tel", autocomplete: "tel"
 
-                .ui-form-actions
-                  = link_to channels_whatsapp_index_path, class: "ui-btn-secondary"
-                    | #{t("general.cancel")}
-                  = f.submit t("dashboard.whatsapp_channels.form.create"), class: "ui-btn-primary"
+              .whatsapp-form-section
+                .whatsapp-section-heading
+                  span.whatsapp-section-number 3
+                  .whatsapp-section-copy
+                    h2 = t("dashboard.whatsapp_channels.new.meta_credentials_title", default: "Meta credentials")
+                    p = t("dashboard.whatsapp_channels.new.meta_credentials_hint", default: "Copy these values from WhatsApp API Setup in your Meta Developer app.")
+
+                .whatsapp-section-fields
+                  .whatsapp-credential-grid
+                    .ui-form-group
+                      = f.label :phone_number_id, t("dashboard.whatsapp_channels.form.phone_id_label"), class: "ui-label"
+                      = f.text_field :phone_number_id, class: "ui-input whatsapp-mono-input", placeholder: "e.g. 123456789012345", required: true, autocomplete: "off"
+
+                    .ui-form-group
+                      = f.label :business_account_id, t("dashboard.whatsapp_channels.form.waba_id_label"), class: "ui-label"
+                      = f.text_field :business_account_id, class: "ui-input whatsapp-mono-input", placeholder: "e.g. 123456789012345", required: true, autocomplete: "off"
+
+                  .ui-form-group
+                    = f.label :api_key, t("dashboard.whatsapp_channels.form.api_key_label"), class: "ui-label"
+                    .whatsapp-token-field
+                      = f.password_field :api_key, class: "ui-input whatsapp-mono-input", placeholder: t("dashboard.whatsapp_channels.form.api_key_placeholder"), required: true, autocomplete: "new-password"
+                      svg viewBox="0 0 20 20" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"
+                        rect x="4" y="8.5" width="12" height="8.5" rx="2"
+                        path stroke-linecap="round" d="M6.75 8.5V6.25a3.25 3.25 0 0 1 6.5 0V8.5"
+                    p.whatsapp-field-hint = t("dashboard.whatsapp_channels.new.token_hint", default: "Use a permanent or system user access token to avoid connection interruptions.")
+
+              .whatsapp-form-actions
+                = link_to channels_whatsapp_index_path, class: "ui-btn-secondary"
+                  = t("general.cancel")
+                = f.submit t("dashboard.whatsapp_channels.form.create"), class: "ui-btn-primary whatsapp-submit-button"
+
+            aside.whatsapp-setup-sidebar
+              .whatsapp-guide-card
+                .whatsapp-guide-header
+                  .whatsapp-guide-icon aria-hidden="true"
+                    svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7"
+                      path stroke-linecap="round" stroke-linejoin="round" d="M6 2.75h8a1.5 1.5 0 0 1 1.5 1.5v11.5a1.5 1.5 0 0 1-1.5 1.5H6a1.5 1.5 0 0 1-1.5-1.5V4.25A1.5 1.5 0 0 1 6 2.75Z"
+                      path stroke-linecap="round" d="M7.25 6.5h5.5M7.25 10h5.5M7.25 13.5h3.25"
+                  .whatsapp-guide-title
+                    h2 = t("dashboard.whatsapp_channels.new.manual.guide_title")
+                    p = t("dashboard.whatsapp_channels.new.guide_time", default: "About 5 minutes")
+
+                ol.whatsapp-guide-steps
+                  - (1..5).each do |step|
+                    li
+                      span.whatsapp-guide-step-number = step
+                      span = t("dashboard.whatsapp_channels.new.manual.guide_#{step}")
+
+              .whatsapp-help-card
+                svg viewBox="0 0 20 20" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"
+                  circle cx="10" cy="10" r="7.25"
+                  path stroke-linecap="round" stroke-linejoin="round" d="M7.9 7.75a2.2 2.2 0 1 1 3.45 1.8c-.85.58-1.35 1-1.35 2.05M10 14.5h.01"
+                .whatsapp-help-copy
+                  strong = t("dashboard.whatsapp_channels.new.need_help", default: "Where do I find these values?")
+                  p = t("dashboard.whatsapp_channels.new.need_help_hint", default: "In Meta Developer, open your app and go to WhatsApp → API Setup.")

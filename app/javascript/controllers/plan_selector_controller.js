@@ -68,6 +68,7 @@ export default class extends Controller {
     this.cardTargets.forEach((card, index) => {
       const radio = this.radioTargets[index]
       if (radio.checked) {
+        card.classList.add('is-selected')
         card.style.borderColor = '#000'
         card.style.borderWidth = '2px'
         
@@ -106,6 +107,7 @@ export default class extends Controller {
           }
         }
       } else {
+        card.classList.remove('is-selected')
         card.style.borderColor = '#e2e8f0'
       }
     })

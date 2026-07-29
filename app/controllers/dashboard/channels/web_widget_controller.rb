@@ -114,6 +114,8 @@ module Dashboard
         :primary_inbox_attributes, :translations_attributes
       ).to_h
 
+      result[:pre_chat_form_enabled] = result[:pre_chat_form_id].present?
+
       if permitted[:ui_configurations].present?
         result[:ui_configurations] = permitted[:ui_configurations].to_h.compact_blank
       end

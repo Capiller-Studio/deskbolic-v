@@ -1,18 +1,51 @@
 /* Web Widget Channels Specific Styles */
 
+.channel-theme-web-widget .ww-icon-action,
+.channel-theme-web-widget .ui-action-delete {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: 50%;
+  background: #f7f9fb;
+  border: 1px solid #eef2f6;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.channel-theme-web-widget .ww-icon-action:hover,
+.channel-theme-web-widget .ui-action-delete:hover {
+  background: #eef6ff;
+  border-color: #d7e8ff;
+}
+
+.ww-action-icon {
+  width: 17px;
+  height: 17px;
+  object-fit: contain;
+  display: block;
+}
+
+.ww-action-icon--edit {
+  width: 18px;
+  height: 18px;
+  filter: brightness(0) saturate(100%) invert(41%) sepia(99%) saturate(1922%) hue-rotate(197deg) brightness(98%) contrast(94%);
+}
+
 .ww-embed-row {
   display: flex;
   align-items: center;
   gap: 12px;
   margin-top: 16px;
   padding: 12px 16px;
-  background: #1e1e1e;
+  background: #0f172a;
+  border: 1px solid #1e293b;
   border-radius: 12px;
 }
 
 .ww-embed-label {
   font-size: 11px;
-  color: #94a3b8;
+  color: #60a5fa;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   font-family: var(--font-family-inter-medium);
@@ -29,12 +62,119 @@
   width: 100%;
   font-family: 'SF Mono', 'Fira Code', monospace;
   font-size: 13px;
-  color: #a78bfa;
+  color: #60a5fa;
   background: transparent;
   border: none;
   outline: none;
   padding: 0;
   white-space: nowrap;
+}
+
+.channel-theme-web-widget .ww-index-copy-btn {
+  min-height: 36px;
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: 1px solid #3b82f6;
+  background: #2563eb;
+  color: #ffffff;
+  font-family: var(--font-family-inter-semibold);
+  font-size: 12px;
+}
+
+.channel-theme-web-widget .ww-index-copy-btn:hover {
+  background: #1d4ed8;
+}
+
+.channel-theme-web-widget .ww-index-copy-btn.ui-copy-btn--copied {
+  background: #16a34a;
+  color: #ffffff;
+}
+
+.ww-install-embed-card {
+  padding: 12px;
+  background: #0f172a;
+  border: 1px solid #1e293b;
+  border-radius: 12px;
+}
+
+.ww-install-embed-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+}
+
+.ww-install-embed-input {
+  width: 100%;
+  min-width: 0;
+  height: 44px;
+  padding: 0 14px;
+  background: #111827;
+  border: 1px solid #1e293b;
+  border-radius: 8px;
+  color: #60a5fa;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size: 14px;
+  line-height: 44px;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.ww-install-embed-input:focus {
+  background: #111827;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.18);
+}
+
+.ww-install-copy-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 20px;
+  border-radius: 8px;
+  border: 1px solid #3b82f6;
+  background: #2563eb;
+  color: #ffffff;
+  font-family: var(--font-family-inter-semibold);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.15s ease;
+}
+
+.ww-install-copy-btn:hover {
+  background: #1d4ed8;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.14);
+  transform: translateY(-1px);
+}
+
+.ww-install-copy-btn:active {
+  transform: translateY(0);
+}
+
+.ww-install-copy-btn.ui-copy-btn--copied {
+  background: #16a34a;
+  box-shadow: none;
+  color: #ffffff;
+}
+
+@media (max-width: 640px) {
+  .ww-install-embed-row {
+    grid-template-columns: 1fr;
+  }
+
+  .ww-install-copy-btn {
+    width: 100%;
+  }
 }
 
 .ww-copy-btn {

@@ -1,37 +1,152 @@
 /* Billing Module Components */
 
 /* Layout & General */
+.settings-body:has(.ap-billing-page-header) {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.ap-billing-page-header,
+.ap-billing-layout {
+  font-family: $font-family-inter-regular;
+}
+
+.ap-billing-page-header a,
+.ap-billing-layout a,
+.ap-billing-layout button,
+.ap-billing-layout input,
+.ap-billing-layout select,
+.ap-billing-layout textarea {
+  font-family: $font-family-inter-regular;
+}
+
 .ap-billing-layout {
   display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 24px;
-  margin-top: 24px;
-  margin:20px;
+  grid-template-columns: 1fr;
+  gap: 18px;
+  margin: 20px;
+  padding-bottom: 32px;
 }
 
 .ap-billing-main {
+  display: grid;
+  grid-template-columns: minmax(0, 70%) minmax(0, 30%);
+  gap: 18px;
+  align-items: start;
+}
+
+/* NEW: left column wrapper (Active Subscription + Wallet/Payment row) */
+.ap-billing-primary {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 18px;
+  min-width: 0;
 }
 
 .ap-billing-sidebar {
   display: flex;
   flex-direction: column;
   gap: 24px;
+  min-width: 0;
+}
+
+.ap-billing-wallet-method-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  align-items: stretch;
+}
+
+.ap-billing-wallet-card,
+.ap-billing-payment-card {
+  min-width: 0;
+}
+
+.ap-billing-active-card {
+  width: var(--ap-billing-active-card-width, 100%);
+  height: var(--ap-billing-active-card-height, auto);
+}
+
+.ap-billing-wallet-card {
+  width: var(--ap-billing-wallet-card-width, 100%);
+  height: var(--ap-billing-wallet-card-height, auto);
+}
+
+.ap-billing-payment-card {
+  width: var(--ap-billing-payment-card-width, 100%);
+  height: var(--ap-billing-payment-card-height, auto);
+}
+
+.ap-billing-payment-card .ap-billing-card-body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.ap-billing-inline-topup-card {
+  width: var(--ap-billing-topup-card-width, 100%);
+  height: var(--ap-billing-topup-card-height, auto);
+}
+
+.ap-billing-inline-change-plan-card {
+  width: var(--ap-billing-change-plan-card-width, 100%);
+  height: var(--ap-billing-change-plan-card-height, auto);
+}
+
+.ap-billing-tx-card {
+  width: var(--ap-billing-tx-card-width, 100%);
+  height: var(--ap-billing-tx-card-height, auto);
+}
+
+.ap-billing-page-header {
+  align-items: center;
+  margin-bottom: 24px;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.ap-billing-page-title {
+  color: #0f172a;
+  margin: 0;
+}
+
+.ap-billing-page-subtitle {
+  color: #64748b;
+  margin-top: 4px;
+}
+
+.ap-billing-create-role-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ap-billing-plus-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  mask: url("plus.svg") center / contain no-repeat;
+  -webkit-mask: url("plus.svg") center / contain no-repeat;
+}
+
+.ap-billing-plus-icon-white {
+  background-color: #fff;
+}
+
+.ap-billing-plus-icon-blue {
+  background-color: #778dff;
 }
 
 .ap-billing-section-card {
-  /* border-left: 4px solid var(--ap-primary); */
   overflow: visible;
 }
 
 .ap-billing-card-body {
-  padding: 24px;
+  padding: 16px;
 }
 
 .ap-billing-card-top {
-  margin-bottom: 16px;
+  margin-bottom: 8px;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -43,7 +158,7 @@
 
 .ap-billing-section-subtitle {
   color: var(--ap-text-muted);
-  line-height: 2.6;
+  line-height: 2.5;
 }
 
 /* Badges */
@@ -61,8 +176,6 @@
   font-weight: 600;
 }
 
-/* Plan Details - see bottom of file for responsive grid */
-
 .ap-billing-detail-label {
   text-transform: uppercase;
   color: var(--ap-text-muted);
@@ -74,13 +187,143 @@
   margin-top: 4px;
 }
 
+.ap-billing-detail-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.ap-billing-detail-icon-badge {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ap-billing-detail-icon-badge-blue {
+  background-color: #eef2ff;
+}
+
+.ap-billing-detail-icon-badge-green {
+  background-color: #dcfce7;
+}
+
+.ap-billing-detail-icon {
+  width: 18px;
+  height: 18px;
+  display: block;
+  background-color: #778dff;
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  -webkit-mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+}
+
+.ap-billing-detail-icon-badge-green .ap-billing-detail-icon {
+  background-color: #22c55e;
+}
+
+.ap-billing-detail-users-icon {
+  mask-image: url("users-group.svg");
+  -webkit-mask-image: url("users-group.svg");
+}
+
+.ap-billing-detail-calendar-icon {
+  mask-image: url("calendar.svg");
+  -webkit-mask-image: url("calendar.svg");
+}
+
+.ap-billing-detail-timer-icon {
+  mask-image: url("timer.svg");
+  -webkit-mask-image: url("timer.svg");
+}
+
+.ap-billing-detail-clock-icon {
+  mask-image: url("clock.svg");
+  -webkit-mask-image: url("clock.svg");
+}
+
 .ap-billing-actions {
   display: flex;
   gap: 12px;
   align-items: center;
 }
 
-/* Modals */
+.ap-billing-plan-summary {
+  text-align: left;
+  padding: 12px 0 12px;
+}
+
+.ap-billing-plan-name {
+  color: var(--ap-text-dark);
+  margin-top: 6px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.ap-billing-plan-actions {
+  justify-content: flex-start;
+  margin-bottom: 14px;
+}
+
+.ap-billing-empty-subscription {
+  margin-top: 16px;
+}
+
+.ap-billing-empty-subscription-text {
+  margin-bottom: 16px;
+  color: #64748b;
+}
+
+.ap-billing-change-plan-btn,
+.ap-billing-manage-seats-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 38px;
+  padding: 8px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-decoration: none;
+}
+
+.ap-billing-change-plan-btn {
+  background: #fff;
+  border: 1px solid #778DFF;
+  color: #778DFF;
+}
+
+.ap-billing-change-plan-btn:hover {
+  background: #eff6ff;
+}
+
+.ap-billing-action-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.ap-billing-manage-seats-btn {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  color: #000;
+}
+
+.ap-billing-manage-seats-btn:hover {
+  background: #f8fafc;
+}
+
+/* Modals (still used for Manage Seats + Add Card, which remain true modals) */
 .ap-billing-modal-overlay {
   display: none;
   position: fixed;
@@ -110,6 +353,69 @@
   width: 400px;
 }
 
+.ap-billing-inline-topup-card {
+  align-self: stretch;
+}
+
+.ap-billing-inline-change-plan-card {
+  display: block;
+  align-self: start;
+}
+
+.ap-billing-modal-header.ap-billing-inline-topup-header {
+  padding: 0px 14px;
+}
+
+.ap-billing-modal-header.ap-billing-inline-topup-header h3 {
+  font-size: 16px;
+  line-height: 1.35;
+  color: #000;
+}
+
+.ap-billing-inline-topup-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ap-billing-inline-topup-title-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.ap-billing-brand-header,
+.ap-billing-brand-action {
+  background-color: #778dff;
+  color: #fff;
+}
+
+.ap-billing-brand-header h3,
+.ap-billing-brand-action:hover {
+  color: #fff;
+}
+
+.ap-billing-brand-action:hover {
+  background-color: #667df5;
+}
+
+.ap-billing-modal-body.ap-billing-inline-topup-body {
+  padding: 14px;
+}
+
+.ap-billing-modal-body.ap-billing-inline-change-plan-body {
+  padding: 14px;
+}
+
+.ap-billing-plan-grid.ap-billing-inline-plan-grid {
+  grid-template-columns: 1fr;
+  gap: 10px;
+  max-height: none;
+  overflow-y: auto;
+  padding: 3px;
+  margin-bottom: 12px;
+}
+
 .ap-billing-modal-header {
   padding: 20px 24px;
   border-bottom: 1px solid var(--ap-border-color);
@@ -137,51 +443,128 @@
 }
 
 .ap-billing-plan-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
   border-width: 2px;
   border-style: solid;
   border-color: var(--ap-border-color, #e2e8f0);
   border-radius: 8px;
-  padding: 16px;
+  padding: 10px;
   height: 100%;
   transition: border-color 0.2s ease;
 }
 
+.ap-billing-plan-radio-indicator {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.ap-billing-plan-radio-indicator::after {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  background-color: transparent;
+}
+
+.ap-billing-plan-card-content {
+  min-width: 0;
+  flex: 1;
+}
+
 .ap-billing-plan-price {
   color: var(--ap-text-muted);
-  margin: 8px 0;
+  font-size: 12px;
+  line-height: 1.35;
+  margin: 4px 0;
 }
 
 .ap-billing-plan-desc {
   color: #94a3b8;
+  font-size: 11px;
+  line-height: 1.35;
 }
 
 /* Forms */
 .ap-billing-form-group {
-  margin-bottom: 24px;
-  padding-top: 16px;
+  margin-bottom: 16px;
+  padding-top: 12px;
   border-top: 1px solid var(--ap-border-color);
 }
 
 .ap-billing-form-label {
   display: block;
-  margin-bottom: 8px;
+  font-size: 13px;
+  line-height: 1.35;
+  margin-bottom: 6px;
   color: var(--ap-text-dark);
 }
 
 .ap-billing-form-hint {
   color: var(--ap-text-muted);
-  margin-bottom: 16px;
+  font-size: 12px;
+  line-height: 1.35;
+  margin-bottom: 10px;
 }
 
 .ap-billing-form-input {
   width: 100%;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 }
 
 /* Wallet */
+.ap-billing-box-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
 .ap-billing-wallet-header {
   color: var(--ap-text-dark);
-  margin-bottom: 16px;
+  margin-bottom: 0;
+}
+
+.ap-billing-box-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ap-billing-box-icon::before {
+  content: "";
+  width: 20px;
+  height: 20px;
+  background-color: #778dff;
+  mask: url("wallet.svg") center / contain no-repeat;
+  -webkit-mask: url("wallet.svg") center / contain no-repeat;
+}
+
+.ap-billing-box-icon-blue {
+  background-color: #eef2ff;
+}
+
+.ap-billing-box-icon-red {
+  background-color: #fee2e2;
+}
+
+.ap-billing-box-icon-red::before {
+  background-color: #ef4444;
+}
+
+.ap-billing-topup-action-icon {
+  filter: brightness(0) invert(1);
 }
 
 .ap-billing-wallet-balance-row {
@@ -196,28 +579,29 @@
 
 .ap-billing-wallet-amount {
   color: var(--ap-text-dark);
+  margin: 10px 0px;
 }
 
 .ap-billing-topup-presets {
   display: flex;
-  gap: 8px;
-  margin-bottom: 16px;
-  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+  /* flex-wrap: wrap; */
 }
 
 /* Payment Methods */
 .ap-billing-pm-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-bottom: 24px;
+  gap: 10px;
+  margin-bottom: 16px;
 }
 
 .ap-billing-pm-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px;
+  padding: 10px;
   border: 1px solid var(--ap-border-color);
   border-radius: 8px;
 }
@@ -242,18 +626,68 @@
   color: var(--ap-text-muted);
 }
 
+.ap-billing-plan-option {
+  display: block;
+  cursor: pointer;
+}
 
+.ap-billing-plan-radio {
+  display: none;
+}
+
+.ap-billing-modal-plan-grid .ap-billing-plan-card {
+  border: 1px solid var(--ap-border-color, #e2e8f0);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.ap-billing-modal-plan-grid .ap-billing-plan-card.is-selected {
+  border-color: #2563eb;
+  border-width: 2px;
+  box-shadow: 0 0 0 3px #dbeafe;
+}
+
+.ap-billing-modal-plan-grid .ap-billing-plan-card.is-selected .ap-billing-plan-radio-indicator {
+  border-color: #778dff;
+}
+
+.ap-billing-modal-plan-grid .ap-billing-plan-card.is-selected .ap-billing-plan-radio-indicator::after {
+  background-color: #778dff;
+}
+
+.ap-billing-modal-plan-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.ap-billing-modal-plan-header h4 {
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.ap-billing-current-plan-badge {
+  flex-shrink: 0;
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: #eff6ff;
+  color: #2563eb;
+}
 
 .ap-billing-pm-empty {
   color: var(--ap-text-muted);
   margin-bottom: 16px;
 }
 
-
+.ap-billing-pm-bottom-action {
+  margin-top: auto;
+  padding-top: 4px;
+}
 
 /* Transactions Table */
 .ap-billing-tx-card {
-  margin: 24px;
+  margin: 0;
   border: none;
 }
 
@@ -350,12 +784,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  margin-bottom: 24px;
+  gap: 10px;
+  margin-bottom: 16px;
 }
 
 .ap-billing-cycle-label {
   color: var(--ap-text-muted);
+  font-size: 12px;
+  line-height: 1.35;
   transition: color 0.2s ease;
 }
 
@@ -414,7 +850,7 @@
   display: inline-block;
   background-color: #dcfce7;
   color: #16a34a;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 600;
   padding: 2px 8px;
   border-radius: 10px;
@@ -473,11 +909,43 @@
 
 .ap-billing-pm-add-btn {
   width: 100%;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   justify-content: center;
+}
+
+.ap-billing-outline-action {
+  background: #fff;
+  border: 1px solid #778dff !important;
+  color: #778dff !important;
+}
+
+.ap-billing-outline-action:hover {
+  background: #f8faff;
+  color: #778dff;
 }
 
 .ap-billing-pm-remove {
   color: var(--ap-danger);
+}
+
+.ap-billing-tx-amount-charge {
+  color: var(--ap-text-dark);
+}
+
+.ap-billing-tx-amount-credit {
+  color: var(--ap-success);
+}
+
+.ap-billing-tx-status-completed {
+  background-color: var(--ap-success-light);
+  color: var(--ap-success-dark);
+}
+
+.ap-billing-tx-status-muted {
+  background-color: var(--ap-bg-light);
+  color: var(--ap-text-muted);
 }
 
 /* Subscription page toggle */
@@ -490,19 +958,24 @@
   margin-top: 4px;
 }
 
-/* Plan Details grid - 4 columns */
+/* Plan Details grid */
 .ap-billing-plan-details {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 16px;
-  background-color: var(--ap-bg-light);
-  padding: 16px;
-  border-radius: 8px;
-  margin-bottom: 24px;
+  border-top: 1px solid var(--ap-border-color, #e2e8f0);
+  margin-top: 22px;
+  padding-top: 18px;
 }
 
 @media (max-width: 768px) {
   .ap-billing-layout {
+    grid-template-columns: 1fr;
+  }
+  .ap-billing-main {
+    grid-template-columns: 1fr;
+  }
+  .ap-billing-wallet-method-row {
     grid-template-columns: 1fr;
   }
   .ap-billing-plan-grid {

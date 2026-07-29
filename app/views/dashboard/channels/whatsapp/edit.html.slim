@@ -57,7 +57,7 @@
                   | 📋 #{t("general.copy")}
 
         = form_with model: @whatsapp_channel, url: channels_whatsapp_path(@whatsapp_channel), class: "ui-form-wrapper wa-wrapper" do |f|
-          .ui-section
+          .ui-section.wa-section
             .ui-section-header
               h3.f-semi-18 = t("dashboard.whatsapp_channels.form.inbox_settings")
           

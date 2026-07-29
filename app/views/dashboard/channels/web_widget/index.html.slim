@@ -18,10 +18,10 @@
                     h3.f-semi-16 = channel.name
                     p.ui-subtitle = channel.website_url.presence || t("forms.options.any_website")
                   .ui-card-actions
-                    = link_to edit_channels_web_widget_path(channel), class: "ui-action-btn", title: t("dashboard.skills.index.edit")
-                      | ✏️
-                    = link_to channels_web_widget_path(channel), method: :delete, class: "ui-action-btn ui-action-delete", data: { turbo_method: :delete, turbo_confirm: t("dashboard.web_widget_channels.index.delete_confirm") }, title: t("general.delete")
-                      | 🗑️
+                    = link_to edit_channels_web_widget_path(channel), class: "ui-action-btn ww-icon-action", title: "Edit"
+                      = image_tag "edit.svg", alt: "Edit", class: "ww-action-icon ww-action-icon--edit"
+                    = link_to channels_web_widget_path(channel), method: :delete, class: "ui-action-btn ui-action-delete", data: { turbo_method: :delete, turbo_confirm: t("dashboard.web_widget_channels.index.delete_confirm") }, title: "Delete"
+                      = image_tag "delete_red.svg", alt: "Delete", class: "ww-action-icon"
 
                 .ui-card-meta
                   - if channel.anonymous_allowed?
@@ -55,9 +55,8 @@
                   span.ww-embed-label EMBED
                   .ww-embed-code
                     input.ww-embed-input type="text" readonly=true value="<script src='https://widget.deskbolic.com/w/#{current_account.id}/#{channel.id}/embed.js'></script>"
-                  button.ui-copy-btn data-action="click->web-widget-channel#copyEmbedCode" data-code="<script src='https://widget.deskbolic.com/w/#{current_account.id}/#{channel.id}/embed.js'></script>"
-                    span.ww-copy-icon 📋
-                    span = t("dashboard.email_channels.forwarding.copy")
+                  button.ui-copy-btn.ww-index-copy-btn data-action="click->web-widget-channel#copyEmbedCode" data-code="<script src='https://widget.deskbolic.com/w/#{current_account.id}/#{channel.id}/embed.js'></script>"
+                    span Copy
 
           - else
             .ui-empty-state

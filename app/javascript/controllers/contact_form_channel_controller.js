@@ -39,7 +39,7 @@ export default class extends Controller {
 
     navigator.clipboard.writeText(code).then(() => {
       const originalText = btn.innerHTML
-      btn.innerHTML = "✓ Copied!"
+      btn.innerHTML = btn.dataset.successText || "✓ Copied!"
       btn.classList.add("ui-copy-btn--copied")
 
       setTimeout(() => {

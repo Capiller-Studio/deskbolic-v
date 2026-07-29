@@ -4,29 +4,55 @@
       .channel-theme-contact-form
         .ui-index-header
           .ui-title-area
-            h1.f-semi-32 = t("dashboard.contact_form_channels.index.title")
-            p.f-reg-16.text-muted = t("dashboard.contact_form_channels.index.subtitle")
+            h2.f-semi-32 = t("dashboard.contact_form_channels.index.title")
+            p.f-reg-16 = t("dashboard.contact_form_channels.index.subtitle")
           = link_to t("dashboard.contact_form_channels.index.new_button"), new_channels_contact_form_path, class: "ui-btn-primary"
 
         .ui-list
           - if @contact_form_channels.any?
             - @contact_form_channels.each do |channel|
-              div.ui-card
+              - contact_form_url = "#{ENV['WIDGET_APP_URL'] || 'https://widget.deskbolic.com'}/f/#{current_account.id}/#{channel.id}"
+              div.ui-card id=dom_id(channel)
                 .ui-card-top
                   .ui-card-info
                     h3.f-semi-16 = channel.name
-                    p.f-reg-13.text-muted style="margin-top: 4px;" = t("general.created_ago", time: time_ago_in_words(channel.created_at))
+                    p.ui-subtitle = channel.submit_redirect_url.presence || t("dashboard.contact_form_channels.index.no_redirect_url", default: "No redirect URL set")
                   .ui-card-actions
-                    = link_to edit_channels_contact_form_path(channel), class: "ui-action-btn", title: t("dashboard.skills.index.edit")
-                      | ✏️
-                    = link_to channels_contact_form_path(channel), method: :delete, class: "ui-action-btn ui-action-delete", data: { turbo_method: :delete, turbo_confirm: t("dashboard.contact_form_channels.index.confirm_delete") }, title: t("general.delete")
-                      | 🗑️
+                    = link_to edit_channels_contact_form_path(channel), class: "ui-action-btn cf-icon-action", title: "Edit"
+                      = image_tag "edit.svg", alt: "Edit", class: "cf-action-icon cf-action-icon--edit"
+                    = link_to channels_contact_form_path(channel), method: :delete, class: "ui-action-btn ui-action-delete", data: { turbo_method: :delete, turbo_confirm: t("dashboard.contact_form_channels.index.confirm_delete", default: "Are you sure?") }, title: "Delete"
+                      = image_tag "delete_red.svg", alt: "Delete", class: "cf-action-icon"
 
                 .ui-card-meta
+                  - if channel.require_login?
+                    .ui-badge.ui-badge-active
+                      span.ui-badge-icon 🔒
+                      span = t("dashboard.contact_form_channels.index.login_required", default: "Login required")
+                  - else
+                    .ui-badge.ui-badge-disconnected
+                      span.ui-badge-icon 👤
+                      span = t("dashboard.contact_form_channels.index.public_submissions", default: "Public submissions")
+
+                  - if channel.allow_attachments?
+                    .ui-badge.ui-badge-active
+                      span.ui-badge-icon 📎
+                      span = t("dashboard.contact_form_channels.index.attachments_allowed", default: "Attachments allowed")
+
                   .ui-meta-tag
                     span.ui-meta-tag-icon 📬
-                    span Inboxes: #{channel.inboxes.size}
-                  .channel-status-badge class="status-#{channel.status}" style="padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; background: #dcfce7; color: #166534;" = channel.status.titleize
+                    span = t("dashboard.contact_form_channels.index.inboxes_count", count: channel.inboxes.size, default: "Inboxes: #{channel.inboxes.size}")
+
+                  .ui-meta-tag
+                    span.ui-meta-tag-icon 🕐
+                    span = t("dashboard.contact_form_channels.index.created_ago", time: time_ago_in_words(channel.created_at), default: "Created #{time_ago_in_words(channel.created_at)} ago")
+
+                - embed_script = "<script src=\"#{contact_form_url}/embed.js\"></script>"
+                .ww-embed-row.cf-index-embed-row data-controller="contact-form-channel"
+                  span.ww-embed-label EMBED
+                  .ww-embed-code
+                    input.ww-embed-input type="text" readonly=true value=embed_script
+                  button.ui-copy-btn.cf-index-copy-btn data-action="click->contact-form-channel#copyEmbedCode" data-code=embed_script
+                    span Copy
           - else
             .ui-empty-state
               h3.f-semi-18 = t("dashboard.contact_form_channels.index.empty_title")

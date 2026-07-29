@@ -280,6 +280,171 @@
   padding-left: 4px;
 }
 
+.channel-theme-contact-form .cf-icon-action,
+.channel-theme-contact-form .ui-action-delete {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: 50%;
+  background: #f7f9fb;
+  border: 1px solid #eef2f6;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.channel-theme-contact-form .cf-icon-action:hover,
+.channel-theme-contact-form .ui-action-delete:hover {
+  background: #eef6ff;
+  border-color: #d7e8ff;
+}
+
+.cf-action-icon {
+  width: 17px;
+  height: 17px;
+  object-fit: contain;
+  display: block;
+}
+
+.cf-action-icon--edit {
+  width: 18px;
+  height: 18px;
+  filter: brightness(0) saturate(100%) invert(41%) sepia(99%) saturate(1922%) hue-rotate(197deg) brightness(98%) contrast(94%);
+}
+
+.channel-theme-contact-form .cf-index-embed-row {
+  background: #0f172a;
+  border: 1px solid #1e293b;
+  border-radius: 12px;
+}
+
+.channel-theme-contact-form .cf-index-embed-row .ww-embed-label {
+  color: #60a5fa;
+}
+
+.channel-theme-contact-form .cf-index-embed-row .ww-embed-input {
+  color: #60a5fa;
+}
+
+.channel-theme-contact-form .cf-index-copy-btn {
+  min-height: 36px;
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: 1px solid #3b82f6;
+  background: #2563eb;
+  color: #ffffff;
+  font-family: $font-family-inter-semibold;
+  font-size: 12px;
+}
+
+.channel-theme-contact-form .cf-index-copy-btn:hover {
+  background: #1d4ed8;
+}
+
+.channel-theme-contact-form .cf-index-copy-btn.ui-copy-btn--copied {
+  background: #16a34a;
+  color: #ffffff;
+}
+
+.cf-embed-card {
+  margin-bottom: 0;
+  padding: 12px;
+  background: #0f172a;
+  border: 1px solid #1e293b;
+  border-radius: 12px;
+}
+
+.cf-embed-copy-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+}
+
+.cf-embed-input {
+  width: 100%;
+  min-width: 0;
+  height: 44px;
+  padding: 0 14px;
+  background: #111827;
+  border: 1px solid #1e293b;
+  border-radius: 8px;
+  color: #60a5fa;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size: 14px;
+  line-height: 44px;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.cf-embed-input:focus {
+  background: #111827;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.18);
+}
+
+.cf-copy-script-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 20px;
+  border-radius: 8px;
+  border: 1px solid #3b82f6;
+  background: #2563eb;
+  color: #ffffff;
+  font-family: $font-family-inter-semibold;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.15s ease;
+}
+
+.cf-copy-script-btn:hover {
+  background: #1d4ed8;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.14);
+  transform: translateY(-1px);
+}
+
+.cf-copy-script-btn:active {
+  transform: translateY(0);
+}
+
+.cf-copy-script-btn.ui-copy-btn--copied {
+  background: #16a34a;
+  box-shadow: none;
+  color: #ffffff;
+}
+
+@media (max-width: 1100px) {
+  .channel-theme-contact-form .ui-page-body {
+    flex-direction: column;
+  }
+
+  .channel-theme-contact-form .form-section {
+    width: 100%;
+    max-width: 800px;
+  }
+}
+
+@media (max-width: 640px) {
+  .cf-embed-copy-row {
+    grid-template-columns: 1fr;
+  }
+
+  .cf-copy-script-btn {
+    width: 100%;
+  }
+}
+
 /* ═══════════════════════════════════════════════════════════════════════
    Contact Form Theme Configuration
    ═══════════════════════════════════════════════════════════════════════ */

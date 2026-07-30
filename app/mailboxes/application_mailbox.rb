@@ -8,7 +8,8 @@ class ApplicationMailbox < ActionMailbox::Base
     ->(inbound_email) { forwarding_confirmation?(inbound_email) } => :conversation,
     ->(inbound_email) { spam_or_auto_reply?(inbound_email) } => :bounce,
     ->(inbound_email) { reply_email?(inbound_email) } => :reply,
-    ->(inbound_email) { new_conversation?(inbound_email) } => :conversation
+    ->(inbound_email) { new_conversation?(inbound_email) } => :conversation,
+    all: :bounce
   )
 
   def self.verification_email?(inbound_email)

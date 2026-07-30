@@ -30,7 +30,8 @@ class AgentNotificationMailer < ApplicationMailer
     else
       I18n.with_locale(locale) do
         subject = I18n.t("mailers.agent_notification.#{notification.event}.subject",
-                         identifier: @conversation.try(:identifier) || @resource.try(:identifier) || "")
+                         identifier: @conversation.try(:identifier) || @resource.try(:identifier) || "",
+                         team_name: @conversation.try(:team).try(:name) || "a team")
         mail(to: @user.email, subject:)
       end
     end

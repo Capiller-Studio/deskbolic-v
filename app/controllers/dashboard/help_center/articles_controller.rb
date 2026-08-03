@@ -59,6 +59,7 @@ module Dashboard
 
       def create
         authorize ::HelpCenter::Article
+        return if unsupported_banner_image?
 
         status_value = params[:publish].present? ? :published : :draft
 
@@ -72,16 +73,31 @@ module Dashboard
           sync_article_relationships(@article)
         end
 
-        if status_value == :published
-          redirect_to help_center_article_path(id: @article.id), notice: "Article was published successfully."
-        else
-          redirect_to help_center_article_path(id: @article.id), notice: "Article was saved as draft."
+        respond_to do |format|
+          format.json { render json: { success: true, message: "Article saved.", article_id: @article.id } }
+          format.html do
+            if status_value == :published
+              redirect_to help_center_article_path(id: @article.id), notice: "Article was published successfully."
+            else
+              redirect_to help_center_article_path(id: @article.id), notice: "Article was saved as draft."
+            end
+          end
         end
       rescue ActiveRecord::RecordInvalid
-        set_article_context
-        build_default_translation(@article)
-        flash.now[:alert] = "Unable to create article. Please check the fields and try again."
-        render :new, status: :unprocessable_entity
+        respond_to do |format|
+          format.json { render json: { success: false, errors: @article.errors.full_messages }, status: :unprocessable_entity }
+          format.html do
+            set_article_context
+            build_default_translation(@article)
+            flash.now[:alert] = "Unable to create article. Please check the fields and try again."
+            render :new, status: :unprocessable_entity
+          end
+        end
+      rescue StandardError => e
+        respond_to do |format|
+          format.json { render json: { success: false, errors: [e.message] }, status: :internal_server_error }
+          format.html { raise }
+        end
       end
 
       def edit
@@ -103,6 +119,7 @@ module Dashboard
 
       def update
         authorize @article
+        return if unsupported_banner_image?
 
         respond_to do |format|
           format.json do
@@ -122,7 +139,7 @@ module Dashboard
               translation.save!
             end
 
-            render json: { success: true, message: I18n.t("dashboard.articles.draft_saved", default: "Draft saved.") }
+            render json: { success: true, message: I18n.t("dashboard.articles.draft_saved", default: "Draft saved."), article_id: @article.id }
           rescue StandardError => e
             render json: { success: false, errors: [e.message] }, status: :unprocessable_entity
           end
@@ -262,6 +279,7 @@ module Dashboard
         attrs = article_params.to_h
         normalize_configurations(attrs)
         normalize_translations(attrs)
+        match_existing_translations(attrs)
         attrs
       end
 
@@ -286,6 +304,19 @@ module Dashboard
             translation["draft_title"] = translation.delete("title") if translation.key?("title")
             translation["draft_content"] = translation.delete("content") if translation.key?("content")
           end
+        end
+      end
+
+      def match_existing_translations(attrs)
+        return unless @article&.persisted?
+        return unless attrs["translations_attributes"].present?
+
+        attrs["translations_attributes"].each_value do |translation|
+          next if translation["id"].present?
+
+          locale = translation["locale"].presence || default_article_locale(@article)
+          existing_translation = @article.translations.find { |item| item.locale.to_s == locale.to_s }
+          translation["id"] = existing_translation.id if existing_translation
         end
       end
 
@@ -346,6 +377,22 @@ module Dashboard
         allowed = %w[title last_edit status collection]
         selected = Array(params[:columns]).presence || allowed
         selected & allowed
+      end
+
+      def unsupported_banner_image?
+        banner_image = params.dig(:article, :banner_image)
+        return false unless banner_image&.content_type == "image/svg+xml"
+
+        respond_to do |format|
+          format.json { render json: { success: false, errors: ["Unsupported banner image format. Please upload JPG, PNG, GIF, or WEBP."] }, status: :unprocessable_entity }
+          format.html do
+            set_article_context
+            build_default_translation(@article || ::HelpCenter::Article.new(account: current_account, portal: @selected_portal, author: current_user))
+            flash.now[:alert] = "Unsupported banner image format. Please upload JPG, PNG, GIF, or WEBP."
+            render((@article&.persisted? ? :edit : :new), status: :unprocessable_entity)
+          end
+        end
+        true
       end
     end
   end

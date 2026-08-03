@@ -919,6 +919,10 @@
 /* ─── Slash Command Menu ────────────────────────────────────────────────── */
 
 .hc-slash-menu {
+  position: fixed;
+  top: 84.5px !important;
+  left: 120.211px;
+  z-index: 9999;
   position: absolute;
   z-index: 800;
   min-width: 280px;
@@ -1086,6 +1090,7 @@
   opacity: 0;
   transform: translateY(10px);
   transition: opacity 0.2s, transform 0.2s, visibility 0.2s;
+  top: 250px !important;
 }
 
 .hc-image-popover.hc-image-popover--visible {

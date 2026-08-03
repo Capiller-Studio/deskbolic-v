@@ -12,20 +12,20 @@
 = render("dashboard/shared/dashboard_container", current_page: "help_center") do
   = render("dashboard/help_center/help_center_sidebar", current_page: "articles") do
     - editor_opts = { class: "hc-form-no-sidebar", data: { \
-        controller: "article-editor", \
-        "article-editor-update-url-value" => help_center_article_path(id: @article.id), \
-        "article-editor-publish-url-value" => publish_help_center_article_path(id: @article.id), \
-        "article-editor-discard-url-value" => discard_draft_help_center_article_path(id: @article.id), \
-        "article-editor-copy-locale-url-value" => copy_locale_help_center_article_path(id: @article.id), \
-        "article-editor-upload-url-value" => attachments_path, \
-        "article-editor-article-id-value" => @article.id, \
-        "article-editor-csrf-token-value" => form_authenticity_token, \
-        "article-editor-draft-content-value" => draft_content, \
-        "article-editor-draft-title-value" => draft_title, \
-        "article-editor-locale-value" => locale, \
-        "article-editor-has-unpublished-changes-value" => has_unpublished, \
-        "article-editor-status-value" => (@article.status || "draft"), \
-        "article-editor-edit-url-value" => edit_help_center_article_path(id: @article.id) \
+        controller: "help-center--article-editor", \
+        "help-center--article-editor-update-url-value" => help_center_article_path(id: @article.id), \
+        "help-center--article-editor-publish-url-value" => publish_help_center_article_path(id: @article.id), \
+        "help-center--article-editor-discard-url-value" => discard_draft_help_center_article_path(id: @article.id), \
+        "help-center--article-editor-copy-locale-url-value" => copy_locale_help_center_article_path(id: @article.id), \
+        "help-center--article-editor-upload-url-value" => attachments_path, \
+        "help-center--article-editor-article-id-value" => @article.id, \
+        "help-center--article-editor-csrf-token-value" => form_authenticity_token, \
+        "help-center--article-editor-draft-content-value" => draft_content, \
+        "help-center--article-editor-draft-title-value" => draft_title, \
+        "help-center--article-editor-locale-value" => locale, \
+        "help-center--article-editor-has-unpublished-changes-value" => has_unpublished, \
+        "help-center--article-editor-status-value" => (@article.status || "draft"), \
+        "help-center--article-editor-edit-url-value" => edit_help_center_article_path(id: @article.id) \
       } }
     .ae-editor-page *editor_opts
 
@@ -38,14 +38,14 @@
           .ae-locale-area
             /! Locale Switcher
             .ae-dropdown-wrapper
-              button.ae-locale-btn type="button" data-action="click->article-editor#toggleLocaleMenu"
+              button.ae-locale-btn type="button" data-action="click->help-center--article-editor#toggleLocaleMenu"
                 span.ae-locale-flag = locale.upcase
                 svg.ae-icon-xs xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                   path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 011.06 0L10 11.94l3.72-3.72a.75.75 0 111.06 1.06l-4.25 4.25a.75.75 0 01-1.06 0L5.22 9.28a.75.75 0 010-1.06z" clip-rule="evenodd"
-              .ae-dropdown data-article-editor-target="localeMenu"
+              .ae-dropdown data-help-center--article-editor-target="localeMenu"
                 .ae-dropdown-header Locale
                 - existing_locales.each do |loc|
-                  a.ae-dropdown-item href="#" data-action="click->article-editor#switchLocale" data-locale=loc class=("ae-dropdown-item--active" if loc == locale)
+                  a.ae-dropdown-item href="#" data-action="click->help-center--article-editor#switchLocale" data-locale=loc class=("ae-dropdown-item--active" if loc == locale)
                     span.ae-locale-flag.ae-locale-flag--sm = loc.upcase
                     span = loc.upcase
                     - if loc == locale
@@ -55,98 +55,98 @@
             /! Add Locale
             - if available_to_add.any?
               .ae-dropdown-wrapper
-                button.ae-add-locale-btn type="button" data-action="click->article-editor#toggleAddLocaleMenu" title="Add locale"
+                button.ae-add-locale-btn type="button" data-action="click->help-center--article-editor#toggleAddLocaleMenu" title="Add locale"
                   | +
-                .ae-dropdown data-article-editor-target="addLocaleMenu"
+                .ae-dropdown data-help-center--article-editor-target="addLocaleMenu"
                   .ae-dropdown-header Add Locale
                   - available_to_add.each do |loc|
-                    a.ae-dropdown-item href="#" data-action="click->article-editor#addLocale" data-locale=loc
+                    a.ae-dropdown-item href="#" data-action="click->help-center--article-editor#addLocale" data-locale=loc
                       span.ae-locale-flag.ae-locale-flag--sm = loc.upcase
                       span = loc.upcase
 
             /! Copy from Locale
             - if existing_locales.length > 1
               .ae-dropdown-wrapper
-                button.ae-copy-locale-btn type="button" data-action="click->article-editor#toggleCopyMenu" title="Copy from another locale"
+                button.ae-copy-locale-btn type="button" data-action="click->help-center--article-editor#toggleCopyMenu" title="Copy from another locale"
                   svg.ae-icon-sm xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                     path d="M7 3.5A1.5 1.5 0 018.5 2h3.879a1.5 1.5 0 011.06.44l3.122 3.12A1.5 1.5 0 0117 6.622V12.5a1.5 1.5 0 01-1.5 1.5h-1v-3.379a3 3 0 00-.879-2.121L10.5 5.379A3 3 0 008.379 4.5H7v-1z"
                     path d="M4.5 6A1.5 1.5 0 003 7.5v9A1.5 1.5 0 004.5 18h7a1.5 1.5 0 001.5-1.5v-5.879a1.5 1.5 0 00-.44-1.06L9.44 6.439A1.5 1.5 0 008.378 6H4.5z"
-                .ae-dropdown data-article-editor-target="copyMenu"
+                .ae-dropdown data-help-center--article-editor-target="copyMenu"
                   .ae-dropdown-header Copy content from
                   - existing_locales.reject { |l| l == locale }.each do |source_locale|
-                    a.ae-dropdown-item href="#" data-action="click->article-editor#copyFromLocale" data-source-locale=source_locale
+                    a.ae-dropdown-item href="#" data-action="click->help-center--article-editor#copyFromLocale" data-source-locale=source_locale
                       span.ae-locale-flag.ae-locale-flag--sm = source_locale.upcase
                       span Copy from #{source_locale.upcase}
 
-          span.ae-draft-badge data-article-editor-target="draftBadge"
+          span.ae-draft-badge data-help-center--article-editor-target="draftBadge"
             = has_unpublished ? "Unsaved changes" : (@article.status || "draft").humanize
 
         .ae-header-right
-          button#ae-save-btn.ae-btn.ae-btn--secondary type="button" data-action="click->article-editor#save"
+          button#ae-save-btn.ae-btn.ae-btn--secondary type="button" data-action="click->help-center--article-editor#save"
             | Save Draft
-          button#ae-discard-btn.ae-btn.ae-btn--ghost type="button" data-action="click->article-editor#discardDraft"
+          button#ae-discard-btn.ae-btn.ae-btn--ghost type="button" data-action="click->help-center--article-editor#discardDraft"
             | Discard
-          button#ae-publish-btn.ae-btn.ae-btn--primary type="button" data-action="click->article-editor#publish"
+          button#ae-publish-btn.ae-btn.ae-btn--primary type="button" data-action="click->help-center--article-editor#publish"
             | Publish
 
       /! ─── Editor Body ───
       .ae-body
         .ae-editor-column
           /! Title input
-          input.ae-title-input type="text" placeholder="Article title..." value=draft_title data-article-editor-target="titleInput"
+          input.ae-title-input type="text" placeholder="Article title..." value=draft_title data-help-center--article-editor-target="titleInput"
           /! Tiptap content area
-          .ae-editor-content data-article-editor-target="editorContainer"
+          .ae-editor-content data-help-center--article-editor-target="editorContainer"
           
           /! ─── Bubble Menu ───
-          .hc-bubble-menu data-article-editor-target="bubbleMenu"
-            button.hc-bubble-btn type="button" data-action="click->article-editor#toggleBold" data-article-editor-target="toolbar" data-format="bold" title="Bold (Cmd+B)" B
-            button.hc-bubble-btn type="button" data-action="click->article-editor#toggleItalic" data-article-editor-target="toolbar" data-format="italic" title="Italic (Cmd+I)" I
-            button.hc-bubble-btn type="button" data-action="click->article-editor#toggleStrike" data-article-editor-target="toolbar" data-format="strike" title="Strikethrough (Cmd+Shift+S)" S
+          .hc-bubble-menu data-help-center--article-editor-target="bubbleMenu"
+            button.hc-bubble-btn type="button" data-action="click->help-center--article-editor#toggleBold" data-help-center--article-editor-target="toolbar" data-format="bold" title="Bold (Cmd+B)" B
+            button.hc-bubble-btn type="button" data-action="click->help-center--article-editor#toggleItalic" data-help-center--article-editor-target="toolbar" data-format="italic" title="Italic (Cmd+I)" I
+            button.hc-bubble-btn type="button" data-action="click->help-center--article-editor#toggleStrike" data-help-center--article-editor-target="toolbar" data-format="strike" title="Strikethrough (Cmd+Shift+S)" S
             .hc-bubble-divider
-            button.hc-bubble-btn type="button" data-action="click->article-editor#toggleCode" data-article-editor-target="toolbar" data-format="code" title="Code (Cmd+E)" <>
-            button.hc-bubble-btn type="button" data-action="click->article-editor#toggleLink" data-article-editor-target="toolbar" data-format="link" title="Link (Cmd+K)" 🔗
+            button.hc-bubble-btn type="button" data-action="click->help-center--article-editor#toggleCode" data-help-center--article-editor-target="toolbar" data-format="code" title="Code (Cmd+E)" <>
+            button.hc-bubble-btn type="button" data-action="click->help-center--article-editor#toggleLink" data-help-center--article-editor-target="toolbar" data-format="link" title="Link (Cmd+K)" 🔗
 
           /! ─── Plus Menu (Block Inserter) ───
-          button.hc-plus-menu type="button" data-article-editor-target="plusMenu" data-action="click->article-editor#insertSlashCommand" title="Click to add a block" +
+          button.hc-plus-menu type="button" data-help-center--article-editor-target="plusMenu" data-action="click->help-center--article-editor#insertSlashCommand" title="Click to add a block" +
 
           /! ─── Table Context Menu ───
-          .hc-bubble-menu.hc-table-menu data-article-editor-target="tableMenu"
-            button.hc-bubble-btn type="button" data-action="click->article-editor#tableAddColumnBefore" title="Add Column Before" +C←
-            button.hc-bubble-btn type="button" data-action="click->article-editor#tableAddColumnAfter" title="Add Column After" →C+
-            button.hc-bubble-btn.hc-bubble-btn--danger type="button" data-action="click->article-editor#tableDeleteColumn" title="Delete Column" -C
+          .hc-bubble-menu.hc-table-menu data-help-center--article-editor-target="tableMenu"
+            button.hc-bubble-btn type="button" data-action="click->help-center--article-editor#tableAddColumnBefore" title="Add Column Before" +C←
+            button.hc-bubble-btn type="button" data-action="click->help-center--article-editor#tableAddColumnAfter" title="Add Column After" →C+
+            button.hc-bubble-btn.hc-bubble-btn--danger type="button" data-action="click->help-center--article-editor#tableDeleteColumn" title="Delete Column" -C
             .hc-bubble-divider
-            button.hc-bubble-btn type="button" data-action="click->article-editor#tableAddRowBefore" title="Add Row Before" +R↑
-            button.hc-bubble-btn type="button" data-action="click->article-editor#tableAddRowAfter" title="Add Row After" ↓R+
-            button.hc-bubble-btn.hc-bubble-btn--danger type="button" data-action="click->article-editor#tableDeleteRow" title="Delete Row" -R
+            button.hc-bubble-btn type="button" data-action="click->help-center--article-editor#tableAddRowBefore" title="Add Row Before" +R↑
+            button.hc-bubble-btn type="button" data-action="click->help-center--article-editor#tableAddRowAfter" title="Add Row After" ↓R+
+            button.hc-bubble-btn.hc-bubble-btn--danger type="button" data-action="click->help-center--article-editor#tableDeleteRow" title="Delete Row" -R
             .hc-bubble-divider
-            button.hc-bubble-btn.hc-bubble-btn--danger type="button" data-action="click->article-editor#tableDelete" title="Delete Table" 🗑️
+            button.hc-bubble-btn.hc-bubble-btn--danger type="button" data-action="click->help-center--article-editor#tableDelete" title="Delete Table" 🗑️
 
           /! ─── Image Popover ───
-          .hc-image-popover data-article-editor-target="imagePopover"
-            .hc-image-form data-action="keydown.enter->article-editor#saveImageProperties"
+          .hc-image-popover data-help-center--article-editor-target="imagePopover"
+            .hc-image-form data-action="keydown.enter->help-center--article-editor#saveImageProperties"
               .hc-form-row
                 label Alt Text
-                input type="text" data-article-editor-target="imageAltInput" placeholder="Describe the image"
+                input type="text" data-help-center--article-editor-target="imageAltInput" placeholder="Describe the image"
               .hc-form-row.hc-form-row--split
                 div
                   label Width
-                  input type="text" data-article-editor-target="imageWidthInput" placeholder="e.g. 100% or 400px"
+                  input type="text" data-help-center--article-editor-target="imageWidthInput" placeholder="e.g. 100% or 400px"
                 div
                   label Height
-                  input type="text" data-article-editor-target="imageHeightInput" placeholder="e.g. auto or 300px"
+                  input type="text" data-help-center--article-editor-target="imageHeightInput" placeholder="e.g. auto or 300px"
               .hc-form-actions
-                button.ae-btn.ae-btn--primary.ae-btn--sm type="button" data-action="click->article-editor#saveImageProperties" Save
+                button.ae-btn.ae-btn--primary.ae-btn--sm type="button" data-action="click->help-center--article-editor#saveImageProperties" Save
 
           /! ─── Accordion Context Menu ───
-          .hc-bubble-menu.hc-accordion-menu data-article-editor-target="accordionMenu"
-            button.hc-bubble-btn.hc-bubble-btn--danger type="button" data-action="click->article-editor#accordionDelete" title="Delete Accordion" 🗑️ Delete
+          .hc-bubble-menu.hc-accordion-menu data-help-center--article-editor-target="accordionMenu"
+            button.hc-bubble-btn.hc-bubble-btn--danger type="button" data-action="click->help-center--article-editor#accordionDelete" title="Delete Accordion" 🗑️ Delete
 
           /! Hidden file inputs for image/file uploads
-          input.ae-hidden-input type="file" accept="image/png, image/jpeg, image/gif, image/webp, image/svg+xml" multiple=true data-article-editor-target="imageInput" data-action="change->article-editor#insertImages"
-          input.ae-hidden-input type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.zip,.txt,.csv" data-article-editor-target="fileInput" data-action="change->article-editor#insertFile"
+          input.ae-hidden-input type="file" accept="image/png, image/jpeg, image/gif, image/webp" multiple=true data-help-center--article-editor-target="imageInput" data-action="change->help-center--article-editor#insertImages"
+          input.ae-hidden-input type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.zip,.txt,.csv" data-help-center--article-editor-target="fileInput" data-action="change->help-center--article-editor#insertFile"
 
         /! ─── Side Panel ───
-        .ae-side-panel data-article-editor-target="sidePanel"
+        .ae-side-panel data-help-center--article-editor-target="sidePanel"
           .ae-side-section
             h4.ae-side-heading Overview
             .ae-meta-row
@@ -172,7 +172,7 @@
           - if @article_options.present?
             .ae-side-section
               h4.ae-side-heading Related Articles
-              select.ae-related-select multiple=true data-controller="select" data-article-editor-target="relatedArticles" data-action="change->article-editor#updateRelatedArticles"
+              select.ae-related-select multiple=true data-controller="select" data-help-center--article-editor-target="relatedArticles" data-action="change->help-center--article-editor#updateRelatedArticles"
                 - @article_options.each do |option|
                   - selected = @article.related_article_ids.include?(option.id)
                   option value=option.id selected=selected = option.title.presence || "Untitled"
@@ -190,4 +190,4 @@
                 p.ae-empty-text No revisions yet
 
       /! Toast container
-      .ae-toast-container data-article-editor-target="toastContainer"
+      .ae-toast-container data-help-center--article-editor-target="toastContainer"

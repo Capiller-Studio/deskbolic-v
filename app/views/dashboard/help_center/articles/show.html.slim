@@ -2,11 +2,12 @@
   = render("dashboard/help_center/help_center_sidebar", current_page: "articles") do
     - collection = @article.primary_category || @article.categories.first
     - translation = @article.translations.find { |item| item.locale.to_s == @locale.to_s } || @article.translations.first
+    - display_title = translation&.title.presence || translation&.draft_title.presence || @article.title.presence || @article.draft_title.presence || "Untitled article"
     .hc-article-show
       .hc-show-header
         .hc-show-title-area
           = link_to "Back to Articles", help_center_articles_path, class: "hc-back-link"
-          h1 = @article.title.presence || "Untitled article"
+          h1 = display_title
           .hc-tag-row
             span.hc-status-badge class="hc-status-#{@article.status}"
               span.hc-status-dot class="hc-dot-#{@article.status}"
@@ -21,7 +22,7 @@
       .hc-show-layout
         article.hc-readable
           - if @article.banner_image.attached?
-            = image_tag(@article.banner_image, class: "hc-banner-image", alt: @article.title)
+            = image_tag(@article.banner_image, class: "hc-banner-image", alt: display_title)
           .hc-readable-content
             == sanitize((@article.content.presence || @article.draft_content.presence || "No content has been added yet.").to_s)
 

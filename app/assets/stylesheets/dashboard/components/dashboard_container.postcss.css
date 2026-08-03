@@ -135,6 +135,12 @@
             .details {
               margin-left: 20px;
               text-align: left;
+              min-width: 0;
+              overflow: hidden;
+              h4, p {
+                overflow: hidden;
+                white-space: nowrap;
+              }
               p {
                 color: $black-20;
               }

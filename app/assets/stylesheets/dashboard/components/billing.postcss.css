@@ -362,6 +362,10 @@
   align-self: start;
 }
 
+#changePlanModal {
+  display: none;
+}
+
 .ap-billing-modal-header.ap-billing-inline-topup-header {
   padding: 0px 14px;
 }
@@ -433,7 +437,11 @@
   justify-content: flex-end;
   gap: 12px;
 }
-
+.ap-billing-btn-danger {
+  background-color: #778dff;
+  border-color: #778dff;
+  color: #fff;
+}
 /* Plan Grid */
 .ap-billing-plan-grid {
   display: grid;
@@ -457,12 +465,12 @@
 
 .ap-billing-plan-radio-indicator {
   position: relative;
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
   border: 1.5px solid #cbd5e1;
   border-radius: 50%;
   flex-shrink: 0;
-  margin-top: 2px;
+  margin-top: 10px;
 }
 
 .ap-billing-plan-radio-indicator::after {
@@ -479,7 +487,7 @@
 }
 
 .ap-billing-plan-price {
-  color: var(--ap-text-muted);
+  color: rgba(0, 0, 0, 0.4);
   font-size: 12px;
   line-height: 1.35;
   margin: 4px 0;

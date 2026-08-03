@@ -6,13 +6,15 @@
 = render("dashboard/shared/dashboard_container", current_page: "help_center") do
   = render("dashboard/help_center/help_center_sidebar", current_page: "articles") do
     - editor_opts = { class: "hc-articles hc-form-page hc-form-no-sidebar", data: { \
-        controller: "article-editor", \
-        "article-editor-upload-url-value" => attachments_path, \
-        "article-editor-csrf-token-value" => form_authenticity_token, \
-        "article-editor-draft-content-value" => draft_content, \
-        "article-editor-draft-title-value" => draft_title, \
-        "article-editor-locale-value" => locale, \
-        "article-editor-status-value" => (@article.status || "draft") \
+        controller: "help-center--article-editor", \
+        "help-center--article-editor-update-url-value" => help_center_articles_path, \
+        "help-center--article-editor-upload-url-value" => attachments_path, \
+        "help-center--article-editor-csrf-token-value" => form_authenticity_token, \
+        "help-center--article-editor-draft-content-value" => draft_content, \
+        "help-center--article-editor-draft-title-value" => draft_title, \
+        "help-center--article-editor-locale-value" => locale, \
+        "help-center--article-editor-status-value" => (@article.status || "draft"), \
+        "help-center--article-editor-portal-id-value" => @selected_portal&.id \
       } }
 
     div *editor_opts

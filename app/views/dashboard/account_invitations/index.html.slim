@@ -1,32 +1,108 @@
 = render("dashboard/shared/dashboard_container", current_page: "settings") do
   = render("dashboard/settings/settings_sidebar", current_page: "users") do
-    .eb-templates
-      = render "dashboard/shared/users_tabs"
-      
-      - if @invitations.any?
-        .eb-templates__grid style="margin-top: 2rem;"
-          - @invitations.each do |invitation|
-            .eb-card
-              .eb-card__body
-                .eb-card__header
-                  h3.eb-card__name = invitation.email
-                  .eb-card__badges
-                    span.eb-badge.eb-badge--draft = t("dashboard.conversation_details.pending")
-                p.eb-card__description = t("dashboard.invitations.index.invited_by", name: invitation.invited_by.name || invitation.invited_by.email)
-                
-                div style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;"
-                  - Access::Role.where(id: invitation.role_ids).each do |role|
-                    span.ui-meta-tag style="background: #f1f5f9; padding: 4px 8px; border-radius: 4px; font-size: 12px; color: #475569;" = role.name
+    - available_roles = @invitation_roles_by_id.values.sort_by(&:name)
 
-              .eb-card__footer
-                span.eb-card__meta = t("dashboard.invitations.index.sent", time: time_ago_in_words(invitation.created_at))
-                .eb-card__actions
-                  = link_to invitation_path(invitation), data: { turbo_method: :delete, turbo_confirm: t("dashboard.invitations.index.revoke_confirm") }, class: "eb-btn eb-btn--danger"
-                    | #{t("ui.dashboard.account_invitations.index.revoke")}
-      - else
-        .auto-empty-state style="margin-top: 2rem;"
-          .ui-empty-icon ✉️
-          h3.f-semi-18 = t("dashboard.invitations.index.empty_title")
-          p.f-reg-14 = t("dashboard.invitations.index.empty_description")
-          = link_to new_invitation_path, class: "ui-btn-primary ui-btn-sm", style: "margin-top: 1rem;"
-            | + #{t("dashboard.invitations.new.title")}
+    .tm-users.tm-invitations data-controller="filterable-collection"
+      .tm-users-header
+        div
+          h1 = t("dashboard.users.index.tab_invitations")
+          p = t("ui.dashboard.account_invitations.index.manage_pending_invitations_and_assigned_roles")
+        .tm-users-header-actions
+          = link_to users_path, class: "tm-users-nav-button"
+            svg viewBox="0 0 24 24" aria-hidden="true"
+              path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"
+              circle cx="9" cy="7" r="4"
+              path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"
+            span = t("dashboard.users.index.tab_active")
+          = link_to new_invitation_path, class: "tm-users-invite"
+            span = t("ui.dashboard.account_invitations.new.invite_member")
+            = inline_svg_tag("plus_white.svg", class:"plus-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+
+      .tm-users-body
+        .tm-users-filters
+          label.tm-users-search
+            svg viewBox="0 0 24 24" aria-hidden="true"
+              circle cx="11" cy="11" r="7"
+              path d="m20 20-4-4"
+            input type="search" placeholder=t("ui.dashboard.account_invitations.index.search_invitations") aria-label=t("ui.dashboard.account_invitations.index.search_invitations") data-filterable-collection-target="query" data-action="input->filterable-collection#update"
+
+          select.tm-users-select aria-label=t("ui.dashboard.account_users.index.filter_by_role") data-filterable-collection-target="filter" data-action="change->filterable-collection#update"
+            option value="" = t("ui.dashboard.account_users.index.all_roles")
+            - available_roles.each do |role|
+              option value=role.id = role.name
+
+          select.tm-users-select aria-label=t("ui.dashboard.account_invitations.index.sort_invitations") data-filterable-collection-target="sort" data-action="change->filterable-collection#update"
+            option value="sent:desc" = t("ui.dashboard.account_users.index.sort_newest")
+            option value="sent:asc" = t("ui.dashboard.account_users.index.sort_oldest")
+            option value="email:asc" = t("ui.dashboard.account_invitations.index.sort_email")
+
+        - if @invitations.any?
+          .tm-users-grid data-filterable-collection-target="container"
+            - @invitations.each do |invitation|
+              - invitation_roles = invitation.role_ids.filter_map { |role_id| @invitation_roles_by_id[role_id.to_s] }
+              - inviter = invitation.invited_by
+              - inviter_name = inviter ? (full_name(inviter).presence || inviter.email) : "—"
+              article.tm-member-card.tm-invitation-card data-controller="accordion" data-filterable-collection-target="item" data-searchable="#{invitation.email.downcase} #{inviter_name.downcase}" data-filter-values=invitation.role_ids.join(",") data-sent=invitation.created_at.to_i data-email=invitation.email.downcase
+                .tm-member-card-identity
+                  .tm-member-card-avatar.tm-invitation-card-avatar aria-hidden="true"
+                    svg viewBox="0 0 24 24"
+                      rect x="3" y="5" width="18" height="14" rx="2"
+                      path d="m4 7 8 6 8-6"
+                  .tm-member-card-person
+                    h2 = invitation.email
+                    p = t("dashboard.conversation_details.pending")
+
+                  button.tm-member-card-menu-button type="button" aria-label=t("ui.dashboard.account_invitations.index.invitation_actions") data-action="accordion#toggleMenu"
+                    span
+                    span
+                    span
+
+                  .tm-member-card-menu data-accordion-target="menu"
+                    = link_to invitation_path(invitation), class: "tm-member-card-remove", data: { turbo_method: :delete, turbo_confirm: t("dashboard.invitations.index.revoke_confirm") } do
+                      svg viewBox="0 0 24 24" aria-hidden="true"
+                        path d="M4 7h16M9 7V4h6v3M7 7l1 14h8l1-14M10 11v6M14 11v6"
+                      = t("ui.dashboard.account_invitations.index.revoke_invitation")
+
+                .tm-member-card-activity
+                  .tm-member-card-metric
+                    svg viewBox="0 0 24 24" aria-hidden="true"
+                      circle cx="12" cy="8" r="4"
+                      path d="M4 21a8 8 0 0 1 16 0"
+                    div
+                      span = t("ui.dashboard.account_invitations.index.invited_by")
+                      strong = inviter_name
+                  .tm-member-card-metric
+                    svg viewBox="0 0 24 24" aria-hidden="true"
+                      rect x="3" y="5" width="18" height="16" rx="2"
+                      path d="M16 3v4M8 3v4M3 10h18"
+                    div
+                      span = t("ui.dashboard.account_invitations.index.sent_on")
+                      strong = invitation.created_at.strftime("%d %b %Y")
+
+                .tm-member-card-footer
+                  .tm-member-card-roles
+                    - if invitation_roles.any?
+                      - invitation_roles.first(2).each do |role|
+                        span class="tm-role-badge tm-role-badge-#{role.identifier}" = role.name
+                      - if invitation_roles.size > 2
+                        span.tm-role-badge.tm-role-badge-more = "+#{invitation_roles.size - 2}"
+                    - else
+                      span.tm-role-badge.tm-role-badge-none = t("dashboard.users.index.no_roles")
+                  .tm-member-card-status.tm-member-card-status-pending
+                    i
+                    = t("dashboard.conversation_details.pending")
+
+          .tm-users-empty data-filterable-collection-target="empty" hidden=true
+            h2 = t("ui.dashboard.account_invitations.index.no_matching_invitations")
+            p = t("ui.dashboard.account_invitations.index.try_a_different_search_or_role_filter")
+        - else
+          .tm-users-empty
+            .tm-invitations-empty-icon aria-hidden="true"
+              svg viewBox="0 0 24 24"
+                rect x="3" y="5" width="18" height="14" rx="2"
+                path d="m4 7 8 6 8-6"
+            h2 = t("dashboard.invitations.index.empty_title")
+            p = t("dashboard.invitations.index.empty_description")
+            = link_to new_invitation_path, class: "tm-users-invite tm-invitations-empty-action"
+              span = t("ui.dashboard.account_invitations.new.invite_member")
+              = inline_svg_tag("plus_white.svg", class:"plus-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))

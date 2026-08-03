@@ -3,13 +3,19 @@
     .inbox-nav
       .card
         .f-semi-24 = t('dashboard.conversations.title')
-        .search-bar 
-          = inline_svg_tag("search.svg", class:"search-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-          p.f-reg-14 = t('dashboard.conversations.search')
+        = form_with url: conversations_path, method: :get, local: true, class: "search-bar" do
+          = hidden_field_tag :resource_id, @inbox&.id
+          = hidden_field_tag :filter, @filter if @filter.present?
+          = inline_svg_tag("search.svg", class: "search-icon", alt: "")
+          = text_field_tag :q, @query, class: "conversation-search-input f-reg-14", placeholder: t("dashboard.conversations.search"), aria: { label: t("dashboard.conversations.search") }, autocomplete: "off", oninput: "clearTimeout(this._timer); this._timer=setTimeout(()=>Turbo.visit(this.form.action+'?'+new URLSearchParams(new FormData(this.form)).toString(),{action:'replace'}),300)"
+          - if @query.present?
+            = link_to conversations_path(resource_id: @inbox&.id, filter: @filter.presence), class: "conversation-search-clear", title: t("dashboard.conversations.search") do
+              = image_tag("cross_clear.svg", alt: t("dashboard.conversations.search"), class: "conversation-search-clear-icon")
 
         = turbo_frame_tag "conversations-list-frame" do
           = form_with url: conversations_path, method: :get, html: { id: "conversations-filter-form", data: { turbo_frame: "conversations-list-frame", turbo_action: "advance" } } do
             = hidden_field_tag "resource_id", @inbox&.id
+            = hidden_field_tag "q", @query if @query.present?
             .filter-tabs
               = button_tag t('dashboard.conversations.filter_all'), type: "submit", name: "filter", value: "", form: "conversations-filter-form", class: "filter-tab #{@filter.blank? ? 'active' : ''}"
               = button_tag t('dashboard.conversations.filter_assigned'), type: "submit", name: "filter", value: "assigned", form: "conversations-filter-form", class: "filter-tab #{@filter == 'assigned' ? 'active' : ''}"
@@ -18,7 +24,7 @@
             .inbox-nav-menu#conversations-list
               - @conversations.each do |conversation|
                 - customer = conversation.customers.first
-                - conversation_url = conversation_path(conversation.id, filter: @filter.presence)
+                - conversation_url = conversation_path(conversation.id, filter: @filter.presence, q: @query.presence)
                 li.nav-item id=dom_id(conversation) class="#{@conversation&.id == conversation.id ? 'inbox-nav-active' : ''}"
                   - if customer&.avatar&.attached?
                     = image_tag(customer.avatar, class:"user-img", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
@@ -38,7 +44,7 @@
                     p.f-reg-10 id="conversation-#{conversation.id}-date" = conversation.messages.order(:created_at).last&.created_at&.strftime("%d %b")
               
               - if @pagy_conversations&.next
-                turbo-frame.inbox-nav-menu id="conversations-page-#{@pagy_conversations.next}" src=conversations_path(page: @pagy_conversations.next, resource_id: @inbox&.id, filter: @filter) loading="lazy"
+                turbo-frame.inbox-nav-menu id="conversations-page-#{@pagy_conversations.next}" src=conversations_path(page: @pagy_conversations.next, resource_id: @inbox&.id, filter: @filter, q: @query.presence) loading="lazy"
                   .loading-spinner style="text-align: center; padding: 20px; color: #9CA3AF;"
                     p.f-reg-14 Loading more conversations...
 

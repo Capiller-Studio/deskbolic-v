@@ -22,6 +22,70 @@
               = f.text_field :name, class: "portal-input", placeholder: t("dashboard.help_center.portals.form.template_name_placeholder"), required: true, autocomplete: "off"
               p.form-hint.f-reg-12 = t("ui.dashboard.help_center.portals.edit.the_public_facing_name_internal_id_will_be_generated_automatically")
 
+          .portal-form-section.brand-assets-section
+            h3.f-semi-12 = t("dashboard.help_center.portals.brand_assets.title")
+            .brand-assets-grid
+              .brand-asset-card data-controller="dropzone" data-dropzone-max-file-size="1" data-dropzone-max-files="1" data-dropzone-accepted-files=".jpeg,.jpg,.png"
+                .brand-asset-copy
+                  h4.f-semi-14 = t("dashboard.help_center.portals.brand_assets.logo_title")
+                  p.f-reg-12 = t("dashboard.help_center.portals.brand_assets.logo_description")
+                .profile-dropzone.brand-asset-dropzone
+                  = f.file_field :logo, direct_upload: true, accept: ".jpeg,.jpg,.png", data: { "dropzone-target": "input" }
+                  .brand-asset-placeholder.dropzone-msg.dz-message.needsclick
+                    - if @portal.logo.attached?
+                      = image_tag(@portal.logo, class: "brand-asset-existing-preview", alt: t("dashboard.help_center.portals.brand_assets.current_logo_alt"))
+                    - else
+                      svg.brand-asset-icon viewBox="0 0 24 24" aria-hidden="true"
+                        circle cx="12" cy="12" r="8.5"
+                        circle cx="15.5" cy="9" r="1.5"
+                        path d="M5.2 15.2l4.2-4.1 7.4 7.1"
+                  input.d-none type="checkbox" value="" data-dropzone-target="doneCheck"
+                button.brand-asset-upload-button.f-semi-12 type="button" data-action="click->dropzone#openFilePicker" = t("dashboard.help_center.portals.brand_assets.upload")
+                span.brand-asset-file-name.f-reg-12 data-dropzone-target="fileName"
+                p.brand-asset-error.f-reg-12 = t("dashboard.help_center.portals.brand_assets.invalid_image")
+                p.brand-asset-hint.f-reg-12 = t("dashboard.help_center.portals.brand_assets.logo_hint")
+
+              .brand-asset-card data-controller="dropzone" data-dropzone-max-file-size="1" data-dropzone-max-files="1" data-dropzone-accepted-files=".png,.svg"
+                .brand-asset-copy
+                  h4.f-semi-14 = t("dashboard.help_center.portals.brand_assets.favicon_title")
+                  p.f-reg-12 = t("dashboard.help_center.portals.brand_assets.favicon_description")
+                .profile-dropzone.brand-asset-dropzone.brand-asset-dropzone-favicon
+                  = f.file_field :favicon, direct_upload: true, accept: ".png,.svg", data: { "dropzone-target": "input" }
+                  .brand-asset-placeholder.dropzone-msg.dz-message.needsclick
+                    - if @portal.favicon.attached?
+                      = image_tag(@portal.favicon, class: "brand-asset-existing-preview", alt: t("dashboard.help_center.portals.brand_assets.current_favicon_alt"))
+                    - else
+                      svg.brand-asset-icon viewBox="0 0 24 24" aria-hidden="true"
+                        circle cx="15.5" cy="8" r="2"
+                        path d="M4.5 18l5.3-6 3.2 3.4 2.1-2.2 4.4 4.8z"
+                  input.d-none type="checkbox" value="" data-dropzone-target="doneCheck"
+                button.brand-asset-upload-button.f-semi-12 type="button" data-action="click->dropzone#openFilePicker" = t("dashboard.help_center.portals.brand_assets.upload")
+                span.brand-asset-file-name.f-reg-12 data-dropzone-target="fileName"
+                p.brand-asset-error.f-reg-12 = t("dashboard.help_center.portals.brand_assets.invalid_image")
+                p.brand-asset-hint.f-reg-12 = t("dashboard.help_center.portals.brand_assets.favicon_hint")
+
+              .brand-asset-card data-controller="dropzone" data-dropzone-max-file-size="1" data-dropzone-max-files="1" data-dropzone-accepted-files=".png,.svg"
+                .brand-asset-copy
+                  h4.f-semi-14 = t("dashboard.help_center.portals.brand_assets.social_image_title")
+                  p.f-reg-12 = t("dashboard.help_center.portals.brand_assets.social_image_description")
+                .profile-dropzone.brand-asset-dropzone.brand-asset-dropzone-social
+                  = f.file_field :social_share_image, direct_upload: true, accept: ".png,.svg", data: { "dropzone-target": "input" }
+                  .brand-asset-placeholder.dropzone-msg.dz-message.needsclick
+                    - if @portal.social_share_image.attached?
+                      = image_tag(@portal.social_share_image, class: "brand-asset-existing-preview", alt: t("dashboard.help_center.portals.brand_assets.current_social_image_alt"))
+                    - else
+                      svg.brand-asset-icon viewBox="0 0 24 24" aria-hidden="true"
+                        line x1="8.5" y1="12" x2="15.5" y2="8"
+                        line x1="8.5" y1="12" x2="15.5" y2="16"
+                        circle cx="7" cy="12" r="2.2"
+                        circle cx="17" cy="7" r="2.2"
+                        circle cx="17" cy="17" r="2.2"
+                  input.d-none type="checkbox" value="" data-dropzone-target="doneCheck"
+                button.brand-asset-upload-button.f-semi-12 type="button" data-action="click->dropzone#openFilePicker" = t("dashboard.help_center.portals.brand_assets.upload")
+                span.brand-asset-file-name.f-reg-12 data-dropzone-target="fileName"
+                p.brand-asset-error.f-reg-12 = t("dashboard.help_center.portals.brand_assets.invalid_image")
+                p.brand-asset-hint.f-reg-12 = t("dashboard.help_center.portals.brand_assets.social_image_hint")
+
           .portal-form-section
             h3.f-semi-12 = t("ui.dashboard.help_center.portals.edit.domain_assignment")
             - if @available_domains.any?

@@ -75,7 +75,7 @@
               padding: 0;
               width: 120px;
               height: 120px;
-              display: inline-flex;
+              /* display: inline-flex; */
               align-items: center;
               justify-content: center;
               align-self: flex-start;
@@ -161,7 +161,7 @@
             padding: 0;
             width: 120px;
             height: 120px;
-            display: inline-flex;
+            /* display: inline-flex; */
             align-items: center;
             justify-content: center;
             align-self: flex-end;
@@ -1747,4 +1747,21 @@
       text-overflow: ellipsis;
     }
   }
+}
+.message-status-container {
+  @mixin flex-row $justify-end, $align-center;
+  margin-top: 6px;
+  .lock {
+    margin-left: 20px;
+    margin-right: -18px;
+  }
+  .msg-time {
+    font-size: 12px;
+    color: $black-70;
+    margin-right: 2px;
+    margin-left: 20px;
+  }
+}
+.private-note-bg {
+  background-color: #fefce8 !important;
 }

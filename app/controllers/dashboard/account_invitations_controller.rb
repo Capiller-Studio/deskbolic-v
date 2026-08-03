@@ -3,7 +3,9 @@
 module Dashboard
   class AccountInvitationsController < DashboardController
     def index
-      @invitations = current_account.account_invitations.pending
+      @invitations = current_account.account_invitations.pending.includes(:invited_by)
+      role_ids = @invitations.flat_map(&:role_ids).uniq
+      @invitation_roles_by_id = ::Access::Role.where(id: role_ids).index_by { |role| role.id.to_s }
     end
 
     def new

@@ -7,9 +7,15 @@
         div
           h1 = t("dashboard.popup.team.form.team_members")
           p = t("ui.dashboard.account_users.index.manage_your_workspace_members_permissions_and_invitations")
-        = link_to new_invitation_path, class: "tm-users-invite"
-          span.f-reg-14 = t("ui.dashboard.account_invitations.new.invite_member")
-          = inline_svg_tag("plus_white.svg", class:"plus-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+        .tm-users-header-actions
+          = link_to invitations_path, class: "tm-users-nav-button"
+            svg viewBox="0 0 24 24" aria-hidden="true"
+              rect x="3" y="5" width="18" height="14" rx="2"
+              path d="m4 7 8 6 8-6"
+            span = t("dashboard.users.index.tab_invitations")
+          = link_to new_invitation_path, class: "tm-users-invite"
+            span = t("ui.dashboard.account_invitations.new.invite_member")
+            = inline_svg_tag("plus_white.svg", class:"plus-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
 
       .tm-users-body
         .tm-users-filters

@@ -10,8 +10,10 @@ module Dashboard
       @conversations = find_conversations(params[:resource_id])
       @conversations = @conversations.current_conversations(current_user).or(@conversations.not_assigned_to_user)
 
+      @query = params[:q].to_s.strip
       @filter = params[:filter].presence
       @conversations = filter_conversations(@filter) if @filter.present?
+      @conversations = search_conversations(@conversations, @query) if @query.present?
       @conversations = @conversations.includes(:customers, :last_message).order(last_activity_at: :desc)
       @pagy_conversations, @conversations = pagy(@conversations, items: 20)
       
@@ -36,9 +38,11 @@ module Dashboard
       @inbox = @conversation.inbox
       @conversations = @inbox.conversations.where(account: current_account).where(status: @conversation.status)
       @conversations = @conversations.current_conversations(current_user).or(@conversations.not_assigned_to_user)
-      
+
+      @query = params[:q].to_s.strip
       @filter = params[:filter].presence
       @conversations = filter_conversations(@filter) if @filter.present?
+      @conversations = search_conversations(@conversations, @query) if @query.present?
       @conversations = @conversations.includes(:customers, :last_message).order(last_activity_at: :desc)
       @pagy_conversations, @conversations = pagy(@conversations, items: 20, page_param: :conversations_page)
 
@@ -314,6 +318,25 @@ module Dashboard
     def find_conversations(resource_id)
       @inbox = current_account.inboxes.find_by(id: resource_id) if resource_id.present?
       @inbox ? @inbox.conversations.where(account: current_account) : current_account.conversations
+    end
+
+    def search_conversations(conversations, query)
+      conversations
+        .left_joins(:customers, :messages)
+        .where(
+          <<~SQL.squish,
+            conversations.title ILIKE :query
+            OR conversations.identifier ILIKE :query
+            OR customers.name ILIKE :query
+            OR customers.display_name ILIKE :query
+            OR customers.first_name ILIKE :query
+            OR customers.middle_name ILIKE :query
+            OR customers.last_name ILIKE :query
+            OR customers.email ILIKE :query
+          SQL
+          query: "%#{query}%"
+        )
+        .distinct
     end
 
     private

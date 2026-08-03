@@ -24,12 +24,44 @@
           @mixin flex-row $justify-left, $align-center;
           @mixin rect-back-gray;
           margin-top: 20px;
+          position: relative;
           .search-icon {
-
+            flex-shrink: 0;
           }
-          p {
-            padding-left: 6px;
+
+          .conversation-search-input {
+            width: 100%;
+            min-width: 0;
+            padding: 0 30px 0 6px;
+            border: 0;
+            outline: 0;
+            background: transparent;
+            color: $black-80;
+          }
+
+          .conversation-search-input::placeholder {
             color: $black-40;
+          }
+
+          .conversation-search-clear {
+            position: absolute;
+            right: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+          }
+
+          .conversation-search-clear:hover {
+            background: rgba(0, 0, 0, 0.05);
+          }
+
+          .conversation-search-clear-icon {
+            width: 16px;
+            height: 16px;
+            opacity: 0.6;
           }
         }
         .conversations-filter-form {

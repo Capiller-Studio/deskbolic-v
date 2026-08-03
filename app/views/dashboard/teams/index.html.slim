@@ -1,45 +1,49 @@
 = render("dashboard/shared/dashboard_container", current_page: "teams") do
   = render("dashboard/settings/settings_sidebar", current_page: "teams") do
-    .body-section.roles-body.team-inboxes-body data-controller="modal-toggler frame-toggler"
+    .tm-users.tm-teams data-controller="modal-toggler frame-toggler"
       = render("dashboard/shared/modal_popper")
-      .roles-header.team-inboxes-header
-        .topbar
-          h2.f-semi-18 = t("dashboard.teams.index.title")
-          .new-inbox data-action="click->modal-toggler#showModal click->frame-toggler#loadModal" data-popup-view="_team_modal" style="cursor: pointer;"
-            span.f-reg-14 = t("dashboard.teams.index.new_team")
+      .tm-users-header
+        div
+          h1 = t("dashboard.teams.index.title")
+          p = t("dashboard.teams.index.manage_description")
+        .tm-users-header-actions
+          button.tm-users-invite.tm-team-modal-button type="button" data-action="click->modal-toggler#showModal click->frame-toggler#loadModal" data-popup-view="_team_modal"
+            span = t("dashboard.teams.index.new_team")
             = inline_svg_tag("plus_white.svg", class:"plus-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-        .header-options
-          .f-reg-16 = t("dashboard.teams.index.manage_description")
-      .roles-container
+
+      .tm-users-body
         - if @teams.any?
-          .roles-section
+          .tm-users-grid.tm-teams-grid
             - @teams.each do |team|
-              .card
-                .card-header
-                  h4.f-semi-16 = team.name
-                  = inline_svg_tag("settings.svg", class: "card-icon", alt: t("ui.dashboard.agent.guidance.icon"), data: { action: "click->modal-toggler#showModal click->frame-toggler#loadModal", popup_view: "_team_modal", item_id: team.id }, style: "cursor: pointer;")
-                p.f-reg-14 = team.description.presence || t("dashboard.teams.index.no_description")
-                .card-footer
-                  - team.users.limit(3).each_with_index do |team_user, idx|
-                    - if team_user.avatar.attached?
-                      = image_tag(team_user.avatar, class: "avatar-icon avatar#{idx+1}", alt: team_user.display_name)
-                    - else
-                      .avatar-icon.avatar-fallback.customer-list-initials-avatar.f-reg-12 class="avatar#{idx+1} #{avatar_fallback_color_class(full_name(team_user))}"
-                        = initials(team_user)
-                  .new-teammates data-action="click->modal-toggler#showModal click->frame-toggler#loadModal" data-popup-view="_team_modal" data-item-id=team.id style="cursor: pointer;"
+              article.tm-member-card.tm-team-card
+                .tm-team-card-header
+                  h2 = team.name
+                  button.tm-team-card-settings type="button" data-action="click->modal-toggler#showModal click->frame-toggler#loadModal" data-popup-view="_team_modal" data-item-id=team.id
+                    = inline_svg_tag("settings.svg", alt: t("ui.dashboard.agent.guidance.icon"))
+                p.tm-team-card-description = team.description.presence || t("dashboard.teams.index.no_description")
+
+                .tm-team-card-members
+                  .tm-team-card-avatars
+                    - team.users.limit(3).each_with_index do |team_user, idx|
+                      - if team_user.avatar.attached?
+                        = image_tag(team_user.avatar, class: "tm-team-card-avatar tm-team-card-avatar-#{idx + 1}", alt: team_user.display_name)
+                      - else
+                        .tm-team-card-avatar.tm-team-card-avatar-fallback.avatar-fallback class="tm-team-card-avatar-#{idx + 1} #{avatar_fallback_color_class(full_name(team_user))}"
+                          = initials(team_user)
+                  button.tm-team-card-add type="button" data-action="click->modal-toggler#showModal click->frame-toggler#loadModal" data-popup-view="_team_modal" data-item-id=team.id
                     = inline_svg_tag("plus_blue.svg", class:"plus-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-                    span.f-reg-12 = t("dashboard.teams.index.add_teammates")
-                .card-status
-                  span.f-reg-12 = team.created_at.strftime("%d %b %Y")
-                  .status-tag class="bg-#{team_status_class(team.status)}" 
+                    span = t("dashboard.teams.index.add_teammates")
+
+                .tm-team-card-status
+                  span = team.created_at.strftime("%d %b %Y")
+                  .tm-member-card-status class="bg-#{team_status_class(team.status)}"
                     .bullet
-                    span.f-reg-12 = team.status.capitalize
+                    span = team.status.capitalize
         - else
-          .roles-empity
-            .empity-section
-              = image_tag("empity_tag.png", class:"empity-tag", alt:t("ui.dashboard.channels.channels.img"))
-              h3.f-semi-24 = t("dashboard.teams.index.empty_title")
-              p.f-reg-14 = t("dashboard.teams.index.empty_description")
-              .new-inbox data-action="click->modal-toggler#showModal click->frame-toggler#loadModal" data-popup-view="_team_modal" style="margin-top: 16px; cursor: pointer;"
-                span.f-reg-14 = t("dashboard.teams.index.new_team")
-                = inline_svg_tag("plus_white.svg", class:"plus-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+          .tm-users-empty.tm-teams-empty
+            = image_tag("empity_tag.png", class:"tm-teams-empty-image", alt:t("ui.dashboard.channels.channels.img"))
+            h2 = t("dashboard.teams.index.empty_title")
+            p = t("dashboard.teams.index.empty_description")
+            button.tm-users-invite.tm-team-modal-button.tm-teams-empty-action type="button" data-action="click->modal-toggler#showModal click->frame-toggler#loadModal" data-popup-view="_team_modal"
+              span = t("dashboard.teams.index.new_team")
+              = inline_svg_tag("plus_white.svg", class:"plus-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))

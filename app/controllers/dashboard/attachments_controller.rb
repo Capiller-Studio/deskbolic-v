@@ -21,6 +21,7 @@ module Dashboard
     def create
       resource = resolve_resource
       return unless resource
+      return if unsupported_article_image?
 
       @attachment = resource.attachments.new(
         account: Current.account,
@@ -88,6 +89,15 @@ module Dashboard
       end
 
       resource
+    end
+
+    def unsupported_article_image?
+      return false unless params[:resource_type] == "HelpCenter::Article"
+      return false unless (params[:attachment_type].presence || "image") == "image"
+      return false unless params[:file]&.content_type == "image/svg+xml"
+
+      render json: { error: "Unsupported image format. Please upload JPG, PNG, GIF, or WEBP." }, status: :unprocessable_entity
+      true
     end
   end
 end

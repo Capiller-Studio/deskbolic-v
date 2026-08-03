@@ -1,6 +1,6 @@
 = render("dashboard/shared/dashboard_container", current_page: "help_center") do
   = render("dashboard/help_center/help_center_sidebar", current_page: "collections") do
-    div data-controller="category"
+    div data-controller="help-center--category"
       .hc-articles
         .hc-search-row
           = form_with url: help_center_categories_path, method: :get, local: true, class: "hc-search-row-form" do
@@ -15,7 +15,7 @@
           .hc-title-area
             h1.f-semi-32 = t("dashboard.help_center.categories.index.title")
           .hc-header-actions
-            button.hc-btn-primary#new-collection-btn type="button" data-action="click->category#open"
+            button.hc-btn-primary#new-collection-btn type="button" data-action="click->help-center--category#open"
               = t("dashboard.help_center.categories.index.new_collection")
 
         .hc-toolbar
@@ -70,11 +70,11 @@
               .hc-empty-icon 📁
               h3.f-semi-18 = t("dashboard.help_center.categories.index.empty_title")
               p.f-reg-14.text-muted = t("dashboard.help_center.categories.index.empty_description")
-              button.hc-btn-primary#new-collection-btn-empty type="button" data-action="click->category#open"
+              button.hc-btn-primary#new-collection-btn-empty type="button" data-action="click->help-center--category#open"
                 = t("dashboard.help_center.categories.index.new_collection")
 
       / New Collection Modal
-      #new-collection-modal.modal-popper-container style="display: none;" data-category-target="modal" data-action="click->category#closeOnOutsideClick"
+      #new-collection-modal.modal-popper-container style="display: none;" data-help-center--category-target="modal" data-action="click->help-center--category#closeOnOutsideClick"
         .model-content-section
           .model-content.hc-category-modal-content
             .hc-category-modal-header
@@ -105,5 +105,5 @@
                       = f.select :visibility, ::HelpCenter::Category.visibilities.keys.map { |v| [t("enums.help_center.visibility.#{v}"), v] }, {}, class: "hc-category-form-select f-reg-14"
 
                 .hc-category-form-actions
-                  button.hc-category-cancel-btn.f-med-14.close-modal-btn type="button" data-action="click->category#close" = t("dashboard.help_center.categories.form.cancel")
+                  button.hc-category-cancel-btn.f-med-14.close-modal-btn type="button" data-action="click->help-center--category#close" = t("dashboard.help_center.categories.form.cancel")
                   = f.submit t("dashboard.help_center.categories.form.submit"), class: "hc-category-submit-btn f-med-14"

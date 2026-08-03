@@ -36,7 +36,7 @@ export const SLASH_MENU_ITEMS = [
       { title: 'Image', description: 'Upload an image', icon: '🖼', command: ({ editor, range }) => {
         editor.chain().focus().deleteRange(range).run()
         // Trigger the file input from the article editor controller
-        const fileInput = document.querySelector('[data-article-editor-target="imageInput"]')
+        const fileInput = document.querySelector('[data-help-center--article-editor-target="imageInput"]')
         if (fileInput) fileInput.click()
       }},
     ],
@@ -65,7 +65,7 @@ export const SLASH_MENU_ITEMS = [
       { title: 'API Endpoint', description: 'REST API reference block', icon: '⚡', command: ({ editor, range }) => { editor.chain().focus().deleteRange(range).setApiEndpoint().run() } },
       { title: 'File Attachment', description: 'Downloadable file card', icon: '📎', command: ({ editor, range }) => {
         editor.chain().focus().deleteRange(range).run()
-        const fileInput = document.querySelector('[data-article-editor-target="fileInput"]')
+        const fileInput = document.querySelector('[data-help-center--article-editor-target="fileInput"]')
         if (fileInput) fileInput.click()
       }},
       { title: 'YouTube Video', description: 'Embed a YouTube video', icon: '▶️', command: ({ editor, range }) => {

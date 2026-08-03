@@ -92,7 +92,7 @@ export default class extends Controller {
     btn.type = "button"
     btn.className = "hc-category-picker-item"
     btn.dataset.value = id
-    btn.dataset.action = "click->category#select"
+    btn.dataset.action = "click->help-center--category#select"
     btn.textContent = name
 
     const createRow = this.listTarget.querySelector(".hc-category-picker-create")
@@ -159,15 +159,15 @@ export default class extends Controller {
       if (response.ok) {
         const data = await response.json()
 
-        const pickerEl = document.querySelector('[data-controller="category"]')
+        const pickerEl = document.querySelector('[data-controller="help-center--category"]')
         if (pickerEl && window.Stimulus) {
-          const picker = window.Stimulus.getControllerForElementAndIdentifier(pickerEl, "category")
+          const picker = window.Stimulus.getControllerForElementAndIdentifier(pickerEl, "help-center--category")
           if (picker && typeof picker.addItem === "function") {
             picker.addItem({ id: data.id, name: data.name })
           }
         }
 
-        document.querySelectorAll('[data-category-target="modal"]').forEach(m => {
+        document.querySelectorAll('[data-help-center--category-target="modal"]').forEach(m => {
           m.style.display = "none"
         })
 

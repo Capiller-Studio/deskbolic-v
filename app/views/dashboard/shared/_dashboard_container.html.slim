@@ -40,8 +40,11 @@
                   .user-img.avatar-fallback.dashboard-user-initials.f-reg-14 class=avatar_fallback_color_class(full_name(current_user))
                     = initials(current_user)
                 .details
-                  h4.f-med-18 = current_user&.name
-                  p.f-med-16 = current_user&.email
+                  h4.f-med-18 = current_user&.name 
+                  - email = current_user&.email
+                  - local, domain = email.to_s.split("@", 2)
+                  - display_email = local.present? && domain.present? && local.length > 8 ? "#{local.first(8)}...@#{domain}" : email
+                  p.f-med-16 title=email = display_email
               .account-options
                 / .theme.menu-link
                 /   = inline_svg_tag("theme.svg", class:"menu-icon", alt:"menu")

@@ -82,6 +82,7 @@ export default class extends Controller {
     copyLocaleUrl: { type: String, default: "" },
     uploadUrl: { type: String, default: "" },
     articleId: String,
+    portalId: String,
     csrfToken: String,
     draftContent: { type: String, default: "" },
     draftTitle: { type: String, default: "" },
@@ -125,6 +126,10 @@ export default class extends Controller {
     this.isDirty = false
     this._saving = false
     this._autoSaveTimer = null
+    this.hasSavedDraft = Boolean(
+      this.articleIdValue &&
+      (this.hasUnpublishedChangesValue || this.statusValue === "draft")
+    )
     this.initEditor()
     this._closeMenusBound = this._closeMenusOnOutsideClick.bind(this)
     document.addEventListener("click", this._closeMenusBound)
@@ -566,15 +571,24 @@ export default class extends Controller {
   // ─── Auto Save ──────────────────────────────────────────────────────
 
   scheduleAutoSave() {
+    if (this.hasSavedDraft) return
+
     if (this._autoSaveTimer) clearTimeout(this._autoSaveTimer)
-    this._autoSaveTimer = setTimeout(() => this.save(), 3000)
+    this._autoSaveTimer = setTimeout(() => this.save({ auto: true, force: true }), 3000)
   }
 
   // ─── Save Draft ─────────────────────────────────────────────────────
 
-  async save() {
-    if (!this.hasUpdateUrlValue) return // Cannot autosave a new article before it's created
-    if (this._saving || !this.isDirty) return
+  async save(options = {}) {
+    const isEvent = options && typeof options.preventDefault === "function"
+    if (isEvent) options.preventDefault()
+
+    const force = typeof options === "boolean" ? options : Boolean(options.force || isEvent)
+    const auto = typeof options === "object" && !isEvent ? Boolean(options.auto) : false
+
+    if (auto && this.hasSavedDraft) return true
+    if (!this.hasUpdateUrlValue) return false // Cannot autosave a new article before it's created
+    if (this._saving || (!this.isDirty && !force)) return true
     this._saving = true
 
     const saveBtn = document.getElementById("ae-save-btn")
@@ -601,8 +615,14 @@ export default class extends Controller {
         save_draft: '1',
       }
 
+      if (!this.articleIdValue && this.portalIdValue) {
+        payload.article.portal_id = this.portalIdValue
+      }
+
+      const method = this.articleIdValue ? "PATCH" : "POST"
+
       const response = await fetch(this.updateUrlValue, {
-        method: "PATCH",
+        method,
         headers: {
           "Content-Type": "application/json",
           "X-CSRF-Token": this.csrfTokenValue,
@@ -615,14 +635,28 @@ export default class extends Controller {
 
       if (data.success) {
         this.isDirty = false
+        this.hasSavedDraft = true
         this.hasUnpublishedChangesValue = true
+        if (data.article_id) {
+          const wasNewArticle = !this.articleIdValue
+          this.articleIdValue = data.article_id
+          if (wasNewArticle) {
+            this.updateUrlValue = this.updateUrlValue.replace(/\/+$/, '') + '/' + data.article_id
+            this.updateFormActionForPersistedArticle()
+          }
+          const url = new URL(this.uploadUrlValue, window.location.origin)
+          this.uploadUrlValue = url.toString()
+        }
         this.updateDraftBadge(true)
         this.showToast(data.message || "Draft saved", "success")
+        return true
       } else {
         this.showToast(data.errors?.join(", ") || "Save failed", "error")
+        return false
       }
     } catch (err) {
       this.showToast(`Save failed: ${err.message}`, "error")
+      return false
     } finally {
       this._saving = false
       if (saveBtn) {
@@ -630,6 +664,23 @@ export default class extends Controller {
         saveBtn.innerHTML = 'Save Draft'
       }
     }
+  }
+
+  updateFormActionForPersistedArticle() {
+    const form = this.element.querySelector("#article-form")
+    if (!form) return
+
+    form.action = this.updateUrlValue
+    form.method = "post"
+
+    let methodInput = form.querySelector('input[name="_method"]')
+    if (!methodInput) {
+      methodInput = document.createElement("input")
+      methodInput.type = "hidden"
+      methodInput.name = "_method"
+      form.appendChild(methodInput)
+    }
+    methodInput.value = "patch"
   }
 
   // ─── Publish ────────────────────────────────────────────────────────
@@ -859,12 +910,20 @@ export default class extends Controller {
     const files = Array.from(this.imageInputTarget.files || [])
     if (files.length === 0) return
 
-    const supportedImageTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml']
+    if (!this.articleIdValue) {
+      this.isDirty = true
+      await this.save({ auto: true, force: true })
+      if (!this.articleIdValue) {
+        return
+      }
+    }
+
+    const supportedImageTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
     const maxSize = 5 * 1024 * 1024 // 5MB
 
     for (const file of files) {
       if (!supportedImageTypes.includes(file.type)) {
-        this.showToast(`Unsupported image format: ${file.name}. Please upload JPG, PNG, GIF, WEBP, or SVG.`, "error")
+        this.showToast(`Unsupported image format: ${file.name}. Please upload JPG, PNG, GIF, or WEBP.`, "error")
         continue
       }
       if (file.size > maxSize) {
@@ -901,6 +960,14 @@ export default class extends Controller {
 
     const files = Array.from(this.fileInputTarget.files || [])
     if (files.length === 0) return
+
+    if (!this.articleIdValue) {
+      this.isDirty = true
+      await this.save({ auto: true, force: true })
+      if (!this.articleIdValue) {
+        return
+      }
+    }
 
     const supportedExtensions = ['.pdf', '.doc', '.docx', '.xls', '.xlsx', '.zip', '.txt', '.csv']
     const maxSize = 10 * 1024 * 1024 // 10MB

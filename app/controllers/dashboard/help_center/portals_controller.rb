@@ -119,7 +119,7 @@ module Dashboard
       end
 
       def portal_attributes
-        portal_params.slice(:name, :hero_image)
+        portal_params.slice(:name, :logo, :favicon, :social_share_image, :hero_image)
       end
 
       def selected_domain
@@ -166,6 +166,9 @@ module Dashboard
       def portal_params
         params.fetch(:help_center_portal, ActionController::Parameters.new).permit(
           :name,
+          :logo,
+          :favicon,
+          :social_share_image,
           :hero_image,
           :domain_id,
           :domain_type,

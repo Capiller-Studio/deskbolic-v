@@ -307,6 +307,197 @@
       }
     }
 
+    .brand-assets-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .brand-asset-card {
+      @mixin flex-column $justify-start, $align-center;
+      min-width: 0;
+      min-height: 280px;
+      border: 1px solid $black-10;
+      border-radius: 16px;
+      padding: 22px 14px 18px;
+      background-color: $white;
+      text-align: center;
+
+      .brand-asset-copy {
+        min-height: 66px;
+
+        h4 {
+          margin-bottom: 8px;
+          color: $black;
+        }
+
+        p {
+          color: $black-60;
+          line-height: 18px;
+        }
+      }
+    }
+
+    .brand-asset-dropzone {
+      --profile-avatar-size: 68px;
+
+      position: relative;
+      width: 68px;
+      height: 68px;
+      margin: 12px 0;
+      overflow: hidden;
+      border-radius: 16px;
+      background-color: #F3F5FF;
+      box-shadow: none;
+      cursor: default;
+
+      &::after {
+        display: none;
+      }
+
+      &.dz-drag-hover {
+        box-shadow: 0 0 0 2px #7891FF;
+      }
+
+      &.dz-started .dz-message {
+        display: none;
+      }
+
+      .brand-asset-placeholder {
+        @mixin flex-row $justify-center, $align-center;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+      }
+
+      .brand-asset-icon {
+        width: 36px;
+        height: 36px;
+        overflow: visible;
+        fill: none;
+        stroke: #778DFF;
+        stroke-width: 1.8;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      .brand-asset-existing-preview {
+        width: 100%;
+        height: 100%;
+        border-radius: 16px;
+        object-fit: contain;
+      }
+
+      .dz-preview {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        min-height: 0;
+        margin: 0;
+
+        .dz-image {
+          width: 100%;
+          height: 100%;
+          border: none;
+          border-radius: 16px;
+
+          img {
+            width: 100%;
+            height: 100%;
+            border-radius: 16px;
+            object-fit: contain;
+          }
+        }
+
+        .dz-details,
+        .dz-progress,
+        .dz-success-mark,
+        .dz-error-mark,
+        .dz-remove {
+          display: none;
+        }
+
+        .dz-error-message {
+          position: absolute;
+          inset: 0;
+          z-index: 2;
+          display: none;
+          align-items: center;
+          justify-content: center;
+          border-radius: 12px;
+          background-color: rgba(185, 28, 28, 0.92);
+          color: $white;
+          font-size: 10px;
+          line-height: 13px;
+          padding: 6px;
+        }
+
+        &.dz-error .dz-error-message {
+          display: flex;
+        }
+      }
+    }
+
+    .brand-asset-dropzone-social .dz-preview .dz-image img {
+      object-fit: cover;
+    }
+
+    .brand-asset-dropzone-social .brand-asset-existing-preview {
+      object-fit: cover;
+    }
+
+    .brand-asset-upload-button {
+      min-width: 86px;
+      min-height: 38px;
+      border: 1px solid $black-10;
+      border-radius: 10px;
+      background-color: $white;
+      color: $black;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.06);
+
+      &:hover,
+      &:focus-visible {
+        border-color: #7891FF;
+        outline: none;
+      }
+    }
+
+    .brand-asset-file-name {
+      display: block;
+      width: 100%;
+      min-height: 15px;
+      margin-top: 7px;
+      overflow: hidden;
+      color: $black-60;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .brand-asset-error {
+      display: none;
+      width: 100%;
+      min-height: 15px;
+      margin-top: 7px;
+      color: #B91C1C;
+      line-height: 15px;
+    }
+
+    .brand-asset-card:has(.dz-error) .brand-asset-file-name {
+      display: none;
+    }
+
+    .brand-asset-card:has(.dz-error) .brand-asset-error {
+      display: block;
+    }
+
+    .brand-asset-hint {
+      margin-top: auto;
+      color: $black-60;
+      line-height: 16px;
+    }
+
     .domain-options,
     .language-options,
     .segmented-options,

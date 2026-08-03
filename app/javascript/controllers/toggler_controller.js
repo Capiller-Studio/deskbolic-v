@@ -2,7 +2,12 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="toggler"
 export default class extends Controller {
-  static targets = ["conversation", "ticket", "link", "hide"];
+  static targets = ["conversation", "ticket", "link", "hide", "sidebar", "sidebarToggle"];
+
+  toggleSidebar() {
+    const collapsed = this.sidebarTarget.classList.toggle("is-collapsed");
+    this.sidebarToggleTarget.setAttribute("aria-expanded", String(!collapsed));
+  }
 
   toggle_link(event) {
     const target = event.currentTarget;

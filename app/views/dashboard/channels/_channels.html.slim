@@ -1,9 +1,10 @@
 .helpdesk-section.center-wrapper
-  .helpdesk-container
-    .helpdesk-nav
+  .helpdesk-container data-controller="toggler"
+    #channels-sidebar.helpdesk-nav data-toggler-target="sidebar"
       .card
         .header data-controller="modal-toggler frame-toggler"
-          = inline_svg_tag("sidebar.svg", class:"link-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+          button.sidebar-toggle type="button" aria-controls="channels-sidebar" aria-expanded="true" aria-label=t("ui.dashboard.agent.agent_sidebar.menu") data-action="click->toggler#toggleSidebar" data-toggler-target="sidebarToggle"
+            = inline_svg_tag("sidebar.svg", class:"link-icon", aria: { hidden: true })
           p.f-reg-14 = t('dashboard.sidebar.channels.title')
           = inline_svg_tag("note_pencil.svg", class:"note-pencil-icon ml-auto", alt:t("ui.dashboard.agent.agent_sidebar.menu"), data: { action: "click->modal-toggler#showModal click->frame-toggler#loadModal", popup_view:"_suggested_ticket_modal"})
           = render("dashboard/shared/modal_popper")

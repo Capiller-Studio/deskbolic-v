@@ -6,10 +6,12 @@
     .helpdesk-nav {
       height: 100vh;
       min-width: 220px;
+      flex-shrink: 0;
       border-right: 1px solid $black-5;
       background-color: $primary-light;
       overflow-y: auto;
       scroll-margin-left: 35px;
+      transition: width 0.2s ease, min-width 0.2s ease;
       .card {
         height: 100%;
         text-align: center;
@@ -18,9 +20,28 @@
           @mixin flex-row $justify-between, $align-center;
           /* height: 60px; */
           padding: 10px 10px;
-          /* border-bottom: 1px solid $primary-purple-50; */
-          .link-icon {
-            
+          margin-top: 15px;
+          .sidebar-toggle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            padding: 0;
+            border: 0;
+            border-radius: 8px;
+            background: transparent;
+            cursor: pointer;
+            transition: background-color 0.15s ease;
+
+            &:hover {
+              background-color: $black-5;
+            }
+
+            .link-icon {
+              width: 22px;
+              height: 22px;
+            }
           }
           p {
             color: $black-40;
@@ -72,6 +93,9 @@
           .menu.visible {
             display: block;
           }
+        }
+        .channel-header {
+          margin-top: 8px;
         }
         .teams-header {
           @mixin flex-row $justify-left, $align-center;
@@ -233,6 +257,69 @@
       &::-webkit-scrollbar-thumb {
         border-radius: 6px;
         background-color: #C3C3C3;
+      }
+    }
+    .helpdesk-nav.is-collapsed {
+      width: 52px;
+      min-width: 52px;
+      overflow: hidden;
+      .card {
+        .header {
+          justify-content: center;
+          margin-top: 15px;
+          > :not(.sidebar-toggle) {
+            display: none;
+          }
+        }
+        .list-header {
+          display: none;
+        }
+        ul.channel-list {
+          display: flex;
+          padding: 0 8px;
+          margin-bottom: 20px;
+          .help-nav-menu {
+            .nav-item {
+              .nav-link {
+                justify-content: center;
+                width: 36px;
+                height: 36px;
+                padding: 0;
+                border-radius: 10px;
+                border-bottom: 1px solid $black-20;
+                transition: background-color 0.15s ease;
+                .link-text {
+                  justify-content: center;
+                  padding-left: 0;
+                  p {
+                    display: none;
+                  }
+                  .link-icon,
+                  .user-icon {
+                    width: 22px;
+                    height: 22px;
+                    margin-right: 0;
+                  }
+                  .user-icon,
+                  .customer-list-initials-avatar {
+                    width: 24px;
+                    height: 24px;
+                  }
+                }
+                .nav-link-badges,
+                .back-oval-gray {
+                  display: none;
+                }
+              }
+              &:hover {
+                .nav-link {
+                  width: 36px;
+                  background-color: $black-5;
+                }
+              }
+            }
+          }
+        }
       }
     }
     .helpdesk-body {

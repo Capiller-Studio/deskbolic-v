@@ -1,48 +1,196 @@
 <mjml>
-  <mj-include path="../system_mailer/shared/_head.mjml" />
-  
-  <mj-body background-color="#f3f4f6">
-    <mj-section padding="40px 20px">
-      <mj-column css-class="email-container">
-        
-        <mj-include path="../system_mailer/shared/_header.mjml" />
+  <mj-head>
+    <mj-font name="Inter" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" />
+    <mj-attributes>
+      <mj-all font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" />
+      <mj-text font-size="15px" color="#374151" line-height="24px" />
+      <mj-section padding="0" />
+      <mj-column padding="0" />
+      <mj-button background-color="#4f46e5" color="#ffffff" font-size="14px" font-weight="600" border-radius="8px" padding="16px 24px" inner-padding="12px 24px" />
+    </mj-attributes>
+    <mj-preview>
+      [[ERB= I18n.t("notifications.events.#{@notification.event}", default: @notification.event.to_s.humanize) ]]
+    </mj-preview>
+    <mj-style>
+      .notification-shell {
+        border: 1px solid #dfe3ea;
+        border-radius: 16px;
+        box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+        overflow: hidden;
+      }
+      .detail-table td {
+        border-bottom: 1px solid #e5e7eb;
+        padding: 12px 0;
+        vertical-align: top;
+      }
+      .detail-table tr:last-child td {
+        border-bottom: 0;
+      }
+      .detail-label {
+        color: #64748b;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        width: 34%;
+      }
+      .detail-value {
+        color: #0f172a;
+        font-size: 14px;
+        font-weight: 600;
+        text-align: right;
+      }
+      .brand-link {
+        color: #64748b;
+        text-decoration: none;
+      }
+      @media only screen and (max-width: 480px) {
+        .mobile-center div {
+          text-align: center !important;
+        }
+      }
+    </mj-style>
+  </mj-head>
 
-        <mj-section background-color="#ffffff" padding="20px 40px 40px 40px">
-          <mj-column>
-            <!-- Bell Icon -->
-            <mj-text align="center" padding-bottom="24px">
-              <span style="font-size: 48px;">🔔</span>
-            </mj-text>
-
-            <mj-text align="center" font-size="22px" font-weight="700" color="#111827" padding-bottom="16px">
-              [[ERB= I18n.t("notifications.events.#{@notification.event}") ]]
-            </mj-text>
-
-            <mj-text align="left" padding-bottom="16px">
-              Hello [[ERB= @user.display_name || @user.email ]],
-            </mj-text>
-
-            <mj-text align="left" padding-bottom="16px">
-              You have a new alert regarding <strong>[[ERB= @conversation.try(:identifier) || @resource.try(:identifier) ]]</strong>.
-            </mj-text>
-
-            <mj-button href="[[ERB= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') ]]/conversations/[[ERB= @conversation.try(:id) || @resource.try(:id) ]]">
-              View Details
-            </mj-button>
-
-          </mj-column>
-        </mj-section>
-
-        <mj-include path="../system_mailer/shared/_footer.mjml" />
-
+  <mj-body background-color="#f1f5f9">
+    <mj-section padding="32px 16px">
+      <mj-column>
+        <mj-spacer height="1px" />
       </mj-column>
     </mj-section>
-    
-    <!-- Bottom spacing outside the white container -->
-    <mj-section padding="24px 0">
+
+    <mj-wrapper css-class="notification-shell" background-color="#ffffff" padding="0">
+      <mj-section background-color="#ffffff" padding="24px 40px" border-bottom="1px solid #e5e7eb">
+        <mj-column width="62%" vertical-align="middle">
+          <mj-image src="[[ERB= asset_url('logo.png', host: ENV.fetch('FRONTEND_URL', 'http://localhost:3000')) ]]" href="[[ERB= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') ]]" alt="Deskbolic" width="132px" align="left" padding="0" />
+        </mj-column>
+        <mj-column width="38%" vertical-align="middle">
+          <mj-text css-class="mobile-center" align="right" padding="0" font-size="11px" font-weight="700" color="#6366f1" letter-spacing="0.08em">
+            AGENT NOTIFICATION
+          </mj-text>
+        </mj-column>
+      </mj-section>
+
+      <mj-section background-color="#0f172a" padding="38px 40px 40px">
+        <mj-column>
+          <mj-text padding="0 0 12px" font-size="12px" font-weight="700" color="#a5b4fc" letter-spacing="0.12em">
+            NEW NOTIFICATION &nbsp;&bull;&nbsp; #[[ERB= @conversation.identifier ]]
+          </mj-text>
+          <mj-text padding="0 0 14px" font-size="30px" line-height="38px" font-weight="700" color="#ffffff" letter-spacing="-0.03em">
+            [[ERB= I18n.t("notifications.events.#{@notification.event}", default: @notification.event.to_s.humanize) ]]
+          </mj-text>
+          <mj-text padding="0" font-size="15px" line-height="24px" color="#cbd5e1">
+            There is a new update that may require your attention. Review the details and continue in Deskbolic.
+          </mj-text>
+        </mj-column>
+      </mj-section>
+
+      <mj-section background-color="#ffffff" padding="36px 40px 18px">
+        <mj-column>
+          <mj-text padding="0 0 14px" font-size="16px" color="#0f172a">
+            Hello <strong>[[ERB= @user.display_name.presence || @user.email ]]</strong>,
+          </mj-text>
+          <mj-text padding="0" font-size="15px" line-height="25px" color="#475569">
+            A new activity notification has been generated for your workspace. The key details are included below for quick review.
+          </mj-text>
+        </mj-column>
+      </mj-section>
+
+      <mj-raw>[[ERB- if @conversation.present? ]]</mj-raw>
+      <mj-section background-color="#ffffff" padding="6px 40px 22px">
+        <mj-column background-color="#f8fafc" border="1px solid #e2e8f0" border-radius="10px" padding="8px 22px">
+          <mj-table css-class="detail-table" padding="0">
+            <tr>
+              <td class="detail-label">Event</td>
+              <td class="detail-value">[[ERB= I18n.t("notifications.events.#{@notification.event}", default: @notification.event.to_s.humanize) ]]</td>
+            </tr>
+            <tr>
+              <td class="detail-label">Conversation</td>
+              <td class="detail-value">#[[ERB= @conversation.identifier ]]</td>
+            </tr>
+            <tr>
+              <td class="detail-label">Inbox</td>
+              <td class="detail-value">[[ERB= @conversation.inbox.name ]]</td>
+            </tr>
+            <tr>
+              <td class="detail-label">Priority</td>
+              <td class="detail-value">[[ERB= @conversation.priority.humanize ]]</td>
+            </tr>
+            <tr>
+              <td class="detail-label">Received</td>
+              <td class="detail-value">[[ERB= l(@notification.created_at, format: :long) ]]</td>
+            </tr>
+          </mj-table>
+        </mj-column>
+      </mj-section>
+      <mj-raw>[[ERB- else ]]</mj-raw>
+      <mj-section background-color="#ffffff" padding="6px 40px 22px">
+        <mj-column background-color="#f8fafc" border="1px solid #e2e8f0" border-radius="10px" padding="8px 22px">
+          <mj-table css-class="detail-table" padding="0">
+            <tr>
+              <td class="detail-label">Event</td>
+              <td class="detail-value">[[ERB= I18n.t("notifications.events.#{@notification.event}", default: @notification.event.to_s.humanize) ]]</td>
+            </tr>
+            <tr>
+              <td class="detail-label">Reference</td>
+              <td class="detail-value">[[ERB= @resource.try(:identifier) || @resource.try(:id) ]]</td>
+            </tr>
+            <tr>
+              <td class="detail-label">Received</td>
+              <td class="detail-value">[[ERB= l(@notification.created_at, format: :long) ]]</td>
+            </tr>
+          </mj-table>
+        </mj-column>
+      </mj-section>
+      <mj-raw>[[ERB- end ]]</mj-raw>
+
+      <mj-raw>[[ERB- if @conversation&.last_message_preview.present? ]]</mj-raw>
+      <mj-section background-color="#ffffff" padding="0 40px 24px">
+        <mj-column background-color="#eef2ff" border-left="3px solid #6366f1" padding="18px 20px">
+          <mj-text padding="0 0 6px" font-size="11px" font-weight="700" color="#4f46e5" letter-spacing="0.08em">
+            LATEST MESSAGE
+          </mj-text>
+          <mj-text padding="0" font-size="14px" line-height="22px" color="#334155">
+            &ldquo;[[ERB= @conversation.last_message_preview ]]&rdquo;
+          </mj-text>
+        </mj-column>
+      </mj-section>
+      <mj-raw>[[ERB- end ]]</mj-raw>
+
+      <mj-section background-color="#ffffff" padding="0 40px 36px">
+        <mj-column>
+          <mj-raw>[[ERB- if @conversation.present? ]]</mj-raw>
+          <mj-button align="left" href="[[ERB= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') ]]/conversations/[[ERB= @conversation.id ]]" background-color="#4f46e5" border-radius="8px" padding="0 0 20px" inner-padding="14px 24px" font-size="15px">
+            Open conversation &nbsp;&rarr;
+          </mj-button>
+          <mj-raw>[[ERB- else ]]</mj-raw>
+          <mj-button align="left" href="[[ERB= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') ]]" background-color="#4f46e5" border-radius="8px" padding="0 0 20px" inner-padding="14px 24px" font-size="15px">
+            Open workspace &nbsp;&rarr;
+          </mj-button>
+          <mj-raw>[[ERB- end ]]</mj-raw>
+          <mj-text padding="0" font-size="13px" line-height="21px" color="#64748b">
+            Review this update in your Deskbolic workspace and take any action required to keep customer support moving.
+          </mj-text>
+        </mj-column>
+      </mj-section>
+
+      <mj-section background-color="#f8fafc" padding="22px 40px" border-top="1px solid #e5e7eb">
+        <mj-column>
+          <mj-text align="center" padding="0 0 7px" font-size="12px" line-height="19px" color="#64748b">
+            This automated operational notice was sent to [[ERB= @user.email ]]. Please do not reply to this email.
+          </mj-text>
+          <mj-text align="center" padding="0" font-size="12px" line-height="19px" color="#94a3b8">
+            &copy; [[ERB= Time.current.year ]] Deskbolic &nbsp;&bull;&nbsp;
+            <a href="[[ERB= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') ]]" class="brand-link">Open workspace</a>
+          </mj-text>
+        </mj-column>
+      </mj-section>
+    </mj-wrapper>
+
+    <mj-section padding="24px 16px 32px">
       <mj-column>
-        <mj-text align="center" font-size="12px" color="#9ca3af">
-          <a href="[[ERB= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') ]]" class="footer-link">deskbolic.com</a>
+        <mj-text align="center" padding="0" font-size="11px" color="#94a3b8">
+          Secure customer-support operations, powered by Deskbolic.
         </mj-text>
       </mj-column>
     </mj-section>

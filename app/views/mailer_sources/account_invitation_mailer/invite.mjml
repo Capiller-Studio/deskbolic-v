@@ -1,69 +1,127 @@
 <mjml>
-  <mj-include path="../system_mailer/shared/_head.mjml" />
+  <mj-head>
+    <mj-font name="Inter" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />
+    <mj-attributes>
+      <mj-all font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" />
+      <mj-text font-size="15px" color="#374151" line-height="24px" />
+      <mj-section padding="0" />
+      <mj-column padding="0" />
+      <mj-button background-color="#4f46e5" color="#ffffff" font-size="14px" font-weight="600" border-radius="8px" padding="16px 24px" inner-padding="12px 24px" />
+    </mj-attributes>
 
-  <mj-body background-color="#f3f4f6">
-    <mj-section padding="40px 20px">
-      <mj-column css-class="email-container">
+    <mj-preview>
+      [[ERB= t("mailers.account_invitation.invite.subject", account_name: @account.name) ]]
+    </mj-preview>
 
-        <mj-include path="../system_mailer/shared/_header.mjml" />
+    <mj-style>
+      .invite-shell { border: 1px solid #dfe3ea; border-radius: 16px; box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08); overflow: hidden; }
+      .detail-table td { border-bottom: 1px solid #e5e7eb; padding: 12px 0; vertical-align: top; }
+      .detail-table tr:last-child td { border-bottom: 0; }
+      .detail-label { color: #64748b; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; width: 34%; }
+      .detail-value { color: #0f172a; font-size: 14px; font-weight: 600; text-align: right; }
+      .role-pill { display: inline-block; background: #eef2ff; color: #4338ca; border: 1px solid #c7d2fe; border-radius: 999px; padding: 4px 12px; font-size: 12px; font-weight: 600; margin: 0 4px 4px 0; }
+      .brand-link { color: #64748b; text-decoration: none; }
+      @media only screen and (max-width: 480px) { .mobile-center div { text-align: center !important; } }
+    </mj-style>
+  </mj-head>
 
-      </mj-column>
-    </mj-section>
+  <mj-body background-color="#f1f5f9">
+    <mj-section padding="32px 16px"><mj-column><mj-spacer height="1px" /></mj-column></mj-section>
 
-    <mj-section background-color="#ffffff" padding="0 40px">
-      <mj-column padding="0">
-        <mj-text align="center" font-size="48px" padding-top="32px" padding-bottom="16px">
-          ✉️
-        </mj-text>
+    <mj-wrapper css-class="invite-shell" background-color="#ffffff" padding="0">
+      <mj-section background-color="#ffffff" padding="24px 40px" border-bottom="1px solid #e5e7eb">
+        <mj-column width="62%" vertical-align="middle">
+          <mj-image src="[[ERB= asset_url('logo.png', host: ENV.fetch('FRONTEND_URL', 'http://localhost:3000')) ]]" href="[[ERB= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') ]]" alt="Deskbolic" width="132px" align="left" padding="0" />
+        </mj-column>
+        <mj-column width="38%" vertical-align="middle">
+          <mj-text css-class="mobile-center" align="right" padding="0" font-size="11px" font-weight="700" color="#6366f1" letter-spacing="0.08em">TEAM INVITATION</mj-text>
+        </mj-column>
+      </mj-section>
 
-        <mj-text align="center" font-size="22px" font-weight="700" color="#111827" padding-bottom="8px">
-          [[ERB= t("mailers.account_invitation.invite.header") ]]
-        </mj-text>
+      <mj-section background-color="#0f172a" padding="34px 40px 34px">
+        <mj-column>
+          <mj-text padding="0 0 10px" font-size="12px" font-weight="700" color="#a5b4fc" letter-spacing="0.12em">YOU'RE INVITED &nbsp;&bull;&nbsp; [[ERB= @account.name.upcase ]]</mj-text>
+          <mj-text padding="0 0 12px" font-size="28px" line-height="36px" font-weight="700" color="#ffffff">Join your team on Deskbolic</mj-text>
+          <mj-text padding="0" font-size="15px" line-height="24px" color="#cbd5e1">[[ERB= @inviter.display_name || @inviter.email ]] has invited you to collaborate on the [[ERB= @account.name ]] workspace. Accept below to get started.</mj-text>
+        </mj-column>
+      </mj-section>
 
-        <mj-divider border-width="2px" border-color="#4F46E5" width="60px" padding="8px 0 24px 0" />
+      <mj-section background-color="#ffffff" padding="36px 40px 18px">
+        <mj-column>
+          <mj-text padding="0 0 14px" font-size="16px" color="#0f172a">Hello,</mj-text>
+          <mj-text padding="0" font-size="15px" line-height="25px" color="#475569">
+            [[ERB= t("mailers.account_invitation.invite.body_main", inviter_name: @inviter.display_name || @inviter.email, account_name: @account.name) ]]
+          </mj-text>
+        </mj-column>
+      </mj-section>
 
-        <mj-text align="left" font-size="15px" color="#374151" line-height="24px" padding-bottom="24px">
-          [[ERB= t("mailers.account_invitation.invite.body_main", inviter_name: @inviter.display_name || @inviter.email, account_name: @account.name) ]]
-        </mj-text>
-      </mj-column>
-    </mj-section>
+      <mj-section background-color="#ffffff" padding="6px 40px 22px">
+        <mj-column background-color="#f8fafc" border="1px solid #e2e8f0" border-radius="10px" padding="8px 22px">
+          <mj-table css-class="detail-table" padding="0">
+            <tr>
+              <td class="detail-label">Invited by</td>
+              <td class="detail-value">[[ERB= @inviter.display_name.presence || @inviter.email ]]</td>
+            </tr>
+            <tr>
+              <td class="detail-label">Workspace</td>
+              <td class="detail-value">[[ERB= @account.name ]]</td>
+            </tr>
+            <tr>
+              <td class="detail-label">Sent to</td>
+              <td class="detail-value">[[ERB= @invitation.email ]]</td>
+            </tr>
+            <tr>
+              <td class="detail-label">Expires</td>
+              <td class="detail-value">[[ERB= l(@invitation.expires_at, format: :long) ]]</td>
+            </tr>
+          </mj-table>
+        </mj-column>
+      </mj-section>
 
-    <mj-raw>[[ERB- if @role_names.any? ]]</mj-raw>
-    <mj-section background-color="#ffffff" padding="0 40px">
+      <mj-raw>[[ERB- if @role_names.any? ]]</mj-raw>
+      <mj-section background-color="#ffffff" padding="0 40px 22px">
+        <mj-column>
+          <mj-text padding="0 0 10px" font-size="11px" font-weight="700" color="#4f46e5" letter-spacing="0.08em">[[ERB= t("mailers.account_invitation.invite.roles_label").upcase ]]</mj-text>
+          <mj-text padding="0" font-size="14px" line-height="22px" color="#1f2937">
+            [[ERB- @role_names.each do |role_name| ]]
+              <span class="role-pill">[[ERB= role_name ]]</span>
+            [[ERB- end ]]
+          </mj-text>
+        </mj-column>
+      </mj-section>
+      <mj-raw>[[ERB- end ]]</mj-raw>
+
+      <mj-section background-color="#ffffff" padding="0 40px 18px">
+        <mj-column>
+          <mj-text padding="0" font-size="15px" line-height="25px" color="#475569">
+            [[ERB= t("mailers.account_invitation.invite.body_footer") ]]
+          </mj-text>
+        </mj-column>
+      </mj-section>
+
+      <mj-section background-color="#ffffff" padding="0 40px 36px">
+        <mj-column>
+          <mj-button align="left" href="[[ERB= email_invitation_url(invitation_token: @invitation.token) ]]" background-color="#4f46e5" border-radius="8px" padding="0 0 20px" inner-padding="14px 24px" font-size="15px">
+            [[ERB= t("mailers.account_invitation.invite.cta") ]] &nbsp;&rarr;
+          </mj-button>
+          <mj-text padding="0" font-size="13px" line-height="21px" color="#64748b">
+            [[ERB= t("mailers.account_invitation.invite.expiry", expiry_date: l(@invitation.expires_at, format: :long)) ]]
+          </mj-text>
+          <mj-text padding="0" font-size="13px" line-height="21px" color="#94a3b8">If you weren't expecting this invitation, you can safely ignore this email.</mj-text>
+        </mj-column>
+      </mj-section>
+
+      <mj-section background-color="#f8fafc" padding="22px 40px" border-top="1px solid #e5e7eb">
+        <mj-column>
+          <mj-text align="center" padding="0 0 7px" font-size="12px" line-height="19px" color="#64748b">This invitation was sent to [[ERB= @invitation.email ]]. Please do not reply to this automated message.</mj-text>
+          <mj-text align="center" padding="0" font-size="12px" line-height="19px" color="#94a3b8">&copy; [[ERB= Time.current.year ]] Deskbolic &nbsp;&bull;&nbsp; <a href="[[ERB= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') ]]" class="brand-link">Open workspace</a></mj-text>
+        </mj-column>
+      </mj-section>
+    </mj-wrapper>
+
+    <mj-section padding="24px 16px 32px">
       <mj-column>
-        <mj-text align="left" font-size="13px" font-weight="700" color="#4F46E5" padding-bottom="4px" letter-spacing="0.025em">
-          [[ERB= t("mailers.account_invitation.invite.roles_label") ]]
-        </mj-text>
-        <mj-text align="left" font-size="14px" color="#374151" padding-bottom="16px">
-          [[ERB= @role_names.to_sentence ]]
-        </mj-text>
-      </mj-column>
-    </mj-section>
-    <mj-raw>[[ERB- end ]]</mj-raw>
-
-    <mj-section background-color="#ffffff" padding="24px 40px 32px 40px">
-      <mj-column>
-        <mj-text align="left" font-size="15px" color="#374151" line-height="24px" padding-bottom="24px">
-          [[ERB= t("mailers.account_invitation.invite.body_footer") ]]
-        </mj-text>
-
-        <mj-button href="[[ERB= email_invitation_url(invitation_token: @invitation.token) ]]">
-          [[ERB= t("mailers.account_invitation.invite.cta") ]]
-        </mj-button>
-
-        <mj-text align="center" font-size="13px" color="#9ca3af" padding-top="16px">
-          [[ERB= t("mailers.account_invitation.invite.expiry", expiry_date: l(@invitation.expires_at, format: :long)) ]]
-        </mj-text>
-      </mj-column>
-    </mj-section>
-
-    <mj-include path="../system_mailer/shared/_footer.mjml" />
-
-    <mj-section padding="24px 0">
-      <mj-column>
-        <mj-text align="center" font-size="12px" color="#9ca3af">
-          <a href="[[ERB= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') ]]" class="footer-link">deskbolic.com</a>
-        </mj-text>
+        <mj-text align="center" padding="0" font-size="11px" color="#94a3b8">Secure customer-support operations, powered by Deskbolic.</mj-text>
       </mj-column>
     </mj-section>
   </mj-body>

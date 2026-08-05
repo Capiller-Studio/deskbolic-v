@@ -1,0 +1,101 @@
+<mjml>
+  <mj-head>
+    <mj-font name="Inter" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />
+    <mj-attributes>
+      <mj-all font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" />
+      <mj-text font-size="15px" color="#374151" line-height="24px" />
+      <mj-section padding="0" />
+      <mj-column padding="0" />
+      <mj-button background-color="#dc2626" color="#ffffff" font-size="14px" font-weight="600" border-radius="8px" padding="16px 24px" inner-padding="12px 24px" />
+    </mj-attributes>
+
+    <mj-preview>
+      Action required: Update your payment method to restore access
+    </mj-preview>
+
+    <mj-style>
+      .billing-shell { border: 1px solid #dfe3ea; border-radius: 16px; box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08); overflow: hidden; }
+      .detail-table td { border-bottom: 1px solid #e5e7eb; padding: 12px 0; vertical-align: top; }
+      .detail-table tr:last-child td { border-bottom: 0; }
+      .detail-label { color: #64748b; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; width: 34%; }
+      .detail-value { color: #0f172a; font-size: 14px; font-weight: 600; text-align: right; }
+      .brand-link { color: #64748b; text-decoration: none; }
+      @media only screen and (max-width: 480px) { .mobile-center div { text-align: center !important; } }
+    </mj-style>
+  </mj-head>
+
+  <mj-body background-color="#f1f5f9">
+    <mj-section padding="32px 16px"><mj-column><mj-spacer height="1px" /></mj-column></mj-section>
+
+    <mj-wrapper css-class="billing-shell" background-color="#ffffff" padding="0">
+      <mj-section background-color="#ffffff" padding="24px 40px" border-bottom="1px solid #e5e7eb">
+        <mj-column width="62%" vertical-align="middle">
+          <mj-image src="[[ERB= asset_url('logo.png', host: ENV.fetch('FRONTEND_URL', 'http://localhost:3000')) ]]" href="[[ERB= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') ]]" alt="Deskbolic" width="132px" align="left" padding="0" />
+        </mj-column>
+        <mj-column width="38%" vertical-align="middle">
+          <mj-text css-class="mobile-center" align="right" padding="0" font-size="11px" font-weight="700" color="#dc2626" letter-spacing="0.08em">BILLING ALERT</mj-text>
+        </mj-column>
+      </mj-section>
+
+      <mj-section background-color="#7f1d1d" padding="34px 40px 34px">
+        <mj-column>
+          <mj-text padding="0 0 10px" font-size="12px" font-weight="700" color="#fca5a5" letter-spacing="0.12em">ACTION REQUIRED &nbsp;&bull;&nbsp; ACCOUNT STATUS: PAST DUE</mj-text>
+          <mj-text padding="0 0 12px" font-size="28px" line-height="36px" font-weight="700" color="#ffffff">Subscription payment failed</mj-text>
+          <mj-text padding="0" font-size="15px" line-height="24px" color="#fecaca">We were unable to process the payment for your [[ERB= @subscription&.plan&.name&.titleize || 'Deskbolic' ]] subscription. Update your payment method to restore full access.</mj-text>
+        </mj-column>
+      </mj-section>
+
+      <mj-section background-color="#ffffff" padding="36px 40px 18px">
+        <mj-column>
+          <mj-text padding="0 0 14px" font-size="16px" color="#0f172a">Hello <strong>[[ERB= @account.name ]]</strong>,</mj-text>
+          <mj-text padding="0" font-size="15px" line-height="25px" color="#475569">Your account status is currently marked as <strong style="color: #dc2626;">Past Due</strong>. To restore full access to your workspace, please update your payment method. We will automatically retry the charge once your payment information is updated.</mj-text>
+        </mj-column>
+      </mj-section>
+
+      <mj-section background-color="#ffffff" padding="6px 40px 22px">
+        <mj-column background-color="#fef2f2" border="1px solid #fecaca" border-radius="10px" padding="8px 22px">
+          <mj-table css-class="detail-table" padding="0">
+            <tr>
+              <td class="detail-label">Workspace</td>
+              <td class="detail-value">[[ERB= @account.name ]]</td>
+            </tr>
+            <tr>
+              <td class="detail-label">Plan</td>
+              <td class="detail-value">[[ERB= @subscription&.plan&.name&.titleize || '—' ]]</td>
+            </tr>
+            <tr>
+              <td class="detail-label">Status</td>
+              <td class="detail-value" style="color: #dc2626;">Past Due</td>
+            </tr>
+            <tr>
+              <td class="detail-label">Billing email</td>
+              <td class="detail-value">[[ERB= @account.email ]]</td>
+            </tr>
+          </mj-table>
+        </mj-column>
+      </mj-section>
+
+      <mj-section background-color="#ffffff" padding="0 40px 36px">
+        <mj-column>
+          <mj-button align="left" href="[[ERB= ENV.fetch('APP_URL', ENV.fetch('FRONTEND_URL', 'http://localhost:3000')) ]]/billing" background-color="#dc2626" border-radius="8px" padding="0 0 20px" inner-padding="14px 24px" font-size="15px">
+            Update payment method &nbsp;&rarr;
+          </mj-button>
+          <mj-text padding="0" font-size="13px" line-height="21px" color="#64748b">If you believe this is an error or need assistance, reply to this email and our support team will be happy to help.</mj-text>
+        </mj-column>
+      </mj-section>
+
+      <mj-section background-color="#f8fafc" padding="22px 40px" border-top="1px solid #e5e7eb">
+        <mj-column>
+          <mj-text align="center" padding="0 0 7px" font-size="12px" line-height="19px" color="#64748b">This billing notice was sent to [[ERB= @account.email ]]. Please do not reply to this automated message.</mj-text>
+          <mj-text align="center" padding="0" font-size="12px" line-height="19px" color="#94a3b8">&copy; [[ERB= Time.current.year ]] Deskbolic &nbsp;&bull;&nbsp; <a href="[[ERB= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') ]]" class="brand-link">Open workspace</a></mj-text>
+        </mj-column>
+      </mj-section>
+    </mj-wrapper>
+
+    <mj-section padding="24px 16px 32px">
+      <mj-column>
+        <mj-text align="center" padding="0" font-size="11px" color="#94a3b8">Secure customer-support operations, powered by Deskbolic.</mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

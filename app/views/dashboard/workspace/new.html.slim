@@ -1,71 +1,50 @@
-.user-signup-container.center-wrapper
+.user-signup-container.workspace-signup.center-wrapper
   .form-section data-controller="renderer form-wizard"
     = image_tag("logo.png", class:"img", alt:t("dashboard.workspace.new.logo"))
     = form_for(@account, url: workspace_path(@account), html: {class: "js-form-wizard form-wizard needs-validation", novalidate: true}) do |f|
-      fieldset
-        .set-header
-          h2 = t("dashboard.workspace.new.who_you_are")
-          p = t("dashboard.workspace.new.subtitle")
-        .form-fields
-          .radio-button-group
-            .radio-button
-              = radio_button_tag 'user_type', 'agent', id: 'agent_radio', checked: true, data: { form_wizard_target: "roleRadio" }
-              label for="agent_radio"
-                = inline_svg_tag("agent.svg", class:"icon")
-                .details
-                   h3 = t("dashboard.workspace.new.agent")
-                   p = t("dashboard.workspace.new.agent_description")
-
-            .radio-button
-              = radio_button_tag 'user_type', 'company', id: 'company_radio', data: { form_wizard_target: "roleRadio" }
-              label for="company_radio"
-                = inline_svg_tag("company.svg", class:"icon")
-                .details
-                   h3 = t("dashboard.workspace.new.company")
-                   p = t("dashboard.workspace.new.company_description")
-          button.cont-btn.js-next-button type="button" data-action="click->form-wizard#toggleFieldsets click->form-wizard#nextStep" = t("dashboard.workspace.new.continue")
-        
-      fieldset.agent-section
-        .set-header
-          h2 = t("dashboard.workspace.new.workspace")
-          p = t("dashboard.workspace.new.workspace_subtitle")
-        .form-fields
-          .form-floating
-            = f.label :email, class: "form-label"
-            = select_tag :email, options_for_select(@accounts.map { |a| [a.name, a.email] }), data: {controller: "select"}, required: true
-          = f.submit t("dashboard.workspace.new.send_request"), class: "cont-btn js-next-button"
-      
-      fieldset.agent-section
-        .set-header
-          
-          = inline_svg_tag("tick.svg", class:"set-icon") 
-          h2 = t("dashboard.workspace.new.request_sent")
-        .form-fields
-          button.cont-btn.js-next-button type="button" data-action="" = t("dashboard.workspace.new.continue")
-      
       fieldset.company-section
         .set-header
           h2 = t("dashboard.workspace.new.company_details")
           p = t("dashboard.workspace.new.company_details_subtitle")
+
         .form-fields
-          .form-floating
-            = label_tag :company_name, t("dashboard.workspace.new.company_name"), class: "form-label"
-            = text_field_tag :company_name, "", class: "form-control", placeholder: t("dashboard.workspace.new.company_name_placeholder"), required: true, disabled: true
-          button.cont-btn.js-next-button type="button" data-action="click->form-wizard#nextStep" = t("dashboard.workspace.new.continue")
-      
-      fieldset.company-section
-        .form-fields
-          h2 = t("dashboard.workspace.new.create_new_workspace")
-          .form-floating
-            = f.label :name, t("dashboard.workspace.new.workspace_name_label") , class: "form-label"
-            = f.text_field :name, autofocus: true, class: "form-control", placeholder: t("dashboard.workspace.new.workspace_name_placeholder"), required: true, disabled: true
-          .form-floating
-            = label_tag :workspace_size, t("dashboard.workspace.new.workspace_size"), class: "form-label"
-            = select_tag :workspace_size, options_for_select([[t("dashboard.workspace.new.workspace_size_options.small"), "1-9"], [t("dashboard.workspace.new.workspace_size_options.medium"), "10-30"], [t("dashboard.workspace.new.workspace_size_options.large"), "50+"]]), data: {controller: "select"}
-          p = t("dashboard.workspace.new.workspace_subtitle2")
-          = f.submit t("dashboard.workspace.new.create_workspace_button"), class: "cont-btn js-next-button"
-      
-      
+          .form-wrapper
+            = f.label :name, t("auth.workspace_name"), class: "form-label"
+            = f.text_field :name, autofocus: true, class: "form-control", placeholder: t("auth.placeholders.workspace"), required: true
+
+          .form-wrapper
+            .form-label style="display: flex; align-items: center; gap: 8px;"
+              label = t("auth.datacenter")
+              div.info-bubble data-tooltip=t("auth.datacenter_info") style="cursor: help; color: #9ca3af; display: flex;"
+                svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  circle cx="12" cy="12" r="10"
+                  line x1="12" y1="16" x2="12" y2="12"
+                  line x1="12" y1="8" x2="12.01" y2="8"
+            .radio-button-group
+              .radio-button style="width: 100%; max-width: 350px;"
+                = radio_button_tag :shard_key, "de", true, id: "shard_key_de"
+                label for="shard_key_de"
+                  .icon-wrapper
+                    svg.icon viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                      ellipse cx="12" cy="5" rx="9" ry="3"
+                      path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"
+                      path d="M3 5v14c0 1.66 4 3 9 3s9-1.34-9-3V5"
+                  .details
+                    h3 = t("auth.datacenters.europe_germany")
+                    p = t("auth.datacenters.europe_germany_desc")
+
+          .form-wrapper
+            = f.label :currency, t("auth.currency"), class: "form-label"
+            = f.select :currency, [["USD ($)", "USD"], ["EUR (€)", "EUR"], ["GBP (£)", "GBP"]], { selected: cookies[:selected_currency].presence || params[:currency] }, class: "form-control"
+          p style="font-size: 12px; color: #565656; margin-top: -10px; margin-bottom: 15px;" = t("auth.currency_hint")
+
+          .form-wrapper
+            = f.label :account_locale, t("auth.default_language"), class: "form-label"
+            = f.select :account_locale, Core::SUPPORTED_LOCALES.map { |l| [I18n.t("languages.#{l.to_s.downcase}"), l] }, { selected: I18n.locale }, class: "form-control"
+
+          = f.submit t("dashboard.workspace.new.create_workspace_button"), class: "cont-btn", data: { disable_with: t("dashboard.workspace.new.create_workspace_button") }
+
+      / Success step (kept for flow completeness)
       fieldset.company-section
         .set-header
           = inline_svg_tag("tick.svg", class:"set-icon")

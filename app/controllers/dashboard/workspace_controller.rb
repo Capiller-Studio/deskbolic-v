@@ -29,6 +29,9 @@ module Dashboard
       account = Account.new(
         name: params[:account][:name],
         email: current_user.email,
+        currency: params[:currency].presence || "USD",
+        locale: params[:account_locale].presence || I18n.locale,
+        shard_key: params[:shard_key].presence || "de",
         data: { "company-name" => params[:company_name], "workspace-size" => params[:workspace_size] }
       )
 

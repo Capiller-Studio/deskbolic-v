@@ -10,7 +10,7 @@
     > form, .request-response {
       height: calc(100% - 40px);
       > fieldset {
-        padding: 10px 30px;
+        padding: 20px 30px;
         border: none;
         height: 100%;
         /* @mixin flex-column $justify-center, $align-normal; */
@@ -176,6 +176,40 @@
               }
             }
           }
+
+          .form-floating {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+
+            .form-label {
+              font-size: 14px;
+              margin-bottom: 10px;
+              font-family: $font-family-inter-regular;
+            }
+
+            .company-name-input {
+              width: 100%;
+              box-sizing: border-box;
+              padding: 15px;
+              height: auto !important;
+              font-size: 15px;
+              font-family: $font-family-inter-regular;
+              border-radius: 8px;
+              border: 1.9px solid $black-10;
+
+              &:focus {
+                outline: 0.5px solid $black-10;
+              }
+
+              &::placeholder {
+                font-size: 14px;
+                color: $black-10;
+                font-family: $font-family-inter-regular;
+              }
+            }
+          }
+
           h2 {
             font-size: 20px;
             line-height: 28px;

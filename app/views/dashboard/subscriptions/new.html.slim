@@ -1,58 +1,64 @@
-div.ap-subscription-page
-  div.ap-subscription-container data-controller="billing-toggle"
-    div.ap-subscription-header
-      h2.f-semi-24.ap-subscription-title = I18n.t("dashboard.billing.choose_plan")
-      p.f-reg-16.ap-subscription-subtitle = I18n.t("dashboard.billing.choose_plan_subtitle")
+- plan_themes = ["symbolic", "anabolic", "hyperbolic", "parabolic"]
+- plan_icons = ["skills.svg", "segment.svg", "star_plus.svg", "bag.svg"]
 
-    / Billing cycle toggle
+.ap-subscription-page
+  .ap-subscription-container data-controller="billing-toggle"
+    .ap-subscription-header
+      h1.ap-subscription-title
+        = I18n.t("dashboard.billing.subscription_page.title_prefix")
+        span = " #{I18n.t("dashboard.billing.subscription_page.title_highlight")}"
+      p.ap-subscription-subtitle
+        = I18n.t("dashboard.billing.subscription_page.subtitle_first_line")
+        br
+        = I18n.t("dashboard.billing.subscription_page.subtitle_second_line")
+
     .ap-billing-cycle-toggle.ap-subscription-cycle-toggle
-      span.f-semi-14.ap-billing-cycle-label.ap-billing-cycle-active data-billing-toggle-target="monthlyLabel" = I18n.t("dashboard.billing.monthly_label")
+      span.ap-billing-cycle-label.ap-billing-cycle-active data-billing-toggle-target="monthlyLabel" = I18n.t("dashboard.billing.monthly_label")
       label.ap-billing-toggle-switch
         input type="checkbox" data-billing-toggle-target="toggle" data-action="change->billing-toggle#toggle"
         span.ap-billing-toggle-slider
-      span.f-semi-14.ap-billing-cycle-label data-billing-toggle-target="yearlyLabel"
+      span.ap-billing-cycle-label data-billing-toggle-target="yearlyLabel"
         = I18n.t("dashboard.billing.yearly")
-        span.ap-billing-save-badge = I18n.t("dashboard.billing.save_percent")
+        span.ap-billing-save-badge = I18n.t("dashboard.billing.subscription_page.annual_savings")
 
     .ap-subscription-grid
-      - @available_plans.each do |plan|
-        .ap-subscription-card.ap-card
-          .ap-subscription-card-body
-            .ap-subscription-plan-header
-              h3.f-semi-20.ap-subscription-plan-name = plan.display_name
-              - if plan.trial_days.positive?
-                span.ap-strategy-badge.ap-subscription-trial-badge
-                  = I18n.t("dashboard.billing.day_trial", days: plan.trial_days)
-                  
-            .ap-subscription-price-row
-              span.f-semi-24.ap-subscription-price data-billing-toggle-target="price" data-monthly-price=plan.base_price data-annual-price=plan.annual_price data-currency=plan.currency.upcase
-                = number_to_currency(plan.base_price, unit: plan.currency.upcase + " ")
-              span.f-semi-14.ap-subscription-period data-billing-toggle-target="period"
-                = I18n.t("dashboard.billing.per_month")
-              
-            - if plan.annual_price.positive? && plan.base_price.positive?
-              p.f-reg-12.ap-subscription-annual-note data-billing-toggle-target="annualNote" style="display: none; color: var(--ap-text-muted); margin-top: 4px;"
-                = I18n.t("dashboard.billing.billed_annually_at", amount: number_to_currency(plan.annual_price * 12, unit: plan.currency.upcase + " "))
+      - @available_plans.each_with_index do |plan, index|
+        - theme = plan_themes[index] || plan_themes.last
+        article.ap-subscription-card class="ap-subscription-card--#{theme} #{'ap-subscription-card--popular' if theme == 'hyperbolic'}"
+          - if theme == "hyperbolic"
+            .ap-subscription-popular-badge
+              = image_tag "star.svg", alt: "", class: "ap-subscription-popular-icon"
+              = I18n.t("dashboard.billing.subscription_page.most_popular").upcase
 
-            p.f-reg-14.ap-subscription-desc
-              = plan.description
+          .ap-subscription-card-body
+            .ap-subscription-icon-wrap
+              = image_tag plan_icons[index] || plan_icons.last, alt: "", class: "ap-subscription-plan-icon"
+            h2.ap-subscription-plan-name = plan.display_name
+            p.ap-subscription-desc = plan.description
+
+            .ap-subscription-price-row
+              span.ap-subscription-price data-billing-toggle-target="price" data-monthly-price=plan.base_price data-annual-price=plan.annual_price data-currency=plan.currency.upcase
+                = number_to_currency(plan.base_price, unit: plan.currency.upcase + " ", precision: 0)
+              span.ap-subscription-period data-billing-toggle-target="period" = I18n.t("dashboard.billing.subscription_page.per_month")
+            - if plan.annual_price.positive? && plan.base_price.positive?
+              p.ap-subscription-annual-note data-billing-toggle-target="annualNote"
+                = I18n.t("dashboard.billing.subscription_page.annual_billing", amount: number_to_currency(plan.annual_price, unit: plan.currency.upcase + " ", precision: 0))
+            - elsif plan.trial_days.positive?
+              p.ap-subscription-annual-note
+                = I18n.t("dashboard.billing.subscription_page.annual_billing", amount: number_to_currency(plan.annual_price, unit: plan.currency.upcase + " ", precision: 0))
+            .ap-subscription-trial-badge
+              = plan.trial_days.positive? ? I18n.t("dashboard.billing.subscription_page.trial_badge", days: plan.trial_days) : I18n.t("dashboard.billing.subscription_page.no_free_trial")
 
             ul.ap-subscription-features
-              - if plan.min_users > 0
+              - plan_features(plan).each do |feature|
                 li.ap-subscription-feature-item
-                  svg.ap-subscription-feature-icon aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
-                    path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"
-                  span.f-reg-14.ap-subscription-feature-text
-                    = I18n.t("dashboard.billing.minimum_seats_required", count: plan.min_users)
+                  span.ap-subscription-feature-check
+                    = image_tag "tick.svg", alt: ""
+                  span.ap-subscription-feature-text = feature
 
-          div.ap-subscription-footer
+          .ap-subscription-footer
             = form_with url: subscriptions_path, method: :post do |f|
               = f.hidden_field :plan_id, value: plan.id
               = f.hidden_field :billing_cycle, value: "monthly", class: "billing-cycle-field", data: { billing_toggle_target: "cycleField" }
-              
-              div.ap-subscription-form-group
-                = f.label :quantity, I18n.t("dashboard.billing.number_of_seats"), class: "f-semi-14 ap-subscription-label"
-                - max_seats_val = plan.unlimited?(:users_max) ? nil : plan.max_users
-                = f.number_field :quantity, value: [plan.min_users, 1].max, min: [plan.min_users, 1].max, max: max_seats_val, class: "ap-input", style: "width: 100%;"
-                  
-              = f.submit I18n.t("dashboard.billing.select_plan"), class: "ap-btn-primary ap-subscription-submit"
+              = f.hidden_field :quantity, value: [plan.min_users, 1].max
+              = f.submit(plan.trial_days.positive? ? I18n.t("dashboard.billing.subscription_page.start_free_trial") : I18n.t("dashboard.billing.subscription_page.get_started"), class: "ap-subscription-submit")

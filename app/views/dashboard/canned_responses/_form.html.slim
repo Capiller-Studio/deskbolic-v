@@ -13,7 +13,7 @@
           .form-floating
             = f.text_area :description, class: "form-control f-reg-14 text-area-field", placeholder: t("dashboard.canned_responses.form.description_placeholder"), data: { accordion_target: "response" }, required: true
         .form-actions
-          = link_to(canned_response_path(response.id), class: "btn f-semi-14 btn-delete", data: { turbo_method: :delete })
+          = link_to(canned_response_path(response.id), class: "btn f-semi-14 btn-delete", data: { turbo_method: :delete, turbo_confirm: t("shared.confirm_delete") })
             = inline_svg_tag("delete_red.svg", class: "del-icon")
             = t("dashboard.canned_responses.form.delete")
           = f.submit t("dashboard.canned_responses.form.update"), class: "btn f-semi-14 btn-update"

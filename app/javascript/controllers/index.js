@@ -31,6 +31,9 @@ application.register("chat", ChatController)
 import ChoicesController from "./choices_controller"
 application.register("choices", ChoicesController)
 
+import ConfirmationController from "./confirmation_controller"
+application.register("confirmation", ConfirmationController)
+
 import ClipboardController from "./clipboard_controller"
 application.register("clipboard", ClipboardController)
 

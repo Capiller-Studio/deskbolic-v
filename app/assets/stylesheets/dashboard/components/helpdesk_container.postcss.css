@@ -281,6 +281,7 @@
           .help-nav-menu {
             .nav-item {
               .nav-link {
+                position: relative;
                 justify-content: center;
                 width: 36px;
                 height: 36px;
@@ -306,7 +307,30 @@
                     height: 24px;
                   }
                 }
-                .nav-link-badges,
+
+                .nav-link-badges {
+                  position: absolute;
+                  top: 4px;
+                  right: 0px;
+                  width: 7px;
+                  height: 7px;
+                  gap: 0 !important;
+
+                  .unread-badge {
+                    width: 7px;
+                    min-width: 7px;
+                    height: 7px;
+                    padding: 0 !important;
+                    border-radius: 50% !important;
+                    font-size: 0;
+                    line-height: 0;
+
+                    p {
+                      display: none;
+                    }
+                  }
+                }
+
                 .back-oval-gray {
                   display: none;
                 }

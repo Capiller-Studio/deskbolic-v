@@ -54,6 +54,7 @@ ko:
       day_trial: "%{days} 일일 평가판"
       default_label: 기본값
       description: 설명
+      dismiss_warning: 결제 경고 닫기
       expired: 만료됨
       expires: "%{month}/%{year} 만료"
       make_default: 기본값
@@ -66,6 +67,7 @@ ko:
       no_transactions: 거래가 없습니다.
       number_of_seats: 에이전트 좌석 수
       past_due: 연체
+      past_due_warning: 구독 결제가 연체되었습니다. 액세스를 복구하려면 결제 수단을 업데이트하세요.
       payment_methods: 결제 방법
       per_month: "/월"
       per_month_annual: "/월(매년 청구)"
@@ -84,7 +86,9 @@ ko:
       topup_balance: 충전 잔액
       topup_wallet: 충전 지갑
       transaction_history: 거래 내역
+      trial_ending_warning: 무료 체험이 %{days}일 후 종료됩니다. 서비스 중단을 방지하려면 결제 수단을 추가하세요.
       trial_ends_in: 평가판은 %{days}일 후에 종료됩니다.
+      trial_expired_warning: 무료 체험이 종료되었습니다. 워크스페이스를 계속 사용하려면 결제 수단을 추가하세요.
       unlimited: 무제한
       update_payment_method: 결제 수단 업데이트
       update_plan: 업데이트 계획
@@ -219,8 +223,8 @@ ko:
     messages:
       manage_participant: 참가자 관리
       export_conversation: 대화 내보내기
-      translate: 번역하다
-      translation_header: '영어 번역:'
+      translate: "%{language}로 번역"
+      translation_header: "%{language} 번역:"
       close: 닫기
       reply: 답장하다
       response_placeholder: 문제에 대한 답변을 작성하세요
@@ -239,7 +243,7 @@ ko:
         ul_list: 글머리 기호 목록
         ol_list: 번호 매기기 목록
       status:
-        failed: 보내지 못했습니다.
+        failed: 실패
         read: 읽기
         delivered: 배달됨
         sent: 보냄
@@ -275,6 +279,7 @@ ko:
       email: 이메일
       user_notes: 사용자 메모
       add_new_note: 새 메모 추가
+      note_empty: 필드를 비워 둘 수 없습니다
       add: 추가
       ticket_info: 티켓정보
       ticket_id: '티켓 ID:'
@@ -2309,6 +2314,9 @@ ko:
       title: 고객 만족도(CSAT)
   shared:
     back: 뒤로
+    confirmation:
+      confirm: 확인
+      title: 작업 확인
     confirm_delete: 이 항목을 삭제하시겠습니까?
     delete: 삭제
     edit: 편집
@@ -2898,6 +2906,7 @@ ko:
           dashboard_logo: 대시보드 로고
           help_desk_community_forum: "“헬프데스크” 커뮤니티 포럼"
           help_desk_help_center: "“헬프 데스크” 도움말 센터"
+          language: 언어
           login: 로그인
           login_here: 여기에서 로그인하세요
           notifications: 알림

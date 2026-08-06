@@ -54,6 +54,7 @@ fr:
       day_trial: Essai d'une journée %{days}
       default_label: Par défaut
       description: Descriptif
+      dismiss_warning: Fermer l’avertissement de facturation
       expired: Expiré
       expires: Expire %{month}/%{year}
       make_default: Par défaut
@@ -66,6 +67,7 @@ fr:
       no_transactions: Aucune transaction trouvée.
       number_of_seats: Nombre de sièges d'agent
       past_due: En souffrance
+      past_due_warning: Votre abonnement est en souffrance. Veuillez mettre à jour votre mode de paiement pour rétablir l’accès.
       payment_methods: Méthodes de paiement
       per_month: "/mois"
       per_month_annual: "/ mois (facturé annuellement)"
@@ -84,7 +86,9 @@ fr:
       topup_balance: Solde complémentaire
       topup_wallet: Portefeuille de recharge
       transaction_history: Historique des transactions
+      trial_ending_warning: Votre période d’essai se termine dans %{days} jours. Veuillez ajouter un mode de paiement pour éviter toute interruption.
       trial_ends_in: L'essai se termine dans %{days} jours
+      trial_expired_warning: Votre période d’essai est terminée. Veuillez ajouter un mode de paiement pour continuer à utiliser votre espace de travail.
       unlimited: Illimité
       update_payment_method: Mettre à jour le mode de paiement
       update_plan: Plan de mise à jour
@@ -219,8 +223,8 @@ fr:
     messages:
       manage_participant: Gérer les participants
       export_conversation: Exporter la conversation
-      translate: Traduire
-      translation_header: 'TRADUCTION EN ANGLAIS :'
+      translate: Traduire en %{language}
+      translation_header: 'TRADUCTION EN %{language} :'
       close: Fermer
       reply: Répondre
       response_placeholder: Écrivez votre réponse au problème
@@ -239,7 +243,7 @@ fr:
         ul_list: Liste à puces
         ol_list: Liste numérotée
       status:
-        failed: Échec de l'envoi
+        failed: Échec
         read: Lire
         delivered: Livré
         sent: Envoyé
@@ -275,6 +279,7 @@ fr:
       email: Courriel
       user_notes: Notes d'utilisateur
       add_new_note: Ajouter une nouvelle note
+      note_empty: Le champ ne peut pas être vide
       add: Ajouter
       ticket_info: Informations sur les billets
       ticket_id: 'Identifiant du billet :'
@@ -2309,6 +2314,9 @@ fr:
       title: Satisfaction client (CSAT)
   shared:
     back: Retour
+    confirmation:
+      confirm: Confirmer
+      title: Confirmer l’action
     confirm_delete: Êtes-vous sûr de vouloir supprimer cet élément ?
     delete: Supprimer
     edit: Modifier
@@ -2898,6 +2906,7 @@ fr:
           dashboard_logo: logo du tableau de bord
           help_desk_community_forum: Forum communautaire « Helpdesk »
           help_desk_help_center: Centre d'aide « Helpdesk »
+          language: Langue
           login: Connexion
           login_here: connectez-vous ici
           notifications: avis

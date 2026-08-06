@@ -59,7 +59,9 @@
               h5.f-reg-14 = identity.identity_source&.name || identity.identity_type.titleize
               p.f-reg-14.ml-auto = identity.identifier
         - else
-          p.f-reg-14 = t('dashboard.conversation_details.no_identities')
+          .details-empty-state
+            p.f-reg-12 = t('dashboard.conversation_details.no_identities')
+            = link_to t('dashboard.identity_sources.index.create_button'), identity_sources_path, class: "details-empty-action f-semi-12", data: { turbo_frame: "_top" }
                 
     .card.user-data
       button.accordian data-action="click->accordion#toggle"
@@ -132,8 +134,9 @@
         - @notes.each do |note|
           = render 'dashboard/notes/note', note: note
       .panel.note-panel data-accordion-target="npanel"
-        = form_with(model: Note.new, url: notes_path, class: "new-note", data: { action: "turbo:submit-end->accordion#clearNote" }) do |f|
-          = f.text_area :content, class: "note-field f-reg-12", placeholder: t('dashboard.conversation_details.add_new_note')
+        = form_with(model: Note.new, url: notes_path, class: "new-note", html: { novalidate: true }, data: { action: "submit->accordion#preventBlankNote turbo:submit-end->accordion#clearNote" }) do |f|
+          = f.text_area :content, class: "note-field f-reg-12", placeholder: t('dashboard.conversation_details.add_new_note'), required: true, aria: { describedby: "new-note-content-error" }, data: { action: "input->accordion#clearNoteValidation" }
+          .invalid-feedback#new-note-content-error role="alert" = t('dashboard.conversation_details.note_empty')
           = f.hidden_field :resource_type, value: "Conversation"
           = f.hidden_field :resource_id, value: @conversation.id
           .actions

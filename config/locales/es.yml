@@ -54,6 +54,7 @@ es:
       day_trial: Prueba de día %{days}
       default_label: Predeterminado
       description: Descripción
+      dismiss_warning: Cerrar aviso de facturación
       expired: Caducado
       expires: Vence %{month}/%{year}
       make_default: Predeterminado
@@ -66,6 +67,7 @@ es:
       no_transactions: No se encontraron transacciones.
       number_of_seats: Número de puestos de agente
       past_due: Vencido
+      past_due_warning: Tu suscripción está vencida. Actualiza tu método de pago para recuperar el acceso.
       payment_methods: Métodos de pago
       per_month: "/ mes"
       per_month_annual: "/ mes (facturado anualmente)"
@@ -84,7 +86,9 @@ es:
       topup_balance: Saldo de recarga
       topup_wallet: Cartera de recarga
       transaction_history: Historial de transacciones
+      trial_ending_warning: Tu periodo de prueba termina en %{days} días. Añade un método de pago para evitar interrupciones.
       trial_ends_in: La prueba finaliza en días %{days}
+      trial_expired_warning: Tu periodo de prueba ha finalizado. Añade un método de pago para seguir usando tu espacio de trabajo.
       unlimited: Ilimitado
       update_payment_method: Actualizar método de pago
       update_plan: Plan de actualización
@@ -219,8 +223,8 @@ es:
     messages:
       manage_participant: Administrar participante
       export_conversation: Exportar conversación
-      translate: Traducir
-      translation_header: 'TRADUCCIÓN AL INGLÉS:'
+      translate: Traducir a %{language}
+      translation_header: 'TRADUCCIÓN A %{language}:'
       close: Cerrar
       reply: Responder
       response_placeholder: Escribe tu respuesta al problema.
@@ -239,7 +243,7 @@ es:
         ul_list: Lista de viñetas
         ol_list: Lista numerada
       status:
-        failed: No se pudo enviar
+        failed: Fallido
         read: leer
         delivered: Entregado
         sent: Enviado
@@ -275,6 +279,7 @@ es:
       email: Correo electrónico
       user_notes: Notas de usuario
       add_new_note: Agregar nueva nota
+      note_empty: El campo no puede estar vacío
       add: Añadir
       ticket_info: Información de entradas
       ticket_id: 'ID del billete:'
@@ -2309,6 +2314,9 @@ es:
       title: Satisfacción del Cliente (CSAT)
   shared:
     back: Atrás
+    confirmation:
+      confirm: Confirmar
+      title: Confirmar acción
     confirm_delete: "¿Está seguro de que desea eliminar este elemento?"
     delete: Eliminar
     edit: Editar
@@ -2898,6 +2906,7 @@ es:
           dashboard_logo: logotipo del tablero
           help_desk_community_forum: Foro de la comunidad “Mesa de ayuda”
           help_desk_help_center: Centro de ayuda “Mesa de ayuda”
+          language: Idioma
           login: Iniciar sesión
           login_here: inicie sesión aquí
           notifications: notificaciones

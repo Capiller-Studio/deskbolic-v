@@ -20,7 +20,7 @@
               span.f-semi-14 = resource.custom_field.key
               span.badge style="margin-left: 8px; background: #e2e8f0; color: #475569; font-size: 10px; padding: 2px 6px; border-radius: 4px;" = resource.custom_field.field_type.titleize
             .field-actions
-              = link_to field_resource_path(resource.custom_field_id, resource_type: @resource.class.name, resource_id: @resource.id), method: :delete, data: { turbo_method: :delete }, style: "color: #ef4444;"
+              = link_to field_resource_path(resource.custom_field_id, resource_type: @resource.class.name, resource_id: @resource.id), method: :delete, data: { turbo_method: :delete, turbo_confirm: t("shared.confirm_delete") }, style: "color: #ef4444;"
                 = inline_svg_tag("trash.svg", style: "width: 16px;")
 
     / Available Fields Sidebar

@@ -90,7 +90,7 @@
                     = link_to edit_domain_path(domain), class: "action-link", title: t("dashboard.skills.index.edit")
                       = inline_svg_tag("edit.svg", class: "link-icon", alt: t("ui.dashboard.domains.index.edit"))
                     - unless domain.portal.present?
-                      = link_to domain_path(domain), method: :delete, data: { confirm: t("dashboard.domains.index.delete_confirm") }, class: "action-link delete-btn", title: t("dashboard.skills.index.delete")
+                      = link_to domain_path(domain), method: :delete, data: { turbo_method: :delete, turbo_confirm: t("dashboard.domains.index.delete_confirm") }, class: "action-link delete-btn", title: t("dashboard.skills.index.delete")
                         = inline_svg_tag("delete_red.svg", class: "link-icon", alt: t("ui.dashboard.domains.index.delete"))
         - else
           .domain-empty

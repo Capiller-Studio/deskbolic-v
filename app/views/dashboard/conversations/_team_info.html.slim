@@ -16,9 +16,13 @@
           = inline_svg_tag("users.svg", class: "team-card-icon")
           p.f-reg-12 = assigned_team.name
           = button_to(t("general.unassign"), unassign_team_conversation_path(conversation), method: :post, class: "unassign-btn f-reg-12")
-      - else
+      - elsif @teams.any?
         - @teams.each do |team|
           .team-row
             = inline_svg_tag("users.svg", class: "team-card-icon")
             p.f-reg-12 = team.name
             = button_to(t("general.assign"), assign_team_conversation_path(conversation, team_id: team.id), method: :post, class: "assign-btn assign-team-btn f-reg-12")
+      - else
+        .details-empty-state
+          p.f-reg-12 = t("dashboard.teams.index.empty_description")
+          = link_to t("dashboard.teams.index.new_team"), teams_path, class: "details-empty-action f-semi-12", data: { turbo_frame: "_top" }

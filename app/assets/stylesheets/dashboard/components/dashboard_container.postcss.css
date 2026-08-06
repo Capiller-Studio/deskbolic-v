@@ -162,8 +162,31 @@
               border-radius: 10px;
             }
           }
-          .logout {
+          .dashboard-locale-selector {
+            padding: 16px 10px;
+            border-top: 1px solid $black-20;
+            text-align: left;
             margin-top: auto;
+
+            &.ui-select {
+              padding-right: 10px;
+              background-image: none;
+            }
+
+            > p {
+              margin-bottom: 8px;
+              color: $black;
+            }
+
+            .choices {
+              width: 100%;
+              .choices__inner {
+                padding-left: 10px;
+              }
+            }
+          }
+          .logout {
+            /* margin-top: auto; */
             padding-top: 10px;
             padding-bottom: 10px;
             border-top: 1px solid $black-20;

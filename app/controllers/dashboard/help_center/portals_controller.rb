@@ -28,7 +28,11 @@ module Dashboard
       end
 
       def new
-        @portal = ::HelpCenter::Portal.new(default_locale: I18n.default_locale.to_s, locales: [I18n.default_locale.to_s])
+        @portal = ::HelpCenter::Portal.new(
+          default_locale: I18n.default_locale.to_s, 
+          locales: [I18n.default_locale.to_s],
+          ai_training_enabled: true
+        )
         authorize @portal
         prepare_form_state
       end
@@ -119,7 +123,7 @@ module Dashboard
       end
 
       def portal_attributes
-        portal_params.slice(:name, :logo, :favicon, :social_share_image, :hero_image)
+        portal_params.slice(:name, :logo, :favicon, :social_share_image, :hero_image, :ai_training_enabled)
       end
 
       def selected_domain
@@ -174,6 +178,7 @@ module Dashboard
           :domain_type,
           :subdomain_slug,
           :default_locale,
+          :ai_training_enabled,
           locales: [],
           ui_configurations: [
             :theme_preference,

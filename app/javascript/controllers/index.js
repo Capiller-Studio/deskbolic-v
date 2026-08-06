@@ -7,6 +7,9 @@ import { application } from "./application"
 import AccordionController from "./accordion_controller"
 application.register("accordion", AccordionController)
 
+import AiAssistController from "./ai_assist_controller"
+application.register("ai-assist", AiAssistController)
+
 import AssignmentPolicyController from "./assignment_policy_controller"
 application.register("assignment-policy", AssignmentPolicyController)
 

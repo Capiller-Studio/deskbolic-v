@@ -25,6 +25,26 @@
           = form_with model: @conversation, url: conversation_path(@conversation), method: :patch do |f|
             = f.select :priority, Conversation.priorities.keys.map { |s| [t("enums.conversation.priority.#{s}"), s] }, {}, class: "status-tag bg-red f-reg-12", onchange: "this.form.requestSubmit()", style: "border: none; cursor: pointer; appearance: none;"
     
+    - if @conversation.ai_metadata.present? && (@conversation.ai_metadata["sentiment"].present? || @conversation.ai_metadata["category"].present?)
+      .card.ai-insights-info
+        button.accordian data-action="click->accordion#toggle"
+          p.f-reg-14 = t('dashboard.conversation_details.ai_insights')
+          = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
+        .panel data-accordion-target="panel"
+          - if @conversation.ai_metadata["sentiment"].present?
+            .section-flex style="align-items: center;"
+              h5.f-reg-14 = t('dashboard.conversation_details.sentiment')
+              - sentiment_color = case @conversation.ai_metadata["sentiment"]
+              - when "positive" then "bg-green"
+              - when "negative", "angry" then "bg-red"
+              - else "bg-gray"
+              .status-tag.f-reg-12 class=sentiment_color = @conversation.ai_metadata["sentiment"].titleize
+          
+          - if @conversation.ai_metadata["category"].present?
+            .section-flex style="align-items: center;"
+              h5.f-reg-14 = t('dashboard.conversation_details.category')
+              .status-tag.bg-gray.f-reg-12 = @conversation.ai_metadata["category"].titleize
+    
     .card.sla-info
       button.accordian data-action="click->accordion#toggle"
         p.f-reg-14 = t('dashboard.conversation_details.sla_status')

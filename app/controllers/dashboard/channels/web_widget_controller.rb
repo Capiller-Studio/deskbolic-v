@@ -102,15 +102,17 @@ module Dashboard
       permitted = params.require(:web_widget_channel).permit(
         :name, :website_url, :portal_id, :default_locale, :pre_chat_form_id, :fallback_channel_id, :fallback_channel_type,
         :anonymous_allowed, :help_center_enabled, :pre_chat_form_enabled, :secure_identity_enforced, :custom_branding, :logo, :launcher_icon,
+        :theme_color, :position, :footer_text,
         ui_configurations: [:theme_color, :position, :footer_text],
         configurations: [],
-        primary_inbox_attributes: [:id, :reopen_window_seconds, :csat_survey_enabled, :auto_assign, :csat_survey_id, :conversation_reply_template_id, :business_hour_group_id, sla_policy_ids: []],
-        translations_attributes: [:id, :locale, :launcher_text, :reply_time_text, :pre_chat_title, :pre_chat_subtitle, :welcome_title, :welcome_tagline, :_destroy]
+        primary_inbox_attributes: [:id, :reopen_window_seconds, :csat_survey_enabled, :auto_assign, :csat_survey_id, :conversation_reply_template_id, :business_hour_group_id, :ai_classification, :ai_auto_labelling, :ai_thank_you_detection, :ai_agent_id, sla_policy_ids: []],
+        translations_attributes: [:id, :locale, :welcome_title, :welcome_tagline, :launcher_text, :reply_time_text, :pre_chat_title, :pre_chat_subtitle, :_destroy]
       )
 
       result = permitted.slice(
         :name, :website_url, :portal_id, :default_locale, :pre_chat_form_id, :fallback_channel_id, :fallback_channel_type,
         :anonymous_allowed, :help_center_enabled, :pre_chat_form_enabled, :secure_identity_enforced, :custom_branding, :logo, :launcher_icon,
+        :theme_color, :position, :footer_text,
         :primary_inbox_attributes, :translations_attributes
       ).to_h
 

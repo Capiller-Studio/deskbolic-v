@@ -47,7 +47,7 @@
                   span.file-name = attachment.file.filename
               .message-status-container
                 .msg-time = message.created_at.strftime("%I:%M %p")
-- if message.sender_type == "User"
+- if message.sender_type == "User" || message.sender_type == "Ai::Agent" || message.sender_type == "Account"
   - is_private = message.personal?
   .agent-response.response id=dom_id(message) data-controller="translator" data-translator-translate-url-value=translate_message_path(message) data-translator-target="response"
     .agent-text

@@ -196,10 +196,72 @@
                           - status_class = t.completed? ? "ap-billing-tx-status-completed" : "ap-billing-tx-status-muted"
                           span.ap-strategy-badge class=status_class = t.status.titleize
 
-                .mt-4
-                  == pagy_nav(@pagy)
+                  .mt-4
+                    == pagy_nav(@pagy)
               - else
                 p.f-reg-14.ap-billing-pm-empty = I18n.t("dashboard.billing.no_transactions", default: "No transactions found.")
+
+          - if current_account.feature_enabled?(:ai_copilot) || current_account.feature_enabled?(:ai_agent)
+            .ap-card.ap-billing-tx-card
+              .ap-card-body.ap-billing-card-body
+                h3.f-semi-18.ap-billing-section-title = I18n.t("dashboard.billing.ai_credit_grants", default: "AI Credit Grants & Expiry")
+                
+                - if @ai_grants.any?
+                  table.ap-billing-table
+                    thead
+                      tr.ap-billing-tr
+                        th.f-semi-13.ap-billing-th = I18n.t("dashboard.billing.date", default: "Date")
+                        th.f-semi-13.ap-billing-th = I18n.t("dashboard.billing.type", default: "Type")
+                        th.f-semi-13.ap-billing-th = I18n.t("dashboard.billing.amount", default: "Amount")
+                        th.f-semi-13.ap-billing-th = I18n.t("dashboard.billing.expires_at", default: "Expires At")
+                        th.f-semi-13.ap-billing-th = I18n.t("dashboard.billing.status", default: "Status")
+                    tbody
+                      - @ai_grants.each do |grant|
+                        tr.ap-billing-tr
+                          td.f-reg-14.ap-billing-td = grant.created_at.strftime("%b %d, %Y")
+                          td.f-reg-14.ap-billing-td = grant.grant_type.titleize
+                          td.f-semi-14.ap-billing-td = ActionController::Base.helpers.number_with_delimiter(grant.amount)
+                          td.f-reg-14.ap-billing-td = grant.expires_at&.strftime("%b %d, %Y") || "Never"
+                          td.ap-billing-td
+                            - if grant.active?
+                              span.ap-strategy-badge.ap-billing-tx-status-completed = I18n.t("dashboard.billing.status_active", default: "Active")
+                            - elsif grant.exhausted?
+                              span.ap-strategy-badge.ap-billing-tx-status-muted = I18n.t("dashboard.billing.status_exhausted", default: "Exhausted")
+                            - else
+                              span.ap-strategy-badge.ap-billing-tx-status-muted = I18n.t("dashboard.billing.status_expired", default: "Expired")
+                - else
+                  p.f-reg-14.ap-billing-pm-empty = I18n.t("dashboard.billing.no_ai_grants", default: "No AI credit grants found.")
+
+            .ap-card.ap-billing-tx-card
+              .ap-card-body.ap-billing-card-body
+                h3.f-semi-18.ap-billing-section-title = I18n.t("dashboard.billing.ai_transaction_history", default: "AI Usage History")
+
+                - if @ai_transactions&.any?
+                  table.ap-billing-table
+                    thead
+                      tr.ap-billing-tr
+                        th.f-semi-13.ap-billing-th = I18n.t("dashboard.billing.date", default: "Date")
+                        th.f-semi-13.ap-billing-th = I18n.t("dashboard.billing.description", default: "Description")
+                        th.f-semi-13.ap-billing-th = I18n.t("dashboard.billing.amount", default: "Amount")
+                    tbody
+                      - @ai_transactions.each do |t|
+                        tr.ap-billing-tr
+                          td.f-reg-14.ap-billing-td = t.created_at.strftime("%b %d, %Y")
+                          td.f-reg-14.ap-billing-td
+                            - desc = t.description.to_s
+                            - if desc.start_with?("billing.events.") || desc.start_with?("wallet.events.")
+                              - desc = I18n.t(desc, **(t.data || {}).symbolize_keys, default: desc)
+                            - else
+                              - desc = desc.presence || t.transaction_type.titleize
+                            = desc
+                          td.f-semi-14.ap-billing-td
+                            - sign, amount_class = t.deduction? ? ["-", "ap-billing-tx-amount-charge"] : ["+", "ap-billing-tx-amount-credit"]
+                            span class=amount_class = "#{sign} #{ActionController::Base.helpers.number_with_delimiter(t.amount)}"
+
+                  .mt-4
+                    == pagy_nav(@pagy_ai)
+                - else
+                  p.f-reg-14.ap-billing-pm-empty = I18n.t("dashboard.billing.no_ai_transactions", default: "No AI usage history found.")
 
         .ap-billing-sidebar
 
@@ -224,6 +286,40 @@
                     button.ap-btn-primary.ap-billing-brand-action type="submit"
                       = image_tag "wallet.svg", class: "ap-billing-action-icon ap-billing-topup-action-icon", alt: ""
                       = I18n.t("dashboard.billing.top_up", default: "Top Up")
+
+          - if current_account.feature_enabled?(:ai_copilot) || current_account.feature_enabled?(:ai_agent)
+            #aiCreditsCard.ap-card.ap-billing-inline-topup-card data-controller="wallet-topup"
+              .ap-card-body.ap-billing-card-body
+                .ap-billing-modal-header.ap-billing-inline-topup-header
+                  .ap-billing-inline-topup-title
+                    span.ap-billing-inline-topup-title-icon style="font-size: 20px;" 🤖
+                    h3.f-semi-20 = I18n.t("dashboard.billing.ai_credits_title", default: "AI Credits")
+                .ap-billing-inline-topup-body
+                  .ap-billing-wallet-balance-row style="margin-bottom: 16px;"
+                    div
+                      p.f-reg-14.ap-billing-wallet-label = I18n.t("dashboard.billing.ai_balance_label", default: "Current Balance")
+                      p.f-semi-24.ap-billing-wallet-amount
+                        = current_account.ai_wallet&.available_balance || 0
+                        span.f-reg-14  credits
+
+                  = form_with url: ai_credits_path, method: :post do |f|
+                    .ap-billing-topup-presets
+                      button.ap-btn-secondary type="button" data-action="click->wallet-topup#selectPreset" data-wallet-topup-amount-param="1000" 1,000
+                      button.ap-btn-secondary type="button" data-action="click->wallet-topup#selectPreset" data-wallet-topup-amount-param="3000" 3,000
+                      button.ap-btn-secondary type="button" data-action="click->wallet-topup#selectPreset" data-wallet-topup-amount-param="5000" 5,000
+
+                    label.f-semi-14.ap-billing-form-label = I18n.t("dashboard.billing.credits_to_buy", default: "Credits (multiples of 1,000)")
+                    = f.number_field :credits, data: { "wallet-topup-target": "input" }, value: 1000, min: 1000, max: 100000, step: 1000, class: "ap-input ap-billing-form-input"
+
+                    - currency = current_account.currency.downcase
+                    - price_cents = Ai::CreditTopup::PRICE_PER_1000_CREDITS[currency] || Ai::CreditTopup::PRICE_PER_1000_CREDITS["usd"]
+                    p.f-reg-12.text-muted style="margin-top: 4px;"
+                      = I18n.t("dashboard.billing.ai_price_per_1000", price: ActionController::Base.helpers.number_to_currency(price_cents / 100.0, unit: current_account.currency.upcase + " "), default: "%{price} per 1,000 credits")
+
+                    .ap-billing-modal-actions
+                      button.ap-btn-primary.ap-billing-brand-action type="submit"
+                        span style="font-size: 14px;" 🤖
+                        = I18n.t("dashboard.billing.buy_ai_credits", default: "Buy AI Credits")
 
           - if @active_subscription && !@active_subscription.cancelled_at.present?
             #changePlanModal.ap-card.ap-billing-inline-change-plan-card data-controller="change-plan" data-modal-toggler-target="model"

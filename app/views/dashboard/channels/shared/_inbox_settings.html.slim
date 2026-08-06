@@ -1,0 +1,72 @@
+.ui-section style="margin-top: 24px; padding: 16px; background: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 0;"
+  h3.f-semi-16 style="margin-bottom: 8px;" Inbox Settings
+  p.f-reg-14.text-muted style="margin-bottom: 16px;" Configure customer satisfaction surveys, SLA policies, custom reply templates, and AI features.
+  
+  = form.fields_for :primary_inbox, form.object.primary_inbox do |inbox_f|
+    .ui-toggle-row style="margin-bottom: 16px; display: flex; gap: 24px;"
+      div style="display: flex; align-items: center; gap: 8px;"
+        span.ui-toggle-label = t("dashboard.custom_channels.form.enable_csat")
+        label.ui-toggle
+          = inbox_f.check_box :csat_survey_enabled
+          span.ui-toggle-slider
+      div style="display: flex; align-items: center; gap: 8px;"
+        span.ui-toggle-label = t("ui.dashboard.channels.contact_form.form.auto_assign_conversations")
+        label.ui-toggle
+          = inbox_f.check_box :auto_assign
+          span.ui-toggle-slider
+    
+    .ui-form-row
+      div
+        = inbox_f.label :csat_survey_id, t("forms.labels.csat_survey"), class: "ui-label"
+        = inbox_f.collection_select :csat_survey_id, current_account.csat_surveys, :id, :name, { include_blank: t("forms.options.default_system_survey") }, class: "ui-select"
+
+      div
+        = inbox_f.label :conversation_reply_template_id, t("forms.labels.custom_reply_template"), class: "ui-label"
+        = inbox_f.collection_select :conversation_reply_template_id, current_account.email_templates, :id, :name, { include_blank: t("forms.options.default_mailer_view") }, class: "ui-select"
+    
+    .ui-form-row
+      div
+        = inbox_f.label :business_hour_group_id, t("forms.labels.business_hours"), class: "ui-label"
+        = inbox_f.collection_select :business_hour_group_id, current_account.business_hour_groups, :id, :name, { include_blank: t("forms.options.always_online_24_7") }, class: "ui-select"
+      div
+        = inbox_f.label :sla_policy_ids, t("forms.labels.sla_policies"), class: "ui-label"
+        = inbox_f.collection_select :sla_policy_ids, current_account.sla_policies, :id, :name, {}, { multiple: true, class: "ui-select" }
+
+    hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 24px 0;"
+    h4.f-semi-14 style="margin-bottom: 8px;" 
+      = t("dashboard.inboxes.ai_features.title")
+      = plan_upgrade_bubble(:ai_copilot)
+    p.f-reg-13.text-muted style="margin-bottom: 16px;" = t("dashboard.inboxes.ai_features.description")
+
+    .ui-toggle-row style="margin-bottom: 16px;"
+      span.ui-toggle-label = t("dashboard.inboxes.ai_features.classification")
+      label.ui-toggle
+        - if current_account.feature_enabled?(:ai_copilot) || current_account.feature_enabled?(:ai_agent)
+          - is_checked = inbox_f.object.new_record? ? true : inbox_f.object.ai_classification
+          = inbox_f.check_box :ai_classification, checked: is_checked
+          span.ui-toggle-slider
+        - else
+          = check_box_tag "locked_classification", "0", false, disabled: true
+          span.ui-toggle-slider style="background-color: #e2e8f0; cursor: not-allowed;"
+
+    .ui-toggle-row style="margin-bottom: 16px;"
+      span.ui-toggle-label = t("dashboard.inboxes.ai_features.auto_labelling")
+      label.ui-toggle
+        - if current_account.feature_enabled?(:ai_copilot) || current_account.feature_enabled?(:ai_agent)
+          - is_checked = inbox_f.object.new_record? ? true : inbox_f.object.ai_auto_labelling
+          = inbox_f.check_box :ai_auto_labelling, checked: is_checked
+          span.ui-toggle-slider
+        - else
+          = check_box_tag "locked_auto_labelling", "0", false, disabled: true
+          span.ui-toggle-slider style="background-color: #e2e8f0; cursor: not-allowed;"
+
+    / .ui-toggle-row style="margin-bottom: 16px;"
+    /   span.ui-toggle-label = t("dashboard.inboxes.ai_features.thank_you_detection")
+    /   label.ui-toggle
+    /     - if current_account.feature_enabled?(:ai_copilot) || current_account.feature_enabled?(:ai_agent)
+    /       - is_checked = inbox_f.object.new_record? ? true : inbox_f.object.ai_thank_you_detection
+    /       = inbox_f.check_box :ai_thank_you_detection, checked: is_checked
+    /       span.ui-toggle-slider
+    /     - else
+    /       = check_box_tag "locked_thank_you", "0", false, disabled: true
+    /       span.ui-toggle-slider style="background-color: #e2e8f0; cursor: not-allowed;"

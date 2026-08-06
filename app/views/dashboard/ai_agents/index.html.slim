@@ -1,0 +1,42 @@
+= render("dashboard/shared/dashboard_container", current_page: "settings") do
+  = render("dashboard/settings/settings_sidebar", current_page: "ai_agents") do
+    .body-container
+      .ui-index-header
+        .ui-title-area
+          h2.f-semi-32 = t("dashboard.ai_agents.index.title", default: "AI Agents")
+          p.f-reg-16 = t("dashboard.ai_agents.index.description", default: "Manage your AI agents.")
+        = link_to new_ai_agent_path, class: "ui-btn-primary"
+          | + #{t("dashboard.ai_agents.index.new_agent", default: "New AI Agent")}
+
+      - if @ai_agents.any?
+        .ui-list
+          - @ai_agents.each do |agent|
+            div id="ai_agent_#{agent.id}" class="ui-card"
+              .ui-card-top
+                .ui-card-info
+                  .ui-avatar-placeholder 🤖
+                  div
+                    h3.f-semi-18 = agent.name
+                    p.f-reg-14
+                      span.ui-badge = t("activerecord.attributes.ai/agent.agent_types.#{agent.agent_type}", default: agent.agent_type.to_s.humanize)
+                      - if agent.active?
+                        span.ui-badge style="margin-left: 8px; background: #E6F4EA; color: #137333;" = t("activerecord.attributes.ai/agent.statuses.#{agent.status}", default: agent.status.to_s.humanize)
+                      - else
+                        span.ui-badge style="margin-left: 8px;" = t("activerecord.attributes.ai/agent.statuses.#{agent.status}", default: agent.status.to_s.humanize)
+                    p.f-reg-14 style="margin-top: 4px;"
+                      span.ui-card-event = agent.system_prompt.to_s.truncate(80)
+
+                .ui-card-actions
+                  = link_to edit_ai_agent_path(agent), class: "ui-action-btn", title: t("dashboard.skills.index.edit", default: "Edit")
+                    | ✏️
+                  = button_to ai_agent_path(agent), method: :delete, class: "ui-action-btn ui-action-delete", title: t("dashboard.skills.index.delete", default: "Delete"), data: { turbo_confirm: t("dashboard.ai_agents.index.confirm_delete", default: "Are you sure?") }
+                    | 🗑️
+        
+        - if @pagy && @pagy.pages > 1
+          .mt-4
+            == pagy_nav(@pagy)
+      - else
+        .ui-empty-state
+          .ui-empty-icon 🤖
+          h3.f-semi-18 = t("dashboard.ai_agents.index.no_agents", default: "No AI Agents found.")
+          p.f-reg-14 = t("dashboard.ai_agents.index.empty_description", default: "Create an AI Agent to assist with customer queries.")

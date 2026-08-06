@@ -228,6 +228,12 @@
                         p.f-reg-12
                           = t('dashboard.sidebar.settings.automations')
                           = plan_upgrade_bubble(:automations_enabled)
+                li.nav-item class="#{current_page == 'ai_agents' ? 'st-list-active' : ''}"
+                  = link_to(ai_agents_path, class: "nav-link") do
+                    .link-text
+                      .conversation-name.inbox-conv
+                        p.f-reg-12
+                          = t('dashboard.sidebar.settings.ai_agents')
                 li.nav-item class="#{current_page == 'email_templates' ? 'st-list-active' : ''}"
                   = link_to(email_templates_path, class: "nav-link") do
                     .link-text

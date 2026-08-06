@@ -365,6 +365,14 @@ export default class extends Controller {
     })
   }
 
+  getText() {
+    let text = ""
+    this.editor.getEditorState().read(() => {
+      text = $getRoot().getTextContent()
+    })
+    return text
+  }
+
   disconnect() {
     if (this.deregisterRichText) this.deregisterRichText()
     if (this.deregisterHistory) this.deregisterHistory()

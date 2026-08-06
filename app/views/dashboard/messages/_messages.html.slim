@@ -102,38 +102,33 @@
               /   = inline_svg_tag("gif.svg", class:"size-btn")
               button.response-action type="button" data-action="click->message-form#toggleVoiceRecording" data-message-form-target="voiceBtn" title=t("dashboard.messages.record_voice")
                 = inline_svg_tag("mic.svg", class:"action-btn")
-              / .chat-gpt
-              /   .response-action data-controller="accordion"
-              /     .paraphrase-options data-action="click->accordion#toggleMenu"
-              /       = inline_svg_tag("chat_gpt.svg", class:"gpt-btn")
-              /       p.f-reg-12 Rephrase
-              /     .menu data-accordion-target="menu"
-              /       .paraphrase-text
-              /         .text
-              /           | Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus veritatis odio voluptates ullam autem facilis exercitationem incidunt repellat, non ipsam. Molestias expedita, illum sapiente quia magnam facere ullam numquam voluptas!
-              /         .paraphrase-commands
-              /           .paraphrase-actions
-              /             = inline_svg_tag("retry_transparent.svg", class:"button")
-              /             = inline_svg_tag("copy.svg", class:"button")
-              /           .paraphrase-buttons
-              /             .keep-original
-              /               p.f-reg-12 Keep Original
-              /             .rephrase
-              /               p.f-reg-12 Rephrase
-              /   .rephrase-selection data-controller="accordion"
-              /     = inline_svg_tag("arrow_down_green.svg", data: { "action" => "click->accordion#toggleMenu" })
-              /     .menu data-accordion-target="menu"
-              /       .rephrase-options
-              /         = link_to("#", class: "menu-link") do
-              /           p.f-reg-12 Default
-              /         = link_to("#", class: "menu-link") do
-              /           p.f-reg-12 Friendly
-              /         = link_to("#", class: "menu-link") do
-              /           p.f-reg-12 Professional
-              /         = link_to("#", class: "menu-link") do
-              /           p.f-reg-12 Confident
-              /         = link_to("#", class: "menu-link options") do
-              /           = inline_svg_tag("arrow_down.svg", class:"menu-icon", alt:"menu")
+              .ai-assist data-controller="accordion ai-assist" data-ai-assist-summarize-url-value=summarize_conversation_ai_path(@conversation) data-ai-assist-draft-url-value=draft_reply_conversation_ai_path(@conversation) data-ai-assist-rewrite-url-value=rewrite_tone_conversation_ai_path(@conversation) data-ai-assist-grammar-url-value=fix_grammar_conversation_ai_path(@conversation) data-ai-assist-translate-url-value=translate_conversation_ai_path(@conversation) data-ai-assist-lexical-outlet=".note-area" data-ai-assist-generating-summary-value=t('dashboard.messages.ai_assist.generating_summary') data-ai-assist-summary-heading-value=t('dashboard.messages.ai_assist.summary_heading') data-ai-assist-drafting-reply-value=t('dashboard.messages.ai_assist.drafting_reply') data-ai-assist-error-prefix-value=t('dashboard.messages.ai_assist.error_prefix') data-ai-assist-credits-exhausted-value=t('dashboard.messages.ai_assist.credits_exhausted')
+                .paraphrase-options data-action="click->accordion#toggleMenu"
+                  = inline_svg_tag("chat_gpt.svg", class:"gpt-btn")
+                  p.f-reg-12 = t('dashboard.messages.ai_assist.title', default: 'AI Assist')
+                .menu data-accordion-target="menu"
+                    .ai-actions-container
+                      = link_to("#", class: "menu-link", data: { action: "click->ai-assist#summarize click->accordion#toggleMenu" }, style: "margin-bottom: 8px; justify-content: center; background: #f8fafc; border-radius: 6px;") do
+                        p.f-semi-12 = t('dashboard.messages.ai_assist.summarize_thread', default: 'Summarize Thread')
+
+                      div style="border-top: 1px solid #e2e8f0; padding-top: 8px; margin-top: 8px;"
+                        p.f-semi-12 style="margin-bottom: 4px;" = t('dashboard.messages.ai_assist.draft_reply', default: 'Draft Reply')
+                        input type="text" placeholder=t('dashboard.messages.ai_assist.draft_placeholder', default: 'e.g. Tell them we will fix it by tomorrow...') data-ai-assist-target="instruction" data-action="keydown.enter->ai-assist#draftReply keydown.enter->accordion#toggleMenu" style="width: 100%; padding: 6px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 12px; outline: none;"
+
+                      div style="border-top: 1px solid #e2e8f0; padding-top: 8px; margin-top: 12px;"
+                        p.f-semi-12 style="margin-bottom: 8px;" = t('dashboard.messages.ai_assist.transform_text', default: 'Transform Current Text')
+                        .ai-transform-grid style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;"
+                          = link_to("#", class: "menu-link", data: { action: "click->ai-assist#fixGrammar click->accordion#toggleMenu" }, style: "justify-content: center; background: #f8fafc; border-radius: 6px; padding: 6px;") do
+                            p.f-semi-12 = t('dashboard.messages.ai_assist.fix_grammar', default: 'Fix Grammar')
+                          
+                          = link_to("#", class: "menu-link", data: { action: "click->ai-assist#translate click->accordion#toggleMenu" }, style: "justify-content: center; background: #f8fafc; border-radius: 6px; padding: 6px;") do
+                            p.f-semi-12 = t('dashboard.messages.ai_assist.translate', default: 'Translate')
+
+                        p.f-reg-12.text-muted style="margin-top: 8px; margin-bottom: 4px;" = t('dashboard.messages.ai_assist.change_tone', default: 'Change Tone')
+                        .ai-tone-grid style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px;"
+                          - %w[professional friendly concise formal empathetic].each do |tone|
+                            = link_to("#", class: "menu-link", data: { action: "click->ai-assist#rewriteTone click->accordion#toggleMenu", "ai-assist-tone-param": tone }, style: "justify-content: center; background: #f8fafc; border-radius: 4px; padding: 4px;") do
+                              p.f-reg-12 = tone.capitalize
                         
             .send-button data-controller="accordion"
               = f.submit t('dashboard.messages.send'), class: "f-semi-12", data: { turbo_submits_with: "Sending..." }

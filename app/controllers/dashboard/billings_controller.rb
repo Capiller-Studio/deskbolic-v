@@ -7,6 +7,10 @@ module Dashboard
     def show
       @wallet = current_account.wallet
       @pagy, @transactions = pagy(current_account.transactions.recent, limit: 10)
+      @ai_wallet = current_account.ai_wallet
+      @pagy_ai, @ai_transactions = pagy(@ai_wallet.wallet_transactions.recent, page_param: :ai_page, limit: 10) if @ai_wallet
+      @ai_grants = @ai_wallet&.credit_grants&.where&.not(grant_type: :refund)&.order(created_at: :desc) || []
+      
       @payment_methods = current_account.payment_methods.active_methods
       @active_subscription = current_account.subscriptions.current.order(created_at: :desc).first
       @available_plans = Plan.available.where(currency: current_account.currency)

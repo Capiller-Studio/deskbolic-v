@@ -100,6 +100,14 @@ Rails.application.routes.draw do
         delete :remove_label
       end
       resources :messages, only: [:index]
+      
+      resource :ai, only: [], controller: "conversations/ai" do
+        post :summarize
+        post :draft_reply
+        post :rewrite_tone
+        post :fix_grammar
+        post :translate
+      end
     end
     namespace :channels do
       resources :email, except: [:show] do
@@ -159,6 +167,7 @@ Rails.application.routes.draw do
     end
     resources :canned_responses
     resources :labels
+    resources :ai_agents
     resources :notes
     resources :sla_policies
     resources :teams do
@@ -252,6 +261,7 @@ Rails.application.routes.draw do
     resource :wallet, only: [] do
       post :topup
     end
+    resources :ai_credits, only: [:create]
 
     resources :settings, only: [ :index ] do
       collection do

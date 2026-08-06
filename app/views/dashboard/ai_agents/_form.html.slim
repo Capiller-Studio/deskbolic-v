@@ -1,0 +1,83 @@
+- url = ai_agent.persisted? ? ai_agent_path(ai_agent) : ai_agents_path
+- method = ai_agent.persisted? ? :patch : :post
+
+= form_with(model: ai_agent, url: url, method: method) do |f|
+  - if ai_agent.errors.any?
+    .ui-error-summary
+      h3 = t("dashboard.ai_agents.errors.fix_errors", default: 'Please fix the following errors:')
+      ul
+        - ai_agent.errors.full_messages.each do |message|
+          li = message
+
+  .ui-section.ui-section--always-open
+    .ui-section-header
+      .ui-section-title
+        span.ui-section-icon 🤖
+        span.ui-section-label = t("dashboard.ai_agents.form.basic_section", default: 'Basic Information')
+    .ui-section-body
+      .ui-form-row
+        div
+          = f.label :name, t("dashboard.ai_agents.form.name", default: 'Agent Name'), class: "ui-label"
+          = f.text_field :name, class: "ui-input", required: true, placeholder: 'e.g. Sales Assistant'
+        div
+          = f.label :agent_type, t("dashboard.ai_agents.form.agent_type", default: 'Agent Type'), class: "ui-label"
+          = f.select :agent_type, Ai::Agent.agent_types.keys.reject { |k| k == 'custom' }.map { |k| [t("activerecord.attributes.ai/agent.agent_types.#{k}", default: k.humanize), k] }, {}, class: "ui-select"
+
+      .ui-form-row
+        div
+          = f.label :status, t("dashboard.ai_agents.form.status", default: 'Status'), class: "ui-label"
+          = f.select :status, Ai::Agent.statuses.keys.map { |k| [t("activerecord.attributes.ai/agent.statuses.#{k}", default: k.humanize), k] }, {}, class: "ui-select"
+        div
+          = f.label :tone, t("dashboard.ai_agents.form.tone", default: 'Tone'), class: "ui-label"
+          = f.select :tone, Ai::Agent.tones.keys.map { |k| [t("activerecord.attributes.ai/agent.tones.#{k}", default: k.humanize), k] }, {}, class: "ui-select"
+
+      .ui-form-row
+        div
+          = f.label :portal_id, t("dashboard.ai_agents.form.portal_id", default: 'Help Center Portal'), class: "ui-label"
+          = f.collection_select :portal_id, current_account.portals, :id, :name, { include_blank: t("dashboard.ai_agents.form.select_portal", default: 'Select a Portal') }, class: "ui-select"
+        div
+      
+  .ui-section.ui-section--always-open
+    .ui-section-header
+      .ui-section-title
+        span.ui-section-icon 🎛️
+        span.ui-section-label = t("dashboard.ai_agents.form.advanced_section", default: 'Advanced Settings')
+    .ui-section-body
+      .ui-form-row
+        div
+          = f.label :max_exchanges, t("dashboard.ai_agents.form.max_exchanges", default: 'Max Exchanges'), class: "ui-label"
+          = f.number_field :max_exchanges, class: "ui-input", min: 1, max: 20
+        div
+          = f.label :confidence_threshold, t("dashboard.ai_agents.form.confidence_threshold", default: 'Confidence Threshold'), class: "ui-label"
+          = f.number_field :confidence_threshold, class: "ui-input", step: 0.1, min: 0.0, max: 1.0
+
+  .ui-section.ui-section--always-open
+    .ui-section-header
+      .ui-section-title
+        span.ui-section-icon 🌐
+        span.ui-section-label = t("dashboard.ai_agents.form.translations", default: 'Translations')
+    .ui-section-body
+      div data-controller="nested-translations"
+        p.text-muted style="margin-bottom: 16px; font-size: 13px;" Provide localized strings for your AI Agent. These will override the default locale based on the customer's browser.
+        
+        .ww-translations-container data-nested-translations-target="container"
+          - ai_agent.translations.build(locale: 'en') if ai_agent.translations.empty?
+          = f.fields_for :translations do |tf|
+            = render "translation_fields", f: tf
+
+        template data-nested-translations-target="template"
+          = f.fields_for :translations, ::Ai::Agent.new.translations.build, child_index: "NEW_RECORD" do |tf|
+            = render "translation_fields", f: tf
+        
+        - current_locales = ai_agent.translations.reject(&:marked_for_destruction?).map(&:locale).map(&:to_s)
+        - available_locales = Core::SUPPORTED_LOCALES.map(&:to_s) - current_locales
+        - available_locales_options = available_locales.map { |l| [I18n.t("languages.#{l.downcase}", default: l.upcase), l] }
+        
+        div style="display: flex; gap: 12px; align-items: center; margin-top: 16px; padding-top: 16px; border-top: 1px solid #f1f5f9;"
+          = select_tag "new_translation_locale", options_for_select(available_locales_options), include_blank: t("forms.options.select_language", default: 'Select Language'), class: "ui-select", data: { "nested-translations-target": "localeSelect" }, style: "width: 250px;"
+          button.ui-btn-secondary type="button" data-action="click->nested-translations#addTranslation"
+            | #{t("ui.dashboard.channels.contact_form.form.add_language", default: 'Add Language')}
+
+  .ui-form-actions style="margin-top: 24px;"
+    = f.submit t("dashboard.ai_agents.form.submit", default: 'Save Agent'), class: "ui-btn-primary"
+    = link_to t("shared.cancel", default: 'Cancel'), ai_agents_path, class: "ui-btn-secondary"

@@ -10,8 +10,10 @@ module Dashboard
     end
 
     def full_name(resource)
-      [resource.first_name, resource.middle_name, resource.last_name].compact_blank.join(" ").presence || 
-        resource.name.presence || resource.display_name.presence
+      return nil unless resource
+
+      [resource.try(:first_name), resource.try(:middle_name), resource.try(:last_name)].compact_blank.join(" ").presence || 
+        resource.try(:name).presence || resource.try(:display_name).presence
     end
 
     def initials(resource)

@@ -25,6 +25,15 @@ export default class extends Controller {
       connection_token: this.token,
       user_id: this.userId
     }, {
+      connected: () => {
+        // Ping every 15 seconds to keep the Redis ActivityHelpers alive
+        this.pingInterval = setInterval(() => {
+          this.subscription.perform("ping")
+        }, 15000);
+      },
+      disconnected: () => {
+        if (this.pingInterval) clearInterval(this.pingInterval);
+      },
       received: (data) => {
         if (data.event === "unread_counts.updated") {
           window.dispatchEvent(new CustomEvent("deskbolic:unread-counts-updated", { detail: JSON.parse(data.object) }));
@@ -32,7 +41,14 @@ export default class extends Controller {
         }
 
         const eventType = data["event"];
-        const objectData = JSON.parse(data["object"]);
+        let objectData = {};
+        if (data["object"]) {
+          try {
+            objectData = typeof data["object"] === "string" ? JSON.parse(data["object"]) : data["object"];
+          } catch (e) {
+            console.error("Failed to parse objectData", e);
+          }
+        }
         const resourceId = objectData["id"];
 
         if (eventType === "message.created") {

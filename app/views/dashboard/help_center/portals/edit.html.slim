@@ -102,6 +102,14 @@
                 = link_to t("ui.dashboard.help_center.portals.edit.manage_domains"), domains_path, class: "add-portal-link"
 
           .portal-form-section
+            h3.f-semi-12 = t("dashboard.help_center.portals.form.ai_features", default: "AI FEATURES")
+            .form-group style="display: flex; flex-direction: column; gap: 4px;"
+              div style="display: flex; align-items: center; gap: 8px;"
+                = f.check_box :ai_training_enabled, class: "ui-checkbox"
+                = f.label :ai_training_enabled, t("dashboard.help_center.portals.form.train_ai_on_these_articles", default: "Train AI on these articles"), class: "f-reg-14", style: "margin: 0;"
+              p.form-hint.f-reg-12 = t("dashboard.help_center.portals.form.ai_training_hint", default: "If enabled, your AI credits will be used when you publish new articles to keep your AI Agent up to date.")
+
+          .portal-form-section
             h3.f-semi-12 = t("ui.dashboard.help_center.portals.edit.languages")
             .language-options data-controller="portal-option-group"
               - Core::SUPPORTED_LOCALES.each do |locale|

@@ -30,42 +30,7 @@
           = f.select :default_locale, Core::SUPPORTED_LOCALES.map { |l| [I18n.t("languages.#{l.to_s.downcase}"), l] }, {}, class: "ui-select"
 
       - if web_widget_channel.primary_inbox
-        .ui-section style="margin-top: 24px; padding: 16px; background: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 0;"
-          h3.f-semi-16 style="margin-bottom: 8px;" Inbox Settings
-          p.f-reg-14.text-muted style="margin-bottom: 16px;" Configure customer satisfaction surveys, SLA policies, and custom reply templates.
-          
-          = f.fields_for :primary_inbox do |inbox_f|
-            .ui-toggle-row style="margin-bottom: 16px; display: flex; gap: 24px;"
-              div style="display: flex; align-items: center; gap: 8px;"
-                span.ui-toggle-label = t("dashboard.custom_channels.form.enable_csat")
-                label.ui-toggle
-                  = inbox_f.check_box :csat_survey_enabled
-                  span.ui-toggle-slider
-              div style="display: flex; align-items: center; gap: 8px;"
-                span.ui-toggle-label = t("ui.dashboard.channels.contact_form.form.auto_assign_conversations")
-                label.ui-toggle
-                  = inbox_f.check_box :auto_assign
-                  span.ui-toggle-slider
-            
-            .ui-form-row
-              div
-                = inbox_f.label :csat_survey_id, t("forms.labels.csat_survey"), class: "ui-label"
-                = inbox_f.collection_select :csat_survey_id, current_account.csat_surveys, :id, :name, { include_blank: t("forms.options.default_system_survey") }, class: "ui-select"
-
-              div
-                = inbox_f.label :conversation_reply_template_id, t("forms.labels.custom_reply_template"), class: "ui-label"
-                = inbox_f.collection_select :conversation_reply_template_id, current_account.email_templates, :id, :name, { include_blank: t("forms.options.default_mailer_view") }, class: "ui-select"
-            
-            .ui-form-row
-              div
-                = inbox_f.label :business_hour_group_id, t("forms.labels.business_hours"), class: "ui-label"
-                = inbox_f.collection_select :business_hour_group_id, current_account.business_hour_groups, :id, :name, { include_blank: t("forms.options.always_online_24_7") }, class: "ui-select"
-              div
-
-            .ui-form-row
-              div
-                = inbox_f.label :sla_policy_ids, t("forms.labels.sla_policies"), class: "ui-label"
-                = inbox_f.collection_select :sla_policy_ids, current_account.sla_policies, :id, :name, {}, { multiple: true, class: "ui-select" }
+        = render "dashboard/channels/shared/inbox_settings", form: f
 
   / ─── Appearance & Branding ───
   .ui-section data-web-widget-channel-target="appearanceSection"
@@ -142,6 +107,11 @@
           = f.collection_select :pre_chat_form_id, @contact_forms, :id, :name, { include_blank: t("forms.options.no_pre_chat_form_linked") }, class: "ui-select"
       .ui-form-row style="margin-top: 16px;"
         div
+          label.ui-label = t("dashboard.ai_agents.index.title", default: "AI Agent")
+          = select_tag "web_widget_channel[primary_inbox_attributes][ai_agent_id]", options_from_collection_for_select(Ai::Agent.active, :id, :name, web_widget_channel.primary_inbox&.ai_agent_id), include_blank: t("forms.options.no_ai_agent_linked", default: "No AI Agent linked"), class: "ui-select"
+        div
+      .ui-form-row style="margin-top: 16px;"
+        div
           label.ui-label = t("ui.dashboard.channels.web_widget.form.offline_email_channel")
           = f.hidden_field :fallback_channel_type, value: "Channel::Email"
           = f.collection_select :fallback_channel_id, @email_channels, :id, :name, { include_blank: t("forms.options.no_email_channel_linked") }, class: "ui-select"
@@ -194,6 +164,8 @@
         button.ui-btn-secondary type="button" data-action="click->nested-translations#addTranslation" style="display: inline-flex; align-items: center; gap: 6px;" 
           span +
           | #{t("ui.dashboard.channels.contact_form.form.add_language")}
+
+
 
   / ─── Installation & Setup ───
   - if web_widget_channel.persisted?

@@ -24,12 +24,12 @@ export default class extends Controller {
 
     // Update period labels
     this.periodTargets.forEach((periodEl) => {
-      periodEl.textContent = isAnnual ? "/mo (billed yearly)" : "/mo"
+      periodEl.textContent = isAnnual ? "/mo" : "/mo"
     })
 
     // Toggle annual note visibility
     this.annualNoteTargets.forEach((noteEl) => {
-      noteEl.style.display = isAnnual ? "block" : "none"
+      noteEl.style.display = isAnnual ? "block" : "block"
     })
 
     // Update all hidden billing_cycle fields

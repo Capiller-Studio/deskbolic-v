@@ -1,140 +1,538 @@
 /* Subscription & Billing UI Components */
 
 .ap-subscription-page {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   min-height: 100vh;
-  background-color: var(--ap-bg-light);
-  padding: 24px;
+  @mixin padding-size 5, 5;
+  background: #fdfdff;
+
+  .ap-subscription-container {
+    width: 100%;
+    max-width: 1608px;
+    margin: 0 auto;
+  }
+
+  .ap-subscription-header {
+    text-align: center;
+    @mixin margin-bottom 3.45;
+  }
+
+  .ap-subscription-title {
+    margin: 0;
+    color: #11182d;
+    @mixin font-size 3.75;
+    font-weight: 700;
+    @mixin letter-spacing -0.05;
+    @mixin line-height 3.25;
+
+    span {
+      background: linear-gradient(100deg, #8c54ee, #3f87ed);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+  }
+
+  .ap-subscription-subtitle {
+    @mixin margin-top 1.5;
+    color: #404c76;
+    @mixin font-size 1.05;
+    line-height: 1.7;
+  }
+
+  .ap-subscription-cycle-toggle {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    margin: 0 auto;
+    @mixin margin-bottom 6.15;
+    padding: 4px;
+    background: #fafafd;
+    border: 1px solid #e7e8ef;
+    border-radius: 999px;
+    box-shadow: 0 2px 3px rgb(17 24 45 / 5%);
+
+    .ap-billing-cycle-label {
+      position: relative;
+      z-index: 1;
+      @mixin padding-size .73, 1.1;
+      color: #6b7896;
+      background: transparent;
+      border: 0;
+      @mixin font-size .84;
+      font-weight: 600;
+      white-space: nowrap;
+
+      &.ap-billing-cycle-active {
+        color: #252977;
+        background: #fff;
+        border: 1px solid #6366f1;
+        border-radius: 999px;
+        box-shadow: 0 1px 2px rgb(36 40 105 / 12%);
+      }
+    }
+
+    .ap-billing-toggle-switch {
+      position: absolute;
+      z-index: 2;
+      inset: 0;
+      display: block;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+
+      input {
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+      }
+    }
+
+    .ap-billing-toggle-slider {
+      display: none;
+    }
+
+    .ap-billing-save-badge {
+      margin-left: 5px;
+      padding: 0;
+      color: #48c15b;
+      background: transparent;
+      @mixin font-size .84;
+    }
+  }
+
+  .ap-subscription-grid {
+    @mixin grid-container $col4, $row1;
+    @mixin gap-size 0, 1.35;
+    align-items: stretch;
+  }
+
+  .ap-subscription-card {
+    --plan-color: #5d5bf5;
+    --plan-tint: #f0f1ff;
+
+    position: relative;
+    @mixin flex-column $justify-between, $align-normal;
+    @mixin min-height 46;
+    background: #fff;
+    border: 1px solid #edf0f7;
+    @mixin border-radius 1.15;
+    box-shadow: 0 14px 28px rgb(22 30 62 / 5%);
+
+    .ap-subscription-card-body {
+      flex: 1;
+      @mixin padding-size 2.05, 2.1;
+      padding-bottom: 20px;
+    }
+
+    .ap-subscription-icon-wrap {
+      display: grid;
+      place-items: center;
+      @mixin width-size 4.2;
+      @mixin height-size 4.2;
+      @mixin margin-bottom 1.5;
+      border-radius: 50%;
+      background: var(--plan-tint);
+    }
+
+    .ap-subscription-plan-icon {
+      @mixin width-size 1.8;
+      @mixin height-size 1.8;
+      object-fit: contain;
+    }
+
+    .ap-subscription-plan-name {
+      margin: 0 0 8px;
+      color: #131a32;
+      @mixin font-size 1.5;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+    }
+
+    .ap-subscription-desc {
+      @mixin min-height 2.25;
+      margin: 0;
+      color: #3f4b74;
+      @mixin font-size .84;
+      line-height: 1.4;
+    }
+
+    .ap-subscription-price-row {
+      @mixin flex-row $justify-left, $align-base;
+      @mixin margin-top 0.65;
+    }
+
+    .ap-subscription-price {
+      color: var(--plan-color);
+      @mixin font-size 3.2;
+      font-weight: 700;
+      letter-spacing: -0.06em;
+      line-height: 1;
+    }
+
+    .ap-subscription-period {
+      @mixin margin-left .42;
+      color: #8b99b5;
+      @mixin font-size .95;
+    }
+
+    .ap-subscription-annual-note {
+      @mixin min-height 1;
+      margin: 7px 0 21px;
+      margin-bottom: 0px;
+      color: var(--plan-color);
+      @mixin font-size .74;
+    }
+
+    .ap-subscription-trial-badge {
+      display: inline-flex;
+      @mixin padding-size .42, 1;
+      margin-top: 10px;
+      color: var(--plan-color);
+      background: var(--plan-tint);
+      border-radius: 999px;
+      @mixin font-size .74;
+      font-weight: 600;
+    }
+
+    .ap-subscription-features {
+      display: grid;
+      @mixin gap-size 1.1, 0;
+      @mixin margin-top 1.8;
+      padding: 0;
+      list-style: none;
+    }
+
+    .ap-subscription-feature-item {
+      @mixin flex-row $justify-left, $align-start;
+      @mixin gap-size 0, .78;
+      color: #3f4b74;
+      @mixin font-size .84;
+      line-height: 1.45;
+    }
+
+    .ap-subscription-feature-check {
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      @mixin width-size 1.15;
+      @mixin height-size 1.15;
+      margin-top: 1px;
+      border-radius: 50%;
+      background: var(--plan-color);
+
+      img {
+        @mixin width-size .63;
+        @mixin height-size .63;
+        filter: brightness(0) invert(1);
+      }
+    }
+
+    .ap-subscription-footer {
+      @mixin padding-size 1.25, 2.1;
+      padding-bottom: 40px;
+    }
+
+    .ap-subscription-submit {
+      width: 100%;
+      @mixin min-height 3.25;
+      color: var(--plan-color);
+      background: #fff;
+      border: 1.5px solid var(--plan-color);
+      @mixin border-radius .74;
+      @mixin font-size .9;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .ap-subscription-popular-badge {
+      position: absolute;
+      z-index: 1;
+      top: -20px;
+      left: 50%;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      @mixin padding-size 0.8, 1.5;
+      color: #fff;
+      background: linear-gradient(100deg, #8d57ed, #4787eb);
+      border-radius: 999px;
+      @mixin font-size 0.7;
+      font-weight: 700;
+      letter-spacing: .04em;
+      white-space: nowrap;
+      transform: translateX(-50%);
+
+      .ap-subscription-popular-icon {
+        width: 15px;
+        height: 15px;
+        filter: brightness(0) invert(1);
+      }
+    }
+  }
+
+  .ap-subscription-card.ap-subscription-card--anabolic {
+    --plan-color: #55c35a;
+    --plan-tint: #effbf1;
+  }
+
+  .ap-subscription-card.ap-subscription-card--hyperbolic {
+    --plan-color: #6868ed;
+    --plan-tint: #f0f1ff;
+
+    border: 3px solid transparent;
+    border-radius: 27px;
+    background: linear-gradient(#fff, #fff) padding-box, linear-gradient(140deg, #9857ed, #3f89eb) border-box;
+    transform: translateY(-30px);
+
+    .ap-subscription-submit {
+      color: #fff;
+      border: 0;
+      background: linear-gradient(100deg, #9555ec, #417fee);
+    }
+  }
+
+  .ap-subscription-card.ap-subscription-card--parabolic {
+    --plan-color: #f7963c;
+    --plan-tint: #fff7ed;
+  }
 }
 
-.ap-subscription-container {
-  max-width: 1024px;
-  width: 100%;
+@media (max-width: 991px) {
 }
 
-.ap-subscription-header {
-  text-align: center;
-  margin-bottom: 40px;
-}
+@media (max-width: 576px) {
+  .ap-subscription-page {
+    @mixin padding-size 5, 10;
 
-.ap-subscription-title {
-  color: var(--ap-text-dark);
-  margin-bottom: 8px;
-}
+    .ap-subscription-title {
+      @mixin font-size 6;
+      @mixin line-height 7;
+    }
 
-.ap-subscription-subtitle {
-  color: var(--ap-text-muted);
-}
+    .ap-subscription-subtitle {
+      @mixin margin-top 3.5;
+      color: #404c76;
+      @mixin font-size 3.05;
+    }
 
-.ap-subscription-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 24px;
-}
+    .ap-subscription-cycle-toggle {
+      @mixin margin-bottom 6.15;
+      padding: 4px;
+      background: #fafafd;
+      border: 1px solid #e7e8ef;
+      border-radius: 999px;
+      box-shadow: 0 2px 3px rgb(17 24 45 / 5%);
 
-.ap-subscription-card {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  transition: transform 0.2s, box-shadow 0.2s;
-  background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1);
-  overflow: hidden;
-  border: 1px solid var(--ap-border-color);
-}
+      .ap-billing-cycle-label {
+        position: relative;
+        z-index: 1;
+        @mixin padding-size .73, 1.1;
+        color: #6b7896;
+        background: transparent;
+        border: 0;
+        @mixin font-size 2;
+        font-weight: 600;
+        white-space: nowrap;
 
-.ap-subscription-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
-}
+        &.ap-billing-cycle-active {
+          color: #252977;
+          background: #fff;
+          border: 1px solid #6366f1;
+          border-radius: 999px;
+          box-shadow: 0 1px 2px rgb(36 40 105 / 12%);
+        }
+      }
 
-.ap-subscription-card-body {
-  padding: 32px;
-  flex-grow: 1;
-}
+      .ap-billing-toggle-switch {
+        position: absolute;
+        z-index: 2;
+        inset: 0;
+        display: block;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
 
-.ap-subscription-plan-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
-}
+        input {
+          width: 100%;
+          height: 100%;
+          opacity: 0;
+          cursor: pointer;
+        }
+      }
 
-.ap-subscription-plan-name {
-  color: var(--ap-text-dark);
-}
+      .ap-billing-toggle-slider {
+        display: none;
+      }
 
-.ap-subscription-trial-badge {
-  background-color: #e0e7ff;
-  color: #3730a3;
-}
+      .ap-billing-save-badge {
+        @mixin font-size 2;
+      }
+    }
 
-.ap-subscription-price-row {
-  display: flex;
-  align-items: baseline;
-  margin-top: 16px;
-  margin-bottom: 24px;
-}
+    .ap-subscription-grid {
+      @mixin grid-container $col1, $row1;
+      @mixin gap-size 5, 5;
+      align-items: stretch;
+    }
 
-.ap-subscription-price {
-  font-size: 40px;
-  color: var(--ap-text-dark);
-}
+    .ap-subscription-card {
+      --plan-color: #5d5bf5;
+      --plan-tint: #f0f1ff;
 
-.ap-subscription-period {
-  color: var(--ap-text-muted);
-  margin-left: 4px;
-}
+      position: relative;
+      @mixin flex-column $justify-between, $align-normal;
+      @mixin min-height 46;
+      background: #fff;
+      border: 1px solid #edf0f7;
+      @mixin border-radius 5;
+      box-shadow: 0 14px 28px rgb(22 30 62 / 5%);
 
-.ap-subscription-desc {
-  color: var(--ap-text-muted);
-  margin-bottom: 24px;
-}
+      .ap-subscription-card-body {
+        flex: 1;
+        @mixin padding-size 5, 5;
+        padding-bottom: 20px;
+      }
 
-.ap-subscription-features {
-  margin-top: 24px;
-}
+      .ap-subscription-icon-wrap {
+        display: grid;
+        place-items: center;
+        @mixin width-size 6.2;
+        @mixin height-size 6.2;
+        @mixin margin-bottom 1.5;
+        border-radius: 50%;
+        background: var(--plan-tint);
+      }
 
-.ap-subscription-feature-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 12px;
-}
+      .ap-subscription-plan-icon {
+        @mixin width-size 3;
+        @mixin height-size 3;
+        object-fit: contain;
+      }
 
-.ap-subscription-feature-icon {
-  width: 20px;
-  height: 20px;
-  color: var(--ap-success);
-  flex-shrink: 0;
-}
+      .ap-subscription-plan-name {
+        margin: 0 0 8px;
+        color: #131a32;
+        @mixin font-size 3.5;
+        font-weight: 700;
+        letter-spacing: -0.04em;
+      }
 
-.ap-subscription-feature-text {
-  color: var(--ap-text-muted);
-}
+      .ap-subscription-desc {
+        @mixin min-height 2.25;
+        margin: 0;
+        color: #3f4b74;
+        @mixin font-size 2;
+        line-height: 1.4;
+      }
 
-.ap-subscription-footer {
-  padding: 24px;
-  background-color: var(--ap-bg-light);
-  border-top: 1px solid var(--ap-border-color);
-}
+      .ap-subscription-price-row {
+        @mixin flex-row $justify-left, $align-base;
+        @mixin margin-top 3;
+      }
 
-.ap-subscription-form-group {
-  margin-bottom: 16px;
-}
+      .ap-subscription-price {
+        color: var(--plan-color);
+        @mixin font-size 6.2;
+        font-weight: 700;
+        letter-spacing: -0.06em;
+        line-height: 1;
+      }
 
-.ap-subscription-label {
-  display: block;
-  margin-bottom: 8px;
-  color: var(--ap-text-dark);
-}
+      .ap-subscription-period {
+        @mixin margin-left .42;
+        color: #8b99b5;
+        @mixin font-size 3;
+      }
 
-.ap-subscription-submit {
-  width: 100%;
-  justify-content: center;
-  padding: 10px 16px;
-  font-size: 14px;
+      .ap-subscription-annual-note {
+        @mixin min-height 1;
+        /* margin: 7px 0 21px; */
+        color: var(--plan-color);
+        @mixin font-size 3;
+      }
+
+      .ap-subscription-trial-badge {
+        display: inline-flex;
+        @mixin padding-size 2, 3;
+        color: var(--plan-color);
+        background: var(--plan-tint);
+        border-radius: 999px;
+        @mixin font-size 3;
+        font-weight: 600;
+      }
+
+      .ap-subscription-features {
+        display: grid;
+        @mixin gap-size 1.1, 0;
+        @mixin margin-top 1.8;
+        padding: 0;
+        list-style: none;
+      }
+
+      .ap-subscription-feature-item {
+        @mixin flex-row $justify-left, $align-start;
+        @mixin gap-size 0, .78;
+        color: #3f4b74;
+        @mixin font-size 2;
+        line-height: 1.45;
+      }
+
+      .ap-subscription-feature-check {
+        display: grid;
+        place-items: center;
+        flex: 0 0 auto;
+        @mixin width-size 2.15;
+        @mixin height-size 2.15;
+        margin-top: 1px;
+        border-radius: 50%;
+        background: var(--plan-color);
+
+        img {
+          @mixin width-size 1.63;
+          @mixin height-size 1.63;
+          filter: brightness(0) invert(1);
+        }
+      }
+
+      .ap-subscription-footer {
+        @mixin padding-size 3.25, 2.1;
+        padding-bottom: 40px;
+      }
+
+      .ap-subscription-submit {
+        width: 100%;
+        @mixin min-height 3.25;
+        color: var(--plan-color);
+        background: #fff;
+        border: 1.5px solid var(--plan-color);
+        @mixin border-radius 3;
+        @mixin padding-size 3.25, 2.1;
+        @mixin font-size 3;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .ap-subscription-popular-badge {
+        @mixin padding-size 2, 3.5;
+        @mixin font-size 2;
+        font-weight: 700;
+        letter-spacing: .04em;
+        white-space: nowrap;
+        transform: translateX(-50%);
+
+        .ap-subscription-popular-icon {
+          width: 15px;
+          height: 15px;
+          filter: brightness(0) invert(1);
+        }
+      }
+    }
+    .ap-subscription-card.ap-subscription-card--hyperbolic {
+      transform: translateY(0px);
+      margin-top: 15px;
+    }
+  }
 }

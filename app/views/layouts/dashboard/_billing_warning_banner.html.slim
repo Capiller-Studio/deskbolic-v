@@ -1,11 +1,19 @@
 - if @billing_warning_message
-  #billingWarningBanner.ap-billing-warning-banner data-controller="billing-warning"
+  #billingWarningBanner.ap-billing-warning-banner role="region" aria-labelledby="billingWarningTitle" data-controller="billing-warning"
     .ap-billing-warning-content
-      span.ap-billing-warning-icon ⚠️
-      div
-        p.f-semi-14.ap-billing-warning-title = I18n.t("dashboard.billing.action_required")
-        p.f-reg-13.ap-billing-warning-text = @billing_warning_message
-    
+      .ap-billing-warning-icon aria-hidden="true"
+        svg viewBox="0 0 24 24" fill="none"
+          path d="M10.28 3.64 2.46 17.2A2.1 2.1 0 0 0 4.28 20h15.44a2.1 2.1 0 0 0 1.82-2.8L13.72 3.64a1.98 1.98 0 0 0-3.44 0Z" fill="currentColor"
+          path d="M12 8.25v4.5M12 16.25h.01" stroke="#1e3a5f" stroke-width="1.9" stroke-linecap="round"
+      .ap-billing-warning-copy
+        p#billingWarningTitle.ap-billing-warning-title = I18n.t("dashboard.billing.action_required")
+        p.ap-billing-warning-text = @billing_warning_message
+
     .ap-billing-warning-actions
-      = link_to I18n.t("dashboard.billing.update_payment_method"), dashboard_billing_path, class: "ap-btn-primary ap-billing-warning-btn"
-      button.ap-billing-warning-dismiss data-action="click->billing-warning#dismiss" ✕
+      = link_to dashboard_billing_path, class: "ap-billing-warning-btn", aria: { label: I18n.t("dashboard.billing.update_payment_method") } do
+        span = I18n.t("dashboard.billing.update_payment_method")
+        svg viewBox="0 0 20 20" fill="none" aria-hidden="true"
+          path d="m7.5 5 5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+      button.ap-billing-warning-dismiss type="button" aria-label=I18n.t("dashboard.billing.dismiss_warning") data-action="click->billing-warning#dismiss"
+        svg viewBox="0 0 20 20" fill="none" aria-hidden="true"
+          path d="m5.5 5.5 9 9m0-9-9 9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"

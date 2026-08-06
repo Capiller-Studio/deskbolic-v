@@ -54,6 +54,7 @@ de:
       day_trial: "%{days} Tagestest"
       default_label: Standard
       description: Beschreibung
+      dismiss_warning: Abrechnungshinweis schließen
       expired: Abgelaufen
       expires: Läuft %{month}/%{year} ab
       make_default: Standard
@@ -66,6 +67,7 @@ de:
       no_transactions: Keine Transaktionen gefunden.
       number_of_seats: Anzahl der Agentenplätze
       past_due: Überfällig
+      past_due_warning: Ihr Abonnement ist überfällig. Bitte aktualisieren Sie Ihre Zahlungsmethode, um den Zugriff wiederherzustellen.
       payment_methods: Zahlungsmethoden
       per_month: "/ Monat"
       per_month_annual: "/ Monat (jährliche Abrechnung)"
@@ -84,7 +86,9 @@ de:
       topup_balance: Aufladeguthaben
       topup_wallet: Auflade-Wallet
       transaction_history: Transaktionsverlauf
+      trial_ending_warning: Ihr Testzeitraum endet in %{days} Tagen. Bitte fügen Sie eine Zahlungsmethode hinzu, um eine Unterbrechung zu vermeiden.
       trial_ends_in: Die Testversion endet in %{days} Tagen
+      trial_expired_warning: Ihr Testzeitraum ist abgelaufen. Bitte fügen Sie eine Zahlungsmethode hinzu, um Ihren Arbeitsbereich weiterhin zu nutzen.
       unlimited: Unbegrenzt
       update_payment_method: Zahlungsmethode aktualisieren
       update_plan: Update-Plan
@@ -219,8 +223,8 @@ de:
     messages:
       manage_participant: Teilnehmer verwalten
       export_conversation: Konversation exportieren
-      translate: Übersetzen
-      translation_header: 'ÜBERSETZUNG IN ENGLISCH:'
+      translate: In %{language} übersetzen
+      translation_header: 'ÜBERSETZUNG IN %{language}:'
       close: Schließen
       reply: Antwort
       response_placeholder: Schreiben Sie Ihre Antwort auf das Problem
@@ -239,7 +243,7 @@ de:
         ul_list: Aufzählungsliste
         ol_list: Nummerierte Liste
       status:
-        failed: Senden fehlgeschlagen
+        failed: Fehler
         read: Lesen
         delivered: Geliefert
         sent: Gesendet
@@ -275,6 +279,7 @@ de:
       email: E-Mail
       user_notes: Benutzernotizen
       add_new_note: Neue Notiz hinzufügen
+      note_empty: Feld darf nicht leer sein
       add: Hinzufügen
       ticket_info: Ticketinfo
       ticket_id: 'Ticket-ID:'
@@ -2309,6 +2314,9 @@ de:
       title: Kundenzufriedenheit (CSAT)
   shared:
     back: Zurück
+    confirmation:
+      confirm: Bestätigen
+      title: Aktion bestätigen
     confirm_delete: Sind Sie sicher, dass Sie dieses Element löschen möchten?
     delete: Löschen
     edit: Bearbeiten
@@ -2898,6 +2906,7 @@ de:
           dashboard_logo: Dashboard-Logo
           help_desk_community_forum: Community-Forum „Helpdesk“.
           help_desk_help_center: Hilfecenter „Helpdesk“.
+          language: Sprache
           login: Anmelden
           login_here: Melden Sie sich hier an
           notifications: Benachrichtigungen

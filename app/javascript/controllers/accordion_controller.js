@@ -38,8 +38,30 @@ export default class extends Controller {
     event.stopPropagation();
   }
   
-  clearNote() {
-    const noteField = document.querySelector(".note-field");
+  preventBlankNote(event) {
+    const noteField = event.currentTarget.querySelector('textarea[name="note[content]"]');
+    if (!noteField) return;
+
+    noteField.value = noteField.value.trim();
+    if (noteField.value === '') {
+      event.preventDefault();
+      noteField.classList.add('is-invalid');
+      noteField.setAttribute('aria-invalid', 'true');
+      noteField.focus();
+    }
+  }
+
+  clearNoteValidation(event) {
+    if (event.currentTarget.value.trim() === '') return;
+
+    event.currentTarget.classList.remove('is-invalid');
+    event.currentTarget.removeAttribute('aria-invalid');
+  }
+
+  clearNote(event) {
+    if (!event.detail.success) return;
+
+    const noteField = this.npanelTarget.querySelector(".note-field");
     if(noteField) noteField.value = '';
     this.npanelTarget.classList.remove('visible');
   }

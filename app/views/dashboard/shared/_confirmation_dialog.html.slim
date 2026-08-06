@@ -1,0 +1,15 @@
+.confirmation-dialog-host data-controller="confirmation" data-confirmation-title-value=t("shared.confirmation.title") data-confirmation-confirm-label-value=t("shared.confirmation.confirm") data-confirmation-delete-label-value=t("general.delete")
+  dialog.confirmation-dialog data-confirmation-target="dialog" data-action="cancel->confirmation#cancel click->confirmation#closeOnBackdrop" aria-labelledby="confirmation-dialog-title" aria-describedby="confirmation-dialog-message"
+    .confirmation-dialog__content
+      .confirmation-dialog__icon aria-hidden="true"
+        svg viewBox="0 0 24 24" fill="none"
+          path d="M12 8v4m0 4h.01M10.3 3.7 2.4 17.4A2 2 0 0 0 4.1 20h15.8a2 2 0 0 0 1.7-2.6L13.7 3.7a2 2 0 0 0-3.4 0Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+
+      .confirmation-dialog__copy
+        h2#confirmation-dialog-title.confirmation-dialog__title data-confirmation-target="title"
+        p#confirmation-dialog-message.confirmation-dialog__message data-confirmation-target="message"
+
+      .confirmation-dialog__actions
+        button.confirmation-dialog__button.confirmation-dialog__button--cancel type="button" autofocus=true data-action="confirmation#cancel"
+          = t("general.cancel", default: "Cancel")
+        button.confirmation-dialog__button.confirmation-dialog__button--confirm type="button" data-confirmation-target="confirmButton" data-action="confirmation#accept"

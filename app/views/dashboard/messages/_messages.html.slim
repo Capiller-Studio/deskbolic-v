@@ -44,8 +44,7 @@
               button.f-semi-14.reply.active type="button" data-action="click->message-form#setReply" = t('dashboard.messages.reply')
               button.f-semi-14.note type="button" data-action="click->message-form#setNote" = t('dashboard.messages.note')
             .translation.f-semi-14
-              = t('dashboard.messages.english')
-              = inline_svg_tag("violet_dropdown.svg", class:"action-btn")
+              = t("languages.#{I18n.locale.to_s.downcase}", default: I18n.locale.to_s)
           .note-area.menu data-controller="lexical" data-lexical-source-value=@conversation.source data-lexical-supported-formats-value="#{@conversation.inbox.channel.supported_formatting.to_json}"
             .attachment-preview data-message-form-target="preview"
             .de-emoji-picker data-message-form-target="emojiPicker" style="display: none;"

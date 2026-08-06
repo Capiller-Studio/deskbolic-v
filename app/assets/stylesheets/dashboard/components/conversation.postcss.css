@@ -98,15 +98,34 @@
               }
             }
             .translate-text {
+              align-self: flex-start;
+              margin-top: 5px;
+
               button {
-                width: 100%;
-                color: $secondary-purple ;
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                padding: 0;
+                color: $black-40;
                 cursor: pointer;
                 border: none;
                 background: none;
-                margin-right: 20px;
-                text-decoration: underline;
-                text-underline-offset: 2px;
+                font-family: $font-family-inter-semibold;
+                font-size: 12px;
+                font-style: normal;
+                line-height: 24px;
+
+                span {
+                  text-decoration: underline;
+                  text-underline-offset: 2px;
+                }
+
+                .translate-button-icon {
+                  width: 14px;
+                  height: 14px;
+                  flex: 0 0 20px;
+                  fill: currentColor;
+                }
               }
             }
             .translated-text {
@@ -297,11 +316,13 @@
         content: attr(data-tooltip);
         position: absolute;
         bottom: 100%;
-        left: 50%;
-        transform: translateX(-50%) translateY(-2px);
+        /* left: 50%; */
+        right: 14px;
+        bottom: 18px;
+        /* transform: translateX(-50%) translateY(-2px); */
         background-color: #1e293b;
         color: white;
-        padding: 5px 8px;
+        padding: 2px 8px;
         border-radius: 6px;
         font-size: 11px;
         white-space: nowrap;
@@ -329,7 +350,9 @@
       .status-tooltip:hover::after {
         opacity: 1;
         visibility: visible;
-        transform: translateX(-50%) translateY(-6px);
+        /* transform: translateX(-50%) translateY(-6px); */
+        /* transform: translateX(-16%) translateY(-3px); */
+        
       }
       .status-tooltip:hover::before {
         opacity: 1;
@@ -1072,6 +1095,31 @@
           opacity: 0;
           display: none;
           animation: fadeInOut 0.3s ease-in-out;
+          .details-empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+
+            p {
+              color: $black-60;
+            }
+
+            .details-empty-action {
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              padding: 6px 10px;
+              border-radius: 6px;
+              background: $black-90;
+              color: white;
+              text-decoration: none;
+
+              &:hover {
+                background: $black-80;
+              }
+            }
+          }
           .section-flex {
             @mixin flex-row $justify-between, $align-center;
             width: 100%;
@@ -1404,7 +1452,7 @@
           }
         }
       }
-      .user-notes {
+      .descriptive-details .card.user-notes {
         button.accordian {
           @mixin rect-back-yellow;
           .plus-icon {
@@ -1433,6 +1481,10 @@
               outline: none;
               resize: none;
               background-color: transparent;
+
+              &.is-invalid {
+                border-bottom-color: $red;
+              }
             }
             .actions {
               @mixin flex-row $justify-end, $align-center;

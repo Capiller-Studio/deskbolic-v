@@ -2,9 +2,12 @@
   = render("dashboard/settings/settings_sidebar", current_page: "domains") do
     .body-section.domains-body
       .domains-header
-        h2.f-semi-18 = t("dashboard.domains.new.title")
-        = link_to domains_path, class: "back-link"
-          span.f-reg-14 = t("dashboard.domains.new.back")
+        div
+          h1 = t("dashboard.domains.new.title")
+          p = t("dashboard.domains.new.subtitle", default: "Add a custom domain to your help center.")
+        .domains-header-actions
+          = link_to domains_path, class: "back-link"
+            span = t("dashboard.domains.new.back")
 
       .domain-form-container
         - if current_account.feature_enabled?(:custom_domains)
@@ -18,41 +21,43 @@
                   - @domain.errors.full_messages.each do |message|
                     li.f-reg-12 = message
 
-            .form-section
-              h3.f-semi-14 = t("dashboard.domains.new.section_title")
+            .domain-form-layout
+              .domain-form-main
+                .form-section
+                  h3.f-semi-14 = t("dashboard.domains.new.section_title")
 
-              .form-group
-                = f.label :name, class: "f-semi-12"
-                  = t("dashboard.domains.new.name_label")
-                = f.text_field :name, class: "form-input", placeholder: t("dashboard.domains.new.name_placeholder"), autocomplete: "off"
-                p.form-hint.f-reg-12 = t("dashboard.domains.new.name_hint")
+                  .form-group
+                    = f.label :name, class: "f-semi-12"
+                      = t("dashboard.domains.new.name_label")
+                    = f.text_field :name, class: "form-input", placeholder: t("dashboard.domains.new.name_placeholder"), autocomplete: "off"
+                    p.form-hint.f-reg-12 = t("dashboard.domains.new.name_hint")
 
-              .form-group
-                = f.label :value, class: "f-semi-12"
-                  = t("dashboard.domains.new.value_label")
-                = f.text_field :value, class: "form-input", placeholder: t("dashboard.domains.new.value_placeholder"), autocomplete: "off", required: true
-                p.form-hint.f-reg-12 = t("dashboard.domains.new.value_hint")
+                  .form-group
+                    = f.label :value, class: "f-semi-12"
+                      = t("dashboard.domains.new.value_label")
+                    = f.text_field :value, class: "form-input", placeholder: t("dashboard.domains.new.value_placeholder"), autocomplete: "off", required: true
+                    p.form-hint.f-reg-12 = t("dashboard.domains.new.value_hint")
 
-            .form-section.cname-info-box
-              h3.f-semi-14 = t("dashboard.domains.new.after_adding_title")
-              p.f-reg-12 = t("dashboard.domains.new.after_adding_desc")
-              .cname-record
-                .cname-field
-                  span.f-reg-12.cname-label = t("dashboard.domains.index.cname_instructions.cname_type")
-                  span.f-semi-12 CNAME
-                .cname-field
-                  span.f-reg-12.cname-label = t("dashboard.domains.index.cname_instructions.cname_host")
-                  span.f-semi-12 = t("dashboard.domains.new.cname_host_value")
-                .cname-field
-                  span.f-reg-12.cname-label = t("dashboard.domains.index.cname_instructions.cname_target")
-                  span.f-semi-12 = Domain::CNAME_TARGET
-              p.f-reg-12 = t("dashboard.domains.new.after_adding_note")
+                .form-actions
+                  = f.submit t("dashboard.domains.new.submit"), class: "btn-primary"
+                  = link_to t("dashboard.domains.new.cancel"), domains_path, class: "btn-secondary"
 
-            .form-actions
-              = f.submit t("dashboard.domains.new.submit"), class: "btn-primary"
-              = link_to t("dashboard.domains.new.cancel"), domains_path, class: "btn-secondary"
+              .form-section.cname-info-box
+                h3.f-semi-14 = t("dashboard.domains.new.after_adding_title")
+                p.f-reg-12 = t("dashboard.domains.new.after_adding_desc")
+                .cname-record
+                  .cname-field
+                    span.f-reg-12.cname-label = t("dashboard.domains.index.cname_instructions.cname_type")
+                    span.f-semi-12 CNAME
+                  .cname-field
+                    span.f-reg-12.cname-label = t("dashboard.domains.index.cname_instructions.cname_host")
+                    span.f-semi-12 = t("dashboard.domains.new.cname_host_value")
+                  .cname-field
+                    span.f-reg-12.cname-label = t("dashboard.domains.index.cname_instructions.cname_target")
+                    span.f-semi-12 = Domain::CNAME_TARGET
+                p.f-reg-12 = t("dashboard.domains.new.after_adding_note")
         - else
-          .portal-empty style="text-align: center; padding: 48px 24px; border: 1px dashed #E5E7EB; border-radius: 8px; margin-top: 16px;"
+          .domain-empty
             h3.f-semi-16 = t("dashboard.domains.custom_domain_not_supported", default: "Custom domains are not supported on your current plan.")
-            p.f-reg-14 style="color: #6B7280; margin-top: 8px;" Upgrade your plan to add custom domains to your help center.
-            = link_to "Upgrade Plan", dashboard_billing_path, class: "btn-primary", style: "margin-top: 24px; display: inline-block;"
+            p.f-reg-14 = t("dashboard.domains.upgrade_plan_desc", default: "Upgrade your plan to add custom domains to your help center.")
+            = link_to "Upgrade Plan", dashboard_billing_path, class: "add-domain-link"

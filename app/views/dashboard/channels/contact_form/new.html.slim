@@ -1,11 +1,16 @@
 = render("dashboard/shared/dashboard_container", current_page: "settings") do
   = render("dashboard/settings/settings_sidebar", current_page: "contact-form-channels") do
     .channel-theme-contact-form
-      .ui-page-body style="display: flex; gap: 32px; align-items: flex-start; max-width: 1200px; margin: 0 auto; padding: 24px;"
-        .form-section style="flex: 1; max-width: 800px; min-width: 0;"
-          .ui-page-header
-            = link_to t("ui.dashboard.channels.contact_form.edit.back_to_contact_forms"), channels_contact_form_index_path, class: "ui-back-link"
-            h2.f-semi-32 style="margin-top: 16px; color: #0f172a;" = t("dashboard.contact_form_channels.new.title")
+      .ww-page
+        .ww-header
+          div
+            h1 = t("dashboard.contact_form_channels.new.title")
+            p = t("dashboard.contact_form_channels.new.subtitle", default: "Create a new contact form for your website.")
+          .ww-header-actions
+            = link_to t("ui.dashboard.channels.contact_form.edit.back_to_contact_forms"), channels_contact_form_index_path, class: "ww-back-link"
 
-          .ui-form-wrapper
-            = render "form", contact_form_channel: @contact_form_channel
+        .ww-page-body
+          .ww-form-layout
+            .ww-form-main
+              .ww-form-wrapper
+                = render "form", contact_form_channel: @contact_form_channel

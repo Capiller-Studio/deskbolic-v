@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative "../lib/subdomain_constraint"
+
 Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -83,270 +85,272 @@ Rails.application.routes.draw do
     patch "profile", to: "profile#update"
    
 
-    resources :inbox, only: [ :index ]
-    resources :conversations do
-      resources :canned_responses, only: [:index], module: :conversations
-      get :append_conversation, on: :collection
-      get :reorder_conversation, on: :collection
-      member do
-        patch :snooz_conversation
-        patch :close_conversation
-        patch :mark_as_read
-        post  :assign_member
-        post  :unassign_member
-        post  :assign_team
-        post  :unassign_team
-        post  :add_label
-        delete :remove_label
-      end
-      resources :messages, only: [:index]
+    constraints(SubdomainConstraint) do
+      resources :inbox, only: [ :index ]
+      resources :conversations do
+        resources :canned_responses, only: [:index], module: :conversations
+        get :append_conversation, on: :collection
+        get :reorder_conversation, on: :collection
+        member do
+          patch :snooz_conversation
+          patch :close_conversation
+          patch :mark_as_read
+          post  :assign_member
+          post  :unassign_member
+          post  :assign_team
+          post  :unassign_team
+          post  :add_label
+          delete :remove_label
+        end
+        resources :messages, only: [:index]
       
-      resource :ai, only: [], controller: "conversations/ai" do
-        post :summarize
-        post :draft_reply
-        post :rewrite_tone
-        post :fix_grammar
-        post :translate
-      end
-    end
-    namespace :channels do
-      resources :email, except: [:show] do
-        member do
-          post :test_smtp
-          post :test_imap
-          post :verify_forwarding
+        resource :ai, only: [], controller: "conversations/ai" do
+          post :summarize
+          post :draft_reply
+          post :rewrite_tone
+          post :fix_grammar
+          post :translate
         end
       end
+      namespace :channels do
+        resources :email, except: [:show] do
+          member do
+            post :test_smtp
+            post :test_imap
+            post :verify_forwarding
+          end
+        end
       
-      resources :web_widget, except: [:show]
-      resources :contact_form, except: [:show]
+        resources :web_widget, except: [:show]
+        resources :contact_form, except: [:show]
 
-      resources :facebook, except: [:show] do
-        member do
-          post :reconnect
+        resources :facebook, except: [:show] do
+          member do
+            post :reconnect
+          end
+          collection do
+            post :callback
+          end
         end
-        collection do
-          post :callback
-        end
-      end
 
-      resources :instagram, except: [:show] do
-        collection do
-          get :oauth_authorize
-          get :callback
+        resources :instagram, except: [:show] do
+          collection do
+            get :oauth_authorize
+            get :callback
+          end
         end
-      end
 
-      resources :whatsapp, except: [:show] do
-        member do
-          post :reconnect
+        resources :whatsapp, except: [:show] do
+          member do
+            post :reconnect
+          end
+          collection do
+            post :callback
+          end
         end
-        collection do
-          post :callback
-        end
-      end
       
-      resources :custom, except: [:show] do
-        member do
-          post :test_outgoing_webhook
-          post :test_incoming_webhook
+        resources :custom, except: [:show] do
+          member do
+            post :test_outgoing_webhook
+            post :test_incoming_webhook
+          end
         end
       end
-    end
 
-    resources :channels
-    resources :reports, only: [:index]
-    resources :inboxes
-    resources :messages do
-      get :append_message, on: :collection
-      get :update_message, on: :collection
-      post :translate, on: :member
-    end
-    resources :activities, only: [] do
-      get :append_activity, on: :collection
-    end
-    resources :canned_responses
-    resources :labels
-    resources :ai_agents
-    resources :notes
-    resources :sla_policies
-    resources :teams do
-      member do
-        post :add_member
-        delete :remove_member
+      resources :channels
+      resources :reports, only: [:index]
+      resources :inboxes
+      resources :messages do
+        get :append_message, on: :collection
+        get :update_message, on: :collection
+        post :translate, on: :member
       end
-    end
-    resources :roles
-    resources :users, controller: "account_users", except: [:show] do
-      get :search, on: :collection
-    end
-    resources :invitations, controller: "account_invitations", except: [:show]
-    resources :teams
-    resources :custom_fields
-    resources :assignment_policies do
-      member do
-        patch :toggle
+      resources :activities, only: [] do
+        get :append_activity, on: :collection
       end
-      collection do
-        patch :reorder
-      end
-    end
-    resources :sla_policies do
-      collection do
-        patch :reorder
-      end
-    end
-    resources :business_hour_groups, path: "business_hours"
-    resources :skills, except: [:show]
-    resources :field_resources, only: [:create, :destroy] do
-      post :sort, on: :collection
-    end
-    get "custom_fields_builder/:resource_type/:resource_id", to: "custom_fields_builder#show", as: :custom_fields_builder
-
-    resources :domains do
-      member do
-        post :verify_dns
-      end
-    end
-
-    namespace :help_center do
-      resources :portals, only: [:index, :new, :create, :edit, :update]
-      resources :articles do
+      resources :canned_responses
+      resources :labels
+      resources :ai_agents
+      resources :notes
+      resources :sla_policies
+      resources :teams do
         member do
-          post :publish
-          post :discard_draft
-          post :copy_locale
+          post :add_member
+          delete :remove_member
+        end
+      end
+      resources :roles
+      resources :users, controller: "account_users", except: [:show] do
+        get :search, on: :collection
+      end
+      resources :invitations, controller: "account_invitations", except: [:show]
+      resources :teams
+      resources :custom_fields
+      resources :assignment_policies do
+        member do
+          patch :toggle
         end
         collection do
           patch :reorder
         end
       end
-      resources :categories, only: %i[index create]
-    end
-
-    resources :automations do
-      member do
-        patch :toggle
-        post :duplicate
-      end
-      collection do
-        patch :reorder
-        get :lookups
-      end
-    end
-    resources :macros, except: [:show] do
-      member do
-        post :execute
-      end
-    end
-    resources :automation_executions, only: [:index]
-
-    resource :billing, only: [:show], as: :dashboard_billing do
-      post :dismiss_warning
-    end
-    resources :subscriptions, only: [:new, :create, :update] do
-      member do
-        post :cancel
-        post :resume
-      end
-    end
-    resources :payment_methods, only: [:new, :create, :destroy] do
-      member do
-        post :make_default
-      end
-      collection do
-        get :setup_intent
-      end
-    end
-    resource :wallet, only: [] do
-      post :topup
-    end
-    resources :ai_credits, only: [:create]
-
-    resources :settings, only: [ :index ] do
-      collection do
-        get :canned_responses
-        get :office_timings
-        get :team_inboxes
-        get :messenger
-        get :teammates
-        get :tickets
-        get :people
-      end
-    end
-    
-    namespace :settings do
-      resource :notification_settings, only: [:edit, :update]
-      resources :notification_subscriptions, only: [:create, :destroy]
-      resources :audit_logs, only: [:index] do
-        member do
-          post :revert
+      resources :sla_policies do
+        collection do
+          patch :reorder
         end
       end
-      resources :api_keys, only: [:index, :create, :destroy]
-    end
+      resources :business_hour_groups, path: "business_hours"
+      resources :skills, except: [:show]
+      resources :field_resources, only: [:create, :destroy] do
+        post :sort, on: :collection
+      end
+      get "custom_fields_builder/:resource_type/:resource_id", to: "custom_fields_builder#show", as: :custom_fields_builder
+
+      resources :domains do
+        member do
+          post :verify_dns
+        end
+      end
+
+      namespace :help_center do
+        resources :portals, only: [:index, :new, :create, :edit, :update]
+        resources :articles do
+          member do
+            post :publish
+            post :discard_draft
+            post :copy_locale
+          end
+          collection do
+            patch :reorder
+          end
+        end
+        resources :categories, only: %i[index create]
+      end
+
+      resources :automations do
+        member do
+          patch :toggle
+          post :duplicate
+        end
+        collection do
+          patch :reorder
+          get :lookups
+        end
+      end
+      resources :macros, except: [:show] do
+        member do
+          post :execute
+        end
+      end
+      resources :automation_executions, only: [:index]
+
+      resource :billing, only: [:show], as: :dashboard_billing do
+        post :dismiss_warning
+      end
+      resources :subscriptions, only: [:new, :create, :update] do
+        member do
+          post :cancel
+          post :resume
+        end
+      end
+      resources :payment_methods, only: [:new, :create, :destroy] do
+        member do
+          post :make_default
+        end
+        collection do
+          get :setup_intent
+        end
+      end
+      resource :wallet, only: [] do
+        post :topup
+      end
+      resources :ai_credits, only: [:create]
+
+      resources :settings, only: [ :index ] do
+        collection do
+          get :canned_responses
+          get :office_timings
+          get :team_inboxes
+          get :messenger
+          get :teammates
+          get :tickets
+          get :people
+        end
+      end
     
-    resources :notifications, only: [:index] do
-      collection do
-        post :mark_all_read
-        get :update_badge
+      namespace :settings do
+        resource :notification_settings, only: [:edit, :update]
+        resources :notification_subscriptions, only: [:create, :destroy]
+        resources :audit_logs, only: [:index] do
+          member do
+            post :revert
+          end
+        end
+        resources :api_keys, only: [:index, :create, :destroy]
       end
-      member do
-        post :mark_read
-      end
-    end
     
-    resources :identity_sources, except: [:show] do
-      collection do
-        match :test_connection, via: [:post, :patch]
+      resources :notifications, only: [:index] do
+        collection do
+          post :mark_all_read
+          get :update_badge
+        end
+        member do
+          post :mark_read
+        end
       end
-    end
+    
+      resources :identity_sources, except: [:show] do
+        collection do
+          match :test_connection, via: [:post, :patch]
+        end
+      end
 
 
     
-    resources :custom_fields
+      resources :custom_fields
     
-    resources :integrations, except: [:show] do
-      collection do
-        get 'slack/callback', to: 'integrations#slack_callback'
+      resources :integrations, except: [:show] do
+        collection do
+          get 'slack/callback', to: 'integrations#slack_callback'
+        end
       end
-    end
 
-    resources :email_templates, only: [:index, :new, :create, :edit, :update, :destroy] do
-      member do
-        post :publish
-        post :discard_draft
-        get :preview
-        post :send_test
-        get :variables
-        post :copy_locale
+      resources :email_templates, only: [:index, :new, :create, :edit, :update, :destroy] do
+        member do
+          post :publish
+          post :discard_draft
+          get :preview
+          post :send_test
+          get :variables
+          post :copy_locale
+        end
       end
-    end
 
-    resources :csat_surveys
+      resources :csat_surveys
 
-    resources :email_template_layouts, only: [:index, :edit, :update] do
-      member do
-        post :publish
-        post :discard_draft
-        get :preview
-        post :copy_locale
+      resources :email_template_layouts, only: [:index, :edit, :update] do
+        member do
+          post :publish
+          post :discard_draft
+          get :preview
+          post :copy_locale
+        end
       end
-    end
 
-    resources :attachments, only: [:show, :create, :destroy]
-    resources :agent, only: [ :index ] do
-      collection do
-        get :test
-        get :fin_test
-        get :guidance
-        get :task
-        get :workflow
-        get :topics
+      resources :attachments, only: [:show, :create, :destroy]
+      resources :agent, only: [ :index ] do
+        collection do
+          get :test
+          get :fin_test
+          get :guidance
+          get :task
+          get :workflow
+          get :topics
+        end
       end
-    end
 
-    get "popup/:step", to: "popup#modal_popup"
+        get "popup/:step", to: "popup#modal_popup"
+      end
     end
   end
 end

@@ -96,16 +96,26 @@ module Dashboard
       end
     end
 
+    def redirect_to(options = {}, response_options = {})
+      response_options[:allow_other_host] = true if options.is_a?(String) && options.match?(/\Ahttps?:\/\//)
+      super(options, response_options)
+    end
+
     protected
 
-    def after_sign_up_path_for(_resource)
+    def after_sign_up_path_for(resource)
       if @selected_plan_id.present? && !@selected_subscription_created
-        new_subscription_path(
+        new_subscription_url(
+          subdomain: resource.accounts.first&.identifier || "",
           plan_id: @selected_plan_id,
           billing_cycle: @selected_billing_cycle
         )
       else
-        root_path
+        if resource.accounts.any?
+          root_url(subdomain: resource.accounts.first.identifier)
+        else
+          root_url(subdomain: "")
+        end
       end
     end
 
@@ -116,6 +126,7 @@ module Dashboard
     def configure_sign_up_params
       devise_parameter_sanitizer.permit(:sign_up, keys: %i[first_name last_name account_id remember_me password])
     end
+
 
     private
 

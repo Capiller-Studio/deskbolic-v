@@ -12,7 +12,7 @@
       p = t("auth.login.subtitle")
 
       .form-fields
-        = form_with url: user_session_path, method: :post, local: true do |f|
+        = form_with url: user_session_path, method: :post, local: true, data: { turbo: false } do |f|
           .form-floating
             = f.label :email, t("auth.email"), class: "form-label"
             = f.email_field "user[email]", autofocus: true, autocomplete: "email", required: true, class: "form-control", placeholder: t("auth.placeholders.email")

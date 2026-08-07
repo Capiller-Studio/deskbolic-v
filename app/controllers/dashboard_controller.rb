@@ -2,6 +2,7 @@
 
 class DashboardController < ApplicationController
   before_action :authenticate_user!
+  before_action :ensure_subdomain_for_account
   before_action :redirect_if_no_accounts
   before_action :enforce_active_subscription
   before_action :set_unread_counts
@@ -42,20 +43,11 @@ class DashboardController < ApplicationController
   def current_account
     return @current_account if defined?(@current_account)
 
-    if session[:current_account_id].blank? && cookies.signed[:current_account_id].present?
-      session[:current_account_id] = cookies.signed[:current_account_id]
+    if request.subdomain.present? && request.subdomain != "www"
+      @current_account = Account.find_by(identifier: request.subdomain)
+    else
+      @current_account = nil
     end
-
-    account = current_user.accounts.find_by(id: session[:current_account_id])
-    
-    if account.nil? && current_user.accounts.any?
-      account = current_user.accounts.first
-      account_id = account.id
-      session[:current_account_id] = account_id
-      cookies.signed[:current_account_id] = { value: account_id, expires: 1.year.from_now }
-    end
-    
-    @current_account = account
   end
 
   def authorize(record, query = nil)
@@ -72,9 +64,23 @@ class DashboardController < ApplicationController
 
   private
 
+  def ensure_subdomain_for_account
+    if user_signed_in? && current_user.accounts.any?
+      # If accessing naked domain, redirect to primary account's subdomain
+      if request.subdomain.blank? || request.subdomain == "www"
+        account = current_user.accounts.first
+        redirect_to root_url(subdomain: account.identifier), allow_other_host: true
+      elsif current_account.nil?
+        # If subdomain is provided but invalid/unauthorized
+        account = current_user.accounts.first
+        redirect_to root_url(subdomain: account.identifier), allow_other_host: true, alert: "Account not found or access denied."
+      end
+    end
+  end
+
   def redirect_if_no_accounts
     if user_signed_in? && current_user.accounts.empty?
-      redirect_to(workspace_path) unless request.path == workspace_path || request.path == submitted_path(current_user.id)
+      redirect_to(workspace_url(subdomain: "")) unless request.path == workspace_path || request.path == submitted_path(current_user.id)
     end
   end
 

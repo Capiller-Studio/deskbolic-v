@@ -80,4 +80,8 @@ Rails.application.configure do
   # Accept connection from ngrok
   config.hosts << /[a-z\-0-9]+\.ngrok\.io/
   config.hosts << /[a-z\-0-9]+\.ngrok-free\.app/
+
+  # Configure Rails to treat .localhost as a 0-length TLD so that subdomains
+  # like techbolic.localhost are correctly parsed as subdomain="techbolic"
+  config.action_dispatch.tld_length = 0
 end

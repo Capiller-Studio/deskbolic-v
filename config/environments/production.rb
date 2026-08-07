@@ -71,7 +71,7 @@ Rails.application.configure do
   # config.action_mailer.raise_delivery_errors = false
 
   # Set host to be used by links generated in mailer templates.
-  config.action_mailer.default_url_options = { host: ENV.fetch("DESKBOLIC_URL", "https://app.deskbolic.com") }
+  config.action_mailer.default_url_options = { host: ENV.fetch("DESKBOLIC_URL", "https://deskbolic.app") }
   config.action_mailer.delivery_method = :smtp
 
   config.action_mailer.smtp_settings = {
@@ -103,8 +103,8 @@ Rails.application.configure do
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 
-  config.hosts << ENV.fetch("MAIN_DOMAIN", "deskbolic.com")
-  config.hosts << ".#{ENV.fetch("MAIN_DOMAIN", "deskbolic.com")}"
+  config.hosts << ENV.fetch("MAIN_DOMAIN", "deskbolic.app")
+  config.hosts << ".#{ENV.fetch("MAIN_DOMAIN", "deskbolic.app")}"
 
   config.host_authorization = {
     response_app: lambda { |_env|

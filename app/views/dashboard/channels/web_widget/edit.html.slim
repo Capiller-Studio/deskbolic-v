@@ -1,14 +1,19 @@
 = render("dashboard/shared/dashboard_container", current_page: "settings") do
   = render("dashboard/settings/settings_sidebar", current_page: "web-widget-channels") do
     .channel-theme-web-widget
-      .ui-page-body style="display: flex; gap: 32px; align-items: flex-start; max-width: 1200px; margin: 0 auto; padding: 24px;"
-        .form-section style="flex: 1; max-width: 800px; min-width: 0;"
-          .ui-page-header
-            = link_to t("dashboard.web_widget_channels.form.back"), channels_web_widget_index_path, class: "ui-back-link"
-            h2.f-semi-32 style="margin-top: 16px; color: #0f172a;" = t("dashboard.web_widget_channels.edit.title")
+      .ww-page
+        .ww-header
+          div
+            h1 = t("dashboard.web_widget_channels.edit.title")
+            p = t("dashboard.web_widget_channels.edit.subtitle", default: "Configure your web widget settings.")
+          .ww-header-actions
+            = link_to t("dashboard.web_widget_channels.form.back"), channels_web_widget_index_path, class: "ww-back-link"
 
-          .ui-form-wrapper
-            = render "form", web_widget_channel: @web_widget_channel
-      
-        .preview-section style="flex: 0 0 350px; position: sticky; top: 24px;"
-          = render "preview", web_widget_channel: @web_widget_channel
+        .ww-page-body
+          .ww-form-layout
+            .ww-form-main
+              .ww-form-wrapper
+                = render "form", web_widget_channel: @web_widget_channel
+
+            .ww-preview-section
+              = render "preview", web_widget_channel: @web_widget_channel

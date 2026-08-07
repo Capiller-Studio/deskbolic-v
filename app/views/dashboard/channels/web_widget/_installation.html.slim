@@ -1,44 +1,44 @@
-.ui-section.ui-section--open data-web-widget-channel-target="installationSection"
-  .ui-section-header data-action="click->web-widget-channel#toggleSection"
-    .ui-section-title
-      span.ui-section-icon 💻
-      span.ui-section-label = t("dashboard.web_widget_channels.form.installation_section")
-    span.ui-section-chevron ▼
-  .ui-section-body
-    .ww-credentials-grid style="display: grid; grid-template-columns: 1fr; gap: 16px; margin-bottom: 24px;"
-      .ww-credential-box style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px;"
-        h4.f-semi-14 style="color: #475569; margin-bottom: 8px;" = t("dashboard.web_widget_channels.form.hmac_secret_key")
-        .ui-copy-group
-          input type="password" class="ui-input" value="#{web_widget_channel.hmac_token}" readonly=true
-          button.ui-copy-btn type="button" data-action="click->web-widget-channel#copyEmbedCode" data-code="#{web_widget_channel.hmac_token}" = t("ui.dashboard.channels.web_widget.installation.copy")
+.ww-section.ui-section.ui-section--open data-web-widget-channel-target="installationSection"
+  .ww-section-header data-action="click->web-widget-channel#toggleSection"
+    .ww-section-title
+      = inline_svg_tag("code_snipet.svg", class: "ww-section-icon", alt: t("dashboard.web_widget_channels.form.installation_section"))
+      span.ww-section-label = t("dashboard.web_widget_channels.form.installation_section")
+    span.ww-section-chevron ▼
+  .ww-section-body
+    .ww-credentials-grid
+      .ww-credential-box
+        h4 = t("dashboard.web_widget_channels.form.hmac_secret_key")
+        .ww-copy-group
+          input type="password" class="ww-input" value="#{web_widget_channel.hmac_token}" readonly=true
+          button.ww-copy-btn type="button" data-action="click->web-widget-channel#copyEmbedCode" data-code="#{web_widget_channel.hmac_token}" = t("ui.dashboard.channels.web_widget.installation.copy")
 
-    p.text-muted style="margin-bottom: 16px; font-size: 14px;" 
+    p.ww-section-desc
       | #{t("ui.dashboard.channels.web_widget.installation.embed_the_deskbolic_widget_into_your_website_or_web_app")}
 
-    .ww-snippet-block style="margin-bottom: 24px;"
-      .ww-snippet-header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;"
-        h4.f-semi-14 = t("ui.dashboard.channels.web_widget.installation.standard_html")
-      pre style="background: #1e293b; color: #e2e8f0; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 13px; overflow-x: auto;"
+    .ww-snippet-block
+      .ww-snippet-header
+        h4 = t("ui.dashboard.channels.web_widget.installation.standard_html")
+      pre.ww-code-block
         code
-          | &lt;script
+          | &#60;script
           br
           |   src="#{ENV['WIDGET_APP_URL'] || 'https://widget.deskbolic.com'}/w/#{current_account.id}/#{web_widget_channel.id}/embed.js"
           br
-          |   data-locale="#{I18n.locale}"&gt;
+          |   data-locale="#{I18n.locale}"&#62;
           br
-          | &lt;/script&gt;
+          | &#60;/script&#62;
 
-    .ww-snippet-block style="margin-bottom: 24px;"
-      .ww-snippet-header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;"
-        h4.f-semi-14 = t("ui.dashboard.channels.web_widget.installation.react_next_js")
-      pre style="background: #1e293b; color: #e2e8f0; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 13px; overflow-x: auto;"
+    .ww-snippet-block
+      .ww-snippet-header
+        h4 = t("ui.dashboard.channels.web_widget.installation.react_next_js")
+      pre.ww-code-block
         code
           | import { useEffect } from 'react';
           br
           br
           | export default function DeskbolicWidget() {
           br
-          |   useEffect(() =&gt; {
+          |   useEffect(() =&#62; {
           br
           |     const script = document.createElement('script');
           br
@@ -54,40 +54,40 @@
           br
           | }
 
-    h4.f-semi-14 style="margin-bottom: 12px; margin-top: 32px;" Supported Parameters (Data Attributes)
-    p.text-muted style="font-size: 13px; margin-bottom: 16px;" Pass these attributes directly to the script tag to identify users or customize behavior.
+    h4.ww-params-title = t("dashboard.web_widget_channels.form.supported_parameters", default: "Supported Parameters (Data Attributes)")
+    p.ww-section-desc = t("dashboard.web_widget_channels.form.supported_parameters_desc", default: "Pass these attributes directly to the script tag to identify users or customize behavior.")
 
-    .channel-table-responsive style="border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden;"
-      table.channel-table style="width: 100%; text-align: left; border-collapse: collapse; font-size: 13px;"
-        thead style="background: #f8fafc; border-bottom: 1px solid #e2e8f0;"
+    .ww-table-responsive
+      table.ww-table
+        thead
           tr
-            th style="padding: 12px 16px; font-weight: 600;" Attribute
-            th style="padding: 12px 16px; font-weight: 600;" Description
+            th Attribute
+            th Description
         tbody
-          tr style="border-bottom: 1px solid #e2e8f0;"
-            td style="padding: 12px 16px; font-family: monospace; color: #0ea5e9;" data-identifier
-            td style="padding: 12px 16px;" Your system's unique user ID (e.g., database ID). Required for Identity Verification.
-          tr style="border-bottom: 1px solid #e2e8f0;"
-            td style="padding: 12px 16px; font-family: monospace; color: #0ea5e9;" data-signature
-            td style="padding: 12px 16px;" HMAC SHA-256 signature generated using your secret key. Required if Secure Identity is enforced.
-          tr style="border-bottom: 1px solid #e2e8f0;"
-            td style="padding: 12px 16px; font-family: monospace; color: #0ea5e9;" data-email
-            td style="padding: 12px 16px;" The customer's email address.
-          tr style="border-bottom: 1px solid #e2e8f0;"
-            td style="padding: 12px 16px; font-family: monospace; color: #0ea5e9;" data-name
-            td style="padding: 12px 16px;" The customer's full name.
-          tr style="border-bottom: 1px solid #e2e8f0;"
-            td style="padding: 12px 16px; font-family: monospace; color: #0ea5e9;" data-locale
-            td style="padding: 12px 16px;" Force a specific language locale (e.g., "en", "fr"). Overrides browser default.
           tr
-            td style="padding: 12px 16px; font-family: monospace; color: #0ea5e9;" data-position
-            td style="padding: 12px 16px;" Position of the launcher. Options: <code>right</code> (default) or <code>left</code>.
+            td.ww-code-cell data-identifier
+            td = t("dashboard.web_widget_channels.form.param_identifier_desc", default: "Your system's unique user ID (e.g., database ID). Required for Identity Verification.")
+          tr
+            td.ww-code-cell data-signature
+            td = t("dashboard.web_widget_channels.form.param_signature_desc", default: "HMAC SHA-256 signature generated using your secret key. Required if Secure Identity is enforced.")
+          tr
+            td.ww-code-cell data-email
+            td = t("dashboard.web_widget_channels.form.param_email_desc", default: "The customer's email address.")
+          tr
+            td.ww-code-cell data-name
+            td = t("dashboard.web_widget_channels.form.param_name_desc", default: "The customer's full name.")
+          tr
+            td.ww-code-cell data-locale
+            td = t("dashboard.web_widget_channels.form.param_locale_desc", default: "Force a specific language locale (e.g., \"en\", \"fr\"). Overrides browser default.")
+          tr
+            td.ww-code-cell data-position
+            td = t("dashboard.web_widget_channels.form.param_position_desc", default: "Position of the launcher. Options: right (default) or left.")
 
     - if web_widget_channel.secure_identity_enforced?
-      .ww-alert style="margin-top: 24px; padding: 16px; background: #eff6ff; border-left: 4px solid #3b82f6; border-radius: 4px;"
-        h4.f-semi-14 style="color: #1e3a8a; margin-bottom: 8px;" HMAC Signature Example (Ruby)
-        p.text-muted style="font-size: 13px; margin-bottom: 12px;" == t("dashboard.web_widget_channels.form.secure_identity_instruction")
-        pre style="background: #1e293b; color: #e2e8f0; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 13px; overflow-x: auto;"
+      .ww-alert
+        h4 = t("dashboard.web_widget_channels.form.hmac_signature_example", default: "HMAC Signature Example (Ruby)")
+        p.ww-section-desc = t("dashboard.web_widget_channels.form.secure_identity_instruction")
+        pre.ww-code-block
           code
             | require 'openssl'
             br

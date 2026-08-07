@@ -2,9 +2,12 @@
   = render("dashboard/settings/settings_sidebar", current_page: "domains") do
     .body-section.domains-body
       .domains-header
-        h2.f-semi-18 = t("dashboard.domains.edit.title")
-        = link_to domains_path, class: "back-link"
-          span.f-reg-14 = t("dashboard.domains.edit.back")
+        div
+          h1 = t("dashboard.domains.edit.title")
+          p = t("dashboard.domains.edit.subtitle", default: "Manage your domain configuration and DNS settings.")
+        .domains-header-actions
+          = link_to domains_path, class: "back-link"
+            span = t("dashboard.domains.edit.back")
 
       .domain-form-container
         / Domain Status Overview

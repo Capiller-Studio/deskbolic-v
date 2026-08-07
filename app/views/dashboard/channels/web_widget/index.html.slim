@@ -1,67 +1,71 @@
 = render("dashboard/shared/dashboard_container", current_page: "settings") do
   = render("dashboard/settings/settings_sidebar", current_page: "web-widget-channels") do
-    .body-container
-      .channel-theme-web-widget
-        .ui-index-header
-          .ui-title-area
-            h2.f-semi-32 = t("dashboard.web_widget_channels.index.title")
-            p.f-reg-16 = t("dashboard.web_widget_channels.index.description")
-          = link_to new_channels_web_widget_path, class: "ui-btn-primary"
-            | + #{t("dashboard.web_widget_channels.index.new_channel")}
+    .channel-theme-web-widget
+      .ww-page
+        .ww-header
+          div
+            h1 = t("dashboard.web_widget_channels.index.title")
+            p = t("dashboard.web_widget_channels.index.description")
+          .ww-header-actions
+            = link_to new_channels_web_widget_path, class: "ww-btn-primary"
+              span = t("dashboard.web_widget_channels.index.new_channel")
+              = inline_svg_tag("plus_white.svg", class: "ww-btn-plus", alt: t("ui.dashboard.channels.web_widget.index.new_channel"))
 
-        .ui-list
+        .ww-content
           - if @web_widget_channels.any?
             - @web_widget_channels.each do |channel|
-              div.ui-card id=dom_id(channel)
-                .ui-card-top
-                  .ui-card-info
-                    h3.f-semi-16 = channel.name
-                    p.ui-subtitle = channel.website_url.presence || t("forms.options.any_website")
-                  .ui-card-actions
-                    = link_to edit_channels_web_widget_path(channel), class: "ui-action-btn ww-icon-action", title: "Edit"
-                      = image_tag "edit.svg", alt: "Edit", class: "ww-action-icon ww-action-icon--edit"
-                    = link_to channels_web_widget_path(channel), method: :delete, class: "ui-action-btn ui-action-delete", data: { turbo_method: :delete, turbo_confirm: t("dashboard.web_widget_channels.index.delete_confirm") }, title: "Delete"
-                      = image_tag "delete_red.svg", alt: "Delete", class: "ww-action-icon"
+              .ww-card id=dom_id(channel)
+                .ww-card-top
+                  .ww-card-info
+                    h3 = channel.name
+                    p.ww-card-subtitle = channel.website_url.presence || t("dashboard.web_widget_channels.index.no_website", default: "No website")
+                  .ww-card-actions
+                    = link_to edit_channels_web_widget_path(channel), class: "ww-action-btn", title: "Edit"
+                      = inline_svg_tag("edit.svg", class: "ww-action-icon", alt: "Edit")
+                    = link_to channels_web_widget_path(channel), data: { turbo_method: :delete, turbo_confirm: t("dashboard.web_widget_channels.index.delete_confirm") }, class: "ww-action-btn ww-action-delete", title: "Delete"
+                      = inline_svg_tag("delete_red.svg", class: "ww-action-icon", alt: "Delete")
 
-                .ui-card-meta
+                .ww-card-meta
                   - if channel.anonymous_allowed?
-                    .ui-badge.ui-badge-active
-                      span.ui-badge-icon 👻
+                    .ww-badge.ww-badge-active
+                      = inline_svg_tag("user.svg", class: "ww-badge-icon", alt: t("ui.dashboard.channels.web_widget.index.anonymous_allowed"))
                       span = t("ui.dashboard.channels.web_widget.index.anonymous_allowed")
                   - else
-                    .ui-badge.ui-badge-disconnected
-                      span.ui-badge-icon 🔒
+                    .ww-badge.ww-badge-disconnected
+                      = inline_svg_tag("lock.svg", class: "ww-badge-icon", alt: t("ui.dashboard.channels.web_widget.index.anonymous_restricted"))
                       span = t("ui.dashboard.channels.web_widget.index.anonymous_restricted")
 
                   - if channel.portal_id.present?
-                    .ui-badge.ui-badge-active
-                      span.ui-badge-icon 📚
+                    .ww-badge.ww-badge-active
+                      = inline_svg_tag("book.svg", class: "ww-badge-icon", alt: t("ui.dashboard.channels.web_widget.index.help_center_linked"))
                       span = t("ui.dashboard.channels.web_widget.index.help_center_linked")
 
                   - if channel.configurations&.dig("contact_form_id").present?
-                    .ui-badge.ui-badge-active
-                      span.ui-badge-icon ✉️
+                    .ww-badge.ww-badge-active
+                      = inline_svg_tag("mail.svg", class: "ww-badge-icon", alt: t("ui.dashboard.channels.web_widget.index.contact_form_linked"))
                       span = t("ui.dashboard.channels.web_widget.index.contact_form_linked")
 
-                  .ui-meta-tag
-                    span.ui-meta-tag-icon 📬
+                  .ww-meta-tag
+                    = inline_svg_tag("inboxes.svg", class: "ww-meta-tag-icon", alt: t("dashboard.web_widget_channels.index.inboxes_count", count: channel.inboxes.size))
                     span = t("dashboard.web_widget_channels.index.inboxes_count", count: channel.inboxes.size)
 
-                  .ui-meta-tag
-                    span.ui-meta-tag-icon 🕐
+                  .ww-meta-tag
+                    = inline_svg_tag("clock.svg", class: "ww-meta-tag-icon", alt: t("dashboard.web_widget_channels.index.created_ago", time: time_ago_in_words(channel.created_at)))
                     span = t("dashboard.web_widget_channels.index.created_ago", time: time_ago_in_words(channel.created_at))
 
                 .ww-embed-row data-controller="web-widget-channel"
                   span.ww-embed-label EMBED
                   .ww-embed-code
                     input.ww-embed-input type="text" readonly=true value="<script src='https://widget.deskbolic.com/w/#{current_account.id}/#{channel.id}/embed.js'></script>"
-                  button.ui-copy-btn.ww-index-copy-btn data-action="click->web-widget-channel#copyEmbedCode" data-code="<script src='https://widget.deskbolic.com/w/#{current_account.id}/#{channel.id}/embed.js'></script>"
+                  button.ww-copy-btn.ww-index-copy-btn data-action="click->web-widget-channel#copyEmbedCode" data-code="<script src='https://widget.deskbolic.com/w/#{current_account.id}/#{channel.id}/embed.js'></script>"
                     span Copy
 
           - else
-            .ui-empty-state
-              .ui-empty-icon 💬
-              h3.f-semi-18 = t("dashboard.web_widget_channels.index.empty_title")
-              p.f-reg-14 = t("dashboard.web_widget_channels.index.empty_description")
-              = link_to new_channels_web_widget_path, class: "ui-btn-primary ui-btn-sm"
-                | + #{t("dashboard.web_widget_channels.index.new_channel")}
+            .ww-empty-state
+              .ww-empty-icon
+                = inline_svg_tag("message.svg", class: "ww-empty-icon-svg", alt: t("dashboard.web_widget_channels.index.empty_title"))
+              h3 = t("dashboard.web_widget_channels.index.empty_title")
+              p = t("dashboard.web_widget_channels.index.empty_description")
+              = link_to new_channels_web_widget_path, class: "ww-btn-primary ww-btn-sm"
+                span = t("dashboard.web_widget_channels.index.new_channel")
+                = inline_svg_tag("plus_white.svg", class: "ww-btn-plus", alt: t("ui.dashboard.channels.web_widget.index.new_channel"))

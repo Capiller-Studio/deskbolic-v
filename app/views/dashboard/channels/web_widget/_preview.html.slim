@@ -1,8 +1,7 @@
 .ww-preview-wrapper data-controller="web-widget-preview"
   .ww-preview-header
-    h3.f-semi-16 = t("ui.dashboard.channels.web_widget.preview.live_preview")
-    p.f-reg-14.text-muted = t("ui.dashboard.channels.web_widget.preview.see_how_your_widget_will_appear_to_customers")
-    
+    h3 = t("ui.dashboard.channels.web_widget.preview.live_preview")
+    p = t("ui.dashboard.channels.web_widget.preview.see_how_your_widget_will_appear_to_customers")
   .ww-preview-device
     .ww-preview-screen
       / Chat Iframe
@@ -10,31 +9,33 @@
         - if web_widget_channel.persisted?
           iframe src="#{ENV['WIDGET_APP_URL']}/w/#{current_account.id}/#{web_widget_channel.id}?preview=true" data-web-widget-preview-target="iframe"
         - else
-          .ww-empty-preview style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; background: #f1f5f9; color: #64748b; text-align: center; padding: 24px; border-radius: 14px;"
-            svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 16px; opacity: 0.5;"
+          .ww-empty-preview
+            svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
               path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
-            p.f-med-14 style="margin: 0;" Save your widget to see the live preview!
+            p Save your widget to see the live preview!
 
       / Launcher Button
       .ww-preview-launcher data-web-widget-preview-target="launcher"
         .ww-preview-launcher-icon
           - if web_widget_channel.launcher_icon.attached?
-            = image_tag web_widget_channel.scaled_launcher_icon, class: "ww-custom-logo", data: { "web-widget-preview-target" => "logoImg" }, style: "width: 100%; height: 100%; object-fit: cover; border-radius: 50%;"
+            = image_tag web_widget_channel.scaled_launcher_icon, class: "ww-custom-logo", data: { "web-widget-preview-target" => "logoImg" }
           - else
-            svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ww-default-logo" data-web-widget-preview-target="logoSvg" style="color: white;"
+            svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ww-default-logo" data-web-widget-preview-target="logoSvg"
               path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
 
 style
   | .ww-preview-wrapper * { box-sizing: border-box; }
   | .ww-preview-wrapper {
   |   background: #fff;
-  |   border: 1px solid #e2e8f0;
-  |   border-radius: 12px;
+  |   border: 1px solid #dce1e8;
+  |   border-radius: 16px;
   |   padding: 24px;
-  |   box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  |   box-shadow: 0 2px 3px rgba(30, 41, 59, 0.06);
   |   width: 100%;
   | }
   | .ww-preview-header { margin-bottom: 24px; }
+  | .ww-preview-header h3 { color: #111827; font-size: 16px; font-weight: 600; margin: 0 0 4px; }
+  | .ww-preview-header p { color: #667792; font-size: 13px; margin: 0; }
   | .ww-preview-device {
   |   background: #f8fafc;
   |   border: 8px solid #cbd5e1;
@@ -68,7 +69,20 @@ style
   |   border: none;
   |   background: transparent;
   | }
-
+  | .ww-empty-preview {
+  |   display: flex;
+  |   flex-direction: column;
+  |   align-items: center;
+  |   justify-content: center;
+  |   height: 100%;
+  |   background: #f1f5f9;
+  |   color: #64748b;
+  |   text-align: center;
+  |   padding: 24px;
+  |   border-radius: 14px;
+  | }
+  | .ww-empty-preview svg { margin-bottom: 16px; opacity: 0.5; }
+  | .ww-empty-preview p { margin: 0; font-size: 14px; }
   | .ww-preview-launcher {
   |   position: absolute;
   |   bottom: 20px;

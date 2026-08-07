@@ -3,109 +3,109 @@
 
 = form_with(model: web_widget_channel, scope: :web_widget_channel, url: url, method: method, data: { controller: "web-widget-channel" }) do |f|
   - if web_widget_channel.errors.any?
-    .ui-error-summary
+    .ww-error-summary
       h3 = t("dashboard.web_widget_channels.form.error_heading")
       ul
         - web_widget_channel.errors.full_messages.each do |message|
           li = message
 
   / ─── Basic Details & Inbox ───
-  .ui-section.ui-section--always-open
-    .ui-section-header
-      .ui-section-title
-        span.ui-section-icon 📝
-        span.ui-section-label = t("dashboard.web_widget_channels.form.basic_section")
-    .ui-section-body
-      .ui-form-row
+  .ww-section.ui-section.ui-section--always-open
+    .ww-section-header
+      .ww-section-title
+        = inline_svg_tag("message.svg", class: "ww-section-icon", alt: t("dashboard.web_widget_channels.form.basic_section"))
+        span.ww-section-label = t("dashboard.web_widget_channels.form.basic_section")
+    .ww-section-body
+      .ww-form-row
         div
-          = f.label :name, t("dashboard.web_widget_channels.form.name_label"), class: "ui-label"
-          = f.text_field :name, class: "ui-input", required: true, placeholder: t("dashboard.web_widget_channels.form.name_placeholder")
+          = f.label :name, t("dashboard.web_widget_channels.form.name_label"), class: "ww-label"
+          = f.text_field :name, class: "ww-input", required: true, placeholder: t("dashboard.web_widget_channels.form.name_placeholder")
         div
-          = f.label :website_url, t("dashboard.web_widget_channels.form.website_url_label"), class: "ui-label"
-          = f.text_field :website_url, class: "ui-input", placeholder: t("dashboard.web_widget_channels.form.website_url_placeholder")
+          = f.label :website_url, t("dashboard.web_widget_channels.form.website_url_label"), class: "ww-label"
+          = f.text_field :website_url, class: "ww-input", placeholder: t("dashboard.web_widget_channels.form.website_url_placeholder")
 
-      .ui-form-row
+      .ww-form-row
         div
-          = f.label :default_locale, t("forms.labels.default_locale"), class: "ui-label"
-          = f.select :default_locale, Core::SUPPORTED_LOCALES.map { |l| [I18n.t("languages.#{l.to_s.downcase}"), l] }, {}, class: "ui-select"
+          = f.label :default_locale, t("forms.labels.default_locale"), class: "ww-label"
+          = f.select :default_locale, Core::SUPPORTED_LOCALES.map { |l| [I18n.t("languages.#{l.to_s.downcase}"), l] }, {}, class: "ww-select"
 
       - if web_widget_channel.primary_inbox
         = render "dashboard/channels/shared/inbox_settings", form: f
 
   / ─── Appearance & Branding ───
-  .ui-section data-web-widget-channel-target="appearanceSection"
-    .ui-section-header data-action="click->web-widget-channel#toggleSection"
-      .ui-section-title
-        span.ui-section-icon 🎨
-        span.ui-section-label = t("dashboard.web_widget_channels.form.appearance_section")
-      span.ui-section-chevron ▼
-    .ui-section-body
-      .ui-form-row
+  .ww-section.ui-section data-web-widget-channel-target="appearanceSection"
+    .ww-section-header data-action="click->web-widget-channel#toggleSection"
+      .ww-section-title
+        = inline_svg_tag("setting.svg", class: "ww-section-icon", alt: t("dashboard.web_widget_channels.form.appearance_section"))
+        span.ww-section-label = t("dashboard.web_widget_channels.form.appearance_section")
+      span.ww-section-chevron ▼
+    .ww-section-body
+      .ww-form-row
         div
-          label.ui-label = t("dashboard.web_widget_channels.form.theme_color_label")
+          label.ww-label = t("dashboard.web_widget_channels.form.theme_color_label")
           .ww-color-picker-row
             = color_field_tag "web_widget_channel[ui_configurations][theme_color]", web_widget_channel.ui_configurations&.dig("theme_color") || "#0f172a", class: "ww-color-swatch", data: { "web-widget-channel-target": "colorSwatch", "action": "input->web-widget-channel#syncColor" }
-            = text_field_tag "web_widget_channel[ui_configurations][theme_color]", web_widget_channel.ui_configurations&.dig("theme_color") || "#0f172a", class: "ui-input", style: "flex: 1;", data: { "web-widget-channel-target": "colorInput", "action": "input->web-widget-channel#syncSwatch" }
+            = text_field_tag "web_widget_channel[ui_configurations][theme_color]", web_widget_channel.ui_configurations&.dig("theme_color") || "#0f172a", class: "ww-input", style: "flex: 1;", data: { "web-widget-channel-target": "colorInput", "action": "input->web-widget-channel#syncSwatch" }
         div
-          label.ui-label = t("dashboard.web_widget_channels.form.position_label")
-          = select_tag "web_widget_channel[ui_configurations][position]", options_for_select([[t("dashboard.web_widget_channels.form.position_bottom_right"), "right"], [t("dashboard.web_widget_channels.form.position_bottom_left"), "left"]], web_widget_channel.ui_configurations&.dig("position") || "right"), class: "ui-select"
+          label.ww-label = t("dashboard.web_widget_channels.form.position_label")
+          = select_tag "web_widget_channel[ui_configurations][position]", options_for_select([[t("dashboard.web_widget_channels.form.position_bottom_right"), "right"], [t("dashboard.web_widget_channels.form.position_bottom_left"), "left"]], web_widget_channel.ui_configurations&.dig("position") || "right"), class: "ww-select"
 
-      .ui-toggle-row style="margin-top: 24px; position: relative;"
-        span.ui-toggle-label = t("ui.dashboard.channels.web_widget.form.custom_branding")
-        label.ui-toggle
+      .ww-toggle-row
+        span.ww-toggle-label = t("ui.dashboard.channels.web_widget.form.custom_branding")
+        label.ww-toggle
           - if current_account.feature_enabled?(:custom_branding)
             = hidden_field_tag "web_widget_channel[custom_branding]", "0"
             = check_box_tag "web_widget_channel[custom_branding]", "1", web_widget_channel.custom_branding, data: { action: "change->web-widget-channel#toggleCustomBranding" }
-            span.ui-toggle-slider
+            span.ww-toggle-slider
           - else
             = check_box_tag "locked_branding", "0", false, disabled: true
-            span.ui-toggle-slider style="background-color: #e2e8f0; cursor: not-allowed;"
-            span style="font-size: 11px; color: #ef4444; margin-left: 8px; position: absolute; right: -100px; top: 2px;" 🔒 Upgrade Plan
+            span.ww-toggle-slider style="background-color: #e2e8f0; cursor: not-allowed;"
+            span.ww-locked-badge 🔒 Upgrade Plan
 
       - if current_account.feature_enabled?(:custom_branding)
-        .custom-branding-fields data-web-widget-channel-target="customBrandingFields" style="display: #{web_widget_channel.custom_branding ? 'block' : 'none'}; padding-top: 8px;"
-          .ui-form-row style="margin-top: 16px; display: flex; gap: 16px;"
-            div style="flex: 1;"
-              label.ui-label = t("ui.dashboard.channels.web_widget.form.widget_header_logo")
-              .dropzone.upload-paper.dropzone-default.dz-clickable data-controller="dropzone" data-dropzone-max-file-size="2" data-dropzone-max-files="1" data-dropzone-accepted-files=".jpeg,.jpg,.png,.svg" style="margin-top: 8px; padding: 16px; border: 2px dashed #cbd5e1; border-radius: 8px; text-align: center;"
+        .ww-custom-branding-fields data-web-widget-channel-target="customBrandingFields" style="display: #{web_widget_channel.custom_branding ? 'block' : 'none'}; padding-top: 8px;"
+          .ww-form-row
+            div
+              label.ww-label = t("ui.dashboard.channels.web_widget.form.widget_header_logo")
+              .ww-dropzone data-controller="dropzone" data-dropzone-max-file-size="2" data-dropzone-max-files="1" data-dropzone-accepted-files=".jpeg,.jpg,.png,.svg"
                 = f.file_field :logo, direct_upload: true, "data-dropzone-target" => "input"
-                .dropzone-msg.dz-message.needsclick
-                  h3.f-semi-14.text-muted = t("ui.dashboard.channels.web_widget.form.drop_logo_here_or_click_to_upload")
+                .ww-dropzone-msg.dz-message.needsclick
+                  h3 = t("ui.dashboard.channels.web_widget.form.drop_logo_here_or_click_to_upload")
               - if web_widget_channel.logo.attached?
-                .mt-2
-                  = image_tag web_widget_channel.scaled_logo, style: "height: 40px; border-radius: 8px;"
-            
-            div style="flex: 1;"
-              label.ui-label = t("ui.dashboard.channels.web_widget.form.chat_bubble_icon_launcher")
-              .dropzone.upload-paper.dropzone-default.dz-clickable data-controller="dropzone" data-dropzone-max-file-size="2" data-dropzone-max-files="1" data-dropzone-accepted-files=".jpeg,.jpg,.png,.svg" style="margin-top: 8px; padding: 16px; border: 2px dashed #cbd5e1; border-radius: 8px; text-align: center;"
+                .ww-uploaded-preview
+                  = image_tag web_widget_channel.scaled_logo, class: "ww-uploaded-img"
+
+            div
+              label.ww-label = t("ui.dashboard.channels.web_widget.form.chat_bubble_icon_launcher")
+              .ww-dropzone data-controller="dropzone" data-dropzone-max-file-size="2" data-dropzone-max-files="1" data-dropzone-accepted-files=".jpeg,.jpg,.png,.svg"
                 = f.file_field :launcher_icon, direct_upload: true, "data-dropzone-target" => "input"
-                .dropzone-msg.dz-message.needsclick
-                  h3.f-semi-14.text-muted = t("ui.dashboard.channels.web_widget.form.drop_icon_here_or_click_to_upload")
+                .ww-dropzone-msg.dz-message.needsclick
+                  h3 = t("ui.dashboard.channels.web_widget.form.drop_icon_here_or_click_to_upload")
               - if web_widget_channel.launcher_icon.attached?
-                .mt-2
-                  = image_tag web_widget_channel.scaled_launcher_icon, style: "height: 40px; width: 40px; border-radius: 50%; object-fit: cover;"
-          
-          .ui-form-row style="margin-top: 16px;"
+                .ww-uploaded-preview
+                  = image_tag web_widget_channel.scaled_launcher_icon, class: "ww-uploaded-img ww-uploaded-img--round"
+
+          .ww-form-row
             div style="width: 100%;"
-              label.ui-label = t("dashboard.popup.ticket.form.custom_footer_label")
-              = text_field_tag "web_widget_channel[ui_configurations][footer_text]", web_widget_channel.ui_configurations&.dig("footer_text"), class: "ui-input", placeholder: t("dashboard.channels.web_widget.form.footer_text_placeholder")
+              label.ww-label = t("dashboard.popup.ticket.form.custom_footer_label")
+              = text_field_tag "web_widget_channel[ui_configurations][footer_text]", web_widget_channel.ui_configurations&.dig("footer_text"), class: "ww-input", placeholder: t("dashboard.channels.web_widget.form.footer_text_placeholder")
 
   / ─── Module Integrations ───
-  .ui-section data-web-widget-channel-target="integrationsSection"
-    .ui-section-header data-action="click->web-widget-channel#toggleSection"
-      .ui-section-title
-        span.ui-section-icon 🧩
-        span.ui-section-label = t("dashboard.web_widget_channels.form.integrations_section")
-      span.ui-section-chevron ▼
-    .ui-section-body
-      .ui-form-row
+  .ww-section.ui-section data-web-widget-channel-target="integrationsSection"
+    .ww-section-header data-action="click->web-widget-channel#toggleSection"
+      .ww-section-title
+        = inline_svg_tag("automation.svg", class: "ww-section-icon", alt: t("dashboard.web_widget_channels.form.integrations_section"))
+        span.ww-section-label = t("dashboard.web_widget_channels.form.integrations_section")
+      span.ww-section-chevron ▼
+    .ww-section-body
+      .ww-form-row
         div
-          = f.label :portal_id, t("dashboard.web_widget_channels.form.portal_label"), class: "ui-label"
-          = f.collection_select :portal_id, @portals, :id, :name, { include_blank: t("forms.options.no_help_center_linked") }, class: "ui-select"
+          = f.label :portal_id, t("dashboard.web_widget_channels.form.portal_label"), class: "ww-label"
+          = f.collection_select :portal_id, @portals, :id, :name, { include_blank: t("forms.options.no_help_center_linked") }, class: "ww-select"
         div
-          label.ui-label = t("ui.dashboard.channels.web_widget.form.pre_chat_form")
-          = f.collection_select :pre_chat_form_id, @contact_forms, :id, :name, { include_blank: t("forms.options.no_pre_chat_form_linked") }, class: "ui-select"
-      .ui-form-row style="margin-top: 16px;"
+          label.ww-label = t("ui.dashboard.channels.web_widget.form.pre_chat_form")
+          = f.collection_select :pre_chat_form_id, @contact_forms, :id, :name, { include_blank: t("forms.options.no_pre_chat_form_linked") }, class: "ww-select"
+      .ww-form-row
         div
           label.ui-label = t("dashboard.ai_agents.index.title", default: "AI Agent")
           = select_tag "web_widget_channel[primary_inbox_attributes][ai_agent_id]", options_from_collection_for_select(Ai::Agent.active, :id, :name, web_widget_channel.primary_inbox&.ai_agent_id), include_blank: t("forms.options.no_ai_agent_linked", default: "No AI Agent linked"), class: "ui-select"
@@ -114,39 +114,39 @@
         div
           label.ui-label = t("ui.dashboard.channels.web_widget.form.offline_email_channel")
           = f.hidden_field :fallback_channel_type, value: "Channel::Email"
-          = f.collection_select :fallback_channel_id, @email_channels, :id, :name, { include_blank: t("forms.options.no_email_channel_linked") }, class: "ui-select"
+          = f.collection_select :fallback_channel_id, @email_channels, :id, :name, { include_blank: t("forms.options.no_email_channel_linked") }, class: "ww-select"
         div
 
   / ─── Widget Behaviors ───
-  .ui-section data-web-widget-channel-target="behaviorsSection"
-    .ui-section-header data-action="click->web-widget-channel#toggleSection"
-      .ui-section-title
-        span.ui-section-icon ⚙️
-        span.ui-section-label = t("dashboard.web_widget_channels.form.behaviors_section")
-      span.ui-section-chevron ▼
-    .ui-section-body
-      .ui-toggle-row
-        span.ui-toggle-label = t("dashboard.web_widget_channels.form.anonymous_allowed_label")
-        label.ui-toggle
+  .ww-section.ui-section data-web-widget-channel-target="behaviorsSection"
+    .ww-section-header data-action="click->web-widget-channel#toggleSection"
+      .ww-section-title
+        = inline_svg_tag("fields.svg", class: "ww-section-icon", alt: t("dashboard.web_widget_channels.form.behaviors_section"))
+        span.ww-section-label = t("dashboard.web_widget_channels.form.behaviors_section")
+      span.ww-section-chevron ▼
+    .ww-section-body
+      .ww-toggle-row
+        span.ww-toggle-label = t("dashboard.web_widget_channels.form.anonymous_allowed_label")
+        label.ww-toggle
           = f.check_box :anonymous_allowed
-          span.ui-toggle-slider
+          span.ww-toggle-slider
 
-      .ui-toggle-row
-        span.ui-toggle-label = t("ui.dashboard.channels.web_widget.form.enforce_secure_identity_hmac")
-        label.ui-toggle
+      .ww-toggle-row
+        span.ww-toggle-label = t("ui.dashboard.channels.web_widget.form.enforce_secure_identity_hmac")
+        label.ww-toggle
           = check_box_tag "web_widget_channel[secure_identity_enforced]", "1", web_widget_channel.secure_identity_enforced?
-          span.ui-toggle-slider
+          span.ww-toggle-slider
 
   / ─── Translations ───
-  .ui-section data-web-widget-channel-target="translationsSection"
-    .ui-section-header data-action="click->web-widget-channel#toggleSection"
-      .ui-section-title
-        span.ui-section-icon 🌐
-        span.ui-section-label = t("ui.dashboard.channels.contact_form.form.translations")
-      span.ui-section-chevron ▼
-    .ui-section-body data-controller="nested-translations"
-      p.text-muted style="margin-bottom: 16px; font-size: 13px;" Provide localized strings for your web widget. These will automatically override the default locale based on the customer's browser.
-      
+  .ww-section.ui-section data-web-widget-channel-target="translationsSection"
+    .ww-section-header data-action="click->web-widget-channel#toggleSection"
+      .ww-section-title
+        = inline_svg_tag("t_users.svg", class: "ww-section-icon", alt: t("ui.dashboard.channels.contact_form.form.translations"))
+        span.ww-section-label = t("ui.dashboard.channels.contact_form.form.translations")
+      span.ww-section-chevron ▼
+    .ww-section-body data-controller="nested-translations"
+      p.ww-section-desc = t("dashboard.web_widget_channels.form.translations_desc", default: "Provide localized strings for your web widget. These will automatically override the default locale based on the customer's browser.")
+
       .ww-translations-container data-nested-translations-target="container"
         = f.fields_for :translations do |tf|
           = render "dashboard/channels/web_widget/translation_fields", f: tf
@@ -154,14 +154,14 @@
       template data-nested-translations-target="template"
         = f.fields_for :translations, Channel::WebWidgetTranslation.new, child_index: 'NEW_RECORD' do |tf|
           = render "dashboard/channels/web_widget/translation_fields", f: tf
-      
+
       - current_locales = web_widget_channel.translations.reject(&:marked_for_destruction?).map(&:locale).map(&:to_s)
       - available_locales = Core::SUPPORTED_LOCALES.map(&:to_s) - current_locales
       - available_locales_options = available_locales.map { |l| [I18n.t("languages.#{l.downcase}"), l] }
-      
-      .ww-add-locale-wrapper style="margin-top: 16px; display: flex; gap: 8px; align-items: center;"
-        = select_tag "new_locale", options_for_select(available_locales_options), include_blank: t("forms.options.select_language"), class: "ui-select", data: { "nested-translations-target": "localeSelect" }, style: "width: 200px;"
-        button.ui-btn-secondary type="button" data-action="click->nested-translations#addTranslation" style="display: inline-flex; align-items: center; gap: 6px;" 
+
+      .ww-add-locale-wrapper
+        = select_tag "new_locale", options_for_select(available_locales_options), include_blank: t("forms.options.select_language"), class: "ww-select", data: { "nested-translations-target": "localeSelect" }
+        button.ww-btn-secondary type="button" data-action="click->nested-translations#addTranslation"
           span +
           | #{t("ui.dashboard.channels.contact_form.form.add_language")}
 
@@ -172,9 +172,9 @@
     = render "dashboard/channels/web_widget/installation", web_widget_channel: web_widget_channel
 
   / ─── Form Actions ───
-  .ui-form-actions
+  .ww-form-actions
     - if web_widget_channel.persisted?
-      = f.submit t("dashboard.web_widget_channels.form.update"), class: "ui-btn-primary"
+      = f.submit t("dashboard.web_widget_channels.form.update"), class: "ww-btn-primary"
     - else
-      = f.submit t("dashboard.web_widget_channels.form.save"), class: "ui-btn-primary"
-    = link_to t("dashboard.web_widget_channels.form.cancel"), channels_web_widget_index_path, class: "ui-btn-secondary"
+      = f.submit t("dashboard.web_widget_channels.form.save"), class: "ww-btn-primary"
+    = link_to t("dashboard.web_widget_channels.form.cancel"), channels_web_widget_index_path, class: "ww-btn-secondary"

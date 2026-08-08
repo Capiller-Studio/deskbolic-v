@@ -165,6 +165,7 @@ pt-BR:
         csat_surveys: Pesquisas CSAT
         integrations: Integrações
         labels: Etiquetas
+        ai_agents: Agentes de IA
       reports: Relatórios e análises
     settings_index:
       title: Página inicial
@@ -1962,6 +1963,93 @@ pt-BR:
       edit: Editar
       save: Salvar conexão do Slack
       update: Atualizar conexão do Slack
+    ai_agents:
+      index:
+        title: Agentes de IA
+        description: Gerencie seus agentes de IA, personalize o comportamento e monitore o desempenho.
+        add_agent: Adicionar novo agente
+        new_agent: Novo agente de IA
+        name: Nome
+        type: Tipo
+        status: Status
+        actions: Ações
+        all: Todos os agentes
+        active: Ativo
+        inactive: Inativo
+        status_filter: Filtrar agentes por status
+        search_placeholder: Pesquisar agentes...
+        actions_for: Ações para %{name}
+        edit: Editar
+        delete: Excluir
+        confirm_delete: Tem certeza de que deseja excluir este agente de IA?
+        tone: Tom
+        portal: Portal da Central de Ajuda
+        max_exchanges: Máximo de interações
+        confidence: Limite de confiança
+        not_linked: Não vinculado
+        default_language: Inglês (padrão)
+        no_matching_agents: Nenhum agente correspondente
+        adjust_filters: Tente outro status ou termo de pesquisa.
+        pagination: Paginação dos agentes de IA
+        no_agents: Nenhum agente de IA encontrado.
+        empty_description: Crie um agente de IA para ajudar nas dúvidas dos clientes.
+      new:
+        title: Criar agente de IA
+        add_title: Adicionar novo agente de IA
+        description: Crie e configure seu agente de IA para oferecer um suporte melhor aos clientes.
+        submit: Criar agente
+      edit:
+        title: Editar agente de IA
+        description: Atualize e configure seu agente de IA para oferecer um suporte melhor aos clientes.
+        submit: Atualizar agente
+      form:
+        information_section: Informações do agente
+        name: Nome do agente
+        name_placeholder: Digite o nome do agente
+        status: Status
+        agent_type: Tipo de agente
+        agent_type_placeholder: Selecione o tipo de agente
+        tone: Tom
+        tone_placeholder: Selecione o tom
+        max_exchanges: Máximo de interações
+        max_exchanges_placeholder: Digite o máximo de interações
+        confidence_threshold: Limite de confiança (0,0 a 1,0)
+        confidence_placeholder: Digite um valor (0,0–1,0)
+        confidence_hint: Valores mais altos fazem com que o agente responda apenas quando estiver mais confiante.
+        portal_id: Portal da Central de Ajuda
+        portal_placeholder: Selecione um portal da Central de Ajuda
+        system_prompt: Instrução do sistema
+        translations: Tradução
+        translations_description: Forneça textos localizados para seu agente de IA. Eles substituirão o idioma padrão conforme o navegador do cliente.
+        default_language: (Padrão)
+        greeting_message: Mensagem de saudação
+        greeting_placeholder: Digite a saudação exibida quando uma conversa começar...
+        handoff_message: Mensagem de transferência
+        handoff_placeholder: Digite a mensagem exibida ao transferir para um atendente humano...
+        fallback_message: Mensagem alternativa
+        fallback_placeholder: Digite a mensagem exibida quando o agente não puder responder...
+        select_portal: Selecione um portal
+      errors:
+        fix_errors: "Corrija os seguintes erros:"
+      messages:
+        created: O agente de IA foi criado com sucesso.
+        updated: O agente de IA foi atualizado com sucesso.
+        deleted: O agente de IA foi excluído com sucesso.
+        limit_reached: Você atingiu o número máximo de agentes de IA permitido pelo seu plano.
+  activerecord:
+    attributes:
+      ai/agent:
+        agent_types:
+          help_center_bot: Bot da Central de Ajuda
+          custom: Personalizado
+        statuses:
+          active: Ativo
+          inactive: Inativo
+        tones:
+          professional: Profissional
+          friendly: Amigável
+          neutral: Neutro
+          concise: Conciso
   auth:
     workspace:
       email_invitation:
@@ -2890,6 +2978,8 @@ pt-BR:
         settings_sidebar:
           custom_channels: Canais personalizados
           developer_api_keys: Chaves de API do desenvolvedor
+          no_results: Nenhuma configuração encontrada
+          search_placeholder: Pesquisar configurações...
         team_inboxes:
           add_new_inbox: Adicionar nova caixa de entrada
           complete_access: Acesso completo

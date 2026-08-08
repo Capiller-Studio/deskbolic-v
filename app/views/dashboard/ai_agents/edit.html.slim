@@ -1,9 +1,11 @@
 = render("dashboard/shared/dashboard_container", current_page: "settings") do
   = render("dashboard/settings/settings_sidebar", current_page: "ai_agents") do
-    .ui-page-body
-      .ui-page-header
-        = link_to t('shared.back'), ai_agents_path, class: "ui-back-link"
-        h2.f-semi-24 style="color: #0f172a; margin-top: 12px;" = t('dashboard.ai_agents.edit.title', default: 'Edit AI Agent')
-      
-      .ui-form-wrapper style="padding-top: 24px;"
-        = render "form", ai_agent: @ai_agent
+    .ai-agent-editor-page
+      header.ai-agent-editor-header
+        = link_to ai_agents_path, class: "ai-agent-editor-back", aria: { label: t("shared.back") } do
+          = image_tag("ai_agents/new_agent_back.svg", alt: "", width: 14, height: 12, aria: { hidden: true })
+        .ai-agent-editor-heading
+          h1 = t("dashboard.ai_agents.edit.title", default: "Edit AI Agent")
+          p = t("dashboard.ai_agents.edit.description", default: "Update and configure your AI agent to provide better support to your customers.")
+
+      = render "form", ai_agent: @ai_agent, editor_layout: true

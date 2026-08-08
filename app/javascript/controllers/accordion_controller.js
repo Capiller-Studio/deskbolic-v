@@ -3,6 +3,7 @@ import { Controller } from "@hotwired/stimulus"
 // Connects to data-controller="accordion"
 export default class extends Controller {
   static targets = ["panel", "npanel", "menu", "response"];
+  static values = { exclusive: Boolean };
   
   initialize() {
     document.addEventListener("click", this.closeMenuOutside.bind(this));
@@ -15,16 +16,27 @@ export default class extends Controller {
   toggle(event) {
     const target = event.currentTarget;
     const panel = target.nextElementSibling;
-    
-    if (panel.classList.contains('visible')) {
-      panel.classList.toggle('visible');
-      panel.previousElementSibling.classList.remove("active-accordian");
-      panel.parentElement.classList.remove("active-config-item");
-    } else {
-      panel.classList.toggle('visible'); 
-      panel.previousElementSibling.classList.add("active-accordian");
-      panel.parentElement.classList.add("active-config-item");
+
+    if (!panel || !this.panelTargets.includes(panel)) return;
+
+    const opening = !panel.classList.contains("visible");
+
+    if (opening && this.exclusiveValue) {
+      this.panelTargets.forEach((otherPanel) => {
+        if (otherPanel !== panel) this.setPanelState(otherPanel, false);
+      });
     }
+
+    this.setPanelState(panel, opening);
+  }
+
+  setPanelState(panel, open) {
+    const trigger = panel.previousElementSibling;
+
+    panel.classList.toggle("visible", open);
+    trigger?.classList.toggle("active-accordian", open);
+    trigger?.setAttribute("aria-expanded", open.toString());
+    panel.parentElement.classList.toggle("active-config-item", open);
   }
   
   toggleNote(event) {

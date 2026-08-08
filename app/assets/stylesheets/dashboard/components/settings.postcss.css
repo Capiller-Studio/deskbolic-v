@@ -1,6 +1,87 @@
 .st-sidebar {
   .help-nav-menu {
-    padding-top: 15px;
+    padding-top: 10px;
+  }
+}
+.settings-sidebar-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+  margin: 0 10px;
+  padding: 0 10px;
+  border: 1px solid $black-10;
+  border-radius: 10px;
+  background-color: $white;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+  &:focus-within {
+    border-color: $black-20;
+    box-shadow: 0 0 0 2px $primary-purple-50;
+  }
+
+  .settings-sidebar-search-icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  input {
+    width: 100%;
+    min-width: 0;
+    border: 0;
+    outline: 0;
+    color: $black-80;
+    background: transparent;
+
+    &::placeholder {
+      color: $black-40;
+    }
+
+    &::-webkit-search-cancel-button {
+      width: 10px;
+      height: 10px;
+      margin-left: 8px;
+      cursor: pointer;
+      background-color: #94A3B8;
+      -webkit-appearance: none;
+      -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 3l10 10M13 3L3 13' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E") center / 16px 16px no-repeat;
+      mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 3l10 10M13 3L3 13' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E") center / 16px 16px no-repeat;
+    }
+  }
+}
+.settings-sidebar-empty {
+  padding: 16px 8px;
+  color: $black-40;
+  text-align: center;
+}
+.helpdesk-section .helpdesk-container .helpdesk-nav .card ul.settings-sidebar-accordion .help-nav-menu {
+  li.nav-item > .nav-link .link-text .st-dropdown-icon {
+    rotate: -90deg;
+    transition: rotate 0.15s ease;
+  }
+
+  li.nav-item.active-accordian > .nav-link .link-text .st-dropdown-icon {
+    rotate: 0deg;
+  }
+
+  li.nav-item.filterable-collection-expanded > .nav-link .link-text .st-dropdown-icon {
+    rotate: 0deg;
+  }
+
+  .st-panel {
+    display: none;
+    opacity: 0;
+  }
+
+  .st-panel.visible {
+    display: block;
+    opacity: 1;
+  }
+
+  .st-panel.filterable-collection-panel-match {
+    display: block;
+    opacity: 1;
   }
 }
 .settings-body {

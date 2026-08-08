@@ -165,6 +165,7 @@ ko:
         csat_surveys: CSAT 설문조사
         integrations: 통합
         labels: 라벨
+        ai_agents: AI 에이전트
       reports: 보고 및 분석
     settings_index:
       title: 홈
@@ -1962,6 +1963,93 @@ ko:
       edit: 편집
       save: Slack 연결 저장
       update: Slack 연결 업데이트
+    ai_agents:
+      index:
+        title: AI 에이전트
+        description: AI 에이전트를 관리하고 동작을 맞춤 설정하며 성능을 모니터링하세요.
+        add_agent: 새 에이전트 추가
+        new_agent: 새 AI 에이전트
+        name: 이름
+        type: 유형
+        status: 상태
+        actions: 작업
+        all: 모든 에이전트
+        active: 활성
+        inactive: 비활성
+        status_filter: 상태별 에이전트 필터링
+        search_placeholder: 에이전트 검색...
+        actions_for: "%{name} 작업"
+        edit: 편집
+        delete: 삭제
+        confirm_delete: 이 AI 에이전트를 삭제하시겠습니까?
+        tone: 어조
+        portal: 헬프 센터 포털
+        max_exchanges: 최대 대화 횟수
+        confidence: 신뢰도 임계값
+        not_linked: 연결되지 않음
+        default_language: 영어(기본값)
+        no_matching_agents: 일치하는 에이전트 없음
+        adjust_filters: 다른 상태나 검색어를 사용해 보세요.
+        pagination: AI 에이전트 페이지 탐색
+        no_agents: AI 에이전트를 찾을 수 없습니다.
+        empty_description: 고객 문의를 지원할 AI 에이전트를 만들어 보세요.
+      new:
+        title: AI 에이전트 만들기
+        add_title: 새 AI 에이전트 추가
+        description: 고객에게 더 나은 지원을 제공하도록 AI 에이전트를 만들고 설정하세요.
+        submit: 에이전트 만들기
+      edit:
+        title: AI 에이전트 편집
+        description: 고객에게 더 나은 지원을 제공하도록 AI 에이전트를 업데이트하고 설정하세요.
+        submit: 에이전트 업데이트
+      form:
+        information_section: 에이전트 정보
+        name: 에이전트 이름
+        name_placeholder: 에이전트 이름 입력
+        status: 상태
+        agent_type: 에이전트 유형
+        agent_type_placeholder: 에이전트 유형 선택
+        tone: 어조
+        tone_placeholder: 어조 선택
+        max_exchanges: 최대 대화 횟수
+        max_exchanges_placeholder: 최대 대화 횟수 입력
+        confidence_threshold: 신뢰도 임계값(0.0~1.0)
+        confidence_placeholder: 값 입력(0.0~1.0)
+        confidence_hint: 값이 높을수록 에이전트는 더 확신할 때만 답변합니다.
+        portal_id: 헬프 센터 포털
+        portal_placeholder: 헬프 센터 포털 선택
+        system_prompt: 시스템 프롬프트
+        translations: 번역
+        translations_description: AI 에이전트의 현지화된 문구를 입력하세요. 고객의 브라우저 언어에 따라 기본 언어를 대체합니다.
+        default_language: (기본값)
+        greeting_message: 환영 메시지
+        greeting_placeholder: 대화가 시작될 때 표시할 환영 메시지를 입력하세요...
+        handoff_message: 상담원 연결 메시지
+        handoff_placeholder: 사람 상담원에게 연결할 때 표시할 메시지를 입력하세요...
+        fallback_message: 대체 메시지
+        fallback_placeholder: 에이전트가 답변할 수 없을 때 표시할 메시지를 입력하세요...
+        select_portal: 포털 선택
+      errors:
+        fix_errors: "다음 오류를 수정하세요:"
+      messages:
+        created: AI 에이전트가 생성되었습니다.
+        updated: AI 에이전트가 업데이트되었습니다.
+        deleted: AI 에이전트가 삭제되었습니다.
+        limit_reached: 현재 요금제에서 허용되는 AI 에이전트의 최대 수에 도달했습니다.
+  activerecord:
+    attributes:
+      ai/agent:
+        agent_types:
+          help_center_bot: 헬프 센터 봇
+          custom: 사용자 정의
+        statuses:
+          active: 활성
+          inactive: 비활성
+        tones:
+          professional: 전문적
+          friendly: 친근함
+          neutral: 중립적
+          concise: 간결함
   auth:
     workspace:
       email_invitation:
@@ -2890,6 +2978,8 @@ ko:
         settings_sidebar:
           custom_channels: 맞춤 채널
           developer_api_keys: 개발자 API 키
+          no_results: 설정을 찾을 수 없습니다
+          search_placeholder: 설정 검색...
         team_inboxes:
           add_new_inbox: 새 받은편지함 추가
           complete_access: 완전한 접근

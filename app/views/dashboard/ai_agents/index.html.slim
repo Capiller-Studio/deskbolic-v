@@ -1,42 +1,89 @@
 = render("dashboard/shared/dashboard_container", current_page: "settings") do
   = render("dashboard/settings/settings_sidebar", current_page: "ai_agents") do
-    .body-container
-      .ui-index-header
-        .ui-title-area
-          h2.f-semi-32 = t("dashboard.ai_agents.index.title", default: "AI Agents")
-          p.f-reg-16 = t("dashboard.ai_agents.index.description", default: "Manage your AI agents.")
-        = link_to new_ai_agent_path, class: "ui-btn-primary"
-          | + #{t("dashboard.ai_agents.index.new_agent", default: "New AI Agent")}
+    .ai-agents-page data-controller="tabs filterable-collection"
+      header.ui-index-header.ai-agents-page-header
+        .ui-title-area.ai-agents-heading
+          h1 = t("dashboard.ai_agents.index.title", default: "AI Agents")
+          p = t("dashboard.ai_agents.index.description", default: "Manage your AI agents, customize their behavior and monitor their performance.")
+        = link_to new_ai_agent_path, class: "ui-btn-primary ai-agents-primary-button" do
+          span = t("dashboard.ai_agents.index.add_agent", default: "Add new agent")
+          = inline_svg_tag("plus_white.svg", class: "ai-agents-button-plus", aria: { hidden: true })
 
-      - if @ai_agents.any?
-        .ui-list
-          - @ai_agents.each do |agent|
-            div id="ai_agent_#{agent.id}" class="ui-card"
-              .ui-card-top
-                .ui-card-info
-                  .ui-avatar-placeholder 🤖
-                  div
-                    h3.f-semi-18 = agent.name
-                    p.f-reg-14
-                      span.ui-badge = t("activerecord.attributes.ai/agent.agent_types.#{agent.agent_type}", default: agent.agent_type.to_s.humanize)
-                      - if agent.active?
-                        span.ui-badge style="margin-left: 8px; background: #E6F4EA; color: #137333;" = t("activerecord.attributes.ai/agent.statuses.#{agent.status}", default: agent.status.to_s.humanize)
-                      - else
-                        span.ui-badge style="margin-left: 8px;" = t("activerecord.attributes.ai/agent.statuses.#{agent.status}", default: agent.status.to_s.humanize)
-                    p.f-reg-14 style="margin-top: 4px;"
-                      span.ui-card-event = agent.system_prompt.to_s.truncate(80)
+      .ai-agents-page-body
+        .ai-agents-toolbar
+          .ai-agents-tabs role="tablist" aria-label=t("dashboard.ai_agents.index.status_filter", default: "Filter agents by status")
+            - [{ key: :all, label: t("dashboard.ai_agents.index.all", default: "All Agent") }, { key: :active, label: t("dashboard.ai_agents.index.active", default: "Active") }, { key: :inactive, label: t("dashboard.ai_agents.index.inactive", default: "Inactive") }].each_with_index do |tab, index|
+              button.ai-agents-tab class=(index.zero? ? "active" : nil) type="button" role="tab" aria-selected=(index.zero? ? "true" : "false") tabindex=(index.zero? ? "0" : "-1") data-tabs-target="tab" data-filter-value=(tab[:key] == :all ? "" : tab[:key]) data-action="click->tabs#switch click->filterable-collection#selectFilter"
+                span = tab[:label]
+                span.ai-agents-tab-count = @ai_agent_counts.fetch(tab[:key])
 
-                .ui-card-actions
-                  = link_to edit_ai_agent_path(agent), class: "ui-action-btn", title: t("dashboard.skills.index.edit", default: "Edit")
-                    | ✏️
-                  = button_to ai_agent_path(agent), method: :delete, class: "ui-action-btn ui-action-delete", title: t("dashboard.skills.index.delete", default: "Delete"), data: { turbo_confirm: t("dashboard.ai_agents.index.confirm_delete", default: "Are you sure?") }
-                    | 🗑️
-        
-        - if @pagy && @pagy.pages > 1
-          .mt-4
-            == pagy_nav(@pagy)
-      - else
-        .ui-empty-state
-          .ui-empty-icon 🤖
-          h3.f-semi-18 = t("dashboard.ai_agents.index.no_agents", default: "No AI Agents found.")
-          p.f-reg-14 = t("dashboard.ai_agents.index.empty_description", default: "Create an AI Agent to assist with customer queries.")
+          label.ai-agents-search
+            = inline_svg_tag("search_gray.svg", class: "ai-agents-search-icon", aria: { hidden: true })
+            input type="search" placeholder=t("dashboard.ai_agents.index.search_placeholder", default: "Search agents...") aria-label=t("dashboard.ai_agents.index.search_placeholder", default: "Search agents") autocomplete="off" data-filterable-collection-target="query" data-action="input->filterable-collection#update"
+
+        - if @ai_agents.any?
+          .ui-list.ai-agents-grid data-filterable-collection-target="container"
+            - @ai_agents.each do |agent|
+              - agent_type_label = t("activerecord.attributes.ai/agent.agent_types.#{agent.agent_type}", default: agent.agent_type.to_s.humanize)
+              article.ui-card.ai-agent-card id="ai_agent_#{agent.id}" data-filterable-collection-target="item" data-filter-values=agent.status data-searchable="#{[agent.name, agent_type_label, agent.tone, agent.portal&.name, agent.status].compact.join(' ').downcase}"
+                .ui-card-top.ai-agent-card-header
+                  .ui-card-info.ai-agent-card-identity
+                    .ai-agent-card-avatar
+                      = image_tag("ai_agents/ai_agent.svg", alt: "", aria: { hidden: true })
+                    .ai-agent-card-title
+                      h2 = agent.name
+                      p = agent_type_label
+
+                  details.ai-agent-card-menu
+                    summary aria-label=t("dashboard.ai_agents.index.actions_for", name: agent.name, default: "Actions for %{name}")
+                      = inline_svg_tag("dots.svg", class: "ai-agent-card-menu-icon", aria: { hidden: true })
+                    .ai-agent-card-menu-popover role="menu"
+                      = link_to edit_ai_agent_path(agent), role: "menuitem" do
+                        = t("dashboard.ai_agents.index.edit", default: "Edit")
+                      = button_to ai_agent_path(agent), method: :delete, role: "menuitem", form: { class: "ai-agent-card-delete-form" }, data: { turbo_confirm: t("dashboard.ai_agents.index.confirm_delete", default: "Are you sure you want to delete this AI Agent?") } do
+                        = t("dashboard.ai_agents.index.delete", default: "Delete")
+
+                dl.ai-agent-card-details
+                  .ai-agent-card-detail
+                    dt
+                      = image_tag("ai_agents/tone.svg", alt: "", aria: { hidden: true })
+                      span = t("dashboard.ai_agents.index.tone", default: "Tone")
+                    dd = agent.tone.to_s.humanize
+                  .ai-agent-card-detail
+                    dt
+                      = image_tag("ai_agents/portal.svg", alt: "", aria: { hidden: true })
+                      span = t("dashboard.ai_agents.index.portal", default: "Help Center Portal")
+                    dd title=agent.portal&.name = agent.portal&.name.presence || t("dashboard.ai_agents.index.not_linked", default: "Not linked")
+                  .ai-agent-card-detail
+                    dt
+                      = image_tag("ai_agents/exchanges.svg", alt: "", aria: { hidden: true })
+                      span = t("dashboard.ai_agents.index.max_exchanges", default: "Max Exchanges")
+                    dd = agent.max_exchanges
+                  .ai-agent-card-detail
+                    dt
+                      = image_tag("ai_agents/confidence.svg", alt: "", aria: { hidden: true })
+                      span = t("dashboard.ai_agents.index.confidence", default: "Confidence Threshold")
+                    dd = format("%.2f", agent.confidence_threshold)
+
+                .ai-agent-card-footer
+                  .ai-agent-card-language
+                    = image_tag("ai_agents/language.svg", alt: "", aria: { hidden: true })
+                    span = t("dashboard.ai_agents.index.default_language", default: "English (Default)")
+                  span.ui-badge.ai-agent-status class="ai-agent-status-#{agent.status}"
+                    span.ai-agent-status-dot aria-hidden="true"
+                    = t("activerecord.attributes.ai/agent.statuses.#{agent.status}", default: agent.status.humanize)
+
+          .ai-agents-filter-empty data-filterable-collection-target="empty" hidden=true
+            h2 = t("dashboard.ai_agents.index.no_matching_agents", default: "No matching agents")
+            p = t("dashboard.ai_agents.index.adjust_filters", default: "Try another status or search term.")
+
+          - if @pagy && @pagy.pages > 1
+            nav.ai-agents-pagination aria-label=t("dashboard.ai_agents.index.pagination", default: "AI agents pagination")
+              == pagy_nav(@pagy)
+        - else
+          .ai-agents-empty-state
+            .ai-agent-card-avatar
+              = image_tag("ai_agents/ai_agent.svg", alt: "", aria: { hidden: true })
+            h2 = t("dashboard.ai_agents.index.no_agents", default: "No AI Agents found.")
+            p = t("dashboard.ai_agents.index.empty_description", default: "Create an AI Agent to assist with customer queries.")
+            = link_to t("dashboard.ai_agents.index.add_agent", default: "Add new agent"), new_ai_agent_path, class: "ui-btn-primary ai-agents-primary-button"

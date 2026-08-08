@@ -6,15 +6,22 @@ module Dashboard
 
     def index
       current_account.with_shard do
+        agents = Ai::Agent.where(account: current_account)
+        status_counts = agents.group(:status).count
+        @ai_agent_counts = {
+          all: agents.count,
+          active: status_counts.fetch("active", 0),
+          inactive: status_counts.fetch("inactive", 0)
+        }
         @pagy, @ai_agents = pagy(
-          Ai::Agent.where(account: current_account).order(created_at: :desc),
+          agents.includes(:portal).order(created_at: :desc),
           page_param: :page, limit: 20
         )
       end
     end
 
     def new
-      @ai_agent = Ai::Agent.new(status: :active, agent_type: :help_center_bot, confidence_threshold: 0.7, max_exchanges: 5)
+      @ai_agent = Ai::Agent.new(name: nil, status: :active, agent_type: nil, tone: nil, confidence_threshold: 0.7, max_exchanges: 5)
     end
 
     def create

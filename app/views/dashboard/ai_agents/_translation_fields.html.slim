@@ -1,22 +1,36 @@
-.ww-translation-card style="background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin-bottom: 16px; position: relative; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);"
-  .ww-translation-header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #f1f5f9;"
-    div style="display: flex; align-items: center; gap: 8px;"
-      span.f-semi-14 = I18n.t("languages.#{f.object.locale.to_s.downcase}", default: f.object.locale.to_s.upcase)
-      = f.hidden_field :locale
-    button.ui-action-delete type="button" data-action="click->nested-translations#removeTranslation" title=t("general.remove_language")
-      svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
-        path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"
-    = f.hidden_field :_destroy, class: "destroy-flag"
-  
-  .ui-form-row.ww-translation-row
-    div
-      label.ui-label = t("dashboard.ai_agents.form.greeting_message", default: 'Greeting Message')
-      = f.text_area :greeting_message, class: "ui-input ww-translation-input", rows: 3, placeholder: 'Hello! How can I help you today?'
-    div
-      label.ui-label = t("dashboard.ai_agents.form.handoff_message", default: 'Handoff Message')
-      = f.text_area :handoff_message, class: "ui-input ww-translation-input", rows: 3, placeholder: 'Let me connect you with a human agent.'
+- locale = f.object.locale.to_s
+- active = local_assigns.fetch(:active, false)
 
-  .ui-form-row
-    div style="width: 100%;"
-      label.ui-label = t("dashboard.ai_agents.form.fallback_message", default: 'Fallback Message')
-      = f.text_area :fallback_message, class: "ui-input ww-translation-input", rows: 3, placeholder: 'I am sorry, I did not understand that.'
+.ww-translation-card.ai-agent-message-panel class=(active ? nil : "cf-hidden") data-locale=locale data-locale-tabs-target="panel"
+  = f.hidden_field :locale
+  = f.hidden_field :_destroy, class: "destroy-flag"
+
+  - unless locale == I18n.default_locale.to_s
+    .ai-agent-translation-panel-header
+      strong.translation-language-name = I18n.t("languages.#{locale.downcase}", default: locale.upcase)
+      button.ui-action-delete type="button" data-action="click->nested-translations#removeTranslation" title=t("general.remove_language")
+        = inline_svg_tag("cross_clear.svg", aria: { hidden: true })
+
+  .ai-agent-message-field
+    .ai-agent-message-label
+      = f.label :greeting_message, t("dashboard.ai_agents.form.greeting_message", default: "Greeting Message"), class: "ui-label"
+      = image_tag("ai_agents/new_agent_info.svg", alt: "", width: 14, height: 14, aria: { hidden: true })
+    .ai-agent-textarea-control
+      = f.text_area :greeting_message, class: "ui-input", rows: 3, maxlength: 500, placeholder: t("dashboard.ai_agents.form.greeting_placeholder", default: "Enter greeting message")
+      span.ai-agent-character-count #{f.object.greeting_message.to_s.length}/500
+
+  .ai-agent-message-field
+    .ai-agent-message-label
+      = f.label :handoff_message, t("dashboard.ai_agents.form.handoff_message", default: "Handoff Message"), class: "ui-label"
+      = image_tag("ai_agents/new_agent_info.svg", alt: "", width: 14, height: 14, aria: { hidden: true })
+    .ai-agent-textarea-control
+      = f.text_area :handoff_message, class: "ui-input", rows: 3, maxlength: 500, placeholder: t("dashboard.ai_agents.form.handoff_placeholder", default: "Enter handoff message")
+      span.ai-agent-character-count #{f.object.handoff_message.to_s.length}/500
+
+  .ai-agent-message-field
+    .ai-agent-message-label
+      = f.label :fallback_message, t("dashboard.ai_agents.form.fallback_message", default: "Fallback Message"), class: "ui-label"
+      = image_tag("ai_agents/new_agent_info.svg", alt: "", width: 14, height: 14, aria: { hidden: true })
+    .ai-agent-textarea-control
+      = f.text_area :fallback_message, class: "ui-input", rows: 3, maxlength: 500, placeholder: t("dashboard.ai_agents.form.fallback_placeholder", default: "Enter fallback message")
+      span.ai-agent-character-count #{f.object.fallback_message.to_s.length}/500

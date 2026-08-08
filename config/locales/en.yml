@@ -2130,39 +2130,90 @@ en:
     ai_agents:
       index:
         title: AI Agents
+        description: Manage your AI agents, customize their behavior and monitor their performance.
+        add_agent: Add new agent
         new_agent: New AI Agent
         name: Name
         type: Type
         status: Status
         actions: Actions
+        all: All Agents
+        active: Active
+        inactive: Inactive
+        status_filter: Filter agents by status
+        search_placeholder: Search agents...
+        actions_for: Actions for %{name}
         edit: Edit
         delete: Delete
         confirm_delete: Are you sure you want to delete this AI Agent?
+        tone: Tone
+        portal: Help Center Portal
+        max_exchanges: Max Exchanges
+        confidence: Confidence Threshold
+        not_linked: Not linked
+        default_language: English (Default)
+        no_matching_agents: No matching agents
+        adjust_filters: Try another status or search term.
+        pagination: AI agents pagination
         no_agents: No AI Agents found.
+        empty_description: Create an AI Agent to assist with customer queries.
       new:
         title: Create AI Agent
+        add_title: Add New AI Agent
+        description: Create and configure your AI agent to provide better support to your customers.
         submit: Create Agent
       edit:
         title: Edit AI Agent
+        description: Update and configure your AI agent to provide better support to your customers.
         submit: Update Agent
       form:
+        information_section: Agent Information
         name: Agent Name
+        name_placeholder: Enter agent name
         status: Status
         agent_type: Agent Type
+        agent_type_placeholder: Select agent type
         tone: Tone
+        tone_placeholder: Select tone
         max_exchanges: Max Exchanges
+        max_exchanges_placeholder: Enter max exchanges
         confidence_threshold: Confidence Threshold (0.0 to 1.0)
+        confidence_placeholder: Enter value (0.0 - 1.0)
+        confidence_hint: Higher values mean the agent will reply only when it is more confident.
         portal_id: Help Center Portal
+        portal_placeholder: Select help center portal
         system_prompt: System Prompt
+        translations: Translation
+        translations_description: Provide localized strings for your AI Agent. These will override the default locale based on the customer's browser.
+        default_language: (Default)
         greeting_message: Greeting Message
+        greeting_placeholder: Enter the greeting shown when a conversation starts...
         handoff_message: Handoff Message
+        handoff_placeholder: Enter the message shown when handing off to a human agent...
         fallback_message: Fallback Message
+        fallback_placeholder: Enter the fallback shown when the agent cannot answer...
         select_portal: Select a Portal
+      errors:
+        fix_errors: "Please fix the following errors:"
       messages:
         created: AI Agent was successfully created.
         updated: AI Agent was successfully updated.
         deleted: AI Agent was successfully deleted.
         limit_reached: You have reached the maximum number of AI Agents for your plan.
+  activerecord:
+    attributes:
+      ai/agent:
+        agent_types:
+          help_center_bot: Help Center Bot
+          custom: Custom
+        statuses:
+          active: Active
+          inactive: Inactive
+        tones:
+          professional: Professional
+          friendly: Friendly
+          neutral: Neutral
+          concise: Concise
   auth:
     workspace:
       email_invitation:
@@ -3194,6 +3245,8 @@ en:
         settings_sidebar:
           custom_channels: Custom Channels
           developer_api_keys: Developer API Keys
+          no_results: No settings found
+          search_placeholder: Search settings...
         team_inboxes:
           add_new_inbox: Add new inbox
           complete_access: Complete Access

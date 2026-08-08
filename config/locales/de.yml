@@ -165,6 +165,7 @@ de:
         csat_surveys: CSAT-Umfragen
         integrations: Integrationen
         labels: Etiketten
+        ai_agents: KI-Agenten
       reports: Berichte und Analysen
     settings_index:
       title: Zuhause
@@ -1962,6 +1963,93 @@ de:
       edit: Bearbeiten
       save: Slack-Verbindung speichern
       update: Slack-Verbindung aktualisieren
+    ai_agents:
+      index:
+        title: KI-Agenten
+        description: Verwalten Sie Ihre KI-Agenten, passen Sie ihr Verhalten an und überwachen Sie ihre Leistung.
+        add_agent: Neuen Agenten hinzufügen
+        new_agent: Neuer KI-Agent
+        name: Name
+        type: Typ
+        status: Status
+        actions: Aktionen
+        all: Alle Agenten
+        active: Aktiv
+        inactive: Inaktiv
+        status_filter: Agenten nach Status filtern
+        search_placeholder: Agenten suchen...
+        actions_for: Aktionen für %{name}
+        edit: Bearbeiten
+        delete: Löschen
+        confirm_delete: Möchten Sie diesen KI-Agenten wirklich löschen?
+        tone: Tonalität
+        portal: Help-Center-Portal
+        max_exchanges: Maximale Dialogwechsel
+        confidence: Konfidenzschwelle
+        not_linked: Nicht verknüpft
+        default_language: Englisch (Standard)
+        no_matching_agents: Keine passenden Agenten
+        adjust_filters: Versuchen Sie einen anderen Status oder Suchbegriff.
+        pagination: Seitennavigation für KI-Agenten
+        no_agents: Keine KI-Agenten gefunden.
+        empty_description: Erstellen Sie einen KI-Agenten, der Kundenanfragen unterstützt.
+      new:
+        title: KI-Agent erstellen
+        add_title: Neuen KI-Agenten hinzufügen
+        description: Erstellen und konfigurieren Sie Ihren KI-Agenten, um Ihre Kunden besser zu unterstützen.
+        submit: Agenten erstellen
+      edit:
+        title: KI-Agent bearbeiten
+        description: Aktualisieren und konfigurieren Sie Ihren KI-Agenten, um Ihre Kunden besser zu unterstützen.
+        submit: Agenten aktualisieren
+      form:
+        information_section: Agenteninformationen
+        name: Agentenname
+        name_placeholder: Agentennamen eingeben
+        status: Status
+        agent_type: Agententyp
+        agent_type_placeholder: Agententyp auswählen
+        tone: Tonalität
+        tone_placeholder: Tonalität auswählen
+        max_exchanges: Maximale Dialogwechsel
+        max_exchanges_placeholder: Maximale Dialogwechsel eingeben
+        confidence_threshold: Konfidenzschwelle (0,0 bis 1,0)
+        confidence_placeholder: Wert eingeben (0,0–1,0)
+        confidence_hint: Bei höheren Werten antwortet der Agent nur, wenn er sich sicherer ist.
+        portal_id: Help-Center-Portal
+        portal_placeholder: Help-Center-Portal auswählen
+        system_prompt: Systemanweisung
+        translations: Übersetzung
+        translations_description: Stellen Sie lokalisierte Texte für Ihren KI-Agenten bereit. Sie überschreiben die Standardsprache entsprechend dem Browser des Kunden.
+        default_language: (Standard)
+        greeting_message: Begrüßungsnachricht
+        greeting_placeholder: Begrüßung beim Start einer Unterhaltung eingeben...
+        handoff_message: Übergabenachricht
+        handoff_placeholder: Nachricht für die Übergabe an einen menschlichen Agenten eingeben...
+        fallback_message: Ausweichnachricht
+        fallback_placeholder: Nachricht eingeben, wenn der Agent keine Antwort geben kann...
+        select_portal: Portal auswählen
+      errors:
+        fix_errors: "Bitte beheben Sie die folgenden Fehler:"
+      messages:
+        created: Der KI-Agent wurde erfolgreich erstellt.
+        updated: Der KI-Agent wurde erfolgreich aktualisiert.
+        deleted: Der KI-Agent wurde erfolgreich gelöscht.
+        limit_reached: Sie haben die maximale Anzahl an KI-Agenten für Ihren Tarif erreicht.
+  activerecord:
+    attributes:
+      ai/agent:
+        agent_types:
+          help_center_bot: Help-Center-Bot
+          custom: Benutzerdefiniert
+        statuses:
+          active: Aktiv
+          inactive: Inaktiv
+        tones:
+          professional: Professionell
+          friendly: Freundlich
+          neutral: Neutral
+          concise: Prägnant
   auth:
     workspace:
       email_invitation:
@@ -2890,6 +2978,8 @@ de:
         settings_sidebar:
           custom_channels: Benutzerdefinierte Kanäle
           developer_api_keys: Entwickler-API-Schlüssel
+          no_results: Keine Einstellungen gefunden
+          search_placeholder: Einstellungen durchsuchen...
         team_inboxes:
           add_new_inbox: Neuen Posteingang hinzufügen
           complete_access: Vollständiger Zugriff

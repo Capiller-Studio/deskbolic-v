@@ -4,6 +4,7 @@ module Dashboard
   module HelpCenter
     class CategoriesController < DashboardController
       before_action :set_portals, only: %i[index create]
+      before_action :set_category, only: %i[update destroy]
 
       def index
         authorize ::HelpCenter::Category
@@ -58,7 +59,8 @@ module Dashboard
           account: current_account,
           status: :active,
           visibility: category_params[:visibility].presence&.to_sym || :everyone,
-          ancestry: category_params[:parent_id].presence
+          ancestry: category_params[:parent_id].presence,
+          image: category_params[:image]
         )
 
         without_search_indexing do
@@ -97,6 +99,70 @@ module Dashboard
         end
       end
 
+      def update
+        authorize @category
+
+        name = category_params[:name].to_s.strip
+
+        if name.blank?
+          respond_to do |format|
+            format.html { redirect_to help_center_categories_path, alert: "Unable to update collection: name can't be blank." }
+            format.json { render json: { error: "Unable to update collection: name can't be blank." }, status: :unprocessable_entity }
+          end
+          return
+        end
+
+        without_search_indexing do
+          ActiveRecord::Base.transaction do
+            update_attrs = {
+              visibility: category_params[:visibility].presence&.to_sym || @category.visibility,
+              ancestry: category_params[:parent_id].presence
+            }
+            update_attrs[:image] = category_params[:image] if category_params.key?(:image)
+            @category.update!(update_attrs)
+
+            locale = category_locale(@category.portal)
+            translation = @category.translations.find_or_initialize_by(locale: locale)
+            translation.update!(
+              name: name,
+              description: category_params[:description]
+            )
+          end
+        end
+
+        respond_to do |format|
+          format.html { redirect_to help_center_categories_path, notice: "Collection was successfully updated.", status: :see_other }
+          format.json { render json: { id: @category.id, name: @category.name.presence || "Untitled" } }
+        end
+      rescue ActiveRecord::RecordInvalid => e
+        error_msg = "Unable to update collection: #{e.record.errors.full_messages.join(', ')}"
+        respond_to do |format|
+          format.html { redirect_to help_center_categories_path, alert: error_msg, status: :see_other }
+          format.json { render json: { error: error_msg }, status: :unprocessable_entity }
+        end
+      rescue StandardError => e
+        error_msg = "Unable to update collection: #{e.class} - #{e.message}"
+        respond_to do |format|
+          format.html { redirect_to help_center_categories_path, alert: error_msg, status: :see_other }
+          format.json { render json: { error: error_msg }, status: :unprocessable_entity }
+        end
+      end
+
+      def destroy
+        authorize @category
+        @category.destroy!
+        respond_to do |format|
+          format.html { redirect_to help_center_categories_path, notice: "Collection was successfully deleted.", status: :see_other }
+          format.json { head :no_content }
+        end
+      rescue StandardError => e
+        error_msg = "Unable to delete collection: #{e.message}"
+        respond_to do |format|
+          format.html { redirect_to help_center_categories_path, alert: error_msg, status: :see_other }
+          format.json { render json: { error: error_msg }, status: :unprocessable_entity }
+        end
+      end
+
       private
 
       def selected_portal
@@ -123,8 +189,17 @@ module Dashboard
         @portals = current_account.portals.includes(:translations).order(created_at: :desc)
       end
 
+      def set_category
+        @category = ::HelpCenter::Category
+          .where(account: current_account)
+          .left_joins(:translations)
+          .find_by("help_center_categories.id::text = ? OR help_center_category_translations.slug = ?", params[:id].to_s, params[:id].to_s)
+        
+        raise ActiveRecord::RecordNotFound unless @category
+      end
+
       def category_params
-        params.require(:category).permit(:name, :portal_id, :locale, :description, :parent_id, :visibility)
+        params.require(:category).permit(:name, :portal_id, :locale, :description, :parent_id, :visibility, :image)
       end
     end
   end

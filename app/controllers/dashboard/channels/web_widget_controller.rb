@@ -31,6 +31,10 @@ module Dashboard
 
       if creator.call
         @web_widget_channel = creator.channel
+        current_account.with_shard do
+          assign_web_widget_flags(@web_widget_channel, web_widget_channel_params)
+          @web_widget_channel.save!
+        end
         redirect_to edit_channels_web_widget_path(@web_widget_channel), notice: t("dashboard.web_widget_channels.created")
       else
         @web_widget_channel = creator.channel || Channel::WebWidget.new(web_widget_channel_params)
@@ -46,13 +50,7 @@ module Dashboard
     def update
       current_account.with_shard do
         params_to_update = web_widget_channel_params
-        
-        # Manually update flags since they aren't standard columns
-        @web_widget_channel.anonymous_allowed = params_to_update[:anonymous_allowed] == "1" || params_to_update[:anonymous_allowed] == true || params_to_update[:anonymous_allowed] == "true"
-        @web_widget_channel.help_center_enabled = params_to_update[:help_center_enabled] == "1" || params_to_update[:help_center_enabled] == true || params_to_update[:help_center_enabled] == "true"
-        @web_widget_channel.pre_chat_form_enabled = params_to_update[:pre_chat_form_enabled] == "1" || params_to_update[:pre_chat_form_enabled] == true || params_to_update[:pre_chat_form_enabled] == "true"
-        @web_widget_channel.secure_identity_enforced = params_to_update[:secure_identity_enforced] == "1" || params_to_update[:secure_identity_enforced] == true || params_to_update[:secure_identity_enforced] == "true"
-        @web_widget_channel.custom_branding = params_to_update[:custom_branding] == "1" || params_to_update[:custom_branding] == true || params_to_update[:custom_branding] == "true"
+        assign_web_widget_flags(@web_widget_channel, params_to_update)
         
         # Remove flags from params before calling update
         params_to_update = params_to_update.except(:anonymous_allowed, :help_center_enabled, :pre_chat_form_enabled, :secure_identity_enforced, :custom_branding)
@@ -127,6 +125,19 @@ module Dashboard
       end
 
       result
+    end
+
+    def assign_web_widget_flags(web_widget_channel, params_to_update)
+      # These are bit flags on the channel model, so normalize form checkbox values explicitly.
+      web_widget_channel.anonymous_allowed = truthy_param?(params_to_update[:anonymous_allowed])
+      web_widget_channel.help_center_enabled = truthy_param?(params_to_update[:help_center_enabled])
+      web_widget_channel.pre_chat_form_enabled = truthy_param?(params_to_update[:pre_chat_form_enabled])
+      web_widget_channel.secure_identity_enforced = truthy_param?(params_to_update[:secure_identity_enforced])
+      web_widget_channel.custom_branding = truthy_param?(params_to_update[:custom_branding])
+    end
+
+    def truthy_param?(value)
+      value == "1" || value == true || value == "true"
     end
   end
 end

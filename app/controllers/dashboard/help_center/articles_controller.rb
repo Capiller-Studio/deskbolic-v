@@ -3,7 +3,7 @@
 module Dashboard
   module HelpCenter
     class ArticlesController < DashboardController
-      before_action :set_article, only: %i[show edit update publish discard_draft copy_locale]
+      before_action :set_article, only: %i[show edit update publish discard_draft copy_locale destroy]
       before_action :set_article_context, only: %i[index new create show edit update]
 
       def index
@@ -187,6 +187,21 @@ module Dashboard
         @article.discard_draft!(locale: locale)
 
         render json: { success: true, message: I18n.t("dashboard.articles.draft_discarded", default: "Draft discarded successfully.") }
+      end
+
+      def destroy
+        authorize @article
+        @article.destroy!
+        respond_to do |format|
+          format.html { redirect_to help_center_articles_path, notice: "Article was successfully deleted.", status: :see_other }
+          format.json { head :no_content }
+        end
+      rescue StandardError => e
+        error_msg = "Unable to delete article: #{e.message}"
+        respond_to do |format|
+          format.html { redirect_to help_center_articles_path, alert: error_msg, status: :see_other }
+          format.json { render json: { error: error_msg }, status: :unprocessable_entity }
+        end
       end
 
       def reorder

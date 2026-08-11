@@ -16,8 +16,11 @@
             span.hc-soft-tag = @article.article_type.humanize
             - Array(translation&.meta_keywords).each do |keyword|
               span.hc-soft-tag = keyword
-        .hc-show-actions
-          = link_to "Edit", edit_help_center_article_path(id: @article.id), class: "hc-btn-primary"
+        .hc-show-actions style="display: flex; gap: 12px; align-items: center;"
+          = link_to edit_help_center_article_path(id: @article.id), class: "action-link", title: "Edit" do
+            = inline_svg_tag("edit.svg", class: "link-icon", alt: "Edit", style: "color: #2563eb; width: 18px; height: 18px;")
+          = link_to help_center_article_path(id: @article.id), data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete this article?" }, class: "action-link delete-btn", title: "Delete" do
+            = inline_svg_tag("delete_red.svg", class: "link-icon", alt: "Delete", style: "width: 18px; height: 18px;")
 
       .hc-show-layout
         article.hc-readable

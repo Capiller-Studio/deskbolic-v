@@ -215,7 +215,7 @@
               h3.f-semi-18 Add New Category
               p.f-reg-14.hc-category-modal-subtitle Create a new category to organize your article
           .hc-category-form-body
-            = form_with url: help_center_categories_path, scope: :category, method: :post, html: { class: "hc-category-form", data: { action: "submit->help-center--category#submit" } } do |f|
+            = form_with url: help_center_categories_path, scope: :category, method: :post, html: { multipart: true, class: "hc-category-form", data: { action: "submit->help-center--category#submit" } } do |f|
               = f.hidden_field :portal_id, value: @selected_portal&.id
               .hc-category-form-fields
                 .hc-category-form-floating
@@ -223,6 +223,18 @@
                     | Category name
                     span.required-star *
                   = f.text_field :name, class: "hc-category-form-control f-reg-14", placeholder: "e.g. Getting Started", required: true
+
+                .hc-category-form-floating
+                  = f.label :image, "Icon", class: "hc-category-form-label f-reg-14"
+                  label.hc-file-upload data-help-center--category-target="iconPreview"
+                    = f.file_field :image, accept: "image/png, image/jpeg, image/gif, image/webp", data: { help_center__category_target: "iconInput", action: "change->help-center--category#previewIcon" }
+                    span.hc-file-upload-icon data-help-center--category-target="iconIcon"
+                      = inline_svg_tag("export.svg", alt: "")
+                    .hc-file-upload-preview
+                      img.hc-file-upload-preview-image data-help-center--category-target="iconPreviewImage" alt=""
+                    span.hc-file-upload-text
+                      strong data-help-center--category-target="iconTitle" Upload icon
+                      small data-help-center--category-target="iconSubtitle" PNG, JPG, or WebP works best.
 
                 .hc-category-form-floating
                   = f.label :description, class: "hc-category-form-label f-reg-14" do

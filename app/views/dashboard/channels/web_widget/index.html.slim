@@ -35,10 +35,14 @@
                       = inline_svg_tag("lock.svg", class: "ww-badge-icon", alt: t("ui.dashboard.channels.web_widget.index.anonymous_restricted"))
                       span = t("ui.dashboard.channels.web_widget.index.anonymous_restricted")
 
-                  - if channel.portal_id.present?
+                  - if channel.portal_id.present? && channel.help_center_enabled?
                     .ww-badge.ww-badge-active
-                      = inline_svg_tag("book.svg", class: "ww-badge-icon", alt: t("ui.dashboard.channels.web_widget.index.help_center_linked"))
-                      span = t("ui.dashboard.channels.web_widget.index.help_center_linked")
+                      = inline_svg_tag("book.svg", class: "ww-badge-icon", alt: t("ui.dashboard.channels.web_widget.index.help_center_enabled", default: "Help Center enabled"))
+                      span = t("ui.dashboard.channels.web_widget.index.help_center_enabled", default: "Help Center enabled")
+                  - elsif channel.portal_id.present?
+                    .ww-badge.ww-badge-disconnected
+                      = inline_svg_tag("book.svg", class: "ww-badge-icon", alt: t("ui.dashboard.channels.web_widget.index.help_center_linked_disabled", default: "Help Center linked, disabled"))
+                      span = t("ui.dashboard.channels.web_widget.index.help_center_linked_disabled", default: "Help Center linked, disabled")
 
                   - if channel.configurations&.dig("contact_form_id").present?
                     .ww-badge.ww-badge-active

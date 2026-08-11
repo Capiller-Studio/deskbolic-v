@@ -105,6 +105,11 @@
         div
           label.ww-label = t("ui.dashboard.channels.web_widget.form.pre_chat_form")
           = f.collection_select :pre_chat_form_id, @contact_forms, :id, :name, { include_blank: t("forms.options.no_pre_chat_form_linked") }, class: "ww-select"
+      .ww-toggle-row
+        span.ww-toggle-label = t("dashboard.web_widget_channels.form.help_center_enabled_label", default: "Enable Help Center")
+        label.ww-toggle
+          = f.check_box :help_center_enabled
+          span.ww-toggle-slider
       .ww-form-row
         div
           label.ui-label = t("dashboard.ai_agents.index.title", default: "AI Agent")

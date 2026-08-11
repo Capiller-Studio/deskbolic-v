@@ -224,7 +224,7 @@ Rails.application.routes.draw do
             patch :reorder
           end
         end
-        resources :categories, only: %i[index create]
+        resources :categories, only: %i[index create update destroy]
       end
 
       resources :automations do

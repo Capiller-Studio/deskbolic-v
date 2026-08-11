@@ -10,6 +10,14 @@ module Dashboard
       def create?
         owner? || can?("help_center_categories.manage") || can?("help_center.manage")
       end
+
+      def update?
+        owner? || can?("help_center_categories.manage") || can?("help_center.manage")
+      end
+
+      def destroy?
+        owner? || can?("help_center_categories.manage") || can?("help_center.manage")
+      end
     end
   end
 end

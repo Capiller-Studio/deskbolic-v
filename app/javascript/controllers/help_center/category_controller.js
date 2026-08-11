@@ -1,11 +1,19 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["modal", "hiddenInput", "selected", "dropdown", "searchInput", "list"]
+  static targets = ["modal", "hiddenInput", "selected", "dropdown", "searchInput", "list",
+    "iconInput", "iconPreview", "iconPreviewImage", "iconIcon", "iconTitle", "iconSubtitle"]
 
   connect() {
     if (this.hasModalTarget) {
       this.modalTarget.style.display = "none"
+      
+      const modalTitle = this.modalTarget.querySelector('.hc-category-modal-header-text h3')
+      if (modalTitle) this.originalTitle = modalTitle.textContent
+      const modalSubtitle = this.modalTarget.querySelector('.hc-category-modal-header-text p')
+      if (modalSubtitle) this.originalSubtitle = modalSubtitle.textContent
+      const submitBtn = this.modalTarget.querySelector('.hc-category-submit-btn')
+      if (submitBtn) this.originalSubmitText = this._submitButtonText(submitBtn)
     }
 
     this._boundHandleOpen = this._handleOpenEvent.bind(this)
@@ -25,7 +33,116 @@ export default class extends Controller {
 
   open(event) {
     if (event) event.preventDefault()
+    
+    if (this.hasModalTarget) {
+      const form = this.modalTarget.querySelector('form.hc-category-form')
+      if (form) {
+        form.action = form.dataset.collectionPath || form.action
+        const methodInput = form.querySelector('input[name="_method"]')
+        if (methodInput) methodInput.remove()
+        form.reset()
+        this._resetIconPreview()
+      }
+      
+      if (this.originalTitle) {
+        const modalTitle = this.modalTarget.querySelector('.hc-category-modal-header-text h3')
+        if (modalTitle) modalTitle.textContent = this.originalTitle
+      }
+      if (this.originalSubtitle) {
+        const modalSubtitle = this.modalTarget.querySelector('.hc-category-modal-header-text p')
+        if (modalSubtitle) modalSubtitle.textContent = this.originalSubtitle
+      }
+      if (this.originalSubmitText) {
+        const submitBtn = this.modalTarget.querySelector('.hc-category-submit-btn')
+        if (submitBtn) this._setSubmitButtonText(submitBtn, this.originalSubmitText)
+      }
+    }
     this.modalTarget.style.display = "block"
+  }
+
+  openEdit(event) {
+    if (event) event.preventDefault()
+    
+    const btn = event.currentTarget
+    const id = btn.dataset.id
+    const path = btn.dataset.path
+    const name = btn.dataset.name
+    const description = btn.dataset.description
+    const parentId = btn.dataset.parentId
+    const visibility = btn.dataset.visibility
+
+    if (this.hasModalTarget) {
+      const form = this.modalTarget.querySelector('form.hc-category-form')
+      if (form) {
+        form.action = path || `${form.dataset.collectionPath || "/help-center/categories"}/${id}`
+        
+        let methodInput = form.querySelector('input[name="_method"]')
+        if (!methodInput) {
+          methodInput = document.createElement('input')
+          methodInput.type = 'hidden'
+          methodInput.name = '_method'
+          form.appendChild(methodInput)
+        }
+        methodInput.value = 'patch'
+        
+        const nameInput = form.querySelector('input[name="category[name]"]')
+        if (nameInput) nameInput.value = name || ''
+        
+        const descInput = form.querySelector('textarea[name="category[description]"]')
+        if (descInput) descInput.value = description || ''
+        
+        const parentSelect = form.querySelector('select[name="category[parent_id]"]')
+        if (parentSelect) parentSelect.value = parentId || ''
+        
+        const visibilitySelect = form.querySelector('select[name="category[visibility]"]')
+        if (visibilitySelect) visibilitySelect.value = visibility || 'everyone'
+      }
+
+      const modalTitle = this.modalTarget.querySelector('.hc-category-modal-header-text h3')
+      if (modalTitle) modalTitle.textContent = "Edit Collection"
+      const modalSubtitle = this.modalTarget.querySelector('.hc-category-modal-header-text p')
+      if (modalSubtitle) modalSubtitle.textContent = "Update your collection details"
+      const submitBtn = this.modalTarget.querySelector('.hc-category-submit-btn')
+      if (submitBtn) this._setSubmitButtonText(submitBtn, "Update Category")
+    }
+
+    this.modalTarget.style.display = "block"
+  }
+
+  previewIcon() {
+    const file = this.iconInputTarget.files[0]
+    if (!file) return
+
+    const supportedImageTypes = ["image/jpeg", "image/png", "image/gif", "image/webp"]
+    if (!supportedImageTypes.includes(file.type)) {
+      this.iconInputTarget.value = ""
+      window.alert("Unsupported icon format. Please upload JPG, PNG, GIF, or WEBP.")
+      return
+    }
+
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      this._setIconPreview(e.target.result)
+    }
+    reader.readAsDataURL(file)
+  }
+
+  _setIconPreview(src) {
+    if (this.hasIconPreviewImageTarget) {
+      this.iconPreviewImageTarget.src = src
+    }
+    if (this.hasIconPreviewTarget) {
+      this.iconPreviewTarget.classList.add("hc-file-upload--selected")
+    }
+    if (this.hasIconIconTarget) {
+      this.iconIconTarget.style.display = "none"
+    }
+    if (this.hasIconTitleTarget) {
+      this.iconTitleTarget.textContent = "Icon selected"
+    }
+    if (this.hasIconSubtitleTarget) {
+      this.iconSubtitleTarget.textContent = "Click to change"
+    }
   }
 
   close(event) {
@@ -172,12 +289,43 @@ export default class extends Controller {
         })
 
         form.reset()
+        this._resetIconPreview()
       } else {
         const err = await response.json()
         alert(err.error || "Failed to create category")
       }
     } catch (error) {
       alert("An error occurred: " + error.message)
+    }
+  }
+
+  _resetIconPreview() {
+    if (this.hasIconPreviewTarget) {
+      this.iconPreviewTarget.classList.remove("hc-file-upload--selected")
+    }
+    if (this.hasIconPreviewImageTarget) {
+      this.iconPreviewImageTarget.removeAttribute("src")
+    }
+    if (this.hasIconIconTarget) {
+      this.iconIconTarget.style.display = ""
+    }
+    if (this.hasIconTitleTarget) {
+      this.iconTitleTarget.textContent = "Upload icon"
+    }
+    if (this.hasIconSubtitleTarget) {
+      this.iconSubtitleTarget.textContent = "PNG, JPG, or WebP works best."
+    }
+  }
+
+  _submitButtonText(button) {
+    return button.tagName === "INPUT" ? button.value : button.textContent
+  }
+
+  _setSubmitButtonText(button, text) {
+    if (button.tagName === "INPUT") {
+      button.value = text
+    } else {
+      button.textContent = text
     }
   }
 }

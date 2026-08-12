@@ -1,0 +1,10 @@
+- highlighted_content = message.try(:search_highlights)&.dig(:content) || strip_tags(message.content.to_s).truncate(200)
+- sender_icon = message.sender_type == "Customer" ? "↙" : "↗"
+a.search-result-card.search-result-card-message href=conversation_path(message.conversation_id, anchor: "message_#{message.id}")
+  .search-result-card-body
+    .search-result-card-header
+      span.smart-search-result-id = message.conversation&.identifier
+      span.smart-search-result-sender = "#{sender_icon} #{message.sender.try(:name) || message.sender.try(:display_name) || t('dashboard.search.unknown_sender')}"
+    .search-result-card-preview = raw(highlighted_content)
+  .smart-search-result-meta
+    span.smart-search-result-date = message.created_at&.strftime("%d %b %Y, %H:%M")

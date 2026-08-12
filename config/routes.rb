@@ -86,6 +86,9 @@ Rails.application.routes.draw do
    
 
     constraints(SubdomainConstraint) do
+      resources :search, only: [:index], controller: "searches" do
+        get :suggestions, on: :collection
+      end
       resources :inbox, only: [ :index ]
       resources :conversations do
         resources :canned_responses, only: [:index], module: :conversations

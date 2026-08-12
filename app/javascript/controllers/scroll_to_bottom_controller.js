@@ -2,8 +2,12 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   connect() {
-    this.scrollToBottom()
-    
+    const anchor = window.location.hash?.replace("#", "")
+    if (anchor && document.getElementById(anchor)) {
+      this.scrollToMessage(anchor)
+    } else {
+      this.scrollToBottom()
+    }
     // Watch for new messages being appended
     this.observer = new MutationObserver((mutations) => {
       // Check if nodes were ADDED at the END
@@ -36,6 +40,21 @@ export default class extends Controller {
   scrollToBottom() {
     requestAnimationFrame(() => {
       this.element.scrollTop = this.element.scrollHeight
+    })
+  }
+
+  scrollToMessage(anchorId) {
+    requestAnimationFrame(() => {
+      const el = document.getElementById(anchorId)
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "center" })
+        // Brief highlight effect
+        el.style.transition = "background 0.3s ease"
+        el.style.background = "rgba(79, 70, 229, 0.08)"
+        setTimeout(() => {
+          el.style.background = ""
+        }, 2500)
+      }
     })
   }
 }

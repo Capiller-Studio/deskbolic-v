@@ -1,0 +1,50 @@
+.search-results-page
+  .search-results-header
+    h1.f-semi-24 = t("dashboard.search.title")
+
+    .search-results-input-wrapper
+      svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        circle cx="11" cy="11" r="8"
+        line x1="21" y1="21" x2="16.65" y2="16.65"
+      = form_with url: search_index_path, method: :get, local: true, style: "flex: 1; display: flex;" do
+        = text_field_tag :q, @query, class: "search-results-input f-reg-16", placeholder: t("dashboard.search.placeholder"), autocomplete: "off"
+
+    .search-results-tabs
+      = link_to t("dashboard.search.tab_all"), search_index_path(q: @query), class: "search-results-tab #{@type.blank? ? 'active' : ''}"
+      = link_to t("dashboard.search.tab_conversations"), search_index_path(q: @query, type: "conversations"), class: "search-results-tab #{@type == 'conversations' ? 'active' : ''}"
+      = link_to t("dashboard.search.tab_messages"), search_index_path(q: @query, type: "messages"), class: "search-results-tab #{@type == 'messages' ? 'active' : ''}"
+
+  - if @query.blank?
+    .smart-search-empty style="display: flex;"
+      svg.smart-search-empty-icon width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+        circle cx="11" cy="11" r="8"
+        line x1="21" y1="21" x2="16.65" y2="16.65"
+      p.smart-search-empty-text = t("dashboard.search.enter_query")
+
+  - else
+    - has_conversations = @conversations.respond_to?(:any?) && @conversations.any?
+    - has_messages = @messages.respond_to?(:any?) && @messages.any?
+
+    - unless has_conversations || has_messages
+      .smart-search-empty style="display: flex;"
+        svg.smart-search-empty-icon width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+          circle cx="11" cy="11" r="8"
+          line x1="21" y1="21" x2="16.65" y2="16.65"
+        p.smart-search-empty-text = t("dashboard.search.no_results")
+        p.smart-search-empty-hint = t("dashboard.search.try_different")
+
+    - if has_conversations && @type != "messages"
+      .search-results-list
+        .smart-search-section-header
+          span = t("dashboard.search.tab_conversations")
+          span.f-reg-12 style="margin-left: 8px; color: var(--text-tertiary, #9CA3AF);" = "(#{@conversations.respond_to?(:total_count) ? @conversations.total_count : @conversations.size})"
+        - @conversations.each do |conversation|
+          = render "dashboard/searches/conversation_result", conversation: conversation
+
+    - if has_messages && @type != "conversations"
+      .search-results-list
+        .smart-search-section-header
+          span = t("dashboard.search.tab_messages")
+          span.f-reg-12 style="margin-left: 8px; color: var(--text-tertiary, #9CA3AF);" = "(#{@messages.respond_to?(:total_count) ? @messages.total_count : @messages.size})"
+        - @messages.each do |message|
+          = render "dashboard/searches/message_result", message: message

@@ -4,11 +4,11 @@ module Dashboard
   module HelpCenter
     class CategoryPolicy < ApplicationPolicy
       def index?
-        owner? || can?("help_center_categories.read") || can?("help_center.manage")
+        authorized?("help_center_categories.read", feature: :help_center_portals) || authorized?("help_center_portals.manage", feature: :help_center_portals)
       end
 
       def create?
-        owner? || can?("help_center_categories.manage") || can?("help_center.manage")
+        authorized?("help_center_categories.manage", feature: :help_center_portals) || authorized?("help_center_portals.manage", feature: :help_center_portals)
       end
     end
   end

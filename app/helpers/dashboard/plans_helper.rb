@@ -16,8 +16,8 @@ module Dashboard
       feature_labels = {
         "sla" => "SLA management", "api_access" => "API access", "csat" => "CSAT",
         "email_templates" => "Email templates", "custom_csat" => "Custom CSAT",
-        "custom_email_templates" => "Custom email templates", "automations" => "Automations",
-        "audit_logs" => "Audit logs", "teams" => "Teams", "roles" => "Roles",
+        "automations" => "Automations", "audit_logs" => "Audit logs", 
+        "teams" => "Teams", "roles" => "Roles",
         "custom_roles" => "Custom roles", "custom_branding" => "Custom branding",
         "assignment_policies" => "Assignment policies", "identity_sources" => "Identity sources"
       }

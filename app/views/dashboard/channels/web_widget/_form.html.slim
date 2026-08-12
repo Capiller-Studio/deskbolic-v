@@ -21,8 +21,11 @@
           = f.label :name, t("dashboard.web_widget_channels.form.name_label"), class: "ww-label"
           = f.text_field :name, class: "ww-input", required: true, placeholder: t("dashboard.web_widget_channels.form.name_placeholder")
         div
-          = f.label :website_url, t("dashboard.web_widget_channels.form.website_url_label"), class: "ww-label"
-          = f.text_field :website_url, class: "ww-input", placeholder: t("dashboard.web_widget_channels.form.website_url_placeholder")
+          = f.label :allowed_hosts, t("dashboard.web_widget_channels.form.website_url_label"), class: "ww-label"
+          .ww-tags-input-container.ww-input data-controller="tags-input" data-action="click->tags-input#focusInput"
+            = hidden_field_tag "web_widget_channel[allowed_hosts][]", web_widget_channel.allowed_hosts&.join(", "), data: { "tags-input-target": "hiddenInput" }
+            .ww-tags-list data-tags-input-target="tagsContainer"
+            input.ww-tags-input-field type="text" data-tags-input-target="input" data-action="keydown->tags-input#handleKeydown blur->tags-input#addTag" placeholder=t("dashboard.web_widget_channels.form.website_url_placeholder")
 
       .ww-form-row
         div

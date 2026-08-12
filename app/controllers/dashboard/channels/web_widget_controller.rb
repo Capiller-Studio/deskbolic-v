@@ -100,9 +100,10 @@ module Dashboard
 
     def web_widget_channel_params
       permitted = params.require(:web_widget_channel).permit(
-        :name, :website_url, :portal_id, :default_locale, :pre_chat_form_id, :fallback_channel_id, :fallback_channel_type,
+        :name, :portal_id, :default_locale, :pre_chat_form_id, :fallback_channel_id, :fallback_channel_type,
         :anonymous_allowed, :help_center_enabled, :pre_chat_form_enabled, :secure_identity_enforced, :custom_branding, :logo, :launcher_icon,
         :theme_color, :position, :footer_text,
+        allowed_hosts: [],
         ui_configurations: [:theme_color, :position, :footer_text],
         configurations: [],
         primary_inbox_attributes: [:id, :reopen_window_seconds, :csat_survey_enabled, :auto_assign, :csat_survey_id, :conversation_reply_template_id, :business_hour_group_id, :ai_classification, :ai_auto_labelling, :ai_thank_you_detection, :ai_agent_id, sla_policy_ids: []],
@@ -110,7 +111,7 @@ module Dashboard
       )
 
       result = permitted.slice(
-        :name, :website_url, :portal_id, :default_locale, :pre_chat_form_id, :fallback_channel_id, :fallback_channel_type,
+        :name, :allowed_hosts, :portal_id, :default_locale, :pre_chat_form_id, :fallback_channel_id, :fallback_channel_type,
         :anonymous_allowed, :help_center_enabled, :pre_chat_form_enabled, :secure_identity_enforced, :custom_branding, :logo, :launcher_icon,
         :theme_color, :position, :footer_text,
         :primary_inbox_attributes, :translations_attributes

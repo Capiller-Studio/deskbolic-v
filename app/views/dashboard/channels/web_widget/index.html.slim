@@ -18,7 +18,7 @@
                 .ww-card-top
                   .ww-card-info
                     h3 = channel.name
-                    p.ww-card-subtitle = channel.website_url.presence || t("dashboard.web_widget_channels.index.no_website", default: "No website")
+                    p.ww-card-subtitle = channel.allowed_hosts&.join(", ").presence || t("dashboard.web_widget_channels.index.no_website", default: "No websites")
                   .ww-card-actions
                     = link_to edit_channels_web_widget_path(channel), class: "ww-action-btn", title: "Edit"
                       = inline_svg_tag("edit.svg", class: "ww-action-icon", alt: "Edit")

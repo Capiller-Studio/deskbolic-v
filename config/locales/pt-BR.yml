@@ -2205,15 +2205,34 @@ pt-BR:
   audit_logs:
     actions: Ações
     actor: Ator
+    all_actors: Todos os atores
+    all_time: Todo o período
+    apply: Aplicar
+    changed_from: alterado de
     changes: Mudanças
     confirm_rollback: Tem certeza de que deseja reverter completamente este objeto ao seu estado histórico?
     confirm_undo: Tem certeza de que deseja desfazer essas alterações específicas?
     description: Acompanhe e analise todas as atividades em sua organização.
     empty: Nenhum registro de auditoria encontrado.
     event: Evento
+    filter_by_actor: Filtrar por ator
+    from: De
+    member: Membro
+    more_actions: Mais ações
+    next_page: Próxima página
+    page_number: Página %{page}
+    pagination: Paginação do registro de auditoria
+    previous_page: Página anterior
+    revert_failed: Falha ao reverter a atividade.
+    revert_success: Atividade revertida com sucesso.
     rollback: Reverter
+    rows_per_page: Linhas por página
+    set_to: definido como
+    showing_activities: Mostrando %{from} a %{to} de %{count} atividades
+    system: Sistema
     timestamp: Carimbo de data e hora
     title: Registros de auditoria
+    to: Até
     undo: Desfazer
   devise:
     registrations:

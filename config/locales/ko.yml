@@ -222,6 +222,32 @@ ko:
         apply: 적용
         pick_datetime: 날짜 및 시간 선택
     messages:
+      ai_assist:
+        title: Boli
+        assistant_title: AI 어시스턴트
+        description: AI를 사용하여 메시지를 개선하고, 답변을 작성하고, 텍스트를 변환하세요.
+        summarize_thread: 대화 요약
+        summary_description: 이 대화의 빠른 요약을 확인하세요.
+        draft_reply: 답변 초안 작성
+        draft_placeholder: '예: 내일까지 문제를 해결하겠다고 알려 주세요...'
+        transform_text: 현재 텍스트 변환
+        fix_grammar: 문법 교정
+        grammar_description: 맞춤법과 문법 교정
+        translate: 번역
+        translate_description: 다른 언어로 번역
+        change_tone: 어조 변경
+        tones:
+          professional: 전문적
+          friendly: 친근함
+          concise: 간결함
+          formal: 격식체
+          empathetic: 공감형
+        disclaimer: AI 답변이 항상 정확하지는 않을 수 있습니다. 보내기 전에 검토해 주세요.
+        generating_summary: 요약 생성 중...
+        summary_heading: AI 요약
+        drafting_reply: 답변 초안 작성 중...
+        error_prefix: 오류
+        credits_exhausted: AI 크레딧을 모두 사용했습니다! 지갑을 충전해 주세요.
       manage_participant: 참가자 관리
       export_conversation: 대화 내보내기
       translate: "%{language}로 번역"
@@ -809,13 +835,17 @@ ko:
     domains:
       index:
         title: 도메인
+        subtitle: 맞춤 도메인과 시스템 하위 도메인을 관리하세요.
+        add_domain: 도메인 추가
         add_custom_domain: 맞춤 도메인 추가
+        upgrade_to_add: 요금제를 업그레이드하여 도메인 추가
         verify_dns: DNS 확인
         edit: 편집
         delete: 삭제
         delete_confirm: 이 도메인을 삭제하시겠습니까?
         system_subdomain:
           title: 시스템 하위 도메인
+          empty_title: 아직 시스템 하위 도메인이 없습니다
           description: 무료 helpbolic.com 하위 도메인 — 헬프 센터용으로 자동 생성됩니다.
           empty: 아직 구성된 하위 도메인이 없습니다. 도움말 센터 포털을 만들어 자동 생성하세요.
           active: 활성
@@ -825,8 +855,10 @@ ko:
         custom_domains:
           title: 맞춤 도메인
           description: '자신의 도메인 이름(예: support.mycompany.com)을 추가하고 당사 서버를 가리킵니다.'
-          empty_title: 아직 추가된 맞춤 도메인이 없습니다.
-          empty_description: '사용자 정의 도메인을 사용하면 자체 도메인(예: support.mycompany.com)에서 헬프 센터를 제공할 수 있습니다.'
+          empty_title: 추가된 맞춤 도메인이 없습니다
+          empty_description: 브랜드 도메인을 연결하여 고객에게 익숙한 헬프 센터 주소를 제공하세요.
+          example: '예: yourcompany.helpbolic.com'
+          dns_note: CNAME 레코드를 추가해야 합니다. DNS 확인 후 SSL이 자동으로 프로비저닝됩니다.
           add_first: 첫 번째 맞춤 도메인 추가
           unattached: 연결되지 않음
         table:
@@ -849,22 +881,27 @@ ko:
           cname_target: 다음을 가리킨다
       new:
         title: 맞춤 도메인 추가
+        subtitle: 헬프 센터에 맞춤 도메인을 추가하세요.
         back: "← 도메인으로 돌아가기"
         section_title: 도메인 세부정보
+        section_description: 맞춤 도메인의 세부정보를 입력하세요.
         name_label: 표시 이름
-        name_placeholder: '예: 기본 지원 포털'
-        name_hint: 이 도메인에 대한 친숙한 레이블(선택 사항)입니다.
+        name_placeholder: '예: 지원 포털'
+        name_hint: 이 도메인을 알아보기 쉬운 이름입니다.
         value_label: 도메인 이름
         value_placeholder: '예: support.mycompany.com'
         value_hint: 사용하려는 전체 도메인 이름을 입력하세요. 생성 후에는 변경할 수 없습니다.
         after_adding_title: 이 도메인을 추가한 후
         after_adding_desc: DNS 공급자에서 CNAME 레코드를 생성해야 합니다.
         after_adding_note: DNS 전파에는 최대 48시간이 걸릴 수 있습니다. 구성이 완료되면 도메인 페이지에서 "DNS 확인"을 클릭하세요.
-        cname_host_value: "[하위 도메인]"
+        cname_host_value: your-subdomain
+        important: 중요
+        required_feedback: 필수 입력 항목입니다.
         submit: 도메인 추가
         cancel: 취소
       edit:
         title: 도메인 편집
+        subtitle: 도메인 구성과 DNS 설정을 관리하세요.
         back: "← 도메인으로 돌아가기"
         section_title: 도메인 설정
         name_label: 표시 이름
@@ -884,6 +921,7 @@ ko:
           ago: "%{time} 전"
         dns_config_title: DNS 구성 필요
         dns_config_desc: 다음 CNAME 레코드를 추가하여 도메인이 당사 서버를 가리키도록 하세요.
+        dns_notice: DNS 변경 사항이 전파되는 데 최대 48시간이 걸릴 수 있습니다. 도메인의 SSL을 자동으로 발급하고 설치합니다.
         verify_now: 지금 DNS 확인
       create:
         success: 도메인이 성공적으로 생성되었습니다.
@@ -898,7 +936,7 @@ ko:
       errors:
         fix_errors: 다음 오류를 수정하세요.
       dns_status_badge:
-        dns_verified: DNS 확인됨
+        dns_verified: DNS 성공
         dns_pending: DNS 보류 중
         dns_failed: DNS 실패
         dns_unverified: 확인되지 않은 DNS
@@ -911,6 +949,8 @@ ko:
       sidebar:
         label: 도메인
       custom_domain_not_supported: 현재 계획에서는 사용자 정의 도메인이 지원되지 않습니다.
+      upgrade_plan_desc: 요금제를 업그레이드하여 헬프 센터에 맞춤 도메인을 추가하세요.
+      upgrade_plan: 요금제 업그레이드
     business_hour_groups:
       shared:
         no_description: 설명이 제공되지 않았습니다.
@@ -1952,12 +1992,21 @@ ko:
     reports:
       agent: 대리인
       agent_workload: 상담원 작업량(지난 30일)
+      agent_workload_title: 상담원 작업량
       avg_csat: 평균 CSAT 점수
       conversations: 처리된 대화
       conversations_volume: 대화량
+      daily: 일별
+      description: 헬프데스크 전반의 성과를 모니터링하고 주요 지표를 추적하세요.
+      last_30_days: 지난 30일
+      next_page: 다음 페이지
       no_data_desc: 이 기간에는 할당된 대화가 없습니다.
       no_data_title: 사용 가능한 데이터가 없습니다.
       overview: 개요(지난 30일)
+      overview_title: 개요
+      pagination_label: 상담원 작업량 페이지
+      previous_page: 이전 페이지
+      showing_agents: 전체 %{total}명 중 %{from}~%{to}명 표시
       sla_breaches: SLA 위반
       total_conversations: 총 대화
     shared:

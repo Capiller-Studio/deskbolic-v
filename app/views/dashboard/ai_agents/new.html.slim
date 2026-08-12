@@ -1,10 +1,10 @@
 = render("dashboard/shared/dashboard_container", current_page: "settings") do
   = render("dashboard/settings/settings_sidebar", current_page: "ai_agents") do
-    .ai-agent-editor-page
-      header.ai-agent-editor-header
-        = link_to ai_agents_path, class: "ai-agent-editor-back", aria: { label: t("shared.back") } do
-          = image_tag("ai_agents/new_agent_back.svg", alt: "", width: 14, height: 12, aria: { hidden: true })
-        .ai-agent-editor-heading
+    .ui-settings-editor
+      header.ui-settings-editor__header
+        = link_to ai_agents_path, class: "ui-settings-editor__back", aria: { label: t("shared.back") } do
+          = image_tag("back-arrow.svg", alt: "", width: 14, height: 12, aria: { hidden: true })
+        .ui-settings-editor__heading
           h1 = t("dashboard.ai_agents.new.add_title", default: "Add New AI Agent")
           p = t("dashboard.ai_agents.new.description", default: "Create and configure your AI agent to provide better support to your customers.")
 

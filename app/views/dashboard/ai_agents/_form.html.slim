@@ -5,8 +5,8 @@
 - translations = ai_agent.translations.reject(&:marked_for_destruction?)
 - submit_label = ai_agent.persisted? ? t("dashboard.ai_agents.edit.submit", default: "Update Agent") : t("dashboard.ai_agents.new.submit", default: "Create Agent")
 
-= form_with(model: ai_agent, url: url, method: method, class: "ai-agent-form #{'ai-agent-form--editor' if editor_layout}") do |f|
-  .ai-agent-form-content
+= form_with(model: ai_agent, url: url, method: method, class: "ui-settings-form #{'ui-settings-editor__form' if editor_layout}") do |f|
+  .ui-settings-editor__body
     - if ai_agent.errors.any?
       .ui-error-summary
         h3 = t("dashboard.ai_agents.errors.fix_errors", default: "Please fix the following errors:")
@@ -14,62 +14,62 @@
           - ai_agent.errors.full_messages.each do |message|
             li = message
 
-    section.ui-section.ui-section--always-open.ai-agent-form-card
-      .ai-agent-form-card-header
+    section.ui-form-card
+      .ui-form-card__header
         h2 = t("dashboard.ai_agents.form.information_section", default: "Agent Information")
 
-      .ai-agent-information-grid
-        .ai-agent-form-group
+      .ui-form-grid
+        .ui-field-group
           = f.label :name, t("dashboard.ai_agents.form.name", default: "Agent Name"), class: "ui-label"
-          .ai-agent-field-control
-            span.ai-agent-field-icon aria-hidden="true"
+          .ui-field-control
+            span.ui-field-control__icon aria-hidden="true"
               = image_tag("ai_agents/new_agent_name.svg", alt: "", width: 13.8333, height: 14.3333)
-            = f.text_field :name, class: "ui-input ai-agent-control", required: true, placeholder: t("dashboard.ai_agents.form.name_placeholder", default: "Enter agent name"), autocomplete: "off"
+            = f.text_field :name, class: "ui-input ui-control", required: true, placeholder: t("dashboard.ai_agents.form.name_placeholder", default: "Enter agent name"), autocomplete: "off"
 
-        .ai-agent-form-group
+        .ui-field-group
           = f.label :agent_type, t("dashboard.ai_agents.form.agent_type", default: "Agent Type"), class: "ui-label"
-          .ai-agent-field-control.ai-agent-field-control--type
-            span.ai-agent-field-icon aria-hidden="true"
+          .ui-field-control.ui-field-control--type
+            span.ui-field-control__icon aria-hidden="true"
               = image_tag("ai_agents/new_agent_type.svg", alt: "", width: 15.1667, height: 14.6667)
-            = f.select :agent_type, Ai::Agent.agent_types.keys.reject { |key| key == "custom" }.map { |key| [t("activerecord.attributes.ai/agent.agent_types.#{key}", default: key.humanize), key] }, { prompt: t("dashboard.ai_agents.form.agent_type_placeholder", default: "Select agent type") }, class: "ui-select ai-agent-control ai-agent-control--type", data: { controller: "select" }
+            = f.select :agent_type, Ai::Agent.agent_types.keys.reject { |key| key == "custom" }.map { |key| [t("activerecord.attributes.ai/agent.agent_types.#{key}", default: key.humanize), key] }, { prompt: t("dashboard.ai_agents.form.agent_type_placeholder", default: "Select agent type") }, class: "ui-select ui-control ui-control--type", data: { controller: "select" }
 
-        .ai-agent-form-group
+        .ui-field-group
           = f.label :status, t("dashboard.ai_agents.form.status", default: "Status"), class: "ui-label"
-          .ai-agent-field-control.ai-agent-status-control
-            span.ai-agent-field-status-dot aria-hidden="true"
-            = f.select :status, Ai::Agent.statuses.keys.map { |key| [t("activerecord.attributes.ai/agent.statuses.#{key}", default: key.humanize), key] }, {}, class: "ui-select ai-agent-control", data: { controller: "select" }
+          .ui-field-control.ui-field-control--status
+            span.ui-field-control__status-dot aria-hidden="true"
+            = f.select :status, Ai::Agent.statuses.keys.map { |key| [t("activerecord.attributes.ai/agent.statuses.#{key}", default: key.humanize), key] }, {}, class: "ui-select ui-control", data: { controller: "select" }
 
-        .ai-agent-form-group
+        .ui-field-group
           = f.label :tone, t("dashboard.ai_agents.form.tone", default: "Tone"), class: "ui-label"
-          .ai-agent-field-control
-            span.ai-agent-field-icon aria-hidden="true"
+          .ui-field-control
+            span.ui-field-control__icon aria-hidden="true"
               = image_tag("ai_agents/new_agent_tone.svg", alt: "", width: 14.3333, height: 14.3333)
-            = f.select :tone, Ai::Agent.tones.keys.map { |key| [t("activerecord.attributes.ai/agent.tones.#{key}", default: key.humanize), key] }, { prompt: t("dashboard.ai_agents.form.tone_placeholder", default: "Select tone") }, class: "ui-select ai-agent-control", data: { controller: "select" }
+            = f.select :tone, Ai::Agent.tones.keys.map { |key| [t("activerecord.attributes.ai/agent.tones.#{key}", default: key.humanize), key] }, { prompt: t("dashboard.ai_agents.form.tone_placeholder", default: "Select tone") }, class: "ui-select ui-control", data: { controller: "select" }
 
-        .ai-agent-form-group
+        .ui-field-group
           = f.label :portal_id, t("dashboard.ai_agents.form.portal_id", default: "Help Center Portal"), class: "ui-label"
-          .ai-agent-field-control
-            span.ai-agent-field-icon aria-hidden="true"
+          .ui-field-control
+            span.ui-field-control__icon aria-hidden="true"
               = image_tag("ai_agents/new_agent_portal.svg", alt: "", width: 14.3333, height: 13)
-            = f.collection_select :portal_id, current_account.portals, :id, :name, { prompt: t("dashboard.ai_agents.form.portal_placeholder", default: "Select help center portal") }, class: "ui-select ai-agent-control", data: { controller: "select" }
+            = f.collection_select :portal_id, current_account.portals, :id, :name, { prompt: t("dashboard.ai_agents.form.portal_placeholder", default: "Select help center portal") }, class: "ui-select ui-control", data: { controller: "select" }
 
-        .ai-agent-form-group
+        .ui-field-group
           = f.label :max_exchanges, t("dashboard.ai_agents.form.max_exchanges", default: "Max Exchanges"), class: "ui-label"
-          .ai-agent-field-control
-            span.ai-agent-field-icon aria-hidden="true"
+          .ui-field-control
+            span.ui-field-control__icon aria-hidden="true"
               = image_tag("ai_agents/new_agent_exchanges.svg", alt: "", width: 14.3321, height: 14.3323)
-            = f.number_field :max_exchanges, class: "ui-input ai-agent-control", min: 1, max: 20, placeholder: t("dashboard.ai_agents.form.max_exchanges_placeholder", default: "Enter max exchanges")
+            = f.number_field :max_exchanges, class: "ui-input ui-control", min: 1, max: 20, placeholder: t("dashboard.ai_agents.form.max_exchanges_placeholder", default: "Enter max exchanges")
 
-        .ai-agent-form-group.ai-agent-confidence-field
+        .ui-field-group
           = f.label :confidence_threshold, t("dashboard.ai_agents.form.confidence_threshold", default: "Confidence Threshold (0.0 to 1.0)"), class: "ui-label"
-          .ai-agent-field-control
-            span.ai-agent-field-icon aria-hidden="true"
+          .ui-field-control
+            span.ui-field-control__icon aria-hidden="true"
               = image_tag("ai_agents/new_agent_confidence.svg", alt: "", width: 14.3339, height: 7.66667)
-            = f.number_field :confidence_threshold, class: "ui-input ai-agent-control", step: 0.1, min: 0.0, max: 1.0, placeholder: t("dashboard.ai_agents.form.confidence_placeholder", default: "Enter value (0.0 - 1.0)")
-          p.ai-agent-field-hint = t("dashboard.ai_agents.form.confidence_hint", default: "Higher values mean the agent will reply only when it is more confident.")
+            = f.number_field :confidence_threshold, class: "ui-input ui-control", step: 0.1, min: 0.0, max: 1.0, placeholder: t("dashboard.ai_agents.form.confidence_placeholder", default: "Enter value (0.0 - 1.0)")
+          p.ui-field-hint = t("dashboard.ai_agents.form.confidence_hint", default: "Higher values mean the agent will reply only when it is more confident.")
 
-    section.ui-section.ui-section--always-open.ai-agent-form-card.ai-agent-translation-card
-      .ai-agent-form-card-header.ai-agent-translation-header
+    section.ui-form-card.ui-locale-card
+      .ui-form-card__header.ui-form-card__header--divided
         h2 = t("dashboard.ai_agents.form.translations", default: "Translation")
         p = t("dashboard.ai_agents.form.translations_description", default: "Provide localized strings for your AI Agent. These will override the default locale based on the customer's browser.")
 
@@ -77,39 +77,39 @@
       - available_locales = Core::SUPPORTED_LOCALES.map(&:to_s) - current_locales
       - available_locales_options = available_locales.map { |locale| [I18n.t("languages.#{locale.downcase}", default: locale.upcase), locale] }
 
-      .ai-agent-translations data-controller="nested-translations locale-tabs"
-        .ai-agent-language-tabs data-nested-translations-target="tabContainer"
+      .ui-locale-editor data-controller="nested-translations locale-tabs"
+        .ui-locale-tabs data-nested-translations-target="tabContainer"
           - translations.each_with_index do |translation, index|
             - locale = translation.locale.to_s
             - language_name = I18n.t("languages.#{locale.downcase}", default: locale.upcase)
-            button.ai-agent-language-tab class=(index.zero? ? "active" : nil) type="button" data-locale=locale data-locale-tabs-target="tab" data-action="click->locale-tabs#switch"
-              span.ai-agent-language-code = locale.first(2).upcase
+            button.ui-locale-tab class=(index.zero? ? "active" : nil) type="button" data-locale=locale data-locale-tabs-target="tab" data-action="click->locale-tabs#switch"
+              span.ui-locale-tab__code = locale.first(2).upcase
               span.translation-language-name = language_name
               - if locale == I18n.default_locale.to_s
-                span.ai-agent-default-language = t("dashboard.ai_agents.form.default_language", default: "(Default)")
+                span.ui-locale-tab__meta = t("dashboard.ai_agents.form.default_language", default: "(Default)")
 
-          .ai-agent-language-picker
-            = select_tag "new_translation_locale", options_for_select(available_locales_options), include_blank: t("forms.options.select_language", default: "Select Language"), class: "ui-select", data: { "nested-translations-target": "localeSelect", action: "change->nested-translations#addTranslation" }
-            span.ai-agent-language-add-icon aria-hidden="true"
+          .ui-locale-picker.ui-field-control
+            = select_tag "new_translation_locale", options_for_select(available_locales_options), include_blank: t("forms.options.select_language", default: "Select Language"), class: "ui-select ui-control", data: { controller: "select", "nested-translations-target": "localeSelect", action: "change->nested-translations#addTranslation" }
+            span.ui-locale-picker__icon aria-hidden="true"
               = image_tag("ai_agents/new_agent_add_language.svg", alt: "", width: 10.4896, height: 10.4896)
 
-        .ai-agent-message-panels data-nested-translations-target="panelContainer"
+        .ui-locale-panels data-nested-translations-target="panelContainer"
           - translation_index = 0
           = f.fields_for :translations do |translation_form|
             = render "translation_fields", f: translation_form, active: translation_index.zero?
             - translation_index += 1
 
         template data-nested-translations-target="tabTemplate"
-          button.ai-agent-language-tab type="button" data-locale="NEW_LOCALE" data-locale-tabs-target="tab" data-action="click->locale-tabs#switch"
-            span.ai-agent-language-code NEW_CODE
+          button.ui-locale-tab type="button" data-locale="NEW_LOCALE" data-locale-tabs-target="tab" data-action="click->locale-tabs#switch"
+            span.ui-locale-tab__code NEW_CODE
             span.translation-language-name NEW_LANGUAGE
 
         template data-nested-translations-target="panelTemplate"
           = f.fields_for :translations, ::Ai::Agent.new.translations.build, child_index: "NEW_RECORD" do |translation_form|
             = render "translation_fields", f: translation_form, active: false
 
-  .ui-form-actions.ai-agent-action-bar
-    = link_to t("shared.cancel", default: "Cancel"), ai_agents_path, class: "ui-btn-secondary ai-agent-cancel-button"
-    = button_tag type: "submit", class: "ui-btn-primary ai-agent-submit-button" do
+  .ui-settings-editor__actions
+    = link_to t("general.cancel"), ai_agents_path, class: "ui-btn-secondary ui-settings-editor__cancel"
+    = button_tag type: "submit", class: "ui-btn-primary ui-settings-editor__submit" do
       = image_tag("ai_agents/new_agent_check.svg", alt: "", width: 16, height: 16, aria: { hidden: true })
       span = submit_label

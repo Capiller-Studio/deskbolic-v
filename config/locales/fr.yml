@@ -222,6 +222,32 @@ fr:
         apply: Postuler
         pick_datetime: Choisissez une date et une heure
     messages:
+      ai_assist:
+        title: Boli
+        assistant_title: Assistant IA
+        description: Utilisez l'IA pour améliorer vos messages, rédiger des réponses et transformer vos textes.
+        summarize_thread: Résumer la conversation
+        summary_description: Obtenez un résumé rapide de cette conversation.
+        draft_reply: Rédiger une réponse
+        draft_placeholder: p. ex., Dites-leur que nous réglerons le problème demain...
+        transform_text: Transformer le texte actuel
+        fix_grammar: Corriger la grammaire
+        grammar_description: Corriger l'orthographe et la grammaire
+        translate: Traduire
+        translate_description: Traduire dans une autre langue
+        change_tone: Changer le ton
+        tones:
+          professional: Professionnel
+          friendly: Amical
+          concise: Concis
+          formal: Formel
+          empathetic: Empathique
+        disclaimer: Les réponses de l'IA peuvent ne pas toujours être exactes. Vérifiez-les avant de les envoyer.
+        generating_summary: Génération du résumé...
+        summary_heading: Résumé IA
+        drafting_reply: Rédaction de la réponse...
+        error_prefix: Erreur
+        credits_exhausted: Crédits IA épuisés ! Veuillez recharger votre portefeuille.
       manage_participant: Gérer les participants
       export_conversation: Exporter la conversation
       translate: Traduire en %{language}
@@ -809,13 +835,17 @@ fr:
     domains:
       index:
         title: Domaines
+        subtitle: Gérez vos domaines personnalisés et votre sous-domaine système.
+        add_domain: Ajouter un domaine
         add_custom_domain: Ajouter un domaine personnalisé
+        upgrade_to_add: Mettre à niveau pour ajouter un domaine
         verify_dns: Vérifier le DNS
         edit: Modifier
         delete: Supprimer
         delete_confirm: Êtes-vous sûr de vouloir supprimer ce domaine ?
         system_subdomain:
           title: Sous-domaine système
+          empty_title: Aucun sous-domaine système pour l’instant
           description: Votre sous-domaine helpbolic.com gratuit — généré automatiquement pour votre centre d'aide.
           empty: Aucun sous-domaine configuré pour l'instant. Créez un portail de centre d'aide pour en générer un automatiquement.
           active: Actif
@@ -825,8 +855,10 @@ fr:
         custom_domains:
           title: Domaines personnalisés
           description: Ajoutez votre propre nom de domaine (par exemple, support.mycompany.com) et pointez-le vers nos serveurs.
-          empty_title: Aucun domaine personnalisé ajouté pour l'instant.
-          empty_description: Les domaines personnalisés vous permettent de diffuser votre centre d'aide sur votre propre domaine (par exemple, support.mycompany.com).
+          empty_title: Aucun domaine personnalisé ajouté
+          empty_description: Connectez votre propre domaine de marque pour offrir à vos clients une adresse familière pour le centre d’aide.
+          example: 'Exemple : votreentreprise.helpbolic.com'
+          dns_note: Vous devrez ajouter un enregistrement CNAME. Le SSL est automatiquement fourni après la vérification DNS.
           add_first: Ajoutez votre premier domaine personnalisé
           unattached: Sans attaches
         table:
@@ -849,22 +881,27 @@ fr:
           cname_target: Points à
       new:
         title: Ajouter un domaine personnalisé
+        subtitle: Ajoutez un domaine personnalisé à votre centre d’aide.
         back: "← Retour aux Domaines"
         section_title: Détails du domaine
+        section_description: Indiquez les détails de votre domaine personnalisé.
         name_label: Nom d'affichage
-        name_placeholder: par exemple, portail d'assistance principal
-        name_hint: Un label convivial pour ce domaine (facultatif).
+        name_placeholder: p. ex., Portail d’assistance
+        name_hint: Un libellé convivial pour ce domaine.
         value_label: Nom de domaine
         value_placeholder: par exemple, support.mycompany.com
         value_hint: Entrez le nom de domaine complet que vous souhaitez utiliser. Cela ne peut pas être modifié après la création.
         after_adding_title: Après avoir ajouté ce domaine
         after_adding_desc: 'Vous devrez créer un enregistrement CNAME auprès de votre fournisseur DNS :'
         after_adding_note: La propagation DNS peut prendre jusqu'à 48 heures. Une fois configuré, cliquez sur « Vérifier DNS » sur la page des domaines.
-        cname_host_value: "[votre sous-domaine]"
+        cname_host_value: votre-sous-domaine
+        important: Important
+        required_feedback: Ce champ est obligatoire.
         submit: Ajouter un domaine
         cancel: Annuler
       edit:
         title: Modifier le domaine
+        subtitle: Gérez la configuration de votre domaine et les paramètres DNS.
         back: "← Retour aux Domaines"
         section_title: Paramètres de domaine
         name_label: Nom d'affichage
@@ -884,6 +921,7 @@ fr:
           ago: Il y a %{time}
         dns_config_title: Configuration DNS requise
         dns_config_desc: 'Faites pointer votre domaine vers nos serveurs en ajoutant cet enregistrement CNAME :'
+        dns_notice: La propagation des modifications DNS peut prendre jusqu’à 48 heures. Nous émettrons et installerons automatiquement le SSL pour votre domaine.
         verify_now: Vérifiez le DNS maintenant
       create:
         success: Domaine créé avec succès.
@@ -898,7 +936,7 @@ fr:
       errors:
         fix_errors: 'Veuillez corriger les erreurs suivantes :'
       dns_status_badge:
-        dns_verified: DNS vérifié
+        dns_verified: DNS réussi
         dns_pending: DNS en attente
         dns_failed: Échec du DNS
         dns_unverified: DNS non vérifié
@@ -911,6 +949,8 @@ fr:
       sidebar:
         label: Domaines
       custom_domain_not_supported: Les domaines personnalisés ne sont pas pris en charge sur votre forfait actuel.
+      upgrade_plan_desc: Mettez à niveau votre forfait pour ajouter des domaines personnalisés à votre centre d’aide.
+      upgrade_plan: Mettre à niveau le forfait
     business_hour_groups:
       shared:
         no_description: Aucune description fournie.
@@ -1952,12 +1992,21 @@ fr:
     reports:
       agent: Agent
       agent_workload: Charge de travail de l'agent (30 derniers jours)
+      agent_workload_title: Charge de travail des agents
       avg_csat: Score CSAT moyen
       conversations: Conversations traitées
       conversations_volume: Volume des conversations
-      no_data_desc: Il n’y a aucune conversation assignée pendant cette période.
+      daily: Quotidien
+      description: Surveillez les performances et suivez les indicateurs clés de votre service d'assistance.
+      last_30_days: 30 derniers jours
+      next_page: Page suivante
+      no_data_desc: Il n'y a aucune conversation assignée pendant cette période.
       no_data_title: Aucune donnée disponible
       overview: Aperçu (30 derniers jours)
+      overview_title: Aperçu
+      pagination_label: Pages de charge de travail des agents
+      previous_page: Page précédente
+      showing_agents: Affichage de %{from} à %{to} sur %{total} agents
       sla_breaches: Violations des SLA
       total_conversations: Conversations totales
     shared:

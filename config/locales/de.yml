@@ -222,6 +222,32 @@ de:
         apply: Bewerben
         pick_datetime: Wählen Sie ein Datum und eine Uhrzeit
     messages:
+      ai_assist:
+        title: Boli
+        assistant_title: KI-Assistent
+        description: Verwenden Sie KI, um Ihre Nachrichten zu verbessern, Antworten zu verfassen und Texte umzuwandeln.
+        summarize_thread: Unterhaltung zusammenfassen
+        summary_description: Erhalten Sie eine kurze Zusammenfassung dieser Unterhaltung.
+        draft_reply: Antwort entwerfen
+        draft_placeholder: z. B. Teilen Sie ihnen mit, dass wir das Problem bis morgen beheben...
+        transform_text: Aktuellen Text umwandeln
+        fix_grammar: Grammatik korrigieren
+        grammar_description: Rechtschreibung und Grammatik korrigieren
+        translate: Übersetzen
+        translate_description: In eine andere Sprache übersetzen
+        change_tone: Ton ändern
+        tones:
+          professional: Professionell
+          friendly: Freundlich
+          concise: Prägnant
+          formal: Formell
+          empathetic: Einfühlsam
+        disclaimer: KI-Antworten sind möglicherweise nicht immer korrekt. Bitte überprüfen Sie sie vor dem Senden.
+        generating_summary: Zusammenfassung wird erstellt...
+        summary_heading: KI-Zusammenfassung
+        drafting_reply: Antwort wird entworfen...
+        error_prefix: Fehler
+        credits_exhausted: KI-Guthaben aufgebraucht! Bitte laden Sie Ihr Wallet auf.
       manage_participant: Teilnehmer verwalten
       export_conversation: Konversation exportieren
       translate: In %{language} übersetzen
@@ -809,13 +835,17 @@ de:
     domains:
       index:
         title: Domänen
+        subtitle: Verwalten Sie Ihre benutzerdefinierten Domains und Ihre System-Subdomain.
+        add_domain: Domain hinzufügen
         add_custom_domain: Benutzerdefinierte Domäne hinzufügen
+        upgrade_to_add: Upgrade zum Hinzufügen einer Domain
         verify_dns: DNS überprüfen
         edit: Bearbeiten
         delete: Löschen
         delete_confirm: Sind Sie sicher, dass Sie diese Domain löschen möchten?
         system_subdomain:
           title: System-Subdomäne
+          empty_title: Noch keine System-Subdomain
           description: Ihre kostenlose helpbolic.com-Subdomain – automatisch generiert für Ihr Help Center.
           empty: Noch keine Subdomain konfiguriert. Erstellen Sie ein Help-Center-Portal, um eines automatisch zu generieren.
           active: Aktiv
@@ -825,8 +855,10 @@ de:
         custom_domains:
           title: Benutzerdefinierte Domänen
           description: Fügen Sie Ihren eigenen Domänennamen hinzu (z. B. support.mycompany.com) und verweisen Sie ihn auf unsere Server.
-          empty_title: Es wurden noch keine benutzerdefinierten Domänen hinzugefügt.
-          empty_description: Mit benutzerdefinierten Domänen können Sie Ihr Help Center auf Ihrer eigenen Domäne bereitstellen (z. B. support.mycompany.com).
+          empty_title: Keine benutzerdefinierten Domains hinzugefügt
+          empty_description: Verbinden Sie Ihre eigene Markendomain, um Kunden eine vertraute Help-Center-Adresse zu bieten.
+          example: 'Beispiel: ihrunternehmen.helpbolic.com'
+          dns_note: Sie müssen einen CNAME-Eintrag hinzufügen. SSL wird nach der DNS-Verifizierung automatisch bereitgestellt.
           add_first: Fügen Sie Ihre erste benutzerdefinierte Domain hinzu
           unattached: Ungebunden
         table:
@@ -849,22 +881,27 @@ de:
           cname_target: Zeigt auf
       new:
         title: Benutzerdefinierte Domäne hinzufügen
+        subtitle: Fügen Sie Ihrem Help Center eine benutzerdefinierte Domain hinzu.
         back: "← Zurück zu Domains"
         section_title: Domänendetails
+        section_description: Geben Sie die Details für Ihre benutzerdefinierte Domain an.
         name_label: Anzeigename
-        name_placeholder: z. B. Haupt-Support-Portal
-        name_hint: Ein freundliches Label für diese Domain (optional).
+        name_placeholder: z. B. Support-Portal
+        name_hint: Ein aussagekräftiger Name für diese Domain.
         value_label: Domainname
         value_placeholder: z. B. support.mycompany.com
         value_hint: Geben Sie den vollständigen Domainnamen ein, den Sie verwenden möchten. Dies kann nach der Erstellung nicht mehr geändert werden.
         after_adding_title: Nach dem Hinzufügen dieser Domain
         after_adding_desc: 'Sie müssen bei Ihrem DNS-Anbieter einen CNAME-Eintrag erstellen:'
         after_adding_note: Die DNS-Weitergabe kann bis zu 48 Stunden dauern. Klicken Sie nach der Konfiguration auf der Domänenseite auf „DNS überprüfen“.
-        cname_host_value: "[Ihre Subdomain]"
+        cname_host_value: ihre-subdomain
+        important: Wichtig
+        required_feedback: Dieses Feld ist erforderlich.
         submit: Domäne hinzufügen
         cancel: Abbrechen
       edit:
         title: Domäne bearbeiten
+        subtitle: Verwalten Sie Ihre Domainkonfiguration und DNS-Einstellungen.
         back: "← Zurück zu Domains"
         section_title: Domäneneinstellungen
         name_label: Anzeigename
@@ -884,6 +921,7 @@ de:
           ago: Vor %{time}
         dns_config_title: DNS-Konfiguration erforderlich
         dns_config_desc: 'Verweisen Sie Ihre Domain auf unsere Server, indem Sie diesen CNAME-Eintrag hinzufügen:'
+        dns_notice: DNS-Änderungen können bis zu 48 Stunden für die Verbreitung benötigen. Wir stellen automatisch SSL für Ihre Domain aus und installieren es.
         verify_now: Jetzt DNS verifizieren
       create:
         success: Domain erfolgreich erstellt.
@@ -898,7 +936,7 @@ de:
       errors:
         fix_errors: 'Bitte beheben Sie die folgenden Fehler:'
       dns_status_badge:
-        dns_verified: DNS-verifiziert
+        dns_verified: DNS erfolgreich
         dns_pending: DNS ausstehend
         dns_failed: DNS fehlgeschlagen
         dns_unverified: DNS nicht verifiziert
@@ -911,6 +949,8 @@ de:
       sidebar:
         label: Domänen
       custom_domain_not_supported: Benutzerdefinierte Domänen werden in Ihrem aktuellen Plan nicht unterstützt.
+      upgrade_plan_desc: Führen Sie ein Upgrade Ihres Plans durch, um Ihrem Help Center benutzerdefinierte Domains hinzuzufügen.
+      upgrade_plan: Plan upgraden
     business_hour_groups:
       shared:
         no_description: Keine Beschreibung angegeben.
@@ -1952,12 +1992,21 @@ de:
     reports:
       agent: Agent
       agent_workload: Agentenauslastung (letzte 30 Tage)
+      agent_workload_title: Agentenauslastung
       avg_csat: Durchschnittlicher CSAT-Score
       conversations: Gespräche geführt
       conversations_volume: Gesprächslautstärke
+      daily: Täglich
+      description: Überwachen Sie die Leistung und verfolgen Sie wichtige Kennzahlen in Ihrem Helpdesk.
+      last_30_days: Letzte 30 Tage
+      next_page: Nächste Seite
       no_data_desc: In diesem Zeitraum sind keine Konversationen zugewiesen.
       no_data_title: Keine Daten verfügbar
       overview: Übersicht (letzte 30 Tage)
+      overview_title: Übersicht
+      pagination_label: Seiten der Agentenauslastung
+      previous_page: Vorherige Seite
+      showing_agents: '%{from} bis %{to} von %{total} Agenten werden angezeigt'
       sla_breaches: SLA-Verstöße
       total_conversations: Gesamtzahl der Gespräche
     shared:

@@ -262,14 +262,26 @@ en:
         pick_datetime: Pick a date & time
     messages:
       ai_assist:
-        title: AI Assist
+        title: Boli
+        assistant_title: AI Assistant
+        description: Use AI to improve, reply, and transform your messages.
         summarize_thread: Summarize Thread
+        summary_description: Get a quick summary of this conversation.
         draft_reply: Draft Reply
         draft_placeholder: e.g. Tell them we will fix it by tomorrow...
         transform_text: Transform Current Text
         fix_grammar: Fix Grammar
+        grammar_description: Correct spelling and grammar
         translate: Translate
+        translate_description: Translate to another language
         change_tone: Change Tone
+        tones:
+          professional: Professional
+          friendly: Friendly
+          concise: Concise
+          formal: Formal
+          empathetic: Empathetic
+        disclaimer: AI responses may not always be accurate. Please review before sending.
         generating_summary: Generating summary...
         summary_heading: AI Summary
         drafting_reply: Drafting reply...
@@ -896,13 +908,17 @@ en:
     domains:
       index:
         title: Domains
+        subtitle: Manage your custom domains and system subdomain.
+        add_domain: Add Domain
         add_custom_domain: Add Custom Domain
+        upgrade_to_add: Upgrade to Add Domain
         verify_dns: Verify DNS
         edit: Edit
         delete: Delete
         delete_confirm: Are you sure you want to delete this domain?
         system_subdomain:
           title: System Subdomain
+          empty_title: No system subdomain yet
           description: Your free helpbolic.com subdomain — auto-generated for your
             help center.
           empty: No subdomain configured yet. Create a help center portal to auto-generate
@@ -915,9 +931,11 @@ en:
           title: Custom Domains
           description: Add your own domain name (e.g., support.mycompany.com) and
             point it to our servers.
-          empty_title: No custom domains added yet.
-          empty_description: Custom domains let you serve your help center on your
-            own domain (e.g., support.mycompany.com).
+          empty_title: No custom domains added
+          empty_description: Connect your own branded domain to give customers a familiar
+            Help Center address.
+          example: 'Example: yourcompany.helpbolic.com'
+          dns_note: You'll need to add a CNAME record. SSL is automatically provisioned after DNS verification.
           add_first: Add your first custom domain
           unattached: Unattached
         table:
@@ -942,11 +960,13 @@ en:
           cname_target: Points to
       new:
         title: Add Custom Domain
+        subtitle: Add a custom domain to your help center.
         back: "← Back to Domains"
         section_title: Domain Details
+        section_description: Provide the details for your custom domain.
         name_label: Display Name
-        name_placeholder: e.g., Main Support Portal
-        name_hint: A friendly label for this domain (optional).
+        name_placeholder: e.g., Support Portal
+        name_hint: A friendly label for this domain.
         value_label: Domain Name
         value_placeholder: e.g., support.mycompany.com
         value_hint: Enter the full domain name you want to use. This cannot be changed
@@ -955,11 +975,14 @@ en:
         after_adding_desc: 'You will need to create a CNAME record at your DNS provider:'
         after_adding_note: DNS propagation can take up to 48 hours. Once configured,
           click "Verify DNS" on the domains page.
-        cname_host_value: "[your subdomain]"
+        cname_host_value: your-subdomain
+        important: Important
+        required_feedback: This field is required.
         submit: Add Domain
         cancel: Cancel
       edit:
         title: Edit Domain
+        subtitle: Manage your domain configuration and DNS settings.
         back: "← Back to Domains"
         section_title: Domain Settings
         name_label: Display Name
@@ -979,6 +1002,7 @@ en:
           ago: "%{time} ago"
         dns_config_title: DNS Configuration Required
         dns_config_desc: 'Point your domain to our servers by adding this CNAME record:'
+        dns_notice: DNS changes can take up to 48 hours to propagate. We'll automatically issue and install SSL for your domain.
         verify_now: Verify DNS Now
       create:
         success: Domain created successfully.
@@ -995,7 +1019,7 @@ en:
       errors:
         fix_errors: 'Please fix the following errors:'
       dns_status_badge:
-        dns_verified: DNS Verified
+        dns_verified: DNS Successful
         dns_pending: DNS Pending
         dns_failed: DNS Failed
         dns_unverified: DNS Unverified
@@ -1009,6 +1033,8 @@ en:
         label: Domains
       custom_domain_not_supported: Custom domains are not supported on your current
         plan.
+      upgrade_plan_desc: Upgrade your plan to add custom domains to your help center.
+      upgrade_plan: Upgrade Plan
     business_hour_groups:
       shared:
         no_description: No description provided.
@@ -2116,12 +2142,21 @@ en:
     reports:
       agent: Agent
       agent_workload: Agent Workload (Last 30 Days)
+      agent_workload_title: Agent Workload
       avg_csat: Average CSAT Score
       conversations: Conversations Handled
       conversations_volume: Conversation Volume
+      daily: Daily
+      description: Monitor performance and track key metrics across your helpdesk.
+      last_30_days: Last 30 Days
+      next_page: Next page
       no_data_desc: There are no assigned conversations in this period.
       no_data_title: No data available
       overview: Overview (Last 30 Days)
+      overview_title: Overview
+      pagination_label: Agent workload pages
+      previous_page: Previous page
+      showing_agents: Showing %{from} to %{to} of %{total} agents
       sla_breaches: SLA Breaches
       total_conversations: Total Conversations
     shared:

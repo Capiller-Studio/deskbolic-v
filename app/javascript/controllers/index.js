@@ -166,6 +166,9 @@ application.register("select", SelectController)
 import SlaPolicyController from "./sla_policy_controller"
 application.register("sla-policy", SlaPolicyController)
 
+import SmartSearchController from "./smart_search_controller"
+application.register("smart-search", SmartSearchController)
+
 import SortableController from "./sortable_controller"
 application.register("sortable", SortableController)
 

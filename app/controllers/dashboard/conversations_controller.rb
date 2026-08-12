@@ -321,22 +321,16 @@ module Dashboard
     end
 
     def search_conversations(conversations, query)
-      conversations
-        .left_joins(:customers, :messages)
-        .where(
-          <<~SQL.squish,
-            conversations.title ILIKE :query
-            OR conversations.identifier ILIKE :query
-            OR customers.name ILIKE :query
-            OR customers.display_name ILIKE :query
-            OR customers.first_name ILIKE :query
-            OR customers.middle_name ILIKE :query
-            OR customers.last_name ILIKE :query
-            OR customers.email ILIKE :query
-          SQL
-          query: "%#{query}%"
-        )
-        .distinct
+      results = Search::SearchService.new(
+        query: query,
+        account_id: current_account.id,
+        type: nil
+      ).call
+
+      matching_ids = (results[:conversations].map(&:id) + results[:messages].map(&:conversation_id)).uniq
+      return conversations.none if matching_ids.empty?
+
+      conversations.where(id: matching_ids)
     end
 
     private

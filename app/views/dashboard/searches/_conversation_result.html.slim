@@ -1,0 +1,29 @@
+- customer = conversation.customers.first
+a.search-result-card href=conversation_path(conversation)
+  .search-result-card-body
+    .search-result-card-header
+      span.smart-search-result-id = conversation.identifier
+      span.smart-search-result-badge class="status-#{conversation.status}" = conversation.status
+      - if conversation.priority != "low"
+        span.smart-search-result-priority
+          - case conversation.priority
+          - when "urgent"
+            svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2"
+              path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+              line x1="12" y1="9" x2="12" y2="13"
+              line x1="12" y1="17" x2="12.01" y2="17"
+          - when "high"
+            svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F97316" stroke-width="2"
+              polyline points="18 15 12 9 6 15"
+          - when "medium"
+            svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#EAB308" stroke-width="2"
+              line x1="5" y1="12" x2="19" y2="12"
+    .search-result-card-title = customer&.name || customer&.display_name || t("dashboard.search.unknown_customer")
+    - if conversation.title.present?
+      .search-result-card-preview = truncate(conversation.title, length: 120)
+    - elsif conversation.last_message_preview.present?
+      .search-result-card-preview = conversation.last_message_preview
+  .smart-search-result-meta
+    - if conversation.inbox&.name.present?
+      span.smart-search-result-inbox = conversation.inbox.name
+    span.smart-search-result-date = conversation.last_activity_at&.strftime("%d %b %Y")

@@ -1,0 +1,92 @@
+/ Smart Search Modal — Cmd+K overlay
+ruby:
+  quick_actions = [
+    { category: t("dashboard.search.categories.navigation"), label: t("dashboard.search.quick_actions.conversations"), keywords: t("dashboard.search.quick_actions.conversations_keywords"), url: conversations_path },
+    { category: t("dashboard.search.categories.navigation"), label: t("dashboard.search.quick_actions.reports"), keywords: t("dashboard.search.quick_actions.reports_keywords"), url: reports_path },
+    { category: t("dashboard.search.categories.navigation"), label: t("dashboard.search.quick_actions.settings"), keywords: t("dashboard.search.quick_actions.settings_keywords"), url: settings_path },
+    { category: t("dashboard.search.categories.navigation"), label: t("dashboard.search.quick_actions.profile"), keywords: t("dashboard.search.quick_actions.profile_keywords"), url: profile_path },
+    { category: t("dashboard.search.categories.settings"), label: t("dashboard.search.quick_actions.teams"), keywords: t("dashboard.search.quick_actions.teams_keywords"), url: teams_path },
+    { category: t("dashboard.search.categories.settings"), label: t("dashboard.search.quick_actions.team_members"), keywords: t("dashboard.search.quick_actions.team_members_keywords"), url: users_path },
+    { category: t("dashboard.search.categories.settings"), label: t("dashboard.search.quick_actions.roles"), keywords: t("dashboard.search.quick_actions.roles_keywords"), url: roles_path },
+    { category: t("dashboard.search.categories.settings"), label: t("dashboard.search.quick_actions.billing"), keywords: t("dashboard.search.quick_actions.billing_keywords"), url: dashboard_billing_path },
+    { category: t("dashboard.search.categories.settings"), label: t("dashboard.search.quick_actions.domains"), keywords: t("dashboard.search.quick_actions.domains_keywords"), url: domains_path },
+    { category: t("dashboard.search.categories.settings"), label: t("dashboard.search.quick_actions.notification_settings"), keywords: t("dashboard.search.quick_actions.notification_settings_keywords"), url: edit_settings_notification_settings_path },
+    { category: t("dashboard.search.categories.settings"), label: t("dashboard.search.quick_actions.audit_logs"), keywords: t("dashboard.search.quick_actions.audit_logs_keywords"), url: settings_audit_logs_path },
+    { category: t("dashboard.search.categories.settings"), label: t("dashboard.search.quick_actions.api_keys"), keywords: t("dashboard.search.quick_actions.api_keys_keywords"), url: settings_api_keys_path },
+    { category: t("dashboard.search.categories.settings"), label: t("dashboard.search.quick_actions.integrations"), keywords: t("dashboard.search.quick_actions.integrations_keywords"), url: integrations_path },
+    { category: t("dashboard.search.categories.channels"), label: t("dashboard.search.quick_actions.email_channels"), keywords: t("dashboard.search.quick_actions.email_channels_keywords"), url: channels_email_index_path },
+    { category: t("dashboard.search.categories.channels"), label: t("dashboard.search.quick_actions.web_widget_channels"), keywords: t("dashboard.search.quick_actions.web_widget_channels_keywords"), url: channels_web_widget_index_path },
+    { category: t("dashboard.search.categories.channels"), label: t("dashboard.search.quick_actions.contact_form_channels"), keywords: t("dashboard.search.quick_actions.contact_form_channels_keywords"), url: channels_contact_form_index_path },
+    { category: t("dashboard.search.categories.channels"), label: t("dashboard.search.quick_actions.facebook_channels"), keywords: t("dashboard.search.quick_actions.facebook_channels_keywords"), url: channels_facebook_index_path },
+    { category: t("dashboard.search.categories.channels"), label: t("dashboard.search.quick_actions.instagram_channels"), keywords: t("dashboard.search.quick_actions.instagram_channels_keywords"), url: channels_instagram_index_path },
+    { category: t("dashboard.search.categories.channels"), label: t("dashboard.search.quick_actions.whatsapp_channels"), keywords: t("dashboard.search.quick_actions.whatsapp_channels_keywords"), url: channels_whatsapp_index_path },
+    { category: t("dashboard.search.categories.channels"), label: t("dashboard.search.quick_actions.custom_channels"), keywords: t("dashboard.search.quick_actions.custom_channels_keywords"), url: channels_custom_index_path },
+    { category: t("dashboard.search.categories.channels_create"), label: t("dashboard.search.quick_actions.create_email_channel"), keywords: t("dashboard.search.quick_actions.create_email_channel_keywords"), url: new_channels_email_path },
+    { category: t("dashboard.search.categories.channels_create"), label: t("dashboard.search.quick_actions.create_web_widget"), keywords: t("dashboard.search.quick_actions.create_web_widget_keywords"), url: new_channels_web_widget_path },
+    { category: t("dashboard.search.categories.channels_create"), label: t("dashboard.search.quick_actions.create_contact_form"), keywords: t("dashboard.search.quick_actions.create_contact_form_keywords"), url: new_channels_contact_form_path },
+    { category: t("dashboard.search.categories.channels_create"), label: t("dashboard.search.quick_actions.create_facebook_channel"), keywords: t("dashboard.search.quick_actions.create_facebook_channel_keywords"), url: new_channels_facebook_path },
+    { category: t("dashboard.search.categories.channels_create"), label: t("dashboard.search.quick_actions.create_instagram_channel"), keywords: t("dashboard.search.quick_actions.create_instagram_channel_keywords"), url: new_channels_instagram_path },
+    { category: t("dashboard.search.categories.channels_create"), label: t("dashboard.search.quick_actions.create_whatsapp_channel"), keywords: t("dashboard.search.quick_actions.create_whatsapp_channel_keywords"), url: new_channels_whatsapp_path },
+    { category: t("dashboard.search.categories.channels_create"), label: t("dashboard.search.quick_actions.create_custom_channel"), keywords: t("dashboard.search.quick_actions.create_custom_channel_keywords"), url: new_channels_custom_path },
+    { category: t("dashboard.search.categories.help_center"), label: t("dashboard.search.quick_actions.help_center_articles"), keywords: t("dashboard.search.quick_actions.help_center_articles_keywords"), url: help_center_articles_path },
+    { category: t("dashboard.search.categories.help_center"), label: t("dashboard.search.quick_actions.help_center_portals"), keywords: t("dashboard.search.quick_actions.help_center_portals_keywords"), url: help_center_portals_path },
+    { category: t("dashboard.search.categories.help_center"), label: t("dashboard.search.quick_actions.create_new_portal"), keywords: t("dashboard.search.quick_actions.create_new_portal_keywords"), url: new_help_center_portal_path },
+    { category: t("dashboard.search.categories.help_center"), label: t("dashboard.search.quick_actions.create_new_article"), keywords: t("dashboard.search.quick_actions.create_new_article_keywords"), url: new_help_center_article_path },
+    { category: t("dashboard.search.categories.data_automation"), label: t("dashboard.search.quick_actions.assignment_policies"), keywords: t("dashboard.search.quick_actions.assignment_policies_keywords"), url: assignment_policies_path },
+    { category: t("dashboard.search.categories.data_automation"), label: t("dashboard.search.quick_actions.sla_policies"), keywords: t("dashboard.search.quick_actions.sla_policies_keywords"), url: sla_policies_path },
+    { category: t("dashboard.search.categories.data_automation"), label: t("dashboard.search.quick_actions.business_hours"), keywords: t("dashboard.search.quick_actions.business_hours_keywords"), url: business_hour_groups_path },
+    { category: t("dashboard.search.categories.data_automation"), label: t("dashboard.search.quick_actions.skills"), keywords: t("dashboard.search.quick_actions.skills_keywords"), url: skills_path },
+    { category: t("dashboard.search.categories.data_automation"), label: t("dashboard.search.quick_actions.custom_fields"), keywords: t("dashboard.search.quick_actions.custom_fields_keywords"), url: custom_fields_path },
+    { category: t("dashboard.search.categories.data_automation"), label: t("dashboard.search.quick_actions.csat_surveys"), keywords: t("dashboard.search.quick_actions.csat_surveys_keywords"), url: csat_surveys_path },
+    { category: t("dashboard.search.categories.data_automation"), label: t("dashboard.search.quick_actions.identity_sources"), keywords: t("dashboard.search.quick_actions.identity_sources_keywords"), url: identity_sources_path },
+    { category: t("dashboard.search.categories.data_automation"), label: t("dashboard.search.quick_actions.canned_responses"), keywords: t("dashboard.search.quick_actions.canned_responses_keywords"), url: canned_responses_settings_path },
+    { category: t("dashboard.search.categories.data_automation"), label: t("dashboard.search.quick_actions.labels"), keywords: t("dashboard.search.quick_actions.labels_keywords"), url: labels_path },
+    { category: t("dashboard.search.categories.data_automation"), label: t("dashboard.search.quick_actions.macros"), keywords: t("dashboard.search.quick_actions.macros_keywords"), url: macros_path },
+    { category: t("dashboard.search.categories.data_automation"), label: t("dashboard.search.quick_actions.automations"), keywords: t("dashboard.search.quick_actions.automations_keywords"), url: automations_path },
+    { category: t("dashboard.search.categories.data_automation"), label: t("dashboard.search.quick_actions.ai_agents"), keywords: t("dashboard.search.quick_actions.ai_agents_keywords"), url: ai_agents_path },
+    { category: t("dashboard.search.categories.data_automation"), label: t("dashboard.search.quick_actions.email_templates"), keywords: t("dashboard.search.quick_actions.email_templates_keywords"), url: email_templates_path },
+    { category: t("dashboard.search.categories.create"), label: t("dashboard.search.quick_actions.invite_team_member"), keywords: t("dashboard.search.quick_actions.invite_team_member_keywords"), url: new_invitation_path },
+    { category: t("dashboard.search.categories.create"), label: t("dashboard.search.quick_actions.create_new_team"), keywords: t("dashboard.search.quick_actions.create_new_team_keywords"), url: new_team_path },
+    { category: t("dashboard.search.categories.create"), label: t("dashboard.search.quick_actions.create_new_label"), keywords: t("dashboard.search.quick_actions.create_new_label_keywords"), url: new_label_path },
+    { category: t("dashboard.search.categories.create"), label: t("dashboard.search.quick_actions.create_new_automation"), keywords: t("dashboard.search.quick_actions.create_new_automation_keywords"), url: new_automation_path },
+    { category: t("dashboard.search.categories.create"), label: t("dashboard.search.quick_actions.create_new_role"), keywords: t("dashboard.search.quick_actions.create_new_role_keywords"), url: new_role_path },
+  ]
+  search_sections = { quick_actions: t("dashboard.search.section_quick_actions"), conversations: t("dashboard.search.section_conversations"), messages: t("dashboard.search.section_messages"), unknown_customer: t("dashboard.search.unknown_customer"), unknown_sender: t("dashboard.search.unknown_sender") }
+.smart-search-overlay data-controller="smart-search" data-smart-search-target="modal" data-action="click->smart-search#closeOnBackdrop" data-smart-search-quick-actions-value=quick_actions.to_json data-smart-search-section-labels-value=search_sections.to_json
+  .smart-search-dialog
+    .smart-search-input-wrapper
+      svg.smart-search-input-icon width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        circle cx="11" cy="11" r="8"
+        line x1="21" y1="21" x2="16.65" y2="16.65"
+      input.smart-search-input type="text" data-smart-search-target="input" data-action="input->smart-search#onInput keydown->smart-search#onKeydown" placeholder=t("dashboard.search.placeholder") autocomplete="off" spellcheck="false"
+      .smart-search-shortcut
+        kbd Esc
+
+    .smart-search-results data-smart-search-target="results"
+      .smart-search-loading data-smart-search-target="loading" style="display: none;"
+        .smart-search-spinner
+        span = t("dashboard.search.searching")
+
+      .smart-search-empty data-smart-search-target="empty" style="display: none;"
+        svg.smart-search-empty-icon width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+          circle cx="11" cy="11" r="8"
+          line x1="21" y1="21" x2="16.65" y2="16.65"
+        p.smart-search-empty-text = t("dashboard.search.no_results")
+        p.smart-search-empty-hint = t("dashboard.search.try_different")
+
+      .smart-search-section data-smart-search-target="quickActionResults" style="display: none;"
+      .smart-search-section data-smart-search-target="conversationResults" style="display: none;"
+      .smart-search-section data-smart-search-target="messageResults" style="display: none;"
+
+    .smart-search-footer
+      .smart-search-footer-hints
+        span.smart-search-hint
+          kbd ↑
+          kbd ↓
+          |  to navigate
+        span.smart-search-hint
+          kbd Enter
+          |  to select
+        span.smart-search-hint
+          kbd Esc
+          |  to close

@@ -31,7 +31,7 @@
 #
 FactoryBot.define do
   factory :channel_web_widget, class: "Channel::WebWidget" do
-    website_url { "MyString" }
+    allowed_hosts { ["https://example.com"] }
     domain { "MyString" }
     configurations { "" }
     data { "" }

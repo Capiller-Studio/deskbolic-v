@@ -210,3 +210,6 @@ application.register("option-preview", OptionPreviewController)
 
 import FilterableCollectionController from "./filterable_collection_controller"
 application.register("filterable-collection", FilterableCollectionController)
+
+import TagsInputController from "./tags_input_controller"
+application.register("tags-input", TagsInputController)

@@ -4,19 +4,19 @@ module Dashboard
   module HelpCenter
     class PortalPolicy < ApplicationPolicy
       def index?
-        owner? || can?("inboxes.read")
+        authorized?("help_center_portals.manage", feature: :help_center_portals)
       end
 
       def create?
-        owner? || can?("inboxes.write")
+        authorized?("help_center_portals.manage", feature: :help_center_portals)
       end
 
       def edit?
-        owner? || can?("inboxes.write")
+        authorized?("help_center_portals.manage", feature: :help_center_portals)
       end
 
       def update?
-        owner? || can?("inboxes.write")
+        authorized?("help_center_portals.manage", feature: :help_center_portals)
       end
     end
   end

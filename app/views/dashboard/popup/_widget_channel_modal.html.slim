@@ -20,8 +20,11 @@
           .form-floating
             .field-label
               span 3
-              = f.label :website_url, t("forms.labels.enter_website_url"), class: "form-label f-reg-14"
-            = f.text_field :website_url, class: "form-control f-reg-14", placeholder: "https://example.com", required: true
+              = f.label :allowed_hosts, t("forms.labels.enter_website_url"), class: "form-label f-reg-14"
+            .ww-tags-input-container.form-control.f-reg-14 data-controller="tags-input" data-action="click->tags-input#focusInput" style="height: auto; min-height: 44px; padding: 4px 12px; display: flex; flex-wrap: wrap; gap: 4px; align-items: center;"
+              = hidden_field_tag "web_widget_channel[allowed_hosts][]", "", data: { "tags-input-target": "hiddenInput" }
+              .ww-tags-list data-tags-input-target="tagsContainer" style="display: flex; flex-wrap: wrap; gap: 4px;"
+              input.ww-tags-input-field type="text" data-tags-input-target="input" data-action="keydown->tags-input#handleKeydown blur->tags-input#addTag" placeholder="https://example.com" style="border: none; outline: none; background: transparent; flex-grow: 1; min-width: 100px;" required=true
           / .form-floating
           /   .field-label
           /     span 4

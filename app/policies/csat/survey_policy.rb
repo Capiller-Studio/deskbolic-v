@@ -3,27 +3,27 @@
 module Csat
   class SurveyPolicy < ApplicationPolicy
     def index?
-      authorized?("csat.read", feature: :custom_csat_enabled)
+      authorized?("csat_surveys.read", feature: :custom_csat)
     end
 
     def new?
-      authorized?("csat.manage", feature: :custom_csat_enabled)
+      authorized?("csat_surveys.manage", feature: :custom_csat)
     end
 
     def create?
-      authorized?("csat.manage", feature: :custom_csat_enabled)
+      authorized?("csat_surveys.manage", feature: :custom_csat)
     end
 
     def edit?
-      authorized?("csat.manage", feature: :custom_csat_enabled)
+      authorized?("csat_surveys.manage", feature: :custom_csat)
     end
 
     def update?
-      authorized?("csat.manage", feature: :custom_csat_enabled)
+      authorized?("csat_surveys.manage", feature: :custom_csat)
     end
 
     def destroy?
-      authorized?("csat.manage", feature: :custom_csat_enabled)
+      authorized?("csat_surveys.manage", feature: :custom_csat)
     end
   end
 end

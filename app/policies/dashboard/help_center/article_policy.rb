@@ -4,7 +4,7 @@ module Dashboard
   module HelpCenter
     class ArticlePolicy < ApplicationPolicy
       def index?
-        owner? || can?("help_center_articles.read") || can?("help_center.manage")
+        authorized?("help_center_articles.read", feature: :help_center_portals) || authorized?("help_center_portals.manage", feature: :help_center_portals)
       end
 
       def show?
@@ -12,7 +12,7 @@ module Dashboard
       end
 
       def create?
-        owner? || can?("help_center_articles.manage") || can?("help_center.manage")
+        authorized?("help_center_articles.manage", feature: :help_center_portals) || authorized?("help_center_portals.manage", feature: :help_center_portals)
       end
 
       def update?

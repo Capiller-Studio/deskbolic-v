@@ -1,94 +1,129 @@
 = render("dashboard/shared/dashboard_container", current_page: "domains") do
   = render("dashboard/settings/settings_sidebar", current_page: "domains") do
-    .body-section.domains-body
-      .domains-header
-        div
+    = form_with(model: @domain, url: domain_path(@domain), method: :patch, class: "ui-settings-editor ui-settings-form", data: { controller: "form-validation", "form-validation-target": "form" }, html: { novalidate: true }) do |f|
+      header.ui-settings-editor__header
+        = link_to domains_path, class: "ui-settings-editor__back", aria: { label: t("shared.back") } do
+          = inline_svg_tag("back-arrow.svg", aria: { hidden: true })
+        .ui-settings-editor__heading
           h1 = t("dashboard.domains.edit.title")
           p = t("dashboard.domains.edit.subtitle", default: "Manage your domain configuration and DNS settings.")
-        .domains-header-actions
-          = link_to domains_path, class: "back-link"
-            span = t("dashboard.domains.edit.back")
+        .ui-settings-editor__header-actions
+          = link_to t("dashboard.domains.edit.cancel"), domains_path, class: "ui-btn-secondary"
+          = button_tag type: "submit", class: "ui-btn-primary", data: { action: "click->form-validation#validate" } do
+            = inline_svg_tag("grey_tick.svg", aria: { hidden: true })
+            span = t("dashboard.domains.edit.submit")
 
-      .domain-form-container
-        / Domain Status Overview
-        .domain-status-overview
-          .status-row
-            span.f-semi-12 = t("dashboard.domains.edit.status_labels.domain")
-            span.f-semi-14 = @domain.value
+      .ui-settings-editor__body
+        section.ui-form-card.ui-form-card--flush
+          .ui-form-card__header.ui-form-card__header--identity
+            .ui-form-card__icon aria-hidden="true"
+              = inline_svg_tag("domain.svg")
+            div
+              h2 = t("dashboard.domains.index.custom_domains.title")
+              p = t("dashboard.domains.index.custom_domains.description")
 
-          .status-row
-            span.f-semi-12 = t("dashboard.domains.edit.status_labels.type")
-            .status-tag class="#{@domain.subdomain? ? 'bg-purple' : 'bg-blue'}"
-              .bullet
-              span.f-reg-12 = t("domains.statuses.domain_type.#{@domain.domain_type}")
+          .ui-record-table.ui-record-table--status
+            table
+              thead
+                tr
+                  th = t("dashboard.domains.index.table.domain")
+                  th = t("dashboard.domains.index.table.dns_status")
+                  th = t("dashboard.domains.index.table.ssl_status")
+                  th = t("dashboard.domains.index.table.portal")
+              tbody
+                tr
+                  td
+                    strong = @domain.value
+                    - if @domain.name.present?
+                      span = @domain.name
+                  td
+                    - case @domain.dns_status
+                    - when "dns_verified"
+                      span.ui-domain-status.ui-domain-status--pill.ui-domain-status--success
+                        = inline_svg_tag("grey_tick.svg", class: "ui-domain-status__mark", aria: { hidden: true })
+                        = t("dashboard.domains.dns_status_badge.dns_verified")
+                    - when "dns_pending"
+                      span.ui-domain-status.ui-domain-status--pill.ui-domain-status--pending
+                        span.ui-domain-status__dot aria-hidden="true"
+                        = t("dashboard.domains.dns_status_badge.dns_pending")
+                    - when "dns_failed"
+                      span.ui-domain-status.ui-domain-status--pill.ui-domain-status--error
+                        = inline_svg_tag("cross.svg", class: "ui-domain-status__mark", aria: { hidden: true })
+                        = t("dashboard.domains.dns_status_badge.dns_failed")
+                    - else
+                      span.ui-domain-status.ui-domain-status--pill.ui-domain-status--neutral
+                        span.ui-domain-status__dot aria-hidden="true"
+                        = t("dashboard.domains.dns_status_badge.dns_unverified")
+                  td
+                    - case @domain.ssl_status
+                    - when "ssl_active"
+                      span.ui-domain-status.ui-domain-status--pill.ui-domain-status--success
+                        = inline_svg_tag("green_lock.svg", aria: { hidden: true })
+                        = t("dashboard.domains.ssl_status_badge.ssl_active")
+                    - when "ssl_pending"
+                      span.ui-domain-status.ui-domain-status--pill.ui-domain-status--pending
+                        = inline_svg_tag("lock_orange.svg", aria: { hidden: true })
+                        = t("dashboard.domains.ssl_status_badge.ssl_pending")
+                    - when "ssl_expired", "ssl_failed"
+                      span.ui-domain-status.ui-domain-status--pill.ui-domain-status--error
+                        = inline_svg_tag("red_lock.svg", aria: { hidden: true })
+                        = t("dashboard.domains.ssl_status_badge.#{@domain.ssl_status}")
+                    - else
+                      span.ui-domain-status.ui-domain-status--pill.ui-domain-status--error
+                        = inline_svg_tag("red_lock.svg", aria: { hidden: true })
+                        = t("dashboard.domains.ssl_status_badge.ssl_none")
+                  td
+                    - if @domain.portal.present?
+                      strong = @domain.portal.name
+                    - else
+                      span = t("dashboard.domains.index.custom_domains.unattached")
 
-          .status-row
-            span.f-semi-12 = t("dashboard.domains.edit.status_labels.dns_status")
-            = render "dashboard/domains/dns_status_badge", domain: @domain
+        section.ui-form-card
+          .ui-form-card__header.ui-form-card__header--identity
+            .ui-form-card__icon aria-hidden="true"
+              = inline_svg_tag("domain.svg")
+            div
+              h2 = t("dashboard.domains.new.section_title")
+              p = t("dashboard.domains.new.section_description", default: "Provide the details for your custom domain.")
 
-          .status-row
-            span.f-semi-12 = t("dashboard.domains.edit.status_labels.ssl_status")
-            = render "dashboard/domains/ssl_status_badge", domain: @domain
+          h3.ui-form-section-title = t("dashboard.domains.edit.section_title")
+          .ui-field-group
+            = f.label :name, t("dashboard.domains.edit.name_label"), class: "ui-label"
+            .ui-field-control.ui-field-control--plain class=("ui-field-control--invalid" if @domain.errors[:name].any?)
+              = f.text_field :name, class: "ui-input ui-control", placeholder: t("dashboard.domains.edit.name_placeholder"), autocomplete: "off", required: true, aria: { invalid: @domain.errors[:name].any?, describedby: "domain_name_feedback" }
+            p.ui-field-hint = t("dashboard.domains.edit.name_hint")
+            p#domain_name_feedback.ui-field-feedback class=("ui-field-feedback--server" if @domain.errors[:name].any?) role="alert"
+              = inline_svg_tag("cross_sign.svg", class: "ui-field-feedback__icon", aria: { hidden: true })
+              span = @domain.errors[:name].any? ? @domain.errors[:name].to_sentence : t("dashboard.domains.new.required_feedback", default: "This field is required.")
 
-          - if @domain.dns_verified_at.present?
-            .status-row
-              span.f-semi-12 = t("dashboard.domains.edit.status_labels.dns_verified_at")
-              span.f-reg-12 = @domain.dns_verified_at.strftime("%B %d, %Y at %I:%M %p")
-
-          - if @domain.ssl_expires_at.present?
-            .status-row
-              span.f-semi-12 = t("dashboard.domains.edit.status_labels.ssl_expires_at")
-              span.f-reg-12 = @domain.ssl_expires_at.strftime("%B %d, %Y")
-
-          - if @domain.last_checked_at.present?
-            .status-row
-              span.f-semi-12 = t("dashboard.domains.edit.status_labels.last_checked")
-              span.f-reg-12 = t("dashboard.domains.edit.status_labels.ago", time: time_ago_in_words(@domain.last_checked_at))
-
-          - if @domain.portal.present?
-            .status-row
-              span.f-semi-12 = t("dashboard.domains.edit.status_labels.attached_portal")
-              span.f-reg-12 = @domain.portal.name
-
-        / Edit Form (only name is editable)
-        = form_with(model: @domain, url: domain_path(@domain), method: :patch, class: "domain-form") do |f|
-          - if @domain.errors.any?
-            .alert.alert-red
-              p.f-semi-14 = t("dashboard.domains.errors.fix_errors")
-              ul
-                - @domain.errors.full_messages.each do |message|
-                  li.f-reg-12 = message
-
-          .form-section
-            h3.f-semi-14 = t("dashboard.domains.edit.section_title")
-
-            .form-group
-              = f.label :name, class: "f-semi-12"
-                = t("dashboard.domains.edit.name_label")
-              = f.text_field :name, class: "form-input", placeholder: t("dashboard.domains.edit.name_placeholder"), autocomplete: "off"
-              p.form-hint.f-reg-12 = t("dashboard.domains.edit.name_hint")
-
-          .form-actions
-            = f.submit t("dashboard.domains.edit.submit"), class: "btn-primary"
-            = link_to t("dashboard.domains.edit.cancel"), domains_path, class: "btn-secondary"
-
-        / CNAME Instructions (for custom domains only)
         - if @domain.custom?
-          .form-section.cname-info-box
-            h3.f-semi-14 = t("dashboard.domains.edit.dns_config_title")
-            p.f-reg-12 = t("dashboard.domains.edit.dns_config_desc")
-            .cname-record
-              .cname-field
-                span.f-reg-12.cname-label = t("dashboard.domains.index.cname_instructions.cname_type")
-                span.f-semi-12 CNAME
-              .cname-field
-                span.f-reg-12.cname-label = t("dashboard.domains.index.cname_instructions.cname_host")
-                span.f-semi-12 = @domain.value
-              .cname-field
-                span.f-reg-12.cname-label = t("dashboard.domains.index.cname_instructions.cname_target")
-                span.f-semi-12 = @domain.cname_target
+          section.ui-form-card.ui-form-card--roomy
+            .ui-form-card__header.ui-form-card__header--identity
+              .ui-form-card__icon aria-hidden="true"
+                = inline_svg_tag("domain.svg")
+              div
+                h2 = t("dashboard.domains.edit.dns_config_title")
+                p = t("dashboard.domains.edit.dns_config_desc")
 
-          - unless @domain.dns_verified?
-            .form-actions
-              = link_to verify_dns_domain_path(@domain), method: :post, class: "btn-primary"
-                = t("dashboard.domains.edit.verify_now")
+            .ui-record-table
+              table
+                thead
+                  tr
+                    th = t("dashboard.domains.index.cname_instructions.cname_type")
+                    th = t("dashboard.domains.index.cname_instructions.cname_host")
+                    th = t("dashboard.domains.index.cname_instructions.cname_target")
+                tbody
+                  tr
+                    td CNAME
+                    td = t("dashboard.domains.index.cname_instructions.cname_host_value")
+                    td = Domain::CNAME_TARGET
+
+            .ui-form-notice
+              = inline_svg_tag("info.svg", aria: { hidden: true })
+              div
+                h3 = t("dashboard.domains.new.important", default: "Important")
+                p = t("dashboard.domains.edit.dns_notice", default: "DNS changes can take up to 48 hours to propagate. We'll automatically issue and install SSL for your domain.")
+              - unless @domain.dns_verified?
+                = link_to verify_dns_domain_path(@domain), method: :post, class: "ui-btn-primary ui-form-notice__action" do
+                  = inline_svg_tag("grey_tick.svg", aria: { hidden: true })
+                  span = t("dashboard.domains.edit.verify_now")

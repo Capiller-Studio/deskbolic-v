@@ -28,6 +28,11 @@ module Dashboard
           raise ActiveRecord::RecordInvalid, @domain
         end
 
+        @domain = Domain.new(domain_params)
+        @domain.errors.add(:name, :blank) if domain_params[:name].blank?
+        @domain.errors.add(:value, :blank) if domain_params[:value].blank?
+        raise ActiveRecord::RecordInvalid, @domain if @domain.errors.any?
+
         @domain = Domains::CreateCustomDomain.call(
           account: current_account,
           value: domain_params[:value],
@@ -44,7 +49,12 @@ module Dashboard
     def edit; end
 
     def update
-      if @domain.update(update_params)
+      @domain.assign_attributes(update_params)
+
+      if update_params[:name].blank?
+        @domain.errors.add(:name, :blank)
+        render :edit, status: :unprocessable_entity
+      elsif @domain.save
         redirect_to domains_path, notice: t("dashboard.domains.update.success")
       else
         render :edit, status: :unprocessable_entity

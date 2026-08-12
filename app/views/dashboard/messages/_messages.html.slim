@@ -104,31 +104,63 @@
                 = inline_svg_tag("mic.svg", class:"action-btn")
               .ai-assist data-controller="accordion ai-assist" data-ai-assist-summarize-url-value=summarize_conversation_ai_path(@conversation) data-ai-assist-draft-url-value=draft_reply_conversation_ai_path(@conversation) data-ai-assist-rewrite-url-value=rewrite_tone_conversation_ai_path(@conversation) data-ai-assist-grammar-url-value=fix_grammar_conversation_ai_path(@conversation) data-ai-assist-translate-url-value=translate_conversation_ai_path(@conversation) data-ai-assist-lexical-outlet=".note-area" data-ai-assist-generating-summary-value=t('dashboard.messages.ai_assist.generating_summary') data-ai-assist-summary-heading-value=t('dashboard.messages.ai_assist.summary_heading') data-ai-assist-drafting-reply-value=t('dashboard.messages.ai_assist.drafting_reply') data-ai-assist-error-prefix-value=t('dashboard.messages.ai_assist.error_prefix') data-ai-assist-credits-exhausted-value=t('dashboard.messages.ai_assist.credits_exhausted')
                 .paraphrase-options data-action="click->accordion#toggleMenu"
-                  = inline_svg_tag("chat_gpt.svg", class:"gpt-btn")
-                  p.f-reg-12 = t('dashboard.messages.ai_assist.title', default: 'AI Assist')
-                .menu data-accordion-target="menu"
-                    .ai-actions-container
-                      = link_to("#", class: "menu-link", data: { action: "click->ai-assist#summarize click->accordion#toggleMenu" }, style: "margin-bottom: 8px; justify-content: center; background: #f8fafc; border-radius: 6px;") do
-                        p.f-semi-12 = t('dashboard.messages.ai_assist.summarize_thread', default: 'Summarize Thread')
+                  = inline_svg_tag("gradient_logo.svg", class:"gpt-btn")
+                  p.f-semi-12 = t('dashboard.messages.ai_assist.title', default: 'Boli')
+                .menu.ai-assistant-menu data-accordion-target="menu" role="dialog" aria-label=t('dashboard.messages.ai_assist.assistant_title', default: 'AI Assistant')
+                  button.ai-assistant-close type="button" data-action="click->accordion#toggleMenu" aria-label=t('dashboard.messages.close', default: 'Close')
+                    = inline_svg_tag("ai-assistant-close.svg")
 
-                      div style="border-top: 1px solid #e2e8f0; padding-top: 8px; margin-top: 8px;"
-                        p.f-semi-12 style="margin-bottom: 4px;" = t('dashboard.messages.ai_assist.draft_reply', default: 'Draft Reply')
-                        input type="text" placeholder=t('dashboard.messages.ai_assist.draft_placeholder', default: 'e.g. Tell them we will fix it by tomorrow...') data-ai-assist-target="instruction" data-action="keydown.enter->ai-assist#draftReply keydown.enter->accordion#toggleMenu" style="width: 100%; padding: 6px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 12px; outline: none;"
+                  .ai-assistant-header
+                    .ai-assistant-header-icon
+                      = inline_svg_tag("ai-assistant-sparkles.svg")
+                    .ai-assistant-heading
+                      p.ai-assistant-title = t('dashboard.messages.ai_assist.assistant_title', default: 'AI Assistant')
+                      p.ai-assistant-description = t('dashboard.messages.ai_assist.description', default: 'Use AI to improve, reply, and transform your messages.')
 
-                      div style="border-top: 1px solid #e2e8f0; padding-top: 8px; margin-top: 12px;"
-                        p.f-semi-12 style="margin-bottom: 8px;" = t('dashboard.messages.ai_assist.transform_text', default: 'Transform Current Text')
-                        .ai-transform-grid style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;"
-                          = link_to("#", class: "menu-link", data: { action: "click->ai-assist#fixGrammar click->accordion#toggleMenu" }, style: "justify-content: center; background: #f8fafc; border-radius: 6px; padding: 6px;") do
-                            p.f-semi-12 = t('dashboard.messages.ai_assist.fix_grammar', default: 'Fix Grammar')
-                          
-                          = link_to("#", class: "menu-link", data: { action: "click->ai-assist#translate click->accordion#toggleMenu" }, style: "justify-content: center; background: #f8fafc; border-radius: 6px; padding: 6px;") do
-                            p.f-semi-12 = t('dashboard.messages.ai_assist.translate', default: 'Translate')
+                  button.ai-assistant-summary type="button" data-action="click->ai-assist#summarize click->accordion#toggleMenu"
+                    .ai-assistant-summary-copy
+                      .ai-assistant-summary-icon
+                        = image_tag("ai-assistant-disclaimer.svg", alt: "")
+                      .ai-assistant-action-copy
+                        span.ai-assistant-action-title = t('dashboard.messages.ai_assist.summarize_thread', default: 'Summarize Thread')
+                        span.ai-assistant-action-description = t('dashboard.messages.ai_assist.summary_description', default: 'Get a quick summary of this conversation.')
+                    .ai-assistant-chevron
+                      = inline_svg_tag("ai-assistant-chevron.svg")
 
-                        p.f-reg-12.text-muted style="margin-top: 8px; margin-bottom: 4px;" = t('dashboard.messages.ai_assist.change_tone', default: 'Change Tone')
-                        .ai-tone-grid style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px;"
-                          - %w[professional friendly concise formal empathetic].each do |tone|
-                            = link_to("#", class: "menu-link", data: { action: "click->ai-assist#rewriteTone click->accordion#toggleMenu", "ai-assist-tone-param": tone }, style: "justify-content: center; background: #f8fafc; border-radius: 4px; padding: 4px;") do
-                              p.f-reg-12 = tone.capitalize
+                  .ai-assistant-section.ai-assistant-draft
+                    p.ai-assistant-section-title = t('dashboard.messages.ai_assist.draft_reply', default: 'Draft Reply')
+                    .ai-assistant-input
+                      = inline_svg_tag("ai-assistant-pencil.svg")
+                      input type="text" placeholder=t('dashboard.messages.ai_assist.draft_placeholder', default: 'e.g. Tell them we will fix it by tomorrow...') data-ai-assist-target="instruction" data-action="keydown.enter->ai-assist#draftReply keydown.enter->accordion#toggleMenu" aria-label=t('dashboard.messages.ai_assist.draft_reply', default: 'Draft Reply')
+
+                  .ai-assistant-section
+                    p.ai-assistant-section-title = t('dashboard.messages.ai_assist.transform_text', default: 'Transform Current Text')
+                    .ai-assistant-transform-grid
+                      button.ai-assistant-transform-card.ai-assistant-transform-card--grammar type="button" data-action="click->ai-assist#fixGrammar click->accordion#toggleMenu"
+                        .ai-assistant-transform-icon
+                          = inline_svg_tag("ai-assistant-grammar.svg")
+                        .ai-assistant-action-copy
+                          span.ai-assistant-action-title = t('dashboard.messages.ai_assist.fix_grammar', default: 'Fix Grammar')
+                          span.ai-assistant-action-description = t('dashboard.messages.ai_assist.grammar_description', default: 'Correct spelling and grammar')
+                      button.ai-assistant-transform-card.ai-assistant-transform-card--translate type="button" data-action="click->ai-assist#translate click->accordion#toggleMenu"
+                        .ai-assistant-transform-icon
+                          = inline_svg_tag("ai-assistant-translate.svg")
+                        .ai-assistant-action-copy
+                          span.ai-assistant-action-title = t('dashboard.messages.ai_assist.translate', default: 'Translate')
+                          span.ai-assistant-action-description = t('dashboard.messages.ai_assist.translate_description', default: 'Translate to another language')
+
+                  .ai-assistant-section
+                    p.ai-assistant-section-title = t('dashboard.messages.ai_assist.change_tone', default: 'Change Tone')
+                    .ai-assistant-tone-grid
+                      - %w[professional friendly concise formal empathetic].each do |tone|
+                        button.ai-assistant-tone type="button" data-action="click->ai-assist#rewriteTone click->accordion#toggleMenu" data-ai-assist-tone-param=tone
+                          .ai-assistant-tone-icon
+                            = inline_svg_tag("ai-assistant-#{tone}.svg")
+                          span = t("dashboard.messages.ai_assist.tones.#{tone}")
+
+                  .ai-assistant-disclaimer
+                    = image_tag("ai-assistant-disclaimer.svg", alt: "")
+                    p = t('dashboard.messages.ai_assist.disclaimer', default: 'AI responses may not always be accurate. Please review before sending.')
                         
             .send-button data-controller="accordion"
               = f.submit t('dashboard.messages.send'), class: "f-semi-12", data: { turbo_submits_with: "Sending..." }

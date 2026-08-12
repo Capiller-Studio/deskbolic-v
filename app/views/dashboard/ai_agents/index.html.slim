@@ -1,33 +1,33 @@
 = render("dashboard/shared/dashboard_container", current_page: "settings") do
   = render("dashboard/settings/settings_sidebar", current_page: "ai_agents") do
-    .ai-agents-page data-controller="tabs filterable-collection"
-      header.ui-index-header.ai-agents-page-header
-        .ui-title-area.ai-agents-heading
+    .ui-settings-page data-controller="tabs filterable-collection"
+      header.ui-settings-page__header
+        .ui-settings-page__heading
           h1 = t("dashboard.ai_agents.index.title", default: "AI Agents")
           p = t("dashboard.ai_agents.index.description", default: "Manage your AI agents, customize their behavior and monitor their performance.")
-        = link_to new_ai_agent_path, class: "ui-btn-primary ai-agents-primary-button" do
+        = link_to new_ai_agent_path, class: "ui-settings-page__action" do
           span = t("dashboard.ai_agents.index.add_agent", default: "Add new agent")
-          = inline_svg_tag("plus_white.svg", class: "ai-agents-button-plus", aria: { hidden: true })
+          = inline_svg_tag("plus_white.svg", class: "ui-settings-page__action-icon", aria: { hidden: true })
 
-      .ai-agents-page-body
-        .ai-agents-toolbar
-          .ai-agents-tabs role="tablist" aria-label=t("dashboard.ai_agents.index.status_filter", default: "Filter agents by status")
+      main.ui-settings-page__content
+        .ui-toolbar
+          .ui-filter-tabs role="tablist" aria-label=t("dashboard.ai_agents.index.status_filter", default: "Filter agents by status")
             - [{ key: :all, label: t("dashboard.ai_agents.index.all", default: "All Agent") }, { key: :active, label: t("dashboard.ai_agents.index.active", default: "Active") }, { key: :inactive, label: t("dashboard.ai_agents.index.inactive", default: "Inactive") }].each_with_index do |tab, index|
-              button.ai-agents-tab class=(index.zero? ? "active" : nil) type="button" role="tab" aria-selected=(index.zero? ? "true" : "false") tabindex=(index.zero? ? "0" : "-1") data-tabs-target="tab" data-filter-value=(tab[:key] == :all ? "" : tab[:key]) data-action="click->tabs#switch click->filterable-collection#selectFilter"
+              button.ui-filter-tabs__tab class=(index.zero? ? "active" : nil) type="button" role="tab" aria-selected=(index.zero? ? "true" : "false") tabindex=(index.zero? ? "0" : "-1") data-tabs-target="tab" data-filter-value=(tab[:key] == :all ? "" : tab[:key]) data-action="click->tabs#switch click->filterable-collection#selectFilter"
                 span = tab[:label]
-                span.ai-agents-tab-count = @ai_agent_counts.fetch(tab[:key])
+                span.ui-filter-tabs__count = @ai_agent_counts.fetch(tab[:key])
 
-          label.ai-agents-search
-            = inline_svg_tag("search_gray.svg", class: "ai-agents-search-icon", aria: { hidden: true })
+          label.ui-search-field
+            = inline_svg_tag("search_gray.svg", class: "ui-search-field__icon", aria: { hidden: true })
             input type="search" placeholder=t("dashboard.ai_agents.index.search_placeholder", default: "Search agents...") aria-label=t("dashboard.ai_agents.index.search_placeholder", default: "Search agents") autocomplete="off" data-filterable-collection-target="query" data-action="input->filterable-collection#update"
 
         - if @ai_agents.any?
-          .ui-list.ai-agents-grid data-filterable-collection-target="container"
+          .ui-card-grid data-filterable-collection-target="container"
             - @ai_agents.each do |agent|
               - agent_type_label = t("activerecord.attributes.ai/agent.agent_types.#{agent.agent_type}", default: agent.agent_type.to_s.humanize)
-              article.ui-card.ai-agent-card id="ai_agent_#{agent.id}" data-filterable-collection-target="item" data-filter-values=agent.status data-searchable="#{[agent.name, agent_type_label, agent.tone, agent.portal&.name, agent.status].compact.join(' ').downcase}"
-                .ui-card-top.ai-agent-card-header
-                  .ui-card-info.ai-agent-card-identity
+              article.ui-panel.ai-agent-card id="ai_agent_#{agent.id}" data-filterable-collection-target="item" data-filter-values=agent.status data-searchable="#{[agent.name, agent_type_label, agent.tone, agent.portal&.name, agent.status].compact.join(' ').downcase}"
+                .ui-panel__header.ai-agent-card-header
+                  .ui-panel__identity.ai-agent-card-identity
                     .ai-agent-card-avatar
                       = image_tag("ai_agents/ai_agent.svg", alt: "", aria: { hidden: true })
                     .ai-agent-card-title
@@ -69,21 +69,21 @@
                   .ai-agent-card-language
                     = image_tag("ai_agents/language.svg", alt: "", aria: { hidden: true })
                     span = t("dashboard.ai_agents.index.default_language", default: "English (Default)")
-                  span.ui-badge.ai-agent-status class="ai-agent-status-#{agent.status}"
-                    span.ai-agent-status-dot aria-hidden="true"
+                  span.ui-status-badge class="ui-status-badge--#{agent.status}"
+                    span.ui-status-badge__dot aria-hidden="true"
                     = t("activerecord.attributes.ai/agent.statuses.#{agent.status}", default: agent.status.humanize)
 
-          .ai-agents-filter-empty data-filterable-collection-target="empty" hidden=true
+          .ui-empty-state.ui-empty-state--bordered data-filterable-collection-target="empty" hidden=true
             h2 = t("dashboard.ai_agents.index.no_matching_agents", default: "No matching agents")
             p = t("dashboard.ai_agents.index.adjust_filters", default: "Try another status or search term.")
 
           - if @pagy && @pagy.pages > 1
-            nav.ai-agents-pagination aria-label=t("dashboard.ai_agents.index.pagination", default: "AI agents pagination")
+            nav.ui-pagy aria-label=t("dashboard.ai_agents.index.pagination", default: "AI agents pagination")
               == pagy_nav(@pagy)
         - else
-          .ai-agents-empty-state
-            .ai-agent-card-avatar
+          .ui-empty-state.ui-empty-state--bordered
+            .ui-empty-state__graphic
               = image_tag("ai_agents/ai_agent.svg", alt: "", aria: { hidden: true })
             h2 = t("dashboard.ai_agents.index.no_agents", default: "No AI Agents found.")
             p = t("dashboard.ai_agents.index.empty_description", default: "Create an AI Agent to assist with customer queries.")
-            = link_to t("dashboard.ai_agents.index.add_agent", default: "Add new agent"), new_ai_agent_path, class: "ui-btn-primary ai-agents-primary-button"
+            = link_to t("dashboard.ai_agents.index.add_agent", default: "Add new agent"), new_ai_agent_path, class: "ui-settings-page__action"

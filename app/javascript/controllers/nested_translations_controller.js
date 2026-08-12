@@ -107,7 +107,7 @@ export default class extends Controller {
     const panelLanguageName = newPanel.querySelector(".translation-language-name")
     if (panelLanguageName) panelLanguageName.textContent = languageName
 
-    this.tabContainerTarget.insertBefore(newTab, this.tabContainerTarget.querySelector(".ai-agent-language-picker"))
+    this.tabContainerTarget.insertBefore(newTab, this.tabContainerTarget.querySelector(".ui-locale-picker"))
     this.panelContainerTarget.appendChild(newPanel)
     option.remove()
     select.value = ""

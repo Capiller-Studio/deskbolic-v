@@ -2360,6 +2360,10 @@ en:
   audit_logs:
     actions: Actions
     actor: Actor
+    all_actors: All Actors
+    all_time: All time
+    apply: Apply
+    changed_from: changed from
     changes: Changes
     confirm_rollback: Are you sure you want to completely rollback this object to
       its historical state?
@@ -2367,9 +2371,24 @@ en:
     description: Track and review all activities across your organization.
     empty: No audit logs found.
     event: Event
+    filter_by_actor: Filter by actor
+    from: From
+    member: Member
+    more_actions: More actions
+    next_page: Next page
+    page_number: Page %{page}
+    pagination: Audit log pagination
+    previous_page: Previous page
+    revert_failed: Failed to revert activity.
+    revert_success: Activity successfully reverted.
     rollback: Rollback
+    rows_per_page: Rows per page
+    set_to: set to
+    showing_activities: Showing %{from} to %{to} of %{count} activities
+    system: System
     timestamp: Timestamp
     title: Audit Logs
+    to: To
     undo: Undo
   devise:
     registrations:

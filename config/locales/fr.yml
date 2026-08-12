@@ -2205,15 +2205,34 @@ fr:
   audit_logs:
     actions: Actions
     actor: Acteur
+    all_actors: Tous les acteurs
+    all_time: Toute la période
+    apply: Appliquer
+    changed_from: modifié de
     changes: Changements
     confirm_rollback: Êtes-vous sûr de vouloir restaurer complètement cet objet à son état historique ?
     confirm_undo: Êtes-vous sûr de vouloir annuler ces modifications spécifiques ?
     description: Suivez et examinez toutes les activités au sein de votre organisation.
     empty: Aucun journal d'audit trouvé.
     event: Événement
+    filter_by_actor: Filtrer par acteur
+    from: Du
+    member: Membre
+    more_actions: Plus d'actions
+    next_page: Page suivante
+    page_number: Page %{page}
+    pagination: Pagination du journal d'audit
+    previous_page: Page précédente
+    revert_failed: Échec de la restauration de l'activité.
+    revert_success: Activité restaurée avec succès.
     rollback: Restauration
+    rows_per_page: Lignes par page
+    set_to: défini sur
+    showing_activities: Affichage de %{from} à %{to} sur %{count} activités
+    system: Système
     timestamp: Horodatage
     title: Journaux d'audit
+    to: Au
     undo: Annuler
   devise:
     registrations:

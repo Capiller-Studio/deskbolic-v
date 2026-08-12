@@ -2205,15 +2205,34 @@ de:
   audit_logs:
     actions: Aktionen
     actor: Schauspieler
+    all_actors: Alle Akteure
+    all_time: Gesamter Zeitraum
+    apply: Anwenden
+    changed_from: geändert von
     changes: Änderungen
     confirm_rollback: Sind Sie sicher, dass Sie dieses Objekt vollständig auf seinen historischen Zustand zurücksetzen möchten?
     confirm_undo: Sind Sie sicher, dass Sie diese spezifischen Änderungen rückgängig machen möchten?
     description: Verfolgen und überprüfen Sie alle Aktivitäten in Ihrem Unternehmen.
     empty: Keine Überwachungsprotokolle gefunden.
     event: Veranstaltung
+    filter_by_actor: Nach Akteur filtern
+    from: Von
+    member: Mitglied
+    more_actions: Weitere Aktionen
+    next_page: Nächste Seite
+    page_number: Seite %{page}
+    pagination: Seitennavigation des Audit-Protokolls
+    previous_page: Vorherige Seite
+    revert_failed: Aktivität konnte nicht zurückgesetzt werden.
+    revert_success: Aktivität wurde erfolgreich zurückgesetzt.
     rollback: Rollback
+    rows_per_page: Zeilen pro Seite
+    set_to: gesetzt auf
+    showing_activities: "%{from} bis %{to} von %{count} Aktivitäten werden angezeigt"
+    system: System
     timestamp: Zeitstempel
     title: Audit-Protokolle
+    to: Bis
     undo: Rückgängig machen
   devise:
     registrations:

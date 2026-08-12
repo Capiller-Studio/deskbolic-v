@@ -1,4 +1,5 @@
 = render("dashboard/shared/dashboard_container", current_page: "settings") do
+  - strategy_icons = { "round_robin" => "round_robbin.svg", "skills_based" => "skill_bases.svg" }
   .ap-form-container
     .ap-form-header
       = link_to assignment_policies_path, class: "ap-back-link"
@@ -25,7 +26,10 @@
         = t("dashboard.assignment_policies.form.strategy_section")
       .ap-section-body
         .ap-strategy-badge class="ap-strategy-#{@policy.strategy}"
-          span = t("dashboard.assignment_policies.strategies.#{@policy.strategy}_icon")
+          - if strategy_icons[@policy.strategy].present?
+            = inline_svg_tag(strategy_icons[@policy.strategy], class: "ap-show-strategy-icon ap-show-strategy-icon-#{@policy.strategy}", alt: "")
+          - else
+            span = t("dashboard.assignment_policies.strategies.#{@policy.strategy}_icon")
           span = t("dashboard.assignment_policies.strategies.#{@policy.strategy}")
         p.f-reg-13 style="margin-top: 8px; color: #64748b;"
           = t("dashboard.assignment_policies.strategies.#{@policy.strategy}_desc")

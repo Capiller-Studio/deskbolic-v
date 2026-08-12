@@ -15,14 +15,19 @@ export default class extends Controller {
     "capacitySection",
     "businessHoursToggle",
     "businessHoursField",
+    "businessHoursSelect",
     "idleToggle",
     "idleTimeoutField",
     "skillsToggle",
-    "conditionsField"
+    "conditionsField",
+    "descriptionInput",
+    "descriptionCounter"
   ]
 
   connect() {
     this.updateStrategyUI()
+    this.updateDescriptionCounter()
+    this.toggleBusinessHours()
   }
 
   // ── Strategy Selection ──
@@ -53,10 +58,23 @@ export default class extends Controller {
 
     const strategy = selectedRadio.value
 
+    this.element.querySelectorAll(".ap-strategy-card").forEach(card => {
+      const radio = card.querySelector("input[type='radio']")
+      card.classList.toggle("selected", radio?.checked)
+    })
+
     // Show/hide capacity section (not relevant for manual)
     if (this.hasCapacitySectionTarget) {
       this.capacitySectionTarget.style.display = strategy === "manual" ? "none" : ""
     }
+  }
+
+  updateDescriptionCounter() {
+    if (!this.hasDescriptionInputTarget || !this.hasDescriptionCounterTarget) return
+
+    const maxLength = this.descriptionInputTarget.getAttribute("maxlength") || 500
+    const currentLength = this.descriptionInputTarget.value.length
+    this.descriptionCounterTarget.textContent = `${currentLength} / ${maxLength}`
   }
 
   // ── Business Hours Toggle ──
@@ -65,7 +83,19 @@ export default class extends Controller {
     if (this.hasBusinessHoursFieldTarget && this.hasBusinessHoursToggleTarget) {
       const isChecked = this.businessHoursToggleTarget.checked
       this.businessHoursFieldTarget.style.display = isChecked ? "" : "none"
+
+      if (this.hasBusinessHoursSelectTarget) {
+        this.businessHoursSelectTarget.required = isChecked
+        this.updateBusinessHoursValidation()
+      }
     }
+  }
+
+  updateBusinessHoursValidation() {
+    if (!this.hasBusinessHoursToggleTarget || !this.hasBusinessHoursSelectTarget) return
+
+    const isChecked = this.businessHoursToggleTarget.checked
+    this.businessHoursSelectTarget.setAttribute("aria-invalid", (isChecked && !this.businessHoursSelectTarget.validity.valid).toString())
   }
 
   // ── Idle Timeout Toggle ──

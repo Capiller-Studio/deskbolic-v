@@ -2,7 +2,15 @@
   = render("dashboard/settings/settings_sidebar", current_page: "assignment-policies") do
     .ap-form-container
       .ap-form-header
-        = link_to assignment_policies_path, class: "ap-back-link"
-          | #{t("ui.dashboard.assignment_policies.edit.back_to_policies")}
-        h2.f-semi-24 = t(".title")
+        .ap-form-header-copy
+          = link_to assignment_policies_path, class: "ap-header-back-link", aria: { label: t("ui.dashboard.assignment_policies.edit.back_to_policies") }
+            = image_tag("back_arrow.svg", class: "ap-back-arrow-icon", alt: "")
+          div
+            h2.f-semi-24 = t("dashboard.assignment_policies.form.page_title", default: "Policy Details")
+            p.f-reg-14 = t("dashboard.assignment_policies.form.page_description", default: "Create and configure an assignment policy to manage how conversations are assigned.")
+        .ap-form-header-actions
+          = link_to t("dashboard.assignment_policies.form.cancel"), assignment_policies_path, class: "ap-btn-secondary"
+          button.ap-btn-save-header type="submit" form="assignment-policy-form"
+            = image_tag("mark.svg", class: "ap-save-mark-icon", alt: "")
+            span = t("dashboard.assignment_policies.form.save_changes", default: "Save changes")
       = render("dashboard/assignment_policies/form", policy: @policy)

@@ -1,119 +1,122 @@
 / Assignment Policy form — used for both new and edit.
-/ Sections: Details, Strategy, Capacity, Conditions, Inboxes, Business Hours, Options
-= form_with(model: policy, url: (policy.persisted? ? assignment_policy_path(policy) : assignment_policies_path), data: { controller: "assignment-policy" }) do |f|
+/ Sections: Details, Strategy, Capacity, Inboxes, Business Hours, Options
+- strategy_icons = { round_robin: "round_robbin.svg", load_balanced: "load_balancing.svg", skills_based: "skill_bases.svg", manual: "manual.svg" }
+- strategy_colors = { round_robin: "blue", load_balanced: "purple", skills_based: "green", manual: "gray" }
+- option_rows = [{ field: :reassign_on_offline, id: "policy-reassign-offline", icon: "person.svg", title: t("dashboard.assignment_policies.form.reassign_on_offline"), description: t("dashboard.assignment_policies.form.reassign_on_offline_hint", default: "Move conversations when an assigned agent is no longer available.") }, { field: :notify_team_leads, id: "policy-notify-leads", icon: "agent_capacity.svg", title: t("dashboard.assignment_policies.flags.notify_team_leads"), description: t("dashboard.assignment_policies.form.notify_team_leads_hint", default: "Send team leads a notification when conversations are assigned.") }, { field: :prioritize_by_conversation_priority, id: "policy-prioritize", icon: "flag.svg", title: t("dashboard.assignment_policies.form.prioritize_label"), description: t("dashboard.assignment_policies.form.prioritize_hint") }, { field: :consider_agent_skills, id: "policy-skills", icon: "star1.svg", title: t("dashboard.assignment_policies.flags.consider_agent_skills"), description: t("dashboard.assignment_policies.form.consider_agent_skills_hint", default: "Use agent skills as a signal during automatic assignment.") }, { field: :notify_on_assignment, id: "policy-notify-agent", icon: "notification.svg", title: t("dashboard.assignment_policies.flags.notify_on_assignment"), description: t("dashboard.assignment_policies.form.notify_on_assignment_hint", default: "Notify agents when a conversation is assigned to them.") }, { field: :allow_idle_reassignment, id: "policy-idle", icon: "setting.svg", title: t("dashboard.assignment_policies.flags.allow_idle_reassignment"), description: t("dashboard.assignment_policies.form.allow_idle_reassignment_hint", default: "Let idle conversations move to another available agent.") }]
 
-  / ── Details Section ──
-  .ap-section
+= form_with(model: policy, url: (policy.persisted? ? assignment_policy_path(policy) : assignment_policies_path), id: "assignment-policy-form", class: "ui-settings-form", data: { controller: "assignment-policy form-validation", "form-validation-target": "form", action: "submit->form-validation#validate" }, html: { novalidate: true }) do |f|
+  .ap-section.ap-form-card
     .ap-section-header
-      span.ap-section-icon 📝
-      = t("dashboard.assignment_policies.form.details_section")
-    .ap-section-body
-      .ap-form-row style="flex-direction: column; align-items: stretch; gap: 16px;"
+      span.ap-section-icon
+        = image_tag("document.svg", class: "ap-document-icon", alt: "")
+      span = t("dashboard.assignment_policies.form.details_section")
+    .ap-section-body.ap-policy-details-body
+      .ap-policy-details-grid
         div
-          label.f-semi-13.ap-label = t("dashboard.assignment_policies.form.name_label")
-          = f.text_field :name, class: "ap-input", placeholder: t("dashboard.assignment_policies.form.name_placeholder"), id: "policy-name"
+          label.f-semi-13.ap-label for="policy-name" = t("dashboard.assignment_policies.form.name_label")
+          .ui-field-control.ui-field-control--plain class=("ui-field-control--invalid" if policy.errors[:name].any?)
+            = f.text_field :name, class: "ap-input ui-control ui-input", placeholder: t("dashboard.assignment_policies.form.name_placeholder_new", default: "Enter policy name"), id: "policy-name", autocomplete: "off", required: true, aria: { invalid: policy.errors[:name].any?, describedby: "policy_name_feedback" }
+          p#policy_name_feedback.ui-field-feedback class=("ui-field-feedback--server" if policy.errors[:name].any?) role="alert"
+            = inline_svg_tag("cross_sign.svg", class: "ui-field-feedback__icon", aria: { hidden: true })
+            span = policy.errors[:name].any? ? policy.errors[:name].to_sentence : t("dashboard.assignment_policies.form.required_feedback", default: "Required")
         div
-          label.f-semi-13.ap-label = t("dashboard.assignment_policies.form.description_label")
-          = f.text_area :description, class: "ap-input ap-textarea", rows: 2, placeholder: t("dashboard.assignment_policies.form.description_placeholder"), id: "policy-description"
+          .ap-label-row
+            label.f-semi-13.ap-label for="policy-description"
+              = t("dashboard.assignment_policies.form.description_label")
+              span.ap-optional-label = t("dashboard.assignment_policies.form.optional_label", default: "(optional)")
+            span.ap-character-counter data-assignment-policy-target="descriptionCounter" 0 / 500
+          = f.text_area :description, class: "ap-input ap-textarea", rows: 4, placeholder: t("dashboard.assignment_policies.form.description_placeholder_new", default: "Enter a brief description of this policy"), id: "policy-description", data: { "assignment-policy-target": "descriptionInput", action: "input->assignment-policy#updateDescriptionCounter" }
 
-  / ── Strategy Section ──
-  .ap-section
+  .ap-section.ap-form-card.ap-business-hours-card
     .ap-section-header
-      span.ap-section-icon ⚡
-      = t("dashboard.assignment_policies.form.strategy_section")
+      span.ap-section-icon
+        = image_tag("assigemt_strategy.svg", class: "ap-icon-svg", alt: "")
+      span = t("dashboard.assignment_policies.form.strategy_section")
     .ap-section-body
       .ap-strategy-grid data-assignment-policy-target="strategyGrid"
-        - strategies = [:round_robin, :load_balanced, :skills_based, :manual]
-        - strategy_colors = { round_robin: "blue", load_balanced: "purple", skills_based: "green", manual: "gray" }
-        - strategies.each do |strategy|
+        - [:round_robin, :load_balanced, :skills_based, :manual].each do |strategy|
           label.ap-strategy-card id="strategy-#{strategy}" class="#{strategy_colors[strategy]} #{policy.strategy == strategy.to_s ? 'selected' : ''}" data-action="click->assignment-policy#selectStrategy"
-            = f.radio_button :strategy, strategy, class: "ap-radio-hidden", data: { "assignment-policy-target": "strategyRadio" }
-            .ap-strategy-card-icon = t("dashboard.assignment_policies.strategies.#{strategy}_icon")
-            .ap-strategy-card-content
-              h4.f-semi-14 = t("dashboard.assignment_policies.strategies.#{strategy}")
-              p.f-reg-12 = t("dashboard.assignment_policies.strategies.#{strategy}_desc")
+            = f.radio_button :strategy, strategy, class: "ap-radio-hidden", data: { "assignment-policy-target": "strategyRadio", action: "change->assignment-policy#updateStrategyUI" }
+            span.ap-strategy-selected-icon
+              = image_tag("Background_Border.svg", class: "ap-strategy-selected-image", alt: "")
+            span.ap-strategy-card-icon
+              = image_tag(strategy_icons[strategy], class: "ap-icon-svg", alt: "")
+            span.ap-strategy-card-content
+              strong.f-semi-14 = t("dashboard.assignment_policies.strategies.#{strategy}")
+              span.f-reg-12 = t("dashboard.assignment_policies.strategies.#{strategy}_desc")
 
-  / ── Capacity Section ──
-  .ap-section data-assignment-policy-target="capacitySection"
+  .ap-form-two-column
+    .ap-section.ap-form-card data-assignment-policy-target="capacitySection"
+      .ap-section-header
+        span.ap-section-icon
+          = image_tag("agent_capacity.svg", class: "ap-icon-svg", alt: "")
+        span = t("dashboard.assignment_policies.form.capacity_section")
+      .ap-section-body
+        label.f-semi-13.ap-label for="policy-max-conv" = t("dashboard.assignment_policies.form.max_conversations_label")
+        = f.number_field :max_conversations_per_agent, class: "ap-input", min: 1, placeholder: t("dashboard.assignment_policies.form.max_conversations_placeholder"), id: "policy-max-conv"
+        p.ap-hint = t("dashboard.assignment_policies.form.max_conversations_hint")
+
+    .ap-section.ap-form-card.ap-inboxes-card
+      .ap-section-header
+        span.ap-section-icon
+          = image_tag("reply_inbox.svg", class: "ap-icon-svg", alt: "")
+        span = t("dashboard.assignment_policies.form.inboxes_section")
+      .ap-section-body
+        p.ap-hint.ap-card-hint = t("dashboard.assignment_policies.form.all_inboxes_hint")
+        .ui-field-control
+          span.ui-field-control__icon aria-hidden="true"
+            = image_tag("reply_inbox.svg", alt: "", width: 14, height: 14)
+          = f.select :inbox_ids, options_from_collection_for_select(@inboxes, :id, :name, policy.inbox_ids), {}, multiple: true, class: "ui-select ui-control", data: { controller: "select" }
+
+  .ap-section.ap-form-card.ap-business-hours-card
+    .ap-business-hours-body.ap-toggle-card-row
+      .ap-toggle-copy
+        span.ap-section-icon
+          = inline_svg_tag("clock.svg", class: "ap-icon-svg", alt: "")
+        span.ap-toggle-text
+          strong.f-semi-14 = t("dashboard.assignment_policies.form.business_hours_section")
+          span.f-reg-12 = t("dashboard.assignment_policies.form.respect_business_hours")
+      label.hc-toggle.ap-switch for="policy-bh-toggle"
+        = f.check_box :respect_business_hours, data: { action: "change->assignment-policy#toggleBusinessHours", "assignment-policy-target": "businessHoursToggle" }, id: "policy-bh-toggle"
+        span.hc-toggle-slider
+
+    .ap-conditional-field data-assignment-policy-target="businessHoursField" style="#{policy.respect_business_hours? ? '' : 'display: none;'}"
+      .ui-field-group
+        label.f-semi-13.ap-label for="policy-bh-group" = t("dashboard.assignment_policies.form.business_hour_group_label")
+        .ui-field-control class=("ui-field-control--invalid" if policy.errors[:business_hour_group_id].any?)
+          span.ui-field-control__icon aria-hidden="true"
+            = image_tag("clock.svg", alt: "", width: 14, height: 14)
+          = f.select :business_hour_group_id, options_from_collection_for_select(@business_hour_groups, :id, :name, policy.business_hour_group_id), { include_blank: t("dashboard.assignment_policies.form.business_hour_group_prompt") }, class: "ui-select ui-control", id: "policy-bh-group", required: policy.respect_business_hours?, aria: { describedby: "policy_business_hour_group_feedback" }, data: { controller: "select", "assignment-policy-target": "businessHoursSelect", action: "change->assignment-policy#updateBusinessHoursValidation" }
+        p#policy_business_hour_group_feedback.ui-field-feedback class=("ui-field-feedback--server" if policy.errors[:business_hour_group_id].any?) role="alert"
+          = inline_svg_tag("cross_sign.svg", class: "ui-field-feedback__icon", aria: { hidden: true })
+          span = policy.errors[:business_hour_group_id].any? ? policy.errors[:business_hour_group_id].to_sentence : t("dashboard.assignment_policies.form.business_hour_group_required", default: "Required")
+
+  .ap-section.ap-form-card
     .ap-section-header
-      span.ap-section-icon 📊
-      = t("dashboard.assignment_policies.form.capacity_section")
-    .ap-section-body
-      .ap-form-row
-        div style="flex: 1;"
-          label.f-semi-13.ap-label = t("dashboard.assignment_policies.form.max_conversations_label")
-          = f.number_field :max_conversations_per_agent, class: "ap-input", min: 1, placeholder: t("dashboard.assignment_policies.form.max_conversations_placeholder"), id: "policy-max-conv"
-          p.ap-hint = t("dashboard.assignment_policies.form.max_conversations_hint")
-
-  / ── Inboxes Section ──
-  .ap-section
-    .ap-section-header
-      span.ap-section-icon 📥
-      = t("dashboard.assignment_policies.form.inboxes_section")
-    .ap-section-body
-      p.ap-hint style="margin-bottom: 12px;" = t("dashboard.assignment_policies.form.all_inboxes_hint")
-      .ap-checkbox-grid
-        - @inboxes.each do |inbox|
-          label.ap-checkbox-item id="inbox-#{inbox.id}"
-            = check_box_tag "assignment_policy[inbox_ids][]", inbox.id, policy.inbox_ids.include?(inbox.id), class: "ap-checkbox"
-            span.f-reg-13 = inbox.name
-
-  / ── Business Hours Section ──
-  .ap-section
-    .ap-section-header
-      span.ap-section-icon 🕐
-      = t("dashboard.assignment_policies.form.business_hours_section")
-    .ap-section-body
-      .ap-form-row
-        .ap-toggle-row
-          = f.check_box :respect_business_hours, class: "ap-checkbox", data: { action: "change->assignment-policy#toggleBusinessHours", "assignment-policy-target": "businessHoursToggle" }, id: "policy-bh-toggle"
-          label.f-reg-13 for="policy-bh-toggle" = t("dashboard.assignment_policies.form.respect_business_hours")
-
-      .ap-conditional-field data-assignment-policy-target="businessHoursField" style="#{policy.respect_business_hours? ? '' : 'display: none;'}"
-        label.f-semi-13.ap-label = t("dashboard.assignment_policies.form.business_hour_group_label")
-        = f.select :business_hour_group_id, options_from_collection_for_select(@business_hour_groups, :id, :name, policy.business_hour_group_id), { include_blank: t("dashboard.assignment_policies.form.business_hour_group_prompt") }, class: "ap-select", id: "policy-bh-group"
-
-  / ── Options Section ──
-  .ap-section
-    .ap-section-header
-      span.ap-section-icon ⚙️
-      = t("dashboard.assignment_policies.form.options_section")
-    .ap-section-body
+      span.ap-section-icon
+        = inline_svg_tag("setting_fill.svg", class: "ap-icon-svg", alt: "")
+      span = t("dashboard.assignment_policies.form.options_section")
+    .ap-options-section-body
       .ap-options-grid
-        .ap-toggle-row
-          = f.check_box :reassign_on_offline, class: "ap-checkbox", id: "policy-reassign-offline"
-          label.f-reg-13 for="policy-reassign-offline" = t("dashboard.assignment_policies.form.reassign_on_offline")
-
-        .ap-toggle-row
-          = f.check_box :prioritize_by_conversation_priority, class: "ap-checkbox", id: "policy-prioritize"
-          label.f-reg-13 for="policy-prioritize" = t("dashboard.assignment_policies.form.prioritize_label")
-          p.ap-hint style="margin-left: 24px;" = t("dashboard.assignment_policies.form.prioritize_hint")
-
-        .ap-toggle-row
-          = f.check_box :notify_on_assignment, class: "ap-checkbox", id: "policy-notify-agent"
-          label.f-reg-13 for="policy-notify-agent" = t("dashboard.assignment_policies.flags.notify_on_assignment")
-
-        .ap-toggle-row
-          = f.check_box :notify_team_leads, class: "ap-checkbox", id: "policy-notify-leads"
-          label.f-reg-13 for="policy-notify-leads" = t("dashboard.assignment_policies.flags.notify_team_leads")
-
-        .ap-toggle-row
-          = f.check_box :consider_agent_skills, class: "ap-checkbox", data: { "assignment-policy-target": "skillsToggle" }, id: "policy-skills"
-          label.f-reg-13 for="policy-skills" = t("dashboard.assignment_policies.flags.consider_agent_skills")
-
-        .ap-toggle-row
-          = f.check_box :allow_idle_reassignment, class: "ap-checkbox", data: { action: "change->assignment-policy#toggleIdleTimeout", "assignment-policy-target": "idleToggle" }, id: "policy-idle"
-          label.f-reg-13 for="policy-idle" = t("dashboard.assignment_policies.flags.allow_idle_reassignment")
+        - option_rows.each do |option|
+          .ap-option-row
+            .ap-option-copy
+              span.ap-option-icon class="#{[:reassign_on_offline, :consider_agent_skills].include?(option[:field]) ? 'ap-option-icon--no-fill-bg' : ''}"
+                - if option[:field] == :allow_idle_reassignment
+                  / TODO: Replace with a dedicated idle reassignment icon when available.
+                = inline_svg_tag(option[:icon], class: "ap-icon-svg", alt: "")
+              span.ap-option-text
+                strong.f-semi-13 = option[:title]
+                small.f-reg-12 = option[:description]
+            label.hc-toggle.ap-switch for=option[:id]
+              - checkbox_data = option[:field] == :allow_idle_reassignment ? { action: "change->assignment-policy#toggleIdleTimeout", "assignment-policy-target": "idleToggle" } : {}
+              - checkbox_data = { "assignment-policy-target": "skillsToggle" } if option[:field] == :consider_agent_skills
+              = f.check_box option[:field], data: checkbox_data, id: option[:id]
+              span.hc-toggle-slider
 
       .ap-conditional-field data-assignment-policy-target="idleTimeoutField" style="#{policy.allow_idle_reassignment? ? '' : 'display: none;'}"
-        label.f-semi-13.ap-label = t("dashboard.assignment_policies.form.idle_timeout_label")
+        label.f-semi-13.ap-label for="policy-idle-timeout" = t("dashboard.assignment_policies.form.idle_timeout_label")
         = f.number_field :idle_timeout_minutes, class: "ap-input ap-input-sm", min: 1, placeholder: t("dashboard.assignment_policies.form.idle_timeout_placeholder"), id: "policy-idle-timeout"
         p.ap-hint = t("dashboard.assignment_policies.form.idle_timeout_hint")
 
-  / ── Conditions Hidden Field (for future conditions builder integration) ──
   = f.hidden_field :conditions, value: policy.conditions.to_json, data: { "assignment-policy-target": "conditionsField" }
-
-  / ── Footer ──
-  .ap-form-footer
-    = link_to t("dashboard.assignment_policies.form.cancel"), assignment_policies_path, class: "ap-btn-secondary"
-    = f.submit t("dashboard.assignment_policies.form.save"), class: "ap-btn-primary", id: "policy-submit"

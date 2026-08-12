@@ -1,37 +1,35 @@
 = render("dashboard/shared/dashboard_container", current_page: "assignment-policies") do
   = render("dashboard/settings/settings_sidebar", current_page: "assignment-policies") do
-    .body-container
-      .ap-index-header
-        .ap-title-area
-          h2.f-semi-32 = t("dashboard.assignment_policies.index.title")
-          p.f-reg-16 = t("dashboard.assignment_policies.index.description")
-        = link_to new_assignment_policy_path, class: "ap-btn-primary", id: "new-assignment-policy"
-          | + #{t("dashboard.assignment_policies.index.new_policy")}
+    .ui-settings-page data-controller="filterable-collection"
+      header.ui-settings-page__header
+        .ui-settings-page__heading
+          h1 = t("dashboard.assignment_policies.index.title")
+          p = t("dashboard.assignment_policies.index.description")
+        = link_to new_assignment_policy_path, class: "ui-settings-page__action", id: "new-assignment-policy" do
+          span = t("dashboard.assignment_policies.index.new_policy")
+          = inline_svg_tag("plus_white.svg", class: "ui-settings-page__action-icon", aria: { hidden: true })
 
-      .ap-tabs
-        = link_to assignment_policies_path, class: "ap-tab #{params[:strategy].blank? ? 'active' : ''}"
-          = t(".tab_all")
-        = link_to assignment_policies_path(strategy: :round_robin), class: "ap-tab #{params[:strategy] == 'round_robin' ? 'active' : ''}"
-          span.ap-tab-icon 🔄
-          = t(".tab_round_robin")
-        = link_to assignment_policies_path(strategy: :load_balanced), class: "ap-tab #{params[:strategy] == 'load_balanced' ? 'active' : ''}"
-          span.ap-tab-icon ⚖️
-          = t(".tab_load_balanced")
-        = link_to assignment_policies_path(strategy: :skills_based), class: "ap-tab #{params[:strategy] == 'skills_based' ? 'active' : ''}"
-          span.ap-tab-icon 🎯
-          = t(".tab_skills_based")
-        = link_to assignment_policies_path(strategy: :manual), class: "ap-tab #{params[:strategy] == 'manual' ? 'active' : ''}"
-          span.ap-tab-icon ✋
-          = t(".tab_manual")
+      main.ui-settings-page__content
+        .ui-toolbar
+          .ui-filter-tabs role="tablist" aria-label=t("dashboard.assignment_policies.index.strategy_filter", default: "Filter assignment policies by strategy")
+            - [{ key: :all, label: t(".tab_all"), path: assignment_policies_path }, { key: :round_robin, label: t(".tab_round_robin"), path: assignment_policies_path(strategy: :round_robin) }, { key: :load_balanced, label: t(".tab_load_balanced"), path: assignment_policies_path(strategy: :load_balanced) }, { key: :skills_based, label: t(".tab_skills_based"), path: assignment_policies_path(strategy: :skills_based) }, { key: :manual, label: t(".tab_manual"), path: assignment_policies_path(strategy: :manual) }].each do |tab|
+              - active_tab = tab[:key] == :all ? params[:strategy].blank? : params[:strategy] == tab[:key].to_s
+              = link_to tab[:path], class: "ui-filter-tabs__tab #{active_tab ? 'active' : ''}", role: "tab", aria: { selected: active_tab ? "true" : "false" }, tabindex: (active_tab ? "0" : "-1") do
+                span = tab[:label]
+                span.ui-filter-tabs__count = @policy_counts.fetch(tab[:key])
 
-      - if @policies.any?
-        .ap-list data-controller="sortable" data-sortable-url-value="#{reorder_assignment_policies_path}"
-          - @policies.each do |policy|
-            = render("dashboard/assignment_policies/policy_card", policy: policy)
-      - else
-        .ap-empty-state
-          .ap-empty-icon 🔀
-          h3.f-semi-18 = t(".empty_title")
-          p.f-reg-14 = t(".empty_description")
-          = link_to new_assignment_policy_path, class: "ap-btn-primary ap-btn-sm"
-            | + #{t(".new_policy")}
+        - if @policies.any?
+          .ui-card-grid data-controller="sortable" data-sortable-url-value="#{reorder_assignment_policies_path}" data-filterable-collection-target="container"
+            - @policies.each do |policy|
+              = render("dashboard/assignment_policies/policy_card", policy: policy)
+
+          .ui-empty-state.ui-empty-state--bordered data-filterable-collection-target="empty" hidden=true
+            h2 = t("dashboard.assignment_policies.index.no_matching_policies", default: "No matching policies")
+            p = t("dashboard.assignment_policies.index.adjust_filters", default: "Try another search term.")
+        - else
+          .ui-empty-state.ui-empty-state--bordered
+            .ui-empty-state__graphic
+              = image_tag("round_robbin.svg", alt: "", aria: { hidden: true })
+            h2 = t(".empty_title")
+            p = t(".empty_description")
+            = link_to t(".new_policy"), new_assignment_policy_path, class: "ui-settings-page__action"

@@ -495,9 +495,8 @@ en:
         label: Assignment Policies
       index:
         title: Assignment Policies
-        description: Configure how conversations are automatically routed and assigned
-          to agents.
-        new_policy: New Policy
+        description: Create and manage rules for assigning conversations to agents.
+        new_policy: Create new policy
         tab_all: All
         tab_round_robin: Round Robin
         tab_load_balanced: Load Balanced
@@ -506,6 +505,19 @@ en:
         empty_title: No assignment policies yet
         empty_description: Create your first policy to start routing conversations
           automatically.
+        actions_for: Actions for %{name}
+        no_description: No description added.
+        max_per_agent: Max per agent
+        unlimited: Unlimited
+        inboxes_label: Inboxes
+        business_hours_label: Business hours
+        options_label: Options
+        enabled_options:
+          one: "%{count} enabled"
+          other: "%{count} enabled"
+        none: None
+        updated_ago: Updated %{time} ago
+        default_language: English (Default)
       new:
         title: New Assignment Policy
       edit:
@@ -536,6 +548,8 @@ en:
         manual_desc: Agents pick up conversations from the queue themselves.
         manual_icon: "✋"
       form:
+        page_title: Policy Details
+        page_description: Create and configure an assignment policy to manage how conversations are assigned.
         details_section: Policy Details
         strategy_section: Assignment Strategy
         capacity_section: Agent Capacity
@@ -545,8 +559,11 @@ en:
         options_section: Options
         name_label: Name
         name_placeholder: e.g., VIP Customer Routing
+        name_placeholder_new: Enter policy name
         description_label: Description
+        optional_label: "(optional)"
         description_placeholder: Describe what this policy does...
+        description_placeholder_new: Enter a brief description of this policy
         strategy_label: Strategy
         max_conversations_label: Max conversations per agent
         max_conversations_placeholder: e.g., 10
@@ -555,14 +572,20 @@ en:
         business_hour_group_label: Business Hour Schedule
         business_hour_group_prompt: Select a schedule...
         reassign_on_offline: Reassign when agent goes offline
+        reassign_on_offline_hint: Move conversations when an assigned agent is no longer available.
         idle_timeout_label: Idle timeout (minutes)
         idle_timeout_placeholder: e.g., 30
         idle_timeout_hint: Reassign after agent is idle for this many minutes.
         prioritize_label: Prioritize by conversation priority
         prioritize_hint: Urgent conversations are assigned first.
+        consider_agent_skills_hint: Use agent skills as a signal during automatic assignment.
+        notify_on_assignment_hint: Notify agents when a conversation is assigned to them.
+        notify_team_leads_hint: Send team leads a notification when conversations are assigned.
+        allow_idle_reassignment_hint: Let idle conversations move to another available agent.
         select_inboxes: Select inboxes this policy applies to
         all_inboxes_hint: If no inboxes selected, policy will not apply to any inbox.
         save: Save Policy
+        save_changes: Save changes
         cancel: Cancel
       flags:
         consider_agent_skills: Consider agent skills when assigning

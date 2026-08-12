@@ -7,7 +7,18 @@ module Dashboard
     def index
       authorize(AssignmentPolicy)
 
-      @policies = current_account.assignment_policies.includes(:inboxes).order(:position)
+      policies_scope = current_account.assignment_policies
+      strategy_counts = policies_scope.group(:strategy).count
+      count_for_strategy = ->(strategy) { strategy_counts[strategy.to_s].to_i + strategy_counts[AssignmentPolicy.strategies[strategy.to_s]].to_i }
+      @policy_counts = {
+        all: policies_scope.count,
+        round_robin: count_for_strategy.call(:round_robin),
+        load_balanced: count_for_strategy.call(:load_balanced),
+        skills_based: count_for_strategy.call(:skills_based),
+        manual: count_for_strategy.call(:manual)
+      }
+
+      @policies = policies_scope.includes(:inboxes).order(:position)
       @policies = @policies.where(strategy: params[:strategy]) if params[:strategy].present?
     end
 
@@ -25,7 +36,7 @@ module Dashboard
       @policy = current_account.assignment_policies.new(policy_params)
       authorize(@policy)
 
-      if @policy.save
+      if valid_assignment_policy?(@policy) && @policy.save
         sync_inboxes
         flash[:success] = t(".created")
         redirect_to(assignment_policies_path)
@@ -43,7 +54,9 @@ module Dashboard
     def update
       authorize(@policy)
 
-      if @policy.update(policy_params)
+      @policy.assign_attributes(policy_params)
+
+      if valid_assignment_policy?(@policy) && @policy.save
         sync_inboxes
         flash[:success] = t(".updated")
         redirect_to(assignment_policies_path)
@@ -115,6 +128,17 @@ module Dashboard
           account: current_account
         )
       end
+    end
+
+    def valid_assignment_policy?(policy)
+      valid = policy.valid?
+
+      if policy.respect_business_hours? && policy.business_hour_group_id.blank?
+        policy.errors.add(:business_hour_group_id, :blank)
+        valid = false
+      end
+
+      valid
     end
 
     def policy_params

@@ -1,41 +1,59 @@
-- strategy_class = "ui-policy-badge--#{policy.strategy.dasherize}"
+- strategy_icons = { "round_robin" => "round_robbin.svg", "load_balanced" => "load_balancing.svg", "skills_based" => "skill_bases.svg", "manual" => "manual.svg" }
+- strategy_class = "ap-policy-strategy-#{policy.strategy.dasherize}"
 - toggle_label = policy.active? ? t("general.deactivate") : t("general.activate")
+- inbox_names = policy.inboxes.map(&:name)
+- option_fields = [:reassign_on_offline, :notify_team_leads, :prioritize_by_conversation_priority, :consider_agent_skills, :notify_on_assignment, :allow_idle_reassignment]
+- enabled_options_count = option_fields.count { |field| policy.public_send("#{field}?") }
+- strategy_label = t("dashboard.assignment_policies.strategies.#{policy.strategy}", default: policy.strategy.to_s.humanize)
+- description = policy.description.present? ? truncate(policy.description, length: 78) : t("dashboard.assignment_policies.index.no_description", default: "No description added.")
+- searchable_values = [policy.name, description, strategy_label, inbox_names.join(" "), policy.status].compact.join(" ").downcase
 
-div id="policy_#{policy.id}" class="ui-policy-card #{policy.active? ? '' : 'inactive'}" data-sortable-target="item" data-id="#{policy.id}" draggable="true"
-  .ui-policy-drag-handle data-action="dragstart->sortable#dragStart dragend->sortable#dragEnd" data-sortable-target="handle"
-    | ⠿
+article.ui-panel.ai-agent-card id="policy_#{policy.id}" class=(policy.active? ? nil : "inactive") data-filterable-collection-target="item" data-sortable-target="item" data-id="#{policy.id}" data-action="dragstart->sortable#dragStart dragend->sortable#dragEnd" data-searchable=searchable_values draggable="true"
+  .ui-panel__header.ai-agent-card-header
+    .ui-panel__identity.ai-agent-card-identity
+      .ai-agent-card-avatar class=strategy_class
+        = image_tag(strategy_icons.fetch(policy.strategy, "round_robbin.svg"), alt: "", aria: { hidden: true })
+      .ai-agent-card-title
+        h2 = policy.name
+        p = strategy_label
 
-  .ui-policy-card-info
-    .ui-policy-card-name = policy.name
-    .ui-policy-card-meta
-      span class="ui-policy-badge #{strategy_class}"
-        = t("dashboard.assignment_policies.strategies.#{policy.strategy}")
+    details.ai-agent-card-menu
+      summary aria-label=t("dashboard.assignment_policies.index.actions_for", name: policy.name, default: "Actions for %{name}")
+        = inline_svg_tag("dots.svg", class: "ai-agent-card-menu-icon", aria: { hidden: true })
+      .ai-agent-card-menu-popover role="menu"
+        = link_to edit_assignment_policy_path(policy), role: "menuitem" do
+          = t("general.edit", default: "Edit")
+        = link_to toggle_assignment_policy_path(policy), role: "menuitem", data: { turbo_method: :patch, turbo_frame: "_top" } do
+          span = toggle_label
+        = button_to assignment_policy_path(policy), method: :delete, role: "menuitem", form: { class: "ai-agent-card-delete-form" }, data: { turbo_confirm: t("ui.dashboard.assignment_policies.policy_card.are_you_sure_you_want_to_delete_this_policy") } do
+          span = t("general.delete", default: "Delete")
 
-      - if policy.description.present?
-        span.ui-policy-card-detail — #{truncate(policy.description, length: 60)}
+  dl.ai-agent-card-details
+    .ai-agent-card-detail
+      dt
+        = image_tag("agent_capacity.svg", alt: "", aria: { hidden: true })
+        span = t("dashboard.assignment_policies.index.max_per_agent", default: "Max per agent")
+      dd = policy.max_conversations_per_agent.presence || t("dashboard.assignment_policies.index.unlimited", default: "Unlimited")
+    .ai-agent-card-detail
+      dt
+        = image_tag("envelope.svg", alt: "", aria: { hidden: true })
+        span = t("dashboard.assignment_policies.index.inboxes_label", default: "Inboxes")
+      dd title=inbox_names.join(", ") = inbox_names.any? ? truncate(inbox_names.join(", "), length: 32) : t("dashboard.assignment_policies.index.none", default: "None")
+    .ai-agent-card-detail
+      dt
+        = image_tag("clock.svg", alt: "", aria: { hidden: true })
+        span = t("dashboard.assignment_policies.index.business_hours_label", default: "Business hours")
+      dd = policy.respect_business_hours? ? t("general.yes", default: "Yes") : t("general.no", default: "No")
+    .ai-agent-card-detail
+      dt
+        = image_tag("settings.svg", alt: "", aria: { hidden: true })
+        span = t("dashboard.assignment_policies.index.options_label", default: "Options")
+      dd = t("dashboard.assignment_policies.index.enabled_options", count: enabled_options_count, default: "#{enabled_options_count} enabled")
 
-      - if policy.max_conversations_per_agent.present?
-        span.ui-policy-card-detail = t("dashboard.assignment_policies.max_per_agent", count: policy.max_conversations_per_agent)
-
-      - if policy.respect_business_hours?
-        span.ui-policy-card-detail = t("ui.dashboard.assignment_policies.policy_card.business_hours")
-
-      - if policy.reassign_on_offline?
-        span.ui-policy-card-detail = t("ui.dashboard.assignment_policies.policy_card.auto_reassign")
-
-      - if policy.prioritize_by_conversation_priority?
-        span.ui-policy-card-detail = t("ui.dashboard.assignment_policies.policy_card.priority_routing")
-
-      - inbox_count = policy.inboxes.size
-      - if inbox_count > 0
-        span.ui-policy-card-detail = t("dashboard.assignment_policies.inboxes", count: inbox_count)
-
-  .ui-policy-card-actions
-    = button_to toggle_assignment_policy_path(policy), method: :patch, class: "ui-policy-toggle #{policy.active? ? 'active' : ''}", title: toggle_label, aria: { label: toggle_label }, data: { turbo_frame: "_top" } do
-      / The switch is drawn with CSS.
-
-    = link_to edit_assignment_policy_path(policy), class: "ui-policy-action", title: t("dashboard.skills.index.edit")
-      | ✎
-
-    = button_to assignment_policy_path(policy), method: :delete, class: "ui-policy-action danger", title: t("dashboard.skills.index.delete"), data: { turbo_confirm: t("ui.dashboard.assignment_policies.policy_card.are_you_sure_you_want_to_delete_this_policy") }
-      | ✕
+  .ai-agent-card-footer
+    .ai-agent-card-language
+      = image_tag("clock.svg", alt: "", aria: { hidden: true })
+      span = t("dashboard.assignment_policies.index.updated_ago", time: time_ago_in_words(policy.updated_at), default: "Updated %{time} ago")
+    span.ui-status-badge class="ui-status-badge--#{policy.status}"
+      span.ui-status-badge__dot aria-hidden="true"
+      = t("dashboard.assignment_policies.status.#{policy.status}", default: policy.status.humanize)

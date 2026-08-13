@@ -170,6 +170,11 @@
                 width: 100%;
                 h4 {
                   color: $black-80;
+                  display: -webkit-box;
+                  -webkit-line-clamp: 1;
+                  -webkit-box-orient: vertical;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
                 }
                 p {
                   color: $black-40;
@@ -181,38 +186,38 @@
                 }
               }
               .actions {
-                @mixin flex-column $justify-between, $align-center;
+                @mixin flex-column $justify-between, $align-end;
                 height: 40px;
                 min-width: 40px;
-                .close-icon {
+                /* .close-icon {
                   display: none;
-                }
+                } */
                 p {
                   color: $black-40;
                 }
               }
               &:hover {
                 @mixin rect-back-gray;
-                .actions {
+                /* .actions {
                   .close-icon {
                     display: inline-block;
                   }
                   p {
                     display: none;
                   }
-                }
+                } */
               }
             }
             .inbox-nav-active {
               @mixin rect-back-gray;
-              .actions {
+              /* .actions {
                 .close-icon {
                   display: inline-block;
                 }
                 p {
                   display: none;
                 }
-              }
+              } */
             }
           }
           &::-webkit-scrollbar {

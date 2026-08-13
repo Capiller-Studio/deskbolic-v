@@ -11,8 +11,8 @@ li.nav-item id=dom_id(conversation) class="#{(@active_conversation_id.to_s == co
       p.f-reg-12 id="conversation-#{conversation.id}-preview" = conversation.last_message_preview
   .actions
     - unread_count = @unread_counts && @unread_counts[:conversations] ? @unread_counts[:conversations][conversation.id].to_i : 0
-    .unread-badge data-controller="unread-badge" data-action="deskbolic:unread-counts-updated@window->unread-badge#update" data-unread-badge-target="badge" data-unread-badge-id-value=conversation.id data-unread-badge-type-value="conversation" style="background: var(--primary-500, #4F46E5); color: white; border-radius: 12px; padding: 2px 8px; align-items: center; justify-content: center; display: #{unread_count > 0 ? 'flex' : 'none'};"
-      p.f-semi-12 = unread_count
-    = inline_svg_tag("menu.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-    = inline_svg_tag("close.svg", class:"close-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-    p.f-reg-10 id="conversation-#{conversation.id}-date" = conversation.last_message_date
+    .unread-badge data-controller="unread-badge" data-action="deskbolic:unread-counts-updated@window->unread-badge#update" data-unread-badge-target="badge" data-unread-badge-id-value=conversation.id data-unread-badge-type-value="conversation" style="background: var(--primary-500, #4F46E5); color: white; border-radius: 12px; align-items: center; justify-content: center; display: #{unread_count > 0 ? 'flex' : 'none'}; width: 16px; height: 16px"
+      p.f-semi-12 style="color: white; font-size: 8px;" = unread_count
+    / = inline_svg_tag("menu.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+    / = inline_svg_tag("close.svg", class:"close-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+    p.f-reg-10 style="margin-top: auto;" id="conversation-#{conversation.id}-date" = conversation.last_message_date

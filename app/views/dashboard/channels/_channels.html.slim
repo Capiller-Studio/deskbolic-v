@@ -49,7 +49,7 @@
                   p.f-reg-14 = t('dashboard.sidebar.channels.all')
                 .nav-link-badges style="display: flex; gap: 4px;"
                   - all_unread = @inboxes&.sum { |inbox| @unread_counts[:inboxes][inbox.id].to_i } || 0
-                  .unread-badge data-controller="unread-badge" data-action="deskbolic:unread-counts-updated@window->unread-badge#update" data-unread-badge-target="badge" data-unread-badge-type-value="all" style="background: var(--primary-500, #4F46E5); color: white; border-radius: 12px; padding: 2px 8px; align-items: center; justify-content: center; display: #{all_unread > 0 ? 'flex' : 'none'};"
+                  .unread-badge data-controller="unread-badge" data-action="deskbolic:unread-counts-updated@window->unread-badge#update" data-unread-badge-target="badge" data-unread-badge-type-value="all" style="background: var(--primary-500, #4F46E5); color: white; border-radius: 12px; padding: 2px 8px; align-items: center; justify-content: center; display: #{all_unread > 0 ? 'flex' : 'none'}; width: 24px; height: 24px;"
                     p.f-semi-12 = all_unread
                   .back-oval-gray
                     p.f-reg-12 = current_account.conversations.count
@@ -61,7 +61,7 @@
                     p.f-reg-14 title=inbox.name style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px;" = inbox.name
                   .nav-link-badges style="display: flex; gap: 4px;"
                     - unread = @unread_counts[:inboxes][inbox.id].to_i
-                    .unread-badge data-controller="unread-badge" data-action="deskbolic:unread-counts-updated@window->unread-badge#update" data-unread-badge-target="badge" data-unread-badge-id-value=inbox.id data-unread-badge-type-value="inbox" style="background: var(--primary-500, #4F46E5); color: white; border-radius: 12px; padding: 2px 8px; align-items: center; justify-content: center; display: #{unread > 0 ? 'flex' : 'none'};"
+                    .unread-badge data-controller="unread-badge" data-action="deskbolic:unread-counts-updated@window->unread-badge#update" data-unread-badge-target="badge" data-unread-badge-id-value=inbox.id data-unread-badge-type-value="inbox" style="background: var(--primary-500, #4F46E5); color: white; border-radius: 12px; padding: 2px 8px; align-items: center; justify-content: center; display: #{unread > 0 ? 'flex' : 'none'}; width: 24px; height: 24px;"
                       p.f-semi-12 = unread
                     .back-oval-gray
                       p.f-reg-12 = inbox.conversations&.count

@@ -212,6 +212,25 @@ ko:
       skills_desc: 기술을 편집, 생성, 내보내기 또는 삭제합니다.
       email_templates: 이메일 템플릿
       email_templates_desc: 이메일 템플릿을 편집, 생성, 내보내기 또는 삭제하세요.
+    channels_overview:
+      title: 채널
+      description: 연결된 모든 커뮤니케이션 채널을 관리하세요.
+      add_channel: 새 채널 추가
+      all: 전체
+      all_channels: 모든 채널
+      filter_label: 유형별 채널 필터링
+      actions: 채널 작업
+      embedded_form: 임베드 양식
+      created_ago: "%{time} 전에 생성됨"
+      token_expired: "%{time} 전에 토큰이 만료됨"
+      token_expires: 약 %{time} 후 토큰 만료
+      delete_confirm: "%{name}을(를) 삭제하시겠습니까?"
+      empty_title: 채널을 찾을 수 없습니다
+      empty_description: Deskbolic에서 고객 대화를 받으려면 채널을 연결하세요.
+      empty_filtered_description: 아직 연결된 %{type} 채널이 없습니다.
+      status:
+        active: 활성
+        disconnected: 연결 끊김
     conversations:
       title: 모든 대화
       search: 검색
@@ -1225,6 +1244,8 @@ ko:
       create_failed: WhatsApp 채널 연결에 실패했습니다. 다시 시도해 주세요.
       callback_error: WhatsApp에 연결하는 중에 오류가 발생했습니다. 다시 시도해 주세요.
       reconnect_not_supported_yet: 재접속은 아직 지원되지 않습니다. 토큰이 만료되면 채널을 삭제하고 다시 생성하세요.
+      reconnected: 채널이 성공적으로 다시 활성화되었습니다. 액세스 토큰이 실제로
+        만료된 경우 토큰을 업데이트하세요.
       index:
         title: WhatsApp
         description: WhatsApp Business API를 연결하여 고객 대화를 관리하세요.
@@ -1243,6 +1264,22 @@ ko:
       new:
         title: WhatsApp에 연결
         subtitle: WhatsApp 비즈니스 계정에 연결할 방법을 선택하세요.
+        secure_setup: 안전한 설정
+        connection_method: 연결 방법
+        connection_method_hint: WhatsApp 비즈니스 계정을 연결할 방법을 선택하세요.
+        quick_connect_hint: Meta 계정으로 연결
+        manual_connect_hint: Meta Developer 자격 증명 사용
+        channel_details_title: 채널 세부 정보
+        channel_details_hint: 팀이 쉽게 알아볼 수 있도록 연결 이름을 지정하세요.
+        business_number_title: 비즈니스 전화번호
+        business_number_hint: 고객이 비즈니스에 문의할 때 사용하는 WhatsApp 번호를
+          입력하세요.
+        meta_credentials_title: Meta 자격 증명
+        meta_credentials_hint: Meta Developer 앱의 WhatsApp API 설정에서 이 값을 복사하세요.
+        token_hint: 연결 중단을 방지하려면 영구 또는 시스템 사용자 액세스 토큰을 사용하세요.
+        guide_time: 약 5분
+        need_help: 이 값은 어디에서 찾을 수 있나요?
+        need_help_hint: Meta Developer에서 앱을 열고 WhatsApp → API 설정으로 이동하세요.
         tabs:
           embedded: 빠른 연결(권장)
           manual: 수동 설정
@@ -1536,6 +1573,36 @@ ko:
         delete: 삭제
         delete_confirm: 확실합니까?
     channels:
+      edit:
+        active: 활성
+        always_available: 팀이 연중무휴로 응답 가능
+        business_hours_hint: 응답 가능한 시간을 설정하세요.
+        channel_information: 채널 정보
+        channel_name_hint: 이 이름은 워크스페이스에서 채널을 식별하는 데 사용됩니다.
+        created: 생성됨
+        created_ago: 약 %{time} 전
+        csat_hint: 대화가 해결된 후 고객에게 CSAT 설문조사를 표시합니다.
+        disconnect_channel: 채널 연결 해제
+        facebook_description: Facebook 페이지 연결 및 받은편지함 설정을 업데이트하세요.
+        facebook_page: Facebook 페이지
+        instagram: Instagram
+        instagram_description: Instagram 연결 및 받은편지함 설정을 업데이트하세요.
+        integration_details: 연동 세부 정보
+        none_selected: 선택 안 함
+        overview: 채널 개요
+        page_id: 페이지 ID
+        page_name: 페이지 이름
+        phone_number: 전화번호
+        platform: 플랫폼
+        select_csat_survey: CSAT 설문조사 선택
+        sla_hint: 이 채널에 적용할 SLA 정책을 선택하세요.
+        status: 상태
+        toggle_token_visibility: 액세스 토큰 표시 전환
+        token_expires: 토큰 만료
+        username: 사용자 이름
+        waba_id: WABA ID
+        whatsapp: WhatsApp
+        whatsapp_description: WhatsApp 연결 및 받은편지함 설정을 업데이트하세요.
       web_widget:
         form:
           form_title_label: 양식 제목

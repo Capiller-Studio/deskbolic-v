@@ -1,7 +1,7 @@
 .modal-popper-container {
   display: none;
   position: fixed;
-  z-index: 1;
+  z-index: 1000;
   left: 0;
   top: 0;
   width: 100%;
@@ -895,6 +895,244 @@
     }
     .ticket-commands {
       padding-top: 0px;
+    }
+  }
+}
+
+/* Add channel chooser */
+.modal-popper-container .channel-modal-content {
+  padding: 24px;
+  .model-content {
+    width: min(100%, 420px);
+    min-width: 0;
+    max-height: calc(100vh - 48px);
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    padding: 0;
+    overflow: hidden;
+    background: $white;
+    border-radius: 20px;
+    filter: drop-shadow(0 20px 50px rgba(15, 23, 42, 0.22));
+    .modal-header {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 20px;
+      margin: 0;
+      padding: 26px 24px 20px;
+      border: 0;
+      .modal-header-text {
+        min-width: 0;
+        h3 {
+          margin: 0;
+          color: #17182d;
+          font-family: $font-family-inter-semibold;
+          font-size: 22px;
+          line-height: 1.25;
+          letter-spacing: -0.35px;
+          text-align: left;
+        }
+        .modal-subtitle {
+          margin: 7px 0 0 !important;
+          color: #555669;
+          font-family: $font-family-inter-regular;
+          font-size: 14px;
+          line-height: 1.45;
+          text-align: left;
+        }
+      }
+    }
+  }
+  .channel-modal-close {
+    width: 32px;
+    height: 32px;
+    flex: 0 0 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: -2px -4px 0 0;
+    padding: 0;
+    color: #4f5060;
+    background: transparent;
+    border: 0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.18s ease;
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+    &:hover {
+      background: #f3f4f6;
+    }
+    &:focus-visible {
+      outline: 2px solid #6366f1;
+      outline-offset: 2px;
+    }
+  }
+  .model-content .modal-body.channel-options {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 16px;
+    padding: 4px 24px 24px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+  }
+  .channel-option {
+    --channel-option-background: #fafafa;
+    --channel-option-border: #e5e7eb;
+    --channel-option-icon-background: #f1f1f1;
+
+    min-height: 82px;
+    flex: 0 0 auto;
+    display: grid;
+    grid-template-columns: 40px minmax(0, 1fr) 20px;
+    align-items: center;
+    gap: 13px;
+    padding: 14px 18px 14px 16px;
+    color: #17182d;
+    text-decoration: none;
+    background: var(--channel-option-background);
+    border: 1px solid var(--channel-option-border);
+    border-radius: 12px;
+    transition:
+      border-color 0.18s ease,
+      box-shadow 0.18s ease,
+      transform 0.18s ease;
+
+    &:hover {
+      color: #17182d;
+      border-color: color-mix(in srgb, var(--channel-option-border) 55%, #64748b);
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.07);
+      transform: translateY(-1px);
+
+      .channel-option__chevron {
+        transform: translateX(2px);
+      }
+    }
+
+    &:focus-visible {
+      outline: 2px solid #6366f1;
+      outline-offset: 2px;
+    }
+  }
+  .channel-option--facebook {
+    --channel-option-background: #f4f8ff;
+    --channel-option-border: #d8e6fb;
+    --channel-option-icon-background: #e5effd;
+  }
+  .channel-option--instagram {
+    --channel-option-background: #fff7f9;
+    --channel-option-border: #f4dce4;
+    --channel-option-icon-background: #fbeaf0;
+  }
+  .channel-option--whatsapp {
+    --channel-option-background: #f5fcf7;
+    --channel-option-border: #daf0e1;
+    --channel-option-icon-background: #e6f8eb;
+  }
+  .channel-option--custom {
+    --channel-option-background: #f8f9ff;
+    --channel-option-border: #e3e6fb;
+    --channel-option-icon-background: #eef0ff;
+  }
+  .channel-option--widget {
+    --channel-option-background: #f4f9ff;
+    --channel-option-border: #d9eafb;
+    --channel-option-icon-background: #e3f0fd;
+  }
+  .channel-option__icon {
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: var(--channel-option-icon-background);
+    border-radius: 10px;
+
+    svg {
+      width: 22px;
+      height: 22px;
+    }
+  }
+
+  .channel-option--email .channel-option__icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .channel-option--custom .channel-option__icon svg {
+    width: 40px;
+    height: 40px;
+  }
+
+  .channel-option__copy {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    strong {
+      color: #17182d;
+      font-family: $font-family-inter-semibold;
+      font-size: 14px;
+      line-height: 1.25;
+    }
+
+    span {
+      color: #555669;
+      font-family: $font-family-inter-regular;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+  }
+
+  .channel-option__chevron {
+    width: 8px;
+    height: 14px;
+    justify-self: end;
+    transition: transform 0.18s ease;
+
+    path {
+      fill: #4f5060;
+    }
+  }
+}
+
+@media (max-width: 520px) {
+  .modal-popper-container .channel-modal-content {
+    padding: 12px;
+
+    .model-content {
+      max-height: calc(100vh - 24px);
+      border-radius: 16px;
+
+      .modal-header {
+        padding: 22px 18px 18px;
+
+        .modal-header-text h3 {
+          font-size: 20px;
+        }
+      }
+    }
+
+    .model-content .modal-body.channel-options {
+      gap: 12px;
+      padding: 4px 18px 20px;
+    }
+
+    .channel-option {
+      grid-template-columns: 40px minmax(0, 1fr) 16px;
+      gap: 12px;
+      padding-right: 14px;
     }
   }
 }

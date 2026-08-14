@@ -251,6 +251,25 @@ en:
       skills_desc: Edit, Create, Export or delete your skills.
       email_templates: Email Templates
       email_templates_desc: Edit, Create, Export or delete your email templates.
+    channels_overview:
+      title: Channels
+      description: Manage all your connected communication channels.
+      add_channel: Add new channel
+      all: All
+      all_channels: All Channels
+      filter_label: Filter channels by type
+      actions: Channel actions
+      embedded_form: Embedded form
+      created_ago: Created %{time} ago
+      token_expired: Token expired %{time} ago
+      token_expires: Token expires in about %{time}
+      delete_confirm: Delete %{name}?
+      empty_title: No channels found
+      empty_description: Connect a channel to start receiving customer conversations in Deskbolic.
+      empty_filtered_description: You haven't connected any %{type} channels yet.
+      status:
+        active: Active
+        disconnected: Disconnected
     search:
       title: Search
       placeholder: Search conversations, messages, customers...
@@ -1480,6 +1499,8 @@ en:
       callback_error: There was an error connecting to WhatsApp. Please try again.
       reconnect_not_supported_yet: Reconnection is not supported yet. Please delete
         and recreate the channel if the token expires.
+      reconnected: Channel re-activated successfully. If your access token is truly
+        expired, please update it.
       index:
         title: WhatsApp
         description: Connect your WhatsApp Business API to manage customer conversations.
@@ -1500,6 +1521,25 @@ en:
       new:
         title: Connect WhatsApp
         subtitle: Choose how you'd like to connect your WhatsApp Business Account.
+        secure_setup: Secure setup
+        connection_method: Connection method
+        connection_method_hint: Choose how you want to connect your WhatsApp Business
+          account.
+        quick_connect_hint: Connect through your Meta account
+        manual_connect_hint: Use credentials from Meta Developer
+        channel_details_title: Channel details
+        channel_details_hint: Give this connection a clear name your team will recognize.
+        business_number_title: Business phone number
+        business_number_hint: Enter the WhatsApp number customers use to contact your
+          business.
+        meta_credentials_title: Meta credentials
+        meta_credentials_hint: Copy these values from WhatsApp API Setup in your Meta
+          Developer app.
+        token_hint: Use a permanent or system user access token to avoid connection
+          interruptions.
+        guide_time: About 5 minutes
+        need_help: Where do I find these values?
+        need_help_hint: In Meta Developer, open your app and go to WhatsApp → API Setup.
         tabs:
           embedded: Quick Connect (Recommended)
           manual: Manual Setup
@@ -1800,6 +1840,37 @@ en:
         delete: Delete
         delete_confirm: Are you sure?
     channels:
+      edit:
+        active: Active
+        always_available: Your team is available 24/7
+        business_hours_hint: Define when you are available to respond.
+        channel_information: Channel Information
+        channel_name_hint: This name will be used to identify this channel within your
+          workspace.
+        created: Created
+        created_ago: About %{time} ago
+        csat_hint: Show CSAT survey to customers after conversations are resolved.
+        disconnect_channel: Disconnect Channel
+        facebook_description: Update your Facebook Page connection and inbox settings.
+        facebook_page: Facebook Page
+        instagram: Instagram
+        instagram_description: Update your Instagram connection and inbox settings.
+        integration_details: Integration Details
+        none_selected: None Selected
+        overview: Channel Overview
+        page_id: Page ID
+        page_name: Page Name
+        phone_number: Phone Number
+        platform: Platform
+        select_csat_survey: Select CSAT Survey
+        sla_hint: Choose the SLA policy for this channel.
+        status: Status
+        toggle_token_visibility: Toggle access token visibility
+        token_expires: Token Expires
+        username: Username
+        waba_id: WABA ID
+        whatsapp: WhatsApp
+        whatsapp_description: Update your WhatsApp connection and inbox settings.
       web_widget:
         form:
           form_title_label: Form Title

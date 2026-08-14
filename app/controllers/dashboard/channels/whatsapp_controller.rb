@@ -83,7 +83,7 @@ module Dashboard
       def update
         current_account.with_shard do
           if @whatsapp_channel.update(whatsapp_channel_update_params)
-            redirect_to channels_whatsapp_index_path, notice: t("dashboard.whatsapp_channels.updated"), status: :see_other
+            redirect_to channels_settings_path(type: "whatsapp"), notice: t("dashboard.whatsapp_channels.updated"), status: :see_other
           else
             render :edit, status: :unprocessable_entity
           end
@@ -97,7 +97,7 @@ module Dashboard
         current_account.decrement_usage!(:channels)
 
         respond_to do |format|
-          format.html { redirect_to channels_whatsapp_index_path, notice: t("dashboard.whatsapp_channels.destroyed") }
+          format.html { redirect_to channels_settings_path(type: "whatsapp"), notice: t("dashboard.whatsapp_channels.destroyed") }
           format.turbo_stream { render turbo_stream: turbo_stream.remove(@whatsapp_channel) }
         end
       end
@@ -137,7 +137,7 @@ module Dashboard
         params.require(:channel_whatsapp).permit(
           :name, :api_key,
           primary_inbox_attributes: [
-            :id, :reopen_window_seconds, :csat_survey_enabled, :csat_survey_id,
+            :id, :reopen_window_seconds, :csat_survey_enabled, :csat_survey_id, :business_hour_group_id,
             sla_policy_ids: []
           ]
         )

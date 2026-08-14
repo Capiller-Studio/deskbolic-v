@@ -4,7 +4,7 @@
       .ui-page-body.whatsapp-new-page
         .whatsapp-new-shell
           .whatsapp-new-header
-            = link_to channels_whatsapp_index_path, class: "ui-back-link whatsapp-back-link"
+            = link_to channels_settings_path(type: "whatsapp"), class: "ui-back-link whatsapp-back-link"
               svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"
                 path stroke-linecap="round" stroke-linejoin="round" d="M15.5 10H4.5m0 0 4-4m-4 4 4 4"
               span = t("dashboard.whatsapp_channels.form.back")

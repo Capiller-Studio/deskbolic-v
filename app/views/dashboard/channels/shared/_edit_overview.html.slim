@@ -1,0 +1,39 @@
+section.channel-edit-overview.channel-edit-card
+  h2 = t("dashboard.channels.edit.overview", default: "Channel Overview")
+
+  dl.channel-edit-overview__list
+    .channel-edit-overview__item
+      .channel-edit-overview__icon
+        = inline_svg_tag(platform_icon, aria: { hidden: true })
+      div
+        dt = t("dashboard.channels.edit.platform", default: "Platform")
+        dd = platform_name
+
+    - overview_items.each do |item|
+      .channel-edit-overview__item
+        .channel-edit-overview__icon class=(item[:icon_text].present? ? "channel-edit-overview__hash" : nil) aria-hidden="true"
+          - if item[:icon].present?
+            = inline_svg_tag(item[:icon], aria: { hidden: true })
+          - else
+            = item[:icon_text]
+        div
+          dt = item[:label]
+          dd class=(item[:brand] ? "channel-edit-overview__value--brand" : nil) = item[:value]
+
+    .channel-edit-overview__item
+      .channel-edit-overview__icon
+        = inline_svg_tag("circle_tick.svg", aria: { hidden: true })
+      div
+        dt = t("dashboard.channels.edit.status", default: "Status")
+        dd
+          span.channel-edit-status-pill class=(connected ? "channel-edit-status-pill--connected" : "channel-edit-status-pill--disconnected")
+            span.channel-edit-status-pill__dot aria-hidden="true"
+            = status_label
+
+    - if meta_item.present?
+      .channel-edit-overview__item
+        .channel-edit-overview__icon
+          = inline_svg_tag(meta_item[:icon], aria: { hidden: true })
+        div
+          dt = meta_item[:label]
+          dd = meta_item[:value]

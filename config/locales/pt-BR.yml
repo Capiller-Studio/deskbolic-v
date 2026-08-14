@@ -212,6 +212,26 @@ pt-BR:
       skills_desc: Edite, crie, exporte ou exclua suas habilidades.
       email_templates: Modelos de e-mail
       email_templates_desc: Edite, crie, exporte ou exclua seus modelos de e-mail.
+    channels_overview:
+      title: Canais
+      description: Gerencie todos os seus canais de comunicação conectados.
+      add_channel: Adicionar novo canal
+      all: Todos
+      all_channels: Todos os canais
+      filter_label: Filtrar canais por tipo
+      actions: Ações do canal
+      embedded_form: Formulário incorporado
+      created_ago: Criado há %{time}
+      token_expired: Token expirado há %{time}
+      token_expires: O token expira em aproximadamente %{time}
+      delete_confirm: Excluir %{name}?
+      empty_title: Nenhum canal encontrado
+      empty_description: Conecte um canal para começar a receber conversas de clientes
+        no Deskbolic.
+      empty_filtered_description: Você ainda não conectou nenhum canal de %{type}.
+      status:
+        active: Ativo
+        disconnected: Desconectado
     conversations:
       title: Todas as conversas
       search: Pesquisar
@@ -1225,6 +1245,8 @@ pt-BR:
       create_failed: Falha ao conectar o canal do WhatsApp. Por favor, tente novamente.
       callback_error: Ocorreu um erro ao conectar-se ao WhatsApp. Por favor, tente novamente.
       reconnect_not_supported_yet: A reconexão ainda não é suportada. Exclua e recrie o canal se o token expirar.
+      reconnected: O canal foi reativado com sucesso. Se o seu token de acesso realmente
+        expirou, atualize-o.
       index:
         title: WhatsApp
         description: Conecte sua API do WhatsApp Business para gerenciar conversas com clientes.
@@ -1243,6 +1265,25 @@ pt-BR:
       new:
         title: Conectar WhatsApp
         subtitle: Escolha como você deseja conectar sua conta do WhatsApp Business.
+        secure_setup: Configuração segura
+        connection_method: Método de conexão
+        connection_method_hint: Escolha como deseja conectar sua conta do WhatsApp Business.
+        quick_connect_hint: Conectar usando sua conta Meta
+        manual_connect_hint: Usar credenciais do Meta Developer
+        channel_details_title: Detalhes do canal
+        channel_details_hint: Dê a esta conexão um nome claro que sua equipe reconheça.
+        business_number_title: Número de telefone comercial
+        business_number_hint: Insira o número do WhatsApp que os clientes usam para
+          entrar em contato com sua empresa.
+        meta_credentials_title: Credenciais da Meta
+        meta_credentials_hint: Copie estes valores da configuração da API do WhatsApp
+          no seu aplicativo Meta Developer.
+        token_hint: Use um token de acesso permanente ou de usuário do sistema para
+          evitar interrupções na conexão.
+        guide_time: Cerca de 5 minutos
+        need_help: Onde encontro esses valores?
+        need_help_hint: No Meta Developer, abra seu aplicativo e acesse WhatsApp → Configuração
+          da API.
         tabs:
           embedded: Conexão rápida (recomendado)
           manual: Configuração manual
@@ -1536,6 +1577,40 @@ pt-BR:
         delete: Excluir
         delete_confirm: Você tem certeza?
     channels:
+      edit:
+        active: Ativo
+        always_available: Sua equipe está disponível 24 horas por dia
+        business_hours_hint: Defina quando você está disponível para responder.
+        channel_information: Informações do canal
+        channel_name_hint: Este nome será usado para identificar o canal no seu espaço
+          de trabalho.
+        created: Criado
+        created_ago: Há cerca de %{time}
+        csat_hint: Mostre uma pesquisa CSAT aos clientes após a resolução das conversas.
+        disconnect_channel: Desconectar canal
+        facebook_description: Atualize a conexão da sua Página do Facebook e as configurações
+          da caixa de entrada.
+        facebook_page: Página do Facebook
+        instagram: Instagram
+        instagram_description: Atualize sua conexão do Instagram e as configurações
+          da caixa de entrada.
+        integration_details: Detalhes da integração
+        none_selected: Nenhuma seleção
+        overview: Visão geral do canal
+        page_id: ID da Página
+        page_name: Nome da Página
+        phone_number: Número de telefone
+        platform: Plataforma
+        select_csat_survey: Selecionar pesquisa CSAT
+        sla_hint: Escolha a política de SLA para este canal.
+        status: Status
+        toggle_token_visibility: Mostrar ou ocultar o token de acesso
+        token_expires: Expiração do token
+        username: Nome de usuário
+        waba_id: ID da WABA
+        whatsapp: WhatsApp
+        whatsapp_description: Atualize sua conexão do WhatsApp e as configurações da
+          caixa de entrada.
       web_widget:
         form:
           form_title_label: Título do formulário

@@ -271,6 +271,7 @@ Rails.application.routes.draw do
 
       resources :settings, only: [ :index ] do
         collection do
+          get :channels
           get :canned_responses
           get :office_timings
           get :team_inboxes

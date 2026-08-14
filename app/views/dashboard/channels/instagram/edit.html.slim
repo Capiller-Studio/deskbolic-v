@@ -1,88 +1,133 @@
+- connected = @instagram_channel.active? && !@instagram_channel.reauthorization_required? && !@instagram_channel.token_expired?
+- channel_name = @instagram_channel.name.presence || @instagram_channel.username.presence || @instagram_channel.instagram_id
+- instagram_username = @instagram_channel.username.present? ? "@#{@instagram_channel.username.delete_prefix('@')}" : @instagram_channel.instagram_id
+- token_message = channel_overview_token_message(@instagram_channel)
+- overview_items = [{ icon: "users.svg", label: t("dashboard.channels.edit.username", default: "Username"), value: instagram_username }]
+- overview_meta = @instagram_channel.expires_at.present? ? { icon: "timer.svg", label: t("dashboard.channels.edit.token_expires", default: "Token Expires"), value: @instagram_channel.expires_at.strftime("%b %d, %Y %H:%M") } : nil
+
 = render("dashboard/shared/dashboard_container", current_page: "settings") do
   = render("dashboard/settings/settings_sidebar", current_page: "instagram-channels") do
-    .channel-theme-instagram
-      .ui-page-body
-        .ui-page-header
-          = link_to channels_instagram_index_path, class: "ui-back-link"
-            | ← #{t("dashboard.instagram_channels.form.back")}
-          h2.f-semi-32 = t("dashboard.instagram_channels.edit.title")
+    .channel-edit.channel-theme-instagram
+      header.channel-edit__header
+        .channel-edit__header-main
+          = link_to channels_settings_path(type: "instagram"), class: "channel-edit__back", aria: { label: t("dashboard.instagram_channels.form.back") } do
+            = inline_svg_tag("back_arrow.svg", aria: { hidden: true })
+          .channel-edit__heading
+            h1 = t("dashboard.instagram_channels.edit.title")
+            p = t("dashboard.channels.edit.instagram_description", default: "Update your Instagram connection and inbox settings.")
 
-        /! Connection Status Section
-        .ui-section
-          .ui-section-header
-            h3.f-semi-18 = t("dashboard.instagram_channels.form.connection_section")
+        .channel-edit__header-actions
+          = link_to t("dashboard.instagram_channels.form.cancel"), channels_settings_path(type: "instagram"), class: "channel-edit__button channel-edit__button--secondary"
+          button.channel-edit__button.channel-edit__button--primary type="submit" form="instagram-channel-edit-form"
+            = inline_svg_tag("ai_agents/new_agent_check.svg", aria: { hidden: true })
+            span = t("dashboard.instagram_channels.form.save")
 
-          .channel-connection-card
-            .channel-connection-info
-              - if @instagram_channel.avatar_url.present?
-                img.ui-avatar src=@instagram_channel.avatar_url alt=@instagram_channel.name
-              - else
-                .ui-avatar-placeholder
-                  | 📸
-              .ui-profile-details
-                h3.f-semi-16 = @instagram_channel.name || @instagram_channel.username
-                p.ui-username
-                  | #{t("ui.dashboard.channels.instagram.edit.text", username: @instagram_channel.username)}
+      .channel-edit__viewport
+        .channel-edit__layout
+          = form_with model: @instagram_channel, url: channels_instagram_path(id: @instagram_channel.id), method: :patch, id: "instagram-channel-edit-form", class: "channel-edit__form ui-settings-form" do |f|
+            - if @instagram_channel.errors.any?
+              .channel-edit__errors role="alert"
+                p = @instagram_channel.errors.full_messages.to_sentence
 
-            - if @instagram_channel.reauthorization_required? || @instagram_channel.token_expired?
-              .channel-reauth-banner
-                .channel-reauth-icon ⚠️
-                .channel-reauth-text
-                  p.f-semi-14 = t("dashboard.instagram_channels.edit.reauth_title")
-                  p.f-reg-12 = t("dashboard.instagram_channels.edit.reauth_description")
-                = link_to oauth_authorize_channels_instagram_index_path, class: "channel-reconnect-btn", data: { turbo: false }
-                  | 🔄 #{t("dashboard.instagram_channels.edit.reconnect")}
-            - else
-              .channel-token-info
-                .ui-badge.ui-badge-active
-                  span.ui-badge-icon 🟢
-                  span = t("dashboard.instagram_channels.index.status_active")
-                - if @instagram_channel.expires_at.present?
-                  .channel-token-expiry
-                    span.f-reg-12 = t("dashboard.instagram_channels.edit.token_expires_at", time: @instagram_channel.expires_at.strftime("%B %d, %Y %H:%M"))
+            section.channel-edit-profile.channel-edit-card
+              .channel-edit-profile__body
+                .channel-edit-profile__identity
+                  - if @instagram_channel.avatar_url.present?
+                    = image_tag(@instagram_channel.avatar_url, class: "channel-edit-profile__avatar", alt: channel_name)
+                  - else
+                    .channel-edit-profile__avatar.channel-edit-profile__avatar--fallback
+                      = inline_svg_tag("instagram.svg", aria: { hidden: true })
+                  .channel-edit-profile__copy
+                    .channel-edit-profile__title
+                      h2 = channel_name
+                    p = instagram_username
+                    - if token_message.present?
+                      p.channel-edit-profile__token
+                        = inline_svg_tag("timer.svg", aria: { hidden: true })
+                        span = token_message
 
-        /! Inbox Configuration Section
-        .ui-section
-          .ui-section-header
-            h3.f-semi-18 = t("dashboard.instagram_channels.form.inbox_section")
+                = inline_svg_tag("menu.svg", class: "channel-edit-profile__menu", aria: { hidden: true })
 
-          = form_with model: @instagram_channel, url: channels_instagram_path(@instagram_channel), method: :patch, class: "ui-form-wrapper" do |f|
-            .ui-form-group
-              = f.label :name, t("dashboard.instagram_channels.edit.name_label"), class: "ui-label"
-              = f.text_field :name, class: "ui-input", placeholder: t("dashboard.instagram_channels.edit.name_placeholder")
+              .channel-edit-profile__footer
+                .channel-edit-profile__created
+                  = inline_svg_tag("clock.svg", aria: { hidden: true })
+                  span = t("dashboard.instagram_channels.index.created_ago", time: time_ago_in_words(@instagram_channel.created_at))
+                .channel-edit-profile__status class=(connected ? "channel-edit-profile__status--connected" : "channel-edit-profile__status--disconnected")
+                  span aria-hidden="true"
+                  = connected ? t("dashboard.channels.edit.active", default: "Active") : t("dashboard.instagram_channels.index.status_reauth")
+
+              - unless connected
+                .channel-edit-profile__reauth
+                  .channel-edit-profile__reauth-copy
+                    strong = t("dashboard.instagram_channels.edit.reauth_title")
+                    span = t("dashboard.instagram_channels.edit.reauth_description")
+                  = link_to t("dashboard.instagram_channels.edit.reconnect"), oauth_authorize_channels_instagram_index_path, class: "channel-edit-profile__reconnect", data: { turbo: false }
+
+            section.channel-edit-section.channel-edit-card
+              .channel-edit-section__heading
+                .channel-edit-section__icon
+                  = inline_svg_tag("info.svg", aria: { hidden: true })
+                h2 = t("dashboard.channels.edit.channel_information", default: "Channel Information")
+              .channel-edit-section__body
+                .channel-edit-field
+                  = f.label :name, t("dashboard.instagram_channels.edit.name_label")
+                  = f.text_field :name, placeholder: t("dashboard.instagram_channels.edit.name_placeholder")
+                  p = t("dashboard.channels.edit.channel_name_hint", default: "This name will be used to identify this channel within your workspace.")
 
             - if @instagram_channel.primary_inbox
-              .channel-inbox-settings
-                h4.f-semi-14 = t("dashboard.instagram_channels.edit.inbox_settings_title")
+              = f.fields_for :primary_inbox, @instagram_channel.primary_inbox do |inbox|
+                = inbox.hidden_field :id
 
-                = f.fields_for :primary_inbox, @instagram_channel.primary_inbox do |inbox|
-                  = inbox.hidden_field :id
+                section.channel-edit-section.channel-edit-card
+                  .channel-edit-section__heading
+                    .channel-edit-section__icon
+                      = inline_svg_tag("envelope.svg", aria: { hidden: true })
+                    h2 = t("dashboard.instagram_channels.edit.inbox_settings_title")
+                  .channel-edit-section__body
+                    .channel-edit-toggle-row
+                      label.channel-edit-toggle
+                        = inbox.check_box :csat_survey_enabled
+                        span.channel-edit-toggle__track aria-hidden="true"
+                      .channel-edit-toggle-row__copy
+                        = inbox.label :csat_survey_enabled, t("dashboard.instagram_channels.edit.csat_enabled")
+                        p = t("dashboard.channels.edit.csat_hint", default: "Show CSAT survey to customers after conversations are resolved.")
 
-                  .ui-form-group.ui-checkbox-group
-                    = inbox.check_box :csat_survey_enabled, class: "ui-checkbox"
-                    = inbox.label :csat_survey_enabled, t("dashboard.instagram_channels.edit.csat_enabled"), class: "ui-checkbox-label"
+                    .channel-edit-field.channel-edit-field--select
+                      = inbox.label :csat_survey_id, t("dashboard.channels.edit.select_csat_survey", default: "Select CSAT Survey")
+                      .channel-edit-select.ui-field-control.ui-field-control--no-icon
+                        = inbox.collection_select :csat_survey_id, current_account.csat_surveys, :id, :name, { include_blank: t("forms.options.default_system_survey") }, { class: "ui-select ui-control", data: { controller: "select" } }
 
-                  .ui-form-group
-                    = inbox.label :csat_survey_id, t("forms.labels.csat_survey"), class: "ui-label"
-                    = inbox.collection_select :csat_survey_id, current_account.csat_surveys, :id, :name, { include_blank: t("forms.options.default_system_survey") }, class: "ui-select"
-                
-                  .ui-form-group
-                    = inbox.label :business_hour_group_id, t("forms.labels.business_hours"), class: "ui-label"
-                    = inbox.collection_select :business_hour_group_id, current_account.business_hour_groups, :id, :name, { include_blank: t("forms.options.always_online_24_7") }, class: "ui-select"
+                section.channel-edit-section.channel-edit-card
+                  .channel-edit-section__heading.channel-edit-section__heading--with-description
+                    .channel-edit-section__icon
+                      = inline_svg_tag("clock.svg", aria: { hidden: true })
+                    .channel-edit-section__heading-copy
+                      h2 = t("forms.labels.business_hours")
+                      p = t("dashboard.channels.edit.business_hours_hint", default: "Define when you are available to respond.")
+                  .channel-edit-section__body
+                    .channel-edit-field.channel-edit-field--select
+                      = inbox.label :business_hour_group_id, t("forms.options.always_online_24_7")
+                      .channel-edit-select.ui-field-control.ui-field-control--no-icon
+                        = inbox.collection_select :business_hour_group_id, current_account.business_hour_groups, :id, :name, { include_blank: t("dashboard.channels.edit.always_available", default: "Your team is available 24/7") }, { class: "ui-select ui-control", data: { controller: "select" } }
 
-                  .ui-form-group
-                    = inbox.label :sla_policy_ids, t("forms.labels.sla_policies"), class: "ui-label"
-                    = inbox.collection_select :sla_policy_ids, current_account.sla_policies, :id, :name, {}, { multiple: true, class: "ui-select" }
+                section.channel-edit-section.channel-edit-card
+                  .channel-edit-section__heading.channel-edit-section__heading--with-description
+                    .channel-edit-section__icon
+                      = inline_svg_tag("reports-sla.svg", aria: { hidden: true })
+                    .channel-edit-section__heading-copy
+                      h2 = t("forms.labels.sla_policies")
+                      p = t("dashboard.channels.edit.sla_hint", default: "Choose the SLA policy for this channel.")
+                  .channel-edit-section__body
+                    .channel-edit-field.channel-edit-field--select
+                      .channel-edit-select.ui-field-control.ui-field-control--no-icon
+                        = select_tag "#{inbox.object_name}[sla_policy_ids][]", options_from_collection_for_select(current_account.sla_policies, :id, :name, inbox.object.sla_policy_ids.first), include_blank: t("dashboard.channels.edit.none_selected", default: "None Selected"), class: "ui-select ui-control", data: { controller: "select" }
 
-            .ui-form-actions
-              = link_to channels_instagram_index_path, class: "ui-btn-secondary"
-                | #{t("dashboard.instagram_channels.form.cancel")}
-              = f.submit t("dashboard.instagram_channels.form.save"), class: "ui-btn-primary"
+          aside.channel-edit__aside
+            = render "dashboard/channels/shared/edit_overview", platform_icon: "inboxes.svg", platform_name: t("dashboard.channels.edit.instagram", default: "Instagram"), overview_items: overview_items, connected: connected, status_label: (connected ? t("dashboard.instagram_channels.index.status_active") : t("dashboard.instagram_channels.index.status_reauth")), meta_item: overview_meta
 
-        /! Danger Zone
-        .ui-section.ui-danger-zone
-          .ui-section-header
-            h3.f-semi-18 = t("dashboard.instagram_channels.edit.danger_title")
-          p.f-reg-14 = t("dashboard.instagram_channels.edit.danger_description")
-          = link_to channels_instagram_path(@instagram_channel), method: :delete, class: "ui-btn-danger", data: { turbo_method: :delete, turbo_confirm: t("dashboard.instagram_channels.index.delete_confirm") }
-            | #{t("dashboard.instagram_channels.edit.disconnect")}
+            section.channel-edit-danger.channel-edit-card
+              h2 = t("dashboard.instagram_channels.edit.danger_title")
+              p = t("dashboard.instagram_channels.edit.danger_description")
+              = link_to channels_instagram_path(id: @instagram_channel.id), class: "channel-edit-danger__button", data: { turbo_method: :delete, turbo_confirm: t("dashboard.instagram_channels.index.delete_confirm") } do
+                = inline_svg_tag("delete_red.svg", aria: { hidden: true })
+                span = t("dashboard.channels.edit.disconnect_channel", default: "Disconnect Channel")

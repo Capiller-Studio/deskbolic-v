@@ -212,6 +212,26 @@ de:
       skills_desc: Bearbeiten, erstellen, exportieren oder löschen Sie Ihre Fähigkeiten.
       email_templates: E-Mail-Vorlagen
       email_templates_desc: Bearbeiten, erstellen, exportieren oder löschen Sie Ihre E-Mail-Vorlagen.
+    channels_overview:
+      title: Kanäle
+      description: Verwalten Sie alle verbundenen Kommunikationskanäle.
+      add_channel: Neuen Kanal hinzufügen
+      all: Alle
+      all_channels: Alle Kanäle
+      filter_label: Kanäle nach Typ filtern
+      actions: Kanalaktionen
+      embedded_form: Eingebettetes Formular
+      created_ago: Vor %{time} erstellt
+      token_expired: Token vor %{time} abgelaufen
+      token_expires: Token läuft in etwa %{time} ab
+      delete_confirm: "%{name} löschen?"
+      empty_title: Keine Kanäle gefunden
+      empty_description: Verbinden Sie einen Kanal, um Kundenkonversationen in Deskbolic
+        zu empfangen.
+      empty_filtered_description: Sie haben noch keine %{type}-Kanäle verbunden.
+      status:
+        active: Aktiv
+        disconnected: Nicht verbunden
     conversations:
       title: Alle Gespräche
       search: Suchen
@@ -1225,6 +1245,8 @@ de:
       create_failed: Verbindung zum WhatsApp-Kanal fehlgeschlagen. Bitte versuchen Sie es erneut.
       callback_error: Beim Herstellen der Verbindung zu WhatsApp ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.
       reconnect_not_supported_yet: Eine erneute Verbindung wird noch nicht unterstützt. Bitte löschen Sie den Kanal und erstellen Sie ihn neu, wenn das Token abläuft.
+      reconnected: Der Kanal wurde erfolgreich reaktiviert. Wenn Ihr Zugriffstoken tatsächlich
+        abgelaufen ist, aktualisieren Sie es bitte.
       index:
         title: WhatsApp
         description: Verbinden Sie Ihre WhatsApp Business API, um Kundengespräche zu verwalten.
@@ -1243,6 +1265,27 @@ de:
       new:
         title: WhatsApp verbinden
         subtitle: Wählen Sie aus, wie Sie Ihr WhatsApp Business-Konto verbinden möchten.
+        secure_setup: Sichere Einrichtung
+        connection_method: Verbindungsmethode
+        connection_method_hint: Wählen Sie aus, wie Sie Ihr WhatsApp Business-Konto
+          verbinden möchten.
+        quick_connect_hint: Über Ihr Meta-Konto verbinden
+        manual_connect_hint: Zugangsdaten aus Meta Developer verwenden
+        channel_details_title: Kanaldetails
+        channel_details_hint: Geben Sie dieser Verbindung einen eindeutigen Namen, den
+          Ihr Team wiedererkennt.
+        business_number_title: Geschäftstelefonnummer
+        business_number_hint: Geben Sie die WhatsApp-Nummer ein, über die Kunden Ihr
+          Unternehmen kontaktieren.
+        meta_credentials_title: Meta-Zugangsdaten
+        meta_credentials_hint: Kopieren Sie diese Werte aus dem WhatsApp API-Setup in
+          Ihrer Meta Developer-App.
+        token_hint: Verwenden Sie ein permanentes Zugriffs- oder Systembenutzer-Token,
+          um Verbindungsunterbrechungen zu vermeiden.
+        guide_time: Etwa 5 Minuten
+        need_help: Wo finde ich diese Werte?
+        need_help_hint: Öffnen Sie Ihre App in Meta Developer und gehen Sie zu WhatsApp
+          → API-Setup.
         tabs:
           embedded: Schnellverbindung (empfohlen)
           manual: Manuelle Einrichtung
@@ -1536,6 +1579,38 @@ de:
         delete: Löschen
         delete_confirm: Bist du sicher?
     channels:
+      edit:
+        active: Aktiv
+        always_available: Ihr Team ist rund um die Uhr verfügbar
+        business_hours_hint: Legen Sie fest, wann Sie für Antworten verfügbar sind.
+        channel_information: Kanalinformationen
+        channel_name_hint: Dieser Name wird verwendet, um den Kanal in Ihrem Arbeitsbereich
+          zu identifizieren.
+        created: Erstellt
+        created_ago: Vor etwa %{time}
+        csat_hint: Zeigen Sie Kunden nach dem Abschluss einer Konversation eine CSAT-Umfrage.
+        disconnect_channel: Kanal trennen
+        facebook_description: Aktualisieren Sie die Verbindung Ihrer Facebook-Seite und
+          die Posteingangseinstellungen.
+        facebook_page: Facebook-Seite
+        instagram: Instagram
+        instagram_description: Aktualisieren Sie Ihre Instagram-Verbindung und die Posteingangseinstellungen.
+        integration_details: Integrationsdetails
+        none_selected: Keine Auswahl
+        overview: Kanalübersicht
+        page_id: Seiten-ID
+        page_name: Seitenname
+        phone_number: Telefonnummer
+        platform: Plattform
+        select_csat_survey: CSAT-Umfrage auswählen
+        sla_hint: Wählen Sie die SLA-Richtlinie für diesen Kanal.
+        status: Status
+        toggle_token_visibility: Sichtbarkeit des Zugriffstokens umschalten
+        token_expires: Token läuft ab
+        username: Benutzername
+        waba_id: WABA-ID
+        whatsapp: WhatsApp
+        whatsapp_description: Aktualisieren Sie Ihre WhatsApp-Verbindung und die Posteingangseinstellungen.
       web_widget:
         form:
           form_title_label: Formulartitel

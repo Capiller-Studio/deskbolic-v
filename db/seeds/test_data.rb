@@ -2,7 +2,7 @@
 
 puts "Cleaning up old test data..."
 # Use with caution! Only for dev seeding.
-# Account.destroy_all 
+# Account.destroy_all
 
 puts "Creating Enterprise Account..."
 account = Account.find_or_create_by!(identifier: "enterprise-1") do |a|
@@ -10,7 +10,7 @@ account = Account.find_or_create_by!(identifier: "enterprise-1") do |a|
 end
 
 puts "Generating Default Roles..."
-# This is usually handled by the after_create hook in Account, 
+# This is usually handled by the after_create hook in Account,
 # but we call it explicitly here just in case.
 Access::RoleGenerator.call(account)
 
@@ -19,28 +19,28 @@ owner_user = User.find_or_create_by!(email: "owner@enterprise.com") do |u|
   u.password = "Password123!"
   u.first_name = "Jane"
   u.last_name = "Owner"
-  u.confirmed_at = Time.now
+  u.confirmed_at = Time.zone.now
 end
 
 admin_user = User.find_or_create_by!(email: "admin@enterprise.com") do |u|
   u.password = "Password123!"
   u.first_name = "John"
   u.last_name = "Admin"
-  u.confirmed_at = Time.now
+  u.confirmed_at = Time.zone.now
 end
 
 agent_user = User.find_or_create_by!(email: "agent@enterprise.com") do |u|
   u.password = "Password123!"
   u.first_name = "Alice"
   u.last_name = "Agent"
-  u.confirmed_at = Time.now
+  u.confirmed_at = Time.zone.now
 end
 
 limited_agent = User.find_or_create_by!(email: "limited@enterprise.com") do |u|
   u.password = "Password123!"
   u.first_name = "Bob"
   u.last_name = "Limited"
-  u.confirmed_at = Time.now
+  u.confirmed_at = Time.zone.now
 end
 
 puts "Mapping Users to Account..."
@@ -69,11 +69,11 @@ inbox1 = account.inboxes.create!(name: "Sales Support", channel: Channel::WebWid
 inbox2 = account.inboxes.create!(name: "Technical Support", channel: Channel::WebWidget.create!(account: account))
 
 restricted_role = account.roles.create!(
-  name: "Restricted Agent", 
+  name: "Restricted Agent",
   permissions: {
     "conversations" => {
-      "read" => { "conditions" => { "inbox_ids" => [inbox1.id.to_s] } }, # Can only read inbox 1
-      "write" => { "conditions" => { "inbox_ids" => [inbox1.id.to_s] } } # Can only write to inbox 1
+      "read" => { "conditions" => { "inbox_ids" => [ inbox1.id.to_s ] } }, # Can only read inbox 1
+      "write" => { "conditions" => { "inbox_ids" => [ inbox1.id.to_s ] } } # Can only write to inbox 1
     }
   }
 )

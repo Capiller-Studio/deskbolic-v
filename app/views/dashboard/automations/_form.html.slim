@@ -34,14 +34,15 @@
       = t("dashboard.automations.builder.conditions_section")
     .auto-section-body data-automation-builder-target="conditionsContainer"
       / Top-level operator
+      - cond_hash = automation.conditions.is_a?(Hash) ? automation.conditions : {}
       .auto-group-header
         = t("dashboard.automations.builder.match_label")
-        = select_tag "automation[conditions][operator]", options_for_select([[t("forms.options.all"), "AND"], [t("forms.options.any"), "OR"]], automation.conditions.dig("operator") || "AND"), class: "auto-row", style: "width: auto; padding: 4px 28px 4px 10px;"
+        = select_tag "automation[conditions][operator]", options_for_select([[t("forms.options.all"), "AND"], [t("forms.options.any"), "OR"]], cond_hash.dig("operator") || "AND"), class: "auto-row", style: "width: auto; padding: 4px 28px 4px 10px;"
         | #{t("ui.dashboard.automations.form.of_the_following_condition_groups")}
 
       / Condition groups rendered by Stimulus
       div data-automation-builder-target="conditionGroups"
-        - groups = automation.conditions.dig("groups") || [{}]
+        - groups = cond_hash.dig("groups") || [{}]
         - groups.each_with_index do |group, gi|
           = render("dashboard/automations/condition_group", group: group, group_index: gi)
 

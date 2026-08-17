@@ -103,25 +103,25 @@ module Dashboard
 
     def channel_overview_edit_path(channel)
       case channel
-      when Channel::Email then edit_channels_email_path(channel)
-      when Channel::WebWidget then edit_channels_web_widget_path(channel)
-      when Channel::ContactForm then edit_channels_contact_form_path(channel)
-      when Channel::FacebookPage then edit_channels_facebook_path(channel)
-      when Channel::Instagram then edit_channels_instagram_path(channel)
-      when Channel::Whatsapp then edit_channels_whatsapp_path(channel)
-      when Channel::Custom then edit_channels_custom_path(channel)
+      when Channel::Email then edit_channels_email_path(id: channel.id)
+      when Channel::WebWidget then edit_channels_web_widget_path(id: channel.id)
+      when Channel::ContactForm then edit_channels_contact_form_path(id: channel.id)
+      when Channel::FacebookPage then edit_channels_facebook_path(id: channel.id)
+      when Channel::Instagram then edit_channels_instagram_path(id: channel.id)
+      when Channel::Whatsapp then edit_channels_whatsapp_path(id: channel.id)
+      when Channel::Custom then edit_channels_custom_path(id: channel.id)
       end
     end
 
     def channel_overview_destroy_path(channel)
       case channel
-      when Channel::Email then channels_email_path(channel)
-      when Channel::WebWidget then channels_web_widget_path(channel)
-      when Channel::ContactForm then channels_contact_form_path(channel)
-      when Channel::FacebookPage then channels_facebook_path(channel)
-      when Channel::Instagram then channels_instagram_path(channel)
-      when Channel::Whatsapp then channels_whatsapp_path(channel)
-      when Channel::Custom then channels_custom_path(channel)
+      when Channel::Email then channels_email_path(id: channel.id)
+      when Channel::WebWidget then channels_web_widget_path(id: channel.id)
+      when Channel::ContactForm then channels_contact_form_path(id: channel.id)
+      when Channel::FacebookPage then channels_facebook_path(id: channel.id)
+      when Channel::Instagram then channels_instagram_path(id: channel.id)
+      when Channel::Whatsapp then channels_whatsapp_path(id: channel.id)
+      when Channel::Custom then channels_custom_path(id: channel.id)
       end
     end
 

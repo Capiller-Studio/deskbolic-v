@@ -7,7 +7,7 @@ module Dashboard
 
       def index
         @canned_responses = current_account.canned_responses.active
-        
+
         if params[:q].present?
           @canned_responses = @canned_responses.where("name ILIKE ?", "%#{params[:q]}%")
         end
@@ -20,7 +20,7 @@ module Dashboard
           liquid_vars = Liquid::ContextBuilderService.call(
             conversation: @conversation,
             agent: current_user,
-            template_type: 'canned_response'
+            template_type: "canned_response"
           )
 
           liquid_template = Liquid::Template.parse(response.description)
@@ -33,14 +33,14 @@ module Dashboard
           }
         end
 
-        render json: {
+        render(json: {
           canned_responses: parsed_responses,
           meta: {
             current_page: @pagy.page,
             next_page: @pagy.next,
             total_pages: @pagy.pages
           }
-        }
+        })
       end
 
       private

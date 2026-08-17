@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "jwt"
 
 module Dashboard
@@ -28,35 +29,35 @@ module Dashboard
           state: state
         )
 
-        redirect_to redirect_url, allow_other_host: true
+        redirect_to(redirect_url, allow_other_host: true)
       end
 
       # GET /instagram_channels/callback
       # Instagram redirects here after the user authorizes (or denies) the app
       def callback
         if params[:error].present?
-          redirect_to new_channels_instagram_path, alert: params[:error_description] || t("dashboard.instagram_channels.callback_error")
+          redirect_to(new_channels_instagram_path, alert: params[:error_description] || t("dashboard.instagram_channels.callback_error"))
           return
         end
 
         account_id = verify_state_token(params[:state])
         unless account_id == current_account.id
-          redirect_to new_channels_instagram_path, alert: t("dashboard.instagram_channels.invalid_state")
+          redirect_to(new_channels_instagram_path, alert: t("dashboard.instagram_channels.invalid_state"))
           return
         end
 
         oauth_service = ::Channels::Instagram::OauthService.new(account: current_account)
-        
+
         # Strip potential #_ fragment that Meta sometimes appends
         safe_code = params[:code].to_s.gsub(/#_\z/, "")
-        
+
         result = oauth_service.exchange_code(
           code: safe_code,
           redirect_uri: instagram_callback_url
         )
 
         unless current_account.within_limit?(:channels)
-          redirect_to channels_instagram_index_path, alert: t("dashboard.instagram_channels.limit_reached")
+          redirect_to(channels_instagram_index_path, alert: t("dashboard.instagram_channels.limit_reached"))
           return
         end
 
@@ -74,13 +75,13 @@ module Dashboard
         )
 
         if creator.call
-          redirect_to edit_channels_instagram_path(creator.channel), notice: t("dashboard.instagram_channels.created")
+          redirect_to(edit_channels_instagram_path(creator.channel), notice: t("dashboard.instagram_channels.created"))
         else
-          redirect_to new_channels_instagram_path, alert: t("dashboard.instagram_channels.create_failed")
+          redirect_to(new_channels_instagram_path, alert: t("dashboard.instagram_channels.create_failed"))
         end
       rescue StandardError => e
         Rails.logger.error("Instagram OAuth callback error: #{e.message}")
-        redirect_to new_channels_instagram_path, alert: t("dashboard.instagram_channels.callback_error")
+        redirect_to(new_channels_instagram_path, alert: t("dashboard.instagram_channels.callback_error"))
       end
 
       def edit; end
@@ -88,9 +89,9 @@ module Dashboard
       def update
         current_account.with_shard do
           if @instagram_channel.update(instagram_channel_update_params)
-            redirect_to channels_settings_path(type: "instagram"), notice: t("dashboard.instagram_channels.updated")
+            redirect_to(channels_settings_path(type: "instagram"), notice: t("dashboard.instagram_channels.updated"))
           else
-            render :edit, status: :unprocessable_entity
+            render(:edit, status: :unprocessable_entity)
           end
         end
       end
@@ -102,8 +103,8 @@ module Dashboard
         current_account.decrement_usage!(:channels)
 
         respond_to do |format|
-          format.html { redirect_to channels_settings_path(type: "instagram"), notice: t("dashboard.instagram_channels.destroyed") }
-          format.turbo_stream { render turbo_stream: turbo_stream.remove(@instagram_channel) }
+          format.html { redirect_to(channels_settings_path(type: "instagram"), notice: t("dashboard.instagram_channels.destroyed")) }
+          format.turbo_stream { render(turbo_stream: turbo_stream.remove(@instagram_channel)) }
         end
       end
 
@@ -116,16 +117,16 @@ module Dashboard
       end
 
       def authorize_instagram_channel
-        authorize :instagram_channel
+        authorize(:instagram_channel)
       end
 
       def instagram_channel_update_params
-        params.require(:instagram_channel).permit(
-          :name,
+        params.expect(
+          instagram_channel: [ :name,
           primary_inbox_attributes: [
             :id, :reopen_window_seconds, :csat_survey_enabled, :csat_survey_id, :business_hour_group_id,
             sla_policy_ids: []
-          ]
+          ] ]
         )
       end
 

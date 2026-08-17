@@ -2,7 +2,7 @@
 
 module Dashboard
   class SkillsController < DashboardController
-    before_action :set_skill, only: [:edit, :update, :destroy]
+    before_action :set_skill, only: [ :edit, :update, :destroy ]
 
     def index
       authorize(Skill)
@@ -16,6 +16,9 @@ module Dashboard
       authorize(@skill)
     end
 
+    def edit
+      authorize(@skill)
+    end
     def create
       @skill = current_account.skills.new(skill_params)
       authorize(@skill)
@@ -27,9 +30,6 @@ module Dashboard
       end
     end
 
-    def edit
-      authorize(@skill)
-    end
 
     def update
       authorize(@skill)
@@ -59,7 +59,7 @@ module Dashboard
     end
 
     def skill_params
-      params.require(:skill).permit(:name, :skill_type, :description, :status)
+      params.expect(skill: [ :name, :skill_type, :description, :status ])
     end
   end
 end

@@ -5,56 +5,17 @@ module Dashboard
     before_action :set_email_template, only: %i[edit update publish discard_draft preview send_test variables copy_locale destroy]
 
     def index
-      authorize EmailTemplate
+      authorize(EmailTemplate)
       @email_templates = Current.account.email_templates.includes(:translations)
     end
 
     def new
-      authorize EmailTemplate
+      authorize(EmailTemplate)
       @email_template = EmailTemplate.new
     end
 
-    def create
-      authorize EmailTemplate
-      
-      name = params.dig(:email_template, :name)
-      template_type = params.dig(:email_template, :template_type)
-
-      @email_template = EmailTemplates::Creator.call(
-        account: Current.account,
-        name: name,
-        template_type: template_type
-      )
-
-      respond_to do |format|
-        format.html { redirect_to edit_email_template_path(@email_template), notice: "Template created successfully." }
-        format.json { render json: { success: true, redirect_url: edit_email_template_path(@email_template) } }
-      end
-    rescue StandardError => e
-      respond_to do |format|
-        format.html { redirect_to email_templates_path, alert: e.message }
-        format.json { render json: { success: false, errors: [e.message] }, status: :unprocessable_entity }
-      end
-    end
-
-    def destroy
-      authorize @email_template
-
-      @email_template.destroy!
-
-      respond_to do |format|
-        format.html { redirect_to email_templates_path, notice: I18n.t("dashboard.email_builder.deleted") }
-        format.json { render json: { success: true, message: I18n.t("dashboard.email_builder.deleted") } }
-      end
-    rescue StandardError => e
-      respond_to do |format|
-        format.html { redirect_to email_templates_path, alert: e.message }
-        format.json { render json: { success: false, errors: [e.message] }, status: :unprocessable_entity }
-      end
-    end
-
     def edit
-      authorize @email_template
+      authorize(@email_template)
       @locale = params[:template_locale] || I18n.locale.to_s
       @layouts = Current.account.email_template_layouts
 
@@ -69,10 +30,32 @@ module Dashboard
         @template_variables = @email_template.variable_groups
       end
     end
+    def create
+      authorize(EmailTemplate)
+
+      name = params.dig(:email_template, :name)
+      template_type = params.dig(:email_template, :template_type)
+
+      @email_template = EmailTemplates::Creator.call(
+        account: Current.account,
+        name: name,
+        template_type: template_type
+      )
+
+      respond_to do |format|
+        format.html { redirect_to(edit_email_template_path(@email_template), notice: "Template created successfully.") }
+        format.json { render(json: { success: true, redirect_url: edit_email_template_path(@email_template) }) }
+      end
+    rescue StandardError => e
+      respond_to do |format|
+        format.html { redirect_to(email_templates_path, alert: e.message) }
+        format.json { render(json: { success: false, errors: [ e.message ] }, status: :unprocessable_entity) }
+      end
+    end
 
     # Save draft only — does NOT affect live template
     def update
-      authorize @email_template
+      authorize(@email_template)
       locale = params[:template_locale] || I18n.locale.to_s
 
       I18n.with_locale(locale) do
@@ -87,36 +70,53 @@ module Dashboard
         @email_template.update!(email_template_params) if email_template_params.present?
       end
 
-      render json: { success: true, message: I18n.t("dashboard.email_builder.draft_saved") }
+      render(json: { success: true, message: I18n.t("dashboard.email_builder.draft_saved") })
     rescue ActiveRecord::RecordInvalid => e
-      render json: { success: false, errors: e.record.errors.full_messages }, status: :unprocessable_entity
+      render(json: { success: false, errors: e.record.errors.full_messages }, status: :unprocessable_entity)
     end
+    def destroy
+      authorize(@email_template)
+
+      @email_template.destroy!
+
+      respond_to do |format|
+        format.html { redirect_to(email_templates_path, notice: I18n.t("dashboard.email_builder.deleted")) }
+        format.json { render(json: { success: true, message: I18n.t("dashboard.email_builder.deleted") }) }
+      end
+    rescue StandardError => e
+      respond_to do |format|
+        format.html { redirect_to(email_templates_path, alert: e.message) }
+        format.json { render(json: { success: false, errors: [ e.message ] }, status: :unprocessable_entity) }
+      end
+    end
+
+
 
     # Publish draft → live (explicit action with confirmation)
     def publish
-      authorize @email_template
+      authorize(@email_template)
       locale = params[:template_locale] || I18n.locale.to_s
 
       @email_template.publish!(locale: locale)
 
-      render json: { success: true, message: I18n.t("dashboard.email_builder.published") }
+      render(json: { success: true, message: I18n.t("dashboard.email_builder.published") })
     rescue StandardError => e
-      render json: { success: false, errors: [e.message] }, status: :unprocessable_entity
+      render(json: { success: false, errors: [ e.message ] }, status: :unprocessable_entity)
     end
 
     # Discard draft changes, reset to published version
     def discard_draft
-      authorize @email_template
+      authorize(@email_template)
       locale = params[:template_locale] || I18n.locale.to_s
 
       @email_template.discard_draft!(locale: locale)
 
-      render json: { success: true, message: I18n.t("dashboard.email_builder.draft_discarded") }
+      render(json: { success: true, message: I18n.t("dashboard.email_builder.draft_discarded") })
     end
 
     # Preview compiled draft content with sample variables
     def preview
-      authorize @email_template
+      authorize(@email_template)
       locale = params[:template_locale] || I18n.locale.to_s
 
       I18n.with_locale(locale) do
@@ -131,15 +131,15 @@ module Dashboard
         sample_vars = sample_variables_for(@email_template.template_type)
         rendered = Liquid::Template.parse(compiled_html).render(sample_vars)
 
-        render json: { html: rendered }
+        render(json: { html: rendered })
       end
     rescue StandardError => e
-      render json: { error: e.message }, status: :unprocessable_entity
+      render(json: { error: e.message }, status: :unprocessable_entity)
     end
 
     # Send test email to current user using draft content
     def send_test
-      authorize @email_template
+      authorize(@email_template)
       locale = params[:template_locale] || I18n.locale.to_s
 
       I18n.with_locale(locale) do
@@ -162,29 +162,29 @@ module Dashboard
           body: rendered
         ).deliver_later
 
-        render json: { success: true, message: I18n.t("dashboard.email_builder.test_sent", email: current_user.email) }
+        render(json: { success: true, message: I18n.t("dashboard.email_builder.test_sent", email: current_user.email) })
       end
     rescue StandardError => e
-      render json: { success: false, errors: [e.message] }, status: :unprocessable_entity
+      render(json: { success: false, errors: [ e.message ] }, status: :unprocessable_entity)
     end
 
     # Return available variables for this template type
     def variables
-      authorize @email_template
-      render json: { variables: @email_template.variable_groups }
+      authorize(@email_template)
+      render(json: { variables: @email_template.variable_groups })
     end
 
     # Copy draft content from one locale to another
     def copy_locale
-      authorize @email_template, :update?
+      authorize(@email_template, :update?)
       source_locale = params[:source_locale]
       target_locale = params[:target_locale]
 
       @email_template.copy_draft_locale!(from: source_locale, to: target_locale)
 
-      render json: { success: true, message: I18n.t("dashboard.email_builder.locale_copied", from: source_locale.upcase, to: target_locale.upcase) }
+      render(json: { success: true, message: I18n.t("dashboard.email_builder.locale_copied", from: source_locale.upcase, to: target_locale.upcase) })
     rescue StandardError => e
-      render json: { success: false, errors: [e.message] }, status: :unprocessable_entity
+      render(json: { success: false, errors: [ e.message ] }, status: :unprocessable_entity)
     end
 
     private
@@ -194,7 +194,7 @@ module Dashboard
     end
 
     def email_template_params
-      params.require(:email_template).permit(:email_template_layout_id, :status)
+      params.expect(email_template: [ :email_template_layout_id, :status ])
     rescue ActionController::ParameterMissing
       {}
     end

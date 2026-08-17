@@ -2,6 +2,7 @@
 
 module ApplicationHelper
   include Pagy::Frontend
+  include Pundit::Authorization
 
   # Unified view helper for Pundit
   # Usage: if can?(:edit, @item) ...
@@ -14,5 +15,9 @@ module ApplicationHelper
     return if current_account&.feature_enabled?(feature)
 
     content_tag(:span, "🔒 Upgrade", style: "font-size: 10px; color: #ef4444; margin-left: 6px; display: inline-block; padding: 2px 6px; background: #fee2e2; border-radius: 4px; font-weight: 600;")
+  end
+
+  def current_account
+    Current.account
   end
 end

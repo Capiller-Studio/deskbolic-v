@@ -7,7 +7,7 @@ module Dashboard
       before_action :set_article_context, only: %i[index new create show edit update]
 
       def index
-        authorize ::HelpCenter::Article
+        authorize(::HelpCenter::Article)
 
         @query = params[:q].to_s.strip
         @status = params[:status].presence
@@ -39,12 +39,12 @@ module Dashboard
       end
 
       def show
-        authorize @article
+        authorize(@article)
         @locale = params[:article_locale].presence || default_article_locale(@article)
       end
 
       def new
-        authorize ::HelpCenter::Article
+        authorize(::HelpCenter::Article)
         @article = ::HelpCenter::Article.new(
           account: current_account,
           portal: @selected_portal,
@@ -57,8 +57,24 @@ module Dashboard
         build_default_translation(@article)
       end
 
+      def edit
+        authorize(@article)
+        @locale = params[:article_locale].presence || default_article_locale(@article)
+        build_default_translation(@article, locale: @locale)
+        return unless request.format.json?
+
+        I18n.with_locale(@locale) do
+          # Initialize draft from published content if this is the first edit
+          @article.initialize_draft!(locale: @locale)
+          @article.translations.reload # Reload association so new locales appear
+
+          @draft_content = @article.draft_content || ""
+          @draft_title = @article.translations.find { |t| t.locale.to_s == @locale }&.draft_title || @article.title || ""
+          @has_unpublished_changes = @article.has_unpublished_changes?(locale: @locale)
+        end
+      end
       def create
-        authorize ::HelpCenter::Article
+        authorize(::HelpCenter::Article)
         return if unsupported_banner_image?
 
         status_value = params[:publish].present? ? :published : :draft
@@ -74,57 +90,41 @@ module Dashboard
         end
 
         respond_to do |format|
-          format.json { render json: { success: true, message: "Article saved.", article_id: @article.id } }
+          format.json { render(json: { success: true, message: "Article saved.", article_id: @article.id }) }
           format.html do
             if status_value == :published
-              redirect_to help_center_article_path(id: @article.id), notice: "Article was published successfully."
+              redirect_to(help_center_article_path(id: @article.id), notice: "Article was published successfully.")
             else
-              redirect_to help_center_article_path(id: @article.id), notice: "Article was saved as draft."
+              redirect_to(help_center_article_path(id: @article.id), notice: "Article was saved as draft.")
             end
           end
         end
       rescue ActiveRecord::RecordInvalid
         respond_to do |format|
-          format.json { render json: { success: false, errors: @article.errors.full_messages }, status: :unprocessable_entity }
+          format.json { render(json: { success: false, errors: @article.errors.full_messages }, status: :unprocessable_entity) }
           format.html do
             set_article_context
             build_default_translation(@article)
             flash.now[:alert] = "Unable to create article. Please check the fields and try again."
-            render :new, status: :unprocessable_entity
+            render(:new, status: :unprocessable_entity)
           end
         end
       rescue StandardError => e
         respond_to do |format|
-          format.json { render json: { success: false, errors: [e.message] }, status: :internal_server_error }
+          format.json { render(json: { success: false, errors: [ e.message ] }, status: :internal_server_error) }
           format.html { raise }
         end
       end
 
-      def edit
-        authorize @article
-        @locale = params[:article_locale].presence || default_article_locale(@article)
-        build_default_translation(@article, locale: @locale)
-        return unless request.format.json?
-
-        I18n.with_locale(@locale) do
-          # Initialize draft from published content if this is the first edit
-          @article.initialize_draft!(locale: @locale)
-          @article.translations.reload # Reload association so new locales appear
-
-          @draft_content = @article.draft_content || ""
-          @draft_title = @article.translations.find { |t| t.locale.to_s == @locale }&.draft_title || @article.title || ""
-          @has_unpublished_changes = @article.has_unpublished_changes?(locale: @locale)
-        end
-      end
 
       def update
-        authorize @article
+        authorize(@article)
         return if unsupported_banner_image?
 
         respond_to do |format|
           format.json do
             # JSON draft save from the Tiptap editor or UI updates
-            
+
             if params.dig(:article).present? && params.dig(:article).key?(:related_article_ids)
               sync_related_articles(@article)
             end
@@ -139,9 +139,9 @@ module Dashboard
               translation.save!
             end
 
-            render json: { success: true, message: I18n.t("dashboard.articles.draft_saved", default: "Draft saved."), article_id: @article.id }
+            render(json: { success: true, message: I18n.t("dashboard.articles.draft_saved", default: "Draft saved."), article_id: @article.id })
           rescue StandardError => e
-            render json: { success: false, errors: [e.message] }, status: :unprocessable_entity
+            render(json: { success: false, errors: [ e.message ] }, status: :unprocessable_entity)
           end
 
           format.html do
@@ -150,62 +150,62 @@ module Dashboard
                 @article.update!(normalized_article_params.merge(status: :published))
                 sync_article_relationships(@article)
               end
-              redirect_to help_center_article_path(id: @article.id), notice: "Article was published successfully."
+              redirect_to(help_center_article_path(id: @article.id), notice: "Article was published successfully.")
             else
               ActiveRecord::Base.transaction do
                 @article.update!(normalized_article_params.merge(status: :draft))
                 sync_article_relationships(@article)
               end
-              redirect_to help_center_article_path(id: @article.id), notice: "Article was saved as draft."
+              redirect_to(help_center_article_path(id: @article.id), notice: "Article was saved as draft.")
             end
           rescue ActiveRecord::RecordInvalid
             set_article_context
             build_default_translation(@article)
             flash.now[:alert] = "Unable to save article. Please check the fields and try again."
-            render :edit, status: :unprocessable_entity
+            render(:edit, status: :unprocessable_entity)
           end
         end
       end
 
       # Publish draft → live
       def publish
-        authorize @article
+        authorize(@article)
         locale = params[:article_locale] || I18n.locale.to_s
 
         @article.publish!(locale: locale)
 
-        render json: { success: true, message: I18n.t("dashboard.articles.published", default: "Article published successfully.") }
+        render(json: { success: true, message: I18n.t("dashboard.articles.published", default: "Article published successfully.") })
       rescue StandardError => e
-        render json: { success: false, errors: [e.message] }, status: :unprocessable_entity
+        render(json: { success: false, errors: [ e.message ] }, status: :unprocessable_entity)
       end
 
       # Discard draft changes, reset to published version
       def discard_draft
-        authorize @article
+        authorize(@article)
         locale = params[:article_locale] || I18n.locale.to_s
 
         @article.discard_draft!(locale: locale)
 
-        render json: { success: true, message: I18n.t("dashboard.articles.draft_discarded", default: "Draft discarded successfully.") }
+        render(json: { success: true, message: I18n.t("dashboard.articles.draft_discarded", default: "Draft discarded successfully.") })
       end
 
       def destroy
-        authorize @article
+        authorize(@article)
         @article.destroy!
         respond_to do |format|
-          format.html { redirect_to help_center_articles_path, notice: "Article was successfully deleted.", status: :see_other }
-          format.json { head :no_content }
+          format.html { redirect_to(help_center_articles_path, notice: "Article was successfully deleted.", status: :see_other) }
+          format.json { head(:no_content) }
         end
       rescue StandardError => e
         error_msg = "Unable to delete article: #{e.message}"
         respond_to do |format|
-          format.html { redirect_to help_center_articles_path, alert: error_msg, status: :see_other }
-          format.json { render json: { error: error_msg }, status: :unprocessable_entity }
+          format.html { redirect_to(help_center_articles_path, alert: error_msg, status: :see_other) }
+          format.json { render(json: { error: error_msg }, status: :unprocessable_entity) }
         end
       end
 
       def reorder
-        authorize ::HelpCenter::Article
+        authorize(::HelpCenter::Article)
         ordered_ids = params[:ordered_ids]
 
         articles = ::HelpCenter::Article.where(account: current_account, id: ordered_ids)
@@ -214,25 +214,25 @@ module Dashboard
           articles.where(id: id).update_all(position: index)
         end
 
-        head :ok
+        head(:ok)
       end
 
       # Copy draft content from one locale to another
       def copy_locale
-        authorize @article, :update?
+        authorize(@article, :update?)
         source_locale = params[:source_locale]
         target_locale = params[:target_locale]
         @article.copy_draft_locale!(from: source_locale, to: target_locale)
         translation = @article.translations.find_by(locale: target_locale)
 
-        render json: { 
-          success: true, 
+        render(json: {
+          success: true,
           message: I18n.t("dashboard.articles.locale_copied", default: "Locale content copied successfully."),
           draft_title: translation&.draft_title || "",
           draft_content: translation&.draft_content || ""
-        }
+        })
       rescue StandardError => e
-        render json: { success: false, errors: [e.message] }, status: :unprocessable_entity
+        render(json: { success: false, errors: [ e.message ] }, status: :unprocessable_entity)
       end
 
       private
@@ -244,7 +244,7 @@ module Dashboard
           .joins(:translations)
           .find_by("help_center_articles.id::text = ? OR help_center_article_translations.slug = ?", params[:id], params[:id])
 
-        raise ActiveRecord::RecordNotFound unless @article
+        raise(ActiveRecord::RecordNotFound) unless @article
       end
 
       def set_article_context
@@ -285,7 +285,7 @@ module Dashboard
           ]
         ]
         permitted << :portal_id unless @article&.persisted?
-        params.require(:article).permit(*permitted)
+        params.expect(article: [ *permitted ])
       rescue ActionController::ParameterMissing
         {}
       end
@@ -306,11 +306,11 @@ module Dashboard
       end
 
       def normalize_translations(attrs)
-        return unless attrs["translations_attributes"].present?
+        return if attrs["translations_attributes"].blank?
 
         attrs["translations_attributes"].each_value do |translation|
           keywords = translation["meta_keywords"]
-          translation["meta_keywords"] = keywords.to_s.split(",").map(&:strip).reject(&:blank?)
+          translation["meta_keywords"] = keywords.to_s.split(",").map(&:strip).compact_blank
 
           if params[:publish].present?
             translation["draft_title"] = translation["title"] if translation.key?("title")
@@ -324,7 +324,7 @@ module Dashboard
 
       def match_existing_translations(attrs)
         return unless @article&.persisted?
-        return unless attrs["translations_attributes"].present?
+        return if attrs["translations_attributes"].blank?
 
         attrs["translations_attributes"].each_value do |translation|
           next if translation["id"].present?
@@ -341,7 +341,7 @@ module Dashboard
       end
 
       def sync_categories(article)
-        category_ids = Array(params.dig(:article, :category_ids)).reject(&:blank?)
+        category_ids = Array(params.dig(:article, :category_ids)).compact_blank
         category_ids << article.primary_category_id if article.primary_category_id.present?
         allowed_ids = ::HelpCenter::Category.where(account: current_account, id: category_ids).pluck(:id).map(&:to_s)
 
@@ -355,7 +355,7 @@ module Dashboard
       end
 
       def sync_related_articles(article)
-        related_article_ids = Array(params.dig(:article, :related_article_ids)).reject(&:blank?) - [article.id.to_s]
+        related_article_ids = Array(params.dig(:article, :related_article_ids)).compact_blank - [ article.id.to_s ]
         allowed_ids = ::HelpCenter::Article.where(account: current_account, id: related_article_ids).pluck(:id).map(&:to_s)
 
         article.related_resources
@@ -399,7 +399,7 @@ module Dashboard
         return false unless banner_image&.content_type == "image/svg+xml"
 
         respond_to do |format|
-          format.json { render json: { success: false, errors: ["Unsupported banner image format. Please upload JPG, PNG, GIF, or WEBP."] }, status: :unprocessable_entity }
+          format.json { render(json: { success: false, errors: [ "Unsupported banner image format. Please upload JPG, PNG, GIF, or WEBP." ] }, status: :unprocessable_entity) }
           format.html do
             set_article_context
             build_default_translation(@article || ::HelpCenter::Article.new(account: current_account, portal: @selected_portal, author: current_user))

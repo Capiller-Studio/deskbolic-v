@@ -31,7 +31,7 @@ class SubscriptionChannel < ApplicationCable::Channel
   private
 
   def configure_connection_token
-    reject unless params[:connection_token].present?
+    reject if params[:connection_token].blank?
     self.connection_token = params[:connection_token]
   end
 

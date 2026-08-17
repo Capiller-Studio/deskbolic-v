@@ -19,7 +19,7 @@ module Dashboard
         params: team_create_params
       )
 
-      redirect_to teams_path, notice: "Team created successfully"
+      redirect_to(teams_path, notice: "Team created successfully")
     rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved => e
       redirect_back(fallback_location: teams_path, alert: e.message)
     end
@@ -30,7 +30,7 @@ module Dashboard
         params: team_update_params
       )
 
-      redirect_to teams_path, notice: "Team updated successfully"
+      redirect_to(teams_path, notice: "Team updated successfully")
     rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved => e
       redirect_back(fallback_location: teams_path, alert: e.message)
     end
@@ -38,7 +38,7 @@ module Dashboard
     def destroy
       Teams::DestroyService.call(team: @team)
 
-      redirect_to teams_path, notice: "Team deleted successfully"
+      redirect_to(teams_path, notice: "Team deleted successfully")
     rescue ActiveRecord::RecordNotSaved => e
       redirect_back(fallback_location: teams_path, alert: e.message)
     end
@@ -72,18 +72,18 @@ module Dashboard
     end
 
     def team_create_params
-      permitted = params.require(:team).permit(
-        :name, :description, :auto_assign, :avatar,
-        user_ids: [], inbox_ids: []
+      permitted = params.expect(
+        team: [ :name, :description, :auto_assign, :avatar,
+        user_ids: [], inbox_ids: [] ]
       )
       permitted[:lead_id] = params[:team][:lead_id] if params.dig(:team, :lead_id).present?
       permitted
     end
 
     def team_update_params
-      permitted = params.require(:team).permit(
-        :name, :description, :auto_assign, :status, :avatar,
-        user_ids: [], inbox_ids: []
+      permitted = params.expect(
+        team: [ :name, :description, :auto_assign, :status, :avatar,
+        user_ids: [], inbox_ids: [] ]
       )
       permitted[:lead_id] = params[:team][:lead_id] if params.dig(:team, :lead_id).present?
       permitted

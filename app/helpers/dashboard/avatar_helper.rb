@@ -12,7 +12,7 @@ module Dashboard
     def full_name(resource)
       return nil unless resource
 
-      [resource.try(:first_name), resource.try(:middle_name), resource.try(:last_name)].compact_blank.join(" ").presence || 
+      [ resource.try(:first_name), resource.try(:middle_name), resource.try(:last_name) ].compact_blank.join(" ").presence ||
         resource.try(:name).presence || resource.try(:display_name).presence
     end
 

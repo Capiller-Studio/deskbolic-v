@@ -7,10 +7,10 @@ module Dashboard
 
       Ai::CreditTopup.call(account: current_account, credits: credits)
       flash[:notice] = I18n.t("dashboard.billing.ai_credits_purchased", count: credits)
-      redirect_to dashboard_billing_path
+      redirect_to(dashboard_billing_path)
     rescue StandardError => e
       flash[:alert] = e.message
-      redirect_to dashboard_billing_path
+      redirect_to(dashboard_billing_path)
     end
   end
 end

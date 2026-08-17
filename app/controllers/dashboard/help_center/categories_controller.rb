@@ -7,7 +7,7 @@ module Dashboard
       before_action :set_category, only: %i[update destroy]
 
       def index
-        authorize ::HelpCenter::Category
+        authorize(::HelpCenter::Category)
 
         @query = params[:q].to_s.strip
         @portal_id = params[:portal_id].presence
@@ -34,23 +34,23 @@ module Dashboard
       end
 
       def create
-        authorize ::HelpCenter::Category
+        authorize(::HelpCenter::Category)
 
         portal = selected_portal
         name = category_params[:name].to_s.strip
 
         unless portal
           respond_to do |format|
-            format.html { redirect_to help_center_categories_path, alert: "Unable to create collection: no help center portal was found." }
-            format.json { render json: { error: "Unable to create collection: no help center portal was found." }, status: :unprocessable_entity }
+            format.html { redirect_to(help_center_categories_path, alert: "Unable to create collection: no help center portal was found.") }
+            format.json { render(json: { error: "Unable to create collection: no help center portal was found." }, status: :unprocessable_entity) }
           end
           return
         end
 
         if name.blank?
           respond_to do |format|
-            format.html { redirect_to help_center_categories_path, alert: "Unable to create collection: name can't be blank." }
-            format.json { render json: { error: "Unable to create collection: name can't be blank." }, status: :unprocessable_entity }
+            format.html { redirect_to(help_center_categories_path, alert: "Unable to create collection: name can't be blank.") }
+            format.json { render(json: { error: "Unable to create collection: name can't be blank." }, status: :unprocessable_entity) }
           end
           return
         end
@@ -76,38 +76,38 @@ module Dashboard
         end
 
         respond_to do |format|
-          format.html { redirect_to help_center_categories_path, notice: "Collection was successfully created." }
-          format.json { render json: { id: @category.id, name: @category.name.presence || "Untitled" } }
+          format.html { redirect_to(help_center_categories_path, notice: "Collection was successfully created.") }
+          format.json { render(json: { id: @category.id, name: @category.name.presence || "Untitled" }) }
         end
       rescue ActiveRecord::RecordInvalid => e
         error_msg = "Unable to create collection: #{e.record.errors.full_messages.join(', ')}"
         respond_to do |format|
-          format.html { redirect_to help_center_categories_path, alert: error_msg }
-          format.json { render json: { error: error_msg }, status: :unprocessable_entity }
+          format.html { redirect_to(help_center_categories_path, alert: error_msg) }
+          format.json { render(json: { error: error_msg }, status: :unprocessable_entity) }
         end
       rescue ActionController::ParameterMissing => e
         error_msg = "Unable to create collection: missing parameter - #{e.message}"
         respond_to do |format|
-          format.html { redirect_to help_center_categories_path, alert: error_msg }
-          format.json { render json: { error: error_msg }, status: :unprocessable_entity }
+          format.html { redirect_to(help_center_categories_path, alert: error_msg) }
+          format.json { render(json: { error: error_msg }, status: :unprocessable_entity) }
         end
       rescue StandardError => e
         error_msg = "Unable to create collection: #{e.class} - #{e.message}"
         respond_to do |format|
-          format.html { redirect_to help_center_categories_path, alert: error_msg }
-          format.json { render json: { error: error_msg }, status: :unprocessable_entity }
+          format.html { redirect_to(help_center_categories_path, alert: error_msg) }
+          format.json { render(json: { error: error_msg }, status: :unprocessable_entity) }
         end
       end
 
       def update
-        authorize @category
+        authorize(@category)
 
         name = category_params[:name].to_s.strip
 
         if name.blank?
           respond_to do |format|
-            format.html { redirect_to help_center_categories_path, alert: "Unable to update collection: name can't be blank." }
-            format.json { render json: { error: "Unable to update collection: name can't be blank." }, status: :unprocessable_entity }
+            format.html { redirect_to(help_center_categories_path, alert: "Unable to update collection: name can't be blank.") }
+            format.json { render(json: { error: "Unable to update collection: name can't be blank." }, status: :unprocessable_entity) }
           end
           return
         end
@@ -131,35 +131,35 @@ module Dashboard
         end
 
         respond_to do |format|
-          format.html { redirect_to help_center_categories_path, notice: "Collection was successfully updated.", status: :see_other }
-          format.json { render json: { id: @category.id, name: @category.name.presence || "Untitled" } }
+          format.html { redirect_to(help_center_categories_path, notice: "Collection was successfully updated.", status: :see_other) }
+          format.json { render(json: { id: @category.id, name: @category.name.presence || "Untitled" }) }
         end
       rescue ActiveRecord::RecordInvalid => e
         error_msg = "Unable to update collection: #{e.record.errors.full_messages.join(', ')}"
         respond_to do |format|
-          format.html { redirect_to help_center_categories_path, alert: error_msg, status: :see_other }
-          format.json { render json: { error: error_msg }, status: :unprocessable_entity }
+          format.html { redirect_to(help_center_categories_path, alert: error_msg, status: :see_other) }
+          format.json { render(json: { error: error_msg }, status: :unprocessable_entity) }
         end
       rescue StandardError => e
         error_msg = "Unable to update collection: #{e.class} - #{e.message}"
         respond_to do |format|
-          format.html { redirect_to help_center_categories_path, alert: error_msg, status: :see_other }
-          format.json { render json: { error: error_msg }, status: :unprocessable_entity }
+          format.html { redirect_to(help_center_categories_path, alert: error_msg, status: :see_other) }
+          format.json { render(json: { error: error_msg }, status: :unprocessable_entity) }
         end
       end
 
       def destroy
-        authorize @category
+        authorize(@category)
         @category.destroy!
         respond_to do |format|
-          format.html { redirect_to help_center_categories_path, notice: "Collection was successfully deleted.", status: :see_other }
-          format.json { head :no_content }
+          format.html { redirect_to(help_center_categories_path, notice: "Collection was successfully deleted.", status: :see_other) }
+          format.json { head(:no_content) }
         end
       rescue StandardError => e
         error_msg = "Unable to delete collection: #{e.message}"
         respond_to do |format|
-          format.html { redirect_to help_center_categories_path, alert: error_msg, status: :see_other }
-          format.json { render json: { error: error_msg }, status: :unprocessable_entity }
+          format.html { redirect_to(help_center_categories_path, alert: error_msg, status: :see_other) }
+          format.json { render(json: { error: error_msg }, status: :unprocessable_entity) }
         end
       end
 
@@ -177,9 +177,9 @@ module Dashboard
         category_params[:locale].presence || portal.default_locale.presence || I18n.locale.to_s
       end
 
-      def without_search_indexing(&block)
+      def without_search_indexing(&)
         if defined?(Searchkick)
-          Searchkick.callbacks(false, &block)
+          Searchkick.callbacks(false, &)
         else
           yield
         end
@@ -194,12 +194,12 @@ module Dashboard
           .where(account: current_account)
           .left_joins(:translations)
           .find_by("help_center_categories.id::text = ? OR help_center_category_translations.slug = ?", params[:id].to_s, params[:id].to_s)
-        
-        raise ActiveRecord::RecordNotFound unless @category
+
+        raise(ActiveRecord::RecordNotFound) unless @category
       end
 
       def category_params
-        params.require(:category).permit(:name, :portal_id, :locale, :description, :parent_id, :visibility, :image)
+        params.expect(category: [ :name, :portal_id, :locale, :description, :parent_id, :visibility, :image ])
       end
     end
   end

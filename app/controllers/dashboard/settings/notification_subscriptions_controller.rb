@@ -8,8 +8,8 @@ module Dashboard
           subscription_type: :push,
           data: { "endpoint" => subscription_params[:endpoint] }
         )
-        
-        authorize @subscription
+
+        authorize(@subscription)
 
         @subscription.data = {
           endpoint: subscription_params[:endpoint],
@@ -18,27 +18,27 @@ module Dashboard
         }
 
         if @subscription.save
-          render json: { success: true }, status: :ok
+          render(json: { success: true }, status: :ok)
         else
-          render json: { error: @subscription.errors.full_messages }, status: :unprocessable_entity
+          render(json: { error: @subscription.errors.full_messages }, status: :unprocessable_entity)
         end
       end
 
       def destroy
         @subscription = current_user.notification_subscriptions.find_by("data->>'endpoint' = ?", params[:endpoint])
-        authorize @subscription if @subscription
+        authorize(@subscription) if @subscription
 
         if @subscription&.destroy
-          render json: { success: true }, status: :ok
+          render(json: { success: true }, status: :ok)
         else
-          render json: { success: false }, status: :not_found
+          render(json: { success: false }, status: :not_found)
         end
       end
 
       private
 
       def subscription_params
-        params.require(:subscription).permit(:endpoint, :p256dh, :auth)
+        params.expect(subscription: [ :endpoint, :p256dh, :auth ])
       end
     end
   end

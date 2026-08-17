@@ -16,7 +16,7 @@ module Dashboard
       @conversations = search_conversations(@conversations, @query) if @query.present?
       @conversations = @conversations.includes(:customers, :last_message).order(last_activity_at: :desc)
       @pagy_conversations, @conversations = pagy(@conversations, items: 20)
-      
+
       respond_to do |format|
         format.turbo_stream do
           render(turbo_stream: turbo_stream.update(
@@ -48,18 +48,18 @@ module Dashboard
 
       @pagy, @messages = pagy(@conversation.messages.includes(:attachments).order(created_at: :desc), items: 20)
       @messages = @messages.reverse
-      
+
       if @messages.any?
         start_time = @messages.first.created_at
         end_time = @messages.last.created_at
-        
+
         start_time = 10.years.ago if @pagy.page == @pagy.last
         end_time = 10.years.from_now if @pagy.page == 1
-        
-        @activities = @conversation.activities.where.not(event_key: 'conversation.update').where(created_at: start_time..end_time)
+
+        @activities = @conversation.activities.where.not(event_key: "conversation.update").where(created_at: start_time..end_time)
         @timeline_items = (@messages.to_a + @activities.to_a).sort_by(&:created_at)
       else
-        @activities = @conversation.activities.where.not(event_key: 'conversation.update')
+        @activities = @conversation.activities.where.not(event_key: "conversation.update")
         @timeline_items = @activities.to_a.sort_by(&:created_at)
       end
       @canned_responses = CannedResponse.where(account: current_account).all
@@ -68,7 +68,7 @@ module Dashboard
       # Fetch unread count before resetting
       key = RedisUtilities::Keys::UNREAD_CONVERSATION_COUNT % { account_id: current_account.id, member_id: current_user.id }
       @unread_count = RedisUtilities::Helpers.hash_get(key, @conversation.id).to_i
-      
+
       if @unread_count > 0 && @messages.size >= @unread_count
         @unread_start_message_id = @messages[@messages.size - @unread_count].id
       end
@@ -88,39 +88,6 @@ module Dashboard
       end
     end
 
-    def update
-      @conversation = current_account.conversations.find(params[:id])
-      
-      if @conversation.update(conversation_params)
-        @teams = current_account.teams.includes(:team_users).order(:name)
-        @notes = Note.where(account: current_account, user: current_user).all
-
-        respond_to do |format|
-          format.turbo_stream do
-            streams = []
-            
-            # Re-render the conversation in the left sidebar list
-            streams << turbo_stream.replace(
-              ActionView::RecordIdentifier.dom_id(@conversation),
-              partial: "dashboard/conversations/conversation",
-              locals: { conversation: @conversation }
-            )
-
-            # Re-render the details panel
-            streams << turbo_stream.replace(
-              "conversation-details-#{@conversation.id}",
-              partial: "dashboard/conversations/conversation_details",
-              locals: { conversation: @conversation, assigned_team: @conversation.team }
-            )
-            
-            render turbo_stream: streams
-          end
-          format.html { redirect_to request.referer || conversations_path }
-        end
-      else
-        head :unprocessable_entity
-      end
-    end
     def create
       channel   = current_account.facebook_pages.find(params[:channel_id])
       customer  = current_account.customers.find(params[:customer_id])
@@ -136,6 +103,39 @@ module Dashboard
         conversation_source: conversation_source
       )
     end
+    def update
+      @conversation = current_account.conversations.find(params[:id])
+
+      if @conversation.update(conversation_params)
+        @teams = current_account.teams.includes(:team_users).order(:name)
+        @notes = Note.where(account: current_account, user: current_user).all
+
+        respond_to do |format|
+          format.turbo_stream do
+            streams = []
+
+            # Re-render the conversation in the left sidebar list
+            streams << turbo_stream.replace(
+              ActionView::RecordIdentifier.dom_id(@conversation),
+              partial: "dashboard/conversations/conversation",
+              locals: { conversation: @conversation }
+            )
+
+            # Re-render the details panel
+            streams << turbo_stream.replace(
+              "conversation-details-#{@conversation.id}",
+              partial: "dashboard/conversations/conversation_details",
+              locals: { conversation: @conversation, assigned_team: @conversation.team }
+            )
+
+            render(turbo_stream: streams)
+          end
+          format.html { redirect_to(request.referer || conversations_path) }
+        end
+      else
+        head(:unprocessable_entity)
+      end
+    end
 
     def snooz_conversation
       @conversation = current_account.conversations.find(params[:id])
@@ -143,21 +143,21 @@ module Dashboard
         status: :snoozed,
         data: { "snoozed_until" => params[:snooze_until] }
       )
-      redirect_to conversations_path(resource_id: @conversation.inbox_id)
+      redirect_to(conversations_path(resource_id: @conversation.inbox_id))
     end
-    
+
     def close_conversation
       @conversation = current_account.conversations.find(params[:id])
       @conversation.update(status: :closed)
-      redirect_to conversations_path(resource_id: @conversation.inbox_id)
+      redirect_to(conversations_path(resource_id: @conversation.inbox_id))
     end
-    
+
     def mark_as_read
       @conversation = current_account.conversations.find(params[:id])
       UnreadCounts::Reset.call(@conversation, current_user)
-      head :ok
+      head(:ok)
     end
-    
+
     def assign_member
       @conversation = current_account.conversations.find(params[:id])
       user = params[:user_id].present? ? current_account.users.find(params[:user_id]) : current_user
@@ -165,11 +165,11 @@ module Dashboard
 
       respond_to do |format|
         format.turbo_stream do
-          render turbo_stream: turbo_stream.replace(
-            "conversation-agent-#{@conversation.id}", 
-            partial: "dashboard/conversations/agent_info", 
+          render(turbo_stream: turbo_stream.replace(
+            "conversation-agent-#{@conversation.id}",
+            partial: "dashboard/conversations/agent_info",
             locals: { conversation: @conversation, assigned_conversation: true }
-          )
+          ))
         end
         format.html { redirect_to(request.referer) }
       end
@@ -181,11 +181,11 @@ module Dashboard
 
       respond_to do |format|
         format.turbo_stream do
-          render turbo_stream: turbo_stream.replace(
-            "conversation-agent-#{@conversation.id}", 
-            partial: "dashboard/conversations/agent_info", 
+          render(turbo_stream: turbo_stream.replace(
+            "conversation-agent-#{@conversation.id}",
+            partial: "dashboard/conversations/agent_info",
             locals: { conversation: @conversation, assigned_conversation: false }
-          )
+          ))
         end
         format.html { redirect_to(request.referer) }
       end
@@ -199,11 +199,11 @@ module Dashboard
       @teams = current_account.teams
       respond_to do |format|
         format.turbo_stream do
-          render turbo_stream: turbo_stream.replace(
-            "conversation-team-#{@conversation.id}", 
-            partial: "dashboard/conversations/team_info", 
+          render(turbo_stream: turbo_stream.replace(
+            "conversation-team-#{@conversation.id}",
+            partial: "dashboard/conversations/team_info",
             locals: { conversation: @conversation, assigned_team: team }
-          )
+          ))
         end
         format.html { redirect_to(request.referer) }
       end
@@ -212,15 +212,15 @@ module Dashboard
     def unassign_team
       @conversation = current_account.conversations.find(params[:id])
       @conversation.unassign_team!
-      
+
       @teams = current_account.teams
       respond_to do |format|
         format.turbo_stream do
-          render turbo_stream: turbo_stream.replace(
-            "conversation-team-#{@conversation.id}", 
-            partial: "dashboard/conversations/team_info", 
+          render(turbo_stream: turbo_stream.replace(
+            "conversation-team-#{@conversation.id}",
+            partial: "dashboard/conversations/team_info",
             locals: { conversation: @conversation, assigned_team: nil }
-          )
+          ))
         end
         format.html { redirect_to(request.referer) }
       end
@@ -229,8 +229,8 @@ module Dashboard
     def add_label
       @conversation = current_account.conversations.find(params[:id])
       label = current_account.labels.find(params[:label_id])
-      
-      if !@conversation.labels.include?(label)
+
+      if @conversation.labels.exclude?(label)
         @conversation.labels << label
         Activities::Recorder.call(
           trackable: @conversation,
@@ -239,14 +239,14 @@ module Dashboard
           actor: Current.user
         )
       end
-      
+
       respond_to do |format|
         format.turbo_stream do
-          render turbo_stream: turbo_stream.replace(
+          render(turbo_stream: turbo_stream.replace(
             "conversation-labels-#{@conversation.id}",
             partial: "dashboard/conversations/labels_info",
             locals: { conversation: @conversation }
-          )
+          ))
         end
         format.html { redirect_to(request.referer) }
       end
@@ -255,7 +255,7 @@ module Dashboard
     def remove_label
       @conversation = current_account.conversations.find(params[:id])
       label = current_account.labels.find(params[:label_id])
-      
+
       if @conversation.labels.include?(label)
         @conversation.labels.delete(label)
         Activities::Recorder.call(
@@ -265,14 +265,14 @@ module Dashboard
           actor: Current.user
         )
       end
-      
+
       respond_to do |format|
         format.turbo_stream do
-          render turbo_stream: turbo_stream.replace(
+          render(turbo_stream: turbo_stream.replace(
             "conversation-labels-#{@conversation.id}",
             partial: "dashboard/conversations/labels_info",
             locals: { conversation: @conversation }
-          )
+          ))
         end
         format.html { redirect_to(request.referer) }
       end
@@ -306,13 +306,13 @@ module Dashboard
 
     def filter_conversations(filter)
       case filter
-        when "assigned" 
+      when "assigned"
           @conversations.where(assignee: current_user)
-        when "unassigned"
+      when "unassigned"
           @conversations.not_assigned_to_user
-        else
+      else
           @conversations.current_conversations(current_user).or(@conversations.not_assigned_to_user)
-        end
+      end
     end
 
     def find_conversations(resource_id)
@@ -336,7 +336,7 @@ module Dashboard
     private
 
     def conversation_params
-      params.require(:conversation).permit(:status, :priority)
+      params.expect(conversation: [ :status, :priority ])
     end
   end
 end

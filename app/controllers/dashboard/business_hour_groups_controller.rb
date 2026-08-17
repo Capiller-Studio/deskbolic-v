@@ -2,7 +2,7 @@
 
 module Dashboard
   class BusinessHourGroupsController < DashboardController
-    before_action :set_business_hour_group, only: [:edit, :update, :destroy]
+    before_action :set_business_hour_group, only: [ :edit, :update, :destroy ]
 
     def index
       authorize(BusinessHourGroup)
@@ -19,6 +19,9 @@ module Dashboard
       authorize(@business_hour_group)
     end
 
+    def edit
+      authorize(@business_hour_group)
+    end
     def create
       @business_hour_group = current_account.business_hour_groups.new(business_hour_group_params)
       authorize(@business_hour_group)
@@ -31,9 +34,6 @@ module Dashboard
       end
     end
 
-    def edit
-      authorize(@business_hour_group)
-    end
 
     def update
       authorize(@business_hour_group)
@@ -68,13 +68,13 @@ module Dashboard
     end
 
     def business_hour_group_params
-      params.require(:business_hour_group).permit(
-        :name,
+      params.expect(
+        business_hour_group: [ :name,
         :description,
         :timezone,
         business_hours_attributes: [
           :id, :day_of_week, :opening_time, :closing_time, :close_from, :close_till, :_destroy
-        ]
+        ] ]
       )
     end
   end

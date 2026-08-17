@@ -6,7 +6,7 @@
 
 module Dashboard
   class AutomationsController < DashboardController
-    before_action :set_automation, only: [:show, :edit, :update, :destroy, :toggle, :duplicate]
+    before_action :set_automation, only: [ :show, :edit, :update, :destroy, :toggle, :duplicate ]
 
     def index
       authorize(Automation)
@@ -24,6 +24,9 @@ module Dashboard
       authorize(@automation)
     end
 
+    def edit
+      authorize(@automation)
+    end
     def create
       @automation = current_account.automations.new(automation_params)
       authorize(@automation)
@@ -36,9 +39,6 @@ module Dashboard
       end
     end
 
-    def edit
-      authorize(@automation)
-    end
 
     def update
       authorize(@automation)
@@ -105,7 +105,7 @@ module Dashboard
     def lookups
       authorize(Automation)
 
-      page = [params[:page].to_i, 1].max
+      page = [ params[:page].to_i, 1 ].max
       offset = (page - 1) * LOOKUP_LIMIT
 
       scope = lookup_scope(params[:type])
@@ -155,9 +155,7 @@ module Dashboard
       case type
       when "agents"
         { id: record.id, name: record.name.presence || record.email }
-      when "teams"
-        { id: record.id, name: record.name }
-      when "inboxes"
+      when "teams", "inboxes"
         { id: record.id, name: record.name }
       when "labels"
         { id: record.id, name: record.title }

@@ -17,7 +17,7 @@ class ReplyMailbox < ApplicationMailbox
     extracted_identifier = parsed_mail.reply_to_conversation_uuid
 
     # Strategy 1: System Domain Parsing (Fast Path)
-    # If the reply was sent to `reply+<identifier>@<account>.helpbolic.com`, we can 
+    # If the reply was sent to `reply+<identifier>@<account>.helpbolic.com`, we can
     # directly extract the account from the domain and find the conversation.
     if extracted_identifier.present?
       recipients = mail.to.to_a + mail.cc.to_a + mail.bcc.to_a + [ mail["X-Original-To"]&.value ]
@@ -25,9 +25,9 @@ class ReplyMailbox < ApplicationMailbox
       domain = reply_address&.split("@")&.last
 
       if domain&.end_with?(".helpbolic.com")
-        account_identifier = domain.split('.').first
+        account_identifier = domain.split(".").first
         self.account = Account.find_by(identifier: account_identifier.upcase)
-        
+
         if self.account
           self.account.with_shard do
             self.conversation = self.account.conversations.find_by(identifier: extracted_identifier.upcase)
@@ -58,7 +58,7 @@ class ReplyMailbox < ApplicationMailbox
 
           # Check References header
           if conversation.blank? && parsed_mail.references.present?
-            parsed_mail.references.each do |ref|
+            parsed_mail.references.find_each do |ref|
               message = account.messages.find_by(external_id: ref)
               if message
                 self.conversation = message.conversation

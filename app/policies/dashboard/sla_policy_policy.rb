@@ -21,7 +21,7 @@ module Dashboard
     def destroy?
       can?("sla_policies.manage")
     end
-    
+
     def reorder?
       can?("sla_policies.manage")
     end

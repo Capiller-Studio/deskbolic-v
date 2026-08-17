@@ -33,13 +33,13 @@ threads threads_count, threads_count
 if ENV.fetch("RAILS_ENV", "development") == "production"
   workers ENV.fetch("WEB_CONCURRENCY", 2)
   preload_app!
-  
+
   pidfile ENV.fetch("PIDFILE", "tmp/pids/puma.pid")
   state_path "tmp/pids/puma.state"
 
   # Bind to a Unix socket for maximum local proxy performance
   bind "unix://#{File.expand_path('../tmp/sockets/puma.sock', __dir__)}"
-  
+
   # Also bind to a TCP port for cross-server proxying (Cloudflare Proxy -> Edge -> App Node)
   port ENV.fetch("PORT", 3000)
 else

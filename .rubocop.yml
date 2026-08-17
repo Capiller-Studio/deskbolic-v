@@ -1,15 +1,15 @@
 # Omakase Ruby styling for Rails
 inherit_gem: { rubocop-rails-omakase: rubocop.yml }
 
-require:
+plugins:
   - rubocop-rails
-  - rubocop-minitest
+  - rubocop-rspec
   - rubocop-performance
   - rubocop-thread_safety
   - rubocop-capybara
 
 AllCops:
-  TargetRubyVersion: 3.4.1
+  TargetRubyVersion: 3.3.1
   DisplayCopNames: true
   Include:
     - "**/*.rb"
@@ -24,6 +24,8 @@ AllCops:
     - "db/migrate_shards/**/*.rb"
     - "db/schema.rb"
     - "db/primary_de_schema.rb"
+    - "db/de_schema.rb"
+    - "test/**/*"
     - "log/**/*"
     - "node_modules/**/*"
     - "public/**/*"
@@ -94,10 +96,9 @@ Metrics/CollectionLiteralLength: # new in 1.47
 Layout/LineLength:
   Max: 120
   Exclude:
-    - "config/**/**"
-    - "db/migrate/**/*.rb"
+    - 'db/migrate/*.rb'
     - "db/migrate_shards/**/*.rb"
-    - "db/seed_data/**/*.rb"
+    - "spec/**/*_spec.rb"
 
 Metrics/MethodLength:
   Max: 35
@@ -111,6 +112,44 @@ Metrics/ModuleLength:
     - "db/migrate/**/*.rb"
     - "db/migrate_shards/**/*.rb"
     - "spec/**/*_spec.rb"
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
+
+RSpec/LetSetup:
+  Enabled: false
+
+RSpec/VerifiedDoubles:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Enabled: false
+
+RSpec/NestedGroups:
+  Enabled: false
+
+RSpec/ContextWording:
+  Enabled: false
+
+RSpec/NamedSubject:
+  Enabled: false
+
+RSpec/SubjectStub:
+  Enabled: false
+
+RSpec/DescribeClass:
+  Enabled: false
+
+RSpec/SpecFilePathFormat:
+  Enabled: false
+
+RSpec/StubbedMock:
+  Enabled: false
+
+RSpec/MessageSpies:
+  Enabled: false
 
 Metrics/ClassLength:
   Max: 130
@@ -119,7 +158,7 @@ Metrics/ClassLength:
     - "db/migrate/**/*.rb"
     - "db/migrate_shards/**/*.rb"
 
-Naming/PredicateName:
+Naming/PredicatePrefix:
   ForbiddenPrefixes:
     - is_
   Exclude:
@@ -176,9 +215,7 @@ Style/StringChars:
   Enabled: true
 
 Rails/SkipsModelValidations:
-  Exclude:
-    - "db/migrate/**/*.rb"
-    - "db/migrate_shards/**/*.rb"
+  Enabled: false
 
 Style/Documentation:
   Enabled: false
@@ -483,7 +520,7 @@ Rails/I18nLazyLookup: # new in 2.14
 Rails/I18nLocaleAssignment: # new in 2.11
   Enabled: true
 Rails/I18nLocaleTexts: # new in 2.14
-  Enabled: true
+  Enabled: false
 Rails/IgnoredColumnsAssignment: # new in 2.17
   Enabled: true
 Rails/MigrationClassName: # new in 2.14
@@ -519,104 +556,58 @@ Rails/WhereMissing: # new in 2.16
 Rails/WhereNotWithMultipleConditions: # new in 2.17
   Enabled: true
 
-###
-# Rubocop-Rspec
-###
-
-# RSpec/EmptyExampleGroup:
-#   Enabled: true
-
-# RSpec/DescribeClass:
-#   Exclude:
-#     - "spec/views/**/*"
-
-# RSpec/MultipleExpectations:
-#   Max: 3
-#   Exclude:
-#     - "spec/views/**/*"
-
-# RSpec/ExampleLength:
-#   Exclude:
-#     - "spec/views/**/*"
-
-###
-# Rubocop-Performance
-###
-
 Performance/Size:
   Enabled: true
-
 Performance/Caller:
   Enabled: true
-
 Performance/Count:
   Enabled: true
-
 Performance/InefficientHashSearch:
   Enabled: true
-
 Performance/RegexpMatch:
   Enabled: true
+Rails/HelperInstanceVariable:
+  Enabled: false
+
+Rails/LexicallyScopedActionFilter:
+  Enabled: false
 
 Performance/ChainArrayAllocation:
-  Enabled: true
-  Exclude:
-    - "config/**"
-    - "db/migrate/**/*.rb"
-    - "db/migrate_shards/**/*.rb"
-    - "spec/**/*_spec.rb"
-
+  Enabled: false
 Performance/UriDefaultParser:
   Enabled: true
-
 Performance/TimesMap:
   Enabled: true
-
 Performance/StringReplacement:
   Enabled: true
-
 Performance/StartWith:
   Enabled: true
-
 Performance/ReverseEach:
   Enabled: true
-
 Performance/RedundantMerge:
   Enabled: true
-
 Performance/RedundantMatch:
   Enabled: true
-
 Performance/RedundantBlockCall:
   Enabled: true
-
 Performance/RangeInclude:
   Enabled: true
-
 Performance/FlatMap:
   Enabled: true
-
 Performance/FixedSize:
   Enabled: true
-
 Performance/EndWith:
   Enabled: true
-
 Performance/DoubleStartEndWith:
   Enabled: true
-
 Performance/Detect:
   Enabled: true
-
 Performance/CompareWithBlock:
   Enabled: true
-
 Performance/Casecmp:
   Enabled: true
-
 Performance/CaseWhenSplat:
   Enabled: true
-
 Performance/AncestorsInclude:
   Enabled: true
 Performance/BigDecimalWithNumericArgument:
@@ -643,12 +634,10 @@ Performance/StringInclude:
   Enabled: true
 Performance/Sum:
   Enabled: true
-
 Performance/RedundantEqualityComparisonBlock:
   Enabled: true
 Performance/RedundantSplitRegexpArgument:
   Enabled: true
-
 Performance/ConcurrentMonotonicTime: # new in 1.12
   Enabled: true
 Performance/MapCompact: # new in 1.11
@@ -656,13 +645,9 @@ Performance/MapCompact: # new in 1.11
 Performance/StringIdentifierArgument: # new in 1.13
   Enabled: true
 
-
-# Rubocop-Threading
 ThreadSafety/NewThread:
   Exclude:
     - "app/services/support/multi_threading.rb"
-
-# Gemspec
 
 Gemspec/DeprecatedAttributeAssignment:
   Enabled: true
@@ -671,89 +656,21 @@ Gemspec/DevelopmentDependencies: # new in 1.44
 Gemspec/RequireMFA: # new in 1.23
   Enabled: true
 
-# Security
-
 Security/CompoundHash: # new in 1.28
   Enabled: true
 Security/IoMethods: # new in 1.22
   Enabled: true
 
-# Minitest
-
-Minitest/AssertInDelta: # new in 0.10
+Capybara/RSpec/MatchStyle: # new in 2.17
   Enabled: true
-Minitest/AssertKindOf: # new in 0.10
-  Enabled: true
-Minitest/AssertOutput: # new in 0.10
-  Enabled: true
-Minitest/AssertPathExists: # new in 0.10
-  Enabled: true
-Minitest/AssertPredicate: # new in 0.18
-  Enabled: true
-Minitest/AssertRaisesCompoundBody: # new in 0.21
-  Enabled: true
-Minitest/AssertRaisesWithRegexpArgument: # new in 0.22
-  Enabled: true
-Minitest/AssertSame: # new in 0.26
-  Enabled: true
-Minitest/AssertSilent: # new in 0.10
-  Enabled: true
-Minitest/AssertWithExpectedArgument: # new in 0.11
-  Enabled: true
-Minitest/AssertionInLifecycleHook: # new in 0.10
-  Enabled: true
-Minitest/DuplicateTestRun: # new in 0.19
-  Enabled: true
-Minitest/EmptyLineBeforeAssertionMethods: # new in 0.23
-  Enabled: true
-Minitest/LifecycleHooksOrder: # new in 0.28
-  Enabled: true
-Minitest/LiteralAsActualArgument: # new in 0.10
-  Enabled: true
-Minitest/MultipleAssertions: # new in 0.10
-  Max: 15
-  Enabled: true
-Minitest/NonPublicTestMethod: # new in 0.27
-  Enabled: true
-Minitest/RefuteInDelta: # new in 0.10
-  Enabled: true
-Minitest/RefuteKindOf: # new in 0.10
-  Enabled: true
-Minitest/RefutePathExists: # new in 0.10
-  Enabled: true
-Minitest/RefutePredicate: # new in 0.18
-  Enabled: true
-Minitest/RefuteSame: # new in 0.26
-  Enabled: true
-Minitest/SkipEnsure: # new in 0.20
-  Enabled: true
-Minitest/SkipWithoutReason: # new in 0.24
-  Enabled: true
-Minitest/TestFileName: # new in 0.26
-  Enabled: true
-Minitest/TestMethodName: # new in 0.10
-  Enabled: true
-Minitest/UnreachableAssertion: # new in 0.14
-  Enabled: true
-Minitest/UnspecifiedException: # new in 0.10
-  Enabled: true
-Minitest/UselessAssertion: # new in 0.26
-  Enabled: true
-
-# Capybara
-
-Capybara/MatchStyle: # new in 2.17
-  Enabled: true
-Capybara/NegationMatcher: # new in 2.14
+Capybara/RSpec/NegationMatcher: # new in 2.14
   Enabled: true
 Capybara/SpecificActions: # new in 2.14
   Enabled: true
 Capybara/SpecificFinders: # new in 2.13
   Enabled: true
-Capybara/SpecificMatcher: # new in 2.12
+Capybara/RSpec/SpecificMatcher: # new in 2.12
   Enabled: true
-
-
 
 Rails/DangerousColumnNames: # new in 2.21
   Enabled: true

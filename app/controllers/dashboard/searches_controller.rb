@@ -5,7 +5,7 @@ module Dashboard
     def index
       @query = params[:q].to_s.strip
       @type = params[:type].presence # "conversations", "messages", or nil for all
-      @page = [params[:page].to_i, 1].max
+      @page = [ params[:page].to_i, 1 ].max
 
       filters = {
         inbox_id: params[:inbox_id].presence,
@@ -79,7 +79,7 @@ module Dashboard
         }
       end
 
-      render json: { conversations: conversations, messages: messages }
+      render(json: { conversations: conversations, messages: messages })
     end
   end
 end

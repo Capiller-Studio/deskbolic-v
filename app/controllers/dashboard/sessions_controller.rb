@@ -45,7 +45,7 @@ module Dashboard
         redirect_to(accounts_path, alert: "You are not authorized")
       end
     end
-    
+
     def redirect_to(options = {}, response_options = {})
       response_options[:allow_other_host] = true if options.is_a?(String) && options.match?(/\Ahttps?:\/\//)
       super(options, response_options)

@@ -8,16 +8,16 @@ module Dashboard
     def create
       resource_type = params[:note][:resource_type] || "User"
       resource_id = params[:note][:resource_id] || current_user.id
-      
+
       resource = if resource_type == "Conversation"
                    current_account.conversations.find(resource_id)
-                 else
+      else
                    current_user
-                 end
+      end
 
       @note = Note.new(
-        content: params[:note][:content], 
-        account: current_account, 
+        content: params[:note][:content],
+        account: current_account,
         user: current_user,
         resource: resource
       )
@@ -25,14 +25,14 @@ module Dashboard
       if @note.save
         respond_to do |format|
           format.turbo_stream do
-            render turbo_stream: turbo_stream.append("conversation-notes", partial: "dashboard/notes/note", locals: { note: @note })
+            render(turbo_stream: turbo_stream.append("conversation-notes", partial: "dashboard/notes/note", locals: { note: @note }))
           end
-          format.json { render json: { success: true } }
+          format.json { render(json: { success: true }) }
         end
       else
         respond_to do |format|
-          format.turbo_stream { head :unprocessable_entity }
-          format.json { render json: { success: false } }
+          format.turbo_stream { head(:unprocessable_entity) }
+          format.json { render(json: { success: false }) }
         end
       end
     end

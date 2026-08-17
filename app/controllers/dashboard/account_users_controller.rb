@@ -1,6 +1,6 @@
 module Dashboard
   class AccountUsersController < DashboardController
-    before_action :set_account_user, only: [:edit, :update, :destroy]
+    before_action :set_account_user, only: [ :edit, :update, :destroy ]
 
     def index
       @account_users = current_account.account_users.includes(:roles, user: { avatar_attachment: :blob })
@@ -9,7 +9,7 @@ module Dashboard
     def search
       query = params[:q].to_s.strip.downcase
       @users = current_account.users.where("LOWER(first_name) LIKE ? OR LOWER(last_name) LIKE ? OR LOWER(email) LIKE ?", "%#{query}%", "%#{query}%", "%#{query}%").limit(10)
-      render json: @users.map { |u| { id: u.id, value: u.display_name, email: u.email } }
+      render(json: @users.map { |u| { id: u.id, value: u.display_name, email: u.email } })
     end
 
     def edit
@@ -17,36 +17,36 @@ module Dashboard
 
     def update
       if @account_user.owner?
-        redirect_to users_path, alert: I18n.t("dashboard.users.update.owner_error", default: "You cannot modify the account owner's roles.")
+        redirect_to(users_path, alert: I18n.t("dashboard.users.update.owner_error", default: "You cannot modify the account owner's roles."))
         return
       end
 
       # Only process role assignment if role_ids are present
       if params[:account_user] && params[:account_user][:role_ids]
-        @account_user.role_ids = params[:account_user][:role_ids].reject(&:blank?)
+        @account_user.role_ids = params[:account_user][:role_ids].compact_blank
       end
 
       if @account_user.save
-        redirect_to users_path, notice: I18n.t("dashboard.users.update.success", default: "User roles updated successfully.")
+        redirect_to(users_path, notice: I18n.t("dashboard.users.update.success", default: "User roles updated successfully."))
       else
-        render :edit, status: :unprocessable_entity
+        render(:edit, status: :unprocessable_entity)
       end
     end
 
     def destroy
       if @account_user.user == current_user
-        redirect_to users_path, alert: I18n.t("dashboard.users.destroy.self_error", default: "You cannot remove yourself from the account.")
+        redirect_to(users_path, alert: I18n.t("dashboard.users.destroy.self_error", default: "You cannot remove yourself from the account."))
         return
       end
 
       if @account_user.owner?
-        redirect_to users_path, alert: I18n.t("dashboard.users.destroy.owner_error", default: "You cannot remove the account owner.")
+        redirect_to(users_path, alert: I18n.t("dashboard.users.destroy.owner_error", default: "You cannot remove the account owner."))
         return
       end
       if @account_user.destroy
-        redirect_to users_path, notice: I18n.t("dashboard.users.destroy.success", default: "User removed successfully.")
+        redirect_to(users_path, notice: I18n.t("dashboard.users.destroy.success", default: "User removed successfully."))
       else
-        redirect_to users_path, alert: I18n.t("dashboard.users.destroy.error", default: "Failed to remove user.")
+        redirect_to(users_path, alert: I18n.t("dashboard.users.destroy.error", default: "Failed to remove user."))
       end
     end
 

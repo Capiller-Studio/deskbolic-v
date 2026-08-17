@@ -7,20 +7,20 @@ module Dashboard
         # Standard Options
         options = {
           "Customer Attributes" => [
-            ["Identifier (External ID)", "customer.identifier"],
-            ["Name", "customer.name"],
-            ["First Name", "customer.first_name"],
-            ["Last Name", "customer.last_name"],
-            ["Email", "customer.email"],
-            ["Phone Number", "customer.phone_number"],
-            ["Avatar URL", "customer.avatar_url"]
+            [ "Identifier (External ID)", "customer.identifier" ],
+            [ "Name", "customer.name" ],
+            [ "First Name", "customer.first_name" ],
+            [ "Last Name", "customer.last_name" ],
+            [ "Email", "customer.email" ],
+            [ "Phone Number", "customer.phone_number" ],
+            [ "Avatar URL", "customer.avatar_url" ]
           ],
           "Message Attributes" => [
-            ["Message Content", "message.content"],
-            ["Message External ID", "message.external_id"]
+            [ "Message Content", "message.content" ],
+            [ "Message External ID", "message.external_id" ]
           ],
           "Conversation Attributes" => [
-            ["Conversation External ID", "conversation.external_id"]
+            [ "Conversation External ID", "conversation.external_id" ]
           ]
         }
 
@@ -28,7 +28,7 @@ module Dashboard
         customer_custom_fields = account.custom_fields.entity_type_customer
         if customer_custom_fields.any?
           options["Customer Custom Attributes"] = customer_custom_fields.map do |cf|
-            [cf.key.titleize, "customer.custom_attributes.#{cf.key}"]
+            [ cf.key.titleize, "customer.custom_attributes.#{cf.key}" ]
           end
         end
 
@@ -36,7 +36,7 @@ module Dashboard
         conversation_custom_fields = account.custom_fields.entity_type_conversation
         if conversation_custom_fields.any?
           options["Conversation Custom Attributes"] = conversation_custom_fields.map do |cf|
-            [cf.key.titleize, "conversation.custom_attributes.#{cf.key}"]
+            [ cf.key.titleize, "conversation.custom_attributes.#{cf.key}" ]
           end
         end
 

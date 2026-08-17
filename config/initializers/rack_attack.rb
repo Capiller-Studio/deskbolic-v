@@ -103,10 +103,10 @@ class Rack::Attack
     headers = {
       "RateLimit-Limit" => match_data[:limit].to_s,
       "RateLimit-Remaining" => "0",
-      "RateLimit-Reset" => (now + (match_data[:period] - now % match_data[:period])).to_s,
+      "RateLimit-Reset" => (now + (match_data[:period] - (now % match_data[:period]))).to_s,
       "Content-Type" => "application/json"
     }
 
-    [429, headers, [{ error: "Too many requests. Please try again later." }.to_json]]
+    [ 429, headers, [ { error: "Too many requests. Please try again later." }.to_json ] ]
   end
 end

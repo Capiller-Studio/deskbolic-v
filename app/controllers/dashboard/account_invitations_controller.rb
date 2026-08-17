@@ -17,14 +17,14 @@ module Dashboard
         account: current_account,
         invited_by: current_user,
         email: params[:email],
-        role_ids: params[:role_ids].to_a.reject(&:blank?)
+        role_ids: params[:role_ids].to_a.compact_blank
       )
 
       begin
         service.call
-        redirect_to invitations_path, notice: I18n.t("dashboard.invitations.create.success", default: "Invitation sent successfully.")
+        redirect_to(invitations_path, notice: I18n.t("dashboard.invitations.create.success", default: "Invitation sent successfully."))
       rescue StandardError => e
-        redirect_to new_invitation_path, alert: e.message
+        redirect_to(new_invitation_path, alert: e.message)
       end
     end
 
@@ -32,7 +32,7 @@ module Dashboard
       @invitation = current_account.account_invitations.find(params[:id])
       @invitation.update!(status: :revoked)
 
-      redirect_to invitations_path, notice: I18n.t("dashboard.invitations.destroy.success", default: "Invitation revoked.")
+      redirect_to(invitations_path, notice: I18n.t("dashboard.invitations.destroy.success", default: "Invitation revoked."))
     end
 
     def email_invitation
@@ -83,21 +83,21 @@ module Dashboard
       @invitation = AccountInvitation.find_by(token: params[:invitation_token])
       return if @invitation && !@invitation.expired?
 
-      redirect_to new_user_session_path, alert: t("accounts.invitations.errors.expired", default: "This invitation is invalid or has expired.")
+      redirect_to(new_user_session_path, alert: t("accounts.invitations.errors.expired", default: "This invitation is invalid or has expired."))
     end
 
     def set_session_and_redirect(user, account)
       sign_in(user)
       session[:current_account_id] = account.id
       cookies.signed[:current_account_id] = { value: account.id, expires: 1.year.from_now }
-      redirect_to root_path, notice: "You've successfully joined the team!"
+      redirect_to(root_path, notice: "You've successfully joined the team!")
     end
 
     def render_invitation_error(message)
       @account = @invitation.account
       @role_names = @account.with_shard { ::Access::Role.where(id: @invitation.role_ids).pluck(:name) }
       flash.now[:alert] = message
-      render :email_invitation, status: :unprocessable_entity
+      render(:email_invitation, status: :unprocessable_entity)
     end
   end
 end

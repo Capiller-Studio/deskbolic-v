@@ -1,34 +1,129 @@
 = render("dashboard/shared/dashboard_container", current_page: "settings") do
   = render("dashboard/settings/settings_sidebar", current_page: "business-hours") do
-    .body-container
-      .ui-index-header
-        .ui-title-area
-          h2.f-semi-32 = t("dashboard.business_hour_groups.index.title")
-          p.f-reg-16 = t("dashboard.business_hour_groups.index.description")
-        
-        = link_to new_business_hour_group_path, class: "ui-btn-primary"
-          | + #{t("dashboard.business_hour_groups.index.new_group")}
+    .ui-settings-page.bh-index-page
+      header.ui-settings-page__header
+        .ui-settings-page__heading
+          h1 = t("dashboard.business_hour_groups.index.title")
+          p = t("dashboard.business_hour_groups.index.description")
+        = link_to new_business_hour_group_path, class: "ui-settings-page__action" do
+          span = t("dashboard.business_hour_groups.index.new_group", default: "Create new Schedule")
+          = inline_svg_tag("plus_white.svg", class: "ui-settings-page__action-icon", aria: { hidden: true })
 
-      - if @business_hour_groups.any?
-        .ui-list
-          - @business_hour_groups.each do |group|
-            .ui-card
-              .ui-card-top
-                .ui-card-info
-                  .ui-avatar-placeholder 🕒
-                  div
-                    h3.f-semi-18 = group.name
-                    p.f-reg-14 = group.description.presence || t("dashboard.business_hour_groups.shared.no_description")
-                    p.f-reg-12.mt-2 = t("dashboard.business_hour_groups.index.timezone", timezone: group.timezone)
-                .ui-card-actions
-                  = link_to edit_business_hour_group_path(group), class: "ui-action-btn", title: t("shared.edit") do
-                    | ✏️
-                  = link_to business_hour_group_path(group), class: "ui-action-btn ui-action-delete", data: { turbo_method: :delete, turbo_confirm: t("shared.confirm_delete") }, title: t("shared.delete") do
-                    | 🗑️
-      - else
-        .ui-empty-state
-          .ui-empty-icon 🕒
-          h3.f-semi-18 = t("dashboard.business_hour_groups.index.empty_title")
-          p.f-reg-14 = t("dashboard.business_hour_groups.index.empty_description")
-          = link_to new_business_hour_group_path, class: "ui-btn-primary ui-btn-sm"
-            | + #{t("dashboard.business_hour_groups.index.new_group")}
+      main.ui-settings-page__content
+        - if @business_hour_groups.any?
+          .bh-schedule-grid
+            - day_order = %w[monday tuesday wednesday thursday friday saturday sunday]
+            - clock_icons = ["clock-orange.svg", "clock-blue.svg", "clock-purple.svg", "clock-indigo.svg"]
+            - @business_hour_groups.each_with_index do |group, index|
+              - weekly_hours = group.business_hours.reject { |hour| hour.day_of_week.nil? }
+              - exceptions = group.business_hours.select { |hour| hour.day_of_week.nil? }
+              - upcoming_exception = exceptions.select { |hour| hour.close_from.present? && hour.close_from >= Time.current }.sort_by(&:close_from).first
+              - timezone_label = ActiveSupport::TimeZone[group.timezone].presence || group.timezone
+              - badge_variant = index % clock_icons.length
+              - schedule_active = group.respond_to?(:active?) ? group.active? : true
+              article.ui-panel.bh-schedule-card class="bh-schedule-card--variant-#{badge_variant}"
+                .bh-schedule-card__header
+                  .bh-schedule-card__identity
+                    .bh-schedule-card__badge
+                      = image_tag(clock_icons[badge_variant], alt: "", aria: { hidden: true })
+                    .bh-schedule-card__title
+                      h2 = group.name
+                      p
+                        = image_tag("world.svg", class: "bh-timezone-icon", alt: "", aria: { hidden: true })
+                        span = timezone_label
+
+                  details.bh-card-menu
+                    summary aria-label=t("dashboard.business_hour_groups.index.actions_for", name: group.name, default: "Actions for %{name}")
+                      span.bh-card-menu__icon aria-hidden="true"
+                    .bh-card-menu__popover role="menu"
+                      = link_to edit_business_hour_group_path(group), role: "menuitem" do
+                        = t("general.edit", default: "Edit")
+                      = button_to business_hour_group_path(group), method: :delete, role: "menuitem", form: { class: "bh-card-menu__delete-form" }, data: { turbo_confirm: t("shared.confirm_delete") } do
+                        span = t("general.delete", default: "Delete")
+
+                .bh-week-grid aria-label=t("dashboard.business_hour_groups.index.weekly_snapshot", name: group.name, default: "Weekly hours for %{name}")
+                  - day_order.each do |day_name|
+                    - day_hours = weekly_hours.select { |hour| hour.day_of_week.to_s == day_name }.select { |hour| hour.opening_time.present? && hour.closing_time.present? }.sort_by(&:opening_time)
+                    - open_day = day_hours.any?
+                    - ranges = day_hours.map { |hour| [[hour.opening_time.strftime("%I:%M"), hour.opening_time.strftime("%p")], [hour.closing_time.strftime("%I:%M"), hour.closing_time.strftime("%p")]] }
+                    - first_range = ranges.first
+                    .bh-weekday-cell class=(open_day ? "bh-weekday-cell--open" : "bh-weekday-cell--closed") title=(ranges.any? ? ranges.map { |range| "#{range.first.join(' ')} - #{range.last.join(' ')}" }.join(", ") : t("dashboard.business_hour_groups.index.closed", default: "Closed"))
+                      span.bh-weekday-cell__name = day_name.first(3).titleize
+                      span.bh-weekday-cell__dot aria-hidden="true"
+                      - if open_day
+                        .bh-weekday-cell__hours
+                          .bh-weekday-cell__time
+                            span = first_range.first.first
+                            small = first_range.first.last
+                          span.bh-weekday-cell__separator aria-hidden="true" -
+                          .bh-weekday-cell__time
+                            span = first_range.last.first
+                            small = first_range.last.last
+                          - if ranges.length > 1
+                            small.bh-weekday-cell__more = t("dashboard.business_hour_groups.index.more_ranges", count: ranges.length - 1, default: "+%{count} more")
+                      - else
+                        .bh-weekday-cell__closed = t("dashboard.business_hour_groups.index.closed", default: "Closed")
+
+                .bh-schedule-card__footer
+                  .bh-exception-summary
+                    = link_to edit_business_hour_group_path(group), class: "bh-exception-summary__link" do
+                      = image_tag("calendar.svg", class: "bh-exception-summary__icon", alt: "", aria: { hidden: true })
+                      span = t("dashboard.business_hour_groups.index.exception_label", default: "Exception")
+                      span.bh-exception-count = exceptions.count
+                    p
+                      - if upcoming_exception
+                        = t("dashboard.business_hour_groups.index.next_exception", date: l(upcoming_exception.close_from.to_date, format: :long), status: t("dashboard.business_hour_groups.index.closed", default: "Closed"), default: "Next: %{date} (%{status})")
+                      - else
+                        = t("dashboard.business_hour_groups.index.no_upcoming_exception", default: "Next: No upcoming exceptions")
+                  span.ui-status-badge class=(schedule_active ? "ui-status-badge--active" : "ui-status-badge--inactive")
+                    span.ui-status-badge__dot aria-hidden="true"
+                    = schedule_active ? t("general.active", default: "Active") : t("general.inactive", default: "Inactive")
+
+          footer.ui-pagination.ui-pagination--large.bh-pagination
+            p.ui-pagination__summary
+              = t("dashboard.business_hour_groups.index.showing_activities", from: @pagy.from, to: @pagy.to, count: @pagy.count, default: "Showing %{from} to %{to} of %{count} activities")
+
+            .ui-pagination__end
+              = form_with url: business_hour_groups_path, method: :get, class: "ui-rows-per-page" do
+                label for="business-hours-rows-per-page" = t("audit_logs.rows_per_page", default: "Rows per page")
+                .ui-settings-form
+                  .ui-field-control.ui-field-control--compact.ui-field-control--no-icon.ui-field-control--rows
+                    = select_tag :per_page,
+                      options_for_select([10, 20, 50], @per_page),
+                      id: "business-hours-rows-per-page",
+                      class: "ui-select ui-control",
+                      data: { controller: "select" },
+                      onchange: "this.form.requestSubmit()"
+
+              nav.ui-pagination__controls aria-label=t("dashboard.business_hour_groups.index.pagination", default: "Business hours pagination")
+                - if @pagy.prev
+                  = link_to business_hour_groups_path(request.query_parameters.merge(page: @pagy.prev)), class: "ui-pagination__button", aria: { label: t("audit_logs.previous_page", default: "Previous page") } do
+                    = image_tag("audit_logs/audit-previous.svg", alt: "", aria: { hidden: true })
+                - else
+                  span.ui-pagination__button.ui-pagination__button--disabled aria-hidden="true"
+                    = image_tag("audit_logs/audit-previous.svg", alt: "")
+
+                - @pagy.series.each do |item|
+                  - case item
+                  - when Integer
+                    = link_to item, business_hour_groups_path(request.query_parameters.merge(page: item)), class: "ui-pagination__button", aria: { label: t("audit_logs.page_number", page: item, default: "Page %{page}") }
+                  - when String
+                    span.ui-pagination__button.ui-pagination__button--active aria-current="page" = item
+                  - when :gap
+                    span.ui-pagination__gap ...
+
+                - if @pagy.next
+                  = link_to business_hour_groups_path(request.query_parameters.merge(page: @pagy.next)), class: "ui-pagination__button", aria: { label: t("audit_logs.next_page", default: "Next page") } do
+                    = image_tag("audit_logs/audit-next.svg", alt: "", aria: { hidden: true })
+                - else
+                  span.ui-pagination__button.ui-pagination__button--disabled aria-hidden="true"
+                    = image_tag("audit_logs/audit-next.svg", alt: "")
+        - else
+          .ui-empty-state.ui-empty-state--bordered
+            .ui-empty-state__graphic
+              = image_tag("clock.svg", alt: "", aria: { hidden: true })
+            h2 = t("dashboard.business_hour_groups.index.empty_title")
+            p = t("dashboard.business_hour_groups.index.empty_description")
+            = link_to new_business_hour_group_path, class: "ui-settings-page__action" do
+              span = t("dashboard.business_hour_groups.index.new_group", default: "Create new Schedule")
+              = inline_svg_tag("plus_white.svg", class: "ui-settings-page__action-icon", aria: { hidden: true })

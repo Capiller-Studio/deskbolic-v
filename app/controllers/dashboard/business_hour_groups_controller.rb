@@ -6,7 +6,12 @@ module Dashboard
 
     def index
       authorize(BusinessHourGroup)
-      @business_hour_groups = current_account.business_hour_groups.includes(:business_hours).order(created_at: :desc)
+      @per_page = params.fetch(:per_page, 10).to_i
+      @per_page = 10 unless [10, 20, 50].include?(@per_page)
+      @pagy, @business_hour_groups = pagy(
+        current_account.business_hour_groups.includes(:business_hours).order(created_at: :desc),
+        items: @per_page
+      )
     end
 
     def new

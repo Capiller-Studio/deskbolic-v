@@ -1,4 +1,4 @@
-= form_with(model: business_hour_group, class: "ui-form", data: { controller: "business-hours" }) do |f|
+= form_with(model: business_hour_group, id: "business-hour-group-form", class: "bh-form ui-form", data: { controller: "business-hours" }) do |f|
   - if f.object.errors.any?
     .ui-error-summary
       h3 = t("dashboard.business_hour_groups.form.error_heading")
@@ -6,12 +6,12 @@
         - f.object.errors.full_messages.each do |message|
           li = message
 
-  .ui-section.ui-section--always-open
-    .ui-section-header
+  .ui-section.ui-section--always-open.bh-card
+    .ui-section-header.bh-card-header
       .ui-section-title
-        span.ui-section-icon 📝
-        span.ui-section-label = t("dashboard.business_hour_groups.form.general_settings")
-      p.f-reg-14.ml-6 style="margin-left: 28px; color: #64748b;" = t("dashboard.business_hour_groups.form.general_settings_desc")
+        span.ap-section-icon
+          = image_tag("document.svg", class: "ap-icon-svg", alt: "")
+        span.ui-section-label = t("dashboard.business_hour_groups.form.general_setting", default: "General Setting")
     .ui-section-body
       .ui-form-group
         = f.label :name, class: "ui-label"
@@ -21,91 +21,110 @@
         = f.label :description, class: "ui-label"
         = f.text_area :description, class: "ui-input", rows: 3
 
-      .ui-form-group
-        = f.label :timezone, class: "ui-label"
-        = f.time_zone_select :timezone, nil, { default: current_account.timezone }, { class: "ui-select" }
-
-  .ui-section.ui-section--always-open
-    .ui-section-header
+  .ui-section.ui-section--always-open.bh-card.bh-weekly-card
+    .ui-section-header.bh-card-header.bh-weekly-header
       .ui-section-title
-        span.ui-section-icon 🕒
-        span.ui-section-label = t("dashboard.business_hour_groups.form.weekly_schedule")
-      p.f-reg-14.ml-6 style="margin-left: 28px; color: #64748b;" = t("dashboard.business_hour_groups.form.weekly_schedule_desc")
+        span.ap-section-icon
+          = image_tag("clock-two.svg", class: "ap-icon-svg", alt: "")
+        span.ui-section-label = t("dashboard.business_hour_groups.form.weekly_hours", default: "Weekly Hours")
+      .bh-timezone-control
+        = f.label :timezone, t("dashboard.business_hour_groups.form.timezone", default: "Timezone"), class: "ui-label"
+        .ui-field-control.bh-timezone-field
+          = f.time_zone_select :timezone, nil, { default: current_account.timezone }, { class: "ui-select ui-control bh-timezone-select", data: { controller: "select" } }
+
     .ui-section-body
-    .bh-weekly-schedule
-      - 7.times do |day_index|
-        - day_name = BusinessHour.day_of_weeks.keys[day_index]
-        - day_hours = f.object.business_hours.select { |bh| bh.day_of_week == day_name }
-        - is_enabled = params[:business_hour_group].present? ? params["day_enabled_#{day_index}"] == "1" : (f.object.new_record? || day_hours.any? { |bh| !bh.marked_for_destruction? })
-        - day_hours = [f.object.business_hours.build(day_of_week: day_name)] if day_hours.empty?
-        
-        .bh-day-row data-business-hours-target="dayRow" data-day-index=day_index
-          .bh-day-header.ui-toggle-row
-            span.ui-toggle-label.bh-day-label = t("date.day_names")[day_index]
-            label.ui-toggle
-              = check_box_tag "day_enabled_#{day_index}", "1", is_enabled, data: { action: "change->business-hours#toggleDay", day_index: day_index }
-              span.ui-toggle-slider
-            
-          .bh-day-body
+      .bh-weekly-schedule
+        - 7.times do |day_index|
+          - day_name = BusinessHour.day_of_weeks.keys[day_index]
+          - day_hours = f.object.business_hours.select { |bh| bh.day_of_week == day_name }
+          - is_enabled = params[:business_hour_group].present? ? params["day_enabled_#{day_index}"] == "1" : (f.object.new_record? || day_hours.any? { |bh| !bh.marked_for_destruction? })
+          - day_hours = [f.object.business_hours.build(day_of_week: day_name)] if day_hours.empty?
+
+          .bh-day-row data-business-hours-target="dayRow" data-day-index=day_index
             .bh-time-slots data-business-hours-target="slotsContainer" data-day-index=day_index
+              - slot_index = -1
               = f.fields_for :business_hours, day_hours do |bh_form|
-                .bh-time-slot data-business-hours-target="slot" style="#{bh_form.object.marked_for_destruction? ? 'display: none;' : ''}"
+                - slot_index += 1
+                .bh-time-slot class=("bh-time-slot--additional" if slot_index.positive?) data-business-hours-target="slot" style="#{bh_form.object.marked_for_destruction? ? 'display: none;' : ''}"
+                  - if slot_index.zero?
+                    .bh-day-cell
+                      = image_tag("calendar.svg", class: "bh-day-icon", alt: "")
+                      span.bh-day-label = t("date.day_names")[day_index]
+                  - else
+                    .bh-day-cell aria-hidden="true"
                   = bh_form.hidden_field :day_of_week, value: bh_form.object.day_of_week || day_name
-                  = bh_form.time_field :opening_time, class: "ui-input ui-input-time bh-time-input", required: !bh_form.object.marked_for_destruction?, data: { action: "input->business-hours#validateTime" }
-                  span.f-reg-14 -
-                  = bh_form.time_field :closing_time, class: "ui-input ui-input-time bh-time-input", required: !bh_form.object.marked_for_destruction?, data: { action: "input->business-hours#validateTime" }
-                  - if bh_form.object.persisted?
-                    = bh_form.hidden_field :_destroy, data: { business_hours_target: "destroyInput" }
-                  button.ui-action-delete type="button" data-action="click->business-hours#removeSlot" title=t("dashboard.business_hour_groups.form.remove_hours")
-                    svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
-                      path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"
-            
-            button.ui-btn-secondary.ui-btn-sm type="button" data-action="click->business-hours#addSlot" data-day-index=day_index
-              | + #{t("dashboard.business_hour_groups.form.add_hours")}
+                  .bh-time-range
+                    .bh-time-field
+                      = image_tag("clock.svg", class: "bh-field-icon", alt: "")
+                      = bh_form.time_field :opening_time, class: "ui-input ui-input-time bh-time-input", required: !bh_form.object.marked_for_destruction?, data: { action: "input->business-hours#validateTime" }
+                    span.bh-range-text = t("dashboard.business_hour_groups.form.to", default: "to")
+                    .bh-time-field
+                      = image_tag("clock.svg", class: "bh-field-icon", alt: "")
+                      = bh_form.time_field :closing_time, class: "ui-input ui-input-time bh-time-input", required: !bh_form.object.marked_for_destruction?, data: { action: "input->business-hours#validateTime" }
+                  .bh-row-action
+                    - if slot_index.zero?
+                      button.bh-link-action type="button" data-action="click->business-hours#addSlot" data-day-index=day_index
+                        | + #{t("dashboard.business_hour_groups.form.add_hours")}
+                      label.ui-toggle.bh-day-toggle title=t("dashboard.business_hour_groups.form.day_enabled", day: t("date.day_names")[day_index], default: "%{day} enabled")
+                        = check_box_tag "day_enabled_#{day_index}", "1", is_enabled, data: { action: "change->business-hours#toggleDay", day_index: day_index }
+                        span.ui-toggle-slider
+                    - else
+                      - if bh_form.object.persisted?
+                        = bh_form.hidden_field :_destroy, data: { business_hours_target: "destroyInput" }
+                      button.bh-remove-button type="button" data-action="click->business-hours#removeSlot" title=t("dashboard.business_hour_groups.form.remove_hours") aria-label=t("dashboard.business_hour_groups.form.remove_hours")
+                        | ×
 
-  .ui-section.ui-section--always-open
-    .ui-section-header
-      .ui-section-title
-        span.ui-section-icon 📅
-        span.ui-section-label = t("dashboard.business_hour_groups.form.exceptions")
-      p.f-reg-14.ml-6 style="margin-left: 28px; color: #64748b;" = t("dashboard.business_hour_groups.form.exceptions_desc")
-    .ui-section-body
+      .bh-exception-panel
+        .bh-exceptions data-business-hours-target="exceptionsContainer"
+          - exception_hours = f.object.business_hours.select { |bh| bh.day_of_week.nil? }
+          = f.fields_for :business_hours, exception_hours do |bh_form|
+            .bh-exception-row data-business-hours-target="exceptionSlot"
+              .bh-exception-range
+                .bh-datetime-field
+                  = image_tag("calendar.svg", class: "bh-field-icon", alt: "")
+                  = bh_form.datetime_field :close_from, class: "ui-input ui-input-datetime bh-datetime-input", required: true, data: { action: "input->business-hours#validateTime change->business-hours#validateTime" }
+                span.bh-range-text = t("dashboard.business_hour_groups.form.to", default: "to")
+                .bh-datetime-field
+                  = image_tag("calendar.svg", class: "bh-field-icon", alt: "")
+                  = bh_form.datetime_field :close_till, class: "ui-input ui-input-datetime bh-datetime-input", required: true, data: { action: "input->business-hours#validateTime change->business-hours#validateTime" }
+              - if bh_form.object.persisted?
+                = bh_form.hidden_field :_destroy, data: { business_hours_target: "destroyInput" }
+              button.bh-remove-button type="button" data-action="click->business-hours#removeExceptionSlot" title=t("dashboard.business_hour_groups.form.remove_exception") aria-label=t("dashboard.business_hour_groups.form.remove_exception")
+                | ×
 
-    .bh-exceptions data-business-hours-target="exceptionsContainer"
-      - exception_hours = f.object.business_hours.select { |bh| bh.day_of_week.nil? }
-      = f.fields_for :business_hours, exception_hours do |bh_form|
-        .bh-exception-row data-business-hours-target="exceptionSlot"
-          = bh_form.datetime_field :close_from, class: "ui-input ui-input-datetime bh-datetime-input", required: true, data: { action: "input->business-hours#validateTime change->business-hours#validateTime" }
-          span.f-reg-14 -
-          = bh_form.datetime_field :close_till, class: "ui-input ui-input-datetime bh-datetime-input", required: true, data: { action: "input->business-hours#validateTime change->business-hours#validateTime" }
-          - if bh_form.object.persisted?
-            = bh_form.hidden_field :_destroy, data: { business_hours_target: "destroyInput" }
-          button.ui-action-delete type="button" data-action="click->business-hours#removeExceptionSlot" title=t("dashboard.business_hour_groups.form.remove_exception")
-            svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
-              path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"
-            
-    button.ui-btn-secondary.ui-btn-sm.mt-3 type="button" data-action="click->business-hours#addExceptionSlot"
-      | + #{t("dashboard.business_hour_groups.form.add_exception")}
+        .bh-exception-add-row
+          .bh-exception-add-copy
+            = image_tag("calendar.svg", class: "bh-day-icon", alt: "")
+            span = t("dashboard.business_hour_groups.form.exceptions", default: "Exceptions")
+          button.bh-link-action type="button" data-action="click->business-hours#addExceptionSlot"
+            | + #{t("dashboard.business_hour_groups.form.add_exception")}
+        p.bh-exception-help = t("dashboard.business_hour_groups.form.exception_help", default: "Add dates when your business hours are different (holidays, special events, etc.).")
 
-  .ui-form-actions.mt-6
-    = link_to t("dashboard.business_hour_groups.form.cancel"), business_hour_groups_path, class: "ui-btn-secondary"
-    = f.submit t("dashboard.business_hour_groups.form.save"), class: "ui-btn-primary ml-3"
-    
   template data-business-hours-target="slotTemplate"
-    .bh-time-slot data-business-hours-target="slot"
+    .bh-time-slot.bh-time-slot--additional data-business-hours-target="slot"
+      .bh-day-cell aria-hidden="true"
       input type="hidden" name="business_hour_group[business_hours_attributes][NEW_RECORD][day_of_week]" value="DAY_NAME"
-      input type="time" name="business_hour_group[business_hours_attributes][NEW_RECORD][opening_time]" class="ui-input ui-input-time bh-time-input" required="required" data-action="input->business-hours#validateTime"
-      span.f-reg-14 -
-      input type="time" name="business_hour_group[business_hours_attributes][NEW_RECORD][closing_time]" class="ui-input ui-input-time bh-time-input" required="required" data-action="input->business-hours#validateTime"
-      button.ui-action-delete type="button" data-action="click->business-hours#removeSlot" title=t("dashboard.business_hour_groups.form.remove_hours")
-        svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
-          path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"
+      .bh-time-range
+        .bh-time-field
+          = image_tag("clock.svg", class: "bh-field-icon", alt: "")
+          input type="time" name="business_hour_group[business_hours_attributes][NEW_RECORD][opening_time]" class="ui-input ui-input-time bh-time-input" required="required" data-action="input->business-hours#validateTime"
+        span.bh-range-text = t("dashboard.business_hour_groups.form.to", default: "to")
+        .bh-time-field
+          = image_tag("clock.svg", class: "bh-field-icon", alt: "")
+          input type="time" name="business_hour_group[business_hours_attributes][NEW_RECORD][closing_time]" class="ui-input ui-input-time bh-time-input" required="required" data-action="input->business-hours#validateTime"
+      .bh-row-action
+        button.bh-remove-button type="button" data-action="click->business-hours#removeSlot" title=t("dashboard.business_hour_groups.form.remove_hours") aria-label=t("dashboard.business_hour_groups.form.remove_hours")
+          | ×
 
   template data-business-hours-target="exceptionTemplate"
     .bh-exception-row data-business-hours-target="exceptionSlot"
-      input type="datetime-local" name="business_hour_group[business_hours_attributes][NEW_RECORD][close_from]" class="ui-input ui-input-datetime bh-datetime-input" required="required" data-action="input->business-hours#validateTime change->business-hours#validateTime"
-      span.f-reg-14 -
-      input type="datetime-local" name="business_hour_group[business_hours_attributes][NEW_RECORD][close_till]" class="ui-input ui-input-datetime bh-datetime-input" required="required" data-action="input->business-hours#validateTime change->business-hours#validateTime"
-      button.ui-action-delete type="button" data-action="click->business-hours#removeExceptionSlot" title=t("dashboard.business_hour_groups.form.remove_exception")
-        svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
-          path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"
+      .bh-exception-range
+        .bh-datetime-field
+          = image_tag("calendar.svg", class: "bh-field-icon", alt: "")
+          input type="datetime-local" name="business_hour_group[business_hours_attributes][NEW_RECORD][close_from]" class="ui-input ui-input-datetime bh-datetime-input" required="required" data-action="input->business-hours#validateTime change->business-hours#validateTime"
+        span.bh-range-text = t("dashboard.business_hour_groups.form.to", default: "to")
+        .bh-datetime-field
+          = image_tag("calendar.svg", class: "bh-field-icon", alt: "")
+          input type="datetime-local" name="business_hour_group[business_hours_attributes][NEW_RECORD][close_till]" class="ui-input ui-input-datetime bh-datetime-input" required="required" data-action="input->business-hours#validateTime change->business-hours#validateTime"
+      button.bh-remove-button type="button" data-action="click->business-hours#removeExceptionSlot" title=t("dashboard.business_hour_groups.form.remove_exception") aria-label=t("dashboard.business_hour_groups.form.remove_exception")
+        | ×

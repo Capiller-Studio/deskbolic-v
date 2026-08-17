@@ -1,8 +1,16 @@
 = render("dashboard/shared/dashboard_container", current_page: "settings") do
   = render("dashboard/settings/settings_sidebar", current_page: "business-hours") do
-    .ui-page-body
-      .ui-page-header
-        = link_to t("shared.back"), business_hour_groups_path, class: "ui-back-link"
-        h2.f-semi-24 style="color: #0f172a; margin-top: 12px;" = t("dashboard.business_hour_groups.new.title")
-        
+    .ui-page-body.bh-page
+      .bh-page-header
+        .bh-page-heading
+          = link_to business_hour_groups_path, class: "ap-header-back-link", aria: { label: t("shared.back") } do
+            = image_tag("back_arrow.svg", class: "ap-back-arrow-icon", alt: "")
+          div
+            h2.f-semi-24 = t("dashboard.business_hour_groups.new.title")
+            p.f-reg-14 = t("dashboard.business_hour_groups.new.subtitle", default: "Define when your team is available to work.")
+        .bh-page-actions
+          = link_to t("dashboard.business_hour_groups.form.cancel"), business_hour_groups_path, class: "ui-btn-secondary"
+          button.ap-btn-save-header type="submit" form="business-hour-group-form"
+            = image_tag("mark.svg", class: "ap-save-mark-icon", alt: "")
+            span = t("dashboard.business_hour_groups.form.save_policy", default: "Save Policy")
       = render "form", business_hour_group: @business_hour_group

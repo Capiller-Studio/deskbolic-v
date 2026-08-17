@@ -40,6 +40,14 @@
           span Add your email channel and forwarding settings.
         = inline_svg_tag("ai-assistant-chevron.svg", class: "channel-option__chevron", aria: { hidden: true })
 
+      = link_to new_channels_contact_form_path, class: "channel-option channel-option--contact-form" do
+        span.channel-option__icon aria-hidden="true"
+          = inline_svg_tag("contact_form.svg")
+        span.channel-option__copy
+          strong Support Request form
+          span Create a form for customers to submit support requests.
+        = inline_svg_tag("ai-assistant-chevron.svg", class: "channel-option__chevron", aria: { hidden: true })
+
       = link_to new_channels_custom_path, class: "channel-option channel-option--custom" do
         span.channel-option__icon aria-hidden="true"
           = inline_svg_tag("custom.svg")

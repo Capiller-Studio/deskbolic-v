@@ -92,10 +92,11 @@ class ApplicationPolicy
   end
 
   class Scope
-    attr_reader :account, :scope
+    attr_reader :user, :account, :scope
 
-    def initialize(account, scope)
-      @account = account
+    def initialize(user, scope)
+      @user = user
+      @account = Current.account
       @scope = scope
     end
 

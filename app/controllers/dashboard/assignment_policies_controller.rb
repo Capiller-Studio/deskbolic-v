@@ -2,7 +2,7 @@
 
 module Dashboard
   class AssignmentPoliciesController < DashboardController
-    before_action :set_policy, only: [:show, :edit, :update, :destroy, :toggle]
+    before_action :set_policy, only: [ :show, :edit, :update, :destroy, :toggle ]
 
     def index
       authorize(AssignmentPolicy)
@@ -32,6 +32,10 @@ module Dashboard
       load_form_data
     end
 
+    def edit
+      authorize(@policy)
+      load_form_data
+    end
     def create
       @policy = current_account.assignment_policies.new(policy_params)
       authorize(@policy)
@@ -46,10 +50,6 @@ module Dashboard
       end
     end
 
-    def edit
-      authorize(@policy)
-      load_form_data
-    end
 
     def update
       authorize(@policy)
@@ -142,15 +142,15 @@ module Dashboard
     end
 
     def policy_params
-      permitted = params.require(:assignment_policy).permit(
-        :name, :description, :strategy, :status, :position,
+      permitted = params.expect(
+        assignment_policy: [ :name, :description, :strategy, :status, :position,
         :max_conversations_per_agent,
         :respect_business_hours, :business_hour_group_id,
         :reassign_on_offline, :idle_timeout_minutes,
         :prioritize_by_conversation_priority,
         :consider_agent_skills, :allow_idle_reassignment,
         :notify_on_assignment, :notify_team_leads,
-        :conditions
+        :conditions ]
       )
 
       # Parse conditions JSON string from hidden field
@@ -158,8 +158,8 @@ module Dashboard
 
       # Handle configurations for skills-based strategy
       if params.dig(:assignment_policy, :configurations).present?
-        configurations = params.require(:assignment_policy).permit(
-          configurations: [:skill_match_mode, :fallback_strategy, required_skill_ids: []]
+        configurations = params.expect(
+          assignment_policy: [ configurations: [ :skill_match_mode, :fallback_strategy, required_skill_ids: [] ] ]
         )
         permitted[:configurations] = configurations[:configurations] || {}
       end

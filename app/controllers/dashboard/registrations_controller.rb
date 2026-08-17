@@ -9,15 +9,15 @@ module Dashboard
     layout "auth"
     invisible_captcha only: :create, honeypot: :gift_vcode, scope: :user
 
-    before_action :check_registration_enabled, only: [:new, :create]
+    before_action :check_registration_enabled, only: [ :new, :create ]
 
     def check_email
       exists = User.exists?(email: params[:email])
-      render json: { exists: exists }
+      render(json: { exists: exists })
     end
 
     def registered
-      render "dashboard/registrations/registered"
+      render("dashboard/registrations/registered")
     end
 
     def create
@@ -53,7 +53,7 @@ module Dashboard
         create_selected_subscription(result.account)
 
         if user.active_for_authentication?
-          set_flash_message! :notice, :signed_up
+          set_flash_message!(:notice, :signed_up)
           sign_up(resource_name, user)
           if result.account
             session[:current_account_id] = result.account.id
@@ -63,21 +63,21 @@ module Dashboard
           clear_onboarding_cookies
 
           respond_to do |format|
-            format.html { redirect_to after_sign_up_path_for(user), status: :see_other }
-            format.turbo_stream { redirect_to after_sign_up_path_for(user), status: :see_other }
+            format.html { redirect_to(after_sign_up_path_for(user), status: :see_other) }
+            format.turbo_stream { redirect_to(after_sign_up_path_for(user), status: :see_other) }
           end
         else
-          set_flash_message! :notice, :"signed_up_but_#{user.inactive_message}"
+          set_flash_message!(:notice, :"signed_up_but_#{user.inactive_message}")
           expire_data_after_sign_in!
           clear_onboarding_cookies
 
           respond_to do |format|
-            format.html { redirect_to after_inactive_sign_up_path_for(user), status: :see_other }
+            format.html { redirect_to(after_inactive_sign_up_path_for(user), status: :see_other) }
             format.turbo_stream do
-              render turbo_stream: turbo_stream.replace(
+              render(turbo_stream: turbo_stream.replace(
                 "registration-wizard",
                 partial: "dashboard/registrations/registered_success"
-              )
+              ))
             end
           end
         end
@@ -87,10 +87,10 @@ module Dashboard
         respond_to do |format|
           format.html do
             flash.now[:alert] = @errors.map { |e| e[:message] }.join(", ")
-            render :new, status: :unprocessable_entity
+            render(:new, status: :unprocessable_entity)
           end
           format.turbo_stream do
-            render turbo_stream: turbo_stream.replace("registration-form-errors", partial: "dashboard/registrations/errors", locals: { errors: @errors })
+            render(turbo_stream: turbo_stream.replace("registration-form-errors", partial: "dashboard/registrations/errors", locals: { errors: @errors }))
           end
         end
       end
@@ -165,7 +165,7 @@ module Dashboard
         account: account,
         plan: plan,
         billing_cycle: @selected_billing_cycle.to_sym,
-        quantity: [account.users_count, plan.min_users].max
+        quantity: [ account.users_count, plan.min_users ].max
       )
       @selected_subscription_created = true
     rescue StandardError => e

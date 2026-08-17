@@ -31,16 +31,16 @@ module Dashboard
     end
 
 
-    
+
     def office_timings; end
-    
+
     def team_inboxes
       @teams = current_account.teams.all
     end
-    
+
 
     def messenger; end
-    
+
     def tickets; end
   end
 end

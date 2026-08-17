@@ -58,7 +58,7 @@ module Dashboard
     end
 
     def invitation_remaining_permissions_count(permission_labels, limit: INVITATION_PERMISSION_PREVIEW_LIMIT)
-      [permission_labels.size - limit, 0].max
+      [ permission_labels.size - limit, 0 ].max
     end
 
     def invitation_more_permissions_text(count)

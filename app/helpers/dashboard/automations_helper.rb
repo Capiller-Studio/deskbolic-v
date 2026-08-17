@@ -17,24 +17,24 @@ module Dashboard
 
     def event_options_for_type(type)
       events = type.to_s == "time_trigger" ? TIME_TRIGGER_EVENTS : EVENT_TRIGGER_EVENTS
-      events.map { |e| [t("dashboard.automations.events.#{e.tr('.', '_')}", default: e.titleize), e] }
+      events.map { |e| [ t("dashboard.automations.events.#{e.tr('.', '_')}", default: e.titleize), e ] }
     end
 
     def condition_attribute_options
       Automations::AutomationValidator::VALID_CONDITION_ATTRIBUTES.map do |attr|
-        [t("dashboard.automations.attributes.#{attr.tr('.', '_')}", default: attr.titleize), attr]
+        [ t("dashboard.automations.attributes.#{attr.tr('.', '_')}", default: attr.titleize), attr ]
       end
     end
 
     def condition_operator_options
       Automations::AutomationValidator::VALID_CONDITION_OPERATORS.map do |op|
-        [t("dashboard.automations.operators.#{op}", default: op.titleize), op]
+        [ t("dashboard.automations.operators.#{op}", default: op.titleize), op ]
       end
     end
 
     def action_type_options
       Automations::ActionExecutor::ACTION_HANDLERS.keys.map do |action|
-        [t("dashboard.automations.actions.#{action}", default: action.titleize), action]
+        [ t("dashboard.automations.actions.#{action}", default: action.titleize), action ]
       end
     end
 

@@ -8,7 +8,7 @@ module Dashboard
 
     rate_limit to: 5, within: 1.minute, only: %i[test_smtp test_imap verify_forwarding],
       by: -> { current_account.id },
-      with: -> { render json: { success: false, message: "Too many requests. Please wait a minute before trying again." }, status: :too_many_requests }
+      with: -> { render(json: { success: false, message: "Too many requests. Please wait a minute before trying again." }, status: :too_many_requests) }
 
     def index
       @email_channels = current_account.with_shard do
@@ -20,9 +20,10 @@ module Dashboard
       @email_channel = Channel::Email.new
     end
 
+    def edit; end
     def create
       unless current_account.within_limit?(:channels)
-        redirect_to channels_email_index_path, alert: t("dashboard.email_channels.limit_reached")
+        redirect_to(channels_email_index_path, alert: t("dashboard.email_channels.limit_reached"))
         return
       end
 
@@ -34,21 +35,20 @@ module Dashboard
 
       if creator.call
         @email_channel = creator.channel
-        redirect_to edit_channels_email_path(@email_channel), notice: t("dashboard.email_channels.created")
+        redirect_to(edit_channels_email_path(@email_channel), notice: t("dashboard.email_channels.created"))
       else
         @email_channel = creator.channel || Channel::Email.new(email_channel_params)
-        render :new, status: :unprocessable_entity
+        render(:new, status: :unprocessable_entity)
       end
     end
 
-    def edit; end
 
     def update
       current_account.with_shard do
         if @email_channel.update(email_channel_params)
-          redirect_to channels_email_index_path, notice: t("dashboard.email_channels.updated")
+          redirect_to(channels_email_index_path, notice: t("dashboard.email_channels.updated"))
         else
-          render :edit, status: :unprocessable_entity
+          render(:edit, status: :unprocessable_entity)
         end
       end
     end
@@ -60,8 +60,8 @@ module Dashboard
       current_account.decrement_usage!(:channels)
 
       respond_to do |format|
-        format.html { redirect_to channels_email_index_path, notice: t("dashboard.email_channels.destroyed") }
-        format.turbo_stream { render turbo_stream: turbo_stream.remove(@email_channel) }
+        format.html { redirect_to(channels_email_index_path, notice: t("dashboard.email_channels.destroyed")) }
+        format.turbo_stream { render(turbo_stream: turbo_stream.remove(@email_channel)) }
       end
     end
 
@@ -69,7 +69,7 @@ module Dashboard
     def test_smtp
       config = smtp_params_from_form
 
-      return render json: { success: false, message: "SMTP server address is required." } if config[:address].blank?
+      return render(json: { success: false, message: "SMTP server address is required." }) if config[:address].blank?
 
       begin
         require "net/smtp"
@@ -82,9 +82,9 @@ module Dashboard
           # Connection successful — EHLO handshake passed
         end
 
-        render json: { success: true, message: "SMTP connection successful!" }
+        render(json: { success: true, message: "SMTP connection successful!" })
       rescue => e
-        render json: { success: false, message: "SMTP error: #{e.message}" }
+        render(json: { success: false, message: "SMTP error: #{e.message}" })
       end
     end
 
@@ -92,7 +92,7 @@ module Dashboard
     def test_imap
       config = imap_params_from_form
 
-      return render json: { success: false, message: "IMAP server address is required." } if config[:address].blank?
+      return render(json: { success: false, message: "IMAP server address is required." }) if config[:address].blank?
 
       begin
         require "net/imap"
@@ -103,22 +103,22 @@ module Dashboard
         )
         imap.login(config[:username], config[:password])
         imap.select("INBOX")
-        mail_count = imap.status("INBOX", ["MESSAGES"])["MESSAGES"]
+        mail_count = imap.status("INBOX", [ "MESSAGES" ])["MESSAGES"]
         imap.logout
         imap.disconnect
 
-        render json: { success: true, message: "IMAP connected! #{mail_count} messages in INBOX." }
+        render(json: { success: true, message: "IMAP connected! #{mail_count} messages in INBOX." })
       rescue => e
-        render json: { success: false, message: "IMAP error: #{e.message}" }
+        render(json: { success: false, message: "IMAP error: #{e.message}" })
       end
     end
 
     # POST /email_channels/:id/verify_forwarding
     def verify_forwarding
       if ::Channels::Email::ForwardEmailVerifier.call(@email_channel)
-        render json: { success: true, message: "Verification email sent to #{@email_channel.email}. We are waiting to receive it." }
+        render(json: { success: true, message: "Verification email sent to #{@email_channel.email}. We are waiting to receive it." })
       else
-        render json: { success: false, message: "Failed to send verification email. Please check your setup." }
+        render(json: { success: false, message: "Failed to send verification email. Please check your setup." })
       end
     end
 
@@ -131,15 +131,15 @@ module Dashboard
     end
 
     def authorize_email_channel
-      authorize :email_channel
+      authorize(:email_channel)
     end
 
     def email_channel_params
-      permitted = params.require(:email_channel).permit(
-        :name, :email, :imap_enabled, :smtp_enabled,
-        smtp_configurations: [:address, :port, :username, :password, :domain, :authentication, :enable_starttls],
-        imap_configurations: [:address, :port, :username, :password, :enable_ssl],
-        primary_inbox_attributes: [:id, :reopen_window_seconds, :csat_survey_enabled, :csat_survey_id, :conversation_reply_template_id, sla_policy_ids: []]
+      permitted = params.expect(
+        email_channel: [ :name, :email, :imap_enabled, :smtp_enabled,
+        smtp_configurations: [ :address, :port, :username, :password, :domain, :authentication, :enable_starttls ],
+        imap_configurations: [ :address, :port, :username, :password, :enable_ssl ],
+        primary_inbox_attributes: [ :id, :reopen_window_seconds, :csat_survey_enabled, :csat_survey_id, :conversation_reply_template_id, sla_policy_ids: [] ] ]
       )
 
       # Convert nested params from ActionController::Parameters to plain Hash
@@ -181,6 +181,6 @@ module Dashboard
         enable_ssl: raw[:enable_ssl]
       }
     end
+    end
   end
-end
 end

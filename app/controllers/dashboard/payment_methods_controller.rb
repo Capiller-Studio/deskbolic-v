@@ -2,12 +2,12 @@
 
 module Dashboard
   class PaymentMethodsController < DashboardController
-    skip_before_action :enforce_active_subscription, only: [:create, :destroy, :make_default, :setup_intent]
+    skip_before_action :enforce_active_subscription, only: [ :create, :destroy, :make_default, :setup_intent ]
 
     def create
       if params[:payment_method_id].blank?
         flash[:alert] = "Payment method token is missing."
-        redirect_to dashboard_billing_path
+        redirect_to(dashboard_billing_path)
         return
       end
 
@@ -23,10 +23,10 @@ module Dashboard
         flash[:notice] = "Payment method added successfully."
       end
 
-      redirect_to dashboard_billing_path
+      redirect_to(dashboard_billing_path)
     rescue StandardError => e
       flash[:alert] = "Failed to add payment method: #{e.message}"
-      redirect_to dashboard_billing_path
+      redirect_to(dashboard_billing_path)
     end
 
     def destroy
@@ -35,10 +35,10 @@ module Dashboard
       manager.remove_method(pm)
 
       flash[:notice] = "Payment method removed."
-      redirect_to dashboard_billing_path
+      redirect_to(dashboard_billing_path)
     rescue StandardError => e
       flash[:alert] = "Failed to remove payment method: #{e.message}"
-      redirect_to dashboard_billing_path
+      redirect_to(dashboard_billing_path)
     end
 
     def make_default
@@ -47,17 +47,17 @@ module Dashboard
       manager.set_default(pm)
 
       flash[:notice] = "Default payment method updated."
-      redirect_to dashboard_billing_path
+      redirect_to(dashboard_billing_path)
     rescue StandardError => e
       flash[:alert] = "Failed to update default payment method: #{e.message}"
-      redirect_to dashboard_billing_path
+      redirect_to(dashboard_billing_path)
     end
 
     def setup_intent
       intent = PaymentGateway::Stripe.new(current_account).create_setup_intent
-      render json: { client_secret: intent.client_secret }
+      render(json: { client_secret: intent.client_secret })
     rescue StandardError => e
-      render json: { error: e.message }, status: :unprocessable_entity
+      render(json: { error: e.message }, status: :unprocessable_entity)
     end
   end
 end

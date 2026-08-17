@@ -14,7 +14,7 @@ class ApplicationMailbox < ActionMailbox::Base
 
   def self.verification_email?(inbound_email)
     mail = inbound_email.mail
-    
+
     # Must be originally sent by our system's channel domain
     return false unless Array(mail.from).any? { |address| address.end_with?("@helpbolic.com") }
 
@@ -22,7 +22,7 @@ class ApplicationMailbox < ActionMailbox::Base
     return false unless mail.subject.to_s.match?(/Deskbolic Forwarding Verification: \[.+?\]/)
 
     # Additionally, verify that at least one recipient is registered in GlobalRouting
-    all_recipients = mail.to.to_a + mail.cc.to_a + mail.bcc.to_a + [mail["X-Original-To"]&.value]
+    all_recipients = mail.to.to_a + mail.cc.to_a + mail.bcc.to_a + [ mail["X-Original-To"]&.value ]
     all_recipients.compact.map(&:downcase).uniq.any? do |recipient|
       GlobalRouting.exists?(route_type: "forward_email", route_value: recipient)
     end
@@ -69,7 +69,7 @@ class ApplicationMailbox < ActionMailbox::Base
     mail = inbound_email.mail
 
     # Strategy 1: reply+<uuid>@domain address pattern
-    all_recipients = mail.to.to_a + mail.cc.to_a + mail.bcc.to_a + [mail["X-Original-To"]&.value]
+    all_recipients = mail.to.to_a + mail.cc.to_a + mail.bcc.to_a + [ mail["X-Original-To"]&.value ]
     return true if all_recipients.compact.any? { |addr| addr.match?(/reply\+[^@]+@/i) }
 
     # Strategy 2: In-Reply-To header

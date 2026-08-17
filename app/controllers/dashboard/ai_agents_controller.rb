@@ -24,27 +24,27 @@ module Dashboard
       @ai_agent = Ai::Agent.new(name: nil, status: :active, agent_type: nil, tone: nil, confidence_threshold: 0.7, max_exchanges: 5)
     end
 
+    def edit
+    end
     def create
       current_account.with_shard do
         @ai_agent = Ai::Agent.new(ai_agent_params.merge(account: current_account))
-        
+
         if @ai_agent.save
-          redirect_to ai_agents_path, notice: t('dashboard.ai_agents.messages.created', default: 'AI Agent created successfully.')
+          redirect_to(ai_agents_path, notice: t("dashboard.ai_agents.messages.created", default: "AI Agent created successfully."))
         else
-          render :new, status: :unprocessable_entity
+          render(:new, status: :unprocessable_entity)
         end
       end
     end
 
-    def edit
-    end
 
     def update
       current_account.with_shard do
         if @ai_agent.update(ai_agent_params)
-          redirect_to ai_agents_path, notice: t('dashboard.ai_agents.messages.updated', default: 'AI Agent updated successfully.')
+          redirect_to(ai_agents_path, notice: t("dashboard.ai_agents.messages.updated", default: "AI Agent updated successfully."))
         else
-          render :edit, status: :unprocessable_entity
+          render(:edit, status: :unprocessable_entity)
         end
       end
     end
@@ -52,7 +52,7 @@ module Dashboard
     def destroy
       current_account.with_shard do
         @ai_agent.destroy
-        redirect_to ai_agents_path, notice: t('dashboard.ai_agents.messages.deleted', default: 'AI Agent deleted successfully.')
+        redirect_to(ai_agents_path, notice: t("dashboard.ai_agents.messages.deleted", default: "AI Agent deleted successfully."))
       end
     end
 
@@ -65,8 +65,8 @@ module Dashboard
     end
 
     def ai_agent_params
-      params.require(:ai_agent).permit(
-        :name,
+      params.expect(
+        ai_agent: [ :name,
         :status,
         :agent_type,
         :tone,
@@ -74,7 +74,7 @@ module Dashboard
         :max_exchanges,
         :confidence_threshold,
         :portal_id,
-        translations_attributes: [:id, :locale, :greeting_message, :handoff_message, :fallback_message, :_destroy]
+        translations_attributes: [ :id, :locale, :greeting_message, :handoff_message, :fallback_message, :_destroy ] ]
       )
     end
   end

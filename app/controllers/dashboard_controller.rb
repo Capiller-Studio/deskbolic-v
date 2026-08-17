@@ -20,9 +20,9 @@ class DashboardController < ApplicationController
 
   private
 
-  def set_sharding_context(&block)
+  def set_sharding_context(&)
     if current_account
-      current_account.with_shard(&block)
+      current_account.with_shard(&)
     else
       yield
     end
@@ -69,11 +69,11 @@ class DashboardController < ApplicationController
       # If accessing naked domain, redirect to primary account's subdomain
       if request.subdomain.blank? || request.subdomain == "www"
         account = current_user.accounts.first
-        redirect_to root_url(subdomain: account.identifier), allow_other_host: true
+        redirect_to(root_url(subdomain: account.identifier), allow_other_host: true)
       elsif current_account.nil?
         # If subdomain is provided but invalid/unauthorized
         account = current_user.accounts.first
-        redirect_to root_url(subdomain: account.identifier), allow_other_host: true, alert: "Account not found or access denied."
+        redirect_to(root_url(subdomain: account.identifier), allow_other_host: true, alert: "Account not found or access denied.")
       end
     end
   end
@@ -89,7 +89,7 @@ class DashboardController < ApplicationController
 
     if current_account.subscriptions.empty?
       unless %w[subscriptions sessions].include?(controller_name)
-        redirect_to new_subscription_path, alert: I18n.t("dashboard.billing.no_plan_warning", default: "Please select a plan to continue.")
+        redirect_to(new_subscription_path, alert: I18n.t("dashboard.billing.no_plan_warning", default: "Please select a plan to continue."))
       end
       return
     end
@@ -100,7 +100,7 @@ class DashboardController < ApplicationController
 
     if sub.past_due? || sub.cancelled? || sub.expired?
       unless %w[billings payment_methods subscriptions sessions].include?(controller_name)
-        redirect_to dashboard_billing_path, alert: I18n.t("dashboard.billing.past_due_warning", default: "Your subscription is past due. Please update your payment method to restore access.")
+        redirect_to(dashboard_billing_path, alert: I18n.t("dashboard.billing.past_due_warning", default: "Your subscription is past due. Please update your payment method to restore access."))
       end
     elsif sub.trialing? && current_account.payment_methods.active_methods.empty?
       dismissed_at = session[:billing_warning_dismissed_at]
@@ -122,17 +122,16 @@ class DashboardController < ApplicationController
     if policy.respond_to?(:authorization_failure_reason)
       case policy.authorization_failure_reason
       when :feature_not_enabled
-        feature_name = policy.authorization_failure_feature.to_s.sub(/_enabled$/, '').humanize.titleize
+        feature_name = policy.authorization_failure_feature.to_s.sub(/_enabled$/, "").humanize.titleize
         flash[:alert] = I18n.t("dashboard.billing.feature_not_enabled", feature: feature_name, default: "The feature '%{feature}' is not available on your current plan. Please upgrade to access it.")
-        return redirect_to dashboard_billing_path
+        return redirect_to(dashboard_billing_path)
       when :limit_reached
         flash[:alert] = I18n.t("dashboard.billing.limit_reached", limit: policy.authorization_failure_limit.to_s.humanize.titleize, default: "You have reached your limit for '%{limit}'. Please upgrade your plan for more capacity.")
-        return redirect_to dashboard_billing_path
+        return redirect_to(dashboard_billing_path)
       end
     end
 
     flash[:error] = I18n.t("dashboard.authorization.not_authorized", default: "You are not authorized to perform this action.")
     redirect_back(fallback_location: root_path)
   end
-
 end

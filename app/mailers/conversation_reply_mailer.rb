@@ -22,10 +22,8 @@ class ConversationReplyMailer < ApplicationMailer
     # Priority: Fallback param > Conversation outbound_channel > Inbox channel
     @channel = fallback_channel || conversation.outbound_channel || @inbox.channel
 
-    configure_smtp_settings if @channel.respond_to?(:smtp_enabled?) && @channel.smtp_enabled?
-
     # Set view variables for the compiled MJML ERB template
-    @agent_name = @message.sender.try(:display_name) || "Agent"
+    @agent_name = @message.sender.try(:display_name).presence || @message.sender.try(:name).presence || "Agent"
     @inbox_name = @inbox.name
     @content = @message.content
 
@@ -41,7 +39,7 @@ class ConversationReplyMailer < ApplicationMailer
       @inbox.conversation_reply_template
     end
 
-    if template
+    mail_message = if template
       rendered_subject = template.render_subject(liquid_variables)
       rendered_body = template.render_body(liquid_variables)
 
@@ -54,7 +52,7 @@ class ConversationReplyMailer < ApplicationMailer
         in_reply_to: in_reply_to_header,
         references: references_header
       ) do |format|
-        format.html { render html: rendered_body.html_safe }
+        format.html { render(html: rendered_body.html_safe) }
       end
     else
       # Falls back to pre-compiled MJML views:
@@ -71,9 +69,12 @@ class ConversationReplyMailer < ApplicationMailer
         in_reply_to: in_reply_to_header,
         references: references_header
       ) do |format|
-        format.html { render "conversation_reply_mailer/#{view_name}" }
+        format.html { render("conversation_reply_mailer/#{view_name}") }
       end
     end
+
+    configure_smtp_settings(mail_message) if @channel.respond_to?(:smtp_enabled?) && @channel.smtp_enabled?
+    mail_message
   end
 
   private
@@ -90,7 +91,7 @@ class ConversationReplyMailer < ApplicationMailer
       conversation: @conversation,
       agent: @message.sender,
       message: @message,
-      template_type: 'conversation_reply'
+      template_type: "conversation_reply"
     )
   end
 
@@ -146,18 +147,20 @@ class ConversationReplyMailer < ApplicationMailer
   def references_header
     refs = @conversation.data.dig("email", "references") || []
     original_id = @conversation.data.dig("email", "message_id")
-    [original_id, *refs].compact.uniq.join(" ")
+    list = [ original_id, *refs ].compact
+    list.uniq!
+    list.join(" ")
   end
 
-  def configure_smtp_settings
+  def configure_smtp_settings(mail_message)
     options = @channel.smtp_delivery_options
     return if options.blank?
 
-    mail.delivery_method(:smtp, options)
+    mail_message.delivery_method(:smtp, options)
   end
 
   def build_csat_survey_url
-    protocol = Rails.env.development? || Rails.env.test? ? "http" : "https"
+    protocol = Rails.env.local? ? "http" : "https"
     host = ENV.fetch("MARKETING_HOST", "deskbolic.com")
     locale = @conversation.locale || @conversation.customers.first&.locale || I18n.default_locale
     csat_id = @message.csat_response_id || @message.data["csat_response_id"]

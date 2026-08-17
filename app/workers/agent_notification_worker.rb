@@ -10,7 +10,7 @@ class AgentNotificationWorker < BaseMutexWorker
     Current.set(account: account) do
       account.with_shard do
         users = User.where(id: target_user_ids)
-        
+
         users.each do |user|
           setting = NotificationSetting.find_or_create_by!(user: user, account: account)
           next unless setting.email_enabled_for?(event_name)
@@ -21,7 +21,7 @@ class AgentNotificationWorker < BaseMutexWorker
               RedisUtilities::Keys::UNREAD_CONVERSATION_COUNT % { account_id: account.id, member_id: user.id },
               resource.conversation_id
             ).to_i
-            
+
             # Skip sending email if the unread count for this conversation is zero
             next if unread_count <= 0
           end

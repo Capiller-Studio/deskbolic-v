@@ -28,7 +28,7 @@ module Dashboard
         )
 
         unless current_account.within_limit?(:channels)
-          redirect_to channels_whatsapp_index_path, alert: t("dashboard.whatsapp_channels.limit_reached")
+          redirect_to(channels_whatsapp_index_path, alert: t("dashboard.whatsapp_channels.limit_reached"))
           return
         end
 
@@ -47,20 +47,21 @@ module Dashboard
 
         if creator.call
           @whatsapp_channel = creator.channel
-          redirect_to edit_channels_whatsapp_path(@whatsapp_channel), notice: t("dashboard.whatsapp_channels.created"), status: :see_other
+          redirect_to(edit_channels_whatsapp_path(@whatsapp_channel), notice: t("dashboard.whatsapp_channels.created"), status: :see_other)
         else
-          redirect_to new_channels_whatsapp_path, alert: t("dashboard.whatsapp_channels.create_failed"), status: :see_other
+          redirect_to(new_channels_whatsapp_path, alert: t("dashboard.whatsapp_channels.create_failed"), status: :see_other)
         end
       rescue StandardError => e
         Rails.logger.error("WhatsApp Embedded Signup failed: #{e.message}")
-        redirect_to new_channels_whatsapp_path, alert: t("dashboard.whatsapp_channels.callback_error")
+        redirect_to(new_channels_whatsapp_path, alert: t("dashboard.whatsapp_channels.callback_error"))
       end
 
+      def edit; end
       # POST /whatsapp
       # Handles manual setup form submission
       def create
         unless current_account.within_limit?(:channels)
-          redirect_to channels_whatsapp_index_path, alert: t("dashboard.whatsapp_channels.limit_reached")
+          redirect_to(channels_whatsapp_index_path, alert: t("dashboard.whatsapp_channels.limit_reached"))
           return
         end
 
@@ -72,20 +73,19 @@ module Dashboard
 
         if creator.call
           @whatsapp_channel = creator.channel
-          redirect_to edit_channels_whatsapp_path(@whatsapp_channel), notice: t("dashboard.whatsapp_channels.created"), status: :see_other
+          redirect_to(edit_channels_whatsapp_path(@whatsapp_channel), notice: t("dashboard.whatsapp_channels.created"), status: :see_other)
         else
-          redirect_to new_channels_whatsapp_path, alert: t("dashboard.whatsapp_channels.create_failed"), status: :see_other
+          redirect_to(new_channels_whatsapp_path, alert: t("dashboard.whatsapp_channels.create_failed"), status: :see_other)
         end
       end
 
-      def edit; end
 
       def update
         current_account.with_shard do
           if @whatsapp_channel.update(whatsapp_channel_update_params)
-            redirect_to channels_settings_path(type: "whatsapp"), notice: t("dashboard.whatsapp_channels.updated"), status: :see_other
+            redirect_to(channels_settings_path(type: "whatsapp"), notice: t("dashboard.whatsapp_channels.updated"), status: :see_other)
           else
-            render :edit, status: :unprocessable_entity
+            render(:edit, status: :unprocessable_entity)
           end
         end
       end
@@ -97,8 +97,8 @@ module Dashboard
         current_account.decrement_usage!(:channels)
 
         respond_to do |format|
-          format.html { redirect_to channels_settings_path(type: "whatsapp"), notice: t("dashboard.whatsapp_channels.destroyed") }
-          format.turbo_stream { render turbo_stream: turbo_stream.remove(@whatsapp_channel) }
+          format.html { redirect_to(channels_settings_path(type: "whatsapp"), notice: t("dashboard.whatsapp_channels.destroyed")) }
+          format.turbo_stream { render(turbo_stream: turbo_stream.remove(@whatsapp_channel)) }
         end
       end
 
@@ -107,11 +107,11 @@ module Dashboard
         current_account.with_shard do
           @whatsapp_channel.reauthorized!
         end
-        
+
         # If it was an embedded setup, a true token refresh might require the FB SDK.
         # But clearing the flag lets the system try again. If it fails 3 times, it will suspend again.
-        redirect_back fallback_location: edit_channels_whatsapp_path(@whatsapp_channel), 
-                      notice: t("dashboard.whatsapp_channels.reconnected", default: "Channel re-activated successfully. If your access token is truly expired, please update it.")
+        redirect_back(fallback_location: edit_channels_whatsapp_path(@whatsapp_channel),
+                      notice: t("dashboard.whatsapp_channels.reconnected", default: "Channel re-activated successfully. If your access token is truly expired, please update it."))
       end
 
       private
@@ -123,23 +123,23 @@ module Dashboard
       end
 
       def authorize_whatsapp_channel
-        authorize :whatsapp_channel
+        authorize(:whatsapp_channel)
       end
 
       def whatsapp_channel_create_params
-        params.require(:channel_whatsapp).permit(
-          :name, :phone_code, :phone_number, :full_phone_number,
-          :phone_number_id, :business_account_id, :api_key
+        params.expect(
+          channel_whatsapp: [ :name, :phone_code, :phone_number, :full_phone_number,
+          :phone_number_id, :business_account_id, :api_key ]
         ).to_h
       end
 
       def whatsapp_channel_update_params
-        params.require(:channel_whatsapp).permit(
-          :name, :api_key,
+        params.expect(
+          channel_whatsapp: [ :name, :api_key,
           primary_inbox_attributes: [
             :id, :reopen_window_seconds, :csat_survey_enabled, :csat_survey_id, :business_hour_group_id,
             sla_policy_ids: []
-          ]
+          ] ]
         )
       end
     end

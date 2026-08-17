@@ -7,10 +7,10 @@ module Dashboard
 
       # Fetch Conversations created in the last 30 days
       @recent_conversations = current_account.conversations.where(created_at: @start_date..@end_date)
-      
+
       # KPIs
       @total_conversations_count = @recent_conversations.count
-      
+
       # Grouped data for Charts
       @conversations_by_day = @recent_conversations
         .group_by_day(:created_at, range: @start_date..@end_date, series: true)

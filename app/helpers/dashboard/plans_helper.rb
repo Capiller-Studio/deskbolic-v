@@ -16,15 +16,15 @@ module Dashboard
       feature_labels = {
         "sla" => "SLA management", "api_access" => "API access", "csat" => "CSAT",
         "email_templates" => "Email templates", "custom_csat" => "Custom CSAT",
-        "automations" => "Automations", "audit_logs" => "Audit logs", 
+        "automations" => "Automations", "audit_logs" => "Audit logs",
         "teams" => "Teams", "roles" => "Roles",
         "custom_roles" => "Custom roles", "custom_branding" => "Custom branding",
         "assignment_policies" => "Assignment policies", "identity_sources" => "Identity sources"
       }
 
       limits + feature_labels.filter_map { |key, label| label if plan.feature_enabled?(key) }
-    end 
-    
+    end
+
     def limit_feature(label, limit)
       value = limit.to_i.negative? ? "Unlimited" : number_with_delimiter(limit)
       "#{value} #{label.downcase}"

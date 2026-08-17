@@ -6,7 +6,7 @@
 
 module Dashboard
   class MacrosController < DashboardController
-    before_action :set_macro, only: [:edit, :update, :destroy, :execute]
+    before_action :set_macro, only: [ :edit, :update, :destroy, :execute ]
 
     def index
       authorize(Macro)
@@ -19,6 +19,9 @@ module Dashboard
       authorize(@macro)
     end
 
+    def edit
+      authorize(@macro)
+    end
     def create
       @macro = current_account.macros.new(macro_params)
       assign_scopeable!(@macro)
@@ -31,9 +34,6 @@ module Dashboard
       end
     end
 
-    def edit
-      authorize(@macro)
-    end
 
     def update
       authorize(@macro)

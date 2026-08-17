@@ -15,14 +15,14 @@ module ApplicationCable
 
     def find_user
       token = request.params[:user_token]
-      return unless token.present?
+      return if token.blank?
 
       User.find_by(connection_token: token)
     end
 
     def find_customer
       token = request.params[:customer_token]
-      return unless token.present?
+      return if token.blank?
 
       customer_inbox = CustomerInbox.find_by(connection_token: token)
       customer_inbox&.customer

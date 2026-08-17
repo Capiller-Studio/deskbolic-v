@@ -211,6 +211,10 @@ GEM
     cssbundling-rails (1.4.3)
       railties (>= 6.0.0)
     csv (3.3.5)
+    database_cleaner-active_record (2.2.2)
+      activerecord (>= 5.a)
+      database_cleaner-core (~> 2.0)
+    database_cleaner-core (2.1.0)
     date (3.5.1)
     devise (5.0.3)
       bcrypt (~> 3.0)
@@ -218,6 +222,7 @@ GEM
       railties (>= 7.0)
       responders
       warden (~> 1.2.3)
+    diff-lcs (1.6.2)
     domain_name (0.6.20240107)
     dotenv (3.2.0)
     dotenv-rails (3.2.0)
@@ -464,6 +469,11 @@ GEM
       nio4r (~> 2.0)
     pundit (2.5.2)
       activesupport (>= 3.0.0)
+    pundit-matchers (4.0.0)
+      rspec-core (~> 3.12)
+      rspec-expectations (~> 3.12)
+      rspec-mocks (~> 3.12)
+      rspec-support (~> 3.12)
     racc (1.8.1)
     rack (3.2.6)
     rack-attack (6.8.0)
@@ -533,6 +543,23 @@ GEM
       actionpack (>= 7.0)
       railties (>= 7.0)
     rexml (3.4.4)
+    rspec-core (3.13.6)
+      rspec-support (~> 3.13.0)
+    rspec-expectations (3.13.5)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.13.0)
+    rspec-mocks (3.13.8)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.13.0)
+    rspec-rails (8.0.4)
+      actionpack (>= 7.2)
+      activesupport (>= 7.2)
+      railties (>= 7.2)
+      rspec-core (>= 3.13.0, < 5.0.0)
+      rspec-expectations (>= 3.13.0, < 5.0.0)
+      rspec-mocks (>= 3.13.0, < 5.0.0)
+      rspec-support (>= 3.13.0, < 5.0.0)
+    rspec-support (3.13.7)
     rubocop (1.86.1)
       json (~> 2.3)
       language_server-protocol (~> 3.17.0.2)
@@ -547,6 +574,9 @@ GEM
     rubocop-ast (1.49.1)
       parser (>= 3.3.7.2)
       prism (~> 1.7)
+    rubocop-capybara (3.0.0)
+      lint_roller (~> 1.1)
+      rubocop (~> 1.81)
     rubocop-performance (1.26.1)
       lint_roller (~> 1.1)
       rubocop (>= 1.75.0, < 2.0)
@@ -561,6 +591,13 @@ GEM
       rubocop (>= 1.72)
       rubocop-performance (>= 1.24)
       rubocop-rails (>= 2.30)
+    rubocop-rspec (3.9.0)
+      lint_roller (~> 1.1)
+      rubocop (~> 1.81)
+    rubocop-thread_safety (0.7.3)
+      lint_roller (~> 1.1)
+      rubocop (~> 1.72, >= 1.72.1)
+      rubocop-ast (>= 1.44.0, < 2.0)
     ruby-next-core (1.2.0)
     ruby-openai (8.3.0)
       event_stream_parser (>= 0.3.0, < 2.0.0)
@@ -622,6 +659,7 @@ GEM
     temple (0.10.4)
     thor (1.5.0)
     tilt (2.7.0)
+    timecop (0.9.11)
     timeout (0.6.1)
     tsort (0.2.0)
     ttfunk (1.8.0)
@@ -674,6 +712,7 @@ DEPENDENCIES
   chartkick
   core!
   cssbundling-rails
+  database_cleaner-active_record
   dotenv-rails
   factory_bot_rails
   ffaker
@@ -687,14 +726,24 @@ DEPENDENCIES
   pry
   pry-rails
   puma (>= 5.0)
+  pundit-matchers
   rack-mini-profiler
   rails (>= 8.1.3)
+  rspec-rails
+  rubocop
+  rubocop-capybara
+  rubocop-performance
+  rubocop-rails
   rubocop-rails-omakase
+  rubocop-rspec
+  rubocop-thread_safety
   selenium-webdriver
   shoulda (~> 4.0)
+  shoulda-matchers
   slim-rails
   slim_lint (= 0.24.0)
   stimulus-rails
+  timecop
   turbo-rails
   web-console
   whenever

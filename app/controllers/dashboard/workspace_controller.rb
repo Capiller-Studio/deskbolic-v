@@ -17,7 +17,7 @@ module Dashboard
       account = Account.find_by(email: params[:email])
 
       unless account
-        redirect_to new_workspace_path, alert: "No workspace found for that email." and return
+        redirect_to(workspace_path, alert: "No workspace found for that email.") and return
       end
 
       AdminNotificationMailer.workspace_request(account, current_user).deliver_now
@@ -32,11 +32,12 @@ module Dashboard
         currency: params[:currency].presence || "USD",
         locale: params[:account_locale].presence || I18n.locale,
         shard_key: params[:shard_key].presence || "de",
+        timezone: params[:timezone].presence || "UTC",
         data: { "company-name" => params[:company_name], "workspace-size" => params[:workspace_size] }
       )
 
       unless account.save
-        redirect_to new_workspace_path, alert: account.errors.full_messages.join(", ") and return
+        redirect_to(workspace_path, alert: account.errors.full_messages.join(", ")) and return
       end
 
       account.users << current_user
@@ -46,6 +47,5 @@ module Dashboard
     end
 
      def submitted; end
-     
   end
 end

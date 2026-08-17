@@ -73,7 +73,7 @@
         p.f-reg-14 = t('dashboard.conversation_details.verified_identities')
         = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
       .panel data-accordion-target="panel"
-        - if customer.identities.any?
+        - if customer&.identities&.any?
           - customer.identities.includes(:identity_source).each do |identity|
             .section-flex style="margin-bottom: 8px; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px;"
               h5.f-reg-14 = identity.identity_source&.name || identity.identity_type.titleize

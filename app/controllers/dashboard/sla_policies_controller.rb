@@ -2,7 +2,7 @@
 
 module Dashboard
   class SlaPoliciesController < DashboardController
-    before_action :set_policy, only: [:show, :edit, :update, :destroy]
+    before_action :set_policy, only: [ :show, :edit, :update, :destroy ]
 
     def index
       # authorize(SlaPolicy)
@@ -19,6 +19,10 @@ module Dashboard
       load_form_data
     end
 
+    def edit
+      # authorize(@policy)
+      load_form_data
+    end
     def create
       @policy = current_account.sla_policies.new(policy_params)
       # authorize(@policy)
@@ -32,10 +36,6 @@ module Dashboard
       end
     end
 
-    def edit
-      # authorize(@policy)
-      load_form_data
-    end
 
     def update
       # authorize(@policy)
@@ -83,11 +83,11 @@ module Dashboard
     end
 
     def policy_params
-      permitted = params.require(:sla_policy).permit(
-        :name, :description,
-        :during_working_hours, :business_hour_group_id
+      permitted = params.expect(
+        sla_policy: [ :name, :description,
+        :during_working_hours, :business_hour_group_id ]
       )
-      
+
       # Parse combined time inputs into seconds
       permitted[:initial_response_time_limit] = parse_time(params.dig(:sla_policy, :initial_response_value), params.dig(:sla_policy, :initial_response_unit))
       permitted[:response_time_limit] = parse_time(params.dig(:sla_policy, :response_value), params.dig(:sla_policy, :response_unit))
@@ -101,12 +101,12 @@ module Dashboard
 
     def parse_time(value, unit)
       return nil if value.blank? || unit.blank?
-      
+
       val = value.to_f
       case unit
-      when 'minutes' then val * 60
-      when 'hours' then val * 3600
-      when 'days' then val * 86400
+      when "minutes" then val * 60
+      when "hours" then val * 3600
+      when "days" then val * 86400
       else val
       end
     end

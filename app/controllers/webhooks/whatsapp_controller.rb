@@ -6,7 +6,6 @@
 
 module Webhooks
   class WhatsappController < Webhooks::BaseController
-
     def index
       native_params = JSON.parse(params.to_unsafe_h.to_json)
 
@@ -21,9 +20,9 @@ module Webhooks
 
     def hub
       if valid_secret?(params["hub.verify_token"])
-        render plain: params["hub.challenge"]
+        render(plain: params["hub.challenge"])
       else
-        render status: :unauthorized, json: { error: "Invalid Token" }
+        render(status: :unauthorized, json: { error: "Invalid Token" })
       end
     end
 

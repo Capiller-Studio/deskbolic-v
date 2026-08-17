@@ -18,7 +18,7 @@ module Dashboard
       if creator.call
         redirect_to(request.referer, notice: "Channel Created!")
       else
-        error_msg = creator.channel&.errors&.full_messages&.join(', ') || "Failed to create channel"
+        error_msg = creator.channel&.errors&.full_messages&.join(", ") || "Failed to create channel"
         redirect_to(request.referer, alert: error_msg)
       end
     end

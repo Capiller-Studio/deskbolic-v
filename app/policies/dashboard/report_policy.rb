@@ -9,7 +9,7 @@ module Dashboard
     def show?
       can?("reports.view")
     end
-    
+
     def export?
       can?("reports.export")
     end

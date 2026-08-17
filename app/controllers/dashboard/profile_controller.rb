@@ -2,9 +2,8 @@
 
 module Dashboard
   class ProfileController < DashboardController
-
     def index
-      @user = current_user;
+      @user = current_user
       @address = @user.address
     end
 
@@ -15,16 +14,16 @@ module Dashboard
         current_user.update!(profile_params)
       end
 
-      redirect_to profile_path, notice: "Profile updated successfully."
+      redirect_to(profile_path, notice: "Profile updated successfully.")
     rescue ActiveRecord::RecordInvalid
       flash.now[:alert] = "Unable to update profile. Please check the fields and try again."
-      render :index, status: :unprocessable_entity
+      render(:index, status: :unprocessable_entity)
     end
 
     private
 
     def profile_params
-      params.require(:user).permit(:avatar, :name, :display_name, :status)
+      params.expect(user: [ :avatar, :name, :display_name, :status ])
     end
 
     def address_params

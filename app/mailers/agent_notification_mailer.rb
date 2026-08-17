@@ -11,9 +11,9 @@ class AgentNotificationMailer < ApplicationMailer
     @resource = notification.resource
     @conversation = if @resource.is_a?(Conversation)
                       @resource
-                    elsif @resource.respond_to?(:conversation)
+    elsif @resource.respond_to?(:conversation)
                       @resource.conversation
-                    end
+    end
 
     locale = @user.locale || I18n.default_locale
     template = EmailTemplate.for_account(@account, "agent_notification")
@@ -24,7 +24,7 @@ class AgentNotificationMailer < ApplicationMailer
         rendered_body = template.render_body(notification_liquid_variables)
 
         mail(to: @user.email, subject: rendered_subject) do |format|
-          format.html { render html: rendered_body.html_safe }
+          format.html { render(html: rendered_body.html_safe) }
         end
       end
     else
@@ -68,16 +68,16 @@ class AgentNotificationMailer < ApplicationMailer
   private
 
   def notification_liquid_variables
-    event_obj = OpenStruct.new(
-      title: I18n.t("notifications.events.#{@notification.event}", default: @notification.event.to_s.humanize),
-      description: I18n.t("notifications.events.#{@notification.event}", default: @notification.event.to_s.humanize)
+    event_obj = Struct.new(:title, :description).new(
+      I18n.t("notifications.events.#{@notification.event}", default: @notification.event.to_s.humanize),
+      I18n.t("notifications.events.#{@notification.event}", default: @notification.event.to_s.humanize)
     )
 
     Liquid::ContextBuilderService.call(
       conversation: @conversation || @resource.try(:conversation),
       agent: @user,
       event: event_obj,
-      template_type: 'agent_notification'
+      template_type: "agent_notification"
     )
   end
 end

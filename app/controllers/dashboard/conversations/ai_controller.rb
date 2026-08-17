@@ -3,7 +3,7 @@
 module Dashboard
   module Conversations
     class AiController < DashboardController
-      before_action :set_conversation, only: [:summarize, :draft_reply]
+      before_action :set_conversation, only: [ :summarize, :draft_reply ]
 
       def summarize
         summary = ::Ai::Summarizer.call(
@@ -12,7 +12,7 @@ module Dashboard
         )
 
         html_summary = ::Channels::MessageFormatter.parse_ai_markdown_to_html(summary)
-        
+
         @message = @conversation.messages.create!(
           content: "<strong>AI Summary:</strong><br>#{html_summary}",
           inbox: @conversation.inbox,
@@ -22,11 +22,11 @@ module Dashboard
           visibility: :personal
         )
 
-        render json: { success: true }
+        render(json: { success: true })
       rescue ::AiInsufficientBalanceError => e
-        render json: { success: false, error: e.message }, status: :payment_required
+        render(json: { success: false, error: e.message }, status: :payment_required)
       rescue => e
-        render json: { success: false, error: "AI Service Error: #{e.message}" }, status: :unprocessable_entity
+        render(json: { success: false, error: "AI Service Error: #{e.message}" }, status: :unprocessable_entity)
       end
 
       def draft_reply
@@ -36,11 +36,11 @@ module Dashboard
           instruction: params[:instruction]
         )
 
-        render json: { success: true, draft: draft }
+        render(json: { success: true, draft: draft })
       rescue ::AiInsufficientBalanceError => e
-        render json: { success: false, error: e.message }, status: :payment_required
+        render(json: { success: false, error: e.message }, status: :payment_required)
       rescue => e
-        render json: { success: false, error: "AI Service Error: #{e.message}" }, status: :unprocessable_entity
+        render(json: { success: false, error: "AI Service Error: #{e.message}" }, status: :unprocessable_entity)
       end
 
       def rewrite_tone
@@ -51,11 +51,11 @@ module Dashboard
           user: current_user
         )
 
-        render json: { success: true, rewritten: result }
+        render(json: { success: true, rewritten: result })
       rescue ::AiInsufficientBalanceError => e
-        render json: { success: false, error: e.message }, status: :payment_required
+        render(json: { success: false, error: e.message }, status: :payment_required)
       rescue => e
-        render json: { success: false, error: "AI Service Error: #{e.message}" }, status: :unprocessable_entity
+        render(json: { success: false, error: "AI Service Error: #{e.message}" }, status: :unprocessable_entity)
       end
 
       def fix_grammar
@@ -65,26 +65,26 @@ module Dashboard
           action_type: "fix_grammar",
           model: :lite,
           system_prompt: "Fix all grammar, spelling, and punctuation errors in the following text. Output ONLY the corrected text with no explanation.",
-          messages: [{ role: "user", content: params[:text] }]
+          messages: [ { role: "user", content: params[:text] } ]
         )
 
-        render json: { success: true, fixed: result }
+        render(json: { success: true, fixed: result })
       rescue ::AiInsufficientBalanceError => e
-        render json: { success: false, error: e.message }, status: :payment_required
+        render(json: { success: false, error: e.message }, status: :payment_required)
       rescue => e
-        render json: { success: false, error: "AI Service Error: #{e.message}" }, status: :unprocessable_entity
+        render(json: { success: false, error: "AI Service Error: #{e.message}" }, status: :unprocessable_entity)
       end
 
       def translate
         @conversation = current_account.conversations.find(params[:conversation_id])
         messages_text = @conversation.messages.where(sender_type: "Customer").order(created_at: :desc).limit(5).pluck(:content).reverse.join("\n")
-        
+
         system_prompt = <<~PROMPT
-          You are an expert translator. 
+          You are an expert translator.#{' '}
           Your task is to translate the provided text into the primary language spoken by the Customer in the conversation history.
           If there is no conversation history, or the customer's language cannot be determined, return the original text unchanged.
           Output ONLY the translated text. Do not include any explanations, quotes, or conversational filler.
-          
+
           --- Customer's Recent Messages for Context ---
           #{messages_text}
         PROMPT
@@ -95,14 +95,14 @@ module Dashboard
           action_type: "translate",
           model: :lite,
           system_prompt: system_prompt,
-          messages: [{ role: "user", content: params[:text] }]
+          messages: [ { role: "user", content: params[:text] } ]
         )
 
-        render json: { success: true, translated: result }
+        render(json: { success: true, translated: result })
       rescue ::AiInsufficientBalanceError => e
-        render json: { success: false, error: e.message }, status: :payment_required
+        render(json: { success: false, error: e.message }, status: :payment_required)
       rescue => e
-        render json: { success: false, error: "AI Service Error: #{e.message}" }, status: :unprocessable_entity
+        render(json: { success: false, error: "AI Service Error: #{e.message}" }, status: :unprocessable_entity)
       end
 
       private

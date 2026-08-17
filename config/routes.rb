@@ -17,8 +17,8 @@ Rails.application.routes.draw do
 
   # TODO: remove later, this route is just for testing indentity sources module in development.
   if Rails.env.development?
-    match "test_api/identity_endpoint", to: "test_api#identity_endpoint", via: [:get, :post]
-    match "test_api/custom_channel_endpoint", to: "test_api#custom_channel_endpoint", via: [:get, :post]
+    match "test_api/identity_endpoint", to: "test_api#identity_endpoint", via: [ :get, :post ]
+    match "test_api/custom_channel_endpoint", to: "test_api#custom_channel_endpoint", via: [ :get, :post ]
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
   end
 
@@ -28,12 +28,12 @@ Rails.application.routes.draw do
   namespace :webhooks do
     get "whatsapp/:account_id/:channel_id", to: "whatsapp#hub"
     post "whatsapp/:account_id/:channel_id", to: "whatsapp#index"
-    
+
     post "custom/:account_id/:channel_id", to: "custom#create"
-    
+
     get "whatsapp", to: "whatsapp#hub"
     post "whatsapp", to: "whatsapp#index"
-    
+
     get "widget/:account_id/:channel_id", to: "widget#hub"
     post "widget/:account_id/:channel_id", to: "widget#index"
 
@@ -83,15 +83,15 @@ Rails.application.routes.draw do
     post "email-invitation", to: "account_invitations#accept_invitation"
     get "profile", to: "profile#index"
     patch "profile", to: "profile#update"
-   
+
 
     constraints(SubdomainConstraint) do
-      resources :search, only: [:index], controller: "searches" do
+      resources :search, only: [ :index ], controller: "searches" do
         get :suggestions, on: :collection
       end
       resources :inbox, only: [ :index ]
       resources :conversations do
-        resources :canned_responses, only: [:index], module: :conversations
+        resources :canned_responses, only: [ :index ], module: :conversations
         get :append_conversation, on: :collection
         get :reorder_conversation, on: :collection
         member do
@@ -105,8 +105,8 @@ Rails.application.routes.draw do
           post  :add_label
           delete :remove_label
         end
-        resources :messages, only: [:index]
-      
+        resources :messages, only: [ :index ]
+
         resource :ai, only: [], controller: "conversations/ai" do
           post :summarize
           post :draft_reply
@@ -116,18 +116,18 @@ Rails.application.routes.draw do
         end
       end
       namespace :channels do
-        resources :email, except: [:show] do
+        resources :email, except: [ :show ] do
           member do
             post :test_smtp
             post :test_imap
             post :verify_forwarding
           end
         end
-      
-        resources :web_widget, except: [:show]
-        resources :contact_form, except: [:show]
 
-        resources :facebook, except: [:show] do
+        resources :web_widget, except: [ :show ]
+        resources :contact_form, except: [ :show ]
+
+        resources :facebook, except: [ :show ] do
           member do
             post :reconnect
           end
@@ -136,14 +136,14 @@ Rails.application.routes.draw do
           end
         end
 
-        resources :instagram, except: [:show] do
+        resources :instagram, except: [ :show ] do
           collection do
             get :oauth_authorize
             get :callback
           end
         end
 
-        resources :whatsapp, except: [:show] do
+        resources :whatsapp, except: [ :show ] do
           member do
             post :reconnect
           end
@@ -151,8 +151,8 @@ Rails.application.routes.draw do
             post :callback
           end
         end
-      
-        resources :custom, except: [:show] do
+
+        resources :custom, except: [ :show ] do
           member do
             post :test_outgoing_webhook
             post :test_incoming_webhook
@@ -161,7 +161,7 @@ Rails.application.routes.draw do
       end
 
       resources :channels
-      resources :reports, only: [:index]
+      resources :reports, only: [ :index ]
       resources :inboxes
       resources :messages do
         get :append_message, on: :collection
@@ -183,10 +183,10 @@ Rails.application.routes.draw do
         end
       end
       resources :roles
-      resources :users, controller: "account_users", except: [:show] do
+      resources :users, controller: "account_users", except: [ :show ] do
         get :search, on: :collection
       end
-      resources :invitations, controller: "account_invitations", except: [:show]
+      resources :invitations, controller: "account_invitations", except: [ :show ]
       resources :teams
       resources :custom_fields
       resources :assignment_policies do
@@ -203,8 +203,8 @@ Rails.application.routes.draw do
         end
       end
       resources :business_hour_groups, path: "business_hours"
-      resources :skills, except: [:show]
-      resources :field_resources, only: [:create, :destroy] do
+      resources :skills, except: [ :show ]
+      resources :field_resources, only: [ :create, :destroy ] do
         post :sort, on: :collection
       end
       get "custom_fields_builder/:resource_type/:resource_id", to: "custom_fields_builder#show", as: :custom_fields_builder
@@ -216,7 +216,7 @@ Rails.application.routes.draw do
       end
 
       namespace :help_center do
-        resources :portals, only: [:index, :new, :create, :edit, :update]
+        resources :portals, only: [ :index, :new, :create, :edit, :update ]
         resources :articles do
           member do
             post :publish
@@ -240,23 +240,23 @@ Rails.application.routes.draw do
           get :lookups
         end
       end
-      resources :macros, except: [:show] do
+      resources :macros, except: [ :show ] do
         member do
           post :execute
         end
       end
-      resources :automation_executions, only: [:index]
+      resources :automation_executions, only: [ :index ]
 
-      resource :billing, only: [:show], as: :dashboard_billing do
+      resource :billing, only: [ :show ], as: :dashboard_billing do
         post :dismiss_warning
       end
-      resources :subscriptions, only: [:new, :create, :update] do
+      resources :subscriptions, only: [ :new, :create, :update ] do
         member do
           post :cancel
           post :resume
         end
       end
-      resources :payment_methods, only: [:new, :create, :destroy] do
+      resources :payment_methods, only: [ :new, :create, :destroy ] do
         member do
           post :make_default
         end
@@ -267,7 +267,7 @@ Rails.application.routes.draw do
       resource :wallet, only: [] do
         post :topup
       end
-      resources :ai_credits, only: [:create]
+      resources :ai_credits, only: [ :create ]
 
       resources :settings, only: [ :index ] do
         collection do
@@ -281,19 +281,19 @@ Rails.application.routes.draw do
           get :people
         end
       end
-    
+
       namespace :settings do
-        resource :notification_settings, only: [:edit, :update]
-        resources :notification_subscriptions, only: [:create, :destroy]
-        resources :audit_logs, only: [:index] do
+        resource :notification_settings, only: [ :edit, :update ]
+        resources :notification_subscriptions, only: [ :create, :destroy ]
+        resources :audit_logs, only: [ :index ] do
           member do
             post :revert
           end
         end
-        resources :api_keys, only: [:index, :create, :destroy]
+        resources :api_keys, only: [ :index, :create, :destroy ]
       end
-    
-      resources :notifications, only: [:index] do
+
+      resources :notifications, only: [ :index ] do
         collection do
           post :mark_all_read
           get :update_badge
@@ -302,24 +302,24 @@ Rails.application.routes.draw do
           post :mark_read
         end
       end
-    
-      resources :identity_sources, except: [:show] do
+
+      resources :identity_sources, except: [ :show ] do
         collection do
-          match :test_connection, via: [:post, :patch]
+          match :test_connection, via: [ :post, :patch ]
         end
       end
 
 
-    
+
       resources :custom_fields
-    
-      resources :integrations, except: [:show] do
+
+      resources :integrations, except: [ :show ] do
         collection do
-          get 'slack/callback', to: 'integrations#slack_callback'
+          get "slack/callback", to: "integrations#slack_callback"
         end
       end
 
-      resources :email_templates, only: [:index, :new, :create, :edit, :update, :destroy] do
+      resources :email_templates, only: [ :index, :new, :create, :edit, :update, :destroy ] do
         member do
           post :publish
           post :discard_draft
@@ -332,7 +332,7 @@ Rails.application.routes.draw do
 
       resources :csat_surveys
 
-      resources :email_template_layouts, only: [:index, :edit, :update] do
+      resources :email_template_layouts, only: [ :index, :edit, :update ] do
         member do
           post :publish
           post :discard_draft
@@ -341,7 +341,7 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :attachments, only: [:show, :create, :destroy]
+      resources :attachments, only: [ :show, :create, :destroy ]
       resources :agent, only: [ :index ] do
         collection do
           get :test

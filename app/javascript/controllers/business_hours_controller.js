@@ -11,15 +11,7 @@ export default class extends Controller {
       const dayIndex = container.dataset.dayIndex
       const toggle = this.element.querySelector(`input[name="day_enabled_${dayIndex}"]`)
       if (toggle) {
-        // Trigger the toggle logic to set opacity/pointer-events without adding new slots
-        const isEnabled = toggle.checked
-        if (isEnabled) {
-          container.style.opacity = "1"
-          container.style.pointerEvents = "auto"
-        } else {
-          container.style.opacity = "0.5"
-          container.style.pointerEvents = "none"
-        }
+        this.toggleDay({ currentTarget: toggle })
       }
     })
   }
@@ -49,6 +41,10 @@ export default class extends Controller {
 
   removeSlot(event) {
     const slot = event.currentTarget.closest('[data-business-hours-target="slot"]')
+    this.disableSlot(slot)
+  }
+
+  disableSlot(slot) {
     const destroyInput = slot.querySelector('[data-business-hours-target="destroyInput"]')
     
     if (destroyInput) {
@@ -81,13 +77,7 @@ export default class extends Controller {
         // Mark all existing slots for destruction
         const slots = container.querySelectorAll('[data-business-hours-target="slot"]')
         slots.forEach(slot => {
-          const destroyInput = slot.querySelector('[data-business-hours-target="destroyInput"]')
-          if (destroyInput) {
-            destroyInput.value = "1"
-            slot.style.display = "none"
-          } else {
-            slot.remove()
-          }
+          this.disableSlot(slot)
         })
       }
     }

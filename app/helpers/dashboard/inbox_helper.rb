@@ -10,6 +10,7 @@ module Dashboard
             when 'Channel::Whatsapp'     then 'whatsapp_badge.svg'
             when 'Channel::Email'        then 'email.svg'
             when 'Channel::ContactForm'  then 'contact_form.svg'
+            when 'Channel::Custom'       then 'custom_ch.svg'
             else 'widget.svg'
             end
 

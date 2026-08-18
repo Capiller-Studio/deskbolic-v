@@ -20,7 +20,7 @@ export default class extends Controller {
         appId: this.appIdValue,
         cookie: true,
         xfbml: true,
-        version: "v25.0"
+        version: "v26.0"
       })
     }
 

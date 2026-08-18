@@ -5,8 +5,11 @@ require "jwt"
 module Dashboard
   module Channels
     class InstagramController < DashboardController
+      skip_before_action :authenticate_user!, only: [ :callback ]
+      skip_before_action :ensure_subdomain_for_account, only: [ :callback ]
+      skip_before_action :enforce_active_subscription, only: [ :callback ]
       before_action :set_instagram_channel, only: %i[edit update destroy]
-      before_action :authorize_instagram_channel
+      before_action :authorize_instagram_channel, except: [ :callback ]
 
       def index
         @instagram_channels = current_account.with_shard do
@@ -36,15 +39,37 @@ module Dashboard
       # Instagram redirects here after the user authorizes (or denies) the app
       def callback
         if params[:error].present?
-          redirect_to(new_channels_instagram_path, alert: params[:error_description] || t("dashboard.instagram_channels.callback_error"))
+          redirect_target = current_account ? new_channels_instagram_path : root_path
+          redirect_to(redirect_target, alert: params[:error_description] || t("dashboard.instagram_channels.callback_error"))
           return
         end
 
         account_id = verify_state_token(params[:state])
-        unless account_id == current_account.id
-          redirect_to(new_channels_instagram_path, alert: t("dashboard.instagram_channels.invalid_state"))
+        if account_id.blank?
+          redirect_target = current_account ? new_channels_instagram_path : root_path
+          redirect_to(redirect_target, alert: t("dashboard.instagram_channels.invalid_state"))
           return
         end
+
+        target_account = Account.find_by(id: account_id)
+        if target_account.blank?
+          redirect_to(root_path, alert: t("dashboard.instagram_channels.invalid_state"))
+          return
+        end
+
+        # If accessed on apex domain (or wrong subdomain), redirect to the account's subdomain callback
+        if request.subdomain.blank? || request.subdomain == "www" || current_account&.id != target_account.id
+          redirect_to(callback_channels_instagram_index_url(
+            subdomain: target_account.identifier,
+            code: params[:code],
+            state: params[:state]
+          ), allow_other_host: true)
+          return
+        end
+
+        # Ensure user is authenticated and authorized on the subdomain
+        authenticate_user!
+        authorize(:instagram_channel)
 
         oauth_service = ::Channels::Instagram::OauthService.new(account: current_account)
 
@@ -81,7 +106,8 @@ module Dashboard
         end
       rescue StandardError => e
         Rails.logger.error("Instagram OAuth callback error: #{e.message}")
-        redirect_to(new_channels_instagram_path, alert: t("dashboard.instagram_channels.callback_error"))
+        fallback_target = current_account ? new_channels_instagram_path : root_path
+        redirect_to(fallback_target, alert: t("dashboard.instagram_channels.callback_error"))
       end
 
       def edit; end
@@ -122,11 +148,13 @@ module Dashboard
 
       def instagram_channel_update_params
         params.expect(
-          instagram_channel: [ :name,
-          primary_inbox_attributes: [
-            :id, :reopen_window_seconds, :csat_survey_enabled, :csat_survey_id, :business_hour_group_id,
-            sla_policy_ids: []
-          ] ]
+          instagram_channel: [
+            :name,
+            primary_inbox_attributes: [
+              :id, :reopen_window_seconds, :csat_survey_enabled, :csat_survey_id, :business_hour_group_id,
+              sla_policy_ids: []
+            ]
+          ]
         )
       end
 
@@ -146,12 +174,10 @@ module Dashboard
       end
 
       def instagram_callback_url
-        # Enforce a consistent URL string using DESKBOLIC_URL to prevent OAuth 400 errors
-        # caused by host mismatches.
-        URI.join(
-          ENV.fetch("DESKBOLIC_URL", "https://deskbolic.app"),
-          callback_channels_instagram_index_path(locale: nil)
-        ).to_s
+        # In production with DESKBOLIC_URL, use configured apex URL (matches Meta Console: https://deskbolic.app/channels/instagram/callback).
+        # In local/ngrok environments, dynamically use the current request host (matches ngrok in Meta Console).
+        base = ENV["DESKBOLIC_URL"].presence || "#{request.protocol}#{request.host_with_port}"
+        URI.join(base, "/channels/instagram/callback").to_s
       end
     end
   end

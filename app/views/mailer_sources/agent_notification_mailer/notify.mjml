@@ -74,7 +74,7 @@
       <mj-section background-color="#0f172a" padding="38px 40px 40px">
         <mj-column>
           <mj-text padding="0 0 12px" font-size="12px" font-weight="700" color="#a5b4fc" letter-spacing="0.12em">
-            NEW NOTIFICATION &nbsp;&bull;&nbsp; #[[ERB= @conversation.identifier ]]
+            NEW NOTIFICATION &nbsp;&bull;&nbsp; #[[ERB= @conversation.try(:identifier) || @resource.try(:identifier) || @resource.try(:id) ]]
           </mj-text>
           <mj-text padding="0 0 14px" font-size="30px" line-height="38px" font-weight="700" color="#ffffff" letter-spacing="-0.03em">
             [[ERB= I18n.t("notifications.events.#{@notification.event}", default: @notification.event.to_s.humanize) ]]

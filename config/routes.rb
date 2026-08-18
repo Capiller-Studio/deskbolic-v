@@ -83,7 +83,9 @@ Rails.application.routes.draw do
     post "email-invitation", to: "account_invitations#accept_invitation"
     get "profile", to: "profile#index"
     patch "profile", to: "profile#update"
-
+    namespace :channels do
+      get "instagram/callback", to: "instagram#callback"
+    end
 
     constraints(SubdomainConstraint) do
       resources :search, only: [ :index ], controller: "searches" do

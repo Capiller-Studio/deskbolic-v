@@ -54,7 +54,7 @@ module Dashboard
           end
 
           if @custom_channel.update(processed_params)
-            redirect_to channels_custom_index_path, notice: t("dashboard.custom_channels.updated", default: "Custom Channel updated")
+            redirect_to(channels_custom_index_path, notice: t("dashboard.custom_channels.updated", default: "Custom Channel updated"))
           else
             render(:edit, status: :unprocessable_entity)
           end

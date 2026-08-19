@@ -24,11 +24,11 @@ module Dashboard
       @policies = @policies.where(strategy: @selected_type) if @selected_type != "all"
 
       @policy_tabs = [
-        { key: :all, label: t("dashboard.assignment_policies.index.tab_all", default: "All"), path: assignment_policies_path },
-        { key: :round_robin, label: t("dashboard.assignment_policies.index.tab_round_robin", default: "Round Robin"), path: assignment_policies_path(strategy: :round_robin) },
-        { key: :load_balanced, label: t("dashboard.assignment_policies.index.tab_load_balanced", default: "Load Balanced"), path: assignment_policies_path(strategy: :load_balanced) },
-        { key: :skills_based, label: t("dashboard.assignment_policies.index.tab_skills_based", default: "Skills Based"), path: assignment_policies_path(strategy: :skills_based) },
-        { key: :manual, label: t("dashboard.assignment_policies.index.tab_manual", default: "Manual"), path: assignment_policies_path(strategy: :manual) }
+        { key: :all, label: t(".tab_all", default: "All"), path: assignment_policies_path },
+        { key: :round_robin, label: t(".tab_round_robin", default: "Round Robin"), path: assignment_policies_path(strategy: :round_robin) },
+        { key: :load_balanced, label: t(".tab_load_balanced", default: "Load Balanced"), path: assignment_policies_path(strategy: :load_balanced) },
+        { key: :skills_based, label: t(".tab_skills_based", default: "Skills Based"), path: assignment_policies_path(strategy: :skills_based) },
+        { key: :manual, label: t(".tab_manual", default: "Manual"), path: assignment_policies_path(strategy: :manual) }
       ]
     end
 

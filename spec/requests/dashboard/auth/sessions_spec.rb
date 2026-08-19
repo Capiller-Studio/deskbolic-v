@@ -23,7 +23,7 @@ RSpec.describe 'Dashboard::Sessions', type: :request do
 
     it 'fails authentication with invalid password' do
       post user_session_path, params: { user: { email: user.email, password: 'WrongPassword!' } }
-      expect(response).to have_http_status(:unprocessable_entity).or have_http_status(:ok)
+      expect(response).to have_http_status(:unprocessable_content).or have_http_status(:ok)
     end
   end
 

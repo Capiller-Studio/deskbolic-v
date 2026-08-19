@@ -19,11 +19,11 @@ module Dashboard
       @selected_type = %w[general language product technical].include?(params[:type]) ? params[:type] : "all"
 
       @skill_tabs = [
-        { key: :all, label: t("dashboard.skills.index.tab_all", default: "All"), path: skills_path },
-        { key: :general, label: t("dashboard.skills.index.tab_general", default: "General"), path: skills_path(type: :general) },
-        { key: :language, label: t("dashboard.skills.index.tab_language", default: "Language"), path: skills_path(type: :language) },
-        { key: :product, label: t("dashboard.skills.index.tab_product", default: "Product"), path: skills_path(type: :product) },
-        { key: :technical, label: t("dashboard.skills.index.tab_technical", default: "Technical"), path: skills_path(type: :technical) }
+        { key: :all, label: t(".tab_all", default: "All"), path: skills_path },
+        { key: :general, label: t(".tab_general", default: "General"), path: skills_path(type: :general) },
+        { key: :language, label: t(".tab_language", default: "Language"), path: skills_path(type: :language) },
+        { key: :product, label: t(".tab_product", default: "Product"), path: skills_path(type: :product) },
+        { key: :technical, label: t(".tab_technical", default: "Technical"), path: skills_path(type: :technical) }
       ]
 
       @skills = @skills.by_type(@selected_type) if @selected_type != "all"

@@ -4,7 +4,13 @@ Hello <%= @user.display_name || @user.email %>,
 
 You have a new alert regarding <%= @conversation.try(:identifier) || @resource.try(:identifier) %>.
 
-View Details: <%= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') %>/conversations/<%= @conversation.try(:id) || @resource.try(:id) %>
+<% if @conversation.present? %>
+View Details: <%= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') %>/conversations/<%= @conversation.id %>
+<% elsif @notification.event.in?(%w[limit_approaching limit_reached subscription_created subscription_renewed subscription_cancelled trial_expiring payment_failed]) %>
+Manage Plan & Billing: <%= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') %>/settings/billing
+<% else %>
+View Details: <%= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') %>
+<% end %>
 
 ---
 Deskbolic

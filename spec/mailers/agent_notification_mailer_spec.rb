@@ -16,6 +16,20 @@ RSpec.describe AgentNotificationMailer, type: :mailer do
       expect(mail.to).to eq([ 'agent@example.com' ])
       expect(mail.subject).to be_present
     end
+
+    it 'renders limit_approaching notification email with billing link' do
+      limit_notif = create(:notification, account: account, user: user, resource: account, event: 'limit_approaching')
+      mail = described_class.notify(limit_notif)
+      expect(mail.to).to eq([ 'agent@example.com' ])
+      expect(mail.body.encoded).to include('/settings/billing')
+    end
+
+    it 'renders limit_reached notification email with billing link' do
+      limit_notif = create(:notification, account: account, user: user, resource: account, event: 'limit_reached')
+      mail = described_class.notify(limit_notif)
+      expect(mail.to).to eq([ 'agent@example.com' ])
+      expect(mail.body.encoded).to include('/settings/billing')
+    end
   end
 
   describe '#conversation_assigned' do

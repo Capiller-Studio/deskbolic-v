@@ -11,11 +11,11 @@ module Dashboard
     end
 
     def create?
-      authorized?("inboxes.write", feature: "channels.facebook")
+      authorized?("inboxes.write", feature: "channels.facebook", limit: :channels)
     end
 
     def callback?
-      authorized?("inboxes.write", feature: "channels.facebook")
+      authorized?("inboxes.write", feature: "channels.facebook", limit: :channels)
     end
 
     def edit?

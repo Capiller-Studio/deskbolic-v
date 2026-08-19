@@ -11,7 +11,7 @@ module Dashboard
     end
 
     def create?
-      can?("customers.write")
+      authorized?("customers.write", limit: :customers)
     end
 
     def update?

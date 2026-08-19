@@ -7,7 +7,7 @@ module Dashboard
     end
 
     def create?
-      authorized?("custom_fields.manage", feature: "custom_fields")
+      authorized?("custom_fields.manage", feature: "custom_fields", limit: :custom_fields)
     end
 
     def show?

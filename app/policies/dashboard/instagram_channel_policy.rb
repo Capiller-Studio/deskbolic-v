@@ -11,15 +11,15 @@ module Dashboard
     end
 
     def oauth_authorize?
-      authorized?("inboxes.write", feature: "channels.instagram")
+      authorized?("inboxes.write", feature: "channels.instagram", limit: :channels)
     end
 
     def create?
-      authorized?("inboxes.write", feature: "channels.instagram")
+      authorized?("inboxes.write", feature: "channels.instagram", limit: :channels)
     end
 
     def callback?
-      authorized?("inboxes.write", feature: "channels.instagram")
+      authorized?("inboxes.write", feature: "channels.instagram", limit: :channels)
     end
 
     def edit?

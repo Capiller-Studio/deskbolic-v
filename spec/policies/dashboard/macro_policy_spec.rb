@@ -30,7 +30,7 @@ RSpec.describe Dashboard::MacroPolicy do
     end
 
     context 'when system macro' do
-      let(:system_macro) { create(:macro, account: account, is_system: true) }
+      let(:system_macro) { create(:macro, account: account, system_provided: true) }
 
       it 'allows owner to update but not destroy' do
         policy = described_class.new(owner_user, system_macro)

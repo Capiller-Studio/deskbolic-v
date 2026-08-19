@@ -12,7 +12,7 @@ module Dashboard
       end
 
       def create?
-        authorized?("roles.manage", feature: :custom_roles)
+        authorized?("roles.manage", feature: :custom_roles, limit: :custom_roles)
       end
 
       def update?

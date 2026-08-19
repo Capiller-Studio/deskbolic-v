@@ -15,7 +15,7 @@ module Dashboard
     end
 
     def create?
-      authorized?("email_templates.manage", feature: :email_templates)
+      authorized?("email_templates.manage", feature: :email_templates, limit: :email_templates)
     end
 
     def destroy?

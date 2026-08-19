@@ -1,5 +1,4 @@
 = form_with(model: custom_field, local: true, class: "settings-form form-fields", data: { controller: "custom-field-form" }) do |f|
-  - is_system = custom_field.system_provided?
   - if custom_field.errors.any?
     .ui-error-summary
       h3 = t("dashboard.custom_fields.form.error_heading")

@@ -40,7 +40,7 @@ RSpec.describe Dashboard::AutomationPolicy do
     end
 
     context 'when system automation' do
-      let(:system_automation) { create(:automation, account: account, is_system: true) }
+      let(:system_automation) { create(:automation, account: account, system_provided: true) }
 
       it 'allows owner to update but not destroy' do
         policy = described_class.new(owner_user, system_automation)

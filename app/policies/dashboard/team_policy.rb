@@ -11,7 +11,7 @@ module Dashboard
     end
 
     def create?
-      authorized?("teams.write", feature: :teams)
+      authorized?("teams.write", feature: :teams, limit: :teams)
     end
 
     def update?

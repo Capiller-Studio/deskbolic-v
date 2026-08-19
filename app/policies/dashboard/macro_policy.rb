@@ -11,18 +11,18 @@ module Dashboard
     end
 
     def create?
-      can?("macros.manage")
+      authorized?("macros.manage", limit: :macros)
     end
 
     def update?
-      return false if record.is_system? && !owner?
+      return false if record.system_provided? && !owner?
       return false if record.personal? && !record.owned_by?(user) && !owner?
 
       can?("macros.manage")
     end
 
     def destroy?
-      return false if record.is_system?
+      return false if record.system_provided?
       return false if record.personal? && !record.owned_by?(user) && !owner?
 
       can?("macros.manage")

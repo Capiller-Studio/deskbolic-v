@@ -11,7 +11,7 @@ module Dashboard
     end
 
     def create?
-      authorized?("domains.manage", feature: :custom_domains)
+      authorized?("domains.manage", feature: :custom_domains, limit: :custom_domains)
     end
 
     def update?

@@ -24,6 +24,6 @@ div id="automation_#{automation.id}" class="auto-card #{automation.inactive? ? '
     = button_to duplicate_automation_path(automation), method: :post, class: "auto-action-btn", title: t("dashboard.automations.index.duplicate")
       | ⧉
 
-    - unless automation.is_system?
+    - unless automation.system_provided?
       = button_to automation_path(automation), method: :delete, class: "auto-action-btn danger", title: t("dashboard.skills.index.delete"), data: { turbo_confirm: t("dashboard.automations.index.delete_confirm") }
         | ✕

@@ -1,14 +1,16 @@
-= render("dashboard/shared/dashboard_container", current_page: "settings") do
+= render("dashboard/shared/dashboard_container", current_page: "csat-surveys") do
   = render("dashboard/settings/settings_sidebar", current_page: "csat-surveys") do
-    .ui-page-body
-      .ui-index-header
-        .ui-title-area
-          h2.f-semi-32 = t("dashboard.csat_surveys.new.title")
-          p.f-reg-16 = t("dashboard.csat_surveys.new.description")
-        = link_to csat_surveys_path, class: "ui-btn-outline"
-          = t("shared.back")
-          
-      .ui-card
-        .ui-card-top
-          .ui-card-info style="width: 100%;"
-            = render "form", survey: @csat_survey
+    .ap-form-container
+      .ap-form-header
+        .ap-form-header-copy
+          = link_to csat_surveys_path, class: "ap-header-back-link", aria: { label: t("shared.back", default: "Back") }
+            = image_tag("back_arrow.svg", class: "ap-back-arrow-icon", alt: "")
+          div
+            h2.f-semi-24 = t("dashboard.csat_surveys.new.title")
+            p.f-reg-14 = t("dashboard.csat_surveys.new.description")
+        .ap-form-header-actions
+          = link_to t("dashboard.assignment_policies.form.cancel", default: "Cancel"), csat_surveys_path, class: "ap-btn-secondary"
+          button.ap-btn-save-header type="submit" form="csat-survey-form"
+            = image_tag("mark.svg", class: "ap-save-mark-icon", alt: "")
+            span = t("dashboard.csat_surveys.form.save_policy", default: "Save Policy")
+      = render "form", survey: @csat_survey

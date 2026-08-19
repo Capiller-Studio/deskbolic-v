@@ -1,27 +1,53 @@
-- response_time = policy.initial_response_time_limit ? t("general.minutes_short", count: (policy.initial_response_time_limit / 60).to_i) : t("general.none")
+- format_sla_time = ->(seconds) { seconds = seconds.to_f; seconds <= 0 ? t("general.none", default: "None") : ((seconds % 86400).zero? ? "#{(seconds / 86400).to_i}d" : ((seconds % 3600).zero? ? "#{(seconds / 3600).to_i}h" : "#{(seconds / 60).to_i}m")) }
+- inbox_names = policy.inboxes.map(&:name)
+- description = policy.description.present? ? policy.description : t("dashboard.sla_policies.index.no_description", default: "No description added.")
+- business_hours_label = policy.during_working_hours? ? t("general.yes", default: "Yes") : t("general.no", default: "No")
+- creator_source = policy.respond_to?(:creator) ? policy.creator : (policy.respond_to?(:created_by) ? policy.created_by : nil)
+- creator = creator_source.present? ? (creator_source.respond_to?(:name) ? creator_source.name : creator_source.to_s) : t("dashboard.sla_policies.index.creator_unavailable", default: "Unknown")
 
-.ui-policy-card.ui-sla-card id="sla_policy_#{policy.id}"
-  .ui-policy-card-leading-icon
-    | ⏱
+article.ui-panel.ai-agent-card.sla-policy-card id="sla_policy_#{policy.id}"
+  .ui-panel__header.ai-agent-card-header
+    .ui-panel__identity.ai-agent-card-identity
+      .ai-agent-card-avatar.sla-policy-card-avatar
+        = image_tag("sla-policy.svg", alt: "", aria: { hidden: true })
+      .ai-agent-card-title.sla-policy-card-title
+        h2 = policy.name
+        p = truncate(description, length: 88)
 
-  .ui-policy-card-info
-    .ui-policy-card-name = policy.name
-    .ui-policy-card-meta
-      span.ui-policy-badge.ui-policy-badge--sla
-        = t("dashboard.sla_policies.policy_card.first_response", value: response_time)
+    details.ai-agent-card-menu
+      summary aria-label=t("dashboard.sla_policies.index.actions_for", name: policy.name, default: "Actions for %{name}")
+        = inline_svg_tag("dots.svg", class: "ai-agent-card-menu-icon", aria: { hidden: true })
+      .ai-agent-card-menu-popover role="menu"
+        = link_to edit_sla_policy_path(policy), role: "menuitem" do
+          = t("general.edit", default: "Edit")
+        = button_to sla_policy_path(policy), method: :delete, role: "menuitem", form: { class: "ai-agent-card-delete-form" }, data: { turbo_confirm: t("shared.confirm_delete") } do
+          span = t("general.delete", default: "Delete")
 
-      - if policy.description.present?
-        span.ui-policy-card-detail — #{truncate(policy.description, length: 60)}
+  .sla-policy-metrics
+    .sla-policy-metric
+      span = t("dashboard.sla_policies.index.first_response", default: "First Response")
+      strong = format_sla_time.call(policy.initial_response_time_limit)
+    .sla-policy-metric
+      span = t("dashboard.sla_policies.index.next_response", default: "Next Response")
+      strong = format_sla_time.call(policy.response_time_limit)
+    .sla-policy-metric
+      span = t("dashboard.sla_policies.index.resolution_time", default: "Resolution Time")
+      strong = format_sla_time.call(policy.resolution_time_limit)
 
-      - if policy.inboxes.any?
-        span.ui-policy-card-detail = t("dashboard.sla_policies.policy_card.inboxes", count: policy.inboxes.size)
+  dl.ai-agent-card-details.sla-policy-details
+    .ai-agent-card-detail
+      dt
+        = image_tag("envelope.svg", alt: "", aria: { hidden: true })
+        span = t("dashboard.sla_policies.index.inboxes_label", default: "Inboxes")
+      dd title=inbox_names.join(", ") = inbox_names.any? ? truncate(inbox_names.join(", "), length: 40) : t("dashboard.sla_policies.index.no_inboxes", default: "None")
+    .ai-agent-card-detail
+      dt
+        = image_tag("clock.svg", alt: "", aria: { hidden: true })
+        span = t("dashboard.sla_policies.index.business_hours_label", default: "Business hours")
+      dd = business_hours_label
 
-      - if policy.during_working_hours?
-        span.ui-policy-card-detail = t("dashboard.business_hour_groups.index.title")
-
-  .ui-policy-card-actions
-    = link_to edit_sla_policy_path(policy), class: "ui-policy-action", title: t("general.edit")
-      | ✎
-
-    = button_to sla_policy_path(policy), method: :delete, class: "ui-policy-action danger", title: t("general.delete"), data: { turbo_confirm: t("shared.confirm_delete") }
-      | ✕
+  .ai-agent-card-footer.sla-policy-card-footer
+    .ai-agent-card-language
+      span = t("dashboard.sla_policies.index.created_ago", time: time_ago_in_words(policy.created_at), default: "Created %{time} ago")
+    .sla-policy-created-by
+      span = t("dashboard.sla_policies.index.created_by", name: creator, default: "By %{name}")

@@ -7,6 +7,8 @@ module Dashboard
     def index
       authorize(AssignmentPolicy)
 
+      @selected_type = %w[round_robin load_balanced skills_based manual].include?(params[:strategy]) ? params[:strategy] : "all"
+
       policies_scope = current_account.assignment_policies
       strategy_counts = policies_scope.group(:strategy).count
       count_for_strategy = ->(strategy) { strategy_counts[strategy.to_s].to_i + strategy_counts[AssignmentPolicy.strategies[strategy.to_s]].to_i }
@@ -19,7 +21,15 @@ module Dashboard
       }
 
       @policies = policies_scope.includes(:inboxes).order(:position)
-      @policies = @policies.where(strategy: params[:strategy]) if params[:strategy].present?
+      @policies = @policies.where(strategy: @selected_type) if @selected_type != "all"
+
+      @policy_tabs = [
+        { key: :all, label: t("dashboard.assignment_policies.index.tab_all", default: "All"), path: assignment_policies_path },
+        { key: :round_robin, label: t("dashboard.assignment_policies.index.tab_round_robin", default: "Round Robin"), path: assignment_policies_path(strategy: :round_robin) },
+        { key: :load_balanced, label: t("dashboard.assignment_policies.index.tab_load_balanced", default: "Load Balanced"), path: assignment_policies_path(strategy: :load_balanced) },
+        { key: :skills_based, label: t("dashboard.assignment_policies.index.tab_skills_based", default: "Skills Based"), path: assignment_policies_path(strategy: :skills_based) },
+        { key: :manual, label: t("dashboard.assignment_policies.index.tab_manual", default: "Manual"), path: assignment_policies_path(strategy: :manual) }
+      ]
     end
 
     def show

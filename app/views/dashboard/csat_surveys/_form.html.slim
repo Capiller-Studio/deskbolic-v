@@ -1,75 +1,86 @@
-= form_with(model: survey, url: (survey.persisted? ? csat_survey_path(survey) : csat_surveys_path), local: true, class: "settings-form form-fields") do |f|
+- url = survey.persisted? ? csat_survey_path(survey) : csat_surveys_path
+- method = survey.persisted? ? :patch : :post
+- email_templates = defined?(@email_templates) && @email_templates.present? ? @email_templates : Current.account.email_templates.where(template_type: :csat_survey)
+- translations = survey.translations.reject(&:marked_for_destruction?).reject { |translation| translation.locale.to_s == I18n.default_locale.to_s }
+- current_locales = translations.map(&:locale).map(&:to_s)
+- available_locales = Core::SUPPORTED_LOCALES.map(&:to_s) - (current_locales | [I18n.default_locale.to_s])
+- available_locales_options = available_locales.map { |locale| [I18n.t("languages.#{locale.downcase}", default: locale.upcase), locale] }
+
+= form_with(model: survey, url: url, method: method, id: "csat-survey-form", class: "ui-settings-form", html: { novalidate: true }) do |f|
   - if survey.errors.any?
     .ui-error-summary
-      h3 = t("shared.error_heading")
+      h3 = t("shared.error_heading", default: "Please fix the following errors")
       ul
         - survey.errors.full_messages.each do |message|
           li = message
 
-  .ui-section.ui-section--always-open
-    .ui-section-header
-      .ui-section-title
-        span.ui-section-icon ⚙️
-        span.ui-section-label = t("ui.dashboard.csat_surveys.form.basic_configuration")
-    .ui-section-body
-      .ui-form-row
+  .ap-section.ap-form-card
+    .ap-section-header
+      span.ap-section-icon
+        = image_tag("document.svg", class: "ap-icon-svg", alt: "")
+      span = t("dashboard.csat_surveys.form.basic_configuration", default: "Basic configuration")
+    .ap-section-body.ap-policy-details-body
+      .ap-field-stack
         div
-          = f.label :name, t("forms.labels.survey_name"), class: "ui-label"
-          = f.text_field :name, class: "ui-input", required: true, placeholder: t("dashboard.csat_surveys.form.name_placeholder")
-          p.f-reg-12.text-muted style="margin-top: 4px;" The internal name for this survey.
-        
-        div
-          = f.label :email_template_id, t("forms.labels.assigned_email_template_optional"), class: "ui-label"
-          = f.collection_select :email_template_id, Current.account.email_templates.where(template_type: :csat_survey), :id, :name, { include_blank: t("forms.options.use_system_default_design") }, class: "ui-select"
+          label.f-semi-13.ap-label for="csat-survey-name"
+            = t("forms.labels.survey_name", default: "Survey Name")
+            span.csat-required-marker *
+          = f.text_field :name, class: "ap-input ui-control ui-input", id: "csat-survey-name", required: true, placeholder: t("dashboard.csat_surveys.form.name_placeholder", default: "e.g., Post Conversation Survey"), autocomplete: "off"
+          p.ap-hint = t("dashboard.csat_surveys.form.name_hint", default: "The internal name for this survey.")
 
-      .ui-form-row style="margin-top: 16px;"
         div
-          = f.label :prompt, t("forms.labels.chat_prompt_whatsapp_widget"), class: "ui-label"
-          = f.text_field :prompt, class: "ui-input", placeholder: t("dashboard.csat_surveys.form.email_prompt_placeholder")
-          p.f-reg-12.text-muted style="margin-top: 4px;" 
-            | #{t("ui.dashboard.csat_surveys.form.the_question_asked_in_chat_channels_emails_use_the_assigned")}
-            br
-            | #{t("ui.dashboard.csat_surveys.form.saved_to_your_default_language_english_as_a_fallback")}
-        div
-          = f.label :portal_title, t("forms.labels.portal_title_on_the_feedback_page"), class: "ui-label"
-          = f.text_field :portal_title, class: "ui-input", placeholder: t("dashboard.csat_surveys.form.portal_title_placeholder")
-          p.f-reg-12.text-muted style="margin-top: 4px;" Saved to your default language (English) as a fallback.
+          label.f-semi-13.ap-label for="csat-survey-prompt"
+            = t("forms.labels.chat_prompt_whatsapp_widget", default: "Chat Prompt (WhatsApp, Widget)")
+            span.csat-required-marker *
+          = f.text_area :prompt, class: "ap-input ap-textarea", id: "csat-survey-prompt", rows: 4, required: true, placeholder: t("dashboard.csat_surveys.form.email_prompt_placeholder", default: "e.g., How was your experience?")
+          p.ap-hint = t("dashboard.csat_surveys.form.default_language_hint", default: "Saved to your default language (English) as a fallback.")
 
-      .ui-form-row style="margin-top: 16px;"
-        div
-          = f.label :portal_subtitle, t("forms.labels.portal_subtitle"), class: "ui-label"
-          = f.text_field :portal_subtitle, class: "ui-input", placeholder: t("dashboard.csat_surveys.form.portal_subtitle_placeholder")
-          p.f-reg-12.text-muted style="margin-top: 4px;" Saved to your default language (English) as a fallback.
-        div
-          = f.label :portal_feedback_label, t("forms.labels.feedback_textbox_label"), class: "ui-label"
-          = f.text_field :portal_feedback_label, class: "ui-input", placeholder: t("dashboard.csat_surveys.form.feedback_label_placeholder")
-          p.f-reg-12.text-muted style="margin-top: 4px;" Saved to your default language (English) as a fallback.
+        .ap-policy-details-grid.csat-form-row
+          div
+            label.f-semi-13.ap-label for="csat-survey-email-template"
+              = t("dashboard.csat_surveys.form.assigned_email_template", default: "Assigned Email Template")
+              span.ap-optional-label = t("dashboard.csat_surveys.form.optional_label", default: "(optional)")
+            .ui-field-control.ui-field-control--plain
+              = f.collection_select :email_template_id, email_templates, :id, :name, { include_blank: t("forms.options.use_system_default_design", default: "Use System Default Design") }, class: "ap-input ui-select ui-control", id: "csat-survey-email-template", data: { controller: "select" }
+            p.ap-hint = t("dashboard.csat_surveys.form.email_template_hint", default: "This template will be used for emails.")
 
-  .ui-section.ui-section--always-open
-    .ui-section-header
-      .ui-section-title
-        span.ui-section-icon 🌐
-        span.ui-section-label = t("ui.dashboard.csat_surveys.form.localized_content")
-    .ui-section-body
-      div data-controller="nested-translations"
-        p.text-muted style="margin-bottom: 16px; font-size: 13px;" Provide localized strings for your CSAT survey. These will override the default locale based on the customer's browser.
-        
-        .cf-translations-container data-nested-translations-target="container"
-          = f.fields_for :translations do |tf|
-            = render "dashboard/csat_surveys/translation_fields", f: tf
+          div
+            label.f-semi-13.ap-label for="csat-survey-portal-title"
+              = t("forms.labels.portal_title_on_the_feedback_page", default: "Portal Title (on the feedback page)")
+              span.csat-required-marker *
+            = f.text_field :portal_title, class: "ap-input ui-control ui-input", id: "csat-survey-portal-title", required: true, placeholder: t("dashboard.csat_surveys.form.portal_title_placeholder", default: "e.g., How did we do?")
+            p.ap-hint = t("dashboard.csat_surveys.form.default_language_hint", default: "Saved to your default language (English) as a fallback.")
 
-        template data-nested-translations-target="template"
-          = f.fields_for :translations, Csat::SurveyTranslation.new, child_index: 'NEW_RECORD' do |tf|
-            = render "dashboard/csat_surveys/translation_fields", f: tf
-        
-        - current_locales = survey.translations.reject(&:marked_for_destruction?).map(&:locale).map(&:to_s)
-        - available_locales = Core::SUPPORTED_LOCALES.map(&:to_s) - current_locales
-        - available_locales_options = available_locales.map { |l| [I18n.t("languages.#{l.downcase}"), l] }
-        
-        div style="display: flex; gap: 12px; align-items: center; margin-top: 16px; padding-top: 16px; border-top: 1px solid #f1f5f9;"
-          = select_tag "new_locale", options_for_select(available_locales_options), include_blank: t("forms.options.select_language"), class: "ui-select", data: { "nested-translations-target": "localeSelect" }, style: "width: 200px;"
-          button.ui-btn-secondary type="button" data-action="click->nested-translations#addTranslation"
-            | #{t("ui.dashboard.channels.contact_form.form.add_language")}
+        .ap-policy-details-grid.csat-form-row
+          div
+            label.f-semi-13.ap-label for="csat-survey-portal-subtitle" = t("forms.labels.portal_subtitle", default: "Portal Subtitle")
+            = f.text_field :portal_subtitle, class: "ap-input ui-control ui-input", id: "csat-survey-portal-subtitle", placeholder: t("dashboard.csat_surveys.form.portal_subtitle_placeholder", default: "e.g., Your feedback helps us improve.")
+            p.ap-hint = t("dashboard.csat_surveys.form.default_language_hint", default: "Saved to your default language (English) as a fallback.")
 
-  .form-actions style="margin-top: 24px; display: flex; justify-content: flex-end;"
-    = f.submit t("ui.dashboard.csat_surveys.form.save_survey"), class: "ui-btn-primary"
+          div
+            label.f-semi-13.ap-label for="csat-survey-feedback-label" = t("forms.labels.feedback_textbox_label", default: "Feedback Textbox Label")
+            = f.text_field :portal_feedback_label, class: "ap-input ui-control ui-input", id: "csat-survey-feedback-label", placeholder: t("dashboard.csat_surveys.form.feedback_label_placeholder", default: "e.g., Tell us more about your experience (optional)")
+            p.ap-hint = t("dashboard.csat_surveys.form.default_language_hint", default: "Saved to your default language (English) as a fallback.")
+
+  .ap-section.ap-form-card.csat-translation-section
+    .ap-section-header
+      span.ap-section-icon
+        = image_tag("document.svg", class: "ap-icon-svg", alt: "")
+      span = t("dashboard.csat_surveys.form.policy_details", default: "Policy Details")
+    .ap-section-body data-controller="nested-translations"
+      .csat-locale-tools
+        .ui-field-control.ui-locale-picker.csat-locale-picker
+          = select_tag "new_translation_locale", options_for_select(available_locales_options), include_blank: t("forms.options.select_language", default: "Select Language"), class: "ui-select ui-control", data: { controller: "select", "nested-translations-target": "localeSelect", action: "change->nested-translations#addTranslation" }
+          span.ui-locale-picker__icon aria-hidden="true"
+            = image_tag("world.svg", alt: "", width: 14, height: 14)
+        button.csat-add-language type="button" data-action="click->nested-translations#addTranslation"
+          span = t("dashboard.csat_surveys.form.add_language", default: "+ Add Language")
+
+      .csat-translations-container data-nested-translations-target="container"
+        - translations.each_with_index do |translation, index|
+          = f.fields_for :translations, translation do |translation_form|
+            = render "translation_fields", f: translation_form, active: index.zero?
+
+      template data-nested-translations-target="template"
+        = f.fields_for :translations, Csat::SurveyTranslation.new, child_index: "NEW_RECORD" do |translation_form|
+          = render "translation_fields", f: translation_form, active: false

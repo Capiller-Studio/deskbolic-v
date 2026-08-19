@@ -1,0 +1,37 @@
+- type_icons = { "general" => "skill-general.svg", "language" => "language.svg", "product" => "product.svg", "technical" => "technical.svg" }
+- skill_type = skill.skill_type.to_s
+- type_label = t("dashboard.skills.types.#{skill_type}", default: skill_type.humanize)
+- description = skill.description.present? ? skill.description : t("dashboard.skills.index.no_description", default: "No description added.")
+- status_key = skill.active? ? "active" : "inactive"
+- created_date = skill.created_at.strftime("%b %-d, %Y")
+- searchable_values = [skill.name, description, type_label, skill.status].compact.join(" ").downcase
+
+article.ui-panel.ai-agent-card.sk-skill-card id="skill_#{skill.id}" class="sk-skill-card--#{skill_type} #{skill.active? ? nil : 'inactive'}" data-filterable-collection-target="item" data-searchable=searchable_values
+  .ui-panel__header.ai-agent-card-header
+    .ui-panel__identity.ai-agent-card-identity
+      .ai-agent-card-avatar.sk-skill-card-avatar
+        = image_tag(type_icons.fetch(skill_type, "skill-general.svg"), alt: "", aria: { hidden: true })
+      .ai-agent-card-title.sk-skill-card-title
+        .sk-skill-card-title-row
+          h2 = skill.name
+          span.sk-skill-type-pill class="sk-skill-type-pill--#{skill_type}" = type_label
+
+    details.ai-agent-card-menu
+      summary aria-label=t("dashboard.skills.index.actions_for", name: skill.name, default: "Actions for %{name}")
+        = inline_svg_tag("dots.svg", class: "ai-agent-card-menu-icon", aria: { hidden: true })
+      .ai-agent-card-menu-popover role="menu"
+        = link_to edit_skill_path(skill), role: "menuitem" do
+          = t("general.edit", default: "Edit")
+        = button_to skill_path(skill), method: :delete, role: "menuitem", form: { class: "ai-agent-card-delete-form" }, data: { turbo_confirm: t("dashboard.skills.index.delete_confirm") } do
+          span = t("general.delete", default: "Delete")
+
+  p.sk-skill-card-description = description
+
+  .ai-agent-card-footer.sk-skill-card-footer
+    .sk-skill-created
+      span = t("dashboard.skills.index.created_on", date: created_date, default: "Created: %{date}")
+    .sk-skill-status
+      span.sk-skill-status-label = t("dashboard.skills.index.status_label", default: "Status:")
+      span.ui-status-badge class="ui-status-badge--#{status_key}"
+        span.ui-status-badge__dot aria-hidden="true"
+        = t("general.#{status_key}", default: status_key.humanize)

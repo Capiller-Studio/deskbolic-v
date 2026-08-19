@@ -1,50 +1,23 @@
 = render("dashboard/shared/dashboard_container", current_page: "identity-sources") do
   = render("dashboard/settings/settings_sidebar", current_page: "identity-sources") do
-    .body-container 
-      .ap-index-header
-        .ap-title-area
-          h2.f-semi-32 style="color: #0f172a; letter-spacing: -0.5px;" = t("dashboard.identity_sources.index.title")
-          p.f-reg-16 style="color: #64748b; margin-top: 4px;" = t("dashboard.identity_sources.index.description")
-        = link_to new_identity_source_path, class: "ap-btn-primary ap-flex-center"
-          | + #{t("dashboard.identity_sources.index.create_button")}
+    .ui-settings-page
+      header.ui-settings-page__header
+        .ui-settings-page__heading
+          h1 = t("dashboard.identity_sources.index.title")
+          p = t("dashboard.identity_sources.index.description")
+        = link_to new_identity_source_path, class: "ui-settings-page__action", id: "new-identity-source" do
+          span = t("dashboard.identity_sources.index.create_button")
+          = inline_svg_tag("plus_white.svg", class: "ui-settings-page__action-icon", aria: { hidden: true })
 
-      .ap-list
+      main.ui-settings-page__content
         - if @identity_sources.any?
-          - @identity_sources.each do |source|
-            div.ap-card id=dom_id(source)
-              .ap-card-body
-                .ap-card-top
-                  .ap-card-info
-                    h3.f-semi-16.ap-card-name = source.name
-                    - if source.description.present?
-                      p.f-reg-13.ap-card-desc = truncate(source.description, length: 80)
-                  .ap-card-actions
-                    = link_to edit_identity_source_path(source), class: "ap-action-btn", title: t("dashboard.skills.index.edit")
-                      | ✏️
-                    = link_to identity_source_path(source), method: :delete, class: "ap-action-btn ap-action-delete", data: { turbo_method: :delete, turbo_confirm: t("dashboard.identity_sources.index.delete_confirm") }, title: t("general.delete")
-                      | 🗑️
-                .ap-card-meta
-                  .ap-strategy-badge style="background: #e0f2fe; color: #0369a1;"
-                    span.ap-strategy-icon 🔗
-                    span = source.source_type.titleize
-                  .ap-meta-tag
-                    span.ap-meta-icon 🌐
-                    span = source.source_url
-                  .ap-meta-tag
-                    span.ap-meta-icon 📋
-                    span = "#{source.headers.count} Headers"
-                  .ap-meta-tag
-                    span.ap-meta-icon 🎛️
-                    span = "#{source.params.count} Params"
-                  .ap-meta-tag
-                    span.ap-meta-icon 🔄
-                    span = "#{source.response_mapping.count} Mappings"
-                  .ap-meta-inboxes
-                    span = "#{t('dashboard.identity_sources.index.created')} #{time_ago_in_words(source.created_at)} #{t('dashboard.identity_sources.index.ago')}"
+          .ui-card-grid.is-source-card-grid
+            - @identity_sources.each do |source|
+              = render("dashboard/identity_sources/source_card", source: source)
         - else
-          .ap-empty-state
-            .ap-empty-icon 🔗
-            h3.f-semi-18 = t("dashboard.identity_sources.index.title")
-            p.f-reg-14 = t("dashboard.identity_sources.index.description")
-            = link_to new_identity_source_path, class: "ap-btn-primary ap-btn-sm"
-              | + #{t("dashboard.identity_sources.index.create_button")}
+          .ui-empty-state.ui-empty-state--bordered
+            .ui-empty-state__graphic
+              = image_tag("chain_link.svg", alt: "", aria: { hidden: true })
+            h2 = t("dashboard.identity_sources.index.empty_title", default: "No identity sources yet")
+            p = t("dashboard.identity_sources.index.empty_description", default: "Create your first identity source to fetch and verify customer information.")
+            = link_to t("dashboard.identity_sources.index.create_button"), new_identity_source_path, class: "ui-settings-page__action"

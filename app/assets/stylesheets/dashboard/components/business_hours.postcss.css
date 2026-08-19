@@ -4,6 +4,12 @@
   padding: 20px;
 }
 
+.bh-page.settings-form-page {
+  max-height: none;
+  padding: 0;
+  overflow: hidden;
+}
+
 .bh-page-header {
   display: flex;
   align-items: center;
@@ -13,6 +19,15 @@
   padding: 20px 20px 16px;
   border-bottom: 1px solid $black-5;
   background: $white;
+}
+
+.settings-form-page .bh-page-header {
+  min-height: 90px;
+  box-sizing: border-box;
+  gap: 12px;
+  margin: 0;
+  padding: 16px 32px;
+  border-bottom-color: #e5e7eb;
 }
 
 .bh-page-heading {
@@ -36,6 +51,10 @@
   line-height: 20px;
 }
 
+.settings-form-page .bh-page-heading p {
+  margin: 4px 0 0;
+}
+
 .bh-page .ui-label {
   display: block;
   margin-bottom: 10px;
@@ -52,10 +71,21 @@
   flex: 0 0 auto;
 }
 
+.settings-form-page .bh-page-actions {
+  gap: 14px;
+}
+
 .bh-form {
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+
+.settings-form-page .bh-form {
+  max-height: calc(100vh - 90px);
+  gap: 24px;
+  padding: 30px 32px 39px;
+  overflow-y: auto;
 }
 
 .bh-card {
@@ -90,13 +120,13 @@
 .bh-card-header .ui-section-label {
   color: $black-80;
   font-family: $font-family-inter-semibold;
-  font-size: 18px;
+  font-size: 14px;
   line-height: 28px;
 }
 
 .bh-page .ap-icon-svg {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   display: block;
 }
 

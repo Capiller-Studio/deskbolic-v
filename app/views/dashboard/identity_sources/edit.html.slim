@@ -1,8 +1,19 @@
 = render("dashboard/shared/dashboard_container", current_page: "identity-sources") do
   = render("dashboard/settings/settings_sidebar", current_page: "identity-sources") do
-    .ap-form-container
-      .ap-form-header
-        = link_to t("dashboard.identity_sources.form.back"), identity_sources_path, class: "ap-back-link"
-        h2.f-semi-24 style="color: #0f172a; margin-top: 12px;" = t("dashboard.identity_sources.edit.title")
-      
-      = render "form", identity_source: @identity_source
+    .ui-settings-editor.ap-settings-editor data-controller="key-value-builder" data-key-value-builder-test-url-value=test_connection_identity_sources_path
+      header.ui-settings-editor__header
+        = link_to identity_sources_path, class: "ui-settings-editor__back", aria: { label: t("shared.back", default: "Back") } do
+          = inline_svg_tag("back_arrow.svg", aria: { hidden: true })
+        .ui-settings-editor__heading
+          h1 = t("dashboard.identity_sources.edit.title")
+          p = t("dashboard.identity_sources.edit.subtitle", default: "Update this identity source to fetch and verify customer information.")
+        .ui-settings-editor__header-actions
+          = link_to t("dashboard.assignment_policies.form.cancel", default: "Cancel"), identity_sources_path, class: "ui-btn-secondary"
+          button.ui-btn-secondary type="button" data-action="click->key-value-builder#testRun"
+            = image_tag("play_black.svg", class: "is-btn-test-icon", alt: "")
+            span = t("dashboard.identity_sources.form.test_run")
+          button.ap-btn-save-header type="submit" form="identity-source-form"
+            = image_tag("mark.svg", class: "ap-save-mark-icon", alt: "")
+            span = t("dashboard.identity_sources.form.save")
+      .ui-settings-editor__body
+        = render "form", identity_source: @identity_source

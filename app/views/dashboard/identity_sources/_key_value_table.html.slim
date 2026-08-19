@@ -1,0 +1,64 @@
+/ Shared Key/Value/Actions table partial for Identity Sources.
+/ Parameters:
+/   section_title  - Card title (e.g. "Request Headers")
+/   section_icon   - SVG icon filename (e.g. "document.svg")
+/   add_label      - "+ Add Header" button text
+/   empty_title    - "No headers added yet"
+/   empty_desc     - "Add headers to include in your API request."
+/   field_name     - "identity_source[headers]"
+/   rows           - Hash of key => value
+/   key_placeholder - Placeholder for the key input
+/   value_placeholder - Placeholder for the value input
+/   value_list     - Optional datalist id for the value input (response mapping attributes)
+/   show_variables - Whether to render the Insert Variable pill row (default true)
+
+- rows ||= {}
+
+.is-section-header-row
+  .ap-section-header
+    span.ap-section-icon
+      = image_tag(section_icon, class: "ap-icon-svg", alt: "")
+    span = section_title
+  button.is-section-add-btn type="button" data-action="click->key-value-builder#addRow"
+    = inline_svg_tag("plus_white.svg", class: "is-section-add-btn-icon", aria: { hidden: true })
+    span = add_label
+
+.ap-section-body
+  .is-kv-table class=("is-kv-table--hidden" unless rows.any?)
+    .is-kv-table-header
+      span = t("dashboard.identity_sources.form.key_column", default: "Key")
+      span = t("dashboard.identity_sources.form.value_column", default: "Value")
+      span = t("dashboard.identity_sources.form.actions_column", default: "Actions")
+    .is-kv-table-body data-key-value-builder-target="container"
+      - if rows.any?
+        - rows.each_with_index do |(k, v), index|
+          .is-kv-row
+            = text_field_tag "#{field_name}[#{index}][key]", k, class: "ap-input", placeholder: key_placeholder
+            - if value_list.present?
+              = text_field_tag "#{field_name}[#{index}][value]", v, list: value_list, class: "ap-input", placeholder: value_placeholder, data: { "key-value-builder-target": "valueInput", "action": "focus->key-value-builder#setFocus" }
+            - else
+              = text_field_tag "#{field_name}[#{index}][value]", v, class: "ap-input", placeholder: value_placeholder, data: { "key-value-builder-target": "valueInput", "action": "focus->key-value-builder#setFocus" }
+            .is-kv-row-actions
+              button.is-kv-remove-btn type="button" data-action="click->key-value-builder#removeRow" aria-label=t("dashboard.identity_sources.form.remove_row", default: "Remove row") &times;
+
+  .is-kv-empty class=("is-kv-empty--hidden" if rows.any?)
+    = image_tag("box.svg", class: "is-kv-empty-icon", alt: "", aria: { hidden: true })
+    strong = empty_title
+    p = empty_desc
+
+  template data-key-value-builder-target="template"
+    .is-kv-row
+      = text_field_tag "#{field_name}[NEW_RECORD][key]", nil, class: "ap-input", placeholder: key_placeholder
+      - if value_list.present?
+        = text_field_tag "#{field_name}[NEW_RECORD][value]", nil, list: value_list, class: "ap-input", placeholder: value_placeholder, data: { "key-value-builder-target": "valueInput", "action": "focus->key-value-builder#setFocus" }
+      - else
+        = text_field_tag "#{field_name}[NEW_RECORD][value]", nil, class: "ap-input", placeholder: value_placeholder, data: { "key-value-builder-target": "valueInput", "action": "focus->key-value-builder#setFocus" }
+      .is-kv-row-actions
+        button.is-kv-remove-btn type="button" data-action="click->key-value-builder#removeRow" aria-label=t("dashboard.identity_sources.form.remove_row", default: "Remove row") &times;
+
+  - if show_variables
+    .is-variables-picker
+      span.is-variables-picker-label = t("dashboard.identity_sources.form.insert_variable")
+      .is-variables-chips
+        - ["{{ customer.email }}", "{{ customer.phone_number }}", "{{ customer.name }}"].each do |var|
+          button.is-variable-chip type="button" data-action="mousedown->key-value-builder#preventFocus click->key-value-builder#insertVariable" data-variable=var = var

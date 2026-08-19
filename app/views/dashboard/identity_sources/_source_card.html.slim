@@ -1,0 +1,52 @@
+- source_type_label = t("dashboard.identity_sources.types.#{source.source_type}", default: source.source_type.to_s.humanize)
+- description = source.description.present? ? truncate(source.description, length: 78) : t("dashboard.identity_sources.index.no_description", default: "No description added.")
+- headers_count = source.headers.is_a?(Hash) ? source.headers.count : 0
+- params_count = source.params.is_a?(Hash) ? source.params.count : 0
+- mappings_count = source.response_mapping.is_a?(Hash) ? source.response_mapping.count : 0
+- searchable_values = [source.name, description, source_type_label, source.source_url].compact.join(" ").downcase
+
+article.ui-panel.ai-agent-card.is-source-card id=dom_id(source) data-searchable=searchable_values
+  .ui-panel__header.ai-agent-card-header
+    .ui-panel__identity.ai-agent-card-identity
+      .ai-agent-card-avatar.is-source-card-avatar
+        = image_tag("chain_link.svg", alt: "", aria: { hidden: true })
+      .ai-agent-card-title.is-source-card-title
+        h2 = source.name
+        p = description
+
+    details.ai-agent-card-menu
+      summary aria-label=t("dashboard.identity_sources.index.actions_for", name: source.name, default: "Actions for %{name}")
+        = inline_svg_tag("dots.svg", class: "ai-agent-card-menu-icon", aria: { hidden: true })
+      .ai-agent-card-menu-popover role="menu"
+        = link_to edit_identity_source_path(source), role: "menuitem" do
+          = t("general.edit", default: "Edit")
+        = button_to identity_source_path(source), method: :delete, role: "menuitem", form: { class: "ai-agent-card-delete-form" }, data: { turbo_confirm: t("dashboard.identity_sources.index.delete_confirm") } do
+          span = t("general.delete", default: "Delete")
+
+  .is-source-details
+    .is-source-detail
+      span.is-source-detail-label = t("dashboard.identity_sources.index.source_type_label", default: "Source Type")
+      span.is-source-type-pill
+        = image_tag("chain_link.svg", class: "is-source-type-pill-icon", alt: "", aria: { hidden: true })
+        = source_type_label
+    .is-source-detail
+      span.is-source-detail-label = t("dashboard.identity_sources.index.source_url_label", default: "Source URL")
+      span.is-source-url
+        = image_tag("world_blue.svg", class: "is-source-url-icon", alt: "", aria: { hidden: true })
+        span.is-source-url-text title=source.source_url = source.source_url
+
+  .is-source-stats
+    .is-source-stat.is-source-stat--headers
+      = image_tag("headers.svg", class: "is-source-stat-icon", alt: "", aria: { hidden: true })
+      span = t("dashboard.identity_sources.index.headers_count", count: headers_count, default: "Headers")
+    .is-source-stat.is-source-stat--params
+      = image_tag("sliders_green.svg", class: "is-source-stat-icon", alt: "", aria: { hidden: true })
+      span = t("dashboard.identity_sources.index.params_count", count: params_count, default: "Params")
+    .is-source-stat.is-source-stat--mappings
+      = image_tag("code_brackets.svg", class: "is-source-stat-icon", alt: "", aria: { hidden: true })
+      span = t("dashboard.identity_sources.index.mappings_count", count: mappings_count, default: "Mappings")
+
+  .ai-agent-card-footer.is-source-footer
+    .is-source-created
+      = image_tag("clock.svg", class: "is-source-created-icon", alt: "", aria: { hidden: true })
+      span = t("dashboard.identity_sources.index.created_ago", time: time_ago_in_words(source.created_at), default: "Created %{time} ago")

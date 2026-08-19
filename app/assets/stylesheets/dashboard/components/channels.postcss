@@ -1,9 +1,3 @@
-/* TODO: Old styles remove later, */
-.channel-theme-api {
-  --channel-brand: #0f172a;
-  --channel-brand-hover: #1e293b;
-}
-
 .channel-theme-whatsapp {
   --channel-brand: #25D366;
   --channel-brand-hover: #1DA851;
@@ -34,31 +28,14 @@
   --channel-brand-hover: #1e293b;
 }
 
-.channel-reconnect-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 5px 14px;
-  border-radius: 8px;
-  background: #fef3c7;
-  color: #92400e;
-  font-family: $font-family-inter-medium;
-  font-size: 12px;
-  text-decoration: none;
-  border: 1px solid #fbbf24;
-  transition: all 0.2s ease;
-
-  &:hover {
-    background: #fde68a;
-    border-color: #f59e0b;
-  }
-}
-
 .channel-connect-action {
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* padding: 24px 0 8px; */
+  text-align: center;
+  background: var(--gray-50);
+  border-radius: 8px;
+  border: 1px dashed var(--gray-300);
 }
 
 .channel-connect-btn {
@@ -139,12 +116,6 @@
   }
 }
 
-&.channel-page-card--selected {
-    border-color: var(--channel-brand, #4f46e5);
-    background: #dcfce7;
-    box-shadow: 0 0 0 3px var(--channel-brand-shadow-light, rgba(79, 70, 229, 0.15));
-  }
-
 .channel-page-card-disabled {
   opacity: 0.5;
   pointer-events: none;
@@ -192,98 +163,6 @@
   margin-top: 4px;
 }
 
-.channel-connection-card {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-}
-
-.channel-connection-info {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  flex: 1;
-  padding: 18px 24px;
-  padding-top: 0px;
-}
-
-.channel-reauth-banner {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 20px;
-  background: #fef3c7;
-  border: 1px solid #fbbf24;
-  border-radius: 12px;
-  margin-top: 16px;
-}
-
-.channel-reauth-icon {
-  font-size: 20px;
-  flex-shrink: 0;
-}
-
-.channel-reauth-text {
-  flex: 1;
-
-  .f-semi-14 {
-    color: #92400e;
-    margin-bottom: 2px;
-  }
-
-  .f-reg-12 {
-    color: #a16207;
-  }
-}
-
-.channel-status-active {
-  /* margin-top: 12px; */
-  padding: 18px 24px;
-}
-
-.channel-setup-tabs {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-  overflow: hidden;
-}
-
-.channel-connect-action {
-  text-align: center;
-  /* padding: 2rem; */
-  background: var(--gray-50);
-  border-radius: 8px;
-  border: 1px dashed var(--gray-300);
-}
-
-.channel-webhook-box {
-  background: var(--gray-50);
-  border: 1px solid var(--gray-200);
-  padding: 1.5rem;
-  border-radius: 8px;
-  margin-bottom: 2rem;
-}
-
-.channel-webhook-box h4 {
-  margin-bottom: 0.25rem;
-  color: var(--gray-900);
-}
-
-.channel-webhook-box p {
-  color: var(--gray-600);
-  margin-bottom: 1.5rem;
-}
-
-.channel-webhook-details {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  padding: 0px 24px;
-}
-
-.channel-manual-container { max-width: 600px; margin: 0 auto; }
-
 .channel-forward-row {
   display: flex;
   align-items: center;
@@ -301,17 +180,6 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
   font-family: $font-family-inter-medium;
-  white-space: nowrap;
-}
-
-.channel-forward-email {
-  font-family: 'SF Mono', 'Fira Code', monospace;
-  font-size: 13px;
-  color: #1e40af;
-  flex: 1;
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
@@ -359,80 +227,8 @@
   color: #dc2626;
 }
 
-.channel-forwarding-panel {
-  background: linear-gradient(135deg, #f0f4ff 0%, #faf5ff 50%, #fef2f2 100%);
-  border: 1px solid #e2e8f0;
-  border-radius: 16px;
-  padding: 28px;
-  margin-bottom: 24px;
-}
-
-.channel-forwarding-panel h3 {
-  color: #0f172a;
-  margin-bottom: 4px;
-}
-
-.channel-forwarding-panel > p {
-  color: #64748b;
-  font-size: 14px;
-  margin-bottom: 16px;
-}
-
-.channel-forwarding-address {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 18px;
-  background: $white;
-  border: 1px solid #c7d2fe;
-  border-radius: 12px;
-  margin-bottom: 16px;
-}
-
-.channel-forwarding-address-label {
-  font-size: 11px;
-  color: $black-40;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  font-family: $font-family-inter-medium;
-  white-space: nowrap;
-}
-
-.channel-forwarding-address-value {
-  font-family: 'SF Mono', 'Fira Code', monospace;
-  font-size: 14px;
-  color: var(--channel-brand-hover, #4338ca);
-  flex: 1;
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-weight: 600;
-}
-
-.channel-forwarding-status {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 20px;
-}
-
 @media (max-width: 768px) {
-
   .channel-forward-row {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .channel-forwarding-address {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .channel-forward-row {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .channel-forwarding-address {
     flex-direction: column;
     align-items: flex-start;
   }
@@ -446,14 +242,10 @@
   }
 
 .channel-connect-card {
-  /* background: $white; */
-  /* border: 1px solid $black-5; */
-  /* border-radius: 16px; */
   padding: 48px 48px 32px 48px;
   max-width: 540px;
   width: 100%;
   text-align: center;
-  /* box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01); */
 
   h3 {
     color: #0f172a;
@@ -551,40 +343,6 @@
   display: flex;
   justify-content: flex-end;
   gap: 12px;
-}
-
-.channel-token-info {
-  /* margin-top: 16px; */
-  /* padding: 16px; */
-  background: var(--gray-50);
-  border: 1px solid var(--gray-200);
-  border-radius: 8px;
-  padding: 18px 24px;
-  padding-top: 0px;
-}
-
-.channel-token-expiry {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 14px;
-  color: var(--gray-600);
-  margin-top: 8px;
-}
-
-.channel-inbox-settings {
-  margin-top: 24px;
-  /* padding-top: 24px; */
-  border-top: 1px solid var(--gray-200);
-  h4 {
-    margin-bottom: 10px;
-  }
-}
-
-.channel-phone-input-group {
-  display: flex;
-  gap: 16px;
-  margin-bottom: 20px;
 }
 
 /* Facebook new-channel steps */
@@ -693,61 +451,6 @@
   .ui-settings-page__content {
     min-width: 0;
     padding-top: 0;
-  }
-}
-
-.channel-create {
-  position: relative;
-
-  summary {
-    list-style: none;
-    cursor: pointer;
-
-    &::-webkit-details-marker {
-      display: none;
-    }
-  }
-
-  &[open] .ui-settings-page__action {
-    background: #000;
-  }
-}
-
-.channel-create-menu {
-  position: absolute;
-  z-index: 20;
-  top: calc(100% + 8px);
-  right: 0;
-  display: grid;
-  width: 220px;
-  padding: 6px;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  background: $white;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-}
-
-.channel-create-option {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-height: 40px;
-  padding: 7px 10px;
-  border-radius: 8px;
-  color: #374151;
-  font-size: 14px;
-  text-decoration: none;
-
-  img {
-    width: 26px;
-    height: 26px;
-    border-radius: 7px;
-    object-fit: contain;
-  }
-
-  &:hover {
-    background: #f7f9fb;
-    color: #1c1c1c;
   }
 }
 
@@ -1261,16 +964,6 @@
 @media (max-width: 680px) {
   .channel-tabs {
     gap: 8px 12px;
-  }
-
-  .channel-create {
-    width: 100%;
-  }
-
-  .channel-create-menu {
-    right: auto;
-    left: 0;
-    width: 100%;
   }
 
   .channel-card__footer {
@@ -2435,7 +2128,7 @@
   }
 }
 
-.channel-edit-forwarding-guide.channel-forwarding-panel {
+.channel-edit-forwarding-guide {
   margin: 0;
   padding: 22px;
   border: 1px solid #e5e7eb;

@@ -382,25 +382,25 @@ export default class extends Controller {
       case "assign_agent": {
         const d = await this._fetchLookup("agents")
         const o = d.results.map(a => `<option value="${a.id}">${this._escapeHtml(a.name)}</option>`).join("")
-        return `<select data-action-param="agent_id" class="auto-row"><option value="">Select agent...</option>${o}</select>`
+        return `<select data-controller="select" data-action-param="agent_id" class="ui-select ui-control"><option value="">Select agent...</option>${o}</select>`
       }
       case "assign_team": {
         const d = await this._fetchLookup("teams")
         const o = d.results.map(t => `<option value="${t.id}">${this._escapeHtml(t.name)}</option>`).join("")
-        return `<select data-action-param="team_id" class="auto-row"><option value="">Select team...</option>${o}</select>`
+        return `<select data-controller="select" data-action-param="team_id" class="ui-select ui-control"><option value="">Select team...</option>${o}</select>`
       }
       case "add_label":
       case "remove_label": {
         const d = await this._fetchLookup("labels")
         const o = d.results.map(l => `<option value="${l.id}">${this._escapeHtml(l.name)}</option>`).join("")
-        return `<select data-action-param="label_ids" class="auto-row" multiple style="min-height:60px">${o}</select>`
+        return `<select data-controller="select" data-action-param="label_ids" class="ui-select ui-control" multiple>${o}</select>`
       }
       case "set_status":
-        return `<select data-action-param="status" class="auto-row">
+        return `<select data-controller="select" data-action-param="status" class="ui-select ui-control">
           <option value="active">Active</option><option value="closed">Closed</option>
           <option value="snoozed">Snoozed</option><option value="resolved">Resolved</option></select>`
       case "set_priority":
-        return `<select data-action-param="priority" class="auto-row">
+        return `<select data-controller="select" data-action-param="priority" class="ui-select ui-control">
           <option value="low">Low</option><option value="medium">Medium</option>
           <option value="high">High</option><option value="urgent">Urgent</option></select>`
       case "send_message":
@@ -415,7 +415,7 @@ export default class extends Controller {
           <input type="text" data-action-param="value" placeholder="Value" class="auto-row" style="flex:1">`
       case "trigger_webhook":
         return `<input type="text" data-action-param="url" placeholder="https://..." class="auto-row">
-          <select data-action-param="method" class="auto-row" style="max-width:100px">
+          <select data-controller="select" data-action-param="method" class="ui-select ui-control">
             <option value="POST">POST</option><option value="GET">GET</option>
             <option value="PUT">PUT</option><option value="PATCH">PATCH</option></select>`
       case "unassign":
@@ -476,12 +476,18 @@ export default class extends Controller {
   _actionRowTemplate(actionIndex) {
     return `
       <div class="auto-row" data-action-row>
-        <select data-action-type data-action="change->automation-builder#actionTypeChanged" class="auto-row">
-          <option value="">Select action...</option>
-          ${this._actionOptions()}
-        </select>
-        <span data-action-params style="display: contents;"></span>
-        <button class="auto-remove-btn" type="button" data-action="click->automation-builder#removeAction">✕</button>
+        <div class="ui-field-control ui-field-control--plain ui-field-control--no-icon ui-macro-action-select">
+          <select data-controller="select" data-action-type data-action="change->automation-builder#actionTypeChanged" class="ui-select ui-control">
+            <option value="">Select action...</option>
+            ${this._actionOptions()}
+          </select>
+        </div>
+        <span class="ui-field-control ui-field-control--plain ui-field-control--no-icon" data-action-params></span>
+        <button class="auto-remove-btn ui-macro-remove-action" type="button" data-action="click->automation-builder#removeAction" aria-label="Delete action">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12.666 4.667l-.578 8.094A1.333 1.333 0 0110.758 14H5.241a1.333 1.333 0 01-1.33-1.239l-.578-8.094M6.666 7.333v4M9.333 7.333v4M10 4.667v-2A.667.667 0 009.333 2H6.666A.667.667 0 006 2.667v2M2.666 4.667h10.667" stroke="#EF4444" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
       </div>
     `
   }

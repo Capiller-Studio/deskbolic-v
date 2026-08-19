@@ -11,7 +11,9 @@ module Dashboard
     def index
       authorize(Macro)
 
-      @macros = current_account.macros.for_user(current_user).order(:name)
+      macros = current_account.macros.for_user(current_user).order(:name)
+      @per_page = [ 10, 20, 50 ].include?(params[:per_page].to_i) ? params[:per_page].to_i : 10
+      @pagy, @macros = pagy(macros, items: @per_page)
     end
 
     def new

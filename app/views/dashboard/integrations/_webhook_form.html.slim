@@ -1,4 +1,4 @@
-= form_with model: integration, url: url do |f|
+= form_with model: integration, url: url, id: "integration-form" do |f|
   = f.hidden_field :provider
 
   .ui-section.ui-section--always-open
@@ -62,10 +62,3 @@
           
         pre.ui-code-block style="margin-top: 12px; background: #f8fafc; color: #334155; padding: 16px; border-radius: 8px; font-size: 13px; overflow-x: auto; border: 1px solid #e2e8f0;"
           code = "header = request.headers[\"Deskbolic-Signature\"]\ntimestamp = header.match(/t=(\\d+)/)[1]\nsignature = header.match(/v1=([a-f0-9]+)/)[1]\n\n# 1. Prevent replay attacks\nreturn 401 if Time.now.to_i - timestamp.to_i > 300 # 5 minutes\n\n# 2. Verify HMAC signature\nexpected = OpenSSL::HMAC.hexdigest(\"SHA256\", WEBHOOK_SECRET, \"\#{timestamp}-\#{request.raw_post}\")\nreturn 401 unless Rack::Utils.secure_compare(expected, signature)"
-                
-  .ui-form-actions
-    - if integration.persisted?
-      = f.submit t("dashboard.shared.update"), class: "ui-btn-primary"
-    - else
-      = f.submit t("dashboard.shared.save"), class: "ui-btn-primary"
-    = link_to t("dashboard.shared.cancel"), integrations_path, class: "ui-btn-secondary"

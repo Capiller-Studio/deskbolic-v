@@ -1,4 +1,4 @@
-= form_with model: integration, url: url do |f|
+= form_with model: integration, url: url, id: "integration-form" do |f|
   = f.hidden_field :provider
 
   .ui-section.ui-section--always-open
@@ -7,17 +7,10 @@
         = image_tag "https://cdn.worldvectorlogo.com/logos/slack-new-logo.svg", width: 20, height: 20, alt: "Slack", class: "ui-section-icon", style: "margin-right: 8px;"
         span.ui-section-label = t("dashboard.settings.integrations.slack.basic_section")
     .ui-section-body
-      p.ui-input-hint style="margin-top: 0; margin-bottom: 24px;" 
+      p.ui-input-hint style="margin-top: 0; margin-bottom: 24px; font-size: 13px;"
         = t("dashboard.settings.integrations.slack.manual_hint")
         
       .ui-form-row
         div
           = f.label :webhook_url, t("dashboard.settings.integrations.slack.url_label"), class: "ui-label"
           = f.text_field :webhook_url, name: "integration[settings][webhook_url]", value: integration.settings["webhook_url"], class: "ui-input", placeholder: "https://hooks.slack.com/services/YOUR_WORKSPACE/YOUR_CHANNEL/YOUR_TOKEN", required: true
-                
-  .ui-form-actions
-    - if integration.persisted?
-      = f.submit t("dashboard.shared.update"), class: "ui-btn-primary"
-    - else
-      = f.submit t("dashboard.shared.save"), class: "ui-btn-primary"
-    = link_to t("dashboard.shared.cancel"), integrations_path, class: "ui-btn-secondary"

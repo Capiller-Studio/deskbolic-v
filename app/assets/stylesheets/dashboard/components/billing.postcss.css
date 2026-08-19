@@ -131,22 +131,12 @@
   margin-top: 4px;
 }
 
-.ap-billing-create-role-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
 .ap-billing-plus-icon {
   width: 18px;
   height: 18px;
   flex-shrink: 0;
   mask: url("plus.svg") center / contain no-repeat;
   -webkit-mask: url("plus.svg") center / contain no-repeat;
-}
-
-.ap-billing-plus-icon-white {
-  background-color: #fff;
 }
 
 .ap-billing-plus-icon-blue {
@@ -200,13 +190,6 @@
 .ap-billing-badge-danger {
   background-color: var(--ap-danger-light);
   color: var(--ap-danger);
-  padding: 6px 12px;
-  font-weight: 600;
-}
-
-.ap-billing-badge-warning {
-  background-color: var(--ap-warning-light);
-  color: var(--ap-warning);
   padding: 6px 12px;
   font-weight: 600;
 }
@@ -306,11 +289,6 @@
   font-size: 24px;
   line-height: 30px;
   font-weight: bold;
-}
-
-.ap-billing-plan-actions {
-  justify-content: flex-start;
-  margin-bottom: 14px;
 }
 
 .ap-billing-empty-subscription {
@@ -454,13 +432,11 @@
   cursor: pointer;
 }
 
-.ap-billing-brand-header,
 .ap-billing-brand-action {
   background-color: #778dff;
   color: #fff;
 }
 
-.ap-billing-brand-header h3,
 .ap-billing-brand-action:hover {
   color: #fff;
 }
@@ -605,12 +581,6 @@
   font-size: 12px;
   line-height: 16px;
   margin: 0;
-}
-
-.ap-billing-plan-desc {
-  color: #94a3b8;
-  font-size: 11px;
-  line-height: 1.35;
 }
 
 /* Forms */
@@ -1276,19 +1246,6 @@
   .ap-billing-warning-dismiss {
     transition: none;
   }
-}
-
-.ap-billing-btn-danger-outline {
-  margin-left: auto;
-  color: #dc2626;
-  border-color: #fca5a5;
-  background-color: #fef2f2;
-}
-
-.ap-billing-btn-secondary-outline {
-  background-color: #fff;
-  border: 1px solid var(--ap-border-color);
-  color: var(--ap-text-dark);
 }
 
 /* Billing Cycle Toggle */

@@ -1,4 +1,8 @@
-= form_with(model: custom_field, local: true, class: "settings-form form-fields", data: { controller: "custom-field-form" }) do |f|
+= form_with model: custom_field,
+  local: true,
+  id: "custom-field-form",
+  class: "settings-form form-fields ui-settings-form",
+  data: { controller: "custom-field-form" } do |f|
   - if custom_field.errors.any?
     .ui-error-summary
       h3 = t("dashboard.custom_fields.form.error_heading")
@@ -18,17 +22,36 @@
           = f.text_field :key, class: "ui-input", placeholder: t("ui.dashboard.custom_fields.form.e_g_company_size"), disabled: custom_field.persisted?
           p.f-reg-12.text-muted style="margin-top: 4px;" The unique identifier for this field.
         
-        div
+        .ui-field-group
           = f.label :entity_type, t("forms.labels.record_type"), class: "ui-label"
-          = f.select :entity_type, CustomField.entity_types.keys.map { |k| [k.titleize, k] }, {}, class: "ui-select", disabled: custom_field.persisted?, data: { "custom-field-form-target": "entityType", action: "change->custom-field-form#filterMappings" }
+          .ui-field-control.ui-field-control--plain.ui-field-control--no-icon
+            = f.select :entity_type,
+              CustomField.entity_types.keys.map { |key| [key.titleize, key] },
+              {},
+              class: "ui-select ui-control",
+              disabled: custom_field.persisted?,
+              data: { controller: "select", "custom-field-form-target": "entityType", action: "change->custom-field-form#filterMappings" }
 
       .ui-form-row style="margin-top: 16px;"
-        div
+        .ui-field-group
           = f.label :field_type, t("forms.labels.input_type"), class: "ui-label"
-          = f.select :field_type, CustomField.field_types.keys.map { |k| [k.titleize, k] }, {}, class: "ui-select", id: "custom_field_field_type_select", data: { action: "change->custom-field-options#checkFieldType" }, disabled: custom_field.persisted?
-        div
+          .ui-field-control.ui-field-control--plain.ui-field-control--no-icon
+            = f.select :field_type,
+              CustomField.field_types.keys.map { |key| [key.titleize, key] },
+              {},
+              class: "ui-select ui-control",
+              id: "custom_field_field_type_select",
+              data: { controller: "select", action: "change->custom-field-options#checkFieldType" },
+              disabled: custom_field.persisted?
+        .ui-field-group
           = f.label :mapped_to, t("forms.labels.resource_mapping"), class: "ui-label"
-          = f.select :mapped_to, CustomField::MAPPING_TARGETS.map { |k| [k, k] }, { include_blank: t("forms.options.not_mapped") }, class: "ui-select", disabled: custom_field.persisted?, data: { "custom-field-form-target": "mappedTo" }
+          .ui-field-control.ui-field-control--plain.ui-field-control--no-icon
+            = f.select :mapped_to,
+              CustomField::MAPPING_TARGETS.map { |target| [target, target] },
+              { include_blank: t("forms.options.not_mapped") },
+              class: "ui-select ui-control",
+              disabled: custom_field.persisted?,
+              data: { controller: "select", "custom-field-form-target": "mappedTo" }
           p.f-reg-12.text-muted style="margin-top: 4px;" Map this field's value to a core Deskbolic attribute.
 
       .ui-form-row style="margin-top: 16px;"
@@ -59,7 +82,12 @@
         - available_locales_options = available_locales.map { |l| [I18n.t("languages.#{l.downcase}"), l] }
         
         .cf-add-locale-wrapper style="margin-top: 16px; display: flex; gap: 8px; align-items: center;"
-          = select_tag "new_locale", options_for_select(available_locales_options), include_blank: t("forms.options.select_language"), class: "ui-select", data: { "nested-translations-target": "localeSelect" }, style: "width: 200px;"
+          .ui-field-control.ui-field-control--plain.ui-field-control--no-icon style="width: 200px;"
+            = select_tag "new_locale",
+              options_for_select(available_locales_options),
+              include_blank: t("forms.options.select_language"),
+              class: "ui-select ui-control",
+              data: { controller: "select", "nested-translations-target": "localeSelect" }
           button.ui-btn-secondary type="button" data-action="click->nested-translations#addTranslation" style="display: inline-flex; align-items: center; gap: 6px;" 
             span +
             | #{t("ui.dashboard.channels.contact_form.form.add_language")}
@@ -115,7 +143,3 @@
         div data-custom-field-validations-target="numberGroup" style="display: none;"
           = f.label :validations_max_value, t("forms.labels.max_value"), class: "ui-label"
           = text_field_tag "custom_field[validations][max_value]", custom_field.validations["max_value"], class: "ui-input", type: "number"
-
-  .ui-form-actions style="margin-top: 24px;"
-    = f.submit t("ui.dashboard.custom_fields.form.save_custom_field"), class: "ui-btn-primary"
-    = link_to t("dashboard.teams.form.cancel"), custom_fields_path, class: "ui-btn-secondary"

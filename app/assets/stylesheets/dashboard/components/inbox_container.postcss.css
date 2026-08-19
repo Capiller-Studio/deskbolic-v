@@ -106,32 +106,6 @@
             background: #4f46e5;
           }
         }
-        .con-type {
-          @mixin flex-row $justify-around, $align-center;
-          margin-top: 15px;
-          .con-tab {
-            @mixin flex-row $justify-between, $align-center;
-            gap: 10px;
-            .active-tab {
-              /* @mixin rect-back-black; */
-              font-size: 14px;
-              line-height: 20px;
-              font-family: $font-family-inter-semibold;
-              color: #121212;
-              border-bottom: 3px solid #121212;
-            }
-            p {
-              color: $black-40;
-            }
-            .count {
-              border-radius: 16px;
-              width: 25px;
-              height: 25px;
-              background: $black-5;
-              @mixin flex-row $justify-center, $align-center;
-            }
-          }
-        }
         ul {
           @mixin flex-column $justify-between, $align-center;
           margin-top: 20px;

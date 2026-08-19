@@ -58,7 +58,7 @@
           color: $black-40;
           text-align: left;
         }
-        .list-header, .team-header {
+        .list-header {
           @mixin flex-row $justify-between, $align-center;
           margin-top: 28px;
           margin-bottom: 8px;
@@ -143,12 +143,6 @@
                   .inbox-conv {
                     padding-left: 15px;
                   }
-                  .link-bar {
-                    display: none;
-                  }
-                  .dropdown-icon {
-                    rotate: -90deg;
-                  }
                   .st-dropdown-icon {
                     rotate: 0deg;
                   }
@@ -225,13 +219,6 @@
                 @mixin list-back-gray;
                 width: 100%;
                 .link-text {
-                  .link-bar {
-                    display: inline-block;
-                  }
-                  .dropdown-icon {
-                    transition: all 0.15s;
-                    rotate: 0deg;
-                  }
                   .st-dropdown-icon {
                     transition: all 0.15s;
                     rotate: -90deg;

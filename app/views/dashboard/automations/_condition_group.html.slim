@@ -1,7 +1,8 @@
 .auto-row-group data-automation-builder-target="conditionGroup"
   .auto-group-header
     | #{t("ui.dashboard.automations.condition_group.group_match", value: group_index + 1)}
-    = select_tag "condition_group_operator_#{group_index}", options_for_select([[t("forms.options.all"), "AND"], [t("forms.options.any"), "OR"]], group.dig("operator") || "AND"), class: "auto-row", style: "width: auto; padding: 4px 28px 4px 10px;", data: { "condition-group-operator": true }
+    .ui-field-control.ui-field-control--compact.ui-field-control--no-icon style="width: 110px;"
+      = select_tag "condition_group_operator_#{group_index}", options_for_select([[t("forms.options.all"), "AND"], [t("forms.options.any"), "OR"]], group.dig("operator") || "AND"), class: "ui-select ui-control", data: { controller: "select", "condition-group-operator": true }
     button.auto-remove-btn type="button" data-action="click->automation-builder#removeConditionGroup" style="margin-left: auto;" title=t("ui.dashboard.automations.condition_group.remove_group")
       | ✕
 
@@ -9,9 +10,11 @@
     - conditions = group.dig("conditions") || [{}]
     - conditions.each_with_index do |cond, ci|
       .auto-row data-condition-row=""
-        = select_tag "cond_attr_#{group_index}_#{ci}", options_for_select(condition_attribute_options, cond["attribute"]), include_blank: t("forms.options.select_attribute"), class: "auto-row", data: { action: "change->automation-builder#attributeChanged", "condition-attr": true }
-        = select_tag "cond_op_#{group_index}_#{ci}", options_for_select(condition_operator_options, cond["operator"]), include_blank: t("forms.options.select_operator"), class: "auto-row", data: { "condition-op": true }
-        span data-condition-value-container="" style="display: contents;"
+        .ui-field-control.ui-field-control--plain.ui-field-control--no-icon style="flex: 1; min-width: 0;"
+          = select_tag "cond_attr_#{group_index}_#{ci}", options_for_select(condition_attribute_options, cond["attribute"]), include_blank: t("forms.options.select_attribute"), class: "ui-select ui-control", data: { controller: "select", action: "change->automation-builder#attributeChanged", "condition-attr": true }
+        .ui-field-control.ui-field-control--plain.ui-field-control--no-icon style="flex: 1; min-width: 0;"
+          = select_tag "cond_op_#{group_index}_#{ci}", options_for_select(condition_operator_options, cond["operator"]), include_blank: t("forms.options.select_operator"), class: "ui-select ui-control", data: { controller: "select", "condition-op": true }
+        span.ui-field-control.ui-field-control--plain.ui-field-control--no-icon data-condition-value-container="" style="flex: 1; min-width: 0;"
           = text_field_tag "cond_val_#{group_index}_#{ci}", cond["value"], placeholder: t("ui.dashboard.automations.condition_group.value"), data: { "condition-val": true }, class: "auto-row"
 
         button.auto-remove-btn type="button" data-action="click->automation-builder#removeCondition"

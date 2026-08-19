@@ -1,8 +1,17 @@
 = render("dashboard/shared/dashboard_container", current_page: "settings") do
   = render("dashboard/settings/settings_sidebar", current_page: "automations") do
-    .ui-page-body
-      .ui-index-header
-        .ui-title-area
-          h2.f-semi-32 = t("dashboard.automations.edit.title")
+    .ui-settings-editor
+      header.ui-settings-editor__header
+        = link_to automations_path, class: "ui-settings-editor__back", aria: { label: t("shared.back", default: "Back to automations") } do
+          = inline_svg_tag("back-arrow.svg", aria: { hidden: true })
+        .ui-settings-editor__heading
+          h1 = t("dashboard.automations.edit.title")
+          p = t("dashboard.automations.edit.description", default: "Update this automation rule.")
+        .ui-settings-editor__header-actions
+          = link_to t("dashboard.automations.builder.cancel"), automations_path, class: "ui-btn-secondary"
+          = button_tag type: "submit", form: "automation-form", class: "ui-btn-primary" do
+            = inline_svg_tag("mark.svg", aria: { hidden: true })
+            span = t("dashboard.automations.builder.save")
 
-      = render("dashboard/automations/form", automation: @automation)
+      .ui-settings-editor__body
+        = render("dashboard/automations/form", automation: @automation)

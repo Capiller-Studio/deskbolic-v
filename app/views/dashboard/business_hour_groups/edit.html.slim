@@ -1,6 +1,6 @@
 = render("dashboard/shared/dashboard_container", current_page: "settings") do
   = render("dashboard/settings/settings_sidebar", current_page: "business-hours") do
-    .ui-page-body.bh-page
+    .ui-page-body.bh-page.settings-form-page
       .bh-page-header
         .bh-page-heading
           = link_to business_hour_groups_path, class: "ap-header-back-link", aria: { label: t("shared.back") } do

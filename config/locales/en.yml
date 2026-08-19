@@ -812,9 +812,9 @@ en:
         label: Identity Sources
       index:
         title: Identity Sources
-        description: Configure external webhooks and APIs to fetch and verify customer
-          identities automatically.
-        create_button: Create Identity Source
+        description: Create, manage, and configure identity sources to fetch and verify
+          customer information.
+        create_button: Create New Identity Source
         delete_confirm: Are you sure you want to delete this identity source? This
           action cannot be undone.
         url_label: Endpoint URL
@@ -822,10 +822,29 @@ en:
         params_label: Configured Params
         created: Created
         ago: ago
+        source_type_label: Source Type
+        source_url_label: Source URL
+        headers_count:
+          one: "%{count} Header"
+          other: "%{count} Headers"
+        params_count:
+          one: "%{count} Param"
+          other: "%{count} Params"
+        mappings_count:
+          one: "%{count} Mapping"
+          other: "%{count} Mappings"
+        created_ago: Created %{time} ago
+        empty_title: No identity sources yet
+        empty_description: Create your first identity source to fetch and verify customer
+          information.
       new:
         title: New Identity Source
+        subtitle: Create a new identity source to fetch and verify customer information.
       edit:
         title: Edit Identity Source
+        subtitle: Update this identity source to fetch and verify customer information.
+      types:
+        api: API
       form:
         back: "← Back to Identity Sources"
         error_heading: 'Please fix the following %{count} errors:'

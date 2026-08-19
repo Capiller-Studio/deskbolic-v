@@ -42,17 +42,26 @@ export default class extends Controller {
     if (!wrapper) return
     
     const template = wrapper.querySelector('template')
-    const container = wrapper.querySelector('.ui-kv-builder') || wrapper.querySelector('.ap-kv-builder')
+    const container = wrapper.querySelector('.ui-kv-builder') || wrapper.querySelector('.ap-kv-builder') || wrapper.querySelector('.is-kv-table-body')
     
     if (template && container) {
       const content = template.innerHTML.replace(/NEW_RECORD/g, new Date().getTime())
       container.insertAdjacentHTML('beforeend', content)
+      wrapper.querySelector('.is-kv-table')?.classList.remove('is-kv-table--hidden')
+      wrapper.querySelector('.is-kv-empty')?.classList.add('is-kv-empty--hidden')
     }
   }
 
   removeRow(event) {
     event.preventDefault()
-    event.currentTarget.closest('.kv-row')?.remove()
+    const row = event.currentTarget.closest('.kv-row') || event.currentTarget.closest('.is-kv-row')
+    const wrapper = event.currentTarget.closest('[data-key-value-builder-section]') || event.currentTarget.closest('.ui-section') || event.currentTarget.closest('.ui-form-group') || event.currentTarget.closest('.ap-section')
+    row?.remove()
+
+    if (wrapper && !wrapper.querySelector('.is-kv-row')) {
+      wrapper.querySelector('.is-kv-table')?.classList.add('is-kv-table--hidden')
+      wrapper.querySelector('.is-kv-empty')?.classList.remove('is-kv-empty--hidden')
+    }
   }
 
   async testRun(event) {

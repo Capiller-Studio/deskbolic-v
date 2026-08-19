@@ -14,7 +14,7 @@
         - survey.errors.full_messages.each do |message|
           li = message
 
-  .ap-section.ap-form-card
+  .ap-section
     .ap-section-header
       span.ap-section-icon
         = image_tag("document.svg", class: "ap-icon-svg", alt: "")
@@ -62,7 +62,7 @@
             = f.text_field :portal_feedback_label, class: "ap-input ui-control ui-input", id: "csat-survey-feedback-label", placeholder: t("dashboard.csat_surveys.form.feedback_label_placeholder", default: "e.g., Tell us more about your experience (optional)")
             p.ap-hint = t("dashboard.csat_surveys.form.default_language_hint", default: "Saved to your default language (English) as a fallback.")
 
-  .ap-section.ap-form-card.csat-translation-section
+  .ap-section.csat-translation-section
     .ap-section-header
       span.ap-section-icon
         = image_tag("document.svg", class: "ap-icon-svg", alt: "")

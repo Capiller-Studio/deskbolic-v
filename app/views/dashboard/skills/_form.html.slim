@@ -5,7 +5,7 @@
 - selected_skill_type = skill.skill_type.presence || "general"
 
 = form_with(model: skill, url: url, method: method, id: "skill-form", class: "ui-settings-form", data: { controller: "assignment-policy form-validation", "form-validation-target": "form", action: "submit->form-validation#validate" }, html: { novalidate: true }) do |f|
-  .ap-section.ap-form-card
+  .ap-section
     .ap-section-header
       span.ap-section-icon
         = image_tag("skill_bases.svg", class: "ap-icon-svg", alt: "")

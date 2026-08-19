@@ -4,7 +4,7 @@
 - description_length = policy.description.to_s.length
 
 = form_with(model: policy, url: (policy.persisted? ? sla_policy_path(policy) : sla_policies_path), id: "sla-policy-form", class: "ui-settings-form", data: { controller: "sla-policy" }) do |f|
-  .ap-section.ap-form-card
+  .ap-section
     .ap-section-header
       span.ap-section-icon
         = image_tag("document.svg", class: "ap-document-icon", alt: "")
@@ -27,7 +27,7 @@
           = f.text_area :description, class: "ap-input ap-textarea", rows: 4, maxlength: 500, placeholder: t(".description_placeholder", default: "Describe when this SLA policy should apply."), id: "sla-policy-description", data: { "sla-policy-target": "descriptionInput", action: "input->sla-policy#updateDescriptionCounter" }
 
   .ap-form-two-column.sla-policy-targets-grid
-    .ap-section.ap-form-card
+    .ap-section
       .ap-section-header
         span.ap-section-icon
           = image_tag("agent_capacity.svg", class: "ap-icon-svg", alt: "")
@@ -41,7 +41,7 @@
                 = number_field_tag "sla_policy[#{target[:value_name]}]", target[:value], class: "ap-input", min: 1, placeholder: t("ui.dashboard.sla_policies.form.e_g_15", default: "e.g., 15")
                 = select_tag "sla_policy[#{target[:unit_name]}]", options_for_select(units, target[:unit]), class: "ap-select"
 
-    .ap-section.ap-form-card.ap-inboxes-card
+    .ap-section.ap-inboxes-card
       .ap-section-header
         span.ap-section-icon
           = image_tag("reply_inbox.svg", class: "ap-icon-svg", alt: "")
@@ -53,7 +53,7 @@
             = image_tag("reply_inbox.svg", alt: "", width: 14, height: 14)
           = f.select :inbox_ids, options_from_collection_for_select(@inboxes, :id, :name, policy.inbox_ids), {}, multiple: true, class: "ui-select ui-control", data: { controller: "select" }
 
-  .ap-section.ap-form-card.ap-business-hours-card
+  .ap-section.ap-business-hours-card
     .ap-business-hours-body.ap-toggle-card-row
       .ap-toggle-copy
         span.ap-section-icon

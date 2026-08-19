@@ -1,0 +1,83 @@
+- url = macro.persisted? ? macro_path(macro) : macros_path
+- method = macro.persisted? ? :patch : :post
+- actions = macro.actions.presence || [{}]
+
+= form_with(model: macro, url: url, method: method, class: "ui-settings-editor ui-settings-form ui-macro-editor", data: { controller: "automation-builder assignment-policy" }) do |f|
+  header.ui-settings-editor__header
+    = link_to macros_path, class: "ui-settings-editor__back", aria: { label: t("dashboard.macros.form.back", default: "Back to macros") } do
+      = inline_svg_tag("back-arrow.svg", aria: { hidden: true })
+
+    .ui-settings-editor__heading
+      h1 = page_title
+      p = page_description
+
+    .ui-settings-editor__header-actions
+      = link_to t("dashboard.teams.form.cancel"), macros_path, class: "ui-btn-secondary"
+      = button_tag type: "submit", class: "ui-btn-primary" do
+        = inline_svg_tag("mark.svg", aria: { hidden: true })
+        span = t("ui.dashboard.macros.edit.save_macro")
+
+  .ui-settings-editor__body
+    - if macro.errors.any?
+      .ui-error-summary role="alert"
+        h3 = t("dashboard.macros.form.error_heading", default: "Please correct the following errors")
+        ul
+          - macro.errors.full_messages.each do |message|
+            li = message
+
+    section.ui-form-card.ui-macro-details-card aria-labelledby="macro-details-title"
+      header.ui-form-card__header.ui-form-card__header--identity.ui-macro-card-header
+        span.ui-form-card__icon aria-hidden="true"
+          = inline_svg_tag("pencil.svg")
+        h2#macro-details-title = t("dashboard.conversation_details.title", default: "Details")
+
+      .ui-macro-details-grid
+        .ui-field-group
+          = f.label :name, t("dashboard.macros.form.name", default: "Name"), class: "ui-label"
+          .ui-field-control.ui-field-control--plain
+            = f.text_field :name, class: "ui-input ui-control", required: true, autocomplete: "off", placeholder: t("dashboard.macros.form.name_placeholder")
+
+        .ui-field-group
+          = f.label :visibility, t("dashboard.macros.form.visibility", default: "Visibility"), class: "ui-label"
+          .ui-field-control.ui-field-control--plain.ui-field-control--no-icon
+            = f.select :visibility,
+              options_for_select([[t("forms.options.account_wide"), "account_wide"], [t("forms.options.personal"), "personal"], [t("forms.options.team"), "team"]], macro.visibility),
+              { include_blank: t("forms.options.select", default: "Select") },
+              class: "ui-select ui-control",
+              data: { controller: "select" }
+
+        .ui-field-group.ui-macro-description-field
+          .ui-macro-label-row
+            = f.label :description, t("dashboard.macros.form.description", default: "Description"), class: "ui-label"
+            span = t("dashboard.macros.form.optional", default: "(Optional)")
+          .ui-macro-description-control
+            = f.text_area :description,
+              class: "ui-input ui-macro-description",
+              rows: 4,
+              maxlength: 500,
+              placeholder: t("dashboard.macros.form.description_placeholder"),
+              data: { "assignment-policy-target": "descriptionInput", action: "input->assignment-policy#updateDescriptionCounter" }
+            span.ui-macro-description-count data-assignment-policy-target="descriptionCounter"
+              = "#{macro.description.to_s.length} / 500"
+
+    section.ui-form-card.ui-macro-actions-card aria-labelledby="macro-actions-title"
+      header.ui-form-card__header.ui-form-card__header--identity.ui-macro-card-header
+        span.ui-form-card__icon aria-hidden="true"
+          = inline_svg_tag("star_plus.svg")
+        h2#macro-actions-title = t("dashboard.domains.index.table.actions")
+
+      .ui-macro-actions-body data-automation-builder-target="actionsContainer"
+        .ui-macro-action-headings aria-hidden="true"
+          span = t("dashboard.macros.index.action", default: "Action")
+          span = t("dashboard.macros.form.action_details", default: "Details")
+          span
+
+        .ui-macro-action-rows data-automation-builder-target="actionRows"
+          - actions.each_with_index do |action, action_index|
+            = render("dashboard/automations/action_row", action: action, action_index: action_index)
+
+        button.ui-macro-add-action type="button" data-action="click->automation-builder#addAction"
+          = inline_svg_tag("plus_black.svg", aria: { hidden: true })
+          span = t("ui.dashboard.macros.edit.add_action").delete_prefix("+ ")
+
+    = f.hidden_field :actions, value: (macro.actions || []).to_json, data: { "automation-builder-target": "actionsField" }

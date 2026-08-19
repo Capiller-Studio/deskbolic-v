@@ -1,39 +1,41 @@
 = render("dashboard/shared/dashboard_container", current_page: "settings") do
   = render("dashboard/settings/settings_sidebar", current_page: "api-keys") do
-    .body-container
-      .ui-index-header
-        .ui-title-area
-          h2.f-semi-32 = t("dashboard.settings.api_keys.index.title")
-          p.f-reg-16 = t("dashboard.settings.api_keys.index.description")
+    .ui-settings-page
+      header.ui-settings-page__header
+        .ui-settings-page__heading
+          h1 = t("dashboard.settings.api_keys.index.title")
+          p = t("dashboard.settings.api_keys.index.description")
 
-        = button_to settings_api_keys_path, method: :post, class: "ui-btn-primary" do
-          | + #{t("dashboard.settings.api_keys.index.generate")}
+        .tm-users-header-actions
+          = button_to settings_api_keys_path, method: :post, class: "tm-users-invite tm-team-modal-button" do
+            span = t("dashboard.settings.api_keys.index.generate")
+            = inline_svg_tag("plus_white.svg", class: "plus-icon", aria: { hidden: true })
 
-      .ui-list
+      main.ui-settings-page__content
         - if @api_keys.any?
           - @api_keys.each do |api_key|
-            div.ui-card id=dom_id(api_key)
+            article.ui-card id=dom_id(api_key)
               .ui-card-top
                 .ui-card-info
-                  .channel-page-avatar-placeholder
-                    | 🔑
-                  .channel-page-details
+                  .ui-domain-section__icon aria-hidden="true"
+                    = inline_svg_tag("api_key.svg")
+                  div
                     h3.f-semi-16 = t("dashboard.settings.api_keys.index.key_title")
-                    p.channel-page-id style="user-select: all;"
-                      | #{t("ui.dashboard.settings.api_keys.index.text", token: api_key.token)}
+                    p.ui-subtitle style="user-select: all;" = t("ui.dashboard.settings.api_keys.index.text", token: api_key.token)
 
                 .ui-card-actions
-                  = button_to settings_api_key_path(api_key), method: :delete, data: { turbo_confirm: t("dashboard.settings.api_keys.index.revoke_confirm") }, class: "ui-btn-danger" do
-                    | #{t("general.revoke")}
-              
+                  = button_to settings_api_key_path(api_key), method: :delete, class: "ui-icon-button", data: { turbo_confirm: t("dashboard.settings.api_keys.index.revoke_confirm") }, aria: { label: t("general.delete") }, title: t("general.delete") do
+                    = image_tag("delete.svg", alt: "", aria: { hidden: true })
+
               .ui-card-meta
                 .ui-meta-tag
-                  span.ui-meta-tag-icon 🕐
-                  span = t("dashboard.settings.api_keys.index&.created_ago", time: time_ago_in_words(api_key.created_at))
+                  = inline_svg_tag("timer.svg", class: "ui-meta-tag-icon", aria: { hidden: true })
+                  span = t("dashboard.settings.api_keys.index.created_ago", date: time_ago_in_words(api_key.created_at))
 
         - else
           .ui-empty-state
-            .ui-empty-icon 🔑
+            .ui-empty-icon
+              = inline_svg_tag("api_key.svg", aria: { hidden: true })
             h3.f-semi-18 = t("dashboard.settings.api_keys.index.empty_title")
             p.f-reg-14 = t("dashboard.settings.api_keys.index.empty")
             = button_to settings_api_keys_path, method: :post, class: "ui-btn-primary ui-btn-sm" do

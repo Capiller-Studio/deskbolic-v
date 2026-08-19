@@ -1,44 +1,6 @@
 = render("dashboard/shared/dashboard_container", current_page: "settings") do
   = render("dashboard/settings/settings_sidebar", current_page: "macros") do
-    .ui-page-body
-      .auto-builder
-        .ui-index-header
-          .ui-title-area
-            h2.f-semi-32 = t("dashboard.macros.new.title")
-
-        = form_with(model: @macro, url: macros_path, data: { controller: "automation-builder" }) do |f|
-          / --- Name & Scope ---
-          .auto-section
-            .auto-section-header
-              span.auto-section-icon 📝
-              | #{t("dashboard.conversation_details.title")}
-            .auto-section-body
-              .auto-row style="flex-direction: column; align-items: stretch; gap: 16px;"
-                div
-                  label.f-semi-13 style="display: block; margin-bottom: 6px; color: #334155;" Name
-                  = f.text_field :name, placeholder: t("dashboard.macros.form.name_placeholder"), style: "width: 100%; padding: 10px 14px; border: 1px solid #e2e8f0; border-radius: 8px;"
-                div
-                  label.f-semi-13 style="display: block; margin-bottom: 6px; color: #334155;" Description (optional)
-                  = f.text_area :description, rows: 2, placeholder: t("dashboard.macros.form.description_placeholder"), style: "width: 100%; padding: 10px 14px; border: 1px solid #e2e8f0; border-radius: 8px; resize: vertical;"
-                div
-                  label.f-semi-13 style="display: block; margin-bottom: 6px; color: #334155;" Visibility
-                  = f.select :visibility, options_for_select([[t("forms.options.account_wide"), "account_wide"], [t("forms.options.personal"), "personal"], [t("forms.options.team"), "team"]], "account_wide"), {}, style: "width: 100%; padding: 10px 14px; border: 1px solid #e2e8f0; border-radius: 8px;"
-
-          / --- Actions Section ---
-          .auto-section
-            .auto-section-header
-              span.auto-section-icon.action 🚀
-              | #{t("dashboard.domains.index.table.actions")}
-            .auto-section-body data-automation-builder-target="actionsContainer"
-              div data-automation-builder-target="actionRows"
-                = render("dashboard/automations/action_row", action: {}, action_index: 0)
-
-              button.auto-add-btn type="button" data-action="click->automation-builder#addAction"
-                | #{t("ui.dashboard.macros.edit.add_action")}
-
-          / --- Hidden field for JSON serialization ---
-          = f.hidden_field :actions, value: "[]", data: { "automation-builder-target": "actionsField" }
-
-          .auto-form-footer
-            = link_to t("dashboard.teams.form.cancel"), macros_path, class: "auto-btn-secondary"
-            = f.submit t("ui.dashboard.macros.edit.save_macro"), class: "auto-btn-primary"
+    = render "form",
+      macro: @macro,
+      page_title: t("dashboard.macros.new.title"),
+      page_description: t("dashboard.macros.new.subtitle", default: "Create a new macro")

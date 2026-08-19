@@ -1,15 +1,26 @@
 = render("dashboard/shared/dashboard_container", current_page: "settings") do
   = render("dashboard/settings/settings_sidebar", current_page: "integrations") do
-    .channel-theme-email
-      .ui-page-body
-        .ui-page-header
-          = link_to t("dashboard.settings.integrations.form.back"), integrations_path, class: "ui-back-link"
-          h2.f-semi-24 style="color: #0f172a; margin-top: 12px;" = t("dashboard.settings.integrations.new.title", provider: @provider.titleize)
+    .channel-edit.channel-theme-email
+      header.channel-edit__header
+        .channel-edit__header-main
+          = link_to integrations_path, class: "channel-edit__back", aria: { label: t("dashboard.settings.integrations.form.back") } do
+            = inline_svg_tag("back_arrow.svg", aria: { hidden: true })
+          .channel-edit__heading
+            h1 = t("dashboard.settings.integrations.new.title", provider: @provider.titleize)
+            p = t("dashboard.settings.integrations.#{@provider == 'webhook' ? 'webhooks' : @provider}.description", default: t("dashboard.settings.integrations.index.description"))
 
-        .ui-card style="max-width: 800px; margin-top: 24px;"
-          - if @provider == "webhook"
-            = render "webhook_form", integration: @integration, url: integrations_path
-          - elsif @provider == "slack"
-            = render "slack_form", integration: @integration, url: integrations_path
-          - else
-            p = t("dashboard.settings.integrations.not_supported")
+        .channel-edit__header-actions
+          = link_to t("dashboard.shared.cancel"), integrations_path, class: "channel-edit__button channel-edit__button--secondary"
+          button.channel-edit__button.channel-edit__button--primary type="submit" form="integration-form"
+            = inline_svg_tag("ai_agents/new_agent_check.svg", aria: { hidden: true })
+            span = t("dashboard.shared.save")
+
+      .channel-edit__viewport
+        .channel-edit__layout style="display: block;"
+          .ui-card style="margin: 0 auto;"
+            - if @provider == "webhook"
+              = render "webhook_form", integration: @integration, url: integrations_path
+            - elsif @provider == "slack"
+              = render "slack_form", integration: @integration, url: integrations_path
+            - else
+              p = t("dashboard.settings.integrations.not_supported")

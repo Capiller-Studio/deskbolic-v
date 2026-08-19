@@ -1,6 +1,6 @@
-= form_with(model: automation, url: (automation.persisted? ? automation_path(automation) : automations_path), data: { controller: "automation-builder" }) do |f|
+= form_with(model: automation, url: (automation.persisted? ? automation_path(automation) : automations_path), id: "automation-form", class: "ui-settings-form", data: { controller: "automation-builder" }) do |f|
   / --- Name & Description ---
-  .auto-section
+  .auto-section.ui-section--always-open
     .auto-section-header
       span.auto-section-icon 📝
       | #{t("dashboard.conversation_details.title")}
@@ -14,7 +14,7 @@
           = f.text_area :description, class: "auto-row", rows: 2, placeholder: t("dashboard.automations.form.description_placeholder"), style: "width: 100%; padding: 10px 14px; border: 1px solid #e2e8f0; border-radius: 8px; resize: vertical;"
 
   / --- Trigger Section ---
-  .auto-section
+  .auto-section.ui-section--always-open
     .auto-section-header
       span.auto-section-icon.trigger ⚡
       = t("dashboard.automations.builder.trigger_section")
@@ -22,13 +22,15 @@
       .auto-row
         div style="flex: 1;"
           label.f-semi-13 style="display: block; margin-bottom: 6px; color: #334155;" = t("dashboard.automations.builder.type_label")
-          = f.select :automation_type, options_for_select([[t("forms.options.event_trigger"), "event_trigger"], [t("forms.options.time_trigger"), "time_trigger"]], automation.automation_type), {}, class: "auto-row", style: "width: 100%;", data: { action: "change->automation-builder#typeChanged" }
+          .ui-field-control.ui-field-control--plain.ui-field-control--no-icon
+            = f.select :automation_type, options_for_select([[t("forms.options.event_trigger"), "event_trigger"], [t("forms.options.time_trigger"), "time_trigger"]], automation.automation_type), {}, class: "ui-select ui-control", data: { controller: "select", action: "change->automation-builder#typeChanged" }
         div style="flex: 1;"
           label.f-semi-13 style="display: block; margin-bottom: 6px; color: #334155;" = t("dashboard.automations.builder.event_label")
-          = f.select :event_name, options_for_select(event_options_for_type(automation.automation_type), automation.event_name), { include_blank: t("forms.options.select_event") }, class: "auto-row", style: "width: 100%;", data: { "automation-builder-target": "eventSelect", action: "change->automation-builder#eventChanged" }
+          .ui-field-control.ui-field-control--plain.ui-field-control--no-icon
+            = f.select :event_name, options_for_select(event_options_for_type(automation.automation_type), automation.event_name), { include_blank: t("forms.options.select_event") }, class: "ui-select ui-control", data: { controller: "select", "automation-builder-target": "eventSelect", action: "change->automation-builder#eventChanged" }
 
   / --- Conditions Section ---
-  .auto-section
+  .auto-section.ui-section--always-open
     .auto-section-header
       span.auto-section-icon.condition 🔍
       = t("dashboard.automations.builder.conditions_section")
@@ -37,7 +39,8 @@
       - cond_hash = automation.conditions.is_a?(Hash) ? automation.conditions : {}
       .auto-group-header
         = t("dashboard.automations.builder.match_label")
-        = select_tag "automation[conditions][operator]", options_for_select([[t("forms.options.all"), "AND"], [t("forms.options.any"), "OR"]], cond_hash.dig("operator") || "AND"), class: "auto-row", style: "width: auto; padding: 4px 28px 4px 10px;"
+        .ui-field-control.ui-field-control--compact.ui-field-control--no-icon style="width: 110px;"
+          = select_tag "automation[conditions][operator]", options_for_select([[t("forms.options.all"), "AND"], [t("forms.options.any"), "OR"]], cond_hash.dig("operator") || "AND"), class: "ui-select ui-control", data: { controller: "select" }
         | #{t("ui.dashboard.automations.form.of_the_following_condition_groups")}
 
       / Condition groups rendered by Stimulus
@@ -50,7 +53,7 @@
         | + #{t("dashboard.automations.builder.add_condition_group")}
 
   / --- Actions Section ---
-  .auto-section
+  .auto-section.ui-section--always-open
     .auto-section-header
       span.auto-section-icon.action 🚀
       = t("dashboard.automations.builder.actions_section")
@@ -73,8 +76,3 @@
   / --- Hidden fields for JSON serialization ---
   = f.hidden_field :conditions, value: automation.conditions.to_json, data: { "automation-builder-target": "conditionsField" }
   = f.hidden_field :actions, value: automation.actions.to_json, data: { "automation-builder-target": "actionsField" }
-
-  / --- Footer ---
-  .auto-form-footer
-    = link_to t("dashboard.automations.builder.cancel"), automations_path, class: "auto-btn-secondary"
-    = f.submit t("dashboard.automations.builder.save"), class: "auto-btn-primary"

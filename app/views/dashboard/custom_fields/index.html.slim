@@ -1,12 +1,13 @@
 = render("dashboard/shared/dashboard_container", current_page: "settings") do
   = render("dashboard/settings/settings_sidebar", current_page: "custom-fields") do
-    .body-container
-      .ui-index-header
-        .ui-title-area
-          h1.f-semi-32 = t("dashboard.settings_index.custom_fields")
-          p.f-reg-16.text-muted = t("ui.dashboard.custom_fields.index.master_data_attributes_for_personalized_customer_experiences")
-        = link_to new_custom_field_path, class: "ui-btn-primary"
-          | #{t("ui.dashboard.custom_fields.index.create_new_field")}
+    .ui-settings-page
+      header.ui-settings-page__header
+        .ui-settings-page__heading
+          h1 = t("dashboard.settings_index.custom_fields")
+          p = t("ui.dashboard.custom_fields.index.master_data_attributes_for_personalized_customer_experiences")
+        = link_to new_custom_field_path, class: "ui-settings-page__action" do
+          span = t("ui.dashboard.custom_fields.index.create_new_field").delete_prefix("+ ")
+          = inline_svg_tag("plus_white.svg", class: "ui-settings-page__action-icon", aria: { hidden: true })
 
       .ui-list
         - if @custom_fields.any?

@@ -1,10 +1,19 @@
 = render("dashboard/shared/dashboard_container", current_page: "settings") do
   = render("dashboard/settings/settings_sidebar", current_page: "custom-fields") do
-    .ui-page-body
-      .ui-form-header
-        = link_to t("ui.dashboard.custom_fields.edit.back_to_custom_fields"), custom_fields_path, class: "ui-back-link"
-        h2.f-semi-32 style="margin-top: 16px; color: #0f172a;" Edit Custom Field
+    .ui-settings-editor
+      header.ui-settings-editor__header
+        = link_to custom_fields_path, class: "ui-settings-editor__back", aria: { label: t("ui.dashboard.custom_fields.edit.back_to_custom_fields") } do
+          = inline_svg_tag("back-arrow.svg", aria: { hidden: true })
+        .ui-settings-editor__heading
+          h1 = t("dashboard.custom_fields.edit.title", default: "Edit Custom Field")
+          p = t("dashboard.custom_fields.edit.description", default: "Update this custom field.")
+        .ui-settings-editor__header-actions
+          = link_to t("dashboard.teams.form.cancel"), custom_fields_path, class: "ui-btn-secondary"
+          = button_tag type: "submit", form: "custom-field-form", class: "ui-btn-primary" do
+            = inline_svg_tag("mark.svg", aria: { hidden: true })
+            span = t("ui.dashboard.custom_fields.form.save_custom_field")
 
-      .ui-card style="margin-top: 24px;"
-        .ui-card-body style="padding: 2rem;"
-          = render "form", custom_field: @custom_field
+      .ui-settings-editor__body
+        .ui-card
+          .ui-card-body style="padding: 2rem;"
+            = render "form", custom_field: @custom_field

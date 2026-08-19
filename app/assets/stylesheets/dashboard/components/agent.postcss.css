@@ -62,12 +62,6 @@
                   .inbox-conv {
                     padding-left: 15px;
                   }
-                  .link-bar {
-                    display: none;
-                  }
-                  .dropdown-icon {
-                    rotate: -90deg;  
-                  }
                   .st-dropdown-icon {
                     rotate: 0deg;
                   }
@@ -389,91 +383,6 @@
                   .big-arrow{
                     margin-left: -50px;
                   }
-              }
-              ul.config-list {
-                > table.index-section {
-                  width: 100%;
-                  border-radius: 12px;
-                  border: 1px solid $black-20;
-                  border-collapse: separate; 
-                  overflow: hidden; 
-                  > thead {
-                    > tr {
-                      @mixin grid-container $col5, $row1;
-                      border-bottom: 2px solid #E9EFF4;
-                      background-color: $white;
-                      padding: 19px 30px;
-                      > th {
-                        @mixin flex-column $justify-center, $align-left;
-                        text-align: left;
-                        color: $black;
-                      }
-                    }
-                  }
-                  > tbody {
-                    width: 100%;
-                    > tr {
-                      @mixin grid-container $col5, $row1;
-                      border-bottom: 1px solid #E9EFF4;
-                      background-color: $white;
-                      padding: 10px 30px;
-                      > td {
-                        @mixin flex-column $justify-center, $align-left;
-                        > a {
-                          text-decoration: underline;
-                          cursor: pointer;
-                          color: $black;
-                        }
-                        .status-tag {
-                          @mixin flex-row $justify-center, $align-center;
-                          .bullet {
-                            width: 6px;
-                            height: 6px;
-                            border-radius: 6px;
-                            margin-right: 5px;
-                          }
-                        }
-                      }
-                      .name-wrapper {
-                        @mixin flex-row $justify-left, $align-center;
-                        .avatar {
-                          background-color: $black-80;
-                          color: white;
-                          width: 38px;
-                          height: 38px;
-                          border-radius: 50%;
-                          display: flex;
-                          align-items: center;
-                          justify-content: center;
-                        }
-                        .name {
-                          margin-left: 10px;
-                        }
-                      }
-                      .actions {
-                        @mixin padding-size 0, 0;
-                        @mixin flex-row $justify-end, $align-center;
-                        .link-icon {
-                          @mixin width-size 1;
-                          @mixin height-size 1;
-                          margin-left: 10px;
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-              .config-footer {
-                padding: 20px 20px;
-                margin-bottom: 20px;
-                span.f-reg-14 {
-                  padding: 4px 12px;
-                  border-radius: 8px;
-                  cursor: pointer;
-                  background-color: $red-5;
-                  color: $red-70;
-                  float: right;
-                }
               }
             }
             .foramality-panel {

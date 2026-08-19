@@ -137,7 +137,7 @@
               transform: translateX(-50%) translateY(0);
             }
           }
-          .name-section, .password-section, .select-choices {
+          .name-section, .password-section {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
@@ -188,26 +188,6 @@
               font-family: $font-family-inter-regular;
             }
 
-            .company-name-input {
-              width: 100%;
-              box-sizing: border-box;
-              padding: 15px;
-              height: auto !important;
-              font-size: 15px;
-              font-family: $font-family-inter-regular;
-              border-radius: 8px;
-              border: 1.9px solid $black-10;
-
-              &:focus {
-                outline: 0.5px solid $black-10;
-              }
-
-              &::placeholder {
-                font-size: 14px;
-                color: $black-10;
-                font-family: $font-family-inter-regular;
-              }
-            }
           }
 
           h2 {
@@ -403,7 +383,7 @@
           padding: 0;
           .form-fields {
             gap: 20px;
-            .name-section, .password-section, .select-choices {
+            .name-section, .password-section {
               flex-direction: column;
               gap: 20px;
               margin: 0;

@@ -1,7 +1,9 @@
 - url = contact_form_channel.persisted? ? channels_contact_form_path(contact_form_channel) : channels_contact_form_index_path
 - method = contact_form_channel.persisted? ? :patch : :post
+- translations = contact_form_channel.translations.reject(&:marked_for_destruction?).select { |translation| translation.locale.present? }
+- translations = [contact_form_channel.translations.build(locale: I18n.default_locale)] if translations.empty?
 
-= form_with(model: contact_form_channel, scope: :contact_form_channel, url: url, method: method, data: { controller: "contact-form-channel" }) do |f|
+= form_with(model: contact_form_channel, scope: :contact_form_channel, url: url, method: method, id: "contact-form-channel-form", class: "ui-settings-form", data: { controller: "contact-form-channel" }) do |f|
   - if contact_form_channel.errors.any?
     .ww-error-summary
       h3 = t("dashboard.contact_form_channels.form.error_heading")
@@ -15,7 +17,7 @@
       .ww-section-title
         = inline_svg_tag("message.svg", class: "ww-section-icon", alt: t("dashboard.contact_form_channels.form.basic_section"))
         span.ww-section-label = t("dashboard.contact_form_channels.form.basic_section")
-    .ww-section-body
+    .ww-section-body.channel-edit-select-surface
       .ww-form-row
         div
           = f.label :name, t("dashboard.contact_form_channels.form.name_label"), class: "ww-label"
@@ -28,7 +30,8 @@
         div
           = f.label :outbound_channel_id, t("forms.labels.outbound_channel"), class: "ww-label"
           p.ww-section-desc = t("dashboard.contact_form_channels.form.outbound_channel_hint", default: "Select an Email Channel to send replies from.")
-          = f.collection_select :outbound_channel_id, @email_channels, :id, :name, { include_blank: t("forms.options.select_email_channel") }, class: "ww-select"
+          .channel-edit-select.ui-field-control.ui-field-control--no-icon
+            = f.collection_select :outbound_channel_id, @email_channels, :id, :name, { include_blank: t("forms.options.select_email_channel") }, { class: "ui-select ui-control", data: { controller: "select" } }
           = f.hidden_field :outbound_channel_type, value: "Channel::Email"
         div
 
@@ -37,7 +40,7 @@
           h3 = t("dashboard.contact_form_channels.form.inbox_settings", default: "Inbox Settings")
           p = t("dashboard.contact_form_channels.form.inbox_settings_desc", default: "Configure SLA policies and custom reply templates for submissions.")
 
-          = f.fields_for :primary_inbox do |inbox_f|
+          = f.fields_for :primary_inbox, contact_form_channel.primary_inbox do |inbox_f|
             .ww-toggle-row
               div
                 span.ww-toggle-label = t("ui.dashboard.channels.contact_form.form.auto_assign_conversations")
@@ -53,18 +56,22 @@
             .ww-form-row
               div
                 = inbox_f.label :conversation_reply_template_id, t("forms.labels.custom_reply_template"), class: "ww-label"
-                = inbox_f.collection_select :conversation_reply_template_id, current_account.email_templates, :id, :name, { include_blank: t("forms.options.default_mailer_view") }, class: "ww-select"
+                .channel-edit-select.ui-field-control.ui-field-control--no-icon
+                  = inbox_f.collection_select :conversation_reply_template_id, current_account.email_templates, :id, :name, { include_blank: t("forms.options.default_mailer_view") }, { class: "ui-select ui-control", data: { controller: "select" } }
               div
                 = inbox_f.label :business_hour_group_id, t("forms.labels.business_hours"), class: "ww-label"
-                = inbox_f.collection_select :business_hour_group_id, current_account.business_hour_groups, :id, :name, { include_blank: t("forms.options.always_online_24_7") }, class: "ww-select"
+                .channel-edit-select.ui-field-control.ui-field-control--no-icon
+                  = inbox_f.collection_select :business_hour_group_id, current_account.business_hour_groups, :id, :name, { include_blank: t("forms.options.always_online_24_7") }, { class: "ui-select ui-control", data: { controller: "select" } }
 
             .ww-form-row
               div
                 = inbox_f.label :sla_policy_ids, t("forms.labels.sla_policies"), class: "ww-label"
-                = inbox_f.collection_select :sla_policy_ids, current_account.sla_policies, :id, :name, {}, { multiple: true, class: "ww-select" }
+                .channel-edit-select.ui-field-control.ui-field-control--no-icon
+                  = select_tag "#{inbox_f.object_name}[sla_policy_ids][]", options_from_collection_for_select(current_account.sla_policies, :id, :name, contact_form_channel.primary_inbox.sla_policy_ids.first), include_blank: t("dashboard.channels.edit.none_selected", default: "None Selected"), class: "ui-select ui-control", data: { controller: "select" }
               div
                 = inbox_f.label :csat_survey_id, t("forms.labels.csat_survey"), class: "ww-label"
-                = inbox_f.collection_select :csat_survey_id, @csat_surveys, :id, :name, { include_blank: t("forms.options.default_survey") }, class: "ww-select"
+                .channel-edit-select.ui-field-control.ui-field-control--no-icon
+                  = inbox_f.collection_select :csat_survey_id, @csat_surveys, :id, :name, { include_blank: t("forms.options.default_survey") }, { class: "ui-select ui-control", data: { controller: "select" } }
 
   / ─── Appearance & Branding ───
   .ww-section.ui-section data-contact-form-channel-target="appearanceSection"
@@ -73,7 +80,7 @@
         = inline_svg_tag("setting.svg", class: "ww-section-icon", alt: t("dashboard.contact_form_channels.form.appearance_section"))
         span.ww-section-label = t("dashboard.contact_form_channels.form.appearance_section")
       span.ww-section-chevron ▼
-    .ww-section-body
+    .ww-section-body.channel-edit-select-surface
       .ww-form-row
         div
           label.ww-label = t("dashboard.contact_form_channels.form.theme_color_label")
@@ -82,7 +89,8 @@
             = text_field_tag "contact_form_channel[ui_configurations][theme_color]", contact_form_channel.ui_configurations&.dig("theme_color") || "#0f172a", class: "ww-input", style: "flex: 1;", data: { "contact-form-channel-target": "colorInput", "action": "input->contact-form-channel#syncSwatch" }
         div
           label.ww-label = t("dashboard.contact_form_channels.form.position_label")
-          = select_tag "contact_form_channel[ui_configurations][position]", options_for_select([[t("forms.options.left_aligned"), "left"], [t("forms.options.center_aligned"), "center"], [t("forms.options.right_aligned"), "right"]], contact_form_channel.ui_configurations&.dig("position") || "left"), class: "ww-select"
+          .channel-edit-select.ui-field-control.ui-field-control--no-icon
+            = select_tag "contact_form_channel[ui_configurations][position]", options_for_select([[t("forms.options.left_aligned"), "left"], [t("forms.options.center_aligned"), "center"], [t("forms.options.right_aligned"), "right"]], contact_form_channel.ui_configurations&.dig("position") || "left"), class: "ui-select ui-control", data: { controller: "select" }
 
   / ─── Custom Fields Builder ───
   .ww-section.ui-section data-contact-form-channel-target="integrationsSection"
@@ -198,31 +206,41 @@
         = inline_svg_tag("t_users.svg", class: "ww-section-icon", alt: t("ui.dashboard.channels.contact_form.form.translations"))
         span.ww-section-label = t("ui.dashboard.channels.contact_form.form.translations")
       span.ww-section-chevron ▼
-    .ww-section-body data-controller="nested-translations"
+    .ww-section-body.channel-edit-select-surface
       p.ww-section-desc = t("dashboard.contact_form_channels.form.translations_desc", default: "Provide localized strings for your contact form. These override the default locale based on the customer's browser.")
 
-      .ww-translations-container data-nested-translations-target="container"
-        = f.fields_for :translations do |tf|
-          = render "dashboard/channels/contact_form/translation_fields", f: tf
-
-      template data-nested-translations-target="template"
-        = f.fields_for :translations, Channel::ContactFormTranslation.new, child_index: 'NEW_RECORD' do |tf|
-          = render "dashboard/channels/contact_form/translation_fields", f: tf
-
-      - current_locales = contact_form_channel.translations.reject(&:marked_for_destruction?).map(&:locale).map(&:to_s)
+      - current_locales = translations.map(&:locale).map(&:to_s)
       - available_locales = Core::SUPPORTED_LOCALES.map(&:to_s) - current_locales
-      - available_locales_options = available_locales.map { |l| [I18n.t("languages.#{l.downcase}"), l] }
+      - available_locales_options = available_locales.map { |locale| [I18n.t("languages.#{locale.downcase}", default: locale.upcase), locale] }
 
-      .ww-add-locale-wrapper
-        = select_tag "new_locale", options_for_select(available_locales_options), include_blank: t("forms.options.select_language"), class: "ww-select", data: { "nested-translations-target": "localeSelect" }
-        button.ww-btn-secondary type="button" data-action="click->nested-translations#addTranslation"
-          span +
-          | #{t("ui.dashboard.channels.contact_form.form.add_language")}
+      .ui-locale-editor data-controller="nested-translations locale-tabs"
+        .ui-locale-tabs data-nested-translations-target="tabContainer"
+          - translations.each_with_index do |translation, index|
+            - locale = translation.locale.to_s
+            - language_name = I18n.t("languages.#{locale.downcase}", default: locale.upcase)
+            button.ui-locale-tab class=(index.zero? ? "active" : nil) type="button" data-locale=locale data-locale-tabs-target="tab" data-action="click->locale-tabs#switch"
+              span.ui-locale-tab__code = locale.first(2).upcase
+              span.translation-language-name = language_name
+              - if locale == I18n.default_locale.to_s
+                span.ui-locale-tab__meta = t("dashboard.ai_agents.form.default_language", default: "(Default)")
 
-  / ─── Form Actions ───
-  .ww-form-actions
-    - if contact_form_channel.persisted?
-      = f.submit t("dashboard.contact_form_channels.form.update"), class: "ww-btn-primary"
-    - else
-      = f.submit t("dashboard.contact_form_channels.form.save"), class: "ww-btn-primary"
-    = link_to t("dashboard.contact_form_channels.form.cancel"), channels_contact_form_index_path, class: "ww-btn-secondary"
+          .ui-locale-picker.ui-field-control
+            = select_tag "new_translation_locale", options_for_select(available_locales_options), include_blank: t("forms.options.select_language", default: "Select Language"), class: "ui-select ui-control", data: { controller: "select", "nested-translations-target": "localeSelect", action: "change->nested-translations#addTranslation" }
+            span.ui-locale-picker__icon aria-hidden="true"
+              = image_tag("ai_agents/new_agent_add_language.svg", alt: "", width: 10.4896, height: 10.4896)
+
+        .ui-locale-panels data-nested-translations-target="panelContainer"
+          - translation_index = 0
+          = f.fields_for :translations do |translation_form|
+            - if translation_form.object.locale.present?
+              = render "dashboard/channels/contact_form/translation_fields", f: translation_form, active: translation_index.zero?
+              - translation_index += 1
+
+        template data-nested-translations-target="tabTemplate"
+          button.ui-locale-tab type="button" data-locale="NEW_LOCALE" data-locale-tabs-target="tab" data-action="click->locale-tabs#switch"
+            span.ui-locale-tab__code NEW_CODE
+            span.translation-language-name NEW_LANGUAGE
+
+        template data-nested-translations-target="panelTemplate"
+          = f.fields_for :translations, Channel::ContactFormTranslation.new, child_index: "NEW_RECORD" do |translation_form|
+            = render "dashboard/channels/contact_form/translation_fields", f: translation_form, active: false

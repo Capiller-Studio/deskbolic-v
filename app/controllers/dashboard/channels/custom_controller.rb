@@ -54,7 +54,7 @@ module Dashboard
           end
 
           if @custom_channel.update(processed_params)
-            redirect_to(edit_channels_custom_path(@custom_channel), notice: t("dashboard.custom_channels.updated", default: "Custom Channel updated"))
+            redirect_to channels_custom_index_path, notice: t("dashboard.custom_channels.updated", default: "Custom Channel updated")
           else
             render(:edit, status: :unprocessable_entity)
           end
@@ -187,6 +187,7 @@ module Dashboard
           channel_custom: [ :name, :description, :webhook_url,
           primary_inbox_attributes: [
             :id, :reopen_window_seconds, :csat_survey_enabled, :csat_survey_id,
+            :conversation_reply_template_id, :business_hour_group_id,
             sla_policy_ids: []
           ] ]
         )

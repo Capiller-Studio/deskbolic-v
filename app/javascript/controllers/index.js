@@ -106,6 +106,9 @@ application.register("instagram-channel", InstagramChannelController)
 import KeyValueBuilderController from "./key_value_builder_controller"
 application.register("key-value-builder", KeyValueBuilderController)
 
+import LabelFormController from "./label_form_controller"
+application.register("label-form", LabelFormController)
+
 import LexicalController from "./lexical_controller"
 application.register("lexical", LexicalController)
 

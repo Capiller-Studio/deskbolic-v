@@ -1,41 +1,29 @@
-.ui-section data-controller="test-webhook ui-section" data-test-webhook-outgoing-url-value=test_outgoing_webhook_channels_custom_path(custom_channel) data-test-webhook-incoming-url-value=test_incoming_webhook_channels_custom_path(custom_channel)
-  .ui-section-header data-action="click->ui-section#toggle"
-    .ui-section-title
-      span.ui-section-icon 🧪
-      span.ui-section-label = t("dashboard.custom_channels.testing.sandbox_title")
-  .ui-section-body
-    p.f-reg-14 class="text-muted ui-sandbox-desc"
-      | #{t("ui.dashboard.channels.custom.testing_sandbox.use_these_tools_to_verify_that_your_outbound_webhook_url")}
+section.channel-edit-side-card.channel-edit-card data-controller="test-webhook" data-test-webhook-outgoing-url-value=test_outgoing_webhook_channels_custom_path(id: custom_channel.id) data-test-webhook-incoming-url-value=test_incoming_webhook_channels_custom_path(id: custom_channel.id)
+  h2 = t("dashboard.channels.edit.testing_tools", default: "Testing Tools")
+  p = t("dashboard.channels.edit.testing_tools_hint", default: "Use these tools to verify that your Outbound Webhook URL is receiving payloads correctly.")
 
-    .ui-sandbox-grid
-      
-      .ui-sandbox-card
-        h3.f-semi-16 class="ui-sandbox-card-title" = t("dashboard.custom_channels.testing.test_outbound")
-        p.f-reg-13 class="text-muted ui-sandbox-card-desc" 
-          | #{t("ui.dashboard.channels.custom.testing_sandbox.sends_a_mock_message_created_payload_to_your_configured_webhook")}
-          br
-          strong = custom_channel.webhook_url
-          
-        button.ui-btn-primary type="button" data-action="click->test-webhook#fireOutbound" data-test-webhook-target="outboundBtn"
-          = t("dashboard.custom_channels.testing.fire_outbound")
-          
-        .ui-sandbox-result data-test-webhook-target="outboundResult"
-          p.f-semi-13 class="ui-sandbox-result-label" = t("dashboard.custom_channels.testing.response")
-          .status-badge data-test-webhook-target="outboundStatus" class="ui-badge"
-          pre class="ui-code-block"
-            code data-test-webhook-target="outboundBody"
+  .channel-edit-test-tool
+    h3 = t("dashboard.custom_channels.testing.test_outbound")
+    p = t("ui.dashboard.channels.custom.testing_sandbox.sends_a_mock_message_created_payload_to_your_configured_webhook")
+    input.channel-edit-test-input type="text" value=custom_channel.webhook_url readonly=true
+    button.channel-edit-test-button type="button" data-action="click->test-webhook#fireOutbound" data-test-webhook-target="outboundBtn"
+      | ⚡ #{t("dashboard.custom_channels.testing.fire_outbound")}
+    .channel-edit-test-result data-test-webhook-target="outboundResult"
+      .channel-edit-test-result__label
+        span = t("dashboard.custom_channels.testing.response")
+        span.channel-edit-test-status data-test-webhook-target="outboundStatus"
+      pre
+        code data-test-webhook-target="outboundBody" = t("dashboard.channels.edit.no_response", default: "No response yet")
 
-      .ui-sandbox-card
-        h3.f-semi-16 class="ui-sandbox-card-title" = t("dashboard.custom_channels.testing.test_inbound")
-        p.f-reg-13 class="text-muted ui-sandbox-card-desc" 
-          | #{t("ui.dashboard.channels.custom.testing_sandbox.paste_a_sample_json_payload_that_your_server_would_send")}
+  .channel-edit-test-divider
 
-        textarea.ui-input.ui-code-input data-test-webhook-target="inboundInput" rows="6" placeholder="{\n  \"data\": {\n    \"user\": {\n      \"id\": \"123\"\n    }\n  }\n}"
-        
-        button.ui-btn-secondary type="button" data-action="click->test-webhook#testInbound" data-test-webhook-target="inboundBtn" class="ui-mt-12"
-          = t("dashboard.custom_channels.testing.test_mapping")
-
-        .ui-sandbox-result data-test-webhook-target="inboundResult"
-          p.f-semi-13 class="ui-sandbox-result-label" = t("dashboard.custom_channels.testing.mapped_attributes")
-          pre class="ui-code-block"
-            code data-test-webhook-target="inboundMapped"
+  .channel-edit-test-tool
+    h3 = t("dashboard.custom_channels.testing.test_inbound")
+    p = t("ui.dashboard.channels.custom.testing_sandbox.paste_a_sample_json_payload_that_your_server_would_send")
+    textarea.channel-edit-code-input rows="6" data-test-webhook-target="inboundInput" = JSON.pretty_generate(data: { user: { id: "123" } })
+    button.channel-edit-test-button type="button" data-action="click->test-webhook#testInbound" data-test-webhook-target="inboundBtn"
+      | → #{t("dashboard.custom_channels.testing.test_mapping")}
+    .channel-edit-test-result data-test-webhook-target="inboundResult"
+      span = t("dashboard.custom_channels.testing.mapped_attributes")
+      pre
+        code data-test-webhook-target="inboundMapped" = t("dashboard.channels.edit.no_mapping", default: "No mapping defined yet")

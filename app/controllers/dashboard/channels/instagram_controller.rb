@@ -115,7 +115,7 @@ module Dashboard
       def update
         current_account.with_shard do
           if @instagram_channel.update(instagram_channel_update_params)
-            redirect_to(channels_settings_path(type: "instagram"), notice: t("dashboard.instagram_channels.updated"))
+            redirect_to(channels_instagram_index_path, notice: t("dashboard.instagram_channels.updated"))
           else
             render(:edit, status: :unprocessable_entity)
           end
@@ -129,7 +129,7 @@ module Dashboard
         current_account.decrement_usage!(:channels)
 
         respond_to do |format|
-          format.html { redirect_to(channels_settings_path(type: "instagram"), notice: t("dashboard.instagram_channels.destroyed")) }
+          format.html { redirect_to(channels_instagram_index_path, notice: t("dashboard.instagram_channels.destroyed")) }
           format.turbo_stream { render(turbo_stream: turbo_stream.remove(@instagram_channel)) }
         end
       end

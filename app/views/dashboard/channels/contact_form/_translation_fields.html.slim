@@ -1,12 +1,15 @@
-.ww-translation-card
-  .ww-translation-header
-    div
-      span.ww-translation-locale = I18n.t("languages.#{f.object.locale.to_s.downcase}")
-      = f.hidden_field :locale
-    button.ww-action-delete type="button" data-action="click->nested-translations#removeTranslation" title=t("general.remove_translation")
-      svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
-        path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"
-    = f.hidden_field :_destroy, class: "destroy-flag"
+- locale = f.object.locale.to_s
+- active = local_assigns.fetch(:active, false)
+
+.ww-translation-card.ui-locale-panel class=(active ? nil : "cf-hidden") data-locale=locale data-locale-tabs-target="panel"
+  = f.hidden_field :locale
+  = f.hidden_field :_destroy, class: "destroy-flag"
+
+  - unless locale == I18n.default_locale.to_s
+    .ui-locale-panel__header
+      strong.translation-language-name = I18n.t("languages.#{locale.downcase}", default: locale.upcase)
+      button.ui-action-delete type="button" data-action="click->nested-translations#removeTranslation" title=t("general.remove_translation")
+        = inline_svg_tag("cross_clear.svg", aria: { hidden: true })
 
   .ww-form-row
     div

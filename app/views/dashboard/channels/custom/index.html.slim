@@ -1,57 +1,11 @@
-= render("dashboard/shared/dashboard_container", current_page: "settings") do
-  = render("dashboard/settings/settings_sidebar", current_page: "custom-channels") do
-    .body-container
-      .channel-theme-custom
-        .ui-index-header
-          .ui-title-area
-            h2.f-semi-32 = t("dashboard.custom_channels.index.title")
-            p.f-reg-16 = t("dashboard.custom_channels.index.description")
-          = link_to new_channels_custom_path, class: "ui-btn-primary"
-            | + #{t("dashboard.custom_channels.index.add_new")}
-
-        .ui-list
-          - if @custom_channels.any?
-            - @custom_channels.each do |channel|
-              div.ui-card id=dom_id(channel)
-                .ui-card-top
-                  .ui-card-info
-                    .ui-avatar-placeholder
-                      svg viewBox="0 0 24 24" width="24" height="24" fill="var(--channel-brand, #334155)"
-                        path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"
-                    .ui-card-info
-                      h3.f-semi-16 = channel.name || channel.identifier
-                      p.ui-subtitle
-                        | #{t("ui.dashboard.channels.custom.index.identifier", identifier: channel.identifier)}
-                  .ui-card-actions
-                    = link_to edit_channels_custom_path(channel), class: "ui-action-btn", title: t("dashboard.skills.index.edit")
-                      | ✏️
-                    = link_to channels_custom_path(channel), method: :delete, class: "ui-action-btn ui-action-delete", data: { turbo_method: :delete, turbo_confirm: t("dashboard.custom_channels.index.delete_confirm") }, title: t("general.delete")
-                      | 🗑️
-
-                .ui-card-meta
-                  - if channel.active?
-                    .ui-badge.ui-badge-active
-                      span.ui-badge-icon 🟢
-                      span = t("dashboard.custom_channels.index.status_active")
-                  - else
-                    .ui-badge.ui-badge-disconnected
-                      span.ui-badge-icon 🔴
-                      span = t("dashboard.custom_channels.index.status_disconnected")
-
-                  .ui-meta-tag
-                    span.ui-meta-tag-icon 📬
-                    span = t("dashboard.custom_channels.index.inboxes_count", count: channel.inboxes.size)
-
-                  .ui-meta-tag
-                    span.ui-meta-tag-icon 🕐
-                    span = t("dashboard.custom_channels.index.created_ago", time: time_ago_in_words(channel.created_at))
-
-          - else
-            .ui-empty-state
-              .ui-empty-icon
-                svg viewBox="0 0 24 24" width="48" height="48" fill="var(--channel-brand, #334155)"
-                  path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"
-              h3.f-semi-18 = t("dashboard.custom_channels.index.empty_title")
-              p.f-reg-14 = t("dashboard.custom_channels.index.empty_description")
-              = link_to new_channels_custom_path, class: "ui-btn-primary ui-btn-sm"
-                | + #{t("dashboard.custom_channels.index.add_new")}
+= render "dashboard/channels/shared/index",
+  sidebar_page: "custom-channels",
+  channel_type: "custom",
+  channels: @custom_channels,
+  title: t("dashboard.custom_channels.index.title"),
+  description: t("dashboard.custom_channels.index.description"),
+  new_channel_path: new_channels_custom_path,
+  new_channel_label: t("dashboard.custom_channels.index.add_new"),
+  empty_title: t("dashboard.custom_channels.index.empty_title"),
+  empty_description: t("dashboard.custom_channels.index.empty_description"),
+  delete_confirmation: t("dashboard.custom_channels.index.delete_confirm")

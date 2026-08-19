@@ -1,6 +1,6 @@
-.ui-section style="margin-top: 24px; padding: 16px; background: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 0;"
-  h3.f-semi-16 style="margin-bottom: 8px;" Inbox Settings
-  p.f-reg-14.text-muted style="margin-bottom: 16px;" Configure customer satisfaction surveys, SLA policies, custom reply templates, and AI features.
+.ui-section.channel-edit-select-surface style="margin-top: 24px; padding: 16px; background: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 0;"
+  h3.f-semi-16 style="margin-bottom: 8px;" = t("dashboard.channels.edit.inbox_settings")
+  p.f-reg-14.text-muted style="margin-bottom: 16px;" = t("dashboard.channels.edit.inbox_settings_description")
   
   = form.fields_for :primary_inbox, form.object.primary_inbox do |inbox_f|
     .ui-toggle-row style="margin-bottom: 16px; display: flex; gap: 24px;"
@@ -18,19 +18,23 @@
     .ui-form-row
       div
         = inbox_f.label :csat_survey_id, t("forms.labels.csat_survey"), class: "ui-label"
-        = inbox_f.collection_select :csat_survey_id, current_account.csat_surveys, :id, :name, { include_blank: t("forms.options.default_system_survey") }, class: "ui-select"
+        .channel-edit-select.ui-field-control.ui-field-control--no-icon
+          = inbox_f.collection_select :csat_survey_id, current_account.csat_surveys, :id, :name, { include_blank: t("forms.options.default_system_survey") }, { class: "ui-select ui-control", data: { controller: "select" } }
 
       div
         = inbox_f.label :conversation_reply_template_id, t("forms.labels.custom_reply_template"), class: "ui-label"
-        = inbox_f.collection_select :conversation_reply_template_id, current_account.email_templates, :id, :name, { include_blank: t("forms.options.default_mailer_view") }, class: "ui-select"
+        .channel-edit-select.ui-field-control.ui-field-control--no-icon
+          = inbox_f.collection_select :conversation_reply_template_id, current_account.email_templates, :id, :name, { include_blank: t("forms.options.default_mailer_view") }, { class: "ui-select ui-control", data: { controller: "select" } }
     
     .ui-form-row
       div
         = inbox_f.label :business_hour_group_id, t("forms.labels.business_hours"), class: "ui-label"
-        = inbox_f.collection_select :business_hour_group_id, current_account.business_hour_groups, :id, :name, { include_blank: t("forms.options.always_online_24_7") }, class: "ui-select"
+        .channel-edit-select.ui-field-control.ui-field-control--no-icon
+          = inbox_f.collection_select :business_hour_group_id, current_account.business_hour_groups, :id, :name, { include_blank: t("forms.options.always_online_24_7") }, { class: "ui-select ui-control", data: { controller: "select" } }
       div
         = inbox_f.label :sla_policy_ids, t("forms.labels.sla_policies"), class: "ui-label"
-        = inbox_f.collection_select :sla_policy_ids, current_account.sla_policies, :id, :name, {}, { multiple: true, class: "ui-select" }
+        .channel-edit-select.ui-field-control.ui-field-control--no-icon
+          = select_tag "#{inbox_f.object_name}[sla_policy_ids][]", options_from_collection_for_select(current_account.sla_policies, :id, :name, inbox_f.object.sla_policy_ids.first), include_blank: t("dashboard.channels.edit.none_selected", default: "None Selected"), class: "ui-select ui-control", data: { controller: "select" }
 
     hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 24px 0;"
     h4.f-semi-14 style="margin-bottom: 8px;" 

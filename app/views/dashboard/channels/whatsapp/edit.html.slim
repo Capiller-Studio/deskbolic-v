@@ -10,14 +10,14 @@
     .channel-edit.channel-theme-whatsapp
       header.channel-edit__header
         .channel-edit__header-main
-          = link_to channels_settings_path(type: "whatsapp"), class: "channel-edit__back", aria: { label: t("dashboard.whatsapp_channels.form.back") } do
+          = link_to channels_whatsapp_index_path, class: "channel-edit__back", aria: { label: t("dashboard.whatsapp_channels.form.back") } do
             = inline_svg_tag("back_arrow.svg", aria: { hidden: true })
           .channel-edit__heading
             h1 = t("dashboard.whatsapp_channels.edit.title")
             p = t("dashboard.channels.edit.whatsapp_description", default: "Update your WhatsApp connection and inbox settings.")
 
         .channel-edit__header-actions
-          = link_to t("dashboard.whatsapp_channels.form.cancel"), channels_settings_path(type: "whatsapp"), class: "channel-edit__button channel-edit__button--secondary"
+          = link_to t("dashboard.whatsapp_channels.form.cancel"), channels_whatsapp_index_path, class: "channel-edit__button channel-edit__button--secondary"
           button.channel-edit__button.channel-edit__button--primary type="submit" form="whatsapp-channel-edit-form"
             = inline_svg_tag("ai_agents/new_agent_check.svg", aria: { hidden: true })
             span = t("dashboard.whatsapp_channels.form.save")

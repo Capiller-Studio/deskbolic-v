@@ -3,7 +3,7 @@
     .channel-theme-facebook
       .ui-page-body data-controller="facebook-channel" data-facebook-channel-app-id-value="#{@facebook_app_id}" data-facebook-channel-callback-url-value="#{callback_channels_facebook_index_path}"
         .ui-page-header
-          = link_to channels_settings_path(type: "facebook"), class: "ui-back-link"
+          = link_to channels_facebook_index_path, class: "ui-back-link"
             | ← #{t("dashboard.facebook_channels.form.back")}
 
         .channel-connect-container

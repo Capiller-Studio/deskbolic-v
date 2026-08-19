@@ -1,80 +1,50 @@
-.channel-forwarding-panel
-  h3.f-semi-18 = t("dashboard.email_channels.forwarding.title")
-  p = t("dashboard.email_channels.forwarding.description")
+- forwarding_verified = email_channel.forwarding_verified?
 
-  / ─── Forward Email Address ───
-  .channel-forwarding-address
-    span.channel-forwarding-address-label = t("dashboard.email_channels.forwarding.your_forwarding_address")
-    span.channel-forwarding-address-value data-email-channel-target="forwardEmail" = email_channel.forward_email
-    button.ui-copy-btn data-action="click->email-channel#copyForwardEmail" data-email=email_channel.forward_email
-      | 📋 #{t("dashboard.email_channels.forwarding.copy")}
+section.channel-edit-forwarding.channel-edit-card
+  .channel-edit-forwarding__top
+    .channel-edit-forwarding__intro
+      .channel-edit-forwarding__icon
+        = inline_svg_tag("envelope.svg", aria: { hidden: true })
+      .channel-edit-forwarding__copy
+        h2 = t("dashboard.email_channels.forwarding.title")
+        p = t("dashboard.email_channels.forwarding.description")
+    span.channel-edit-forwarding__status class=(forwarding_verified ? "channel-edit-forwarding__status--verified" : "channel-edit-forwarding__status--pending")
+      span aria-hidden="true"
+      = forwarding_verified ? t("dashboard.email_channels.forwarding.verified") : t("dashboard.email_channels.forwarding.not_verified")
 
-  / ─── Forwarding Status ───
-  .channel-forwarding-status
-    - if email_channel.configurations&.dig("forwarding_verified")
-      .ui-badge.ui-badge-active
-        span.ui-badge-icon ✓
-        span = t("dashboard.email_channels.forwarding.verified")
-    - else
-      .ui-badge.ui-badge-pending
-        span.ui-badge-icon ⏳
-        span = t("dashboard.email_channels.forwarding.not_verified")
-      button.channel-test-btn.ui-btn-sm data-action="click->email-channel#verifyForwarding" data-url=verify_forwarding_channels_email_path(email_channel) data-email-channel-target="verifyBtn" style="margin-left: 8px;"
-        | 🔍 #{t("dashboard.email_channels.forwarding.verify")}
+  .channel-edit-forwarding__field
+    label = t("dashboard.email_channels.forwarding.your_forwarding_address")
+    .channel-edit-forwarding__actions
+      .channel-edit-forwarding__control
+        input type="text" value=email_channel.forward_email readonly=true data-email-channel-target="forwardEmail"
+        button.channel-edit-forwarding__copy-button type="button" data-action="click->email-channel#copyForwardEmail" data-email=email_channel.forward_email aria-label=t("dashboard.email_channels.forwarding.copy")
+          = inline_svg_tag("copy.svg", aria: { hidden: true })
+      - unless forwarding_verified
+        button.channel-edit-forwarding__verify type="button" data-action="click->email-channel#verifyForwarding" data-url=verify_forwarding_channels_email_path(email_channel) data-email-channel-target="verifyBtn"
+          = t("dashboard.email_channels.forwarding.verify")
 
-  / ─── Provider Tabs ───
-  h4.f-semi-14 style="margin-bottom: 12px; color: #334155;" = t("dashboard.email_channels.forwarding.instructions_title")
+section.channel-edit-forwarding-guide.channel-edit-card.channel-forwarding-panel
+  .channel-edit-forwarding-guide__heading
+    h2 = t("dashboard.email_channels.forwarding.instructions_title")
+    = inline_svg_tag("arrow_down_gray.svg", aria: { hidden: true })
 
-  .ui-tabs
-    button.ui-tab.ui-tab--active data-action="click->email-channel#selectTab" data-tab="gmail" = t("dashboard.email_channels.forwarding.gmail_title")
-    button.ui-tab data-action="click->email-channel#selectTab" data-tab="outlook" = t("dashboard.email_channels.forwarding.outlook_title")
-    button.ui-tab data-action="click->email-channel#selectTab" data-tab="yahoo" = t("dashboard.email_channels.forwarding.yahoo_title")
-    button.ui-tab data-action="click->email-channel#selectTab" data-tab="other" = t("dashboard.email_channels.forwarding.other_title")
+  .channel-edit-forwarding-guide__tabs role="tablist"
+    button.ui-tab.ui-tab--active type="button" role="tab" aria-selected="true" data-action="click->email-channel#selectTab" data-tab="gmail"
+      span.channel-edit-forwarding-guide__provider.channel-edit-forwarding-guide__provider--gmail aria-hidden="true" M
+      = t("dashboard.email_channels.forwarding.gmail_title")
+    button.ui-tab type="button" role="tab" aria-selected="false" data-action="click->email-channel#selectTab" data-tab="outlook"
+      span.channel-edit-forwarding-guide__provider.channel-edit-forwarding-guide__provider--outlook aria-hidden="true" O
+      = t("dashboard.email_channels.forwarding.outlook_title")
+    button.ui-tab type="button" role="tab" aria-selected="false" data-action="click->email-channel#selectTab" data-tab="yahoo"
+      span.channel-edit-forwarding-guide__provider.channel-edit-forwarding-guide__provider--yahoo aria-hidden="true" Y!
+      = t("dashboard.email_channels.forwarding.yahoo_title")
+    button.ui-tab type="button" role="tab" aria-selected="false" data-action="click->email-channel#selectTab" data-tab="other"
+      = t("dashboard.email_channels.forwarding.other_title")
 
-  / ─── Gmail ───
-  .ui-tab-content.ui-tab-content--active data-tab-content="gmail"
-    ol.ui-steps
-      li.ui-step
-        span.ui-step-text = t("dashboard.email_channels.forwarding.gmail_step_1")
-      li.ui-step
-        span.ui-step-text = t("dashboard.email_channels.forwarding.gmail_step_2")
-      li.ui-step
-        span.ui-step-text = t("dashboard.email_channels.forwarding.gmail_step_3")
-      li.ui-step
-        span.ui-step-text = t("dashboard.email_channels.forwarding.gmail_step_4")
-
-  / ─── Outlook ───
-  .ui-tab-content data-tab-content="outlook"
-    ol.ui-steps
-      li.ui-step
-        span.ui-step-text = t("dashboard.email_channels.forwarding.outlook_step_1")
-      li.ui-step
-        span.ui-step-text = t("dashboard.email_channels.forwarding.outlook_step_2")
-      li.ui-step
-        span.ui-step-text = t("dashboard.email_channels.forwarding.outlook_step_3")
-      li.ui-step
-        span.ui-step-text = t("dashboard.email_channels.forwarding.outlook_step_4")
-
-  / ─── Yahoo ───
-  .ui-tab-content data-tab-content="yahoo"
-    ol.ui-steps
-      li.ui-step
-        span.ui-step-text = t("dashboard.email_channels.forwarding.yahoo_step_1")
-      li.ui-step
-        span.ui-step-text = t("dashboard.email_channels.forwarding.yahoo_step_2")
-      li.ui-step
-        span.ui-step-text = t("dashboard.email_channels.forwarding.yahoo_step_3")
-      li.ui-step
-        span.ui-step-text = t("dashboard.email_channels.forwarding.yahoo_step_4")
-
-  / ─── Other ───
-  .ui-tab-content data-tab-content="other"
-    ol.ui-steps
-      li.ui-step
-        span.ui-step-text = t("dashboard.email_channels.forwarding.other_step_1")
-      li.ui-step
-        span.ui-step-text = t("dashboard.email_channels.forwarding.other_step_2")
-      li.ui-step
-        span.ui-step-text = t("dashboard.email_channels.forwarding.other_step_3")
-      li.ui-step
-        span.ui-step-text = t("dashboard.email_channels.forwarding.other_step_4")
+  - %w[gmail outlook yahoo other].each do |provider|
+    .ui-tab-content class=(provider == "gmail" ? "ui-tab-content--active" : nil) data-tab-content=provider role="tabpanel"
+      ol.channel-edit-forwarding-guide__steps
+        - (1..4).each do |step|
+          li
+            span = step
+            p = t("dashboard.email_channels.forwarding.#{provider}_step_#{step}")

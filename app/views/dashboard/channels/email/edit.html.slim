@@ -1,12 +1,179 @@
+- smtp_starttls_enabled = ![false, "false", 0, "0"].include?(@email_channel.smtp_configurations&.dig("enable_starttls"))
+- imap_ssl_enabled = ![false, "false", 0, "0"].include?(@email_channel.imap_configurations&.dig("enable_ssl"))
+
 = render("dashboard/shared/dashboard_container", current_page: "settings") do
   = render("dashboard/settings/settings_sidebar", current_page: "email-channels") do
-    .channel-theme-email
-      .ui-page-body data-controller="email-channel"
-        .ui-page-header
-          = link_to t("dashboard.email_channels.form.back"), channels_email_index_path, class: "ui-back-link"
-          h2.f-semi-24 style="color: #0f172a; margin-top: 12px;" = t("dashboard.email_channels.edit.title")
+    .channel-edit.channel-theme-email
+      header.channel-edit__header
+        .channel-edit__header-main
+          = link_to channels_email_index_path, class: "channel-edit__back", aria: { label: t("dashboard.email_channels.form.back") } do
+            = inline_svg_tag("back_arrow.svg", aria: { hidden: true })
+          .channel-edit__heading
+            h1 = t("dashboard.email_channels.edit.title")
+            p = t("dashboard.channels.edit.email_description", default: "Update your email channel and forwarding settings.")
 
-        - if @email_channel.forward_email.present?
-          = render "forwarding_instructions", email_channel: @email_channel
+        .channel-edit__header-actions
+          = link_to t("dashboard.email_channels.form.cancel"), channels_email_index_path, class: "channel-edit__button channel-edit__button--secondary"
+          button.channel-edit__button.channel-edit__button--primary type="submit" form="email-channel-edit-form"
+            = inline_svg_tag("ai_agents/new_agent_check.svg", aria: { hidden: true })
+            span = t("dashboard.channels.edit.save_changes", default: "Save Changes")
 
-        = render "form", email_channel: @email_channel
+      .channel-edit__viewport data-controller="email-channel"
+        .channel-edit__layout
+          = form_with model: @email_channel, scope: :email_channel, url: channels_email_path(id: @email_channel.id), method: :patch, id: "email-channel-edit-form", class: "channel-edit__form ui-settings-form" do |f|
+            - if @email_channel.errors.any?
+              .channel-edit__errors role="alert"
+                p = @email_channel.errors.full_messages.to_sentence
+
+            - if @email_channel.forward_email.present?
+              = render "forwarding_instructions", email_channel: @email_channel
+
+            section.channel-edit-section.channel-edit-card.channel-edit-section--neutral
+              .channel-edit-section__heading
+                .channel-edit-section__icon
+                  = inline_svg_tag("document.svg", aria: { hidden: true })
+                h2 = t("dashboard.email_channels.form.basic_section")
+              .channel-edit-section__body
+                .channel-edit-fields-grid
+                  .channel-edit-field
+                    = f.label :name, t("dashboard.email_channels.form.name_label")
+                    = f.text_field :name, required: true, placeholder: t("dashboard.email_channels.form.name_placeholder")
+                  .channel-edit-field
+                    = f.label :email, t("dashboard.email_channels.form.email_label")
+                    = f.email_field :email, placeholder: t("dashboard.email_channels.form.email_placeholder")
+
+            - if @email_channel.primary_inbox
+              = f.fields_for :primary_inbox, @email_channel.primary_inbox do |inbox|
+                = inbox.hidden_field :id
+
+                section.channel-edit-section.channel-edit-card.channel-edit-section--neutral
+                  .channel-edit-section__heading
+                    .channel-edit-section__icon
+                      = inline_svg_tag("envelope.svg", aria: { hidden: true })
+                    h2 = t("dashboard.channels.edit.inbox_settings", default: "Inbox Settings")
+                  .channel-edit-section__body
+                    .channel-edit-toggle-row
+                      label.channel-edit-toggle
+                        = inbox.check_box :csat_survey_enabled
+                        span.channel-edit-toggle__track aria-hidden="true"
+                      .channel-edit-toggle-row__copy
+                        = inbox.label :csat_survey_enabled, t("dashboard.custom_channels.form.enable_csat", default: "Enable CSAT survey after conversations")
+                        p = t("dashboard.channels.edit.csat_hint", default: "Show CSAT survey to customers after conversations are resolved.")
+
+                    .channel-edit-fields-grid.channel-edit-fields-grid--selects
+                      .channel-edit-field
+                        = inbox.label :csat_survey_id, t("dashboard.channels.edit.select_csat_survey", default: "Select CSAT Survey")
+                        .channel-edit-select.ui-field-control.ui-field-control--no-icon
+                          = inbox.collection_select :csat_survey_id, current_account.csat_surveys, :id, :name, { include_blank: t("forms.options.default_system_survey") }, { class: "ui-select ui-control", data: { controller: "select" } }
+
+                      .channel-edit-field
+                        = inbox.label :sla_policy_ids, t("forms.labels.sla_policies")
+                        .channel-edit-select.ui-field-control.ui-field-control--no-icon
+                          = select_tag "#{inbox.object_name}[sla_policy_ids][]", options_from_collection_for_select(current_account.sla_policies, :id, :name, inbox.object.sla_policy_ids.first), include_blank: t("dashboard.channels.edit.none_selected", default: "None Selected"), class: "ui-select ui-control", data: { controller: "select" }
+
+                      .channel-edit-field
+                        = inbox.label :conversation_reply_template_id, t("forms.labels.custom_reply_template")
+                        .channel-edit-select.ui-field-control.ui-field-control--no-icon
+                          = inbox.collection_select :conversation_reply_template_id, current_account.email_templates, :id, :name, { include_blank: t("forms.options.default_email_view") }, { class: "ui-select ui-control", data: { controller: "select" } }
+
+                      .channel-edit-field
+                        = inbox.label :business_hour_group_id, t("forms.labels.business_hours")
+                        .channel-edit-select.ui-field-control.ui-field-control--no-icon
+                          = inbox.collection_select :business_hour_group_id, current_account.business_hour_groups, :id, :name, { include_blank: t("forms.options.always_online_24_7") }, { class: "ui-select ui-control", data: { controller: "select" } }
+
+            section.channel-edit-section.channel-edit-card.channel-edit-section--neutral data-email-channel-target="smtpSection"
+              .channel-edit-section__heading.channel-edit-section__heading--with-action
+                .channel-edit-section__heading-main
+                  .channel-edit-section__icon
+                    = inline_svg_tag("settings.svg", aria: { hidden: true })
+                  h2 = t("dashboard.email_channels.form.smtp_section")
+                button.channel-edit-connection-test type="button" data-action="click->email-channel#testSmtp" data-url=test_smtp_channels_email_path(@email_channel) data-original-text=t("dashboard.email_channels.form.test_smtp") data-email-channel-target="smtpTestBtn"
+                  = t("dashboard.email_channels.form.test_smtp")
+              .channel-edit-section__body
+                .channel-edit-config-toggles
+                  .channel-edit-config-toggle
+                    label.channel-edit-toggle
+                      = f.check_box :smtp_enabled
+                      span.channel-edit-toggle__track aria-hidden="true"
+                    = f.label :smtp_enabled, t("dashboard.email_channels.form.enable_smtp")
+
+                  .channel-edit-config-toggle
+                    label.channel-edit-toggle
+                      = f.check_box :smtp_enable_starttls, { checked: smtp_starttls_enabled, name: "email_channel[smtp_configurations][enable_starttls]" }, "true", "false"
+                      span.channel-edit-toggle__track aria-hidden="true"
+                    = f.label :smtp_enable_starttls, t("dashboard.email_channels.form.smtp_starttls")
+
+                span.channel-test-result data-email-channel-target="smtpResult" style="display: none;"
+
+                .channel-edit-fields-grid.channel-edit-fields-grid--configuration
+                  .channel-edit-field
+                    label for="email_channel_smtp_address" = t("dashboard.email_channels.form.smtp_address")
+                    = f.text_field :smtp_address, name: "email_channel[smtp_configurations][address]", value: @email_channel.smtp_configurations&.dig("address"), placeholder: t("dashboard.email_channels.form.smtp_address_placeholder")
+                  .channel-edit-field
+                    label for="email_channel_smtp_port" = t("dashboard.email_channels.form.smtp_port")
+                    = f.number_field :smtp_port, name: "email_channel[smtp_configurations][port]", value: @email_channel.smtp_configurations&.dig("port") || 587, placeholder: t("dashboard.email_channels.form.smtp_port_placeholder")
+                  .channel-edit-field
+                    label for="email_channel_smtp_username" = t("dashboard.email_channels.form.smtp_username")
+                    = f.text_field :smtp_username, name: "email_channel[smtp_configurations][username]", value: @email_channel.smtp_configurations&.dig("username"), placeholder: t("dashboard.email_channels.form.smtp_username_placeholder"), autocomplete: "username"
+                  .channel-edit-field
+                    label for="email_channel_smtp_password" = t("dashboard.email_channels.form.smtp_password")
+                    .channel-edit-password.ui-password-wrapper
+                      = f.password_field :smtp_password, name: "email_channel[smtp_configurations][password]", value: @email_channel.smtp_configurations&.dig("password"), placeholder: t("dashboard.email_channels.form.smtp_password_placeholder"), autocomplete: "new-password"
+                      button.ui-password-toggle type="button" data-action="click->email-channel#togglePassword" aria-label=t("dashboard.email_channels.form.smtp_password")
+                        | 👁️
+                  .channel-edit-field
+                    label for="email_channel_smtp_domain" = t("dashboard.email_channels.form.smtp_domain")
+                    = f.text_field :smtp_domain, name: "email_channel[smtp_configurations][domain]", value: @email_channel.smtp_configurations&.dig("domain"), placeholder: t("dashboard.email_channels.form.smtp_domain_placeholder")
+                  .channel-edit-field
+                    label for="email_channel_smtp_authentication" = t("dashboard.email_channels.form.smtp_authentication")
+                    .channel-edit-select.ui-field-control.ui-field-control--no-icon
+                      = f.select :smtp_authentication, [["Plain", "plain"], ["Login", "login"], ["CRAM-MD5", "cram_md5"]], { selected: @email_channel.smtp_configurations&.dig("authentication") || "plain" }, { name: "email_channel[smtp_configurations][authentication]", class: "ui-select ui-control", data: { controller: "select" } }
+
+            section.channel-edit-section.channel-edit-card.channel-edit-section--neutral data-email-channel-target="imapSection"
+              .channel-edit-section__heading.channel-edit-section__heading--with-action
+                .channel-edit-section__heading-main
+                  .channel-edit-section__icon
+                    = inline_svg_tag("mail.svg", aria: { hidden: true })
+                  h2 = t("dashboard.email_channels.form.imap_section")
+                button.channel-edit-connection-test type="button" data-action="click->email-channel#testImap" data-url=test_imap_channels_email_path(@email_channel) data-original-text=t("dashboard.email_channels.form.test_imap") data-email-channel-target="imapTestBtn"
+                  = t("dashboard.email_channels.form.test_imap")
+              .channel-edit-section__body
+                .channel-edit-config-toggles
+                  .channel-edit-config-toggle
+                    label.channel-edit-toggle
+                      = f.check_box :imap_enabled
+                      span.channel-edit-toggle__track aria-hidden="true"
+                    = f.label :imap_enabled, t("dashboard.email_channels.form.enable_imap")
+
+                  .channel-edit-config-toggle
+                    label.channel-edit-toggle
+                      = f.check_box :imap_enable_ssl, { checked: imap_ssl_enabled, name: "email_channel[imap_configurations][enable_ssl]" }, "true", "false"
+                      span.channel-edit-toggle__track aria-hidden="true"
+                    = f.label :imap_enable_ssl, t("dashboard.email_channels.form.imap_ssl")
+
+                span.channel-test-result data-email-channel-target="imapResult" style="display: none;"
+
+                .channel-edit-fields-grid.channel-edit-fields-grid--configuration
+                  .channel-edit-field
+                    label for="email_channel_imap_address" = t("dashboard.email_channels.form.imap_address")
+                    = f.text_field :imap_address, name: "email_channel[imap_configurations][address]", value: @email_channel.imap_configurations&.dig("address"), placeholder: t("dashboard.email_channels.form.imap_address_placeholder")
+                  .channel-edit-field
+                    label for="email_channel_imap_port" = t("dashboard.email_channels.form.imap_port")
+                    = f.number_field :imap_port, name: "email_channel[imap_configurations][port]", value: @email_channel.imap_configurations&.dig("port") || 993, placeholder: t("dashboard.email_channels.form.imap_port_placeholder")
+                  .channel-edit-field
+                    label for="email_channel_imap_username" = t("dashboard.email_channels.form.imap_username")
+                    = f.text_field :imap_username, name: "email_channel[imap_configurations][username]", value: @email_channel.imap_configurations&.dig("username"), placeholder: t("dashboard.email_channels.form.imap_username_placeholder"), autocomplete: "username"
+                  .channel-edit-field
+                    label for="email_channel_imap_password" = t("dashboard.email_channels.form.imap_password")
+                    .channel-edit-password.ui-password-wrapper
+                      = f.password_field :imap_password, name: "email_channel[imap_configurations][password]", value: @email_channel.imap_configurations&.dig("password"), placeholder: t("dashboard.email_channels.form.imap_password_placeholder"), autocomplete: "new-password"
+                      button.ui-password-toggle type="button" data-action="click->email-channel#togglePassword" aria-label=t("dashboard.email_channels.form.imap_password")
+                        | 👁️
+
+          aside.channel-edit__aside
+            section.channel-edit-danger.channel-edit-card
+              h2 = t("dashboard.channels.edit.danger_zone", default: "Danger Zone")
+              p = t("dashboard.channels.edit.email_danger_description", default: "Disconnecting this channel will remove the inbox and stop receiving new messages. Existing conversations will be preserved.")
+              = link_to channels_email_path(id: @email_channel.id), class: "channel-edit-danger__button", data: { turbo_method: :delete, turbo_confirm: t("dashboard.email_channels.index.delete_confirm") } do
+                = inline_svg_tag("delete_red.svg", aria: { hidden: true })
+                span = t("dashboard.channels.edit.disconnect_channel", default: "Disconnect Channel")

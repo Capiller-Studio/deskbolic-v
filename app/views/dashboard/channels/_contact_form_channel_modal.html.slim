@@ -41,5 +41,5 @@
             span.f-reg-14 = t("dashboard.contact_form_channels.form.send_confirmation_email_label")
 
       .modal-footer
-        = button_tag "Cancel", type: "button", class: "btn-secondary", data: { action: "click->frame-toggler#hideModal" }
+        = button_tag t("general.cancel"), type: "button", class: "btn-secondary", data: { action: "click->frame-toggler#hideModal" }
         = f.submit t("ui.dashboard.channels.contact_form_channel_modal.create_form"), class: "btn-primary"

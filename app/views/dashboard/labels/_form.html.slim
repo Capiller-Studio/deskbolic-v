@@ -1,37 +1,75 @@
 - url = label.persisted? ? label_path(label) : labels_path
 - method = label.persisted? ? :patch : :post
+- submit_label = label.persisted? ? t("dashboard.labels.form.update") : t("dashboard.labels.form.submit")
+- label_colors = %w[#EF4444 #F97316 #FACC15 #22C55E #2DD4BF #3B82F6 #6366F1 #EC4899 #9CA3AF]
+- label_color = (label.color.presence || label_colors.first).upcase
 
-= form_with(model: label, scope: :label, url: url, method: method) do |f|
-  - if label.errors.any?
-    .ui-error-summary
-      h3 = t("dashboard.labels.form.error_heading")
-      ul
-        - label.errors.full_messages.each do |message|
-          li = message
+= form_with(model: label, scope: :label, url: url, method: method, id: "label-form", class: "ui-settings-editor ui-settings-form ui-label-editor", data: { controller: "form-validation label-form", "form-validation-target": "form" }, html: { novalidate: true }) do |f|
+  header.ui-settings-editor__header
+    = link_to labels_path, class: "ui-settings-editor__back", aria: { label: t("dashboard.labels.form.back") } do
+      = inline_svg_tag("back-arrow.svg", aria: { hidden: true })
 
-  .ui-section.ui-section--always-open
-    .ui-section-header
-      .ui-section-title
-        span.ui-section-icon 🏷️
-        span.ui-section-label = t("dashboard.labels.form.basic_section")
-    .ui-section-body
-      .ui-form-row
-        div
-          = f.label :title, t("dashboard.labels.form.title"), class: "ui-label"
-          = f.text_field :title, class: "ui-input", required: true, placeholder: t("dashboard.labels.form.title_placeholder")
-        
-        div
-          = f.label :color, t("dashboard.labels.form.color"), class: "ui-label"
-          = f.color_field :color, class: "ui-input", style: "height: 40px; padding: 0 4px; cursor: pointer;", value: label.color || "#000000"
+    .ui-settings-editor__heading
+      h1 = page_title
+      p = page_description
 
-      .ui-form-row
-        div style="flex: 1;"
+    .ui-settings-editor__header-actions
+      = link_to t("dashboard.labels.form.cancel"), labels_path, class: "ui-btn-secondary"
+      = button_tag type: "submit", class: "ui-btn-primary", data: { action: "click->form-validation#validate" } do
+        = image_tag("export_blue.svg", alt: "", aria: { hidden: true })
+        span = submit_label
+
+  .ui-settings-editor__body
+    - if label.errors.any?
+      .ui-error-summary.ui-label-error-summary role="alert"
+        h3 = t("dashboard.labels.form.error_heading")
+        ul
+          - label.errors.full_messages.each do |message|
+            li = message
+
+    section.ui-form-card.ui-label-form-card
+      .ui-field-group
+        = f.label :title, t("dashboard.labels.form.title"), class: "ui-label"
+        .ui-field-control.ui-field-control--plain class=("ui-field-control--invalid" if label.errors[:title].any?)
+          = f.text_field :title,
+            class: "ui-input ui-control",
+            required: true,
+            autocomplete: "off",
+            placeholder: t("dashboard.labels.form.title_placeholder"),
+            aria: { invalid: label.errors[:title].any?, describedby: "label_title_feedback" }
+        p#label_title_feedback.ui-field-feedback class=("ui-field-feedback--server" if label.errors[:title].any?) role="alert"
+          = inline_svg_tag("cross_sign.svg", class: "ui-field-feedback__icon", aria: { hidden: true })
+          span = label.errors[:title].any? ? label.errors[:title].to_sentence : t("dashboard.labels.form.required_feedback")
+
+      fieldset.ui-label-color-field
+        legend = t("dashboard.labels.form.color")
+        p = t("dashboard.labels.form.color_hint")
+        = f.hidden_field :color, value: label_color, data: { "label-form-target": "colorField" }
+
+        .ui-label-color-palette role="radiogroup" aria-label=t("dashboard.labels.form.choose_color")
+          - label_colors.each do |color|
+            - selected = color == label_color
+            button.ui-label-color-swatch type="button" role="radio" aria-checked=selected.to_s aria-label=color data-color=color data-label-form-target="swatch" data-action="click->label-form#selectColor" class=("is-selected" if selected)
+              span.ui-label-color-swatch__color style="background-color: #{color};"
+                = inline_svg_tag("mark.svg", class: "ui-label-color-swatch__check", aria: { hidden: true })
+              span.ui-label-color-swatch__badge aria-hidden="true"
+                = inline_svg_tag("mark.svg")
+
+        .ui-label-color-value
+          span.ui-label-color-value__dot style="background-color: #{label_color};" data-label-form-target="colorDot" aria-hidden="true"
+          code data-label-form-target="colorValue" = label_color
+
+      .ui-field-group.ui-label-description-field
+        .ui-label-form-label-row
           = f.label :description, t("dashboard.labels.form.description"), class: "ui-label"
-          = f.text_area :description, class: "ui-input", rows: 3, placeholder: t("dashboard.labels.form.description_placeholder")
-
-  .ui-form-actions
-    - if label.persisted?
-      = f.submit t("dashboard.labels.form.update"), class: "ui-btn-primary"
-    - else
-      = f.submit t("dashboard.labels.form.submit"), class: "ui-btn-primary"
-    = link_to t("dashboard.labels.form.cancel"), labels_path, class: "ui-btn-secondary"
+          span = t("dashboard.labels.form.optional")
+        .ui-label-description-control
+          = f.text_area :description,
+            class: "ui-input ui-label-description",
+            rows: 4,
+            maxlength: 500,
+            placeholder: t("dashboard.labels.form.description_short_placeholder"),
+            data: { "label-form-target": "description", action: "input->label-form#updateDescriptionCount" }
+          span.ui-label-description-count aria-live="polite"
+            span data-label-form-target="descriptionCount" = label.description.to_s.length
+            |  / 500

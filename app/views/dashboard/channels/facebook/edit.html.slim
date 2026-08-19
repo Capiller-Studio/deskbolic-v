@@ -8,14 +8,14 @@
     .channel-edit.channel-theme-facebook
       header.channel-edit__header
         .channel-edit__header-main
-          = link_to channels_settings_path(type: "facebook"), class: "channel-edit__back", aria: { label: t("dashboard.facebook_channels.form.back") } do
+          = link_to channels_facebook_index_path, class: "channel-edit__back", aria: { label: t("dashboard.facebook_channels.form.back") } do
             = inline_svg_tag("back_arrow.svg", aria: { hidden: true })
           .channel-edit__heading
             h1 = t("dashboard.facebook_channels.edit.title")
             p = t("dashboard.channels.edit.facebook_description", default: "Update your Facebook Page connection and inbox settings.")
 
         .channel-edit__header-actions
-          = link_to t("dashboard.facebook_channels.form.cancel"), channels_settings_path(type: "facebook"), class: "channel-edit__button channel-edit__button--secondary"
+          = link_to t("dashboard.facebook_channels.form.cancel"), channels_facebook_index_path, class: "channel-edit__button channel-edit__button--secondary"
           button.channel-edit__button.channel-edit__button--primary type="submit" form="facebook-channel-edit-form"
             = inline_svg_tag("ai_agents/new_agent_check.svg", aria: { hidden: true })
             span = t("dashboard.facebook_channels.form.save")
@@ -38,7 +38,7 @@
                   .channel-edit-profile__copy
                     .channel-edit-profile__title
                       h2 = channel_name
-                      span.channel-edit-profile__type Facebook
+                      span.channel-edit-profile__type = t("dashboard.sidebar.channels.facebook")
                     p = @facebook_channel.page_identifier
 
               .channel-edit-profile__footer

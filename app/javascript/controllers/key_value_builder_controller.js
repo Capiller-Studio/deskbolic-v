@@ -38,7 +38,7 @@ export default class extends Controller {
     event.preventDefault()
     
     // Support multiple sections by checking if the button is within a specific section wrapper
-    const wrapper = event.currentTarget.closest('.ui-section') || event.currentTarget.closest('.ui-form-group') || event.currentTarget.closest('.ap-section')
+    const wrapper = event.currentTarget.closest('[data-key-value-builder-section]') || event.currentTarget.closest('.ui-section') || event.currentTarget.closest('.ui-form-group') || event.currentTarget.closest('.ap-section')
     if (!wrapper) return
     
     const template = wrapper.querySelector('template')

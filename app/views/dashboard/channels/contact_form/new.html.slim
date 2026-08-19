@@ -1,14 +1,21 @@
 = render("dashboard/shared/dashboard_container", current_page: "settings") do
   = render("dashboard/settings/settings_sidebar", current_page: "contact-form-channels") do
-    .channel-theme-contact-form
-      .ww-page
-        .ww-header
-          div
+    .channel-edit.channel-theme-contact-form
+      header.channel-edit__header
+        .channel-edit__header-main
+          = link_to channels_contact_form_index_path, class: "channel-edit__back", aria: { label: t("ui.dashboard.channels.contact_form.edit.back_to_contact_forms") } do
+            = inline_svg_tag("back_arrow.svg", aria: { hidden: true })
+          .channel-edit__heading
             h1 = t("dashboard.contact_form_channels.new.title")
-            p = t("dashboard.contact_form_channels.new.subtitle", default: "Create a new contact form for your website.")
-          .ww-header-actions
-            = link_to t("ui.dashboard.channels.contact_form.edit.back_to_contact_forms"), channels_contact_form_index_path, class: "ww-back-link"
+            p = t("dashboard.contact_form_channels.new.subtitle")
 
+        .channel-edit__header-actions
+          = link_to t("dashboard.contact_form_channels.form.cancel"), channels_contact_form_index_path, class: "channel-edit__button channel-edit__button--secondary"
+          button.channel-edit__button.channel-edit__button--primary type="submit" form="contact-form-channel-form"
+            = inline_svg_tag("ai_agents/new_agent_check.svg", aria: { hidden: true })
+            span = t("dashboard.contact_form_channels.form.save")
+
+      .channel-edit__viewport
         .ww-page-body
           .ww-form-layout
             .ww-form-main

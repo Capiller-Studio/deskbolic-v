@@ -1,9 +1,20 @@
 = render("dashboard/shared/dashboard_container", current_page: "settings") do
   = render("dashboard/settings/settings_sidebar", current_page: "email-channels") do
-    .channel-theme-email
-      .ui-page-body
-        .ui-page-header
-          = link_to t("dashboard.email_channels.form.back"), channels_email_index_path, class: "ui-back-link"
-          h2.f-semi-24 style="color: #0f172a; margin-top: 12px;" = t("dashboard.email_channels.new.title")
-      
-        = render "form", email_channel: @email_channel
+    .channel-edit.channel-theme-email
+      header.channel-edit__header
+        .channel-edit__header-main
+          = link_to channels_email_index_path, class: "channel-edit__back", aria: { label: t("dashboard.email_channels.form.back") } do
+            = inline_svg_tag("back_arrow.svg", aria: { hidden: true })
+          .channel-edit__heading
+            h1 = t("dashboard.email_channels.new.title")
+            p = t("dashboard.email_channels.index.description")
+
+        .channel-edit__header-actions
+          = link_to t("dashboard.email_channels.form.cancel"), channels_email_index_path, class: "channel-edit__button channel-edit__button--secondary"
+          button.channel-edit__button.channel-edit__button--primary type="submit" form="email-channel-form"
+            = inline_svg_tag("ai_agents/new_agent_check.svg", aria: { hidden: true })
+            span = t("dashboard.email_channels.form.save")
+
+      .channel-edit__viewport
+        .channel-edit__layout
+          = render "form", email_channel: @email_channel

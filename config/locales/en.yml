@@ -38,8 +38,11 @@ en:
       resolution_rate: Resolution Rate
       total_handoffs: Human Handoffs
     billing:
+      ai_credit_grants: AI Credit Grants & Expiry
       ai_credits: AI Credits
       ai_balance_label: Current Balance
+      ai_transaction_history: AI Usage History
+      ai_transaction_pagination: AI transaction pagination
       credits_to_buy: Credits (multiples of 1,000)
       ai_price_per_1000: "%{price} per 1,000 credits"
       buy_ai_credits: Buy AI Credits
@@ -83,22 +86,29 @@ en:
         when your trial ends.
       choose_plan: Choose Your Plan
       choose_plan_subtitle: Select the perfect plan to get started with your workspace.
+      credits: credits
       current_balance: Current Balance
+      current_plan: Current
       custom_amount: Custom Amount
       date: Date
       day_trial: "%{days} Day Trial"
+      days_remaining: "%{count} days"
       default_label: Default
       description: Description
       dismiss_warning: Dismiss billing warning
       expired: Expired
       expires: Expires %{month}/%{year}
+      expires_at: Expires At
       make_default: Default
       manage_seats: Manage Seats
       minimum_seats_required: Minimum %{count} seats required
       monthly_label: Monthly
+      next_page: Next page
       next_charge_label: Next Charge
       no_active_subscription: You do not have an active subscription. Subscribe now
         to access all features.
+      no_ai_grants: No AI credit grants found.
+      no_ai_transactions: No AI usage history found.
       no_payment_methods: No payment methods added yet.
       no_transactions: No transactions found.
       number_of_seats: Number of Agent Seats
@@ -110,6 +120,7 @@ en:
       per_month_annual: "/ mo (billed yearly)"
       plan_label: Plan
       plan_limits: 'Your plan limits: Min %{min}, Max %{max}'
+      previous_page: Previous page
       remove: Remove
       resume_confirm: Are you sure you want to resume your subscription?
       resume_subscription: Resume Subscription
@@ -118,17 +129,28 @@ en:
       secure_payment_notice: Payments are securely processed by Stripe. Your card
         details are encrypted and never touch our servers.
       select_plan: Select Plan
+      showing_ai_transactions: Showing %{from} to %{to} of %{count} AI transactions
+      showing_transactions: Showing %{from} to %{to} of %{count} transactions
       status: Status
+      status_active: Active
+      status_exhausted: Exhausted
+      status_expired: Expired
       subscribe_now: Subscribe Now
+      subtitle: Manage your subscription, wallet, and payment methods.
+      title: Billing & Subscription
       top_up: Top Up
+      top_up_balance: Top-up Balance
       topup_balance: Top-up Balance
       topup_wallet: Top-up Wallet
       transaction_history: Transaction History
+      transaction_pagination: Transaction pagination
       trial_ending_warning: Your trial ends in %{days} days. Please add a payment
         method to avoid interruption.
+      trial_ends_label: Trial Ends In
       trial_ends_in: Trial ends in %{days} days
       trial_expired_warning: Your trial has ended. Please add a payment method to
         continue using your workspace.
+      type: Type
       unlimited: Unlimited
       update_payment_method: Update Payment Method
       update_plan: Update Plan
@@ -146,28 +168,48 @@ en:
         deleted: Label deleted successfully.
         error: 'Failed to save label: %{errors}'
       edit:
+        subtitle: Update the details of your label.
         title: Edit Label
       form:
         back: Back to Labels
         basic_section: Label Details
         cancel: Cancel
+        choose_color: Choose label color
         color: Color
+        color_hint: Choose a color to identify this label.
+        color_value: Label color hex value
         description: Description
         description_placeholder: Explain what this label is for...
+        description_short_placeholder: Description
         error_heading: 'Please fix the following errors:'
+        optional: (Optional)
+        required_feedback: This field is required.
+        section_description: Choose a name, description, and color for this label.
+        section_title: Label details
         submit: Create Label
         title: Title
         title_placeholder: e.g. VIP Customer
-        update: Update Label
+        update: Save Changes
       index:
+        actions: Actions
+        add_label: Add label
         add_new_label: Add New Label
         confirm_delete: Delete label?
-        description: Manage labels to categorize your conversations and customers.
+        created: Created
+        description: Organize and categorize conversations with labels.
         empty_description: Create labels to better organize and filter your conversations.
         empty_title: No labels found
+        label: Label
         labels_for: Labels for %{account}
+        next_page: Next page
+        pagination: Label pagination
+        previous_page: Previous page
+        rows_per_page: Rows per page
+        showing_labels: Showing %{from} to %{to} of %{count} labels
+        title: Labels
       new:
-        title: Add New Label
+        subtitle: Create a label to organize and categorize conversations.
+        title: Add Label
     sidebar:
       channels:
         title: Help Desk
@@ -210,6 +252,8 @@ en:
         ai_agents: AI Agents
       reports: Reports & Analytics
     settings_index:
+      all: All Channels
+      all_desc: Manage all channels here.
       title: Home
       workspace: Workspace
       billing: Billing
@@ -224,6 +268,7 @@ en:
       roles_desc: Create roles to manage access and permissions for teammates.
       identity_sources: Identity Sources
       identity_sources_desc: Manage your identity sources to verify your customers.
+      help_center: Help Center
       help_center_portals: Help Center Portals
       help_center_articles: Help Center
       help_center_articles_desc: Add to or configure the content in this help center
@@ -836,9 +881,12 @@ en:
         created_ago: Created %{time} ago
       new:
         title: New Web Widget
+        subtitle: Create a new web widget for your website.
       edit:
+        subtitle: Configure your web widget settings.
         title: Edit Web Widget
       form:
+        attribute_header: Attribute
         back: "← Back to Web Widgets"
         error_heading: 'Please fix the following errors:'
         basic_section: Basic Details
@@ -866,10 +914,28 @@ en:
         update: Update Widget
         cancel: Cancel
         hmac_secret_key: HMAC Secret Key
+        hmac_signature_example: HMAC Signature Example (Ruby)
+        help_center_enabled_label: Enable Help Center
         installation_section: Installation & Setup
+        param_email_desc: The customer's email address.
+        param_identifier_desc: Your system's unique user ID (e.g., database ID). Required
+          for Identity Verification.
+        param_locale_desc: Force a specific language locale (e.g., "en", "fr"). Overrides
+          browser default.
+        param_name_desc: The customer's full name.
+        param_position_desc: 'Position of the launcher. Options: right (default) or left.'
+        param_signature_desc: HMAC SHA-256 signature generated using your secret key.
+          Required if Secure Identity is enforced.
         secure_identity_instruction: Because you have enabled <strong>Enforce Secure
           Identity</strong>, you must generate a signature on your backend and pass
           it to the frontend.
+        supported_parameters: Supported Parameters (Data Attributes)
+        supported_parameters_desc: Pass these attributes directly to the script tag
+          to identify users or customize behavior.
+        table_description_header: Description
+        translations_desc: Provide localized strings for your web widget. These will
+          automatically override the default locale based on the customer's browser.
+        upgrade_plan: Upgrade Plan
       created: Web Widget was successfully created.
       updated: Web Widget was successfully updated.
       deleted: Web Widget was successfully deleted.
@@ -935,6 +1001,8 @@ en:
         imap_password: Password
         imap_password_placeholder: "••••••••"
         imap_ssl: Enable SSL
+        inbox_settings_description: Configure customer satisfaction surveys, SLA policies,
+          and custom reply templates.
         test_smtp: Test SMTP
         test_imap: Test IMAP
         testing: Testing...
@@ -1339,8 +1407,10 @@ en:
         empty_title: No contact forms found
         empty_subtitle: Create your first contact form to start receiving tickets.
       new:
+        subtitle: Create a new contact form for your website.
         title: New Contact Form
       edit:
+        subtitle: Configure your contact form settings.
         title: Edit Contact Form
       form:
         error_heading: 'Please review the problems below:'
@@ -1353,6 +1423,12 @@ en:
         theme_color_label: Theme Color
         position_label: Layout Position
         fields_section: Form Fields
+        fields_desc: Select and drag-and-drop the custom fields you want to display
+          on this contact form.
+        inbox_settings: Inbox Settings
+        inbox_settings_desc: Configure SLA policies and custom reply templates for
+          submissions.
+        outbound_channel_hint: Select an Email Channel to send replies from.
         search_fields: Search fields...
         behaviors_section: Behaviors & Spam Protection
         require_login_label: Require Login to Submit
@@ -1371,6 +1447,8 @@ en:
         conversation_field: Conversation Field
         mapped_to: 'Mapped to: %{mapped_to}'
         entity_field: "%{entity_type} Field"
+        translations_desc: Provide localized strings for your contact form. These
+          override the default locale based on the customer's browser.
     facebook_channels:
       sidebar:
         label: Facebook Pages
@@ -1596,6 +1674,7 @@ en:
         phone_code_label: Country Code
         phone_number_label: Phone Number
         phone_id_label: Phone Number ID
+        credential_id_placeholder: e.g. 123456789012345
         waba_id_label: WhatsApp Business Account ID
         api_key_label: Access Token
         api_key_placeholder: Paste your permanent or system user access token here
@@ -1857,33 +1936,66 @@ en:
     channels:
       edit:
         active: Active
+        add_header: Add Header
+        add_mapping: Add Mapping
         always_available: Your team is available 24/7
         business_hours_hint: Define when you are available to respond.
         channel_information: Channel Information
+        channel_name: Channel Name
         channel_name_hint: This name will be used to identify this channel within
           your workspace.
+        channel_type: Channel Type
         created: Created
         created_ago: About %{time} ago
         csat_hint: Show CSAT survey to customers after conversations are resolved.
+        custom_badge: Custom
+        custom_channel: Custom Channel
+        custom_description: Update your custom channel connection and settings.
+        custom_title: Edit Custom Channel
+        danger_zone: Danger Zone
+        developer_guide: Developer Guide
+        developer_guide_hint: >-
+          When an agent replies to a conversation in Deskbolic, we will send a POST
+          request to your Outbound Webhook URL with the following JSON payload:
         disconnect_channel: Disconnect Channel
+        email_danger_description: Disconnecting this channel will remove the inbox
+          and stop receiving new messages. Existing conversations will be preserved.
+        email_description: Update your email channel and forwarding settings.
         facebook_description: Update your Facebook Page connection and inbox settings.
         facebook_page: Facebook Page
+        identifier: Identifier
+        inbox_settings: Inbox Settings
+        inbox_settings_description: Configure customer satisfaction surveys, SLA policies,
+          custom reply templates, and AI features.
         instagram: Instagram
         instagram_description: Update your Instagram connection and inbox settings.
         integration_details: Integration Details
+        no_mapping: No mapping defined yet
+        no_response: No response yet
         none_selected: None Selected
         overview: Channel Overview
         page_id: Page ID
         page_name: Page Name
         phone_number: Phone Number
         platform: Platform
+        response_mapping: Response Mapping
+        save_changes: Save Changes
         select_csat_survey: Select CSAT Survey
         sla_hint: Choose the SLA policy for this channel.
         status: Status
+        testing_tools: Testing Tools
+        testing_tools_hint: Use these tools to verify that your Outbound Webhook URL
+          is receiving payloads correctly.
         toggle_token_visibility: Toggle access token visibility
         token_expires: Token Expires
         username: Username
+        verify_token: Verify Token
+        view_documentation: View Full Documentation
         waba_id: WABA ID
+        webhook_secret: Webhook Secret
+        webhook_secret_hint: Used to verify that requests are coming from Deskbolic.
+        webhook_secret_warning: Keep your webhook secret secure. Do not share it publicly.
+        webhook_settings: Webhook Settings
         whatsapp: WhatsApp
         whatsapp_description: Update your WhatsApp connection and inbox settings.
       web_widget:
@@ -2183,6 +2295,9 @@ en:
         cancel: Cancel
       edit:
         back: Back to Custom Channels
+        danger_description: Disconnecting this channel will remove the inbox and stop
+          receiving new messages. Existing conversations will be preserved.
+        danger_title: Danger Zone
       tabs:
         configuration: Configuration
         instructions: Instructions
@@ -2722,6 +2837,7 @@ en:
       never_always_create_new: Never (always create new)
       no_email_channel_linked: No Email Channel Linked
       no_help_center_linked: No Help Center Linked
+      no_ai_agent_linked: No AI Agent linked
       no_pre_chat_form_linked: No Pre-Chat Form Linked
       not_mapped: Not Mapped
       one_hour: 1 Hour
@@ -3256,6 +3372,7 @@ en:
             standard_html: Standard HTML
           preview:
             live_preview: Live Preview
+            save_to_preview: Save your widget to see the live preview!
             see_how_your_widget_will_appear_to_customers: See how your widget will
               appear to customers.
           translation_fields:

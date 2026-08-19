@@ -1,0 +1,52 @@
+- type = channel_overview_type(channel)
+- status = channel_overview_status(channel)
+- channel_policy = channel_overview_policy(channel)
+- confirmation = local_assigns[:delete_confirmation] || t("dashboard.channels_overview.delete_confirm", name: channel_overview_name(channel), default: "Delete %{name}?")
+
+article.channel-card id=dom_id(channel) class="channel-card--#{type.dasherize}"
+  .channel-card__body
+    .channel-card__identity
+      .channel-card__avatar
+        - if (logo = channel_overview_logo(channel))
+          = image_tag logo, alt: channel_overview_name(channel)
+        - else
+          = image_tag channel_overview_icon(channel), class: "channel-card__avatar-icon", alt: "", aria: { hidden: true }
+
+      .channel-card__copy
+        .channel-card__title
+          h2 = channel_overview_name(channel)
+          - if local_assigns[:show_type]
+            span.channel-card__type class="channel-card__type--#{type.dasherize}"
+              = channel_overview_type_label(channel)
+        - if channel_overview_identifier(channel).present?
+          p.channel-card__identifier = channel_overview_identifier(channel)
+        - if (token_message = channel_overview_token_message(channel))
+          p.channel-card__token-warning = token_message
+
+    - if channel_policy.edit? || channel_policy.destroy?
+      - menu_id = dom_id(channel, :actions)
+      .channel-card__actions
+        button type="button" aria-label=t("dashboard.channels_overview.actions", default: "Channel actions") popovertarget=menu_id
+          = inline_svg_tag("dots.svg", aria: { hidden: true })
+        .channel-card__menu id=menu_id popover="auto" role="menu"
+          - if channel_policy.edit?
+            = link_to channel_overview_edit_path(channel), role: "menuitem" do
+              = inline_svg_tag("edit.svg", aria: { hidden: true })
+              span = t("general.edit", default: "Edit")
+          - if channel_policy.edit? && channel_policy.destroy?
+            .channel-card__menu-divider
+          - if channel_policy.destroy?
+            = link_to channel_overview_destroy_path(channel),
+              class: "channel-card__delete",
+              role: "menuitem",
+              data: { turbo_method: :delete, turbo_confirm: confirmation } do
+              = inline_svg_tag("delete_red.svg", aria: { hidden: true })
+              span = t("general.delete", default: "Delete")
+
+  footer.channel-card__footer
+    .channel-card__created
+      = inline_svg_tag("clock.svg", aria: { hidden: true })
+      span = t("dashboard.channels_overview.created_ago", time: time_ago_in_words(channel.created_at), default: "Created %{time} ago")
+    .channel-card__status class="channel-card__status--#{status}"
+      span.channel-card__status-dot aria-hidden="true"
+      span = t("dashboard.channels_overview.status.#{status}", default: status.humanize)

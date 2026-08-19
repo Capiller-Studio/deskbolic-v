@@ -6,7 +6,7 @@ section.channel-edit-overview.channel-edit-card
       .channel-edit-overview__icon
         = inline_svg_tag(platform_icon, aria: { hidden: true })
       div
-        dt = t("dashboard.channels.edit.platform", default: "Platform")
+        dt = local_assigns.fetch(:platform_label, t("dashboard.channels.edit.platform", default: "Platform"))
         dd = platform_name
 
     - overview_items.each do |item|

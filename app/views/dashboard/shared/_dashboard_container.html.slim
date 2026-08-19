@@ -61,8 +61,8 @@
                   p.f-semi-14 = t("dashboard.sidebar.settings.title")
 
               .dashboard-locale-selector.form-floating.ui-select style="border: none;"
-                - locale_names = { en: "English", de: "Deutsch", es: "Español", fr: "Français", "pt-BR": "Português", ko: "한국어" }
-                - locale_options = Core::SUPPORTED_LOCALES.reject { |loc| loc.to_s == "ar" }.map { |loc| [locale_names[loc.to_sym] || loc.to_s.upcase, url_for(request.params.merge(locale: (loc.to_s == I18n.default_locale.to_s ? nil : loc), only_path: true))] }
+                - locale_names = { en: "English", de: "Deutsch", es: "Español", fr: "Français", "pt-BR": "Português", ar: "العربية", ko: "한국어" }
+                - locale_options = Core::SUPPORTED_LOCALES.map { |loc| [locale_names[loc.to_sym] || loc.to_s.upcase, url_for(request.params.merge(locale: (loc.to_s == I18n.default_locale.to_s ? nil : loc), only_path: true))] }
                 - selected_locale_url = url_for(request.params.merge(locale: (I18n.locale.to_s == I18n.default_locale.to_s ? nil : I18n.locale), only_path: true))
                 = select_tag :dashboard_locale, options_for_select(locale_options, selected_locale_url), { id: "dashboard-locale-select", class: "f-reg-14 field form-control", data: { controller: "select" }, aria: { label: t("forms.options.select_language") }, onchange: "window.location.href=this.value" }
 

@@ -1,4 +1,3 @@
----
 ko:
   languages:
     en: 영어
@@ -102,6 +101,35 @@ ko:
         크레딧이 지급됩니다.
       wallet: 지갑
       wallet_deduction: '지갑 공제:'
+      ai_credit_grants: "AI 신용 부여 및 만료"
+      ai_credits: "AI 크레딧"
+      ai_balance_label: "현재 잔액"
+      ai_transaction_history: "AI 사용 내역"
+      ai_transaction_pagination: "AI 트랜잭션 페이지 매김"
+      credits_to_buy: "크레딧(1,000의 배수)"
+      ai_price_per_1000: "1,000크레딧당 %{price}"
+      buy_ai_credits: "AI 크레딧 구매"
+      ai_credits_title: "AI 크레딧"
+      ai_credits_purchased: "%{count} AI 크레딧을 성공적으로 구매했습니다."
+      credits: "크레딧"
+      current_plan: "현재"
+      days_remaining: "%{count}일"
+      expires_at: "만료 날짜"
+      next_page: "다음 페이지"
+      no_ai_grants: "AI 크레딧 부여를 찾을 수 없습니다."
+      no_ai_transactions: "AI 사용 내역이 없습니다."
+      previous_page: "이전 페이지"
+      showing_ai_transactions: "%{count} AI 거래의 %{from}~%{to} 표시"
+      showing_transactions: "%{count} 거래 중 %{from}~%{to} 표시"
+      status_active: "활성"
+      status_exhausted: "소진됨"
+      status_expired: "만료됨"
+      subtitle: "구독, 지갑, 결제 방법을 관리하세요."
+      title: "청구 및 구독"
+      top_up_balance: "충전 잔액"
+      transaction_pagination: "거래 페이지 매김"
+      trial_ends_label: "평가판 종료까지"
+      type: "유형"
     labels:
       flash:
         created: 라벨이 성공적으로 생성되었습니다.
@@ -110,6 +138,7 @@ ko:
         error: '라벨 저장 실패: %{errors}'
       edit:
         title: 라벨 편집
+        subtitle: "라벨의 세부정보를 업데이트하세요."
       form:
         back: 라벨로 돌아가기
         basic_section: 라벨 세부정보
@@ -122,15 +151,34 @@ ko:
         title: 제목
         title_placeholder: 예를 들어 VIP 고객
         update: 라벨 업데이트
+        choose_color: "라벨 색상 선택"
+        color_hint: "이 라벨을 식별할 색상을 선택하세요."
+        color_value: "라벨 색상 16진수 값"
+        description_short_placeholder: "설명"
+        optional: "(선택사항)"
+        required_feedback: "필수 입력 항목입니다."
+        section_description: "이 라벨의 이름, 설명, 색상을 선택하세요."
+        section_title: "라벨 세부정보"
       index:
+        actions: 작업
+        add_label: 라벨 추가
         add_new_label: 새 라벨 추가
         confirm_delete: 라벨을 삭제하시겠습니까?
+        created: 생성일
         description: 라벨을 관리하여 대화와 고객을 분류하세요.
         empty_description: 대화를 더 잘 정리하고 필터링하려면 라벨을 만드세요.
         empty_title: 라벨을 찾을 수 없습니다.
+        label: 라벨
         labels_for: "%{account}용 라벨"
+        next_page: 다음 페이지
+        pagination: 라벨 페이지 탐색
+        previous_page: 이전 페이지
+        rows_per_page: 페이지당 행 수
+        showing_labels: 총 %{count}개 라벨 중 %{from}~%{to} 표시
+        title: 라벨
       new:
         title: 새 라벨 추가
+        subtitle: "대화를 정리하고 분류하려면 라벨을 만드세요."
     sidebar:
       channels:
         title: 헬프 데스크
@@ -173,6 +221,8 @@ ko:
         ai_agents: AI 에이전트
       reports: 보고 및 분석
     settings_index:
+      all: 모든 채널
+      all_desc: 여기에서 모든 채널을 관리하세요.
       title: 홈
       workspace: 작업공간
       billing: 청구
@@ -217,6 +267,7 @@ ko:
       skills_desc: 기술을 편집, 생성, 내보내기 또는 삭제합니다.
       email_templates: 이메일 템플릿
       email_templates_desc: 이메일 템플릿을 편집, 생성, 내보내기 또는 삭제하세요.
+      help_center_portals: "도움말 센터 포털"
     channels_overview:
       title: 채널
       description: 연결된 모든 커뮤니케이션 채널을 관리하세요.
@@ -341,6 +392,9 @@ ko:
       recent_chats: 최근 채팅
       no_messages: 메시지 없음
       no_recent_chats: 최근 대화 없음
+      ai_insights: "AI 인사이트"
+      sentiment: "감정"
+      category: "카테고리"
     automations:
       index:
         title: 자동화
@@ -484,6 +538,19 @@ ko:
         tab_manual: 매뉴얼
         empty_title: 아직 할당 정책이 없습니다.
         empty_description: 대화 라우팅을 자동으로 시작하는 첫 번째 정책을 만듭니다.
+        actions_for: "%{name} 작업"
+        no_description: "추가된 설명이 없습니다."
+        max_per_agent: "에이전트당 최대"
+        unlimited: "무제한"
+        inboxes_label: "받은편지함"
+        business_hours_label: "영업시간"
+        options_label: "옵션"
+        enabled_options:
+          one: "%{count} 활성화됨"
+          other: "%{count} 활성화됨"
+        none: "없음"
+        updated_ago: "%{time} 전에 업데이트됨"
+        default_language: "영어(기본값)"
       new:
         title: 새로운 할당 정책
       edit:
@@ -541,6 +608,17 @@ ko:
         all_inboxes_hint: 받은편지함을 선택하지 않으면 모든 받은편지함에 정책이 적용되지 않습니다.
         save: 정책 저장
         cancel: 취소
+        page_title: "정책 세부정보"
+        page_description: "대화 할당 방법을 관리하기 위한 할당 정책을 만들고 구성합니다."
+        name_placeholder_new: "정책 이름을 입력하세요."
+        optional_label: "(선택사항)"
+        description_placeholder_new: "이 정책에 대한 간략한 설명을 입력하세요."
+        reassign_on_offline_hint: "할당된 상담원이 더 이상 통화할 수 없는 경우 대화를 이동하세요."
+        consider_agent_skills_hint: "자동 할당 중에 상담원 기술을 신호로 사용하세요."
+        notify_on_assignment_hint: "대화가 할당되면 상담원에게 알립니다."
+        notify_team_leads_hint: "대화가 할당되면 팀 리더에게 알림을 보냅니다."
+        allow_idle_reassignment_hint: "유휴 대화를 다른 상담원에게 전달하세요."
+        save_changes: "변경사항 저장"
       flags:
         consider_agent_skills: 할당 시 상담원 기술을 고려하세요.
         allow_idle_reassignment: 유휴 재할당 허용
@@ -622,8 +700,10 @@ ko:
         created_ago: "%{time} 전에 생성됨"
       new:
         title: 새로운 웹 위젯
+        subtitle: "귀하의 웹사이트를 위한 새로운 웹 위젯을 만드세요."
       edit:
         title: 웹 위젯 편집
+        subtitle: "웹 위젯 설정을 구성합니다."
       form:
         back: "← 웹 위젯으로 돌아가기"
         error_heading: 다음 오류를 수정하세요.
@@ -655,6 +735,20 @@ ko:
         installation_section: 설치 및 설정
         secure_identity_instruction: "<strong>Enforce Secure Identity</strong>를 활성화했으므로
           백엔드에서 서명을 생성하여 프런트엔드에 전달해야 합니다."
+        attribute_header: "속성"
+        hmac_signature_example: "HMAC 서명 예(Ruby)"
+        help_center_enabled_label: "도움말 센터 활성화"
+        param_email_desc: "고객의 이메일 주소입니다."
+        param_identifier_desc: "시스템의 고유한 사용자 ID(예: 데이터베이스 ID)입니다. 신원 확인에 필요합니다."
+        param_locale_desc: "특정 언어 로케일(예: \"en\", \"fr\")을 강제합니다. 브라우저 기본값을 재정의합니다."
+        param_name_desc: "고객의 전체 이름입니다."
+        param_position_desc: "런처의 위치. 옵션: 오른쪽(기본값) 또는 왼쪽."
+        param_signature_desc: "비밀 키를 사용하여 생성된 HMAC SHA-256 서명입니다. 보안 ID가 시행되는 경우 필요합니다."
+        supported_parameters: "지원되는 매개변수(데이터 속성)"
+        supported_parameters_desc: "이러한 속성을 스크립트 태그에 직접 전달하여 사용자를 식별하거나 동작을 맞춤설정하세요."
+        table_description_header: "설명"
+        translations_desc: "웹 위젯에 현지화된 문자열을 제공하세요. 이는 고객의 브라우저에 따라 기본 로캘을 자동으로 재정의합니다."
+        upgrade_plan: "요금제 업그레이드"
       created: Web Widget이 성공적으로 생성되었습니다.
       updated: Web Widget이 성공적으로 업데이트되었습니다.
       deleted: Web Widget이 삭제되었습니다.
@@ -726,6 +820,7 @@ ko:
         cancel: 취소
         enable_imap: IMAP 동기화 활성화
         enable_smtp: SMTP 전송 활성화
+        inbox_settings_description: "고객 만족도 설문조사, SLA 정책 및 사용자 정의 응답 템플릿을 구성합니다."
       forwarding:
         title: 이메일 전달
         description: 헬프데스크에서 이메일 수신을 시작하려면 이메일 제공업체의 이메일을 이 주소로 전달하세요.
@@ -1099,8 +1194,10 @@ ko:
         empty_subtitle: 티켓 수신을 시작하려면 첫 번째 문의 양식을 만드세요.
       new:
         title: 새로운 문의 양식
+        subtitle: "귀하의 웹사이트에 대한 새로운 문의 양식을 만드십시오."
       edit:
         title: 문의 양식 편집
+        subtitle: "문의 양식 설정을 구성합니다."
       form:
         error_heading: 아래 문제를 검토해 보세요.
         basic_section: 기본 세부정보
@@ -1130,6 +1227,11 @@ ko:
         conversation_field: 대화 필드
         mapped_to: '매핑 대상: %{mapped_to}'
         entity_field: "%{entity_type} 필드"
+        fields_desc: "이 문의 양식에 표시하려는 사용자 정의 필드를 선택하고 끌어서 놓습니다."
+        inbox_settings: "받은편지함 설정"
+        inbox_settings_desc: "제출에 대한 SLA 정책 및 사용자 정의 응답 템플릿을 구성합니다."
+        outbound_channel_hint: "답장을 보낼 이메일 채널을 선택하세요."
+        translations_desc: "문의 양식에 현지화된 문자열을 제공하세요. 이는 고객의 브라우저에 따라 기본 로캘을 재정의합니다."
     facebook_channels:
       sidebar:
         label: Facebook 페이지
@@ -1335,6 +1437,7 @@ ko:
         enable_csat: 대화 후 CSAT 설문조사 활성화
         csat_survey_label: CSAT 설문조사 선택
         inbox_settings_title: 받은편지함 설정
+        credential_id_placeholder: "예를 들어 123456789012345"
     profile:
       index:
         title: 개인정보
@@ -1610,6 +1713,34 @@ ko:
         waba_id: WABA ID
         whatsapp: WhatsApp
         whatsapp_description: WhatsApp 연결 및 받은편지함 설정을 업데이트하세요.
+        add_header: "헤더 추가"
+        add_mapping: "매핑 추가"
+        channel_name: "채널 이름"
+        channel_type: "채널 유형"
+        custom_badge: "사용자 정의"
+        custom_channel: "맞춤 채널"
+        custom_description: "사용자 정의 채널 연결 및 설정을 업데이트하세요."
+        custom_title: "맞춤 채널 수정"
+        danger_zone: "위험지대"
+        developer_guide: "개발자 가이드"
+        developer_guide_hint: "상담원이 Deskbolic의 대화에 응답하면 다음 JSON 페이로드와 함께 Outbound Webhook URL에 POST 요청을 보냅니다."
+        email_danger_description: "이 채널을 연결 해제하면 받은편지함이 제거되고 새 메시지 수신이 중단됩니다. 기존 대화는 유지됩니다."
+        email_description: "이메일 채널 및 전달 설정을 업데이트하세요."
+        identifier: "식별자"
+        inbox_settings: "받은편지함 설정"
+        inbox_settings_description: "고객 만족도 설문조사, SLA 정책, 맞춤형 응답 템플릿, AI 기능을 구성하세요."
+        no_mapping: "아직 정의된 매핑이 없습니다."
+        no_response: "아직 응답이 없습니다"
+        response_mapping: "응답 매핑"
+        save_changes: "변경사항 저장"
+        testing_tools: "테스트 도구"
+        testing_tools_hint: "이러한 도구를 사용하여 아웃바운드 웹후크 URL이 페이로드를 올바르게 수신하고 있는지 확인하세요."
+        verify_token: "토큰 확인"
+        view_documentation: "전체 문서 보기"
+        webhook_secret: "웹훅 비밀"
+        webhook_secret_hint: "요청이 Deskbolic에서 오는지 확인하는 데 사용됩니다."
+        webhook_secret_warning: "웹훅의 비밀을 안전하게 유지하세요. 공개적으로 공유하지 마세요."
+        webhook_settings: "웹훅 설정"
       web_widget:
         form:
           form_title_label: 양식 제목
@@ -1688,6 +1819,9 @@ ko:
           name_placeholder: 예를 들어 시작하기
           description_label: 설명
           description_placeholder: 이 카테고리에 대한 간략한 설명
+          ai_features: "AI 기능"
+          train_ai_on_these_articles: "이 기사에 대한 AI 훈련"
+          ai_training_hint: "활성화하면 AI 에이전트를 최신 상태로 유지하기 위해 새 기사를 게시할 때 AI 크레딧이 사용됩니다."
         index:
           edit: 편집
           search_placeholder: 검색...
@@ -1896,6 +2030,8 @@ ko:
         cancel: 취소
       edit:
         back: 맞춤 채널로 돌아가기
+        danger_description: "이 채널을 연결 해제하면 받은편지함이 제거되고 새 메시지 수신이 중단됩니다. 기존 대화는 유지됩니다."
+        danger_title: "위험지대"
       tabs:
         configuration: 구성
         instructions: 지침
@@ -2164,6 +2300,158 @@ ko:
         updated: AI 에이전트가 업데이트되었습니다.
         deleted: AI 에이전트가 삭제되었습니다.
         limit_reached: 현재 요금제에서 허용되는 AI 에이전트의 최대 수에 도달했습니다.
+    ai_agent:
+      section_title: "AI 에이전트"
+      enable: "AI 에이전트 활성화"
+      name_label: "대리인 이름"
+      tone_label: "상담원 톤"
+      system_prompt_label: "사용자 정의 지침(시스템 프롬프트)"
+      system_prompt_placeholder: "예를 들어 당신은 Deskbolic에 도움이 되는 지원 봇입니다. 항상 예의를 갖추십시오."
+      system_prompt_hint: "이 프롬프트는 AI의 동작과 제약 조건을 안내합니다."
+      greeting_label: "환영 메시지"
+      greeting_placeholder: "안녕하세요! 오늘은 무엇을 도와드릴까요?"
+      handoff_label: "상담원 연결 메시지"
+      handoff_placeholder: "상담원과 연결해 드리겠습니다..."
+      fallback_label: "대체 메시지"
+      fallback_placeholder: "죄송합니다. 말씀하신 정보가 없습니다. 당신을 인간과 연결시켜 드리겠습니다..."
+      max_exchanges_label: "최대 AI 교환"
+      max_exchanges_hint: "이렇게 많은 턴을 거친 후에 인간에게 손을 내밀십시오."
+      confidence_label: "기술 자료의 신뢰도"
+      confidence_hint: "기사를 사용하기 위한 최소 임계값(0.0~1.0)입니다."
+      performance_title: "상담원 성과"
+      total_conversations: "총 대화"
+      resolution_rate: "해결률"
+      total_handoffs: "인간 핸드오프"
+    search:
+      title: "검색"
+      placeholder: "대화, 메시지, 고객 검색..."
+      shortcut: "⌘K"
+      searching: "검색 중..."
+      no_results: "검색결과가 없습니다"
+      try_different: "다른 키워드를 사용해 보거나 필터를 삭제하세요"
+      enter_query: "시작하려면 검색어를 입력하세요."
+      tab_all: "모두"
+      tab_conversations: "대화"
+      tab_messages: "메시지"
+      unknown_customer: "알 수 없는 고객"
+      unknown_sender: "알 수 없음"
+      section_quick_actions: "빠른 작업"
+      section_conversations: "대화"
+      section_messages: "메시지"
+      categories:
+        navigation: "네비게이션"
+        settings: "설정"
+        channels: "채널"
+        channels_create: "채널 — 생성"
+        help_center: "도움말 센터"
+        data_automation: "데이터 및 자동화"
+        create: "만들기"
+      quick_actions:
+        conversations: "대화"
+        conversations_keywords: "받은편지함 채팅 메시지"
+        reports: "보고서"
+        reports_keywords: "분석 통계 측정항목"
+        settings: "설정"
+        settings_keywords: "환경설정 구성"
+        profile: "프로필"
+        profile_keywords: "내 계정 프로필"
+        teams: "팀"
+        teams_keywords: "그룹 부서"
+        team_members: "팀원"
+        team_members_keywords: "에이전트 사용자가 초대"
+        roles: "역할 및 권한"
+        roles_keywords: "접근 제어"
+        billing: "청구"
+        billing_keywords: "플랜 구독 결제 청구서"
+        domains: "도메인"
+        domains_keywords: "사용자 정의 도메인 DNS"
+        notification_settings: "알림 설정"
+        notification_settings_keywords: "알림 이메일 푸시"
+        audit_logs: "감사 로그"
+        audit_logs_keywords: "활동 내역 추적"
+        api_keys: "API 키"
+        api_keys_keywords: "개발자 토큰 API 액세스"
+        integrations: "통합"
+        integrations_keywords: "타사 앱 연결"
+        email_channels: "이메일 채널"
+        email_channels_keywords: "이메일받은 편지함 smtp imap"
+        web_widget_channels: "웹 위젯 채널"
+        web_widget_channels_keywords: "실시간 채팅 위젯 삽입"
+        contact_form_channels: "문의 양식 채널"
+        contact_form_channels_keywords: "양식 연락처 삽입"
+        facebook_channels: "페이스북 채널"
+        facebook_channels_keywords: "페이스북 메신저 메타"
+        instagram_channels: "인스타그램 채널"
+        instagram_channels_keywords: "인스타그램 DM 메타"
+        whatsapp_channels: "WhatsApp 채널"
+        whatsapp_channels_keywords: "왓츠앱 메시지"
+        custom_channels: "맞춤 채널"
+        custom_channels_keywords: "API 웹훅 커스텀"
+        create_email_channel: "이메일 채널 만들기"
+        create_email_channel_keywords: "새로운 이메일 받은편지함 추가"
+        create_web_widget: "웹 위젯 만들기"
+        create_web_widget_keywords: "새로운 라이브 채팅 위젯 추가"
+        create_contact_form: "문의 양식 만들기"
+        create_contact_form_keywords: "새로운 문의 양식 추가"
+        create_facebook_channel: "Facebook 채널 만들기"
+        create_facebook_channel_keywords: "새로 추가 페이스북 메신저"
+        create_instagram_channel: "인스타그램 채널 만들기"
+        create_instagram_channel_keywords: "새로 추가 인스타그램 DM"
+        create_whatsapp_channel: "WhatsApp 채널 만들기"
+        create_whatsapp_channel_keywords: "새로 추가 whatsapp"
+        create_custom_channel: "맞춤 채널 만들기"
+        create_custom_channel_keywords: "새로운 API 웹훅 추가"
+        help_center_articles: "도움말 센터 기사"
+        help_center_articles_keywords: "문서 문서 지식 베이스"
+        help_center_portals: "도움말 센터 포털"
+        help_center_portals_keywords: "지식 기반 포털"
+        create_new_portal: "새 포털 만들기"
+        create_new_portal_keywords: "새로운 도움말 센터 추가"
+        create_new_article: "새 기사 만들기"
+        create_new_article_keywords: "새로운 기사 추가 문서"
+        assignment_policies: "할당 정책"
+        assignment_policies_keywords: "라우팅 규칙 자동 할당"
+        sla_policies: "SLA 정책"
+        sla_policies_keywords: "서비스 수준 계약 응답 시간"
+        business_hours: "영업시간"
+        business_hours_keywords: "근무 시간 일정 시간대"
+        skills: "기술"
+        skills_keywords: "상담원 기술 라우팅"
+        custom_fields: "사용자 정의 필드"
+        custom_fields_keywords: "사용자 정의 속성 데이터 필드"
+        csat_surveys: "CSAT 설문조사"
+        csat_surveys_keywords: "고객 만족 피드백"
+        identity_sources: "신원 소스"
+        identity_sources_keywords: "SSO SAML 인증"
+        canned_responses: "미리 준비된 답변"
+        canned_responses_keywords: "빠른 답장 템플릿이 저장되었습니다."
+        labels: "라벨"
+        labels_keywords: "태그 카테고리 구성"
+        macros: "매크로"
+        macros_keywords: "빠른 작업 대량 작업"
+        automations: "자동화"
+        automations_keywords: "규칙은 워크플로 자동을 트리거합니다."
+        ai_agents: "AI 에이전트"
+        ai_agents_keywords: "봇 AI 인공지능"
+        email_templates: "이메일 템플릿"
+        email_templates_keywords: "이메일 템플릿 디자인 레이아웃"
+        invite_team_member: "팀원 초대"
+        invite_team_member_keywords: "새로운 에이전트 사용자 초대 추가"
+        create_new_team: "새 팀 만들기"
+        create_new_team_keywords: "새로운 팀 그룹 추가"
+        create_new_label: "새 라벨 만들기"
+        create_new_label_keywords: "새로운 태그 라벨 추가"
+        create_new_automation: "새 자동화 생성"
+        create_new_automation_keywords: "새로운 워크플로 규칙 추가"
+        create_new_role: "새 역할 만들기"
+        create_new_role_keywords: "새로운 역할 추가 권한"
+    inboxes:
+      ai_features:
+        title: "AI 기능(크레딧 소모)"
+        description: "AI 기반 기능으로 받은편지함을 강화하세요. 경고: 이러한 기능을 활성화하면 작업 공간의 AI 크레딧이 소모됩니다."
+        classification: "AI 대화 분류 활성화"
+        auto_labelling: "AI 자동 라벨링 활성화"
+        thank_you_detection: "AI 감사 감지 활성화"
   activerecord:
     attributes:
       ai/agent:
@@ -2434,6 +2722,7 @@ ko:
       twenty_four_hours: 24시간
       urgent: 긴급
       use_system_default_design: 시스템 기본 디자인 사용
+      no_ai_agent_linked: "연결된 AI 에이전트 없음"
   general:
     activate: 활성화
     add: 추가
@@ -2915,6 +3204,7 @@ ko:
           preview:
             live_preview: 실시간 미리보기
             see_how_your_widget_will_appear_to_customers: 귀하의 위젯이 고객에게 어떻게 표시되는지 확인하세요.
+            save_to_preview: "실시간 미리보기를 보려면 위젯을 저장하세요!"
           translation_fields:
             launcher_text: 런처 텍스트
             pre_chat_subtitle: 채팅 전 자막
@@ -3285,3 +3575,11 @@ ko:
     customers: 고객
     conversations_monthly: 월간 대화
     messages_monthly: 월간 메시지
+  billing:
+    events:
+      monthly_ai_grant: "월간 무료 AI 크레딧"
+      ai_action: "AI 액션: %{action_type}"
+      ai_refund: "실패한 AI 작업에 대한 환불: %{action_type}"
+  ai:
+    widget_bot:
+      insufficient_credits_note: "AI 크레딧 부족으로 AI Bot이 자동으로 정지되었습니다. 인간 대리인을 기다리고 있습니다."

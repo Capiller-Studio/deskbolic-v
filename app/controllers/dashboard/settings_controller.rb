@@ -21,7 +21,7 @@ module Dashboard
         channel_class_name.constantize.where(account: current_account).order(created_at: :desc).to_a
       end
       @channel_counts = @channels_by_type.transform_values(&:size)
-      @channels = @selected_type == "all" ? @channels_by_type.values.flatten.sort_by(&:created_at).reverse : @channels_by_type.fetch(@selected_type)
+      @channels = @channels_by_type.values.flatten.sort_by(&:created_at).reverse
     end
 
     def canned_responses

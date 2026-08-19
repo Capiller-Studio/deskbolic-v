@@ -2,8 +2,8 @@
   = render("dashboard/settings/settings_sidebar", current_page: "billing") do
     .ap-billing-page-header
       .ap-title-area
-        h2.f-semi-24.ap-billing-page-title Billing & Subscriptions
-        p.f-reg-14.ap-billing-page-subtitle Manage your subscription, wallet, and payment methods.
+        h1.f-semi-20.ap-billing-page-title = I18n.t("dashboard.billing.title")
+        p.f-reg-14.ap-billing-page-subtitle = I18n.t("dashboard.billing.subtitle")
 
     .ap-billing-layout data-controller="modal-toggler"
 
@@ -15,7 +15,7 @@
             .ap-card-body.ap-billing-card-body
               .ap-billing-card-top
                 div
-                  h3.f-semi-16.ap-billing-section-title = I18n.t("dashboard.billing.active_subscription")
+                  h2.f-semi-18.ap-billing-section-title = I18n.t("dashboard.billing.active_subscription")
                   p.f-reg-12.ap-billing-section-subtitle = I18n.t("dashboard.billing.active_subscription_desc")
 
                 - if @active_subscription&.cancelled_at.present?
@@ -103,11 +103,12 @@
             .ap-card.ap-billing-wallet-card
               .ap-card-body.ap-billing-card-body
                 .ap-billing-box-header
-                  h3.f-semi-20.ap-billing-wallet-header = I18n.t("dashboard.billing.wallet")
+                  .ap-billing-box-copy
+                    h2.f-semi-18.ap-billing-wallet-header = I18n.t("dashboard.billing.wallet")
+                    p.f-reg-14.ap-billing-wallet-label = I18n.t("dashboard.billing.current_balance")
                   span.ap-billing-box-icon.ap-billing-box-icon-blue aria-hidden="true"
                 .ap-billing-wallet-balance-row
                   div
-                    p.f-reg-14.ap-billing-wallet-label = I18n.t("dashboard.billing.current_balance")
                     p.f-semi-24.ap-billing-wallet-amount = ActionController::Base.helpers.number_to_currency(@wallet.balance, unit: current_account.currency.upcase + " ")
                 .ap-billing-actions
                   a.ap-btn-primary.ap-billing-brand-action href="#topupWalletCard"
@@ -117,7 +118,10 @@
             .ap-card.ap-billing-payment-card
               .ap-card-body.ap-billing-card-body
                 .ap-billing-box-header
-                  h3.f-semi-18.ap-billing-section-title.ap-billing-wallet-header = I18n.t("dashboard.billing.payment_methods", default: "Payment Methods")
+                  .ap-billing-box-copy
+                    h2.f-semi-18.ap-billing-section-title.ap-billing-wallet-header = I18n.t("dashboard.billing.payment_methods", default: "Payment Methods")
+                    - unless @payment_methods.any?
+                      p.f-reg-14.ap-billing-pm-empty.ap-billing-pm-empty--header = I18n.t("dashboard.billing.no_payment_methods", default: "No payment methods added yet.")
                   span.ap-billing-box-icon.ap-billing-box-icon-red aria-hidden="true"
 
                 - if @payment_methods.any?
@@ -135,9 +139,6 @@
                           - else
                             span.f-reg-12.ap-billing-pm-default-badge = I18n.t("dashboard.billing.default_label", default: "Default")
                           = link_to I18n.t("dashboard.billing.remove", default: "Remove"), payment_method_path(pm), data: { turbo_method: :delete, turbo_confirm: I18n.t("dashboard.billing.are_you_sure", default: "Are you sure?") }, class: "f-reg-13 ap-billing-pm-remove"
-                - else
-                  p.f-reg-14.ap-billing-pm-empty = I18n.t("dashboard.billing.no_payment_methods", default: "No payment methods added yet.")
-
                 .ap-billing-pm-bottom-action data-controller="modal stripe-elements" data-stripe-elements-client-secret-value=@setup_intent&.client_secret data-stripe-elements-publishable-key-value=@stripe_publishable_key
                   button.ap-btn-secondary.ap-billing-pm-add-btn.ap-billing-outline-action data-action="click->modal#open click->stripe-elements#mount"
                     span.ap-billing-plus-icon.ap-billing-plus-icon-blue aria-hidden="true"
@@ -163,7 +164,7 @@
                             button.ap-btn-secondary type="button" data-action="click->modal#close" = I18n.t("dashboard.billing.cancel", default: "Cancel")
                             button.ap-btn-primary type="submit" data-stripe-elements-target="submitButton" = I18n.t("dashboard.billing.save_card", default: "Save Card")
 
-          .ap-card.ap-billing-tx-card
+          .ap-card.ap-billing-tx-card.ap-billing-transactions-card
             .ap-card-body.ap-billing-card-body
               h3.f-semi-18.ap-billing-section-title = I18n.t("dashboard.billing.transaction_history", default: "Transaction History")
 
@@ -196,10 +197,25 @@
                           - status_class = t.completed? ? "ap-billing-tx-status-completed" : "ap-billing-tx-status-muted"
                           span.ap-strategy-badge class=status_class = t.status.titleize
 
-                  .mt-4
-                    == pagy_nav(@pagy)
+                footer.ap-billing-pagination
+                  p.ap-billing-pagination__summary
+                    = I18n.t("dashboard.billing.showing_transactions", from: @pagy.from, to: @pagy.to, count: @pagy.count, default: "Showing %{from} to %{to} of %{count} transactions")
+                  nav.ap-billing-pagination__controls aria-label=I18n.t("dashboard.billing.transaction_pagination", default: "Transaction pagination")
+                    - if @pagy.prev
+                      = link_to dashboard_billing_path(request.query_parameters.merge(page: @pagy.prev)), class: "ap-billing-pagination__button", aria: { label: I18n.t("dashboard.billing.previous_page", default: "Previous page") }
+                        = image_tag("audit_logs/audit-previous.svg", alt: "", aria: { hidden: true })
+                    - else
+                      span.ap-billing-pagination__button.ap-billing-pagination__button--disabled aria-hidden="true"
+                        = image_tag("audit_logs/audit-previous.svg", alt: "")
+                    span.ap-billing-pagination__button.ap-billing-pagination__button--active aria-current="page" = @pagy.page
+                    - if @pagy.next
+                      = link_to dashboard_billing_path(request.query_parameters.merge(page: @pagy.next)), class: "ap-billing-pagination__button", aria: { label: I18n.t("dashboard.billing.next_page", default: "Next page") }
+                        = image_tag("audit_logs/audit-next.svg", alt: "", aria: { hidden: true })
+                    - else
+                      span.ap-billing-pagination__button.ap-billing-pagination__button--disabled aria-hidden="true"
+                        = image_tag("audit_logs/audit-next.svg", alt: "")
               - else
-                p.f-reg-14.ap-billing-pm-empty = I18n.t("dashboard.billing.no_transactions", default: "No transactions found.")
+                p.f-reg-14.ap-billing-pm-empty style="margin-left: 20px; margin-right: 20px;" = I18n.t("dashboard.billing.no_transactions", default: "No transactions found.")
 
           - if current_account.feature_enabled?(:ai_copilot) || current_account.feature_enabled?(:ai_agent)
             .ap-card.ap-billing-tx-card
@@ -258,8 +274,23 @@
                             - sign, amount_class = t.deduction? ? ["-", "ap-billing-tx-amount-charge"] : ["+", "ap-billing-tx-amount-credit"]
                             span class=amount_class = "#{sign} #{ActionController::Base.helpers.number_with_delimiter(t.amount)}"
 
-                  .mt-4
-                    == pagy_nav(@pagy_ai)
+                  footer.ap-billing-pagination
+                    p.ap-billing-pagination__summary
+                      = I18n.t("dashboard.billing.showing_ai_transactions", from: @pagy_ai.from, to: @pagy_ai.to, count: @pagy_ai.count, default: "Showing %{from} to %{to} of %{count} AI transactions")
+                    nav.ap-billing-pagination__controls aria-label=I18n.t("dashboard.billing.ai_transaction_pagination", default: "AI transaction pagination")
+                      - if @pagy_ai.prev
+                        = link_to dashboard_billing_path(request.query_parameters.merge(ai_page: @pagy_ai.prev)), class: "ap-billing-pagination__button", aria: { label: I18n.t("dashboard.billing.previous_page", default: "Previous page") }
+                          = image_tag("audit_logs/audit-previous.svg", alt: "", aria: { hidden: true })
+                      - else
+                        span.ap-billing-pagination__button.ap-billing-pagination__button--disabled aria-hidden="true"
+                          = image_tag("audit_logs/audit-previous.svg", alt: "")
+                      span.ap-billing-pagination__button.ap-billing-pagination__button--active aria-current="page" = @pagy_ai.page
+                      - if @pagy_ai.next
+                        = link_to dashboard_billing_path(request.query_parameters.merge(ai_page: @pagy_ai.next)), class: "ap-billing-pagination__button", aria: { label: I18n.t("dashboard.billing.next_page", default: "Next page") }
+                          = image_tag("audit_logs/audit-next.svg", alt: "", aria: { hidden: true })
+                      - else
+                        span.ap-billing-pagination__button.ap-billing-pagination__button--disabled aria-hidden="true"
+                          = image_tag("audit_logs/audit-next.svg", alt: "")
                 - else
                   p.f-reg-14.ap-billing-pm-empty = I18n.t("dashboard.billing.no_ai_transactions", default: "No AI usage history found.")
 
@@ -268,18 +299,18 @@
           #topupWalletCard.ap-card.ap-billing-inline-topup-card data-controller="wallet-topup"
             .ap-card-body.ap-billing-card-body
               .ap-billing-modal-header.ap-billing-inline-topup-header
-                .ap-billing-inline-topup-title
-                  = image_tag "wallet.svg", class: "ap-billing-inline-topup-title-icon", alt: ""
-                  h3.f-semi-20 = I18n.t("dashboard.billing.topup_wallet", default: "Top-up Wallet")
+                h2.f-semi-18 = I18n.t("dashboard.billing.topup_wallet", default: "Top-up Wallet")
+                button.ap-billing-panel-close type="reset" form="topup-wallet-form" aria-label=I18n.t("dashboard.billing.cancel", default: "Cancel") ×
               .ap-billing-modal-body.ap-billing-inline-topup-body
-                = form_with url: topup_wallet_path, method: :post do |f|
+                = form_with url: topup_wallet_path, method: :post, html: { id: "topup-wallet-form" } do |f|
                   .ap-billing-topup-presets
-                    button.ap-btn-secondary type="button" data-action="click->wallet-topup#selectPreset" data-wallet-topup-amount-param="25" $25
-                    button.ap-btn-secondary type="button" data-action="click->wallet-topup#selectPreset" data-wallet-topup-amount-param="50" $50
-                    button.ap-btn-secondary type="button" data-action="click->wallet-topup#selectPreset" data-wallet-topup-amount-param="100" $100
+                    button.ap-btn-secondary.is-selected type="button" data-wallet-topup-target="preset" data-action="click->wallet-topup#selectPreset" data-wallet-topup-amount-param="25" $25
+                    button.ap-btn-secondary type="button" data-wallet-topup-target="preset" data-action="click->wallet-topup#selectPreset" data-wallet-topup-amount-param="50" $50
+                    button.ap-btn-secondary type="button" data-wallet-topup-target="preset" data-action="click->wallet-topup#selectPreset" data-wallet-topup-amount-param="100" $100
 
-                  label.f-semi-14.ap-billing-form-label = I18n.t("dashboard.billing.custom_amount", default: "Custom Amount")
-                  = f.number_field :amount, data: { wallet_topup_target: "input" }, min: 10, max: 50000, step: "0.01", class: "ap-input ap-billing-form-input"
+                  = f.hidden_field :amount, value: 25, data: { wallet_topup_target: "input" }
+                  label.ap-billing-sr-only for="wallet-topup-amount" = I18n.t("dashboard.billing.custom_amount", default: "Custom Amount")
+                  = number_field_tag :custom_amount, nil, id: "wallet-topup-amount", data: { wallet_topup_target: "customInput", action: "input->wallet-topup#useCustomAmount" }, min: 10, max: 50000, step: "0.01", placeholder: I18n.t("dashboard.billing.custom_amount", default: "Custom Amount"), class: "ap-input ap-billing-form-input ap-billing-topup-input"
 
                   .ap-billing-modal-actions
                     button.ap-btn-secondary type="reset" = I18n.t("dashboard.billing.cancel", default: "Cancel")
@@ -300,7 +331,7 @@
                       p.f-reg-14.ap-billing-wallet-label = I18n.t("dashboard.billing.ai_balance_label", default: "Current Balance")
                       p.f-semi-24.ap-billing-wallet-amount
                         = current_account.ai_wallet&.available_balance || 0
-                        span.f-reg-14  credits
+                        span.f-reg-14 = I18n.t("dashboard.billing.credits")
 
                   = form_with url: ai_credits_path, method: :post do |f|
                     .ap-billing-topup-presets
@@ -325,8 +356,8 @@
             #changePlanModal.ap-card.ap-billing-inline-change-plan-card data-controller="change-plan" data-modal-toggler-target="model"
               .ap-card-body.ap-billing-card-body
                 .ap-billing-modal-header.ap-billing-inline-topup-header
-                  h3.f-semi-18 = I18n.t("dashboard.billing.change_plan", default: "Change Plan")
-                  button.ap-action-btn type="button" data-action="click->modal-toggler#hideModal" ✕
+                  h2.f-semi-18 = I18n.t("dashboard.billing.change_plan", default: "Change Plan")
+                  button.ap-billing-panel-close type="button" data-action="click->modal-toggler#hideModal" aria-label=I18n.t("dashboard.billing.cancel", default: "Cancel") ×
                 .ap-billing-modal-body.ap-billing-inline-change-plan-body
                   = form_with url: subscription_path(@active_subscription), method: :patch, data: { controller: "plan-selector" } do |f|
                     = f.hidden_field :billing_cycle, value: (@active_subscription.annual? ? "annual" : "monthly")

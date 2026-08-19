@@ -10,14 +10,14 @@
     .channel-edit.channel-theme-instagram
       header.channel-edit__header
         .channel-edit__header-main
-          = link_to channels_settings_path(type: "instagram"), class: "channel-edit__back", aria: { label: t("dashboard.instagram_channels.form.back") } do
+          = link_to channels_instagram_index_path, class: "channel-edit__back", aria: { label: t("dashboard.instagram_channels.form.back") } do
             = inline_svg_tag("back_arrow.svg", aria: { hidden: true })
           .channel-edit__heading
             h1 = t("dashboard.instagram_channels.edit.title")
             p = t("dashboard.channels.edit.instagram_description", default: "Update your Instagram connection and inbox settings.")
 
         .channel-edit__header-actions
-          = link_to t("dashboard.instagram_channels.form.cancel"), channels_settings_path(type: "instagram"), class: "channel-edit__button channel-edit__button--secondary"
+          = link_to t("dashboard.instagram_channels.form.cancel"), channels_instagram_index_path, class: "channel-edit__button channel-edit__button--secondary"
           button.channel-edit__button.channel-edit__button--primary type="submit" form="instagram-channel-edit-form"
             = inline_svg_tag("ai_agents/new_agent_check.svg", aria: { hidden: true })
             span = t("dashboard.instagram_channels.form.save")

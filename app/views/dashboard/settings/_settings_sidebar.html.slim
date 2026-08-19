@@ -146,49 +146,49 @@
                       .conversation-name.inbox-conv
                         p.f-reg-12 = t("dashboard.channels_overview.all_channels", default: "All Channels")
                 li.nav-item class="#{current_page == 'email-channels' || selected_channel_type == 'email' ? 'st-list-active' : ''}" data-filterable-collection-target="item" data-searchable=t('dashboard.sidebar.settings.email_channels')
-                  = link_to(channels_settings_path(type: "email"), class: "nav-link") do
+                  = link_to(channels_email_index_path, class: "nav-link") do
                     .link-text
                       .conversation-name.inbox-conv
                         p.f-reg-12
                           = t('dashboard.sidebar.settings.email_channels')
                           = plan_upgrade_bubble('channels.email')
                 li.nav-item class="#{current_page == 'web-widget-channels' || selected_channel_type == 'web_widget' ? 'st-list-active' : ''}" data-filterable-collection-target="item" data-searchable=t('dashboard.sidebar.settings.web_widget_channels')
-                  = link_to(channels_settings_path(type: "web_widget"), class: "nav-link") do
+                  = link_to(channels_web_widget_index_path, class: "nav-link") do
                     .link-text
                       .conversation-name.inbox-conv
                         p.f-reg-12
                           = t('dashboard.sidebar.settings.web_widget_channels')
                           = plan_upgrade_bubble('channels.web_widget')
                 li.nav-item class="#{current_page == 'contact-form-channels' || selected_channel_type == 'contact_form' ? 'st-list-active' : ''}" data-filterable-collection-target="item" data-searchable=t('dashboard.sidebar.settings.contact_form_channels')
-                  = link_to(channels_settings_path(type: "contact_form"), class: "nav-link") do
+                  = link_to(channels_contact_form_index_path, class: "nav-link") do
                     .link-text
                       .conversation-name.inbox-conv
                         p.f-reg-12
                           = t('dashboard.sidebar.settings.contact_form_channels')
                           = plan_upgrade_bubble('channels.contact_form')
                 li.nav-item class="#{current_page == 'facebook-channels' || selected_channel_type == 'facebook' ? 'st-list-active' : ''}" data-filterable-collection-target="item" data-searchable=t('dashboard.facebook_channels.sidebar.label')
-                  = link_to(channels_settings_path(type: "facebook"), class: "nav-link") do
+                  = link_to(channels_facebook_index_path, class: "nav-link") do
                     .link-text
                       .conversation-name.inbox-conv
                         p.f-reg-12
                           = t("dashboard.facebook_channels.sidebar.label")
                           = plan_upgrade_bubble('channels.facebook')
                 li.nav-item class="#{current_page == 'instagram-channels' || selected_channel_type == 'instagram' ? 'st-list-active' : ''}" data-filterable-collection-target="item" data-searchable=t('dashboard.instagram_channels.sidebar.label')
-                  = link_to(channels_settings_path(type: "instagram"), class: "nav-link") do
+                  = link_to(channels_instagram_index_path, class: "nav-link") do
                     .link-text
                       .conversation-name.inbox-conv
                         p.f-reg-12
                           = t("dashboard.instagram_channels.sidebar.label")
                           = plan_upgrade_bubble('channels.instagram')
                 li.nav-item class="#{current_page == 'whatsapp-channels' || selected_channel_type == 'whatsapp' ? 'st-list-active' : ''}" data-filterable-collection-target="item" data-searchable=t('dashboard.whatsapp_channels.sidebar.label')
-                  = link_to(channels_settings_path(type: "whatsapp"), class: "nav-link") do
+                  = link_to(channels_whatsapp_index_path, class: "nav-link") do
                     .link-text
                       .conversation-name.inbox-conv
                         p.f-reg-12
                           = t("dashboard.whatsapp_channels.sidebar.label")
                           = plan_upgrade_bubble('channels.whatsapp')
                 li.nav-item class="#{current_page == 'custom-channels' || selected_channel_type == 'custom' ? 'st-list-active' : ''}" data-filterable-collection-target="item" data-searchable=t("ui.dashboard.settings.settings_sidebar.custom_channels")
-                  = link_to(channels_settings_path(type: "custom"), class: "nav-link") do
+                  = link_to(channels_custom_index_path, class: "nav-link") do
                     .link-text
                       .conversation-name.inbox-conv
                         p.f-reg-12

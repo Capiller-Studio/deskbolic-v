@@ -1,4 +1,3 @@
----
 fr:
   languages:
     en: Anglais
@@ -110,6 +109,35 @@ fr:
         Cette action entraînera des frais immédiats au prorata ou des crédits de portefeuille.
       wallet: Portefeuille
       wallet_deduction: 'Déduction du portefeuille :'
+      ai_credit_grants: "Subventions et expiration des crédits IA"
+      ai_credits: "Crédits IA"
+      ai_balance_label: "Solde actuel"
+      ai_transaction_history: "Historique d'utilisation de l'IA"
+      ai_transaction_pagination: "Pagination des transactions IA"
+      credits_to_buy: "Crédits (multiples de 1 000)"
+      ai_price_per_1000: "%{price} pour 1 000 crédits"
+      buy_ai_credits: "Acheter des crédits IA"
+      ai_credits_title: "Crédits IA"
+      ai_credits_purchased: "%{count} crédits IA ont été achetés avec succès."
+      credits: "crédits"
+      current_plan: "Actuel"
+      days_remaining: "Jours %{count}"
+      expires_at: "Expire le"
+      next_page: "Page suivante"
+      no_ai_grants: "Aucune subvention de crédit IA trouvée."
+      no_ai_transactions: "Aucun historique d'utilisation de l'IA trouvé."
+      previous_page: "Page précédente"
+      showing_ai_transactions: "Affichage de %{from} à %{to} sur %{count} transactions IA"
+      showing_transactions: "Affichage de %{from} à %{to} sur %{count} transactions"
+      status_active: "Actif"
+      status_exhausted: "Épuisé"
+      status_expired: "Expiré"
+      subtitle: "Gérez votre abonnement, votre portefeuille et vos méthodes de paiement."
+      title: "Facturation et abonnement"
+      top_up_balance: "Solde complémentaire"
+      transaction_pagination: "Pagination des transactions"
+      trial_ends_label: "Fin de l’essai dans"
+      type: "Tapez"
     labels:
       flash:
         created: Étiquette créée avec succès.
@@ -118,6 +146,7 @@ fr:
         error: 'Échec de l''enregistrement du libellé : %{errors}'
       edit:
         title: Modifier l'étiquette
+        subtitle: "Mettez à jour les détails de votre étiquette."
       form:
         back: Retour aux étiquettes
         basic_section: Détails de l'étiquette
@@ -130,17 +159,36 @@ fr:
         title: Titre
         title_placeholder: par ex. Client VIP
         update: Mettre à jour l'étiquette
+        choose_color: "Choisissez la couleur de l'étiquette"
+        color_hint: "Choisissez une couleur pour identifier cette étiquette."
+        color_value: "Valeur hexadécimale de la couleur de l'étiquette"
+        description_short_placeholder: "Descriptif"
+        optional: "(Facultatif)"
+        required_feedback: "Ce champ est obligatoire."
+        section_description: "Choisissez un nom, une description et une couleur pour cette étiquette."
+        section_title: "Détails de l'étiquette"
       index:
+        actions: Actions
+        add_label: Ajouter une étiquette
         add_new_label: Ajouter une nouvelle étiquette
         confirm_delete: Supprimer l'étiquette ?
+        created: Créée
         description: Gérez les étiquettes pour catégoriser vos conversations et vos
           clients.
         empty_description: Créez des étiquettes pour mieux organiser et filtrer vos
           conversations.
         empty_title: Aucune étiquette trouvée
+        label: Étiquette
         labels_for: Étiquettes pour %{account}
+        next_page: Page suivante
+        pagination: Pagination des étiquettes
+        previous_page: Page précédente
+        rows_per_page: Lignes par page
+        showing_labels: Affichage de %{from} à %{to} sur %{count} étiquettes
+        title: Étiquettes
       new:
         title: Ajouter une nouvelle étiquette
+        subtitle: "Créez une étiquette pour organiser et catégoriser les conversations."
     sidebar:
       channels:
         title: Service d'assistance
@@ -183,6 +231,8 @@ fr:
         ai_agents: Agents IA
       reports: Rapports et analyses
     settings_index:
+      all: Tous les canaux
+      all_desc: Gérez tous vos canaux ici.
       title: Accueil
       workspace: Espace de travail
       billing: Facturation
@@ -230,6 +280,7 @@ fr:
       skills_desc: Modifiez, créez, exportez ou supprimez vos compétences.
       email_templates: Modèles d'e-mails
       email_templates_desc: Modifiez, créez, exportez ou supprimez vos modèles d'e-mails.
+      help_center_portals: "Portails du centre d'aide"
     channels_overview:
       title: Canaux
       description: Gérez tous vos canaux de communication connectés.
@@ -357,6 +408,9 @@ fr:
       recent_chats: Discussions récentes
       no_messages: Aucun message
       no_recent_chats: Aucune conversation récente
+      ai_insights: "Informations sur l'IA"
+      sentiment: "Sentiment"
+      category: "Catégorie"
     automations:
       index:
         title: Automatisations
@@ -505,6 +559,19 @@ fr:
         empty_title: Aucune politique d'attribution pour l'instant
         empty_description: Créez votre première stratégie pour démarrer le routage
           automatique des conversations.
+        actions_for: "Actions pour %{name}"
+        no_description: "Aucune description ajoutée."
+        max_per_agent: "Max par agent"
+        unlimited: "Illimité"
+        inboxes_label: "Boîtes de réception"
+        business_hours_label: "Heures d'ouverture"
+        options_label: "Possibilités"
+        enabled_options:
+          one: "%{count} activé"
+          other: "%{count} activé"
+        none: "Aucun"
+        updated_ago: "Mis à jour il y a %{time}"
+        default_language: "Anglais (par défaut)"
       new:
         title: Nouvelle politique d'affectation
       edit:
@@ -569,6 +636,17 @@ fr:
           ne s’appliquera à aucune boîte de réception.
         save: Enregistrer la politique
         cancel: Annuler
+        page_title: "Détails de la politique"
+        page_description: "Créez et configurez une stratégie d'attribution pour gérer la manière dont les conversations sont attribuées."
+        name_placeholder_new: "Entrez le nom de la stratégie"
+        optional_label: "(facultatif)"
+        description_placeholder_new: "Entrez une brève description de cette politique"
+        reassign_on_offline_hint: "Déplacez les conversations lorsqu'un agent assigné n'est plus disponible."
+        consider_agent_skills_hint: "Utilisez les compétences des agents comme signal lors de l’affectation automatique."
+        notify_on_assignment_hint: "Avertissez les agents lorsqu’une conversation leur est attribuée."
+        notify_team_leads_hint: "Envoyer une notification aux chefs d’équipe lorsque les conversations sont attribuées."
+        allow_idle_reassignment_hint: "Laissez les conversations inactives être transférées vers un autre agent disponible."
+        save_changes: "Enregistrer les modifications"
       flags:
         consider_agent_skills: Tenir compte des compétences des agents lors de l'affectation
         allow_idle_reassignment: Autoriser la réaffectation inactive
@@ -657,8 +735,10 @@ fr:
         created_ago: Créé il y a %{time}
       new:
         title: Nouveau widget Web
+        subtitle: "Créez un nouveau widget Web pour votre site Web."
       edit:
         title: Modifier le widget Web
+        subtitle: "Configurez les paramètres de votre widget Web."
       form:
         back: "← Retour aux Widgets Web"
         error_heading: 'Veuillez corriger les erreurs suivantes :'
@@ -692,6 +772,20 @@ fr:
         secure_identity_instruction: Étant donné que vous avez activé <strong>Enforce
           Secure Identity</strong>, vous devez générer une signature sur votre backend
           et la transmettre au frontend.
+        attribute_header: "Attribut"
+        hmac_signature_example: "Exemple de signature HMAC (Rubis)"
+        help_center_enabled_label: "Activer le centre d'aide"
+        param_email_desc: "L'adresse email du client."
+        param_identifier_desc: "L'ID utilisateur unique de votre système (par exemple, l'ID de la base de données). Requis pour la vérification de l'identité."
+        param_locale_desc: "Forcez une langue spécifique (par exemple, \"en\", \"fr\"). Remplace les valeurs par défaut du navigateur."
+        param_name_desc: "Le nom complet du client."
+        param_position_desc: "Position du bouton de lancement. Options : droite (par défaut) ou gauche."
+        param_signature_desc: "Signature HMAC SHA-256 générée à l'aide de votre clé secrète. Obligatoire si Secure Identity est appliqué."
+        supported_parameters: "Paramètres pris en charge (attributs de données)"
+        supported_parameters_desc: "Transmettez ces attributs directement à la balise de script pour identifier les utilisateurs ou personnaliser le comportement."
+        table_description_header: "Descriptif"
+        translations_desc: "Fournissez des chaînes localisées pour votre widget Web. Ceux-ci remplaceront automatiquement les paramètres régionaux par défaut en fonction du navigateur du client."
+        upgrade_plan: "Mettre à niveau le forfait"
       created: Le widget Web a été créé avec succès.
       updated: Le Web Widget a été mis à jour avec succès.
       deleted: Le widget Web a été supprimé avec succès.
@@ -769,6 +863,7 @@ fr:
         cancel: Annuler
         enable_imap: Activer la synchronisation IMAP
         enable_smtp: Activer l'envoi SMTP
+        inbox_settings_description: "Configurez des enquêtes de satisfaction client, des politiques SLA et des modèles de réponse personnalisés."
       forwarding:
         title: Transfert d'e-mails
         description: Transférez les e-mails de votre fournisseur de messagerie vers
@@ -1184,8 +1279,10 @@ fr:
           recevoir des tickets.
       new:
         title: Nouveau formulaire de contact
+        subtitle: "Créez un nouveau formulaire de contact pour votre site Web."
       edit:
         title: Modifier le formulaire de contact
+        subtitle: "Configurez les paramètres de votre formulaire de contact."
       form:
         error_heading: 'Veuillez examiner les problèmes ci-dessous :'
         basic_section: Détails de base
@@ -1215,6 +1312,11 @@ fr:
         conversation_field: Champ de conversation
         mapped_to: 'Mappé sur : %{mapped_to}'
         entity_field: Champ %{entity_type}
+        fields_desc: "Sélectionnez et glissez-déposez les champs personnalisés que vous souhaitez afficher sur ce formulaire de contact."
+        inbox_settings: "Paramètres de la boîte de réception"
+        inbox_settings_desc: "Configurez les politiques SLA et les modèles de réponse personnalisés pour les soumissions."
+        outbound_channel_hint: "Sélectionnez un canal de messagerie à partir duquel envoyer des réponses."
+        translations_desc: "Fournissez des chaînes localisées pour votre formulaire de contact. Ceux-ci remplacent les paramètres régionaux par défaut en fonction du navigateur du client."
     facebook_channels:
       sidebar:
         label: Pages Facebook
@@ -1463,6 +1565,7 @@ fr:
         enable_csat: Activer l'enquête CSAT après les conversations
         csat_survey_label: Sélectionnez l'enquête CSAT
         inbox_settings_title: Paramètres de la boîte de réception
+        credential_id_placeholder: "par ex. 123456789012345"
     profile:
       index:
         title: Détails personnels
@@ -1757,6 +1860,34 @@ fr:
         whatsapp: WhatsApp
         whatsapp_description: Mettez à jour votre connexion WhatsApp et les paramètres
           de la boîte de réception.
+        add_header: "Ajouter un en-tête"
+        add_mapping: "Ajouter un mappage"
+        channel_name: "Nom de la chaîne"
+        channel_type: "Type de canal"
+        custom_badge: "Personnalisé"
+        custom_channel: "Chaîne personnalisée"
+        custom_description: "Mettez à jour la connexion et les paramètres de votre chaîne personnalisée."
+        custom_title: "Modifier une chaîne personnalisée"
+        danger_zone: "Zone dangereuse"
+        developer_guide: "Guide du développeur"
+        developer_guide_hint: "Lorsqu'un agent répond à une conversation dans Deskbolic, nous enverrons une requête POST à votre URL de Webhook sortant avec la charge utile JSON suivante :"
+        email_danger_description: "La déconnexion de cette chaîne supprimera la boîte de réception et cessera de recevoir de nouveaux messages. Les conversations existantes seront conservées."
+        email_description: "Mettez à jour votre canal de messagerie et vos paramètres de transfert."
+        identifier: "Identifiant"
+        inbox_settings: "Paramètres de la boîte de réception"
+        inbox_settings_description: "Configurez des enquêtes de satisfaction client, des politiques SLA, des modèles de réponse personnalisés et des fonctionnalités d'IA."
+        no_mapping: "Aucun mappage défini pour l'instant"
+        no_response: "Pas encore de réponse"
+        response_mapping: "Cartographie des réponses"
+        save_changes: "Enregistrer les modifications"
+        testing_tools: "Outils de test"
+        testing_tools_hint: "Utilisez ces outils pour vérifier que votre URL de Webhook sortant reçoit correctement les charges utiles."
+        verify_token: "Vérifier le jeton"
+        view_documentation: "Afficher la documentation complète"
+        webhook_secret: "Secret du webhook"
+        webhook_secret_hint: "Utilisé pour vérifier que les demandes proviennent de Deskbolic."
+        webhook_secret_warning: "Gardez votre webhook secret en sécurité. Ne le partagez pas publiquement."
+        webhook_settings: "Paramètres du webhook"
       web_widget:
         form:
           form_title_label: Titre du formulaire
@@ -1838,6 +1969,9 @@ fr:
           name_placeholder: par ex. Commencer
           description_label: Descriptif
           description_placeholder: Brève description de cette catégorie
+          ai_features: "CARACTÉRISTIQUES DE L'IA"
+          train_ai_on_these_articles: "Former l'IA sur ces articles"
+          ai_training_hint: "Si cette option est activée, vos crédits IA seront utilisés lorsque vous publierez de nouveaux articles pour maintenir votre agent IA à jour."
         index:
           edit: Modifier
           search_placeholder: Rechercher...
@@ -2060,6 +2194,8 @@ fr:
         cancel: Annuler
       edit:
         back: Retour aux chaînes personnalisées
+        danger_description: "La déconnexion de cette chaîne supprimera la boîte de réception et cessera de recevoir de nouveaux messages. Les conversations existantes seront conservées."
+        danger_title: "Zone dangereuse"
       tabs:
         configuration: Configuration
         instructions: Instructions
@@ -2368,6 +2504,158 @@ fr:
         deleted: L’agent IA a été supprimé avec succès.
         limit_reached: Vous avez atteint le nombre maximal d’agents IA autorisé par
           votre forfait.
+    ai_agent:
+      section_title: "Agent IA"
+      enable: "Activer l'agent IA"
+      name_label: "Nom de l'agent"
+      tone_label: "Tonalité de l'agent"
+      system_prompt_label: "Instructions personnalisées (invite système)"
+      system_prompt_placeholder: "par ex. Vous êtes un robot de support utile pour Deskbolic. Soyez toujours poli."
+      system_prompt_hint: "Cette invite guidera le comportement et les contraintes de l’IA."
+      greeting_label: "Message d’accueil"
+      greeting_placeholder: "Salut ! Comment puis-je vous aider aujourd'hui ?"
+      handoff_label: "Message de transfert"
+      handoff_placeholder: "Laissez-moi vous mettre en contact avec un agent humain..."
+      fallback_label: "Message de repli"
+      fallback_placeholder: "Je suis désolé, je n'ai pas d'informations à ce sujet. Laissez-moi vous connecter avec un humain..."
+      max_exchanges_label: "Nombre maximum d'échanges d'IA"
+      max_exchanges_hint: "Passez la main à l'humain après autant de tours."
+      confidence_label: "Confiance dans la base de connaissances"
+      confidence_hint: "Seuil minimum (0,0 à 1,0) pour utiliser un article."
+      performance_title: "Performances des agents"
+      total_conversations: "Conversations totales"
+      resolution_rate: "Taux de résolution"
+      total_handoffs: "Transferts humains"
+    search:
+      title: "Rechercher"
+      placeholder: "Rechercher des conversations, des messages, des clients..."
+      shortcut: "⌘K"
+      searching: "Recherche..."
+      no_results: "Aucun résultat trouvé"
+      try_different: "Essayez différents mots-clés ou supprimez les filtres"
+      enter_query: "Saisissez un terme de recherche pour commencer"
+      tab_all: "Tout"
+      tab_conversations: "Conversations"
+      tab_messages: "Messages"
+      unknown_customer: "Client inconnu"
+      unknown_sender: "Inconnu"
+      section_quick_actions: "Actions rapides"
+      section_conversations: "Conversations"
+      section_messages: "Messages"
+      categories:
+        navigation: "Navigation"
+        settings: "Paramètres"
+        channels: "Canaux"
+        channels_create: "Canaux — Créer"
+        help_center: "Centre d'aide"
+        data_automation: "Données et automatisation"
+        create: "Créer"
+      quick_actions:
+        conversations: "Conversations"
+        conversations_keywords: "messages de chat de la boîte de réception"
+        reports: "Rapports"
+        reports_keywords: "métriques de statistiques d'analyse"
+        settings: "Paramètres"
+        settings_keywords: "configuration des préférences"
+        profile: "Profil"
+        profile_keywords: "mon profil de compte"
+        teams: "Équipes"
+        teams_keywords: "groupes départements"
+        team_members: "Membres de l'équipe"
+        team_members_keywords: "les agents invitent les utilisateurs"
+        roles: "Rôles et autorisations"
+        roles_keywords: "contrôle d'accès"
+        billing: "Facturation"
+        billing_keywords: "facture de paiement d'abonnement au plan"
+        domains: "Domaines"
+        domains_keywords: "DNS de domaine personnalisé"
+        notification_settings: "Paramètres de notification"
+        notification_settings_keywords: "alertes email push"
+        audit_logs: "Journaux d'audit"
+        audit_logs_keywords: "parcours historique des activités"
+        api_keys: "Clés API"
+        api_keys_keywords: "accès à l'API des jetons de développeur"
+        integrations: "Intégrations"
+        integrations_keywords: "connecter des applications tierces"
+        email_channels: "Canaux de messagerie"
+        email_channels_keywords: "boîte de réception e-mail smtp imap"
+        web_widget_channels: "Canaux de widgets Web"
+        web_widget_channels_keywords: "widget de chat en direct intégré"
+        contact_form_channels: "Canaux du formulaire de contact"
+        contact_form_channels_keywords: "formulaire contact intégrer"
+        facebook_channels: "Canaux Facebook"
+        facebook_channels_keywords: "méta de Facebook Messenger"
+        instagram_channels: "Chaînes Instagram"
+        instagram_channels_keywords: "méta instagram dm"
+        whatsapp_channels: "Canaux WhatsApp"
+        whatsapp_channels_keywords: "messagerie WhatsApp"
+        custom_channels: "Canaux personnalisés"
+        custom_channels_keywords: "API webhook personnalisé"
+        create_email_channel: "Créer un canal de messagerie"
+        create_email_channel_keywords: "nouveau ajouter une boîte de réception e-mail"
+        create_web_widget: "Créer un widget Web"
+        create_web_widget_keywords: "nouveau widget d'ajout de chat en direct"
+        create_contact_form: "Créer un formulaire de contact"
+        create_contact_form_keywords: "nouveau formulaire de contact"
+        create_facebook_channel: "Créer une chaîne Facebook"
+        create_facebook_channel_keywords: "nouvel ajout de Facebook Messenger"
+        create_instagram_channel: "Créer une chaîne Instagram"
+        create_instagram_channel_keywords: "nouveau ajouter instagram dm"
+        create_whatsapp_channel: "Créer une chaîne WhatsApp"
+        create_whatsapp_channel_keywords: "nouveau ajouter WhatsApp"
+        create_custom_channel: "Créer une chaîne personnalisée"
+        create_custom_channel_keywords: "nouveau webhook d'ajout d'API"
+        help_center_articles: "Articles du centre d'aide"
+        help_center_articles_keywords: "base de connaissances documentation documentation"
+        help_center_portals: "Portails du centre d'aide"
+        help_center_portals_keywords: "portail de base de connaissances"
+        create_new_portal: "Créer un nouveau portail"
+        create_new_portal_keywords: "nouveau centre d'aide pour ajouter"
+        create_new_article: "Créer un nouvel article"
+        create_new_article_keywords: "nouvelle documentation d'article ajoutée"
+        assignment_policies: "Politiques d'affectation"
+        assignment_policies_keywords: "attribuer automatiquement des règles de routage"
+        sla_policies: "Politiques SLA"
+        sla_policies_keywords: "temps de réponse de l'accord de niveau de service"
+        business_hours: "Heures d'ouverture"
+        business_hours_keywords: "horaire de travail horaire fuseau horaire"
+        skills: "Compétences"
+        skills_keywords: "routage des compétences des agents"
+        custom_fields: "Champs personnalisés"
+        custom_fields_keywords: "champs de données d'attributs personnalisés"
+        csat_surveys: "Enquêtes CSAT"
+        csat_surveys_keywords: "retour de satisfaction client"
+        identity_sources: "Sources d'identité"
+        identity_sources_keywords: "authentification sso saml"
+        canned_responses: "Réponses standardisées"
+        canned_responses_keywords: "modèles de réponses rapides enregistrés"
+        labels: "Étiquettes"
+        labels_keywords: "tags catégories organiser"
+        macros: "Macro"
+        macros_keywords: "actions rapides, opérations groupées"
+        automations: "Automatisations"
+        automations_keywords: "les règles déclenchent automatiquement le flux de travail"
+        ai_agents: "Agents IA"
+        ai_agents_keywords: "bot ai intelligence artificielle"
+        email_templates: "Modèles d'e-mails"
+        email_templates_keywords: "disposition de conception de modèle d'e-mail"
+        invite_team_member: "Inviter un membre de l'équipe"
+        invite_team_member_keywords: "nouvelle invitation d'utilisateur d'ajout d'agent"
+        create_new_team: "Créer une nouvelle équipe"
+        create_new_team_keywords: "nouveau groupe d'équipe ajouté"
+        create_new_label: "Créer une nouvelle étiquette"
+        create_new_label_keywords: "nouveau libellé d'ajout de balise"
+        create_new_automation: "Créer une nouvelle automatisation"
+        create_new_automation_keywords: "nouvelle règle de workflow d'ajout"
+        create_new_role: "Créer un nouveau rôle"
+        create_new_role_keywords: "nouvelles autorisations d'ajout de rôle"
+    inboxes:
+      ai_features:
+        title: "Fonctionnalités IA (consomme des crédits)"
+        description: "Améliorez votre boîte de réception avec des fonctionnalités basées sur l'IA. Attention : l'activation de ces fonctionnalités consommera les crédits IA de votre espace de travail."
+        classification: "Activer la classification des conversations IA"
+        auto_labelling: "Activer l'étiquetage automatique par l'IA"
+        thank_you_detection: "Activer la détection de remerciement par IA"
   activerecord:
     attributes:
       ai/agent:
@@ -2647,6 +2935,7 @@ fr:
       twenty_four_hours: 24 heures
       urgent: Urgent
       use_system_default_design: Utiliser la conception par défaut du système
+      no_ai_agent_linked: "Aucun agent IA lié"
   general:
     activate: Activer
     add: Ajouter
@@ -3178,6 +3467,7 @@ fr:
             live_preview: Aperçu en direct
             see_how_your_widget_will_appear_to_customers: Découvrez comment votre
               widget apparaîtra aux clients.
+            save_to_preview: "Enregistrez votre widget pour voir l'aperçu en direct !"
           translation_fields:
             launcher_text: Texte du lanceur
             pre_chat_subtitle: Sous-titre avant le chat
@@ -3563,3 +3853,11 @@ fr:
     customers: de clients
     conversations_monthly: de conversations mensuelles
     messages_monthly: de messages mensuels
+  billing:
+    events:
+      monthly_ai_grant: "Crédits IA mensuels gratuits"
+      ai_action: "Action IA : %{action_type}"
+      ai_refund: "Remboursement pour l'échec de l'action IA : %{action_type}"
+  ai:
+    widget_bot:
+      insufficient_credits_note: "AI Bot s'est automatiquement arrêté en raison de crédits AI insuffisants. En attente d'un agent humain."

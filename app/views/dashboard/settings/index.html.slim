@@ -62,32 +62,37 @@
           / channels
           h3 = t('dashboard.settings_index.channels')
           .cards.channels-cards
-            = link_to(channels_settings_path(type: "email"), class:"card") do
+            = link_to(channels_settings_path, class:"card") do
+              = inline_svg_tag("all_ch.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
+              .card-desc
+                h4.f-semi-14 = t('dashboard.settings_index.all')
+                p.f-reg-12 = t('dashboard.settings_index.all_desc')
+            = link_to(channels_email_index_path, class:"card") do
               = inline_svg_tag("ch_email.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
               .card-desc
                 h4.f-semi-14 = t('dashboard.settings_index.email')
                 p.f-reg-12 = t('dashboard.settings_index.email_desc')
-            = link_to(channels_settings_path(type: "web_widget"), class:"card") do
+            = link_to(channels_web_widget_index_path, class:"card") do
               = inline_svg_tag("ch_widget.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
               .card-desc
                 h4.f-semi-14 = t('dashboard.settings_index.web_widget')
                 p.f-reg-12 = t('dashboard.settings_index.web_widget_desc')
-            = link_to(channels_settings_path(type: "contact_form"), class:"card") do
+            = link_to(channels_contact_form_index_path, class:"card") do
               = inline_svg_tag("ch_form.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
               .card-desc
                 h4.f-semi-14 = t('dashboard.settings_index.contact_form')
                 p.f-reg-12 = t('dashboard.settings_index.contact_form_desc')
-            = link_to(channels_settings_path(type: "facebook"), class:"card") do
+            = link_to(channels_facebook_index_path, class:"card") do
               = inline_svg_tag("ch_facebook.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
               .card-desc
                 h4.f-semi-14 = t('dashboard.settings_index.facebook')
                 p.f-reg-12 = t('dashboard.settings_index.facebook_desc')
-            = link_to(channels_settings_path(type: "instagram"), class:"card") do
+            = link_to(channels_instagram_index_path, class:"card") do
               = inline_svg_tag("ch_instagram.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
               .card-desc
                 h4.f-semi-14 = t('dashboard.settings_index.instagram')
                 p.f-reg-12 = t('dashboard.settings_index.instagram_desc')
-            = link_to(channels_settings_path(type: "whatsapp"), class:"card") do
+            = link_to(channels_whatsapp_index_path, class:"card") do
               = inline_svg_tag("ch_whatsapp.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
               .card-desc
                 h4.f-semi-14 = t('dashboard.settings_index.whatsapp')

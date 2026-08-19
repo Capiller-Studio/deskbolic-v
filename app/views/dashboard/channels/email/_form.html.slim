@@ -1,7 +1,7 @@
 - url = email_channel.persisted? ? channels_email_path(email_channel) : channels_email_index_path
 - method = email_channel.persisted? ? :patch : :post
 
-= form_with(model: email_channel, scope: :email_channel, url: url, method: method, data: { controller: "email-channel" }) do |f|
+= form_with(model: email_channel, scope: :email_channel, url: url, method: method, id: "email-channel-form", class: "channel-edit__form ui-settings-form", data: { controller: "email-channel" }) do |f|
   - if email_channel.errors.any?
     .ui-error-summary
       h3 = t("dashboard.email_channels.form.error_heading")
@@ -15,16 +15,16 @@
       .ui-section-title
         span.ui-section-icon 📝
         span.ui-section-label = t("dashboard.email_channels.form.basic_section")
-    .ui-section-body
+    .ui-section-body.channel-edit-select-surface
       .ui-form-row
         div
           = f.label :email, t("dashboard.email_channels.form.email_label"), class: "ui-label"
           = f.email_field :email, class: "ui-input", placeholder: t("ui.dashboard.channels.email.form.support_yourcompany_com")
 
       - if email_channel.primary_inbox
-        .ui-section style="margin-top: 24px; margin-bottom: 24px; padding: 16px; background: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0;"
-          h3.f-semi-16 style="margin-bottom: 8px;" Inbox Settings
-          p.f-reg-14.text-muted style="margin-bottom: 16px;" Configure customer satisfaction surveys, SLA policies, and custom reply templates.
+        .ui-section.channel-edit-select-surface style="margin-top: 24px; margin-bottom: 24px; padding: 16px; background: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0;"
+          h3.f-semi-16 style="margin-bottom: 8px;" = t("dashboard.channels.edit.inbox_settings")
+          p.f-reg-14.text-muted style="margin-bottom: 16px;" = t("dashboard.email_channels.form.inbox_settings_description")
           
           = f.fields_for :primary_inbox do |inbox_f|
             .ui-toggle-row style="margin-bottom: 16px;"
@@ -36,20 +36,24 @@
             .ui-form-row
               div
                 = inbox_f.label :csat_survey_id, t("forms.labels.csat_survey"), class: "ui-label"
-                = inbox_f.collection_select :csat_survey_id, current_account.csat_surveys, :id, :name, { include_blank: t("forms.options.default_system_survey") }, class: "ui-select"
+                .channel-edit-select.ui-field-control.ui-field-control--no-icon
+                  = inbox_f.collection_select :csat_survey_id, current_account.csat_surveys, :id, :name, { include_blank: t("forms.options.default_system_survey") }, { class: "ui-select ui-control", data: { controller: "select" } }
 
               div
                 = inbox_f.label :conversation_reply_template_id, t("forms.labels.custom_reply_template"), class: "ui-label"
-                = inbox_f.collection_select :conversation_reply_template_id, current_account.email_templates, :id, :name, { include_blank: t("forms.options.default_mailer_view") }, class: "ui-select"
+                .channel-edit-select.ui-field-control.ui-field-control--no-icon
+                  = inbox_f.collection_select :conversation_reply_template_id, current_account.email_templates, :id, :name, { include_blank: t("forms.options.default_mailer_view") }, { class: "ui-select ui-control", data: { controller: "select" } }
             
             .ui-form-row
               div
                 = inbox_f.label :business_hour_group_id, t("forms.labels.business_hours"), class: "ui-label"
-                = inbox_f.collection_select :business_hour_group_id, current_account.business_hour_groups, :id, :name, { include_blank: t("forms.options.always_online_24_7") }, class: "ui-select"
+                .channel-edit-select.ui-field-control.ui-field-control--no-icon
+                  = inbox_f.collection_select :business_hour_group_id, current_account.business_hour_groups, :id, :name, { include_blank: t("forms.options.always_online_24_7") }, { class: "ui-select ui-control", data: { controller: "select" } }
 
               div
                 = inbox_f.label :sla_policy_ids, t("forms.labels.sla_policies"), class: "ui-label"
-                = inbox_f.collection_select :sla_policy_ids, current_account.sla_policies, :id, :name, {}, { multiple: true, class: "ui-select" }
+                .channel-edit-select.ui-field-control.ui-field-control--no-icon
+                  = select_tag "#{inbox_f.object_name}[sla_policy_ids][]", options_from_collection_for_select(current_account.sla_policies, :id, :name, inbox_f.object.sla_policy_ids.first), include_blank: t("dashboard.channels.edit.none_selected", default: "None Selected"), class: "ui-select ui-control", data: { controller: "select" }
 
       .ui-form-row
         div
@@ -63,7 +67,7 @@
         span.ui-section-icon 📤
         span.ui-section-label = t("dashboard.email_channels.form.smtp_section")
       span.ui-section-chevron ▼
-    .ui-section-body
+    .ui-section-body.channel-edit-select-surface
       p.ui-input-hint style="margin-bottom: 16px;" = t("dashboard.email_channels.form.smtp_section_desc")
 
       .ui-toggle-row style="margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid #e2e8f0;"
@@ -96,7 +100,8 @@
           = f.text_field :smtp_domain, name: "email_channel[smtp_configurations][domain]", value: email_channel.smtp_configurations&.dig("domain"), class: "ui-input", placeholder: t("dashboard.email_channels.form.smtp_domain_placeholder")
         div
           label.ui-label = t("dashboard.email_channels.form.smtp_authentication")
-          = f.select :smtp_authentication, [["Plain", "plain"], ["Login", "login"], ["CRAM-MD5", "cram_md5"]], { selected: email_channel.smtp_configurations&.dig("authentication") || "plain" }, name: "email_channel[smtp_configurations][authentication]", class: "ui-select"
+          .channel-edit-select.ui-field-control.ui-field-control--no-icon
+            = f.select :smtp_authentication, [["Plain", "plain"], ["Login", "login"], ["CRAM-MD5", "cram_md5"]], { selected: email_channel.smtp_configurations&.dig("authentication") || "plain" }, { name: "email_channel[smtp_configurations][authentication]", class: "ui-select ui-control", data: { controller: "select" } }
 
       .ui-toggle-row
         span.ui-toggle-label = t("dashboard.email_channels.form.smtp_starttls")
@@ -155,11 +160,3 @@
           button.channel-test-btn type="button" data-action="click->email-channel#testImap" data-url=test_imap_channels_email_path(email_channel) data-original-text=t("dashboard.email_channels.form.test_imap")
             | 🔌 #{t("dashboard.email_channels.form.test_imap")}
           span.channel-test-result data-email-channel-target="imapResult" style="display: none;"
-
-  / ─── Form Actions ───
-  .ui-form-actions
-    - if email_channel.persisted?
-      = f.submit t("dashboard.email_channels.form.update"), class: "ui-btn-primary"
-    - else
-      = f.submit t("dashboard.email_channels.form.save"), class: "ui-btn-primary"
-    = link_to t("dashboard.email_channels.form.cancel"), channels_email_index_path, class: "ui-btn-secondary"

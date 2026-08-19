@@ -6,6 +6,9 @@ module Dashboard
       authorize(Label, :index?)
       @labels = current_account.labels.all
       @labels = @labels.where("title ILIKE ?", "%#{params[:search]}%") if params[:search].present?
+
+      @per_page = [ 10, 20, 50 ].include?(params[:per_page].to_i) ? params[:per_page].to_i : 10
+      @pagy, @labels = pagy(@labels, items: @per_page)
     end
 
     def new

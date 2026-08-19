@@ -1,71 +1,11 @@
-= render("dashboard/shared/dashboard_container", current_page: "settings") do
-  = render("dashboard/settings/settings_sidebar", current_page: "facebook-channels") do
-    .body-container
-      .channel-theme-facebook
-        .ui-index-header
-          .ui-title-area
-            h2.f-semi-32 = t("dashboard.facebook_channels.index.title")
-            p.f-reg-16 = t("dashboard.facebook_channels.index.description")
-          = link_to new_channels_facebook_path, class: "ui-btn-primary"
-            | + #{t("dashboard.facebook_channels.index.connect_page")}
-
-        .ui-list
-          - if @facebook_channels.any?
-            - @facebook_channels.each do |channel|
-              div.ui-card id=dom_id(channel)
-                .ui-card-top
-                  .ui-card-info
-                    - if channel.avatar_url.present?
-                      img.ui-avatar src=channel.avatar_url alt=channel.name
-                    - else
-                      .ui-avatar-placeholder
-                        svg viewBox="0 0 24 24" width="24" height="24" fill="var(--channel-brand, #1877F2)"
-                          path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
-                    .ui-card-info
-                      h3.f-semi-16 = channel.name || channel.page_identifier
-                      p.ui-subtitle
-                        | #{t("ui.dashboard.channels.facebook.edit.page_id", identifier: channel.page_identifier)}
-                  .ui-card-actions
-                    = link_to edit_channels_facebook_path(channel), class: "ui-action-btn", title: t("dashboard.skills.index.edit")
-                      | ✏️
-                    = link_to channels_facebook_path(channel), method: :delete, class: "ui-action-btn ui-action-delete", data: { turbo_method: :delete, turbo_confirm: t("dashboard.facebook_channels.index.delete_confirm") }, title: t("general.delete")
-                      | 🗑️
-
-                .ui-card-meta
-                  - if channel.reauthorization_required?
-                    .ui-badge.ui-badge-reauth
-                      span.ui-badge-icon ⚠️
-                      span = t("dashboard.facebook_channels.index.status_reauth")
-                    = link_to reconnect_channels_facebook_path(channel), method: :post, class: "channel-reconnect-btn", data: { turbo_method: :post }
-                      | 🔄 #{t("dashboard.facebook_channels.index.reconnect")}
-                  - elsif channel.active?
-                    .ui-badge.ui-badge-active
-                      span.ui-badge-icon 🟢
-                      span = t("dashboard.facebook_channels.index.status_active")
-                  - else
-                    .ui-badge.ui-badge-disconnected
-                      span.ui-badge-icon 🔴
-                      span = t("dashboard.facebook_channels.index.status_disconnected")
-
-                  .ui-meta-tag
-                    span.ui-meta-tag-icon 📬
-                    span = t("dashboard.facebook_channels.index.inboxes_count", count: channel.inboxes.size)
-
-                  .ui-meta-tag
-                    span.ui-meta-tag-icon 🕐
-                    span = t("dashboard.facebook_channels.index.created_ago", time: time_ago_in_words(channel.created_at))
-
-          - else
-            .ui-empty-state
-              .channel-connect-visual
-                .channel-gradient-ring
-                  .channel-connect-icon
-                    svg viewBox="0 0 24 24" width="40" height="40" fill="var(--channel-brand, #1877F2)"
-                      path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
-              / .ui-empty-icon
-                svg viewBox="0 0 24 24" width="48" height="48" fill="var(--channel-brand, #1877F2)"
-                  path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
-              h3.f-semi-18 = t("dashboard.facebook_channels.index.empty_title")
-              p.f-reg-14 = t("dashboard.facebook_channels.index.empty_description")
-              = link_to new_channels_facebook_path, class: "ui-btn-primary ui-btn-sm"
-                | + #{t("dashboard.facebook_channels.index.connect_page")}
+= render "dashboard/channels/shared/index",
+  sidebar_page: "facebook-channels",
+  channel_type: "facebook",
+  channels: @facebook_channels,
+  title: t("dashboard.facebook_channels.index.title"),
+  description: t("dashboard.facebook_channels.index.description"),
+  new_channel_path: new_channels_facebook_path,
+  new_channel_label: t("dashboard.facebook_channels.index.connect_page"),
+  empty_title: t("dashboard.facebook_channels.index.empty_title"),
+  empty_description: t("dashboard.facebook_channels.index.empty_description"),
+  delete_confirmation: t("dashboard.facebook_channels.index.delete_confirm")

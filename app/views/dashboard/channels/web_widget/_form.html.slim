@@ -1,7 +1,7 @@
 - url = web_widget_channel.persisted? ? channels_web_widget_path(web_widget_channel) : channels_web_widget_index_path
 - method = web_widget_channel.persisted? ? :patch : :post
 
-= form_with(model: web_widget_channel, scope: :web_widget_channel, url: url, method: method, data: { controller: "web-widget-channel" }) do |f|
+= form_with(model: web_widget_channel, scope: :web_widget_channel, url: url, method: method, id: "web-widget-channel-form", class: "ui-settings-form", data: { controller: "web-widget-channel" }) do |f|
   - if web_widget_channel.errors.any?
     .ww-error-summary
       h3 = t("dashboard.web_widget_channels.form.error_heading")
@@ -15,7 +15,7 @@
       .ww-section-title
         = inline_svg_tag("message.svg", class: "ww-section-icon", alt: t("dashboard.web_widget_channels.form.basic_section"))
         span.ww-section-label = t("dashboard.web_widget_channels.form.basic_section")
-    .ww-section-body
+    .ww-section-body.channel-edit-select-surface
       .ww-form-row
         div
           = f.label :name, t("dashboard.web_widget_channels.form.name_label"), class: "ww-label"
@@ -30,7 +30,8 @@
       .ww-form-row
         div
           = f.label :default_locale, t("forms.labels.default_locale"), class: "ww-label"
-          = f.select :default_locale, Core::SUPPORTED_LOCALES.map { |l| [I18n.t("languages.#{l.to_s.downcase}"), l] }, {}, class: "ww-select"
+          .channel-edit-select.ui-field-control.ui-field-control--no-icon
+            = f.select :default_locale, Core::SUPPORTED_LOCALES.map { |l| [I18n.t("languages.#{l.to_s.downcase}"), l] }, {}, { class: "ui-select ui-control", data: { controller: "select" } }
 
       - if web_widget_channel.primary_inbox
         = render "dashboard/channels/shared/inbox_settings", form: f
@@ -42,7 +43,7 @@
         = inline_svg_tag("setting.svg", class: "ww-section-icon", alt: t("dashboard.web_widget_channels.form.appearance_section"))
         span.ww-section-label = t("dashboard.web_widget_channels.form.appearance_section")
       span.ww-section-chevron ▼
-    .ww-section-body
+    .ww-section-body.channel-edit-select-surface
       .ww-form-row
         div
           label.ww-label = t("dashboard.web_widget_channels.form.theme_color_label")
@@ -51,7 +52,8 @@
             = text_field_tag "web_widget_channel[ui_configurations][theme_color]", web_widget_channel.ui_configurations&.dig("theme_color") || "#0f172a", class: "ww-input", style: "flex: 1;", data: { "web-widget-channel-target": "colorInput", "action": "input->web-widget-channel#syncSwatch" }
         div
           label.ww-label = t("dashboard.web_widget_channels.form.position_label")
-          = select_tag "web_widget_channel[ui_configurations][position]", options_for_select([[t("dashboard.web_widget_channels.form.position_bottom_right"), "right"], [t("dashboard.web_widget_channels.form.position_bottom_left"), "left"]], web_widget_channel.ui_configurations&.dig("position") || "right"), class: "ww-select"
+          .channel-edit-select.ui-field-control.ui-field-control--no-icon
+            = select_tag "web_widget_channel[ui_configurations][position]", options_for_select([[t("dashboard.web_widget_channels.form.position_bottom_right"), "right"], [t("dashboard.web_widget_channels.form.position_bottom_left"), "left"]], web_widget_channel.ui_configurations&.dig("position") || "right"), class: "ui-select ui-control", data: { controller: "select" }
 
       .ww-toggle-row
         span.ww-toggle-label = t("ui.dashboard.channels.web_widget.form.custom_branding")
@@ -63,7 +65,7 @@
           - else
             = check_box_tag "locked_branding", "0", false, disabled: true
             span.ww-toggle-slider style="background-color: #e2e8f0; cursor: not-allowed;"
-            span.ww-locked-badge 🔒 Upgrade Plan
+            span.ww-locked-badge 🔒 #{t("dashboard.web_widget_channels.form.upgrade_plan")}
 
       - if current_account.feature_enabled?(:custom_branding)
         .ww-custom-branding-fields data-web-widget-channel-target="customBrandingFields" style="display: #{web_widget_channel.custom_branding ? 'block' : 'none'}; padding-top: 8px;"
@@ -100,14 +102,16 @@
         = inline_svg_tag("automation.svg", class: "ww-section-icon", alt: t("dashboard.web_widget_channels.form.integrations_section"))
         span.ww-section-label = t("dashboard.web_widget_channels.form.integrations_section")
       span.ww-section-chevron ▼
-    .ww-section-body
+    .ww-section-body.channel-edit-select-surface
       .ww-form-row
         div
           = f.label :portal_id, t("dashboard.web_widget_channels.form.portal_label"), class: "ww-label"
-          = f.collection_select :portal_id, @portals, :id, :name, { include_blank: t("forms.options.no_help_center_linked") }, class: "ww-select"
+          .channel-edit-select.ui-field-control.ui-field-control--no-icon
+            = f.collection_select :portal_id, @portals, :id, :name, { include_blank: t("forms.options.no_help_center_linked") }, { class: "ui-select ui-control", data: { controller: "select" } }
         div
           label.ww-label = t("ui.dashboard.channels.web_widget.form.pre_chat_form")
-          = f.collection_select :pre_chat_form_id, @contact_forms, :id, :name, { include_blank: t("forms.options.no_pre_chat_form_linked") }, class: "ww-select"
+          .channel-edit-select.ui-field-control.ui-field-control--no-icon
+            = f.collection_select :pre_chat_form_id, @contact_forms, :id, :name, { include_blank: t("forms.options.no_pre_chat_form_linked") }, { class: "ui-select ui-control", data: { controller: "select" } }
       .ww-toggle-row
         span.ww-toggle-label = t("dashboard.web_widget_channels.form.help_center_enabled_label", default: "Enable Help Center")
         label.ww-toggle
@@ -115,14 +119,16 @@
           span.ww-toggle-slider
       .ww-form-row
         div
-          label.ui-label = t("dashboard.ai_agents.index.title", default: "AI Agent")
-          = select_tag "web_widget_channel[primary_inbox_attributes][ai_agent_id]", options_from_collection_for_select(Ai::Agent.active, :id, :name, web_widget_channel.primary_inbox&.ai_agent_id), include_blank: t("forms.options.no_ai_agent_linked", default: "No AI Agent linked"), class: "ui-select"
+          label.ww-label = t("dashboard.ai_agents.index.title", default: "AI Agent")
+          .channel-edit-select.ui-field-control.ui-field-control--no-icon
+            = select_tag "web_widget_channel[primary_inbox_attributes][ai_agent_id]", options_from_collection_for_select(Ai::Agent.active, :id, :name, web_widget_channel.primary_inbox&.ai_agent_id), include_blank: t("forms.options.no_ai_agent_linked", default: "No AI Agent linked"), class: "ui-select ui-control", data: { controller: "select" }
         div
-      .ui-form-row style="margin-top: 16px;"
+      .ww-form-row
         div
-          label.ui-label = t("ui.dashboard.channels.web_widget.form.offline_email_channel")
+          label.ww-label = t("ui.dashboard.channels.web_widget.form.offline_email_channel")
           = f.hidden_field :fallback_channel_type, value: "Channel::Email"
-          = f.collection_select :fallback_channel_id, @email_channels, :id, :name, { include_blank: t("forms.options.no_email_channel_linked") }, class: "ww-select"
+          .channel-edit-select.ui-field-control.ui-field-control--no-icon
+            = f.collection_select :fallback_channel_id, @email_channels, :id, :name, { include_blank: t("forms.options.no_email_channel_linked") }, { class: "ui-select ui-control", data: { controller: "select" } }
         div
 
   / ─── Widget Behaviors ───
@@ -168,21 +174,11 @@
       - available_locales_options = available_locales.map { |l| [I18n.t("languages.#{l.downcase}"), l] }
 
       .ww-add-locale-wrapper
-        = select_tag "new_locale", options_for_select(available_locales_options), include_blank: t("forms.options.select_language"), class: "ww-select", data: { "nested-translations-target": "localeSelect" }
+        .channel-edit-select.channel-edit-select--compact.ui-field-control.ui-field-control--no-icon
+          = select_tag "new_locale", options_for_select(available_locales_options), include_blank: t("forms.options.select_language"), class: "ui-select ui-control", data: { "nested-translations-target": "localeSelect" }
         button.ww-btn-secondary type="button" data-action="click->nested-translations#addTranslation"
           span +
           | #{t("ui.dashboard.channels.contact_form.form.add_language")}
-
-
-
   / ─── Installation & Setup ───
   - if web_widget_channel.persisted?
     = render "dashboard/channels/web_widget/installation", web_widget_channel: web_widget_channel
-
-  / ─── Form Actions ───
-  .ww-form-actions
-    - if web_widget_channel.persisted?
-      = f.submit t("dashboard.web_widget_channels.form.update"), class: "ww-btn-primary"
-    - else
-      = f.submit t("dashboard.web_widget_channels.form.save"), class: "ww-btn-primary"
-    = link_to t("dashboard.web_widget_channels.form.cancel"), channels_web_widget_index_path, class: "ww-btn-secondary"

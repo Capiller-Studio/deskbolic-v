@@ -139,7 +139,7 @@ module Dashboard
         email_channel: [ :name, :email, :imap_enabled, :smtp_enabled,
         smtp_configurations: [ :address, :port, :username, :password, :domain, :authentication, :enable_starttls ],
         imap_configurations: [ :address, :port, :username, :password, :enable_ssl ],
-        primary_inbox_attributes: [ :id, :reopen_window_seconds, :csat_survey_enabled, :csat_survey_id, :conversation_reply_template_id, sla_policy_ids: [] ] ]
+        primary_inbox_attributes: [ :id, :reopen_window_seconds, :csat_survey_enabled, :csat_survey_id, :conversation_reply_template_id, :business_hour_group_id, sla_policy_ids: [] ] ]
       )
 
       # Convert nested params from ActionController::Parameters to plain Hash

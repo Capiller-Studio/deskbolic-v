@@ -1,21 +1,87 @@
 = render("dashboard/shared/dashboard_container", current_page: "labels") do
   = render("dashboard/settings/settings_sidebar", current_page: "labels") do
-    .body-container
-      .ui-index-header
-        .ui-title-area
-          h2.f-semi-32 = t("dashboard.labels.index.labels_for", account: current_account.name)
-          p.f-reg-16 = t("dashboard.labels.index.description")
-        = link_to new_label_path, class: "ui-btn-primary" do
-          | + #{t("dashboard.labels.index.add_new_label")}
+    .ui-settings-page.ui-labels-page
+      header.ui-settings-page__header
+        .ui-settings-page__heading
+          h1 = t("dashboard.labels.index.title", default: "Labels")
+          p = t("dashboard.labels.index.description")
 
-      .ui-list style="margin-top: 24px;"
-        - if @labels.any?
-          - @labels.each do |label|
-            = render 'dashboard/labels/label', label: label
-        - else
-          .ui-empty-state
-            .ui-empty-icon 🏷️
-            h3.f-semi-18 = t("dashboard.labels.index.empty_title")
-            p.f-reg-14 = t("dashboard.labels.index.empty_description")
-            = link_to new_label_path, class: "ui-btn-primary ui-btn-sm" do
-              | + #{t("dashboard.labels.index.add_new_label")}
+        = link_to new_label_path, class: "ui-settings-page__action" do
+          span = t("dashboard.labels.index.add_label", default: "Add label")
+          = inline_svg_tag("plus_white.svg", class: "ui-settings-page__action-icon", aria: { hidden: true })
+
+      main.ui-settings-page__content
+        section.ui-panel.ui-labels-panel aria-labelledby="labels-table-title"
+          h2#labels-table-title.ui-sr-only = t("dashboard.labels.index.title", default: "Labels")
+
+          .ui-table-wrap.ui-table-wrap--labels
+            table.ui-table.ui-table--labels
+              colgroup
+                col.ui-table__label-column
+                col.ui-table__description-column
+                col.ui-table__created-column
+                col.ui-table__actions-column
+              thead
+                tr
+                  th = t("dashboard.labels.index.label", default: "Label")
+                  th = t("dashboard.labels.form.description")
+                  th = t("dashboard.labels.index.created", default: "Created")
+                  th.ui-table__actions-heading = t("dashboard.labels.index.actions", default: "Actions")
+              tbody
+                - if @labels.empty?
+                  tr
+                    td.ui-table__empty colspan="4"
+                      = t("dashboard.labels.index.empty_description")
+                - else
+                  - @labels.each do |label|
+                    - label_color = label.color.presence || "#CBD5E1"
+                    tr id="label_#{label.id}"
+                      td
+                        .ui-label-identity
+                          span.ui-label-identity__dot style="background-color: #{label_color};" aria-hidden="true"
+                          strong.ui-label-identity__title = label.title
+                          code.ui-label-identity__color = label_color.upcase
+                      td.ui-table__muted = label.description.presence || "—"
+                      td.ui-label-created
+                        time datetime=label.created_at.iso8601 = label.created_at.strftime("%b %-d, %Y %I:%M %p")
+                      td
+                        .ui-table-actions
+                          = link_to edit_label_path(label), data: { turbo: false }, class: "ui-icon-button", aria: { label: t("dashboard.skills.index.edit") }, title: t("dashboard.skills.index.edit") do
+                            = image_tag("pencil.svg", alt: "", aria: { hidden: true })
+                          = button_to label_path(label), method: :delete, form: { class: "ui-label-action-form" }, class: "ui-icon-button ui-label-delete-button", data: { turbo_confirm: t("dashboard.labels.index.confirm_delete") }, aria: { label: t("general.delete") }, title: t("general.delete") do
+                            = image_tag("delete.svg", alt: "", aria: { hidden: true })
+
+          - if @labels.any?
+            footer.ui-pagination.ui-pagination--large.ui-labels-pagination
+              p.ui-pagination__summary
+                = t("dashboard.labels.index.showing_labels", default: "Showing %{from} to %{to} of %{count} labels", from: @pagy.from, to: @pagy.to, count: @pagy.count)
+
+              .ui-pagination__end
+                = form_with url: labels_path, method: :get, class: "ui-rows-per-page" do
+                  = hidden_field_tag :search, params[:search]
+                  label for="label-rows-per-page" = t("dashboard.labels.index.rows_per_page", default: "Rows per page")
+                  .ui-settings-form
+                    .ui-field-control.ui-field-control--compact.ui-field-control--no-icon.ui-field-control--rows
+                      = select_tag :per_page,
+                        options_for_select([10, 20, 50], @per_page),
+                        id: "label-rows-per-page",
+                        class: "ui-select ui-control",
+                        data: { controller: "select" },
+                        onchange: "this.form.requestSubmit()"
+
+                nav.ui-pagination__controls aria-label=t("dashboard.labels.index.pagination", default: "Label pagination")
+                  - if @pagy.prev
+                    = link_to labels_path(request.query_parameters.merge(page: @pagy.prev)), class: "ui-pagination__button", aria: { label: t("dashboard.labels.index.previous_page", default: "Previous page") }
+                      = image_tag("audit_logs/audit-previous.svg", alt: "", aria: { hidden: true })
+                  - else
+                    span.ui-pagination__button.ui-pagination__button--disabled aria-hidden="true"
+                      = image_tag("audit_logs/audit-previous.svg", alt: "")
+
+                  span.ui-pagination__button.ui-pagination__button--active aria-current="page" = @pagy.page
+
+                  - if @pagy.next
+                    = link_to labels_path(request.query_parameters.merge(page: @pagy.next)), class: "ui-pagination__button", aria: { label: t("dashboard.labels.index.next_page", default: "Next page") }
+                      = image_tag("audit_logs/audit-next.svg", alt: "", aria: { hidden: true })
+                  - else
+                    span.ui-pagination__button.ui-pagination__button--disabled aria-hidden="true"
+                      = image_tag("audit_logs/audit-next.svg", alt: "")

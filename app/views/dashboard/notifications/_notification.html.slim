@@ -1,6 +1,8 @@
 - is_unread = notification.read_at.nil?
 - target_url = root_path
-- if notification.resource.is_a?(Conversation)
+- if notification.event.in?(%w[limit_approaching limit_reached subscription_created subscription_renewed subscription_cancelled trial_expiring payment_failed])
+  - target_url = dashboard_billing_path
+- elsif notification.resource.is_a?(Conversation)
   - target_url = conversation_path(notification.resource)
 - elsif notification.resource.is_a?(Message) && notification.resource.conversation
   - target_url = conversation_path(notification.resource.conversation)

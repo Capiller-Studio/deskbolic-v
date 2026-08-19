@@ -163,6 +163,10 @@
           <mj-button align="left" href="[[ERB= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') ]]/conversations/[[ERB= @conversation.id ]]" background-color="#4f46e5" border-radius="8px" padding="0 0 20px" inner-padding="14px 24px" font-size="15px">
             Open conversation &nbsp;&rarr;
           </mj-button>
+          <mj-raw>[[ERB- elsif @notification.event.in?(%w[limit_approaching limit_reached subscription_created subscription_renewed subscription_cancelled trial_expiring payment_failed]) ]]</mj-raw>
+          <mj-button align="left" href="[[ERB= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') ]]/settings/billing" background-color="#4f46e5" border-radius="8px" padding="0 0 20px" inner-padding="14px 24px" font-size="15px">
+            Manage billing & plan &nbsp;&rarr;
+          </mj-button>
           <mj-raw>[[ERB- else ]]</mj-raw>
           <mj-button align="left" href="[[ERB= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') ]]" background-color="#4f46e5" border-radius="8px" padding="0 0 20px" inner-padding="14px 24px" font-size="15px">
             Open workspace &nbsp;&rarr;

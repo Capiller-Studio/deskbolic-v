@@ -19,7 +19,7 @@ module Dashboard
     end
 
     def create?
-      authorized?("identity_sources.manage", feature: :identity_sources)
+      authorized?("identity_sources.manage", feature: :identity_sources, limit: :identity_sources)
     end
 
     def destroy?

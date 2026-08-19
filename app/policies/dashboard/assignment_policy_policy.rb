@@ -11,7 +11,7 @@ module Dashboard
     end
 
     def create?
-      authorized?("assignment_policies.manage", feature: :assignment_policies)
+      authorized?("assignment_policies.manage", feature: :assignment_policies, limit: :assignment_policies)
     end
 
     def update?

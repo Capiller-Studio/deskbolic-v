@@ -8,7 +8,7 @@ module Dashboard
       end
 
       def create?
-        authorized?("help_center_portals.manage", feature: :help_center_portals)
+        authorized?("help_center_portals.manage", feature: :help_center_portals, limit: :help_center_portals)
       end
 
       def edit?

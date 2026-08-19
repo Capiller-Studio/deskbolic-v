@@ -15,13 +15,13 @@ module Dashboard
     end
 
     def update?
-      return false if record.is_system? && !owner?
+      return false if record.system_provided? && !owner?
 
       authorized?("automations.manage", feature: :automations)
     end
 
     def destroy?
-      return false if record.is_system?
+      return false if record.system_provided?
 
       authorized?("automations.manage", feature: :automations)
     end

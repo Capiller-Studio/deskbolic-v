@@ -12,7 +12,7 @@ module Dashboard
       end
 
       def create?
-        can?("csat_surveys.manage")
+        authorized?("csat_surveys.manage", limit: :csat_surveys)
       end
 
       def update?

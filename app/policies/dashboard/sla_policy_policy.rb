@@ -11,7 +11,7 @@ module Dashboard
     end
 
     def create?
-      can?("sla_policies.manage")
+      authorized?("sla_policies.manage", limit: :sla_policies)
     end
 
     def update?

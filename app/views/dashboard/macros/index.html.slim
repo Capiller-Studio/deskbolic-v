@@ -39,7 +39,7 @@
                 .ui-card-actions
                   = link_to edit_macro_path(macro), class: "ui-action-btn", title: t("dashboard.skills.index.edit")
                     | ✏️
-                  - unless macro.is_system?
+                  - unless macro.system_provided?
                     = button_to macro_path(macro), method: :delete, class: "ui-action-btn ui-action-delete", title: t("dashboard.skills.index.delete"), data: { turbo_confirm: t("dashboard.custom_fields.index.delete_confirm") }
                       | 🗑️
       - else

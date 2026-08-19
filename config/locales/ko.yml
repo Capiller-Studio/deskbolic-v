@@ -23,7 +23,7 @@ ko:
         annual_savings: 최대 20% 할인
         most_popular: 가장 인기 있는 요금제
         per_month: "/월"
-        annual_billing: "연간 결제 시 %{amount}"
+        annual_billing: 연간 결제 시 %{amount}
         trial_badge: "%{days}일 무료 체험"
         no_free_trial: 무료 체험 없음
         start_free_trial: 무료 체험 시작
@@ -44,8 +44,10 @@ ko:
       cancels_on: "%{date}에서 취소"
       cancels_on_label: 취소 날짜
       change_plan: 계획 변경
-      change_plan_trial_confirm: 정말로 계획을 변경하시겠습니까? 평가판은 정상적으로 계속되며 평가판이 종료되면 새 요금제에 대한 요금이 청구됩니다.
-      change_seats_trial_confirm: 정말로 좌석을 바꾸시겠어요? 평가판은 정상적으로 계속되며 평가판이 종료되면 새 사용자 수에 대한 비용이 청구됩니다.
+      change_plan_trial_confirm: 정말로 계획을 변경하시겠습니까? 평가판은 정상적으로 계속되며 평가판이 종료되면 새 요금제에
+        대한 요금이 청구됩니다.
+      change_seats_trial_confirm: 정말로 좌석을 바꾸시겠어요? 평가판은 정상적으로 계속되며 평가판이 종료되면 새 사용자
+        수에 대한 비용이 청구됩니다.
       choose_plan: 계획을 선택하세요
       choose_plan_subtitle: 업무 공간을 시작하려면 완벽한 계획을 선택하세요.
       current_balance: 현재 잔액
@@ -78,7 +80,8 @@ ko:
       resume_subscription: 구독 재개
       save_card: 카드 저장
       seats_label: 좌석
-      secure_payment_notice: 결제는 Stripe에 의해 안전하게 처리됩니다. 귀하의 카드 정보는 암호화되어 있으며 절대 당사 서버에 접근하지 않습니다.
+      secure_payment_notice: 결제는 Stripe에 의해 안전하게 처리됩니다. 귀하의 카드 정보는 암호화되어 있으며 절대 당사
+        서버에 접근하지 않습니다.
       select_plan: 플랜 선택
       status: 상태
       subscribe_now: 지금 구독하세요
@@ -93,8 +96,10 @@ ko:
       update_payment_method: 결제 수단 업데이트
       update_plan: 업데이트 계획
       update_seats: 좌석 업데이트
-      update_seats_confirm: 좌석을 업데이트하시겠습니까? 이 조치를 취하면 즉시 일할 계산된 요금이 부과되거나 지갑 크레딧이 지급됩니다.
-      update_subscription_confirm: 구독을 업데이트하시겠습니까? 이 조치를 취하면 즉시 일할 계산된 요금이 부과되거나 지갑 크레딧이 지급됩니다.
+      update_seats_confirm: 좌석을 업데이트하시겠습니까? 이 조치를 취하면 즉시 일할 계산된 요금이 부과되거나 지갑 크레딧이
+        지급됩니다.
+      update_subscription_confirm: 구독을 업데이트하시겠습니까? 이 조치를 취하면 즉시 일할 계산된 요금이 부과되거나 지갑
+        크레딧이 지급됩니다.
       wallet: 지갑
       wallet_deduction: '지갑 공제:'
     labels:
@@ -648,7 +653,8 @@ ko:
         cancel: 취소
         hmac_secret_key: HMAC 비밀 키
         installation_section: 설치 및 설정
-        secure_identity_instruction: "<strong>Enforce Secure Identity</strong>를 활성화했으므로 백엔드에서 서명을 생성하여 프런트엔드에 전달해야 합니다."
+        secure_identity_instruction: "<strong>Enforce Secure Identity</strong>를 활성화했으므로
+          백엔드에서 서명을 생성하여 프런트엔드에 전달해야 합니다."
       created: Web Widget이 성공적으로 생성되었습니다.
       updated: Web Widget이 성공적으로 업데이트되었습니다.
       deleted: Web Widget이 삭제되었습니다.
@@ -912,7 +918,8 @@ ko:
         value_hint: 사용하려는 전체 도메인 이름을 입력하세요. 생성 후에는 변경할 수 없습니다.
         after_adding_title: 이 도메인을 추가한 후
         after_adding_desc: DNS 공급자에서 CNAME 레코드를 생성해야 합니다.
-        after_adding_note: DNS 전파에는 최대 48시간이 걸릴 수 있습니다. 구성이 완료되면 도메인 페이지에서 "DNS 확인"을 클릭하세요.
+        after_adding_note: DNS 전파에는 최대 48시간이 걸릴 수 있습니다. 구성이 완료되면 도메인 페이지에서 "DNS 확인"을
+          클릭하세요.
         cname_host_value: your-subdomain
         important: 중요
         required_feedback: 필수 입력 항목입니다.
@@ -1070,7 +1077,8 @@ ko:
         email_verification: 새 계정에 대한 이메일 주소 확인.
         team_invitation: 새 팀 구성원을 추가할 때 발송되는 초대 이메일입니다.
       sample:
-        message_content: 문의해 주셔서 감사합니다! 귀하의 요청을 검토했으며 해결책을 찾았습니다. 아래 단계를 따르고 추가 지원이 필요한 경우 알려주시기 바랍니다.
+        message_content: 문의해 주셔서 감사합니다! 귀하의 요청을 검토했으며 해결책을 찾았습니다. 아래 단계를 따르고 추가 지원이
+          필요한 경우 알려주시기 바랍니다.
         conversation_subject: 내 계정에 대한 도움말
         event_title: 새 대화가 할당됨
         event_description: 지원 받은 편지함에 새 대화가 할당되었습니다.
@@ -1214,7 +1222,8 @@ ko:
         scope_basic: Instagram 프로필 및 미디어 보기
         scope_messages: Instagram 다이렉트 메시지 읽기 및 보내기
         connect_button: Instagram로 계속하기
-        connect_note: 액세스 승인을 위해 Instagram으로 리디렉션됩니다. 전문 계정(Business 또는 Creator)만 지원됩니다.
+        connect_note: 액세스 승인을 위해 Instagram으로 리디렉션됩니다. 전문 계정(Business 또는 Creator)만
+          지원됩니다.
       edit:
         title: Instagram 채널 편집
         reauth_title: 재승인 필요
@@ -1244,8 +1253,7 @@ ko:
       create_failed: WhatsApp 채널 연결에 실패했습니다. 다시 시도해 주세요.
       callback_error: WhatsApp에 연결하는 중에 오류가 발생했습니다. 다시 시도해 주세요.
       reconnect_not_supported_yet: 재접속은 아직 지원되지 않습니다. 토큰이 만료되면 채널을 삭제하고 다시 생성하세요.
-      reconnected: 채널이 성공적으로 다시 활성화되었습니다. 액세스 토큰이 실제로
-        만료된 경우 토큰을 업데이트하세요.
+      reconnected: 채널이 성공적으로 다시 활성화되었습니다. 액세스 토큰이 실제로 만료된 경우 토큰을 업데이트하세요.
       index:
         title: WhatsApp
         description: WhatsApp Business API를 연결하여 고객 대화를 관리하세요.
@@ -1272,8 +1280,7 @@ ko:
         channel_details_title: 채널 세부 정보
         channel_details_hint: 팀이 쉽게 알아볼 수 있도록 연결 이름을 지정하세요.
         business_number_title: 비즈니스 전화번호
-        business_number_hint: 고객이 비즈니스에 문의할 때 사용하는 WhatsApp 번호를
-          입력하세요.
+        business_number_hint: 고객이 비즈니스에 문의할 때 사용하는 WhatsApp 번호를 입력하세요.
         meta_credentials_title: Meta 자격 증명
         meta_credentials_hint: Meta Developer 앱의 WhatsApp API 설정에서 이 값을 복사하세요.
         token_hint: 연결 중단을 방지하려면 영구 또는 시스템 사용자 액세스 토큰을 사용하세요.
@@ -1994,7 +2001,8 @@ ko:
           exchange_failed: 'Slack OAuth 토큰 교환 실패: %{error}'
           unexpected_error: Slack 인증 중에 예상치 못한 오류가 발생했습니다.
           basic_section: Slack 설정
-          manual_hint: Slack OAuth는 이 설치에 대해 전역적으로 구성되지 않으므로 Slack Workspace에서 수신 웹후크를 생성하고 여기에 URL을 붙여넣어 Slack을 수동으로 연결할 수 있습니다.
+          manual_hint: Slack OAuth는 이 설치에 대해 전역적으로 구성되지 않으므로 Slack Workspace에서 수신
+            웹후크를 생성하고 여기에 URL을 붙여넣어 Slack을 수동으로 연결할 수 있습니다.
           url_label: Slack 수신 웹훅 URL
           description: Slack 채널에서 직접 새로운 대화와 업데이트에 대한 즉각적인 알림을 받으세요.
           connect: Slack에 추가
@@ -2139,8 +2147,9 @@ ko:
         portal_placeholder: 헬프 센터 포털 선택
         system_prompt: 시스템 프롬프트
         translations: 번역
-        translations_description: AI 에이전트의 현지화된 문구를 입력하세요. 고객의 브라우저 언어에 따라 기본 언어를 대체합니다.
-        default_language: (기본값)
+        translations_description: AI 에이전트의 현지화된 문구를 입력하세요. 고객의 브라우저 언어에 따라 기본 언어를
+          대체합니다.
+        default_language: "(기본값)"
         greeting_message: 환영 메시지
         greeting_placeholder: 대화가 시작될 때 표시할 환영 메시지를 입력하세요...
         handoff_message: 상담원 연결 메시지
@@ -2149,7 +2158,7 @@ ko:
         fallback_placeholder: 에이전트가 답변할 수 없을 때 표시할 메시지를 입력하세요...
         select_portal: 포털 선택
       errors:
-        fix_errors: "다음 오류를 수정하세요:"
+        fix_errors: '다음 오류를 수정하세요:'
       messages:
         created: AI 에이전트가 생성되었습니다.
         updated: AI 에이전트가 업데이트되었습니다.
@@ -2169,6 +2178,11 @@ ko:
           friendly: 친근함
           neutral: 중립적
           concise: 간결함
+    errors:
+      messages:
+        resource_limit_reached: 현재 요금제의 %{resource} 한도에 도달했습니다. 업그레이드해 주세요.
+        limit_reached: 현재 요금제의 %{resource} 한도에 도달했습니다. 업그레이드해 주세요.
+      models: {}
   auth:
     workspace:
       email_invitation:
@@ -2198,7 +2212,8 @@ ko:
     currency_hint: 등록 후에는 변경할 수 없습니다.
     default_language: 기본 작업공간 언어
     datacenter: 데이터센터
-    datacenter_info: 맞춤형 데이터 센터 위치를 찾고 계십니까? 우리는 일부 기업 고객에게 맞춤형 위치를 제공합니다. 글로벌 라우팅 및 인증 목적을 위해 핵심 계정과 사용자 메타데이터는 기본 유럽 데이터베이스에 안전하게 유지됩니다.
+    datacenter_info: 맞춤형 데이터 센터 위치를 찾고 계십니까? 우리는 일부 기업 고객에게 맞춤형 위치를 제공합니다. 글로벌 라우팅
+      및 인증 목적을 위해 핵심 계정과 사용자 메타데이터는 기본 유럽 데이터베이스에 안전하게 유지됩니다.
     datacenters:
       europe_germany: 유럽(독일)
       europe_germany_desc: 기본 EU 데이터베이스
@@ -2287,7 +2302,7 @@ ko:
     member: 구성원
     more_actions: 추가 작업
     next_page: 다음 페이지
-    page_number: '%{page}페이지'
+    page_number: "%{page}페이지"
     pagination: 감사 로그 페이지 탐색
     previous_page: 이전 페이지
     revert_failed: 활동을 되돌리지 못했습니다.
@@ -2454,7 +2469,8 @@ ko:
     system_mailer:
       forward_email_verification:
         almost_complete: 설정이 거의 완료되었습니다!
-        ignore_notice: 이 이메일을 무시하세요. 이는 이메일 전달 규칙이 올바르게 작동하는지 확인하기 위해 Deskbolic에서 자동으로 생성됩니다.
+        ignore_notice: 이 이메일을 무시하세요. 이는 이메일 전달 규칙이 올바르게 작동하는지 확인하기 위해 Deskbolic에서
+          자동으로 생성됩니다.
   notification_settings:
     browser_push: 브라우저 푸시 알림
     browser_push_desc: Deskbolic이 백그라운드에서 실행되는 동안에도 알림을 받으려면 푸시 알림을 활성화하세요.
@@ -2535,7 +2551,8 @@ ko:
       configuration: CSAT 구성
       description: 대화가 해결된 후 자동으로 고객에게 설문조사를 보냅니다.
       enable_label: CSAT 설문조사 활성화
-      info_text: 활성화하면 고객은 티켓 상태가 해결됨으로 변경된 후 기본적으로 채팅 위젯이나 이메일 링크를 통해 평가 메시지를 받게 됩니다.
+      info_text: 활성화하면 고객은 티켓 상태가 해결됨으로 변경된 후 기본적으로 채팅 위젯이나 이메일 링크를 통해 평가 메시지를 받게
+        됩니다.
       save: 설정 저장
       title: 고객 만족도(CSAT)
   shared:
@@ -2577,12 +2594,14 @@ ko:
           try_a_different_search_or_role_filter: 다른 검색어나 역할 필터를 사용해 보세요.
           revoke: "\U0001F5D1️ 취소"
         new:
-          an_invitation_email_will_be_sent_to_the_member_with: 워크스페이스에 참여하기 위한 지침이 포함된 초대 이메일이 멤버에게 전송됩니다.
+          an_invitation_email_will_be_sent_to_the_member_with: 워크스페이스에 참여하기 위한 지침이
+            포함된 초대 이메일이 멤버에게 전송됩니다.
           assign_role: 역할 할당
           choose_a_role_for_this_member: 이 회원의 역할을 선택하세요.
           invitation_summary: 초대 요약
           invite_member: 회원 초대
-          invite_someone_to_join_your_workspace_and_assign_permissions: 작업 공간에 참여할 사람을 초대하고 권한을 할당하세요.
+          invite_someone_to_join_your_workspace_and_assign_permissions: 작업 공간에 참여할
+            사람을 초대하고 권한을 할당하세요.
           invite_team_member: 팀원 초대
           name_company_com: name@company.com
           permission_preview: 권한 미리보기
@@ -2598,7 +2617,8 @@ ko:
           filter_by_role: 역할별로 필터링
           joined_on: 가입 날짜
           last_active: 마지막 활동
-          manage_your_workspace_members_permissions_and_invitations: 워크스페이스 멤버, 권한, 초대를 관리하세요.
+          manage_your_workspace_members_permissions_and_invitations: 워크스페이스 멤버, 권한,
+            초대를 관리하세요.
           member_actions: 회원 활동
           no_matching_members: 일치하는 회원이 없습니다.
           remove_member: 회원 삭제
@@ -2634,13 +2654,15 @@ ko:
           add_questions: 질문 추가
           answer_rating_is_any: 답변 등급은 모두입니다.
           answer_status_is_any: 답변 상태는 any입니다.
-          batch_test_fin_s_answers_to_go_live_with_confidence: 일괄 테스트를 통해 Fin의 답변을 자신있게 공개하세요
+          batch_test_fin_s_answers_to_go_live_with_confidence: 일괄 테스트를 통해 Fin의 답변을
+            자신있게 공개하세요
           create_a_new_group: 새 그룹 만들기
           generate_from_past_conversations: 과거 대화에서 생성
           matthew_attard: 매튜 아타드
           others: 기타
           preview_user: 사용자 미리보기
-          start_testing_by_adding_questions_for_fin_to_answer: Fin이 답변할 질문을 추가하여 테스트를 시작하세요.
+          start_testing_by_adding_questions_for_fin_to_answer: Fin이 답변할 질문을 추가하여 테스트를
+            시작하세요.
           testing_as: 다음으로 테스트
           there_group_has_no_questions: 질문이 없는 그룹이 있습니다.
           update_a_minute_ago_by: '1분 전 업데이트:'
@@ -2650,21 +2672,30 @@ ko:
           communication_style: 커뮤니케이션 스타일
           context_and_clarification: 맥락과 설명
           enabled: 활성화됨
-          follow_up_questions_fin_should_ask_to_ensure_accurate_answers: 핀이 정확한 답변을 위해 물어봐야 할 후속 질문
-          hallo_ich_bin_fitbot_ich_bin_dein_pers_nlicher_sportassistent: "안녕하세요, FitBot입니다! \U0001F44B Ich bin dein persönlicher Sportassistant. Wie kann ich dir helfen?"
+          follow_up_questions_fin_should_ask_to_ensure_accurate_answers: 핀이 정확한 답변을
+            위해 물어봐야 할 후속 질문
+          hallo_ich_bin_fitbot_ich_bin_dein_pers_nlicher_sportassistent: "안녕하세요, FitBot입니다!
+            \U0001F44B Ich bin dein persönlicher Sportassistant. Wie kann ich dir
+            helfen?"
           handover_and_escalation: 핸드오버 및 '에스컬레이션'
-          how_to_handle_cases_that_should_be_routed_straight_to: 귀하의 팀에 직접 전달되어야 하는 케이스를 처리하는 방법
+          how_to_handle_cases_that_should_be_routed_straight_to: 귀하의 팀에 직접 전달되어야 하는
+            케이스를 처리하는 방법
           icon: 아이콘
           message: 메시지...
           messages: 메시지
           new: 새로운
           not_enabled: 활성화되지 않음
-          specific_vocabulary_and_terminology_fin_should_use: Fin이 사용해야 하는 특정 어휘 및 용어
+          specific_vocabulary_and_terminology_fin_should_use: Fin이 사용해야 하는 특정 어휘 및
+            용어
         index:
-          choose_formal_or_informal_pronouns_for_all_applicable_languages: 공식 또는 비공식 대명사 선택(해당되는 모든 언어에 대해)
-          choose_how_fin_phrases_the_options_it_presents_to_your: 고객에게 제공되는 옵션을 핀프레이즈로 표현하는 방법을 선택하세요.
-          control_the_language_fin_will_use_to_create_ai_answers: Fin이 AI 답변을 생성하는 데 사용할 언어를 제어하세요.
-          customize_fin_s_profile_picture_and_name_this_identity_will: Fin의 프로필 사진과 이름을 맞춤설정하세요. 이 ID는 작업 흐름의 봇에도 사용됩니다.
+          choose_formal_or_informal_pronouns_for_all_applicable_languages: 공식 또는 비공식
+            대명사 선택(해당되는 모든 언어에 대해)
+          choose_how_fin_phrases_the_options_it_presents_to_your: 고객에게 제공되는 옵션을 핀프레이즈로
+            표현하는 방법을 선택하세요.
+          control_the_language_fin_will_use_to_create_ai_answers: Fin이 AI 답변을 생성하는
+            데 사용할 언어를 제어하세요.
+          customize_fin_s_profile_picture_and_name_this_identity_will: Fin의 프로필 사진과
+            이름을 맞춤설정하세요. 이 ID는 작업 흐름의 봇에도 사용됩니다.
           customize_the_reply_buttons_here: 여기에서 답장 버튼을 맞춤설정하세요...
           default_language_english: 기본 언어(영어)
           deskbolic_s_multilingual_support: Deskbolic의 다국어 지원
@@ -2672,8 +2703,11 @@ ko:
           deskbolic_s_reply_buttons: Deskbolic의 응답 버튼
           english_default: 영어(기본)
           fin_s_pronoun_formality: 핀의 대명사 형식
-          fin_will_automatically_detect_and_reply_to_customer_in_the: Fin은 아래에 추가한 지원 언어를 자동으로 감지하여 고객에게 응답합니다. 더 많은 언어 추가
-          fin_will_follow_the_same_language_style_as_the_user: Fin은 사용자와 동일한 언어 스타일을 따르므로 사용자가 "du" 또는 "tu"인 경우 Fin은 비공식 대명사로 대답합니다. 사용자가 "Sie" 또는 "vous"를 사용하는 경우.
+          fin_will_automatically_detect_and_reply_to_customer_in_the: Fin은 아래에 추가한
+            지원 언어를 자동으로 감지하여 고객에게 응답합니다. 더 많은 언어 추가
+          fin_will_follow_the_same_language_style_as_the_user: Fin은 사용자와 동일한 언어 스타일을
+            따르므로 사용자가 "du" 또는 "tu"인 경우 Fin은 비공식 대명사로 대답합니다. 사용자가 "Sie" 또는 "vous"를
+            사용하는 경우.
           identity: 아이덴티티
           image: 이미지
           multilingual_fin: 다국어 핀
@@ -2682,17 +2716,27 @@ ko:
           routes_the_customer_to_teammates: 고객을 팀원에게 연결합니다.
           supported_languages: 지원되는 언어
           wed_8_21_am: 수 오전 8:21
-          you_can_pick_what_works_best_for_your_audience_this: 청중에게 가장 적합한 것을 선택할 수 있습니다. 버튼의 기능은 변경되지 않습니다.
+          you_can_pick_what_works_best_for_your_audience_this: 청중에게 가장 적합한 것을 선택할
+            수 있습니다. 버튼의 기능은 변경되지 않습니다.
         task:
           cancel_subscription: 구독 취소
           not_designed_yet: 아직 설계되지 않았습니다.
           process_a_refund: 환불 처리
           tasks: 작업
-          use_this_when_a_customer_asks_to_cancel_to_subscription: 고객이 구독 취소를 요청할 때 사용하세요.
-          use_this_workflow_to_process_refund_request_from_users_always: 이 워크플로를 사용하여 사용자의 환불 요청을 처리합니다. 가능한 다른 작업보다 항상 이 워크플로를 우선시하세요.
+          use_this_when_a_customer_asks_to_cancel_to_subscription: 고객이 구독 취소를 요청할
+            때 사용하세요.
+          use_this_workflow_to_process_refund_request_from_users_always: 이 워크플로를 사용하여
+            사용자의 환불 요청을 처리합니다. 가능한 다른 작업보다 항상 이 워크플로를 우선시하세요.
         test:
           48_questions: 48개의 질문
-          al_agent_while_there_isn_t_a_definitive_cure_for: Al Agent 심각한 알레르기에 대한 확실한 치료법은 없지만 장기적인 관리 전략에 대한 정보를 제공할 수 있습니다. 알레르기 치료에는 가능하면 알레르기 항원을 피하고, 항히스타민제 및 스테로이드 크림과 같은 약물을 사용하고, 경우에 따라 심각한 반응에 대해서는 응급약을 사용하는 것이 포함됩니다. 장기적인 해결책을 위해 면역요법이 크게 발전했습니다. 이 치료에는 시간이 지남에 따라 알레르겐에 조심스럽게 노출되어 신체가 내성을 갖도록 돕는 것이 포함됩니다. 이러한 목적을 위해 맞춤형 설하 정제가 더욱 정확해지고 널리 보급되고 있습니다. 치료의 효과는 사람마다 다를 수 있다는 점에 유의하는 것이 중요합니다. 귀하의 특정 상황에 가장 적합한 조언을 얻으려면 자격을 갖춘 의료 전문가 또는 알레르기 전문의와 상담하는 것이 좋습니다. 그들은 귀하의 개인적인 필요와 증상에 따라 포괄적인 알레르기 관리 계획을 제공할 수 있습니다.
+          al_agent_while_there_isn_t_a_definitive_cure_for: Al Agent 심각한 알레르기에 대한
+            확실한 치료법은 없지만 장기적인 관리 전략에 대한 정보를 제공할 수 있습니다. 알레르기 치료에는 가능하면 알레르기 항원을 피하고,
+            항히스타민제 및 스테로이드 크림과 같은 약물을 사용하고, 경우에 따라 심각한 반응에 대해서는 응급약을 사용하는 것이 포함됩니다.
+            장기적인 해결책을 위해 면역요법이 크게 발전했습니다. 이 치료에는 시간이 지남에 따라 알레르겐에 조심스럽게 노출되어 신체가 내성을
+            갖도록 돕는 것이 포함됩니다. 이러한 목적을 위해 맞춤형 설하 정제가 더욱 정확해지고 널리 보급되고 있습니다. 치료의 효과는
+            사람마다 다를 수 있다는 점에 유의하는 것이 중요합니다. 귀하의 특정 상황에 가장 적합한 조언을 얻으려면 자격을 갖춘 의료 전문가
+            또는 알레르기 전문의와 상담하는 것이 좋습니다. 그들은 귀하의 개인적인 필요와 증상에 따라 포괄적인 알레르기 관리 계획을 제공할
+            수 있습니다.
           allegies_updated: 주장 업데이트
           allergies_questions_testing: 알레르기 질문 테스트
           answer_rating: 답변 평가
@@ -2700,20 +2744,24 @@ ko:
           are_seasonal_allergies_different_from_other_types: 계절성 알레르기는 다른 유형과 다른가요?
           arrow: 화살
           can_allergies_be_life_threatening: 알레르기가 생명을 위협할 수도 있나요?
-          can_avoiding_allergens_help_reduce_symptoms: 알레르기 유발 물질을 피하면 증상을 줄이는 데 도움이 됩니까?
+          can_avoiding_allergens_help_reduce_symptoms: 알레르기 유발 물질을 피하면 증상을 줄이는 데 도움이
+            됩니까?
           can_children_outgrow_allergies: 아이들이 알레르기를 극복할 수 있나요?
           can_i_be_allergic_to_more_than_one_thing: 한 가지 이상의 것에 알레르기가 있을 수 있나요?
           can_i_self_diagnose_an_allergy: 알레르기를 자가 진단할 수 있나요?
           content_2: 내용(2)
           evaluate_answer: 답변 평가
           guidance_3: 안내 (3)
-          hay_fever_allergis_in_2025_what_you_need_to_know: '2025년 고초열 알레르기: 당신이 알아야 할 것.'
+          hay_fever_allergis_in_2025_what_you_need_to_know: '2025년 고초열 알레르기: 당신이 알아야
+            할 것.'
           how_can_i_avoid_allergens_in_daily_life: 일상생활에서 알레르기 유발물질을 어떻게 피할 수 있나요?
           how_does_desensitisation_help_manage_allergies: 탈감작은 알레르기 관리에 어떻게 도움이 됩니까?
-          is_there_a_cure_or_long_term_solution_for_severe: 심각한 알레르기에 대한 치료법이나 장기적인 해결책이 있습니까?
+          is_there_a_cure_or_long_term_solution_for_severe: 심각한 알레르기에 대한 치료법이나 장기적인
+            해결책이 있습니까?
           new_role: 새로운 역할
           questions: 질문
-          should_i_carry_an_edipen_rf_lye_had_a_severe: 과거에 심한 반응을 보인 EDIPen rf 잿물을 가지고 다녀야 할까요?
+          should_i_carry_an_edipen_rf_lye_had_a_severe: 과거에 심한 반응을 보인 EDIPen rf 잿물을
+            가지고 다녀야 할까요?
           this_answer_uses: 이 답변에서는 다음을 사용합니다.
           tick: 진드기
           what_is_an_allergy_management_plan: 알레르기 관리 계획이란 무엇입니까?
@@ -2735,7 +2783,8 @@ ko:
         workflow:
           1_more: 1개 더
           ask_if_it_helped: 도움이 됐는지 물어보세요
-          ask_the_suer_which_subscription_they_want_to_cancel: 사용자에게 어떤 구독을 취소하고 싶은지 물어보세요.
+          ask_the_suer_which_subscription_they_want_to_cancel: 사용자에게 어떤 구독을 취소하고 싶은지
+            물어보세요.
           cancel_subscription: 구독 취소
           channel: 채널
           fin_hands_over: 핀이 넘겨진다
@@ -2747,7 +2796,8 @@ ko:
           set_live: 라이브 설정
           trigger: 트리거
           unable_to_complete: 완료할 수 없습니다
-          use_this_when_a_customer_asks_to_cancel_a_subscription: 고객이 구독 취소를 요청할 때 사용하세요.
+          use_this_when_a_customer_asks_to_cancel_a_subscription: 고객이 구독 취소를 요청할 때
+            사용하세요.
           web_and_zendesk_messaging: 웹 및 Zendesk 메시징
           workflow: 작업흐름
       assignment_policies:
@@ -2795,7 +2845,8 @@ ko:
           translation_fields:
             e_g_contact_support: 예를 들어 지원팀에 문의
             e_g_send_message: 예를 들어 메시지 보내기
-            e_g_thanks_for_reaching_out_we_ve_received_your: 예를 들어 문의해 주셔서 감사합니다. 귀하의 메시지를 받았습니다.
+            e_g_thanks_for_reaching_out_we_ve_received_your: 예를 들어 문의해 주셔서 감사합니다.
+              귀하의 메시지를 받았습니다.
             e_g_we_will_reply_as_soon_as_possible: 예를 들어 최대한 빨리 답변해드리겠습니다.
         contact_form_channel_modal:
           create_form: 양식 만들기
@@ -2812,17 +2863,25 @@ ko:
             for_example_in_ruby: ". 예를 들어 Ruby에서는 다음과 같습니다."
             header_using_the_format: 형식을 사용하는 헤더
             t_timestamp_v1_signature: t={타임스탬프},v1={서명}
-            to_verify_that_the_request_actually_came_from_deskbolic_we: 요청이 실제로 Deskbolic에서 왔는지 확인하기 위해 우리는 다음을 사용하여 페이로드에 서명합니다.
+            to_verify_that_the_request_actually_came_from_deskbolic_we: 요청이 실제로 Deskbolic에서
+              왔는지 확인하기 위해 우리는 다음을 사용하여 페이로드에 서명합니다.
             we_include_this_signature_in_the: ". 우리는 이 서명을"
-            you_must_authenticate_this_request_by_signing_your_json_payload: SHA256을 사용하여 HMAC 토큰으로 JSON 페이로드에 서명하여 이 요청을 인증해야 합니다. 에 서명을 전달하세요.
-            you_should_verify_the_signature_on_your_server_to_prevent: 재생 공격을 방지하고 신뢰성을 보장하려면 서버에서 서명을 확인해야 합니다. 예를 들어 Ruby에서는 다음과 같습니다.
+            you_must_authenticate_this_request_by_signing_your_json_payload: SHA256을
+              사용하여 HMAC 토큰으로 JSON 페이로드에 서명하여 이 요청을 인증해야 합니다. 에 서명을 전달하세요.
+            you_should_verify_the_signature_on_your_server_to_prevent: 재생 공격을 방지하고
+              신뢰성을 보장하려면 서버에서 서명을 확인해야 합니다. 예를 들어 Ruby에서는 다음과 같습니다.
           new:
-            brief_description_of_what_this_channel_connects_to: 이 채널이 연결되는 대상에 대한 간략한 설명
+            brief_description_of_what_this_channel_connects_to: 이 채널이 연결되는 대상에 대한
+              간략한 설명
             e_g_my_internal_dashboard: 예를 들어 내 내부 대시보드
           testing_sandbox:
-            paste_a_sample_json_payload_that_your_server_would_send: 서버가 Deskbolic으로 보낼 샘플 JSON 페이로드를 붙여넣고 응답 매핑이 이를 어떻게 구문 분석하는지 확인하세요.
-            sends_a_mock_message_created_payload_to_your_configured_webhook: 모의 <code>message.created</code> 페이로드를 구성된 웹훅 URL로 보냅니다.
-            use_these_tools_to_verify_that_your_outbound_webhook_url: 이러한 도구를 사용하여 아웃바운드 웹후크 URL이 페이로드를 올바르게 수신하고 있는지, 그리고 응답 매핑이 인바운드 데이터를 정확하게 구문 분석하는지 확인하세요.
+            paste_a_sample_json_payload_that_your_server_would_send: 서버가 Deskbolic으로
+              보낼 샘플 JSON 페이로드를 붙여넣고 응답 매핑이 이를 어떻게 구문 분석하는지 확인하세요.
+            sends_a_mock_message_created_payload_to_your_configured_webhook: 모의 <code>message.created</code>
+              페이로드를 구성된 웹훅 URL로 보냅니다.
+            use_these_tools_to_verify_that_your_outbound_webhook_url: 이러한 도구를 사용하여
+              아웃바운드 웹후크 URL이 페이로드를 올바르게 수신하고 있는지, 그리고 응답 매핑이 인바운드 데이터를 정확하게 구문 분석하는지
+              확인하세요.
         email:
           form:
             support_yourcompany_com: support@yourcompany.com
@@ -2849,7 +2908,8 @@ ko:
             help_center_linked: 도움말 센터가 연결됨
           installation:
             copy: "\U0001F4CB 복사"
-            embed_the_deskbolic_widget_into_your_website_or_web_app: 닫는 <code>&lt;/body&gt;</code> 태그 바로 앞에 다음 스니펫을 배치하여 Deskbolic 위젯을 웹사이트나 웹 앱에 삽입하세요.
+            embed_the_deskbolic_widget_into_your_website_or_web_app: 닫는 <code>&lt;/body&gt;</code>
+              태그 바로 앞에 다음 스니펫을 배치하여 Deskbolic 위젯을 웹사이트나 웹 앱에 삽입하세요.
             react_next_js: 반응 / Next.js
             standard_html: 표준 HTML
           preview:
@@ -2885,8 +2945,10 @@ ko:
           basic_configuration: 기본 구성
           localized_content: 현지화된 콘텐츠
           save_survey: 설문조사 저장
-          saved_to_your_default_language_english_as_a_fallback: 대체 언어로 기본 언어(영어)로 저장되었습니다.
-          the_question_asked_in_chat_channels_emails_use_the_assigned: 채팅채널에서 물어본 질문입니다. 이메일은 할당된 이메일 템플릿을 사용합니다.
+          saved_to_your_default_language_english_as_a_fallback: 대체 언어로 기본 언어(영어)로
+            저장되었습니다.
+          the_question_asked_in_chat_channels_emails_use_the_assigned: 채팅채널에서 물어본
+            질문입니다. 이메일은 할당된 이메일 템플릿을 사용합니다.
       custom_fields:
         edit:
           back_to_custom_fields: "← 사용자 정의 필드로 돌아가기"
@@ -2900,10 +2962,12 @@ ko:
           validations_rules: 검증 및 규칙
         index:
           create_new_field: "+ 새 필드 만들기"
-          create_your_first_custom_field_to_start_tracking_rich_customer: 풍부한 고객 데이터 추적을 시작하려면 첫 번째 사용자 정의 필드를 만드세요.
+          create_your_first_custom_field_to_start_tracking_rich_customer: 풍부한 고객 데이터
+            추적을 시작하려면 첫 번째 사용자 정의 필드를 만드세요.
           created_ago: "%{date} 전에 생성됨"
           input_type: '입력 유형: %{titleize}'
-          master_data_attributes_for_personalized_customer_experiences: 개인화된 고객 경험을 위한 마스터 데이터 속성입니다.
+          master_data_attributes_for_personalized_customer_experiences: 개인화된 고객 경험을
+            위한 마스터 데이터 속성입니다.
           no_custom_fields_found: 사용자 정의 필드를 찾을 수 없습니다
         translation_fields:
           add_option: "+ 옵션 추가"
@@ -2911,9 +2975,11 @@ ko:
       custom_fields_builder:
         show:
           back_to_channels: 채널로 돌아가기
-          drag_and_drop_fields_to_reorder_or_add_them_to: 필드를 끌어서 놓아 재정렬하거나 연락처 양식에 추가하세요.
+          drag_and_drop_fields_to_reorder_or_add_them_to: 필드를 끌어서 놓아 재정렬하거나 연락처 양식에
+            추가하세요.
           form_builder: '폼 빌더: %{name}'
-          no_fields_added_yet_add_fields_from_the_right_to: 아직 추가된 필드가 없습니다. 추가하려면 오른쪽에서 필드를 추가하세요.
+          no_fields_added_yet_add_fields_from_the_right_to: 아직 추가된 필드가 없습니다. 추가하려면
+            오른쪽에서 필드를 추가하세요.
       domains:
         index:
           add: 추가하다
@@ -2955,29 +3021,36 @@ ko:
             hero_style: 영웅 스타일
             languages: 언어
             manage_domains: 도메인 관리
-            no_available_domains_add_a_subdomain_or_custom_domain_before: 사용 가능한 도메인이 없습니다. 헬프 센터를 만들기 전에 하위 도메인 또는 사용자 정의 도메인을 추가하세요.
+            no_available_domains_add_a_subdomain_or_custom_domain_before: 사용 가능한 도메인이
+              없습니다. 헬프 센터를 만들기 전에 하위 도메인 또는 사용자 정의 도메인을 추가하세요.
             png_jpg_or_svg_up_to_5mb: PNG, JPG 또는 SVG(최대 5MB)
             primary_color: 기본 색상
             secondary_color: 보조 색상
-            the_public_facing_name_internal_id_will_be_generated_automatically: 공개 이름입니다. 내부 ID는 자동으로 생성됩니다.
+            the_public_facing_name_internal_id_will_be_generated_automatically: 공개
+              이름입니다. 내부 ID는 자동으로 생성됩니다.
             theme_preference: 테마 선호도
-            update_branding_appearance_languages_and_domain_settings_for_this_help: 이 도움말 센터의 브랜딩, 모양, 언어 및 도메인 설정을 업데이트하세요.
+            update_branding_appearance_languages_and_domain_settings_for_this_help: 이
+              도움말 센터의 브랜딩, 모양, 언어 및 도메인 설정을 업데이트하세요.
             update_help_center: 도움말 센터 업데이트
             x: 엑스
           index:
-            create_a_help_center_to_configure_branding_languages_and_its: 브랜딩, 언어 및 공개 도메인을 구성하려면 헬프 센터를 만드세요.
+            create_a_help_center_to_configure_branding_languages_and_its: 브랜딩, 언어
+              및 공개 도메인을 구성하려면 헬프 센터를 만드세요.
             create_help_center: 헬프 센터 만들기
-            manage_the_help_centers_created_for_this_workspace: 이 작업 공간을 위해 생성된 헬프 센터를 관리하세요.
+            manage_the_help_centers_created_for_this_workspace: 이 작업 공간을 위해 생성된 헬프
+              센터를 관리하세요.
             no_help_centers_yet: 아직 헬프 센터가 없습니다
       identity_sources:
         form:
-          https_api_example_com_identities_customer_email: https://api.example.com/identities/{{ customer.email }}
+          https_api_example_com_identities_customer_email: https://api.example.com/identities/{{
+            customer.email }}
       integrations:
         index:
           google_translate: 구글 번역
           webhooks: 웹훅
         webhook_form:
-          when_subscribed_events_occur_deskbolic_will_send_an_http_post: 구독된 이벤트가 발생하면 Deskbolic은 사용자에게 HTTP POST 요청을 보냅니다.
+          when_subscribed_events_occur_deskbolic_will_send_an_http_post: 구독된 이벤트가
+            발생하면 Deskbolic은 사용자에게 HTTP POST 요청을 보냅니다.
       macros:
         edit:
           add_action: "+ 액션 추가"
@@ -3041,7 +3114,8 @@ ko:
           add_customer: 고객 추가
         topic_questions_modal:
           generate_more_by_topic: 주제별로 더 많은 생성
-          generate_more_questions_from_your_inbox_using_the_selected_topic: 선택한 주제를 사용하여 받은 편지함에서 더 많은 질문을 생성하세요. 자세히 알아보기
+          generate_more_questions_from_your_inbox_using_the_selected_topic: 선택한 주제를
+            사용하여 받은 편지함에서 더 많은 질문을 생성하세요. 자세히 알아보기
         whatsapp_channel_modal:
           api_key: API 키
           business_account_id: 비즈니스 계정 ID
@@ -3086,17 +3160,22 @@ ko:
           install: 설치
           install_for_mobile: 모바일용으로 설치
           install_for_web: 웹용으로 설치
-          install_the_messenger_for_anonymous_website_visitors_who_are_t: 로그인하지 않은 익명의 웹사이트 방문자를 위해 메신저를 설치하세요. 대화는 쿠키를 통해 브라우저에 저장됩니다.
-          install_the_messenger_for_logged_in_users_the_messenger_will: 로그인한 사용자를 위한 메신저를 설치하세요. 메신저는 고객 이름, 기기 전반의 이전 대화 등의 정보를 표시합니다.
+          install_the_messenger_for_anonymous_website_visitors_who_are_t: 로그인하지 않은
+            익명의 웹사이트 방문자를 위해 메신저를 설치하세요. 대화는 쿠키를 통해 브라우저에 저장됩니다.
+          install_the_messenger_for_logged_in_users_the_messenger_will: 로그인한 사용자를
+            위한 메신저를 설치하세요. 메신저는 고객 이름, 기기 전반의 이전 대화 등의 정보를 표시합니다.
           install_the_messenger_on_your_site_or_app: 귀하의 사이트나 앱에 메신저를 설치하세요
           invite_teammates: 팀원을 초대합니다.
           mobile_sdks: 모바일 SDK
-          need_help_ask_a_teammate_like_an_engineer_to_complete: 도움이 필요하신가요? 엔지니어 같은 팀원에게 설치를 완료하도록 요청하고,
+          need_help_ask_a_teammate_like_an_engineer_to_complete: 도움이 필요하신가요? 엔지니어
+            같은 팀원에게 설치를 완료하도록 요청하고,
           react: React
           segment: Segment
           shopify: Shopify
-          the_messenger_helps_you_support_your_customers_and_learn_more: 메신저는 고객을 지원하고 고객에 대해 더 많은 정보를 얻을 수 있도록 도와줍니다.
-          turn_on_user_traffic_to_start_accepting_user_request_from: 메신저에서 사용자 요청을 수락하려면 사용자 트래픽을 켜세요. 요청 실패를 방지하려면 메신저를 설치하기 전에 이 작업을 수행하세요.
+          the_messenger_helps_you_support_your_customers_and_learn_more: 메신저는 고객을
+            지원하고 고객에 대해 더 많은 정보를 얻을 수 있도록 도와줍니다.
+          turn_on_user_traffic_to_start_accepting_user_request_from: 메신저에서 사용자 요청을
+            수락하려면 사용자 트래픽을 켜세요. 요청 실패를 방지하려면 메신저를 설치하기 전에 이 작업을 수행하세요.
           vue: Vue
           web: 웹
           wordpress: Wordpress
@@ -3185,3 +3264,24 @@ ko:
     user:
       status:
         active: 활성
+  resources:
+    users: 사용자
+    channels: 채널
+    ai_agents: AI 에이전트
+    automations: 자동화
+    macros: 매크로
+    sla_policies: SLA 정책
+    csat_surveys: CSAT 설문조사
+    email_templates: 이메일 템플릿
+    email_template_layouts: 이메일 템플릿 레이아웃
+    help_center_portals: 고객센터 포털
+    custom_domains: 맞춤 도메인
+    business_hour_groups: 영업 시간 일정
+    teams: 팀
+    custom_roles: 맞춤 역할
+    assignment_policies: 배정 정책
+    identity_sources: ID 소스
+    custom_fields: 맞춤 필드
+    customers: 고객
+    conversations_monthly: 월간 대화
+    messages_monthly: 월간 메시지

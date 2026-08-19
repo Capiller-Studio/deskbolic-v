@@ -45,9 +45,9 @@ class ApplicationPolicy
 
     # 3. Usage Limit Check
     if limit
-      # Monthly resources usually allow "Soft Blocks"
-      is_monthly = limit.to_s.include?("monthly")
-      unless account_within_limit?(limit, strict: !is_monthly)
+      # Monthly resources and customers allow "Soft Blocks"
+      is_soft = limit.to_s.include?("monthly") || limit.to_s == "customers"
+      unless account_within_limit?(limit, strict: !is_soft)
         @authorization_failure_reason = :limit_reached
         @authorization_failure_limit = limit
         return false

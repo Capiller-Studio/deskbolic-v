@@ -11,7 +11,7 @@ module Dashboard
     end
 
     def create?
-      authorized?("inboxes.write", feature: "channels.custom")
+      authorized?("inboxes.write", feature: "channels.custom", limit: :channels)
     end
 
     def edit?

@@ -66,7 +66,18 @@ every 2.minutes do
   runner "ImapFetchWorker.perform_async"
 end
 
+# Refresh long-lived Instagram Graph API tokens before 60-day expiry
+every 1.day, at: "3:30 am" do
+  runner "Channels::Instagram::TokenRefreshWorker.perform_async"
+end
+
 # Retry incoming webhooks that were dropped by Sidekiq
 every 30.minutes do
   runner "Webhooks::RetryFailedWorker.perform_async"
 end
+
+# --- Data Retention ---
+# TODO: Enable DataRetentionWorker several months post-launch once traffic and data profiles stabilize.
+# every 1.month, at: "4:30 am" do
+#   runner "DataRetentionWorker.perform_async"
+# end

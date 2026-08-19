@@ -1,27 +1,52 @@
 / Inline form for creating/editing skills
 - url = skill.persisted? ? skill_path(skill) : skills_path
 - method = skill.persisted? ? :patch : :post
+- skill_types = [{ key: :general, icon: "skill-general.svg", color: "purple", title: t("dashboard.skills.types.general"), description: t("dashboard.skills.type_descriptions.general") }, { key: :language, icon: "language.svg", color: "green", title: t("dashboard.skills.types.language"), description: t("dashboard.skills.type_descriptions.language") }, { key: :product, icon: "product.svg", color: "orange", title: t("dashboard.skills.types.product"), description: t("dashboard.skills.type_descriptions.product") }, { key: :technical, icon: "technical.svg", color: "blue", title: t("dashboard.skills.types.technical"), description: t("dashboard.skills.type_descriptions.technical") }]
+- selected_skill_type = skill.skill_type.presence || "general"
 
-= form_with(model: skill, url: url, method: method, class: "sk-form") do |f|
-  .ap-section
+= form_with(model: skill, url: url, method: method, id: "skill-form", class: "ui-settings-form", data: { controller: "assignment-policy form-validation", "form-validation-target": "form", action: "submit->form-validation#validate" }, html: { novalidate: true }) do |f|
+  .ap-section.ap-form-card
     .ap-section-header
-      span.ap-section-icon 🎯
-      = t("dashboard.skills.form.details_section")
-    .ap-section-body
-      .ap-form-row
-        .sk-form-field
-          label.f-semi-13.ap-label = t("dashboard.skills.form.name_label")
-          = f.text_field :name, class: "ap-input", placeholder: t("dashboard.skills.form.name_placeholder"), id: "skill-name"
-      .ap-form-row
-        .sk-form-field
-          label.f-semi-13.ap-label = t("dashboard.skills.form.type_label")
-          = f.select :skill_type, options_for_select(Skill.skill_types.keys.map { |st| [t("dashboard.skills.types.#{st}"), st] }, skill.skill_type), {}, class: "ap-select", id: "skill-type"
-      .ap-form-row
-        .sk-form-field.sk-form-field-wide
-          label.f-semi-13.ap-label = t("dashboard.skills.form.description_label")
-          = f.text_field :description, class: "ap-input", placeholder: t("dashboard.skills.form.description_placeholder"), id: "skill-description"
+      span.ap-section-icon
+        = image_tag("skill_bases.svg", class: "ap-icon-svg", alt: "")
+      .ap-section-title
+        span = t("dashboard.skills.form.details_section")
+        small.f-reg-12 = t("dashboard.skills.form.details_subtitle")
+    .ap-section-body.ap-policy-details-body
+      .ap-field-stack
+        div
+          label.f-semi-13.ap-label for="skill-name"
+            = t("dashboard.skills.form.name_label")
+            span.ap-required-marker *
+          .ui-field-control.ui-field-control--plain class=("ui-field-control--invalid" if skill.errors[:name].any?)
+            = f.text_field :name, class: "ap-input ui-control ui-input", placeholder: t("dashboard.skills.form.name_placeholder"), id: "skill-name", autocomplete: "off", required: true, aria: { invalid: skill.errors[:name].any?, describedby: "skill_name_feedback" }
+          p#skill_name_feedback.ui-field-feedback class=("ui-field-feedback--server" if skill.errors[:name].any?) role="alert"
+            = inline_svg_tag("cross_sign.svg", class: "ui-field-feedback__icon", aria: { hidden: true })
+            span = skill.errors[:name].any? ? skill.errors[:name].to_sentence : t("dashboard.assignment_policies.form.required_feedback", default: "Required")
+          p.ap-hint = t("dashboard.skills.form.name_hint")
 
-  .ap-form-footer
-    - if skill.persisted?
-      = link_to t("dashboard.skills.form.cancel"), skills_path, class: "ap-btn-secondary ap-btn-sm"
-    = f.submit(skill.persisted? ? t("dashboard.skills.form.save") : t("dashboard.skills.index.new_skill"), class: "ap-btn-primary ap-btn-sm", id: "skill-submit")
+        div
+          label.f-semi-13.ap-label for="skill-type-general"
+            = t("dashboard.skills.form.type_label")
+            span.ap-required-marker *
+          p.ap-hint.ap-card-hint = t("dashboard.skills.form.type_hint")
+          .ap-strategy-grid data-assignment-policy-target="strategyGrid"
+            - skill_types.each do |type|
+              label.ap-strategy-card id="skill-type-card-#{type[:key]}" class="#{type[:color]} #{selected_skill_type == type[:key].to_s ? 'selected' : ''}" data-action="click->assignment-policy#selectStrategy"
+                = f.radio_button :skill_type, type[:key], class: "ap-radio-hidden", id: "skill-type-#{type[:key]}", checked: selected_skill_type == type[:key].to_s, required: true, data: { "assignment-policy-target": "strategyRadio", action: "change->assignment-policy#updateStrategyUI" }
+                span.ap-strategy-selected-icon
+                  span.ap-skill-selected-dot
+                span.ap-strategy-card-icon
+                  = image_tag(type[:icon], class: "ap-icon-svg", alt: "")
+                span.ap-strategy-card-content
+                  strong.f-semi-14 = type[:title]
+                  span.f-reg-12 = type[:description]
+
+        div
+          .ap-label-row
+            label.f-semi-13.ap-label for="skill-description"
+              = t("dashboard.skills.form.description_label")
+              span.ap-optional-label = t("dashboard.skills.form.optional_label")
+            span.ap-character-counter data-assignment-policy-target="descriptionCounter" 0 / 500
+          = f.text_area :description, class: "ap-input ap-textarea", rows: 4, maxlength: 500, placeholder: t("dashboard.skills.form.description_placeholder"), id: "skill-description", data: { "assignment-policy-target": "descriptionInput", action: "input->assignment-policy#updateDescriptionCounter" }
+          p.ap-hint = t("dashboard.skills.form.description_hint")

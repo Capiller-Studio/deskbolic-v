@@ -1,39 +1,23 @@
-= render("dashboard/shared/dashboard_container", current_page: "settings") do
+= render("dashboard/shared/dashboard_container", current_page: "csat-surveys") do
   = render("dashboard/settings/settings_sidebar", current_page: "csat-surveys") do
-    .body-container
-      .ui-index-header
-        .ui-title-area
-          h2.f-semi-32 = t("dashboard.csat_surveys.index.title")
-          p.f-reg-16 = t("dashboard.csat_surveys.index.description")
-        = link_to new_csat_survey_path, class: "ui-btn-primary"
-          | + #{t("dashboard.csat_surveys.index.new_survey")}
+    .ui-settings-page
+      header.ui-settings-page__header
+        .ui-settings-page__heading
+          h1 = t("dashboard.csat_surveys.index.title")
+          p = t("dashboard.csat_surveys.index.description")
+        = link_to new_csat_survey_path, class: "ui-settings-page__action" do
+          span = t("dashboard.csat_surveys.index.new_survey")
+          = inline_svg_tag("plus_white.svg", class: "ui-settings-page__action-icon", aria: { hidden: true })
 
-      - if @csat_surveys.any?
-        .ui-list
-          - @csat_surveys.each do |survey|
-            .ui-card
-              .ui-card-top
-                .ui-card-info
-                  .ui-avatar-placeholder ⭐
-                  div
-                    h3.f-semi-18 = survey.name
-                    p.f-reg-14
-                      strong = t("dashboard.csat_surveys.index.prompt_label") 
-                      = survey.prompt.presence || t("dashboard.csat_surveys.index.default_prompt")
-                    p.f-reg-14 style="margin-top: 4px;"
-                      - if survey.email_template
-                        span.ui-badge = t("dashboard.csat_surveys.index.uses_template", name: survey.email_template.name)
-                      - else
-                        span.ui-badge = t("dashboard.csat_surveys.index.default_template")
-                .ui-card-actions
-                  = link_to edit_csat_survey_path(survey), class: "ui-action-btn", title: t("shared.edit")
-                    | ✏️
-                  = button_to csat_survey_path(survey), method: :delete, class: "ui-action-btn ui-action-delete", form: { class: 'd-inline' }, data: { turbo_confirm: t("dashboard.csat_surveys.index.delete_confirm") }, title: t("shared.delete")
-                    | 🗑️
-      - else
-        .ui-empty-state
-          .ui-empty-icon ⭐
-          h3.f-semi-18 = t("dashboard.csat_surveys.index.empty_title")
-          p.f-reg-14 = t("dashboard.csat_surveys.index.empty_description")
-          = link_to new_csat_survey_path, class: "ui-btn-primary"
-            | + #{t("dashboard.csat_surveys.index.new_survey")}
+      main.ui-settings-page__content
+        - if @csat_surveys.any?
+          .ui-card-grid.csat-survey-card-grid
+            - @csat_surveys.each_with_index do |survey, index|
+              = render("dashboard/csat_surveys/survey_card", survey: survey, index: index)
+        - else
+          .ui-empty-state.ui-empty-state--bordered
+            .ui-empty-state__graphic
+              = image_tag("reports-csat.svg", alt: "", aria: { hidden: true })
+            h2 = t("dashboard.csat_surveys.index.empty_title")
+            p = t("dashboard.csat_surveys.index.empty_description")
+            = link_to t("dashboard.csat_surveys.index.new_survey"), new_csat_survey_path, class: "ui-settings-page__action"

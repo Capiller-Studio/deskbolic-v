@@ -1,0 +1,119 @@
+/* =========================================================================
+   SLA Policies — feature-specific extensions
+   Reuses Assignment Policy form classes and shared settings card classes.
+   ========================================================================= */
+
+.sla-policy-targets-grid {
+  align-items: stretch;
+}
+
+.sla-target-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.sla-target-row {
+  display: flex;
+  flex-direction: column;
+}
+
+.sla-target-controls {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 112px;
+  gap: 8px;
+}
+
+.ui-settings-page .ui-card-grid.sla-policy-card-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.sla-policy-card {
+  height: auto;
+  min-height: 315px;
+  gap: 18px;
+}
+
+.sla-policy-card .sla-policy-card-avatar {
+  background: rgba(119, 141, 255, 0.1);
+}
+
+.sla-policy-card .sla-policy-card-avatar img {
+  filter: none;
+}
+
+.sla-policy-card .sla-policy-card-title h2 {
+  white-space: normal;
+}
+
+.sla-policy-card .sla-policy-card-title p {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.sla-policy-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.sla-policy-metric {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.sla-policy-metric span {
+  color: $black-40;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.sla-policy-metric strong {
+  color: $secondary-purple;
+  font-family: $font-family-inter-semibold;
+  font-size: 18px;
+  line-height: 24px;
+}
+
+.sla-policy-card .sla-policy-details {
+  gap: 12px;
+}
+
+.sla-policy-card .ai-agent-card-detail dd {
+  max-width: 56%;
+}
+
+.sla-policy-card-footer .sla-policy-created-by {
+  min-width: 0;
+  color: #6b7280;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: right;
+}
+
+.sla-policy-card-footer .sla-policy-created-by span {
+  overflow: hidden;
+  display: block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 1180px) {
+  .ui-settings-page .ui-card-grid.sla-policy-card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 840px) {
+  .sla-target-controls,
+  .ui-settings-page .ui-card-grid.sla-policy-card-grid {
+    grid-template-columns: 1fr;
+  }
+}

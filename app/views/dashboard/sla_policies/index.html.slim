@@ -1,21 +1,23 @@
 = render("dashboard/shared/dashboard_container", current_page: "settings") do
   = render("dashboard/settings/settings_sidebar", current_page: "sla-policies") do
-    .body-container
-      .ui-index-header
-        .ui-title-area
-          h2.f-semi-32 = t("dashboard.sla_policies.index.title")
-          p.f-reg-16 = t("dashboard.sla_policies.index.description")
-        = link_to new_sla_policy_path, class: "ui-btn-primary", id: "new-sla-policy"
-          | + #{t("dashboard.sla_policies.index.new_policy")}
+    .ui-settings-page
+      header.ui-settings-page__header
+        .ui-settings-page__heading
+          h1 = t("dashboard.sla_policies.index.title")
+          p = t("dashboard.sla_policies.index.description")
+        = link_to new_sla_policy_path, class: "ui-settings-page__action", id: "new-sla-policy" do
+          span = t("dashboard.sla_policies.index.new_policy")
+          = inline_svg_tag("plus_white.svg", class: "ui-settings-page__action-icon", aria: { hidden: true })
 
-      - if @policies.any?
-        .ui-list
-          - @policies.each do |policy|
-            = render("dashboard/sla_policies/policy_card", policy: policy)
-      - else
-        .ui-empty-state
-          .ui-empty-icon ⏱️
-          h3.f-semi-18 = t("dashboard.sla_policies.index.empty_title")
-          p.f-reg-14 = t("dashboard.sla_policies.index.empty_description")
-          = link_to new_sla_policy_path, class: "ui-btn-primary"
-            | + #{t("dashboard.sla_policies.index.new_policy")}
+      main.ui-settings-page__content
+        - if @policies.any?
+          .ui-card-grid.sla-policy-card-grid
+            - @policies.each do |policy|
+              = render("dashboard/sla_policies/policy_card", policy: policy)
+        - else
+          .ui-empty-state.ui-empty-state--bordered
+            .ui-empty-state__graphic
+              = image_tag("reports-sla.svg", alt: "", aria: { hidden: true })
+            h2 = t("dashboard.sla_policies.index.empty_title")
+            p = t("dashboard.sla_policies.index.empty_description")
+            = link_to t("dashboard.sla_policies.index.new_policy"), new_sla_policy_path, class: "ui-settings-page__action"

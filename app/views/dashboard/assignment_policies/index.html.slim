@@ -12,8 +12,8 @@
       main.ui-settings-page__content
         .ui-toolbar
           .ui-filter-tabs role="tablist" aria-label=t("dashboard.assignment_policies.index.strategy_filter", default: "Filter assignment policies by strategy")
-            - [{ key: :all, label: t(".tab_all"), path: assignment_policies_path }, { key: :round_robin, label: t(".tab_round_robin"), path: assignment_policies_path(strategy: :round_robin) }, { key: :load_balanced, label: t(".tab_load_balanced"), path: assignment_policies_path(strategy: :load_balanced) }, { key: :skills_based, label: t(".tab_skills_based"), path: assignment_policies_path(strategy: :skills_based) }, { key: :manual, label: t(".tab_manual"), path: assignment_policies_path(strategy: :manual) }].each do |tab|
-              - active_tab = tab[:key] == :all ? params[:strategy].blank? : params[:strategy] == tab[:key].to_s
+            - @policy_tabs.each do |tab|
+              - active_tab = tab[:key] == :all ? @selected_type == "all" : @selected_type == tab[:key].to_s
               = link_to tab[:path], class: "ui-filter-tabs__tab #{active_tab ? 'active' : ''}", role: "tab", aria: { selected: active_tab ? "true" : "false" }, tabindex: (active_tab ? "0" : "-1") do
                 span = tab[:label]
                 span.ui-filter-tabs__count = @policy_counts.fetch(tab[:key])

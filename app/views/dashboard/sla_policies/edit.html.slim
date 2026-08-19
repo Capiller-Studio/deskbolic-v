@@ -1,9 +1,16 @@
 = render("dashboard/shared/dashboard_container", current_page: "settings") do
   = render("dashboard/settings/settings_sidebar", current_page: "sla-policies") do
-    .ui-page-body
-      .ui-index-header
-        .ui-title-area
-          h2.f-semi-32 = t("dashboard.sla_policies.edit.title")
-          p.f-reg-16 = t("dashboard.sla_policies.edit.description")
-      
+    .ap-form-container
+      .ap-form-header
+        .ap-form-header-copy
+          = link_to sla_policies_path, class: "ap-header-back-link", aria: { label: t("dashboard.sla_policies.form.back_to_policies", default: "Back to SLA policies") }
+            = image_tag("back_arrow.svg", class: "ap-back-arrow-icon", alt: "")
+          div
+            h2.f-semi-24 = t("dashboard.sla_policies.form.page_title", default: "Policy Details")
+            p.f-reg-14 = t("dashboard.sla_policies.form.page_description", default: "Create and configure an assignment policy to manage how conversations are assigned.")
+        .ap-form-header-actions
+          = link_to t("dashboard.sla_policies.form.cancel"), sla_policies_path, class: "ap-btn-secondary"
+          button.ap-btn-save-header type="submit" form="sla-policy-form"
+            = image_tag("mark.svg", class: "ap-save-mark-icon", alt: "")
+            span = t("dashboard.sla_policies.form.save_policy", default: "Save Policy")
       = render "form", policy: @policy

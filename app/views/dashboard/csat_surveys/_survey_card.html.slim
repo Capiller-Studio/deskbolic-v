@@ -1,0 +1,39 @@
+- variants = [{ color: "purple", icon: "widget.svg" }, { color: "green", icon: "world.svg" }, { color: "orange", icon: "message-orange.svg" }]
+- variant = variants[index.to_i % variants.length]
+- prompt = survey.prompt.presence || t("dashboard.csat_surveys.index.default_prompt")
+- template_label = survey.email_template&.name.presence || t("dashboard.csat_surveys.index.default_template")
+- status_key = survey.respond_to?(:active?) ? (survey.active? ? "active" : "inactive") : "active"
+- created_date = survey.created_at.strftime("%b %-d, %Y")
+
+article.ui-panel.ai-agent-card.csat-survey-card class="csat-survey-card--#{variant[:color]}" id="csat_survey_#{survey.id}"
+  .ui-panel__header.ai-agent-card-header
+    .ui-panel__identity.ai-agent-card-identity
+      .ai-agent-card-avatar
+        = image_tag(variant[:icon], alt: "", aria: { hidden: true })
+      .ai-agent-card-title.csat-survey-card-title
+        h2 = survey.name
+        span.csat-survey-template-pill class="csat-survey-template-pill--#{variant[:color]}" = template_label
+
+    details.ai-agent-card-menu
+      summary aria-label=t("dashboard.csat_surveys.index.actions_for", name: survey.name, default: "Actions for %{name}")
+        = inline_svg_tag("dots.svg", class: "ai-agent-card-menu-icon", aria: { hidden: true })
+      .ai-agent-card-menu-popover role="menu"
+        = link_to edit_csat_survey_path(survey), role: "menuitem" do
+          = t("general.edit", default: "Edit")
+        = button_to csat_survey_path(survey), method: :delete, role: "menuitem", form: { class: "ai-agent-card-delete-form" }, data: { turbo_confirm: t("dashboard.csat_surveys.index.delete_confirm") } do
+          span = t("general.delete", default: "Delete")
+
+  .csat-survey-prompt
+    = image_tag("chat-prompt.svg", class: "csat-survey-prompt-icon", alt: "", aria: { hidden: true })
+    .csat-survey-prompt-copy
+      strong = t("dashboard.csat_surveys.index.prompt_label")
+      span = prompt
+
+  .ai-agent-card-footer.csat-survey-card-footer
+    .csat-survey-created
+      span = t("dashboard.csat_surveys.index.created_on", date: created_date, default: "Created: %{date}")
+    .csat-survey-status
+      span.csat-survey-status-label = t("dashboard.csat_surveys.index.status_label", default: "Status:")
+      span.ui-status-badge class="ui-status-badge--#{status_key}"
+        span.ui-status-badge__dot aria-hidden="true"
+        = t("general.#{status_key}", default: status_key.humanize)

@@ -1,83 +1,74 @@
-= form_with(model: policy, url: (policy.persisted? ? sla_policy_path(policy) : sla_policies_path), data: { controller: "sla-policy" }) do |f|
-  
-  / ── Details Section ──
-  .ap-section
+- units = [[t(".minutes_short", default: "Min"), "minutes"], [t("forms.options.hours", default: "Hours"), "hours"], [t("forms.options.days", default: "Days"), "days"]]
+- time_value = ->(seconds) { seconds.present? ? (seconds >= 86400 ? seconds / 86400 : (seconds >= 3600 ? seconds / 3600 : seconds / 60)).to_i : nil }
+- time_unit = ->(seconds) { seconds.present? ? (seconds >= 86400 ? "days" : (seconds >= 3600 ? "hours" : "minutes")) : "minutes" }
+- description_length = policy.description.to_s.length
+
+= form_with(model: policy, url: (policy.persisted? ? sla_policy_path(policy) : sla_policies_path), id: "sla-policy-form", class: "ui-settings-form", data: { controller: "sla-policy" }) do |f|
+  .ap-section.ap-form-card
     .ap-section-header
-      span.ap-section-icon 📝
-      = t(".details_section")
-    .ap-section-body
-      .ap-form-row style="flex-direction: column; align-items: stretch; gap: 16px;"
+      span.ap-section-icon
+        = image_tag("document.svg", class: "ap-document-icon", alt: "")
+      span = t(".details_section")
+    .ap-section-body.ap-policy-details-body
+      .ap-policy-details-grid
         div
-          label.f-semi-13.ap-label = t(".name_label")
-          = f.text_field :name, class: "ap-input", placeholder: t(".name_placeholder"), required: true
+          label.f-semi-13.ap-label for="sla-policy-name"
+            = t(".name_label")
+            span.ap-required-marker *
+          .ui-field-control.ui-field-control--plain class=("ui-field-control--invalid" if policy.errors[:name].any?)
+            = f.text_field :name, class: "ap-input ui-control ui-input", placeholder: t(".name_placeholder"), id: "sla-policy-name", autocomplete: "off", required: true
+          p.ap-hint = t(".name_hint", default: "Choose a clear policy name for your team.")
         div
-          label.f-semi-13.ap-label = t(".description_label")
-          = f.text_area :description, class: "ap-input ap-textarea", rows: 2
+          .ap-label-row
+            label.f-semi-13.ap-label for="sla-policy-description"
+              = t(".description_label")
+              span.ap-optional-label = t(".optional_label", default: "(Optional)")
+            span.ap-character-counter data-sla-policy-target="descriptionCounter" = "#{description_length} / 500"
+          = f.text_area :description, class: "ap-input ap-textarea", rows: 4, maxlength: 500, placeholder: t(".description_placeholder", default: "Describe when this SLA policy should apply."), id: "sla-policy-description", data: { "sla-policy-target": "descriptionInput", action: "input->sla-policy#updateDescriptionCounter" }
 
-  / ── Targets Section ──
-  .ap-section
-    .ap-section-header
-      span.ap-section-icon 🎯
-      = t(".targets_section")
-    .ap-section-body
-      .ap-form-row style="flex-direction: column; align-items: stretch; gap: 16px;"
-        
-        / First Response
-        div
-          label.f-semi-13.ap-label = t(".first_response_label")
-          .ap-combined-input style="display: flex; gap: 8px;"
-            - fr_val = policy.initial_response_time_limit ? (policy.initial_response_time_limit >= 86400 ? policy.initial_response_time_limit / 86400 : (policy.initial_response_time_limit >= 3600 ? policy.initial_response_time_limit / 3600 : policy.initial_response_time_limit / 60)).to_i : nil
-            - fr_unit = policy.initial_response_time_limit ? (policy.initial_response_time_limit >= 86400 ? 'days' : (policy.initial_response_time_limit >= 3600 ? 'hours' : 'minutes')) : 'minutes'
-            = number_field_tag "sla_policy[initial_response_value]", fr_val, class: "ap-input", style: "flex: 1;", min: 1, placeholder: t("ui.dashboard.sla_policies.form.e_g_15")
-            = select_tag "sla_policy[initial_response_unit]", options_for_select([[t("forms.options.minutes"), "minutes"], [t("forms.options.hours"), "hours"], [t("forms.options.days"), "days"]], fr_unit), class: "ap-select", style: "flex: 1;"
-        
-        / Next Response
-        div
-          label.f-semi-13.ap-label = t(".next_response_label")
-          .ap-combined-input style="display: flex; gap: 8px;"
-            - nr_val = policy.response_time_limit ? (policy.response_time_limit >= 86400 ? policy.response_time_limit / 86400 : (policy.response_time_limit >= 3600 ? policy.response_time_limit / 3600 : policy.response_time_limit / 60)).to_i : nil
-            - nr_unit = policy.response_time_limit ? (policy.response_time_limit >= 86400 ? 'days' : (policy.response_time_limit >= 3600 ? 'hours' : 'minutes')) : 'minutes'
-            = number_field_tag "sla_policy[response_value]", nr_val, class: "ap-input", style: "flex: 1;", min: 1
-            = select_tag "sla_policy[response_unit]", options_for_select([[t("forms.options.minutes"), "minutes"], [t("forms.options.hours"), "hours"], [t("forms.options.days"), "days"]], nr_unit), class: "ap-select", style: "flex: 1;"
+  .ap-form-two-column.sla-policy-targets-grid
+    .ap-section.ap-form-card
+      .ap-section-header
+        span.ap-section-icon
+          = image_tag("agent_capacity.svg", class: "ap-icon-svg", alt: "")
+        span = t(".agent_capacity_section", default: "Agent Capacity")
+      .ap-section-body
+        .sla-target-stack
+          - [{ label: t(".first_response_label"), value_name: "initial_response_value", unit_name: "initial_response_unit", value: time_value.call(policy.initial_response_time_limit), unit: time_unit.call(policy.initial_response_time_limit) }, { label: t(".next_response_label"), value_name: "response_value", unit_name: "response_unit", value: time_value.call(policy.response_time_limit), unit: time_unit.call(policy.response_time_limit) }, { label: t(".resolution_label"), value_name: "resolution_value", unit_name: "resolution_unit", value: time_value.call(policy.resolution_time_limit), unit: time_unit.call(policy.resolution_time_limit) }].each do |target|
+            .sla-target-row
+              label.f-semi-13.ap-label = target[:label]
+              .sla-target-controls
+                = number_field_tag "sla_policy[#{target[:value_name]}]", target[:value], class: "ap-input", min: 1, placeholder: t("ui.dashboard.sla_policies.form.e_g_15", default: "e.g., 15")
+                = select_tag "sla_policy[#{target[:unit_name]}]", options_for_select(units, target[:unit]), class: "ap-select"
 
-        / Resolution
-        div
-          label.f-semi-13.ap-label = t(".resolution_label")
-          .ap-combined-input style="display: flex; gap: 8px;"
-            - res_val = policy.resolution_time_limit ? (policy.resolution_time_limit >= 86400 ? policy.resolution_time_limit / 86400 : (policy.resolution_time_limit >= 3600 ? policy.resolution_time_limit / 3600 : policy.resolution_time_limit / 60)).to_i : nil
-            - res_unit = policy.resolution_time_limit ? (policy.resolution_time_limit >= 86400 ? 'days' : (policy.resolution_time_limit >= 3600 ? 'hours' : 'minutes')) : 'minutes'
-            = number_field_tag "sla_policy[resolution_value]", res_val, class: "ap-input", style: "flex: 1;", min: 1
-            = select_tag "sla_policy[resolution_unit]", options_for_select([[t("forms.options.minutes"), "minutes"], [t("forms.options.hours"), "hours"], [t("forms.options.days"), "days"]], res_unit), class: "ap-select", style: "flex: 1;"
+    .ap-section.ap-form-card.ap-inboxes-card
+      .ap-section-header
+        span.ap-section-icon
+          = image_tag("reply_inbox.svg", class: "ap-icon-svg", alt: "")
+        span = t(".inboxes_section")
+      .ap-section-body
+        p.ap-hint.ap-card-hint = t(".all_inboxes_hint")
+        .ui-field-control
+          span.ui-field-control__icon aria-hidden="true"
+            = image_tag("reply_inbox.svg", alt: "", width: 14, height: 14)
+          = f.select :inbox_ids, options_from_collection_for_select(@inboxes, :id, :name, policy.inbox_ids), {}, multiple: true, class: "ui-select ui-control", data: { controller: "select" }
 
-  / ── Inboxes Section ──
-  .ap-section
-    .ap-section-header
-      span.ap-section-icon 📥
-      = t(".inboxes_section")
-    .ap-section-body
-      p.ap-hint style="margin-bottom: 12px;" = t(".all_inboxes_hint")
-      .ap-checkbox-grid
-        - @inboxes.each do |inbox|
-          label.ap-checkbox-item id="inbox-#{inbox.id}"
-            = check_box_tag "sla_policy[inbox_ids][]", inbox.id, policy.inbox_ids.include?(inbox.id), class: "ap-checkbox"
-            span.f-reg-13 = inbox.name
+  .ap-section.ap-form-card.ap-business-hours-card
+    .ap-business-hours-body.ap-toggle-card-row
+      .ap-toggle-copy
+        span.ap-section-icon
+          = inline_svg_tag("clock-blue.svg", class: "ap-icon-svg", alt: "")
+        span.ap-toggle-text
+          strong.f-semi-14 = t(".business_hours_section")
+          span.f-reg-12 = t(".during_working_hours")
+      label.hc-toggle.ap-switch for="policy-bh-toggle"
+        = f.check_box :during_working_hours, data: { action: "change->sla-policy#toggleBusinessHours", "sla-policy-target": "businessHoursToggle" }, id: "policy-bh-toggle"
+        span.hc-toggle-slider
 
-  / ── Business Hours Section ──
-  .ap-section
-    .ap-section-header
-      span.ap-section-icon 🕐
-      = t(".business_hours_section")
-    .ap-section-body
-      .ap-form-row
-        .ap-toggle-row
-          = f.check_box :during_working_hours, class: "ap-checkbox", data: { action: "change->sla-policy#toggleBusinessHours", "sla-policy-target": "businessHoursToggle" }, id: "policy-bh-toggle"
-          label.f-reg-13 for="policy-bh-toggle" = t(".during_working_hours")
-
-      .ap-conditional-field data-sla-policy-target="businessHoursField" style="#{policy.during_working_hours? ? '' : 'display: none;'}"
-        label.f-semi-13.ap-label = t(".business_hour_group_label")
-        = f.select :business_hour_group_id, options_from_collection_for_select(@business_hour_groups, :id, :name, policy.business_hour_group_id), { include_blank: t("forms.options.select_a_schedule") }, class: "ap-select", id: "policy-bh-group"
-
-  / ── Footer ──
-  .ap-form-footer
-    = link_to t(".cancel"), sla_policies_path, class: "ap-btn-secondary"
-    = f.submit t(".save"), class: "ap-btn-primary"
+    .ap-conditional-field data-sla-policy-target="businessHoursField" style="#{policy.during_working_hours? ? '' : 'display: none;'}"
+      .ui-field-group
+        label.f-semi-13.ap-label for="policy-bh-group" = t(".business_hour_group_label")
+        .ui-field-control
+          span.ui-field-control__icon aria-hidden="true"
+            = image_tag("clock.svg", alt: "", width: 14, height: 14)
+          = f.select :business_hour_group_id, options_from_collection_for_select(@business_hour_groups, :id, :name, policy.business_hour_group_id), { include_blank: t("forms.options.select_a_schedule", default: "Select a schedule") }, class: "ui-select ui-control", id: "policy-bh-group", data: { controller: "select" }

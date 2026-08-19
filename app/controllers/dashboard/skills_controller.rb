@@ -8,7 +8,25 @@ module Dashboard
       authorize(Skill)
 
       @skills = current_account.skills.ordered
-      @skills = @skills.by_type(params[:type]) if params[:type].present?
+      @skill_counts = {
+        all: @skills.count,
+        general: @skills.where(skill_type: :general).count,
+        language: @skills.where(skill_type: :language).count,
+        product: @skills.where(skill_type: :product).count,
+        technical: @skills.where(skill_type: :technical).count
+      }
+
+      @selected_type = %w[general language product technical].include?(params[:type]) ? params[:type] : "all"
+
+      @skill_tabs = [
+        { key: :all, label: t("dashboard.skills.index.tab_all", default: "All"), path: skills_path },
+        { key: :general, label: t("dashboard.skills.index.tab_general", default: "General"), path: skills_path(type: :general) },
+        { key: :language, label: t("dashboard.skills.index.tab_language", default: "Language"), path: skills_path(type: :language) },
+        { key: :product, label: t("dashboard.skills.index.tab_product", default: "Product"), path: skills_path(type: :product) },
+        { key: :technical, label: t("dashboard.skills.index.tab_technical", default: "Technical"), path: skills_path(type: :technical) }
+      ]
+
+      @skills = @skills.by_type(@selected_type) if @selected_type != "all"
     end
 
     def new

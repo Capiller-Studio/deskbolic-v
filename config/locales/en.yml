@@ -1056,11 +1056,18 @@ en:
         label: Skills
       index:
         title: Skills
-        description: Define skills to match conversations with the right agents.
-        new_skill: New Skill
+        description: Manage reusable skills to improve routing and agent matching.
+        new_skill: Create new skill
         empty_title: No skills defined yet
         empty_description: Create skills like languages, products, or expertise areas
           to enable skills-based routing.
+        empty_filtered_title: No matching skills
+        empty_filtered_description: Try another skill type.
+        type_filter: Filter skills by type
+        no_description: No description added.
+        created_on: "Created: %{date}"
+        status_label: "Status:"
+        actions_for: "Actions for %{name}"
         tab_all: All
         tab_language: Language
         tab_product: Product
@@ -1071,6 +1078,7 @@ en:
         delete: Delete
       new:
         title: New Skill
+        description: Create a reusable skill to improve routing and agent matching.
       edit:
         title: Edit Skill
       create:
@@ -1080,14 +1088,25 @@ en:
       destroy:
         destroyed: Skill deleted.
       form:
-        details_section: Skill details
-        name_label: Name
-        name_placeholder: e.g., English, Billing, API Integration
-        type_label: Type
+        details_section: Skill Details
+        details_subtitle: Add the basic information about this skill.
+        name_label: Skill Name
+        name_placeholder: e.g., Billing Support
+        name_hint: Choose a clear and descriptive name for this skill.
+        type_label: Skill Type
+        type_hint: Select the type that best describes this skill.
         description_label: Description
-        description_placeholder: Describe this skill...
+        description_placeholder: Briefly describe when this skill should be used.
+        description_hint: Provide details to help your team understand how and when to use this skill.
+        optional_label: "(Optional)"
         save: Save Skill
+        create: Create Skill
         cancel: Cancel
+      type_descriptions:
+        general: Broad skills that support routing across teams.
+        language: Language fluency or translation capabilities.
+        product: Product, plan, or feature-specific knowledge.
+        technical: Engineering, API, or troubleshooting expertise.
       types:
         language: Language
         product: Product
@@ -1852,12 +1871,22 @@ en:
     sla_policies:
       index:
         title: SLA Policies
-        description: Set service level targets for different inboxes to ensure timely
-          responses.
-        new_policy: New Policy
+        description: Define targets to ensure your team responds to customers on time.
+        new_policy: Create new policy
         empty_title: No SLA Policies
         empty_description: Create your first SLA policy to start tracking agent response
           times.
+        first_response: First Response
+        next_response: Next Response
+        resolution_time: Resolution Time
+        inboxes_label: Inboxes
+        business_hours_label: Business hours
+        no_inboxes: None
+        no_description: No description added.
+        created_ago: Created %{time} ago
+        created_by: By %{name}
+        creator_unavailable: Unknown
+        actions_for: Actions for %{name}
       new:
         title: New SLA Policy
         description: Define targets to ensure your team responds to customers on time.
@@ -1865,20 +1894,30 @@ en:
         title: Edit SLA Policy
         description: Update targets to ensure your team responds to customers on time.
       form:
-        all_inboxes_hint: Select which inboxes this SLA policy applies to.
+        all_inboxes_hint: If no inboxes selected, policy will not apply to any inbox.
+        agent_capacity_section: Agent Capacity
+        back_to_policies: Back to SLA policies
         business_hour_group_label: Select Business Hours Schedule
         business_hours_section: Business Hours
         cancel: Cancel
         description_label: Description
+        description_placeholder: Describe when this SLA policy should apply.
         details_section: Policy Details
         during_working_hours: Only track SLA targets during business hours
         first_response_label: First Response Time
         inboxes_section: Apply to Inboxes
+        name_hint: Choose a clear policy name for your team.
         name_label: Policy Name
         name_placeholder: e.g., VIP Customers SLA
+        minutes_short: Min
         next_response_label: Next Response Time
+        optional_label: "(Optional)"
+        page_description: Create and configure an assignment policy to manage how
+          conversations are assigned.
+        page_title: Policy Details
         resolution_label: Resolution Time
         save: Save SLA Policy
+        save_policy: Save Policy
         targets_section: SLA Targets
       policy_card:
         first_response: 'First response: %{value}'
@@ -1888,32 +1927,43 @@ en:
     csat_surveys:
       index:
         title: CSAT Surveys
-        description: Create and manage custom Customer Satisfaction surveys.
-        new_survey: Create Custom Survey
-        prompt_label: 'Prompt: '
+        description: Create and manage your customer satisfaction surveys.
+        new_survey: Create CSAT Surveys
+        prompt_label: Chat Prompt
         default_prompt: How would you rate the support you received?
         uses_template: 'Uses: %{name}'
-        default_template: Default system template
+        default_template: CSAT Default Template
         empty_title: No CSAT Surveys
         empty_description: Create your first survey to start collecting customer feedback.
         delete_confirm: Are you sure you want to delete this survey?
+        created_on: "Created: %{date}"
+        status_label: "Status:"
+        actions_for: "Actions for %{name}"
       new:
         title: Create CSAT Survey
-        description: Configure your custom customer satisfaction survey
+        description: Configure your custom customer satisfaction survey.
       edit:
         title: Edit CSAT Survey
-        description: Update your custom customer satisfaction survey
+        description: Update your custom customer satisfaction survey.
       form:
-        name_placeholder: e.g. Support Feedback
+        basic_configuration: Basic configuration
+        policy_details: Policy Details
+        name_placeholder: e.g., Post Conversation Survey
+        name_hint: The internal name for this survey.
+        assigned_email_template: Assigned Email Template
+        optional_label: "(optional)"
+        email_template_hint: This template will be used for emails.
+        default_language_hint: Saved to your default language (English) as a fallback.
+        add_language: "+ Add Language"
+        save_policy: Save Policy
         email_prompt_label: Email Prompt (Inside the email)
-        email_prompt_placeholder: e.g. How would you rate the support you received?
+        email_prompt_placeholder: e.g., How was your experience?
         portal_title_label: Portal Title (On the feedback page)
-        portal_title_placeholder: e.g. How did we do?
+        portal_title_placeholder: e.g., How did we do?
         portal_subtitle_label: Portal Subtitle
-        portal_subtitle_placeholder: e.g. We'd love to hear your feedback on your
-          recent support experience.
+        portal_subtitle_placeholder: e.g., Your feedback helps us improve.
         feedback_label_label: Feedback Textbox Label
-        feedback_label_placeholder: e.g. Tell us more (Optional)
+        feedback_label_placeholder: e.g., Tell us more about your experience (optional)
     custom_fields:
       form:
         label_placeholder: e.g. Company Size

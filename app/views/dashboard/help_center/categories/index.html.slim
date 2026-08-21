@@ -1,129 +1,129 @@
-= render("dashboard/shared/dashboard_container", current_page: "help_center") do
-  = render("dashboard/help_center/help_center_sidebar", current_page: "collections") do
-    div data-controller="help-center--category"
-      .hc-articles
-        .hc-search-row
-          = form_with url: help_center_categories_path, method: :get, local: true, class: "hc-search-row-form" do
-            .hc-search-input-wrap
-              span.hc-search-icon 🔍
-              = text_field_tag :q, @query, class: "hc-search-row-input", placeholder: t("dashboard.help_center.categories.index.search_placeholder"), oninput: "clearTimeout(this._timer); this._timer=setTimeout(()=>Turbo.visit(this.form.action+'?'+new URLSearchParams(new FormData(this.form)).toString(),{action:'replace'}),300)"
-              - if @query.present?
-                = link_to help_center_categories_path, class: "hc-search-clear", title: t("ui.dashboard.help_center.articles.index.clear_search") do
-                  = image_tag("cross_clear.svg", alt: t("ui.dashboard.help_center.articles.index.clear"), class: "hc-search-clear-icon")
+/ = render("dashboard/shared/dashboard_container", current_page: "help_center") do
+= render("dashboard/help_center/help_center_sidebar", current_page: "collections") do
+  div data-controller="help-center--category"
+    .hc-articles
+      .hc-search-row
+        = form_with url: help_center_categories_path, method: :get, local: true, class: "hc-search-row-form" do
+          .hc-search-input-wrap
+            span.hc-search-icon 🔍
+            = text_field_tag :q, @query, class: "hc-search-row-input", placeholder: t("dashboard.help_center.categories.index.search_placeholder"), oninput: "clearTimeout(this._timer); this._timer=setTimeout(()=>Turbo.visit(this.form.action+'?'+new URLSearchParams(new FormData(this.form)).toString(),{action:'replace'}),300)"
+            - if @query.present?
+              = link_to help_center_categories_path, class: "hc-search-clear", title: t("ui.dashboard.help_center.articles.index.clear_search") do
+                = image_tag("cross_clear.svg", alt: t("ui.dashboard.help_center.articles.index.clear"), class: "hc-search-clear-icon")
 
-        .hc-index-header
-          .hc-title-area
-            h1.f-semi-32 = t("dashboard.help_center.categories.index.title")
-          .hc-header-actions
-            button.hc-btn-primary#new-collection-btn type="button" data-action="click->help-center--category#open"
+      .hc-index-header
+        .hc-title-area
+          h1.f-semi-32 = t("dashboard.help_center.categories.index.title")
+        .hc-header-actions
+          button.hc-btn-primary#new-collection-btn type="button" data-action="click->help-center--category#open"
+            = t("dashboard.help_center.categories.index.new_collection")
+
+      .hc-toolbar
+        = form_with url: help_center_categories_path, method: :get, local: true, class: "hc-search-form" do
+
+      .hc-table-wrap
+        - if @categories.any?
+          .hc-table-count-bar
+            span.hc-table-count = t("dashboard.help_center.categories.index.collections_count", count: @pagy.present? ? @pagy.count : @categories.size)
+          table.hc-articles-table
+            thead
+              tr
+                th
+                  span.hc-th-content
+                    = t("dashboard.help_center.categories.index.name_header")
+                    span.hc-sort-caret ↓
+                th
+                  span.hc-th-content
+                    = t("dashboard.help_center.categories.index.slug_header")
+                th
+                  span.hc-th-content
+                    = t("dashboard.help_center.categories.index.articles_header")
+                th
+                  span.hc-th-content Actions
+            tbody
+              - @categories.each do |category|
+                tr.hc-table-row
+                  td.hc-title-cell
+                    .hc-title-wrapper
+                      span.hc-article-title
+                        = category.name.presence || t("dashboard.help_center.categories.index.untitled_collection")
+                  td
+                    span.hc-date-text = category.slug.presence || "-"
+                  td
+                    span.hc-status-badge
+                      = category.articles.count
+                  td.actions
+                    div style="display: flex; gap: 8px; align-items: center;"
+                      button.action-link type="button" data={ action: "click->help-center--category#openEdit", id: category.id, path: help_center_category_path(category), name: category.name, description: category.description, parent_id: category.ancestry, visibility: category.visibility } style="border: none; background: transparent; cursor: pointer; padding: 0;" title="Edit"
+                        = inline_svg_tag("edit.svg", class: "link-icon", alt: "Edit", style: "color: #2563eb; width: 16px; height: 16px;")
+                      = link_to help_center_category_path(category), data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete this collection?" }, class: "action-link delete-btn", style: "display: inline-flex; align-items: center;", title: "Delete" do
+                        = inline_svg_tag("delete_red.svg", class: "link-icon", alt: "Delete", style: "width: 16px; height: 16px;")
+
+          - if @pagy && @pagy.last > 1
+            .hc-pagination
+              - if @pagy.prev
+                = link_to help_center_categories_path(page: @pagy.prev, q: @query, portal_id: @portal_id), class: "hc-pagination-btn"
+                  = t("dashboard.help_center.categories.index.previous")
+              - else
+                span.hc-pagination-btn.disabled = t("dashboard.help_center.categories.index.previous")
+              span.hc-pagination-info
+                = t("dashboard.help_center.categories.index.page_info", page: @pagy.page, total: @pagy.last)
+              - if @pagy.next
+                = link_to help_center_categories_path(page: @pagy.next, q: @query, portal_id: @portal_id, columns: @columns), class: "hc-pagination-btn"
+                  = t("dashboard.help_center.categories.index.next")
+              - else
+                span.hc-pagination-btn.disabled = t("dashboard.help_center.categories.index.next")
+        - else
+          .hc-empty-state
+            .hc-empty-icon 📁
+            h3.f-semi-18 = t("dashboard.help_center.categories.index.empty_title")
+            p.f-reg-14.text-muted = t("dashboard.help_center.categories.index.empty_description")
+            button.hc-btn-primary#new-collection-btn-empty type="button" data-action="click->help-center--category#open"
               = t("dashboard.help_center.categories.index.new_collection")
 
-        .hc-toolbar
-          = form_with url: help_center_categories_path, method: :get, local: true, class: "hc-search-form" do
+    / New Collection Modal
+    #new-collection-modal.modal-popper-container style="display: none;" data-help-center--category-target="modal" data-action="click->help-center--category#closeOnOutsideClick"
+      .model-content-section
+        .model-content.hc-category-modal-content
+          .hc-category-modal-header
+            .hc-category-modal-header-text
+              h3.f-semi-18 = t("dashboard.help_center.categories.form.modal_title")
+              p.f-reg-14.hc-category-modal-subtitle = t("dashboard.help_center.categories.form.modal_subtitle")
+          .hc-category-form-body
+            = form_with url: help_center_categories_path, scope: :category, method: :post, local: true, html: { multipart: true, class: "hc-category-form", data: { collection_path: help_center_categories_path } } do |f|
+              = f.hidden_field :portal_id, value: @selected_portal&.id
+              .hc-category-form-fields
+                .hc-category-form-floating
+                  = f.label :name, class: "hc-category-form-label f-reg-14" do
+                    = t("dashboard.help_center.categories.form.name_label")
+                    span.required-star *
+                  = f.text_field :name, class: "hc-category-form-control f-reg-14", placeholder: t("dashboard.help_center.categories.form.name_placeholder"), required: true
 
-        .hc-table-wrap
-          - if @categories.any?
-            .hc-table-count-bar
-              span.hc-table-count = t("dashboard.help_center.categories.index.collections_count", count: @pagy.present? ? @pagy.count : @categories.size)
-            table.hc-articles-table
-              thead
-                tr
-                  th
-                    span.hc-th-content
-                      = t("dashboard.help_center.categories.index.name_header")
-                      span.hc-sort-caret ↓
-                  th
-                    span.hc-th-content
-                      = t("dashboard.help_center.categories.index.slug_header")
-                  th
-                    span.hc-th-content
-                      = t("dashboard.help_center.categories.index.articles_header")
-                  th
-                    span.hc-th-content Actions
-              tbody
-                - @categories.each do |category|
-                  tr.hc-table-row
-                    td.hc-title-cell
-                      .hc-title-wrapper
-                        span.hc-article-title
-                          = category.name.presence || t("dashboard.help_center.categories.index.untitled_collection")
-                    td
-                      span.hc-date-text = category.slug.presence || "-"
-                    td
-                      span.hc-status-badge
-                        = category.articles.count
-                    td.actions
-                      div style="display: flex; gap: 8px; align-items: center;"
-                        button.action-link type="button" data={ action: "click->help-center--category#openEdit", id: category.id, path: help_center_category_path(category), name: category.name, description: category.description, parent_id: category.ancestry, visibility: category.visibility } style="border: none; background: transparent; cursor: pointer; padding: 0;" title="Edit"
-                          = inline_svg_tag("edit.svg", class: "link-icon", alt: "Edit", style: "color: #2563eb; width: 16px; height: 16px;")
-                        = link_to help_center_category_path(category), data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete this collection?" }, class: "action-link delete-btn", style: "display: inline-flex; align-items: center;", title: "Delete" do
-                          = inline_svg_tag("delete_red.svg", class: "link-icon", alt: "Delete", style: "width: 16px; height: 16px;")
+                .hc-category-form-floating
+                  = f.label :image, t("dashboard.help_center.categories.form.icon_label"), class: "hc-category-form-label f-reg-14"
+                  label.hc-file-upload data-help-center--category-target="iconPreview"
+                    = f.file_field :image, accept: "image/png, image/jpeg, image/gif, image/webp", data: { help_center__category_target: "iconInput", action: "change->help-center--category#previewIcon" }
+                    span.hc-file-upload-icon data-help-center--category-target="iconIcon"
+                      = inline_svg_tag("export.svg", alt: "")
+                    .hc-file-upload-preview
+                      img.hc-file-upload-preview-image data-help-center--category-target="iconPreviewImage" alt=""
+                    span.hc-file-upload-text
+                      strong data-help-center--category-target="iconTitle" = t("dashboard.help_center.categories.form.icon_upload_title")
+                      small data-help-center--category-target="iconSubtitle" = t("dashboard.help_center.categories.form.icon_upload_subtitle")
 
-            - if @pagy && @pagy.last > 1
-              .hc-pagination
-                - if @pagy.prev
-                  = link_to help_center_categories_path(page: @pagy.prev, q: @query, portal_id: @portal_id), class: "hc-pagination-btn"
-                    = t("dashboard.help_center.categories.index.previous")
-                - else
-                  span.hc-pagination-btn.disabled = t("dashboard.help_center.categories.index.previous")
-                span.hc-pagination-info
-                  = t("dashboard.help_center.categories.index.page_info", page: @pagy.page, total: @pagy.last)
-                - if @pagy.next
-                  = link_to help_center_categories_path(page: @pagy.next, q: @query, portal_id: @portal_id, columns: @columns), class: "hc-pagination-btn"
-                    = t("dashboard.help_center.categories.index.next")
-                - else
-                  span.hc-pagination-btn.disabled = t("dashboard.help_center.categories.index.next")
-          - else
-            .hc-empty-state
-              .hc-empty-icon 📁
-              h3.f-semi-18 = t("dashboard.help_center.categories.index.empty_title")
-              p.f-reg-14.text-muted = t("dashboard.help_center.categories.index.empty_description")
-              button.hc-btn-primary#new-collection-btn-empty type="button" data-action="click->help-center--category#open"
-                = t("dashboard.help_center.categories.index.new_collection")
+                .hc-category-form-floating
+                  = f.label :description, class: "hc-category-form-label f-reg-14" do
+                    = t("dashboard.help_center.categories.form.description_label")
+                  = f.text_area :description, class: "hc-category-form-control hc-category-form-textarea f-reg-14", placeholder: t("dashboard.help_center.categories.form.description_placeholder"), rows: 3
 
-      / New Collection Modal
-      #new-collection-modal.modal-popper-container style="display: none;" data-help-center--category-target="modal" data-action="click->help-center--category#closeOnOutsideClick"
-        .model-content-section
-          .model-content.hc-category-modal-content
-            .hc-category-modal-header
-              .hc-category-modal-header-text
-                h3.f-semi-18 = t("dashboard.help_center.categories.form.modal_title")
-                p.f-reg-14.hc-category-modal-subtitle = t("dashboard.help_center.categories.form.modal_subtitle")
-            .hc-category-form-body
-              = form_with url: help_center_categories_path, scope: :category, method: :post, local: true, html: { multipart: true, class: "hc-category-form", data: { collection_path: help_center_categories_path } } do |f|
-                = f.hidden_field :portal_id, value: @selected_portal&.id
-                .hc-category-form-fields
-                  .hc-category-form-floating
-                    = f.label :name, class: "hc-category-form-label f-reg-14" do
-                      = t("dashboard.help_center.categories.form.name_label")
-                      span.required-star *
-                    = f.text_field :name, class: "hc-category-form-control f-reg-14", placeholder: t("dashboard.help_center.categories.form.name_placeholder"), required: true
+                .hc-category-form-floating.hc-category-selects-row
+                  .hc-category-form-group
+                    = f.label :parent_id, t("dashboard.help_center.categories.form.parent_label"), class: "hc-category-form-label f-reg-14"
+                    = f.select :parent_id, @categories.map { |cat| [cat.name.presence || cat.id, cat.id] }, { include_blank: t("dashboard.help_center.categories.form.parent_none") }, class: "hc-category-form-select f-reg-14"
+                  .hc-category-form-group
+                    = f.label :visibility, t("dashboard.help_center.categories.form.visibility_label"), class: "hc-category-form-label f-reg-14"
+                    = f.select :visibility, ::HelpCenter::Category.visibilities.keys.map { |v| [t("enums.help_center.visibility.#{v}"), v] }, {}, class: "hc-category-form-select f-reg-14"
 
-                  .hc-category-form-floating
-                    = f.label :image, t("dashboard.help_center.categories.form.icon_label"), class: "hc-category-form-label f-reg-14"
-                    label.hc-file-upload data-help-center--category-target="iconPreview"
-                      = f.file_field :image, accept: "image/png, image/jpeg, image/gif, image/webp", data: { help_center__category_target: "iconInput", action: "change->help-center--category#previewIcon" }
-                      span.hc-file-upload-icon data-help-center--category-target="iconIcon"
-                        = inline_svg_tag("export.svg", alt: "")
-                      .hc-file-upload-preview
-                        img.hc-file-upload-preview-image data-help-center--category-target="iconPreviewImage" alt=""
-                      span.hc-file-upload-text
-                        strong data-help-center--category-target="iconTitle" = t("dashboard.help_center.categories.form.icon_upload_title")
-                        small data-help-center--category-target="iconSubtitle" = t("dashboard.help_center.categories.form.icon_upload_subtitle")
-
-                  .hc-category-form-floating
-                    = f.label :description, class: "hc-category-form-label f-reg-14" do
-                      = t("dashboard.help_center.categories.form.description_label")
-                    = f.text_area :description, class: "hc-category-form-control hc-category-form-textarea f-reg-14", placeholder: t("dashboard.help_center.categories.form.description_placeholder"), rows: 3
-
-                  .hc-category-form-floating.hc-category-selects-row
-                    .hc-category-form-group
-                      = f.label :parent_id, t("dashboard.help_center.categories.form.parent_label"), class: "hc-category-form-label f-reg-14"
-                      = f.select :parent_id, @categories.map { |cat| [cat.name.presence || cat.id, cat.id] }, { include_blank: t("dashboard.help_center.categories.form.parent_none") }, class: "hc-category-form-select f-reg-14"
-                    .hc-category-form-group
-                      = f.label :visibility, t("dashboard.help_center.categories.form.visibility_label"), class: "hc-category-form-label f-reg-14"
-                      = f.select :visibility, ::HelpCenter::Category.visibilities.keys.map { |v| [t("enums.help_center.visibility.#{v}"), v] }, {}, class: "hc-category-form-select f-reg-14"
-
-                .hc-category-form-actions
-                  button.hc-category-cancel-btn.f-med-14.close-modal-btn type="button" data-action="click->help-center--category#close" = t("dashboard.help_center.categories.form.cancel")
-                  = f.submit t("dashboard.help_center.categories.form.submit"), class: "hc-category-submit-btn f-med-14", style: "background-color: #778dff; border-color: #778dff;"
+              .hc-category-form-actions
+                button.hc-category-cancel-btn.f-med-14.close-modal-btn type="button" data-action="click->help-center--category#close" = t("dashboard.help_center.categories.form.cancel")
+                = f.submit t("dashboard.help_center.categories.form.submit"), class: "hc-category-submit-btn f-med-14", style: "background-color: #778dff; border-color: #778dff;"

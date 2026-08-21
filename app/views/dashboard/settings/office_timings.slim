@@ -1,89 +1,89 @@
-= render("dashboard/shared/dashboard_container", current_page: "office-timings") do
-  = render("dashboard/settings/settings_sidebar", current_page: "office-timings") do
-    .body-section.office-timings-body
-      h2.f-semi-18 
-        | #{t("ui.dashboard.settings.office_timings.slim.office_hours")}
-        / = current_account.name
-      .office-timings-container data-controller="modal-toggler frame-toggler"
-        .office-timings-section
-          h3.f-semi-18 = t("ui.dashboard.settings.office_timings.slim.default_office_hours")
-          p.f-reg-14 = t("ui.dashboard.settings.office_timings.slim.these_apply_to_all_conversations_in_your_workspace")
-          .office-hours
-            / = form_with(url: "#", data: {controller: "form-validation renderer", "form-validation-target" => "form"}, html: {class: "needs-validation", novalidate: true, method: :post, remote: true}) do |f|
-            .field-group
-              label.switch
-                = check_box_tag 'toggle', 'on', true, class:'toggle-input'
-                span.slider
-              span.title.f-semi-14 = t("ui.dashboard.settings.office_timings.slim.monday")
-              .time-limit.from-time
-                p = t("ui.dashboard.settings.office_timings.slim.from")
-                = time_field_tag 'from_time', '09:00', class: 'timepicker right'
-              .time-limit.to-time
-                p = t("ui.dashboard.popup.email_conv_modal.to")
-                = time_field_tag 'to_time', '09:00', class: 'timepicker right'
-            .field-group
-              label.switch
-                = check_box_tag 'toggle', 'on', true, class:'toggle-input'
-                span.slider
-              span.title.f-semi-14 = t("ui.dashboard.settings.office_timings.slim.tuesday")
-              .time-limit.from-time
-                p = t("ui.dashboard.settings.office_timings.slim.from")
-                = time_field_tag 'from_time', '09:00', class: 'timepicker right'
-              .time-limit.to-time
-                p = t("ui.dashboard.popup.email_conv_modal.to")
-                = time_field_tag 'to_time', '09:00', class: 'timepicker right'
-            .field-group
-              label.switch
-                = check_box_tag 'toggle', 'on', true, class:'toggle-input'
-                span.slider
-              span.title.f-semi-14 = t("ui.dashboard.settings.office_timings.slim.wednesday")
-              .time-limit.from-time
-                p = t("ui.dashboard.settings.office_timings.slim.from")
-                = time_field_tag 'from_time', '09:00', class: 'timepicker right'
-              .time-limit.to-time
-                p = t("ui.dashboard.popup.email_conv_modal.to")
-                = time_field_tag 'to_time', '09:00', class: 'timepicker right'
-            .field-group
-              label.switch
-                = check_box_tag 'toggle', 'on', true, class:'toggle-input'
-                span.slider
-              span.title.f-semi-14 = t("ui.dashboard.settings.office_timings.slim.thursday")
-              .time-limit.from-time
-                p = t("ui.dashboard.settings.office_timings.slim.from")
-                = time_field_tag 'from_time', '09:00', class: 'timepicker right'
-              .time-limit.to-time
-                p = t("ui.dashboard.popup.email_conv_modal.to")
-                = time_field_tag 'to_time', '09:00', class: 'timepicker right'
-            .field-group
-              label.switch
-                = check_box_tag 'toggle', 'on', true, class:'toggle-input'
-                span.slider
-              span.title.f-semi-14 = t("ui.dashboard.settings.office_timings.slim.friday")
-              .time-limit.from-time
-                p = t("ui.dashboard.settings.office_timings.slim.from")
-                = time_field_tag 'from_time', '09:00', class: 'timepicker right'
-              .time-limit.to-time
-                p = t("ui.dashboard.popup.email_conv_modal.to")
-                = time_field_tag 'to_time', '09:00', class: 'timepicker right'
-            .field-group
-              label.switch
-                = check_box_tag 'toggle', 'on', true, class:'toggle-input'
-                span.slider
-              span.title.f-semi-14 = t("ui.dashboard.settings.office_timings.slim.saturday")
-              .time-limit.from-time
-                p = t("ui.dashboard.settings.office_timings.slim.from")
-                = time_field_tag 'from_time', '09:00', class: 'timepicker right'
-              .time-limit.to-time
-                p = t("ui.dashboard.popup.email_conv_modal.to")
-                = time_field_tag 'to_time', '09:00', class: 'timepicker right'
-            .field-group
-              label.switch
-                = check_box_tag 'toggle', 'on', true, class:'toggle-input'
-                span.slider
-              span.title.f-semi-14 = t("ui.dashboard.settings.office_timings.slim.sunday")
-              .time-limit.from-time
-                p = t("ui.dashboard.settings.office_timings.slim.from")
-                = time_field_tag 'from_time', '09:00', class: 'timepicker right'
-              .time-limit.to-time
-                p = t("ui.dashboard.popup.email_conv_modal.to")
-                = time_field_tag 'to_time', '09:00', class: 'timepicker right'
+/ = render("dashboard/shared/dashboard_container", current_page: "office-timings") do
+= render("dashboard/settings/settings_sidebar", current_page: "office-timings") do
+  .body-section.office-timings-body
+    h2.f-semi-18 
+      | #{t("ui.dashboard.settings.office_timings.slim.office_hours")}
+      / = current_account.name
+    .office-timings-container data-controller="modal-toggler frame-toggler"
+      .office-timings-section
+        h3.f-semi-18 = t("ui.dashboard.settings.office_timings.slim.default_office_hours")
+        p.f-reg-14 = t("ui.dashboard.settings.office_timings.slim.these_apply_to_all_conversations_in_your_workspace")
+        .office-hours
+          / = form_with(url: "#", data: {controller: "form-validation renderer", "form-validation-target" => "form"}, html: {class: "needs-validation", novalidate: true, method: :post, remote: true}) do |f|
+          .field-group
+            label.switch
+              = check_box_tag 'toggle', 'on', true, class:'toggle-input'
+              span.slider
+            span.title.f-semi-14 = t("ui.dashboard.settings.office_timings.slim.monday")
+            .time-limit.from-time
+              p = t("ui.dashboard.settings.office_timings.slim.from")
+              = time_field_tag 'from_time', '09:00', class: 'timepicker right'
+            .time-limit.to-time
+              p = t("ui.dashboard.popup.email_conv_modal.to")
+              = time_field_tag 'to_time', '09:00', class: 'timepicker right'
+          .field-group
+            label.switch
+              = check_box_tag 'toggle', 'on', true, class:'toggle-input'
+              span.slider
+            span.title.f-semi-14 = t("ui.dashboard.settings.office_timings.slim.tuesday")
+            .time-limit.from-time
+              p = t("ui.dashboard.settings.office_timings.slim.from")
+              = time_field_tag 'from_time', '09:00', class: 'timepicker right'
+            .time-limit.to-time
+              p = t("ui.dashboard.popup.email_conv_modal.to")
+              = time_field_tag 'to_time', '09:00', class: 'timepicker right'
+          .field-group
+            label.switch
+              = check_box_tag 'toggle', 'on', true, class:'toggle-input'
+              span.slider
+            span.title.f-semi-14 = t("ui.dashboard.settings.office_timings.slim.wednesday")
+            .time-limit.from-time
+              p = t("ui.dashboard.settings.office_timings.slim.from")
+              = time_field_tag 'from_time', '09:00', class: 'timepicker right'
+            .time-limit.to-time
+              p = t("ui.dashboard.popup.email_conv_modal.to")
+              = time_field_tag 'to_time', '09:00', class: 'timepicker right'
+          .field-group
+            label.switch
+              = check_box_tag 'toggle', 'on', true, class:'toggle-input'
+              span.slider
+            span.title.f-semi-14 = t("ui.dashboard.settings.office_timings.slim.thursday")
+            .time-limit.from-time
+              p = t("ui.dashboard.settings.office_timings.slim.from")
+              = time_field_tag 'from_time', '09:00', class: 'timepicker right'
+            .time-limit.to-time
+              p = t("ui.dashboard.popup.email_conv_modal.to")
+              = time_field_tag 'to_time', '09:00', class: 'timepicker right'
+          .field-group
+            label.switch
+              = check_box_tag 'toggle', 'on', true, class:'toggle-input'
+              span.slider
+            span.title.f-semi-14 = t("ui.dashboard.settings.office_timings.slim.friday")
+            .time-limit.from-time
+              p = t("ui.dashboard.settings.office_timings.slim.from")
+              = time_field_tag 'from_time', '09:00', class: 'timepicker right'
+            .time-limit.to-time
+              p = t("ui.dashboard.popup.email_conv_modal.to")
+              = time_field_tag 'to_time', '09:00', class: 'timepicker right'
+          .field-group
+            label.switch
+              = check_box_tag 'toggle', 'on', true, class:'toggle-input'
+              span.slider
+            span.title.f-semi-14 = t("ui.dashboard.settings.office_timings.slim.saturday")
+            .time-limit.from-time
+              p = t("ui.dashboard.settings.office_timings.slim.from")
+              = time_field_tag 'from_time', '09:00', class: 'timepicker right'
+            .time-limit.to-time
+              p = t("ui.dashboard.popup.email_conv_modal.to")
+              = time_field_tag 'to_time', '09:00', class: 'timepicker right'
+          .field-group
+            label.switch
+              = check_box_tag 'toggle', 'on', true, class:'toggle-input'
+              span.slider
+            span.title.f-semi-14 = t("ui.dashboard.settings.office_timings.slim.sunday")
+            .time-limit.from-time
+              p = t("ui.dashboard.settings.office_timings.slim.from")
+              = time_field_tag 'from_time', '09:00', class: 'timepicker right'
+            .time-limit.to-time
+              p = t("ui.dashboard.popup.email_conv_modal.to")
+              = time_field_tag 'to_time', '09:00', class: 'timepicker right'

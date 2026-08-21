@@ -1,119 +1,119 @@
-= render("dashboard/shared/dashboard_container", current_page: "settings") do
-  = render("dashboard/settings/settings_sidebar", current_page: "roles") do
-    - roles = @system_roles.to_a + @custom_roles.to_a
+/ = render("dashboard/shared/dashboard_container", current_page: "settings") do
+= render("dashboard/settings/settings_sidebar", current_page: "roles") do
+  - roles = @system_roles.to_a + @custom_roles.to_a
 
-    .roles-page data-controller="filterable-collection"
-      header.roles-page-header
-        .roles-page-heading
-          h1 = t("dashboard.roles.index.title")
-          p = t("dashboard.roles.index.description")
-        - if can?(:create, Access::Role)
-          = link_to new_role_path, class: "roles-primary-button" do
-            = t("dashboard.roles.index.create_role", default: "Create Role")
-            = inline_svg_tag("plus_white.svg", class: "roles-button-plus")
-        - else
-          span.roles-primary-button.roles-primary-button-disabled
-            = t("dashboard.roles.index.create_role", default: "Create Role")
+  .roles-page data-controller="filterable-collection"
+    header.roles-page-header
+      .roles-page-heading
+        h1 = t("dashboard.roles.index.title")
+        p = t("dashboard.roles.index.description")
+      - if can?(:create, Access::Role)
+        = link_to new_role_path, class: "roles-primary-button" do
+          = t("dashboard.roles.index.create_role", default: "Create Role")
+          = inline_svg_tag("plus_white.svg", class: "roles-button-plus")
+      - else
+        span.roles-primary-button.roles-primary-button-disabled
+          = t("dashboard.roles.index.create_role", default: "Create Role")
 
-      .roles-page-body
-        section.roles-stats aria-label=t("dashboard.roles.index.summary", default: "Roles summary")
-          .roles-stat-card
-            .roles-stat-icon.roles-stat-icon-blue
-              = inline_svg_tag("shieldsvg.svg", class: "roles-icon")
-            .roles-stat-copy
-              strong = roles.size
-              span = t("dashboard.roles.index.total_roles", default: "Total Roles")
-          .roles-stat-card
-            .roles-stat-icon.roles-stat-icon-green
-              = inline_svg_tag("t_users.svg", class: "roles-icon")
-            .roles-stat-copy
-              strong = @team_members_count
-              span = t("dashboard.roles.index.team_members", default: "Team Members")
-          .roles-stat-card
-            .roles-stat-icon.roles-stat-icon-purple
-              = inline_svg_tag("permission.svg", class: "roles-icon")
-            .roles-stat-copy
-              strong = @permissions_count
-              span = t("dashboard.roles.index.permissions", default: "Permissions")
-          .roles-stat-card
-            .roles-stat-icon.roles-stat-icon-orange
-              = inline_svg_tag("lock.svg", class: "roles-icon")
-            .roles-stat-copy
-              strong = @custom_roles.size
-              span = t("dashboard.roles.index.custom_roles", default: "Custom Roles")
-
-        .roles-toolbar
-          .roles-toolbar-left
-            label.roles-search
-              = inline_svg_tag("search_gray.svg", class: "roles-icon")
-              input type="search" placeholder=t("dashboard.roles.index.search_placeholder", default: "Search roles...") aria-label=t("dashboard.roles.index.search_placeholder", default: "Search roles") data-filterable-collection-target="query" data-action="input->filterable-collection#update"
-            label.roles-filter
-              = inline_svg_tag("filter_gray.svg", class: "roles-icon")
-              select aria-label=t("dashboard.roles.index.filter_label", default: "Filter roles") data-filterable-collection-target="filter" data-action="change->filterable-collection#update"
-                option value="" = t("dashboard.roles.index.all_roles", default: "All Roles")
-                option value="system" = t("dashboard.roles.index.system_roles", default: "System Roles")
-                option value="custom" = t("dashboard.roles.index.custom_roles", default: "Custom Roles")
-              = inline_svg_tag("dropdown.svg", class: "roles-icon")
-          label.roles-sort
-            span = t("dashboard.roles.index.sort_by", default: "Sort by:")
-            .roles-sort-select
-              select aria-label=t("dashboard.roles.index.sort_label", default: "Sort roles") data-filterable-collection-target="sort" data-action="change->filterable-collection#update"
-                option value="updated:desc" = t("dashboard.roles.index.recently_updated", default: "Recently Updated")
-                option value="name:asc" = t("dashboard.roles.index.name_ascending", default: "Name A–Z")
-                option value="members:desc" = t("dashboard.roles.index.most_members", default: "Most Members")
-              = inline_svg_tag("dropdown.svg", class: "roles-icon")
-
-        - if roles.any?
-          .roles-grid data-filterable-collection-target="container"
-            - roles.each_with_index do |role, index|
-              - role_type = role.system_provided? ? "system" : "custom"
-              - icon_asset = if role.identifier == "owner" then "star_orange.svg" elsif role.identifier == "agent" then "agent_green.svg" elsif role.system_provided? then "shieldsvg.svg" else "custom.svg" end
-              - description = t("dashboard.roles.index.descriptions.#{role.identifier}", default: role.system_provided? ? "System access with configured permissions." : "Custom access for your team's workflow.")
-              - permissions_count = role.permissions.to_h.sum { |_resource, actions| actions.to_h.count { |_action, enabled| enabled.present? && enabled != false && enabled != "false" } }
-              article.roles-card id=dom_id(role) data-filterable-collection-target="item" data-searchable="#{role.name.downcase} #{description.downcase}" data-filter-values=role_type data-updated=role.updated_at.to_i data-name=role.name.downcase data-members=role.account_user_roles.size
-                .roles-card-top
-                  .roles-card-icon
-                    = inline_svg_tag(icon_asset, class: "roles-icon")
-                  - unless role.system_provided?
-                    details.roles-card-menu
-                      summary aria-label=t("dashboard.roles.index.role_actions", default: "Role actions")
-                        = inline_svg_tag("dots.svg", class: "roles-icon")
-                      .roles-card-menu-popover
-                        - if can?(:update, role)
-                          = link_to edit_role_path(role) do
-                            = inline_svg_tag("pencil.svg", class: "roles-icon")
-                            span = t("general.edit", default: "Edit")
-                        - if can?(:destroy, role)
-                          = link_to role_path(role), class: "roles-card-delete", data: { turbo_method: :delete, turbo_confirm: t("dashboard.roles.index.delete_confirm") } do
-                            = inline_svg_tag("delete.svg", class: "roles-icon")
-                            span = t("general.delete")
-                .roles-card-title
-                  h2
-                    - if can?(:update, role)
-                      = link_to role.name, edit_role_path(role)
-                    - else
-                      = role.name
-                  span class="roles-type-badge roles-type-badge-#{role_type}" = role_type.upcase
-                p.roles-card-description = description
-                .roles-card-divider
-                .roles-card-footer
-                  .roles-card-meta
-                    span
-                      = inline_svg_tag("user.svg", class: "roles-icon")
-                      = t("dashboard.roles.index.members_count", count: role.account_user_roles.size, default: "%{count} Member")
-                    span
-                      = inline_svg_tag("lock.svg", class: "roles-icon roles-meta-lock")
-                      = t("dashboard.roles.index.permission_count", count: permissions_count, default: "%{count} Permissions")
-                  .roles-card-updated
-                    small = t("dashboard.roles.index.updated", default: "Updated")
-                    span = t("dashboard.roles.index.updated_ago", time: time_ago_in_words(role.updated_at), default: "%{time} ago")
-
-          .roles-empty-filter data-filterable-collection-target="empty" hidden=true
-            = inline_svg_tag("search_gray.svg", class: "roles-icon")
-            h2 = t("dashboard.roles.index.no_matching_roles", default: "No matching roles")
-            p = t("dashboard.roles.index.try_another_search", default: "Try another search or filter.")
-        - else
-          .roles-empty-filter
+    .roles-page-body
+      section.roles-stats aria-label=t("dashboard.roles.index.summary", default: "Roles summary")
+        .roles-stat-card
+          .roles-stat-icon.roles-stat-icon-blue
             = inline_svg_tag("shieldsvg.svg", class: "roles-icon")
-            h2 = t("dashboard.roles.index.empty_title")
-            p = t("dashboard.roles.index.empty_description")
+          .roles-stat-copy
+            strong = roles.size
+            span = t("dashboard.roles.index.total_roles", default: "Total Roles")
+        .roles-stat-card
+          .roles-stat-icon.roles-stat-icon-green
+            = inline_svg_tag("t_users.svg", class: "roles-icon")
+          .roles-stat-copy
+            strong = @team_members_count
+            span = t("dashboard.roles.index.team_members", default: "Team Members")
+        .roles-stat-card
+          .roles-stat-icon.roles-stat-icon-purple
+            = inline_svg_tag("permission.svg", class: "roles-icon")
+          .roles-stat-copy
+            strong = @permissions_count
+            span = t("dashboard.roles.index.permissions", default: "Permissions")
+        .roles-stat-card
+          .roles-stat-icon.roles-stat-icon-orange
+            = inline_svg_tag("lock.svg", class: "roles-icon")
+          .roles-stat-copy
+            strong = @custom_roles.size
+            span = t("dashboard.roles.index.custom_roles", default: "Custom Roles")
+
+      .roles-toolbar
+        .roles-toolbar-left
+          label.roles-search
+            = inline_svg_tag("search_gray.svg", class: "roles-icon")
+            input type="search" placeholder=t("dashboard.roles.index.search_placeholder", default: "Search roles...") aria-label=t("dashboard.roles.index.search_placeholder", default: "Search roles") data-filterable-collection-target="query" data-action="input->filterable-collection#update"
+          label.roles-filter
+            = inline_svg_tag("filter_gray.svg", class: "roles-icon")
+            select aria-label=t("dashboard.roles.index.filter_label", default: "Filter roles") data-filterable-collection-target="filter" data-action="change->filterable-collection#update"
+              option value="" = t("dashboard.roles.index.all_roles", default: "All Roles")
+              option value="system" = t("dashboard.roles.index.system_roles", default: "System Roles")
+              option value="custom" = t("dashboard.roles.index.custom_roles", default: "Custom Roles")
+            = inline_svg_tag("dropdown.svg", class: "roles-icon")
+        label.roles-sort
+          span = t("dashboard.roles.index.sort_by", default: "Sort by:")
+          .roles-sort-select
+            select aria-label=t("dashboard.roles.index.sort_label", default: "Sort roles") data-filterable-collection-target="sort" data-action="change->filterable-collection#update"
+              option value="updated:desc" = t("dashboard.roles.index.recently_updated", default: "Recently Updated")
+              option value="name:asc" = t("dashboard.roles.index.name_ascending", default: "Name A–Z")
+              option value="members:desc" = t("dashboard.roles.index.most_members", default: "Most Members")
+            = inline_svg_tag("dropdown.svg", class: "roles-icon")
+
+      - if roles.any?
+        .roles-grid data-filterable-collection-target="container"
+          - roles.each_with_index do |role, index|
+            - role_type = role.system_provided? ? "system" : "custom"
+            - icon_asset = if role.identifier == "owner" then "star_orange.svg" elsif role.identifier == "agent" then "agent_green.svg" elsif role.system_provided? then "shieldsvg.svg" else "custom.svg" end
+            - description = t("dashboard.roles.index.descriptions.#{role.identifier}", default: role.system_provided? ? "System access with configured permissions." : "Custom access for your team's workflow.")
+            - permissions_count = role.permissions.to_h.sum { |_resource, actions| actions.to_h.count { |_action, enabled| enabled.present? && enabled != false && enabled != "false" } }
+            article.roles-card id=dom_id(role) data-filterable-collection-target="item" data-searchable="#{role.name.downcase} #{description.downcase}" data-filter-values=role_type data-updated=role.updated_at.to_i data-name=role.name.downcase data-members=role.account_user_roles.size
+              .roles-card-top
+                .roles-card-icon
+                  = inline_svg_tag(icon_asset, class: "roles-icon")
+                - unless role.system_provided?
+                  details.roles-card-menu
+                    summary aria-label=t("dashboard.roles.index.role_actions", default: "Role actions")
+                      = inline_svg_tag("dots.svg", class: "roles-icon")
+                    .roles-card-menu-popover
+                      - if can?(:update, role)
+                        = link_to edit_role_path(role) do
+                          = inline_svg_tag("pencil.svg", class: "roles-icon")
+                          span = t("general.edit", default: "Edit")
+                      - if can?(:destroy, role)
+                        = link_to role_path(role), class: "roles-card-delete", data: { turbo_method: :delete, turbo_confirm: t("dashboard.roles.index.delete_confirm") } do
+                          = inline_svg_tag("delete.svg", class: "roles-icon")
+                          span = t("general.delete")
+              .roles-card-title
+                h2
+                  - if can?(:update, role)
+                    = link_to role.name, edit_role_path(role)
+                  - else
+                    = role.name
+                span class="roles-type-badge roles-type-badge-#{role_type}" = role_type.upcase
+              p.roles-card-description = description
+              .roles-card-divider
+              .roles-card-footer
+                .roles-card-meta
+                  span
+                    = inline_svg_tag("user.svg", class: "roles-icon")
+                    = t("dashboard.roles.index.members_count", count: role.account_user_roles.size, default: "%{count} Member")
+                  span
+                    = inline_svg_tag("lock.svg", class: "roles-icon roles-meta-lock")
+                    = t("dashboard.roles.index.permission_count", count: permissions_count, default: "%{count} Permissions")
+                .roles-card-updated
+                  small = t("dashboard.roles.index.updated", default: "Updated")
+                  span = t("dashboard.roles.index.updated_ago", time: time_ago_in_words(role.updated_at), default: "%{time} ago")
+
+        .roles-empty-filter data-filterable-collection-target="empty" hidden=true
+          = inline_svg_tag("search_gray.svg", class: "roles-icon")
+          h2 = t("dashboard.roles.index.no_matching_roles", default: "No matching roles")
+          p = t("dashboard.roles.index.try_another_search", default: "Try another search or filter.")
+      - else
+        .roles-empty-filter
+          = inline_svg_tag("shieldsvg.svg", class: "roles-icon")
+          h2 = t("dashboard.roles.index.empty_title")
+          p = t("dashboard.roles.index.empty_description")

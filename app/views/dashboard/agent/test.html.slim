@@ -1,173 +1,173 @@
-= render("dashboard/shared/dashboard_container", current_page: "agent-test") do
-  = render("dashboard/agent/agent_sidebar", current_page: "agent-test") do
-    .agent-body-section.agent-test-body data-controller="modal-toggler frame-toggler"
-      .agent-header.agent-test-header
-        h2.f-semi-18 = t("ui.dashboard.agent.test.allergies_questions_testing")
-        = link_to("#", class:"member-action manage-action") do
-          span.f-reg-14 = t("dashboard.settings.integrations.manage")
-          = inline_svg_tag("plus_black.svg", class:"plus-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-        = link_to("#", class:"member-action new-action") do
-          span.f-reg-14 = t("ui.dashboard.agent.test.new_role")
-          = inline_svg_tag("plus_white.svg", class:"plus-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-      .agent-container.questions-container
-        .questions-section
-          h3.f-med-16 = t("ui.dashboard.agent.test.48_questions")
-          .table-scroll-wrapper
-            table
-              thead
-                tr
-                  th.f-semi-14 
-                    | #{t("ui.dashboard.agent.test.questions")}
-                    = inline_svg_tag("arrow_down_gray.svg", class:"down-icon", alt:t("ui.dashboard.agent.test.arrow"))
-                  th.f-semi-14 
-                    | #{t("ui.dashboard.agent.test.answer_status")}
-                    = inline_svg_tag("arrow_down_gray.svg", class:"down-icon", alt:t("ui.dashboard.agent.test.arrow"))
-                  th.f-semi-14 
-                    | #{t("ui.dashboard.agent.test.answer_rating")}
-                    = inline_svg_tag("arrow_down_gray.svg", class:"down-icon", alt:t("ui.dashboard.agent.test.arrow"))
-              tbody
-                tr
-                  td.f-reg-14 = t("ui.dashboard.agent.test.is_there_a_cure_or_long_term_solution_for_severe")
-                  td.f-reg-14 
-                    = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:t("ui.dashboard.agent.test.tick"))
-                  td 
-                    / .status-tag class="bg-#{member_status_class(member.status)}" 
-                    /   .bullet
-                    /   span.f-reg-12 = member.status.upcase
-                    .status-tag.bg-green
-                      .bullet
-                      span.f-reg-12 = t("dashboard.teams.index.status.active")
-                tr
-                  td.f-reg-14 = t("ui.dashboard.agent.test.can_i_self_diagnose_an_allergy")
-                  td.f-reg-14 
-                    = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:t("ui.dashboard.agent.test.tick"))
-                  td
-                    .status-tag.bg-green
-                      .bullet
-                      span.f-reg-12 = t("dashboard.teams.index.status.active")
-                tr
-                  td.f-reg-14 = t("ui.dashboard.agent.test.what_should_i_tell_my_gp_about_my_symptoms")
-                  td.f-reg-14 
-                    = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:t("ui.dashboard.agent.test.tick"))
-                  td
-                    .status-tag.bg-green
-                      .bullet
-                      span.f-reg-12 = t("dashboard.teams.index.status.active")
-                tr
-                  td.f-reg-14 = t("ui.dashboard.agent.test.can_allergies_be_life_threatening")
-                  td.f-reg-14 
-                    = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:t("ui.dashboard.agent.test.tick"))
-                  td
-                    .status-tag.bg-green
-                      .bullet
-                      span.f-reg-12 = t("dashboard.teams.index.status.active")
-                tr
-                  td.f-reg-14 = t("ui.dashboard.agent.test.are_seasonal_allergies_different_from_other_types")
-                  td.f-reg-14 
-                    = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:t("ui.dashboard.agent.test.tick"))
-                  td
-                    .status-tag.bg-green
-                      .bullet
-                      span.f-reg-12 = t("dashboard.teams.index.status.active")
-                tr
-                  td.f-reg-14 = t("ui.dashboard.agent.test.can_i_be_allergic_to_more_than_one_thing")
-                  td.f-reg-14 
-                    = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:t("ui.dashboard.agent.test.tick"))
-                  td
-                    .status-tag.bg-green
-                      .bullet
-                      span.f-reg-12 = t("dashboard.teams.index.status.active")
-                tr
-                  td.f-reg-14 = t("ui.dashboard.agent.test.how_can_i_avoid_allergens_in_daily_life")
-                  td.f-reg-14 
-                    = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:t("ui.dashboard.agent.test.tick"))
-                  td
-                    .status-tag.bg-green
-                      .bullet
-                      span.f-reg-12 = t("dashboard.teams.index.status.active")
-                tr
-                  td.f-reg-14 = t("ui.dashboard.agent.test.should_i_carry_an_edipen_rf_lye_had_a_severe")
-                  td.f-reg-14 
-                    = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:t("ui.dashboard.agent.test.tick"))
-                  td
-                    .status-tag.bg-green
-                      .bullet
-                      span.f-reg-12 = t("dashboard.teams.index.status.active")
-                tr
-                  td.f-reg-14 = t("ui.dashboard.agent.test.can_children_outgrow_allergies")
-                  td.f-reg-14 
-                    = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:t("ui.dashboard.agent.test.tick"))
-                  td
-                    .status-tag.bg-green
-                      .bullet
-                      span.f-reg-12 = t("dashboard.teams.index.status.active")
-                tr
-                  td.f-reg-14 = t("ui.dashboard.agent.test.what_is_an_allergy_management_plan")
-                  td.f-reg-14 
-                    = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:t("ui.dashboard.agent.test.tick"))
-                  td
-                    .status-tag.bg-green
-                      .bullet
-                      span.f-reg-12 = t("dashboard.teams.index.status.active")
-                tr
-                  td.f-reg-14 = t("ui.dashboard.agent.test.can_avoiding_allergens_help_reduce_symptoms")
-                  td.f-reg-14 
-                    = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:t("ui.dashboard.agent.test.tick"))
-                  td
-                    .status-tag.bg-green
-                      .bullet
-                      span.f-reg-12 = t("dashboard.teams.index.status.active")
-                tr
-                  td.f-reg-14 = t("ui.dashboard.agent.test.how_does_desensitisation_help_manage_allergies")
-                  td.f-reg-14 
-                    = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:t("ui.dashboard.agent.test.tick"))
-                  td
-                    .status-tag.bg-green
-                      .bullet
-                      span.f-reg-12 = t("dashboard.teams.index.status.active")
-                tr
-                  td.f-reg-14 = t("ui.dashboard.agent.test.who_should_administer_immunotherapy")
-                  td.f-reg-14 
-                    = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:t("ui.dashboard.agent.test.tick"))
-                  td
-                    .status-tag.bg-green
-                      .bullet
-                      span.f-reg-12 = t("dashboard.teams.index.status.active")
-  
-        .answer-section data-controller="accordion"
-          .ans-header
-            h3.f-semi-14 = t("ui.dashboard.agent.test.evaluate_answer")
-            / = inline_svg_tag("arrow_down.svg", class:"st-dropdown-icon", alt:"menu")
-            / = inline_svg_tag("arrow_down.svg", class:"st-dropdown-icon", alt:"menu")
-          p.f-reg-12.client-question = t("ui.dashboard.agent.test.is_there_a_cure_or_long_term_solution_for_severe")
-          p.f-reg-12.agent-answer = t("ui.dashboard.agent.test.al_agent_while_there_isn_t_a_definitive_cure_for")
-          
-          h3.f-semi-14 = t("ui.dashboard.agent.test.this_answer_uses")
-          
-          button.accordian data-action="click->accordion#toggle"
-            p.f-semi-12 = t("ui.dashboard.agent.test.content_2")
-            = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
-          .panel data-accordion-target="panel"
-            .section-flex 
-              = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:t("ui.dashboard.agent.test.tick"))
-              h5.f-med-10 = t("ui.dashboard.agent.test.hay_fever_allergis_in_2025_what_you_need_to_know")
-            .section-flex 
-              = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:t("ui.dashboard.agent.test.tick"))
-              h5.f-med-10 = t("ui.dashboard.agent.test.allegies_updated")
-            .section-flex 
-              = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:t("ui.dashboard.agent.test.tick"))
-              h5.f-med-10 = t("ui.dashboard.agent.test.what_is_hayfever")
-              
-          button.accordian data-action="click->accordion#toggle"
-            p.f-semi-12 = t("ui.dashboard.agent.test.guidance_3")
-            = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
-          .panel data-accordion-target="panel"
-            .section-flex 
-              = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:t("ui.dashboard.agent.test.tick"))
-              h5.f-med-10 = t("ui.dashboard.agent.test.hay_fever_allergis_in_2025_what_you_need_to_know")
-            .section-flex 
-              = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:t("ui.dashboard.agent.test.tick"))
-              h5.f-med-10 = t("ui.dashboard.agent.test.allegies_updated")
-            .section-flex 
-              = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:t("ui.dashboard.agent.test.tick"))
-              h5.f-med-10 = t("ui.dashboard.agent.test.what_is_hayfever")
+/ = render("dashboard/shared/dashboard_container", current_page: "agent-test") do
+= render("dashboard/agent/agent_sidebar", current_page: "agent-test") do
+  .agent-body-section.agent-test-body data-controller="modal-toggler frame-toggler"
+    .agent-header.agent-test-header
+      h2.f-semi-18 = t("ui.dashboard.agent.test.allergies_questions_testing")
+      = link_to("#", class:"member-action manage-action") do
+        span.f-reg-14 = t("dashboard.settings.integrations.manage")
+        = inline_svg_tag("plus_black.svg", class:"plus-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+      = link_to("#", class:"member-action new-action") do
+        span.f-reg-14 = t("ui.dashboard.agent.test.new_role")
+        = inline_svg_tag("plus_white.svg", class:"plus-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+    .agent-container.questions-container
+      .questions-section
+        h3.f-med-16 = t("ui.dashboard.agent.test.48_questions")
+        .table-scroll-wrapper
+          table
+            thead
+              tr
+                th.f-semi-14 
+                  | #{t("ui.dashboard.agent.test.questions")}
+                  = inline_svg_tag("arrow_down_gray.svg", class:"down-icon", alt:t("ui.dashboard.agent.test.arrow"))
+                th.f-semi-14 
+                  | #{t("ui.dashboard.agent.test.answer_status")}
+                  = inline_svg_tag("arrow_down_gray.svg", class:"down-icon", alt:t("ui.dashboard.agent.test.arrow"))
+                th.f-semi-14 
+                  | #{t("ui.dashboard.agent.test.answer_rating")}
+                  = inline_svg_tag("arrow_down_gray.svg", class:"down-icon", alt:t("ui.dashboard.agent.test.arrow"))
+            tbody
+              tr
+                td.f-reg-14 = t("ui.dashboard.agent.test.is_there_a_cure_or_long_term_solution_for_severe")
+                td.f-reg-14 
+                  = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:t("ui.dashboard.agent.test.tick"))
+                td 
+                  / .status-tag class="bg-#{member_status_class(member.status)}" 
+                  /   .bullet
+                  /   span.f-reg-12 = member.status.upcase
+                  .status-tag.bg-green
+                    .bullet
+                    span.f-reg-12 = t("dashboard.teams.index.status.active")
+              tr
+                td.f-reg-14 = t("ui.dashboard.agent.test.can_i_self_diagnose_an_allergy")
+                td.f-reg-14 
+                  = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:t("ui.dashboard.agent.test.tick"))
+                td
+                  .status-tag.bg-green
+                    .bullet
+                    span.f-reg-12 = t("dashboard.teams.index.status.active")
+              tr
+                td.f-reg-14 = t("ui.dashboard.agent.test.what_should_i_tell_my_gp_about_my_symptoms")
+                td.f-reg-14 
+                  = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:t("ui.dashboard.agent.test.tick"))
+                td
+                  .status-tag.bg-green
+                    .bullet
+                    span.f-reg-12 = t("dashboard.teams.index.status.active")
+              tr
+                td.f-reg-14 = t("ui.dashboard.agent.test.can_allergies_be_life_threatening")
+                td.f-reg-14 
+                  = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:t("ui.dashboard.agent.test.tick"))
+                td
+                  .status-tag.bg-green
+                    .bullet
+                    span.f-reg-12 = t("dashboard.teams.index.status.active")
+              tr
+                td.f-reg-14 = t("ui.dashboard.agent.test.are_seasonal_allergies_different_from_other_types")
+                td.f-reg-14 
+                  = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:t("ui.dashboard.agent.test.tick"))
+                td
+                  .status-tag.bg-green
+                    .bullet
+                    span.f-reg-12 = t("dashboard.teams.index.status.active")
+              tr
+                td.f-reg-14 = t("ui.dashboard.agent.test.can_i_be_allergic_to_more_than_one_thing")
+                td.f-reg-14 
+                  = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:t("ui.dashboard.agent.test.tick"))
+                td
+                  .status-tag.bg-green
+                    .bullet
+                    span.f-reg-12 = t("dashboard.teams.index.status.active")
+              tr
+                td.f-reg-14 = t("ui.dashboard.agent.test.how_can_i_avoid_allergens_in_daily_life")
+                td.f-reg-14 
+                  = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:t("ui.dashboard.agent.test.tick"))
+                td
+                  .status-tag.bg-green
+                    .bullet
+                    span.f-reg-12 = t("dashboard.teams.index.status.active")
+              tr
+                td.f-reg-14 = t("ui.dashboard.agent.test.should_i_carry_an_edipen_rf_lye_had_a_severe")
+                td.f-reg-14 
+                  = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:t("ui.dashboard.agent.test.tick"))
+                td
+                  .status-tag.bg-green
+                    .bullet
+                    span.f-reg-12 = t("dashboard.teams.index.status.active")
+              tr
+                td.f-reg-14 = t("ui.dashboard.agent.test.can_children_outgrow_allergies")
+                td.f-reg-14 
+                  = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:t("ui.dashboard.agent.test.tick"))
+                td
+                  .status-tag.bg-green
+                    .bullet
+                    span.f-reg-12 = t("dashboard.teams.index.status.active")
+              tr
+                td.f-reg-14 = t("ui.dashboard.agent.test.what_is_an_allergy_management_plan")
+                td.f-reg-14 
+                  = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:t("ui.dashboard.agent.test.tick"))
+                td
+                  .status-tag.bg-green
+                    .bullet
+                    span.f-reg-12 = t("dashboard.teams.index.status.active")
+              tr
+                td.f-reg-14 = t("ui.dashboard.agent.test.can_avoiding_allergens_help_reduce_symptoms")
+                td.f-reg-14 
+                  = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:t("ui.dashboard.agent.test.tick"))
+                td
+                  .status-tag.bg-green
+                    .bullet
+                    span.f-reg-12 = t("dashboard.teams.index.status.active")
+              tr
+                td.f-reg-14 = t("ui.dashboard.agent.test.how_does_desensitisation_help_manage_allergies")
+                td.f-reg-14 
+                  = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:t("ui.dashboard.agent.test.tick"))
+                td
+                  .status-tag.bg-green
+                    .bullet
+                    span.f-reg-12 = t("dashboard.teams.index.status.active")
+              tr
+                td.f-reg-14 = t("ui.dashboard.agent.test.who_should_administer_immunotherapy")
+                td.f-reg-14 
+                  = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:t("ui.dashboard.agent.test.tick"))
+                td
+                  .status-tag.bg-green
+                    .bullet
+                    span.f-reg-12 = t("dashboard.teams.index.status.active")
+
+      .answer-section data-controller="accordion"
+        .ans-header
+          h3.f-semi-14 = t("ui.dashboard.agent.test.evaluate_answer")
+          / = inline_svg_tag("arrow_down.svg", class:"st-dropdown-icon", alt:"menu")
+          / = inline_svg_tag("arrow_down.svg", class:"st-dropdown-icon", alt:"menu")
+        p.f-reg-12.client-question = t("ui.dashboard.agent.test.is_there_a_cure_or_long_term_solution_for_severe")
+        p.f-reg-12.agent-answer = t("ui.dashboard.agent.test.al_agent_while_there_isn_t_a_definitive_cure_for")
+        
+        h3.f-semi-14 = t("ui.dashboard.agent.test.this_answer_uses")
+        
+        button.accordian data-action="click->accordion#toggle"
+          p.f-semi-12 = t("ui.dashboard.agent.test.content_2")
+          = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
+        .panel data-accordion-target="panel"
+          .section-flex 
+            = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:t("ui.dashboard.agent.test.tick"))
+            h5.f-med-10 = t("ui.dashboard.agent.test.hay_fever_allergis_in_2025_what_you_need_to_know")
+          .section-flex 
+            = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:t("ui.dashboard.agent.test.tick"))
+            h5.f-med-10 = t("ui.dashboard.agent.test.allegies_updated")
+          .section-flex 
+            = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:t("ui.dashboard.agent.test.tick"))
+            h5.f-med-10 = t("ui.dashboard.agent.test.what_is_hayfever")
+            
+        button.accordian data-action="click->accordion#toggle"
+          p.f-semi-12 = t("ui.dashboard.agent.test.guidance_3")
+          = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
+        .panel data-accordion-target="panel"
+          .section-flex 
+            = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:t("ui.dashboard.agent.test.tick"))
+            h5.f-med-10 = t("ui.dashboard.agent.test.hay_fever_allergis_in_2025_what_you_need_to_know")
+          .section-flex 
+            = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:t("ui.dashboard.agent.test.tick"))
+            h5.f-med-10 = t("ui.dashboard.agent.test.allegies_updated")
+          .section-flex 
+            = inline_svg_tag("black_tick.svg", class:"tick-icon", alt:t("ui.dashboard.agent.test.tick"))
+            h5.f-med-10 = t("ui.dashboard.agent.test.what_is_hayfever")

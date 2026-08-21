@@ -3,124 +3,124 @@
 - overview_items = [{ icon: "flag.svg", label: t("dashboard.channels.edit.page_name", default: "Page Name"), value: channel_name, brand: true }, { icon_text: "#", label: t("dashboard.channels.edit.page_id", default: "Page ID"), value: @facebook_channel.page_identifier, brand: true }]
 - overview_meta = { icon: "clock.svg", label: t("dashboard.channels.edit.created", default: "Created"), value: t("dashboard.channels.edit.created_ago", time: time_ago_in_words(@facebook_channel.created_at), default: "About %{time} ago") }
 
-= render("dashboard/shared/dashboard_container", current_page: "settings") do
-  = render("dashboard/settings/settings_sidebar", current_page: "facebook-channels") do
-    .channel-edit.channel-theme-facebook
-      header.channel-edit__header
-        .channel-edit__header-main
-          = link_to channels_facebook_index_path, class: "channel-edit__back", aria: { label: t("dashboard.facebook_channels.form.back") } do
-            = inline_svg_tag("back_arrow.svg", aria: { hidden: true })
-          .channel-edit__heading
-            h1 = t("dashboard.facebook_channels.edit.title")
-            p = t("dashboard.channels.edit.facebook_description", default: "Update your Facebook Page connection and inbox settings.")
+/ = render("dashboard/shared/dashboard_container", current_page: "settings") do
+= render("dashboard/settings/settings_sidebar", current_page: "facebook-channels") do
+  .channel-edit.channel-theme-facebook
+    header.channel-edit__header
+      .channel-edit__header-main
+        = link_to channels_facebook_index_path, class: "channel-edit__back", aria: { label: t("dashboard.facebook_channels.form.back") } do
+          = inline_svg_tag("back_arrow.svg", aria: { hidden: true })
+        .channel-edit__heading
+          h1 = t("dashboard.facebook_channels.edit.title")
+          p = t("dashboard.channels.edit.facebook_description", default: "Update your Facebook Page connection and inbox settings.")
 
-        .channel-edit__header-actions
-          = link_to t("dashboard.facebook_channels.form.cancel"), channels_facebook_index_path, class: "channel-edit__button channel-edit__button--secondary"
-          button.channel-edit__button.channel-edit__button--primary type="submit" form="facebook-channel-edit-form"
-            = inline_svg_tag("ai_agents/new_agent_check.svg", aria: { hidden: true })
-            span = t("dashboard.facebook_channels.form.save")
+      .channel-edit__header-actions
+        = link_to t("dashboard.facebook_channels.form.cancel"), channels_facebook_index_path, class: "channel-edit__button channel-edit__button--secondary"
+        button.channel-edit__button.channel-edit__button--primary type="submit" form="facebook-channel-edit-form"
+          = inline_svg_tag("ai_agents/new_agent_check.svg", aria: { hidden: true })
+          span = t("dashboard.facebook_channels.form.save")
 
-      .channel-edit__viewport
-        .channel-edit__layout
-          = form_with model: @facebook_channel, url: channels_facebook_path(id: @facebook_channel.id), method: :patch, id: "facebook-channel-edit-form", class: "channel-edit__form ui-settings-form" do |f|
-            - if @facebook_channel.errors.any?
-              .channel-edit__errors role="alert"
-                p = @facebook_channel.errors.full_messages.to_sentence
+    .channel-edit__viewport
+      .channel-edit__layout
+        = form_with model: @facebook_channel, url: channels_facebook_path(id: @facebook_channel.id), method: :patch, id: "facebook-channel-edit-form", class: "channel-edit__form ui-settings-form" do |f|
+          - if @facebook_channel.errors.any?
+            .channel-edit__errors role="alert"
+              p = @facebook_channel.errors.full_messages.to_sentence
 
-            section.channel-edit-profile.channel-edit-card
-              .channel-edit-profile__body
-                .channel-edit-profile__identity
-                  - if @facebook_channel.avatar_url.present?
-                    = image_tag(@facebook_channel.avatar_url, class: "channel-edit-profile__avatar", alt: channel_name)
-                  - else
-                    .channel-edit-profile__avatar.channel-edit-profile__avatar--fallback
-                      = inline_svg_tag("facebook.svg", aria: { hidden: true })
-                  .channel-edit-profile__copy
-                    .channel-edit-profile__title
-                      h2 = channel_name
-                      span.channel-edit-profile__type = t("dashboard.sidebar.channels.facebook")
-                    p = @facebook_channel.page_identifier
+          section.channel-edit-profile.channel-edit-card
+            .channel-edit-profile__body
+              .channel-edit-profile__identity
+                - if @facebook_channel.avatar_url.present?
+                  = image_tag(@facebook_channel.avatar_url, class: "channel-edit-profile__avatar", alt: channel_name)
+                - else
+                  .channel-edit-profile__avatar.channel-edit-profile__avatar--fallback
+                    = inline_svg_tag("facebook.svg", aria: { hidden: true })
+                .channel-edit-profile__copy
+                  .channel-edit-profile__title
+                    h2 = channel_name
+                    span.channel-edit-profile__type = t("dashboard.sidebar.channels.facebook")
+                  p = @facebook_channel.page_identifier
 
-              .channel-edit-profile__footer
-                .channel-edit-profile__created
-                  = inline_svg_tag("clock.svg", aria: { hidden: true })
-                  span = t("dashboard.facebook_channels.index.created_ago", time: time_ago_in_words(@facebook_channel.created_at))
-                .channel-edit-profile__status class=(connected ? "channel-edit-profile__status--connected" : "channel-edit-profile__status--disconnected")
-                  span aria-hidden="true"
-                  = connected ? t("dashboard.channels.edit.active", default: "Active") : t("dashboard.facebook_channels.index.status_reauth")
+            .channel-edit-profile__footer
+              .channel-edit-profile__created
+                = inline_svg_tag("clock.svg", aria: { hidden: true })
+                span = t("dashboard.facebook_channels.index.created_ago", time: time_ago_in_words(@facebook_channel.created_at))
+              .channel-edit-profile__status class=(connected ? "channel-edit-profile__status--connected" : "channel-edit-profile__status--disconnected")
+                span aria-hidden="true"
+                = connected ? t("dashboard.channels.edit.active", default: "Active") : t("dashboard.facebook_channels.index.status_reauth")
 
-              - unless connected
-                .channel-edit-profile__reauth
-                  .channel-edit-profile__reauth-copy
-                    strong = t("dashboard.facebook_channels.edit.reauth_title")
-                    span = t("dashboard.facebook_channels.edit.reauth_description")
-                  = link_to t("dashboard.facebook_channels.index.reconnect"), reconnect_channels_facebook_path(id: @facebook_channel.id), class: "channel-edit-profile__reconnect", data: { turbo_method: :post }
+            - unless connected
+              .channel-edit-profile__reauth
+                .channel-edit-profile__reauth-copy
+                  strong = t("dashboard.facebook_channels.edit.reauth_title")
+                  span = t("dashboard.facebook_channels.edit.reauth_description")
+                = link_to t("dashboard.facebook_channels.index.reconnect"), reconnect_channels_facebook_path(id: @facebook_channel.id), class: "channel-edit-profile__reconnect", data: { turbo_method: :post }
 
-            section.channel-edit-section.channel-edit-card
-              .channel-edit-section__heading
-                .channel-edit-section__icon
-                  = inline_svg_tag("info.svg", aria: { hidden: true })
-                h2 = t("dashboard.channels.edit.channel_information", default: "Channel Information")
-              .channel-edit-section__body
-                .channel-edit-field
-                  = f.label :name, t("dashboard.facebook_channels.new.name_label")
-                  = f.text_field :name, placeholder: t("dashboard.facebook_channels.new.name_placeholder")
-                  p = t("dashboard.channels.edit.channel_name_hint", default: "This name will be used to identify this channel within your workspace.")
+          section.channel-edit-section.channel-edit-card
+            .channel-edit-section__heading
+              .channel-edit-section__icon
+                = inline_svg_tag("info.svg", aria: { hidden: true })
+              h2 = t("dashboard.channels.edit.channel_information", default: "Channel Information")
+            .channel-edit-section__body
+              .channel-edit-field
+                = f.label :name, t("dashboard.facebook_channels.new.name_label")
+                = f.text_field :name, placeholder: t("dashboard.facebook_channels.new.name_placeholder")
+                p = t("dashboard.channels.edit.channel_name_hint", default: "This name will be used to identify this channel within your workspace.")
 
-            - if @facebook_channel.primary_inbox
-              = f.fields_for :primary_inbox, @facebook_channel.primary_inbox do |inbox|
-                = inbox.hidden_field :id
+          - if @facebook_channel.primary_inbox
+            = f.fields_for :primary_inbox, @facebook_channel.primary_inbox do |inbox|
+              = inbox.hidden_field :id
 
-                section.channel-edit-section.channel-edit-card
-                  .channel-edit-section__heading
-                    .channel-edit-section__icon
-                      = inline_svg_tag("inbox_ed.svg", aria: { hidden: true })
-                    h2 = t("dashboard.facebook_channels.edit.inbox_settings_title")
-                  .channel-edit-section__body
-                    .channel-edit-toggle-row
-                      label.channel-edit-toggle
-                        = inbox.check_box :csat_survey_enabled
-                        span.channel-edit-toggle__track aria-hidden="true"
-                      .channel-edit-toggle-row__copy
-                        = inbox.label :csat_survey_enabled, t("dashboard.facebook_channels.edit.csat_enabled")
-                        p = t("dashboard.channels.edit.csat_hint", default: "Show CSAT survey to customers after conversations are resolved.")
+              section.channel-edit-section.channel-edit-card
+                .channel-edit-section__heading
+                  .channel-edit-section__icon
+                    = inline_svg_tag("inbox_ed.svg", aria: { hidden: true })
+                  h2 = t("dashboard.facebook_channels.edit.inbox_settings_title")
+                .channel-edit-section__body
+                  .channel-edit-toggle-row
+                    label.channel-edit-toggle
+                      = inbox.check_box :csat_survey_enabled
+                      span.channel-edit-toggle__track aria-hidden="true"
+                    .channel-edit-toggle-row__copy
+                      = inbox.label :csat_survey_enabled, t("dashboard.facebook_channels.edit.csat_enabled")
+                      p = t("dashboard.channels.edit.csat_hint", default: "Show CSAT survey to customers after conversations are resolved.")
 
-                    .channel-edit-field.channel-edit-field--select
-                      = inbox.label :csat_survey_id, t("forms.labels.csat_survey")
-                      .channel-edit-select.ui-field-control.ui-field-control--no-icon
-                        = inbox.collection_select :csat_survey_id, current_account.csat_surveys, :id, :name, { include_blank: t("forms.options.default_system_survey") }, { class: "ui-select ui-control", data: { controller: "select" } }
+                  .channel-edit-field.channel-edit-field--select
+                    = inbox.label :csat_survey_id, t("forms.labels.csat_survey")
+                    .channel-edit-select.ui-field-control.ui-field-control--no-icon
+                      = inbox.collection_select :csat_survey_id, current_account.csat_surveys, :id, :name, { include_blank: t("forms.options.default_system_survey") }, { class: "ui-select ui-control", data: { controller: "select" } }
 
-                section.channel-edit-section.channel-edit-card
-                  .channel-edit-section__heading.channel-edit-section__heading--with-description
-                    .channel-edit-section__icon
-                      = inline_svg_tag("clock.svg", aria: { hidden: true })
-                    .channel-edit-section__heading-copy
-                      h2 = t("forms.labels.business_hours")
-                      p = t("dashboard.channels.edit.business_hours_hint", default: "Define when you are available to respond.")
-                  .channel-edit-section__body
-                    .channel-edit-field.channel-edit-field--select
-                      = inbox.label :business_hour_group_id, t("forms.options.always_online_24_7")
-                      .channel-edit-select.ui-field-control.ui-field-control--no-icon
-                        = inbox.collection_select :business_hour_group_id, current_account.business_hour_groups, :id, :name, { include_blank: t("dashboard.channels.edit.always_available", default: "Your team is available 24/7") }, { class: "ui-select ui-control", data: { controller: "select" } }
+              section.channel-edit-section.channel-edit-card
+                .channel-edit-section__heading.channel-edit-section__heading--with-description
+                  .channel-edit-section__icon
+                    = inline_svg_tag("clock.svg", aria: { hidden: true })
+                  .channel-edit-section__heading-copy
+                    h2 = t("forms.labels.business_hours")
+                    p = t("dashboard.channels.edit.business_hours_hint", default: "Define when you are available to respond.")
+                .channel-edit-section__body
+                  .channel-edit-field.channel-edit-field--select
+                    = inbox.label :business_hour_group_id, t("forms.options.always_online_24_7")
+                    .channel-edit-select.ui-field-control.ui-field-control--no-icon
+                      = inbox.collection_select :business_hour_group_id, current_account.business_hour_groups, :id, :name, { include_blank: t("dashboard.channels.edit.always_available", default: "Your team is available 24/7") }, { class: "ui-select ui-control", data: { controller: "select" } }
 
-                section.channel-edit-section.channel-edit-card
-                  .channel-edit-section__heading.channel-edit-section__heading--with-description
-                    .channel-edit-section__icon
-                      = inline_svg_tag("chat.svg", aria: { hidden: true })
-                    .channel-edit-section__heading-copy
-                      h2 = t("forms.labels.sla_policies")
-                      p = t("dashboard.channels.edit.sla_hint", default: "Choose the SLA policy for this channel.")
-                  .channel-edit-section__body
-                    .channel-edit-field.channel-edit-field--select
-                      .channel-edit-select.ui-field-control.ui-field-control--no-icon
-                        = select_tag "#{inbox.object_name}[sla_policy_ids][]", options_from_collection_for_select(current_account.sla_policies, :id, :name, inbox.object.sla_policy_ids.first), include_blank: t("dashboard.channels.edit.none_selected", default: "None Selected"), class: "ui-select ui-control", data: { controller: "select" }
+              section.channel-edit-section.channel-edit-card
+                .channel-edit-section__heading.channel-edit-section__heading--with-description
+                  .channel-edit-section__icon
+                    = inline_svg_tag("chat.svg", aria: { hidden: true })
+                  .channel-edit-section__heading-copy
+                    h2 = t("forms.labels.sla_policies")
+                    p = t("dashboard.channels.edit.sla_hint", default: "Choose the SLA policy for this channel.")
+                .channel-edit-section__body
+                  .channel-edit-field.channel-edit-field--select
+                    .channel-edit-select.ui-field-control.ui-field-control--no-icon
+                      = select_tag "#{inbox.object_name}[sla_policy_ids][]", options_from_collection_for_select(current_account.sla_policies, :id, :name, inbox.object.sla_policy_ids.first), include_blank: t("dashboard.channels.edit.none_selected", default: "None Selected"), class: "ui-select ui-control", data: { controller: "select" }
 
-          aside.channel-edit__aside
-            = render "dashboard/channels/shared/edit_overview", platform_icon: "inbox_ed.svg", platform_name: t("dashboard.channels.edit.facebook_page", default: "Facebook Page"), overview_items: overview_items, connected: connected, status_label: (connected ? t("dashboard.facebook_channels.index.status_active") : t("dashboard.facebook_channels.index.status_reauth")), meta_item: overview_meta
+        aside.channel-edit__aside
+          = render "dashboard/channels/shared/edit_overview", platform_icon: "inbox_ed.svg", platform_name: t("dashboard.channels.edit.facebook_page", default: "Facebook Page"), overview_items: overview_items, connected: connected, status_label: (connected ? t("dashboard.facebook_channels.index.status_active") : t("dashboard.facebook_channels.index.status_reauth")), meta_item: overview_meta
 
-            section.channel-edit-danger.channel-edit-card
-              h2 = t("dashboard.facebook_channels.edit.danger_title")
-              p = t("dashboard.facebook_channels.edit.danger_description")
-              = link_to channels_facebook_path(id: @facebook_channel.id), class: "channel-edit-danger__button", data: { turbo_method: :delete, turbo_confirm: t("dashboard.facebook_channels.index.delete_confirm") } do
-                = inline_svg_tag("delete_red.svg", aria: { hidden: true })
-                span = t("dashboard.facebook_channels.edit.disconnect")
+          section.channel-edit-danger.channel-edit-card
+            h2 = t("dashboard.facebook_channels.edit.danger_title")
+            p = t("dashboard.facebook_channels.edit.danger_description")
+            = link_to channels_facebook_path(id: @facebook_channel.id), class: "channel-edit-danger__button", data: { turbo_method: :delete, turbo_confirm: t("dashboard.facebook_channels.index.delete_confirm") } do
+              = inline_svg_tag("delete_red.svg", aria: { hidden: true })
+              span = t("dashboard.facebook_channels.edit.disconnect")

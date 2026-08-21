@@ -1,45 +1,45 @@
-= render("dashboard/shared/dashboard_container", current_page: "settings") do
-  = render("dashboard/settings/settings_sidebar", current_page: "all-channels") do
-    .ui-settings-page.channel-index data-controller="modal-toggler frame-toggler"
-      = render("dashboard/shared/modal_popper")
-      header.ui-settings-page__header
-        .ui-settings-page__heading
-          h1 = t("dashboard.channels_overview.title", default: "Channels")
-          p = t("dashboard.channels_overview.description", default: "Manage all your connected communication channels.")
+/ = render("dashboard/shared/dashboard_container", current_page: "settings") do
+= render("dashboard/settings/settings_sidebar", current_page: "all-channels") do
+  .ui-settings-page.channel-index data-controller="modal-toggler frame-toggler"
+    = render("dashboard/shared/modal_popper")
+    header.ui-settings-page__header
+      .ui-settings-page__heading
+        h1 = t("dashboard.channels_overview.title", default: "Channels")
+        p = t("dashboard.channels_overview.description", default: "Manage all your connected communication channels.")
 
-        .tm-users-header-actions
-          button.tm-users-invite.tm-team-modal-button type="button" data-action="click->modal-toggler#showModal click->frame-toggler#loadModal" data-popup-view="_new_channel_modal"
-            span = t("dashboard.channels_overview.add_channel", default: "Add new channel")
-            = inline_svg_tag("plus_white.svg", class:"plus-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+      .tm-users-header-actions
+        button.tm-users-invite.tm-team-modal-button type="button" data-action="click->modal-toggler#showModal click->frame-toggler#loadModal" data-popup-view="_new_channel_modal"
+          span = t("dashboard.channels_overview.add_channel", default: "Add new channel")
+          = inline_svg_tag("plus_white.svg", class:"plus-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
 
-      main.ui-settings-page__content
-        input.channel-tab__input.channel-tab__input--all type="radio" name="channel-filter" id="channel-filter-all" checked=(@selected_type == "all")
-        - @channel_counts.each_key do |type|
-          input.channel-tab__input class="channel-tab__input--#{type.dasherize}" type="radio" name="channel-filter" id="channel-filter-#{type.dasherize}" checked=(@selected_type == type)
+    main.ui-settings-page__content
+      input.channel-tab__input.channel-tab__input--all type="radio" name="channel-filter" id="channel-filter-all" checked=(@selected_type == "all")
+      - @channel_counts.each_key do |type|
+        input.channel-tab__input class="channel-tab__input--#{type.dasherize}" type="radio" name="channel-filter" id="channel-filter-#{type.dasherize}" checked=(@selected_type == type)
 
-        nav.channel-tabs aria-label=t("dashboard.channels_overview.filter_label", default: "Filter channels by type")
-          label.channel-tab.channel-tab--all for="channel-filter-all"
-            span.channel-tab__label.channel-tab__label--full = t("dashboard.channels_overview.all_channels", default: "All Channels")
-            span.channel-tab__label.channel-tab__label--compact = t("dashboard.channels_overview.all", default: "All")
-            small = @channel_counts.values.sum
+      nav.channel-tabs aria-label=t("dashboard.channels_overview.filter_label", default: "Filter channels by type")
+        label.channel-tab.channel-tab--all for="channel-filter-all"
+          span.channel-tab__label.channel-tab__label--full = t("dashboard.channels_overview.all_channels", default: "All Channels")
+          span.channel-tab__label.channel-tab__label--compact = t("dashboard.channels_overview.all", default: "All")
+          small = @channel_counts.values.sum
 
-          - @channel_counts.each do |type, count|
-            label.channel-tab class="channel-tab--#{type.dasherize}" for="channel-filter-#{type.dasherize}"
-              = image_tag channel_overview_icon(type), alt: "", aria: { hidden: true }
-              span.channel-tab__label = channel_overview_type_label(type)
-              small = count
+        - @channel_counts.each do |type, count|
+          label.channel-tab class="channel-tab--#{type.dasherize}" for="channel-filter-#{type.dasherize}"
+            = image_tag channel_overview_icon(type), alt: "", aria: { hidden: true }
+            span.channel-tab__label = channel_overview_type_label(type)
+            small = count
 
-        section.channel-grid aria-live="polite"
-          - @channels.each do |channel|
-            = render "dashboard/channels/shared/card", channel: channel, show_type: true
+      section.channel-grid aria-live="polite"
+        - @channels.each do |channel|
+          = render "dashboard/channels/shared/card", channel: channel, show_type: true
 
-        - [["all", @channel_counts.values.sum], *@channel_counts.to_a].each do |type, count|
-          - if count.zero?
-            .channel-empty.channel-empty--filter class="channel-empty--#{type.dasherize}"
-              .channel-empty__icon
-                = image_tag channel_overview_icon(type == "all" ? "custom" : type), alt: "", aria: { hidden: true }
-              h2 = t("dashboard.channels_overview.empty_title", default: "No channels found")
-              - if type == "all"
-                p = t("dashboard.channels_overview.empty_description", default: "Connect a channel to start receiving customer conversations in Deskbolic.")
-              - else
-                p = t("dashboard.channels_overview.empty_filtered_description", type: channel_overview_type_label(type), default: "You haven't connected any %{type} channels yet.")
+      - [["all", @channel_counts.values.sum], *@channel_counts.to_a].each do |type, count|
+        - if count.zero?
+          .channel-empty.channel-empty--filter class="channel-empty--#{type.dasherize}"
+            .channel-empty__icon
+              = image_tag channel_overview_icon(type == "all" ? "custom" : type), alt: "", aria: { hidden: true }
+            h2 = t("dashboard.channels_overview.empty_title", default: "No channels found")
+            - if type == "all"
+              p = t("dashboard.channels_overview.empty_description", default: "Connect a channel to start receiving customer conversations in Deskbolic.")
+            - else
+              p = t("dashboard.channels_overview.empty_filtered_description", type: channel_overview_type_label(type), default: "You haven't connected any %{type} channels yet.")

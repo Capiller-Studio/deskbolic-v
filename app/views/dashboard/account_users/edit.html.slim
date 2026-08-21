@@ -1,59 +1,59 @@
-= render("dashboard/shared/dashboard_container", current_page: "settings") do
-  = render("dashboard/settings/settings_sidebar", current_page: "users") do
-    - roles = current_account.roles.order(system_provided: :desc, name: :asc)
-    - selected_roles = roles.select { |role| @account_user.role_ids.include?(role.id) }
-    - user = @account_user.user
-    - member_name = full_name(user).presence || user.email
+/ = render("dashboard/shared/dashboard_container", current_page: "settings") do
+= render("dashboard/settings/settings_sidebar", current_page: "users") do
+  - roles = current_account.roles.order(system_provided: :desc, name: :asc)
+  - selected_roles = roles.select { |role| @account_user.role_ids.include?(role.id) }
+  - user = @account_user.user
+  - member_name = full_name(user).presence || user.email
 
-    .tm-invite.tm-role-editor data-controller="option-preview" data-option-preview-more-label-value=invitation_more_permissions_text("__COUNT__") data-option-preview-show-less-label-value=t("ui.dashboard.account_invitations.new.show_less") data-option-preview-no-permissions-label-value=invitation_no_permissions_text
-      .tm-invite-header
-        = link_to t("dashboard.users.form.back"), users_path, class: "tm-role-editor-back"
-        h1 = t("dashboard.users.edit.title")
-        p = t("dashboard.users.edit.description", name: member_name)
+  .tm-invite.tm-role-editor data-controller="option-preview" data-option-preview-more-label-value=invitation_more_permissions_text("__COUNT__") data-option-preview-show-less-label-value=t("ui.dashboard.account_invitations.new.show_less") data-option-preview-no-permissions-label-value=invitation_no_permissions_text
+    .tm-invite-header
+      = link_to t("dashboard.users.form.back"), users_path, class: "tm-role-editor-back"
+      h1 = t("dashboard.users.edit.title")
+      p = t("dashboard.users.edit.description", name: member_name)
 
-      = form_with model: @account_user, url: user_path(@account_user), local: true, class: "tm-invite-form" do |f|
-        .tm-invite-content
-          .tm-invite-main
-            section.tm-step
-              .tm-step-heading
-                span.tm-step-number 1
-                h2 = t("dashboard.users.form.email_label")
-              .tm-email-field.tm-email-field-disabled
-                svg viewBox="0 0 24 24" aria-hidden="true"
-                  path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2Z"
-                  path d="m22 6-10 7L2 6"
-                input type="email" value=user.email disabled=true
+    = form_with model: @account_user, url: user_path(@account_user), local: true, class: "tm-invite-form" do |f|
+      .tm-invite-content
+        .tm-invite-main
+          section.tm-step
+            .tm-step-heading
+              span.tm-step-number 1
+              h2 = t("dashboard.users.form.email_label")
+            .tm-email-field.tm-email-field-disabled
+              svg viewBox="0 0 24 24" aria-hidden="true"
+                path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2Z"
+                path d="m22 6-10 7L2 6"
+              input type="email" value=user.email disabled=true
 
-            section.tm-step
-              .tm-step-heading
-                span.tm-step-number 2
-                h2 = t("dashboard.users.form.roles_title")
-              p.tm-step-hint = t("dashboard.users.form.roles_desc")
-              = render "dashboard/shared/role_picker", roles: roles, field_name: "account_user[role_ids][]", selected_role_ids: @account_user.role_ids, multiple: true
+          section.tm-step
+            .tm-step-heading
+              span.tm-step-number 2
+              h2 = t("dashboard.users.form.roles_title")
+            p.tm-step-hint = t("dashboard.users.form.roles_desc")
+            = render "dashboard/shared/role_picker", roles: roles, field_name: "account_user[role_ids][]", selected_role_ids: @account_user.role_ids, multiple: true
 
-            section.tm-step.tm-step-permissions
-              .tm-step-heading
-                span.tm-step-number 3
-                h2 = t("ui.dashboard.account_invitations.new.permission_preview")
-              p.tm-step-hint = t("ui.dashboard.account_invitations.new.this_member_will_receive")
-              = render "dashboard/shared/permission_preview", selected_roles: selected_roles
+          section.tm-step.tm-step-permissions
+            .tm-step-heading
+              span.tm-step-number 3
+              h2 = t("ui.dashboard.account_invitations.new.permission_preview")
+            p.tm-step-hint = t("ui.dashboard.account_invitations.new.this_member_will_receive")
+            = render "dashboard/shared/permission_preview", selected_roles: selected_roles
 
-          aside.tm-invite-summary.tm-role-editor-summary
-            - if user.avatar.attached?
-              = image_tag user.avatar, class: "tm-role-editor-avatar", alt: member_name
+        aside.tm-invite-summary.tm-role-editor-summary
+          - if user.avatar.attached?
+            = image_tag user.avatar, class: "tm-role-editor-avatar", alt: member_name
+          - else
+            .tm-role-editor-avatar.tm-role-editor-avatar-fallback.avatar-fallback class=avatar_fallback_color_class(member_name)
+              = initials(user)
+          h2 = member_name
+          p = user.email
+          .tm-role-editor-current
+            - if selected_roles.any?
+              - selected_roles.each do |role|
+                span.tm-role-badge class="tm-role-badge-#{role.identifier}" = role.name
             - else
-              .tm-role-editor-avatar.tm-role-editor-avatar-fallback.avatar-fallback class=avatar_fallback_color_class(member_name)
-                = initials(user)
-            h2 = member_name
-            p = user.email
-            .tm-role-editor-current
-              - if selected_roles.any?
-                - selected_roles.each do |role|
-                  span.tm-role-badge class="tm-role-badge-#{role.identifier}" = role.name
-              - else
-                span.tm-role-badge.tm-role-badge-none = t("dashboard.users.index.no_roles")
+              span.tm-role-badge.tm-role-badge-none = t("dashboard.users.index.no_roles")
 
-        .tm-invite-actions
-          = link_to t("dashboard.users.form.cancel"), users_path, class: "tm-button tm-button-secondary"
-          = f.button type: "submit", class: "tm-button tm-button-primary" do
-            | #{t("dashboard.users.form.submit")}
+      .tm-invite-actions
+        = link_to t("dashboard.users.form.cancel"), users_path, class: "tm-button tm-button-secondary"
+        = f.button type: "submit", class: "tm-button tm-button-primary" do
+          | #{t("dashboard.users.form.submit")}

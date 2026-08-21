@@ -1,16 +1,16 @@
-= render("dashboard/shared/dashboard_container", current_page: "settings") do
-  = render("dashboard/settings/settings_sidebar", current_page: "sla-policies") do
-    .ui-settings-editor.ap-settings-editor
-      header.ui-settings-editor__header
-        = link_to sla_policies_path, class: "ui-settings-editor__back", aria: { label: t("dashboard.sla_policies.form.back_to_policies", default: "Back to SLA policies") } do
-          = inline_svg_tag("back_arrow.svg", aria: { hidden: true })
-        .ui-settings-editor__heading
-          h1 = t("dashboard.sla_policies.form.page_title", default: "Policy Details")
-          p = t("dashboard.sla_policies.form.page_description", default: "Create and configure an assignment policy to manage how conversations are assigned.")
-        .ui-settings-editor__header-actions
-          = link_to t("dashboard.sla_policies.form.cancel"), sla_policies_path, class: "ui-btn-secondary"
-          button.ap-btn-save-header type="submit" form="sla-policy-form"
-            = image_tag("mark.svg", class: "ap-save-mark-icon", alt: "")
-            span = t("dashboard.sla_policies.form.save_policy", default: "Save Policy")
-      .ui-settings-editor__body
-        = render "form", policy: @policy
+/ = render("dashboard/shared/dashboard_container", current_page: "settings") do
+= render("dashboard/settings/settings_sidebar", current_page: "sla-policies") do
+  .ui-settings-editor.ap-settings-editor
+    header.ui-settings-editor__header
+      = link_to sla_policies_path, class: "ui-settings-editor__back", aria: { label: t("dashboard.sla_policies.form.back_to_policies", default: "Back to SLA policies") } do
+        = inline_svg_tag("back_arrow.svg", aria: { hidden: true })
+      .ui-settings-editor__heading
+        h1 = t("dashboard.sla_policies.form.page_title", default: "Policy Details")
+        p = t("dashboard.sla_policies.form.page_description", default: "Create and configure an assignment policy to manage how conversations are assigned.")
+      .ui-settings-editor__header-actions
+        = link_to t("dashboard.sla_policies.form.cancel"), sla_policies_path, class: "ui-btn-secondary"
+        button.ap-btn-save-header type="submit" form="sla-policy-form"
+          = image_tag("mark.svg", class: "ap-save-mark-icon", alt: "")
+          span = t("dashboard.sla_policies.form.save_policy", default: "Save Policy")
+    .ui-settings-editor__body
+      = render "form", policy: @policy

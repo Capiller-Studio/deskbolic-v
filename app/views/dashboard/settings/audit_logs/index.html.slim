@@ -1,160 +1,160 @@
-= render("dashboard/shared/dashboard_container", current_page: "settings") do
-  = render("dashboard/settings/settings_sidebar", current_page: "audit-logs") do
-    .ui-settings-page
-      header.ui-settings-page__header
-        .ui-settings-page__heading
-          h1 = t("audit_logs.title")
-          p = t("audit_logs.description")
+/ = render("dashboard/shared/dashboard_container", current_page: "settings") do
+= render("dashboard/settings/settings_sidebar", current_page: "audit-logs") do
+  .ui-settings-page
+    header.ui-settings-page__header
+      .ui-settings-page__heading
+        h1 = t("audit_logs.title")
+        p = t("audit_logs.description")
 
-      main.ui-settings-page__content
-        section.ui-panel.ui-panel--table-page aria-labelledby="audit-logs-title"
-          h2#audit-logs-title.ui-sr-only = t("audit_logs.title")
+    main.ui-settings-page__content
+      section.ui-panel.ui-panel--table-page aria-labelledby="audit-logs-title"
+        h2#audit-logs-title.ui-sr-only = t("audit_logs.title")
 
-          - actor_options = current_account.users.order(:first_name, :last_name, :email).map { |actor| [full_name(actor).presence || actor.email, actor.id] }
-          = form_with url: settings_audit_logs_path, method: :get, class: "ui-control-bar ui-settings-form" do
-            .ui-date-range-picker
-              button.ui-date-range-picker__trigger type="button" popovertarget="audit-date-range-popover"
-                = image_tag("audit_logs/audit-calendar.svg", class: "ui-date-range-picker__icon", alt: "", aria: { hidden: true })
-                span = @from_date && @to_date ? "#{@from_date.strftime('%b %-d, %Y')} - #{@to_date.strftime('%b %-d, %Y')}" : t("audit_logs.all_time", default: "All time")
-                = image_tag("audit_logs/audit-chevron-down.svg", class: "ui-date-range-picker__chevron", alt: "", aria: { hidden: true })
-              #audit-date-range-popover.ui-date-range-picker__popover popover="auto"
-                label.ui-date-range-field
-                  span = t("audit_logs.from", default: "From")
-                  = date_field_tag :from, @from_date&.iso8601, max: @to_date&.iso8601
-                label.ui-date-range-field
-                  span = t("audit_logs.to", default: "To")
-                  = date_field_tag :to, @to_date&.iso8601, min: @from_date&.iso8601
-                = button_tag t("audit_logs.apply", default: "Apply"), type: :submit, class: "ui-button ui-button--primary"
+        - actor_options = current_account.users.order(:first_name, :last_name, :email).map { |actor| [full_name(actor).presence || actor.email, actor.id] }
+        = form_with url: settings_audit_logs_path, method: :get, class: "ui-control-bar ui-settings-form" do
+          .ui-date-range-picker
+            button.ui-date-range-picker__trigger type="button" popovertarget="audit-date-range-popover"
+              = image_tag("audit_logs/audit-calendar.svg", class: "ui-date-range-picker__icon", alt: "", aria: { hidden: true })
+              span = @from_date && @to_date ? "#{@from_date.strftime('%b %-d, %Y')} - #{@to_date.strftime('%b %-d, %Y')}" : t("audit_logs.all_time", default: "All time")
+              = image_tag("audit_logs/audit-chevron-down.svg", class: "ui-date-range-picker__chevron", alt: "", aria: { hidden: true })
+            #audit-date-range-popover.ui-date-range-picker__popover popover="auto"
+              label.ui-date-range-field
+                span = t("audit_logs.from", default: "From")
+                = date_field_tag :from, @from_date&.iso8601, max: @to_date&.iso8601
+              label.ui-date-range-field
+                span = t("audit_logs.to", default: "To")
+                = date_field_tag :to, @to_date&.iso8601, min: @from_date&.iso8601
+              = button_tag t("audit_logs.apply", default: "Apply"), type: :submit, class: "ui-button ui-button--primary"
 
-            .ui-field-control.ui-field-control--compact.ui-field-control--filter.ui-field-control--actor-filter
-              span.ui-field-control__icon aria-hidden="true"
-                = image_tag("audit_logs/audit-user.svg", alt: "")
-              = select_tag :actor_id,
-                options_for_select([[t("audit_logs.all_actors", default: "All Actors"), ""]] + actor_options, @actor_id),
-                class: "ui-select ui-control",
-                data: { controller: "select" },
-                aria: { label: t("audit_logs.filter_by_actor", default: "Filter by actor") },
-                onchange: "this.form.requestSubmit()"
+          .ui-field-control.ui-field-control--compact.ui-field-control--filter.ui-field-control--actor-filter
+            span.ui-field-control__icon aria-hidden="true"
+              = image_tag("audit_logs/audit-user.svg", alt: "")
+            = select_tag :actor_id,
+              options_for_select([[t("audit_logs.all_actors", default: "All Actors"), ""]] + actor_options, @actor_id),
+              class: "ui-select ui-control",
+              data: { controller: "select" },
+              aria: { label: t("audit_logs.filter_by_actor", default: "Filter by actor") },
+              onchange: "this.form.requestSubmit()"
 
-            = hidden_field_tag :per_page, @per_page
+          = hidden_field_tag :per_page, @per_page
 
-          .ui-table-wrap.ui-table-wrap--rounded
-            table.ui-table.ui-table--activity
-              colgroup
-                col.ui-table__timestamp-column
-                col.ui-table__actor-column
-                col.ui-table__event-column
-                col.ui-table__changes-column
-                col.ui-table__actions-column
-              thead
+        .ui-table-wrap.ui-table-wrap--rounded
+          table.ui-table.ui-table--activity
+            colgroup
+              col.ui-table__timestamp-column
+              col.ui-table__actor-column
+              col.ui-table__event-column
+              col.ui-table__changes-column
+              col.ui-table__actions-column
+            thead
+              tr
+                th
+                  span.ui-table__sortable
+                    = t("audit_logs.timestamp")
+                    = image_tag("audit_logs/audit-sort.svg", alt: "", aria: { hidden: true })
+                th = t("audit_logs.actor")
+                th = t("audit_logs.event")
+                th = t("audit_logs.changes")
+                th.ui-table__actions-heading = t("audit_logs.actions")
+            tbody
+              - if @activities.empty?
                 tr
-                  th
-                    span.ui-table__sortable
-                      = t("audit_logs.timestamp")
-                      = image_tag("audit_logs/audit-sort.svg", alt: "", aria: { hidden: true })
-                  th = t("audit_logs.actor")
-                  th = t("audit_logs.event")
-                  th = t("audit_logs.changes")
-                  th.ui-table__actions-heading = t("audit_logs.actions")
-              tbody
-                - if @activities.empty?
+                  td.ui-table__empty colspan="5"
+                    = t("audit_logs.empty")
+              - else
+                - ignored_fields = %w[id created_at updated_at account_id portal_id views_count inbox_id conversation_id contact_id status_id assignable_type assignable_id source identifier display_id uuid]
+                - @activities.each do |activity|
+                  - actor = activity.actor
+                  - actor_name = full_name(actor).presence || actor.try(:email).presence || t("audit_logs.system")
+                  - actor_meta = actor.try(:email).presence || activity.actor_type.to_s.humanize.presence || t("audit_logs.member", default: "Member")
+                  - changes = activity.object_changes.present? ? activity.object_changes.reject { |field, _value| ignored_fields.include?(field) || field.end_with?("_id") } : {}
                   tr
-                    td.ui-table__empty colspan="5"
-                      = t("audit_logs.empty")
-                - else
-                  - ignored_fields = %w[id created_at updated_at account_id portal_id views_count inbox_id conversation_id contact_id status_id assignable_type assignable_id source identifier display_id uuid]
-                  - @activities.each do |activity|
-                    - actor = activity.actor
-                    - actor_name = full_name(actor).presence || actor.try(:email).presence || t("audit_logs.system")
-                    - actor_meta = actor.try(:email).presence || activity.actor_type.to_s.humanize.presence || t("audit_logs.member", default: "Member")
-                    - changes = activity.object_changes.present? ? activity.object_changes.reject { |field, _value| ignored_fields.include?(field) || field.end_with?("_id") } : {}
-                    tr
-                      td.ui-table__timestamp
-                        time datetime=activity.created_at.iso8601 = activity.created_at.strftime("%b %-d, %Y %-I:%M %p")
-                        span = "#{time_ago_in_words(activity.created_at)} #{t('dashboard.identity_sources.index.ago', default: 'ago')}"
-                      td
-                        .ui-identity.ui-identity--activity
-                          .ui-avatar-shell
-                            - if actor.try(:avatar)&.attached?
-                              = image_tag(actor.avatar, class: "ui-avatar ui-avatar--medium", alt: actor_name)
-                            - else
-                              .ui-avatar.ui-avatar--medium.ui-avatar--fallback.avatar-fallback class=avatar_fallback_color_class(actor_name) aria-hidden="true"
-                                = initials(actor)
-                          .ui-identity__copy
-                            strong.ui-identity__title = actor_name
-                            span.ui-identity__meta = actor_meta
-                      td.ui-table__muted = activity.translated_description
-                      td.ui-table__muted
-                        - if changes.any?
-                          .ui-change-stack
-                            - changes.first(2).each do |field, values|
-                              - values = Array(values)
-                              - old_value, new_value = values.length > 1 ? values.first(2) : [nil, values.first]
-                              .ui-change
-                                - if old_value.nil?
-                                  p = "#{field.humanize} #{t('audit_logs.set_to', default: 'set to')}"
-                                  span.ui-change-badge.ui-change-badge--value = new_value.to_s.truncate(30)
-                                - else
-                                  p = "#{field.humanize} #{t('audit_logs.changed_from', default: 'changed from')}"
-                                  .ui-change__values
-                                    span.ui-change-badge.ui-change-badge--before = old_value.to_s.truncate(18)
-                                    small = t("audit_logs.to", default: "to").downcase
-                                    span.ui-change-badge.ui-change-badge--after = new_value.to_s.truncate(18)
-                        - else
-                          span.ui-table__placeholder —
-                      td
-                        - if activity.object_changes.present? || activity.object_snapshot.present?
-                          .ui-table-actions
-                            = button_to revert_settings_audit_log_path(activity, mode: "rollback"), method: :post, class: "ui-button ui-button--compact", data: { turbo: true, turbo_confirm: t("audit_logs.confirm_rollback") } do
-                              = image_tag("audit_logs/audit-rollback.svg", alt: "", aria: { hidden: true })
-                              span = t("audit_logs.rollback")
-                            details.ui-popover-menu
-                              summary.ui-icon-button aria-label=t("audit_logs.more_actions", default: "More actions")
-                                = image_tag("audit_logs/audit-menu.svg", alt: "", aria: { hidden: true })
-                              .ui-popover-menu__content role="menu"
-                                = button_to t("audit_logs.undo"), revert_settings_audit_log_path(activity, mode: "undo"), method: :post, role: "menuitem", data: { turbo: true, turbo_confirm: t("audit_logs.confirm_undo") }
-                        - else
-                          span.ui-table__placeholder —
+                    td.ui-table__timestamp
+                      time datetime=activity.created_at.iso8601 = activity.created_at.strftime("%b %-d, %Y %-I:%M %p")
+                      span = "#{time_ago_in_words(activity.created_at)} #{t('dashboard.identity_sources.index.ago', default: 'ago')}"
+                    td
+                      .ui-identity.ui-identity--activity
+                        .ui-avatar-shell
+                          - if actor.try(:avatar)&.attached?
+                            = image_tag(actor.avatar, class: "ui-avatar ui-avatar--medium", alt: actor_name)
+                          - else
+                            .ui-avatar.ui-avatar--medium.ui-avatar--fallback.avatar-fallback class=avatar_fallback_color_class(actor_name) aria-hidden="true"
+                              = initials(actor)
+                        .ui-identity__copy
+                          strong.ui-identity__title = actor_name
+                          span.ui-identity__meta = actor_meta
+                    td.ui-table__muted = activity.translated_description
+                    td.ui-table__muted
+                      - if changes.any?
+                        .ui-change-stack
+                          - changes.first(2).each do |field, values|
+                            - values = Array(values)
+                            - old_value, new_value = values.length > 1 ? values.first(2) : [nil, values.first]
+                            .ui-change
+                              - if old_value.nil?
+                                p = "#{field.humanize} #{t('audit_logs.set_to', default: 'set to')}"
+                                span.ui-change-badge.ui-change-badge--value = new_value.to_s.truncate(30)
+                              - else
+                                p = "#{field.humanize} #{t('audit_logs.changed_from', default: 'changed from')}"
+                                .ui-change__values
+                                  span.ui-change-badge.ui-change-badge--before = old_value.to_s.truncate(18)
+                                  small = t("audit_logs.to", default: "to").downcase
+                                  span.ui-change-badge.ui-change-badge--after = new_value.to_s.truncate(18)
+                      - else
+                        span.ui-table__placeholder —
+                    td
+                      - if activity.object_changes.present? || activity.object_snapshot.present?
+                        .ui-table-actions
+                          = button_to revert_settings_audit_log_path(activity, mode: "rollback"), method: :post, class: "ui-button ui-button--compact", data: { turbo: true, turbo_confirm: t("audit_logs.confirm_rollback") } do
+                            = image_tag("audit_logs/audit-rollback.svg", alt: "", aria: { hidden: true })
+                            span = t("audit_logs.rollback")
+                          details.ui-popover-menu
+                            summary.ui-icon-button aria-label=t("audit_logs.more_actions", default: "More actions")
+                              = image_tag("audit_logs/audit-menu.svg", alt: "", aria: { hidden: true })
+                            .ui-popover-menu__content role="menu"
+                              = button_to t("audit_logs.undo"), revert_settings_audit_log_path(activity, mode: "undo"), method: :post, role: "menuitem", data: { turbo: true, turbo_confirm: t("audit_logs.confirm_undo") }
+                      - else
+                        span.ui-table__placeholder —
 
-          footer.ui-pagination.ui-pagination--large
-            p.ui-pagination__summary
-              = t("audit_logs.showing_activities", default: "Showing %{from} to %{to} of %{count} activities", from: @pagy.from, to: @pagy.to, count: @pagy.count)
+        footer.ui-pagination.ui-pagination--large
+          p.ui-pagination__summary
+            = t("audit_logs.showing_activities", default: "Showing %{from} to %{to} of %{count} activities", from: @pagy.from, to: @pagy.to, count: @pagy.count)
 
-            .ui-pagination__end
-              = form_with url: settings_audit_logs_path, method: :get, class: "ui-rows-per-page" do
-                = hidden_field_tag :from, @from_date&.iso8601
-                = hidden_field_tag :to, @to_date&.iso8601
-                = hidden_field_tag :actor_id, @actor_id
-                label for="audit-rows-per-page" = t("audit_logs.rows_per_page", default: "Rows per page")
-                .ui-settings-form
-                  .ui-field-control.ui-field-control--compact.ui-field-control--no-icon.ui-field-control--rows
-                    = select_tag :per_page,
-                      options_for_select([10, 20, 50], @per_page),
-                      id: "audit-rows-per-page",
-                      class: "ui-select ui-control",
-                      data: { controller: "select" },
-                      onchange: "this.form.requestSubmit()"
+          .ui-pagination__end
+            = form_with url: settings_audit_logs_path, method: :get, class: "ui-rows-per-page" do
+              = hidden_field_tag :from, @from_date&.iso8601
+              = hidden_field_tag :to, @to_date&.iso8601
+              = hidden_field_tag :actor_id, @actor_id
+              label for="audit-rows-per-page" = t("audit_logs.rows_per_page", default: "Rows per page")
+              .ui-settings-form
+                .ui-field-control.ui-field-control--compact.ui-field-control--no-icon.ui-field-control--rows
+                  = select_tag :per_page,
+                    options_for_select([10, 20, 50], @per_page),
+                    id: "audit-rows-per-page",
+                    class: "ui-select ui-control",
+                    data: { controller: "select" },
+                    onchange: "this.form.requestSubmit()"
 
-              nav.ui-pagination__controls aria-label=t("audit_logs.pagination", default: "Audit log pagination")
-                - if @pagy.prev
-                  = link_to settings_audit_logs_path(request.query_parameters.merge(page: @pagy.prev)), class: "ui-pagination__button", aria: { label: t("audit_logs.previous_page", default: "Previous page") }
-                    = image_tag("audit_logs/audit-previous.svg", alt: "", aria: { hidden: true })
-                - else
-                  span.ui-pagination__button.ui-pagination__button--disabled aria-hidden="true"
-                    = image_tag("audit_logs/audit-previous.svg", alt: "")
+            nav.ui-pagination__controls aria-label=t("audit_logs.pagination", default: "Audit log pagination")
+              - if @pagy.prev
+                = link_to settings_audit_logs_path(request.query_parameters.merge(page: @pagy.prev)), class: "ui-pagination__button", aria: { label: t("audit_logs.previous_page", default: "Previous page") }
+                  = image_tag("audit_logs/audit-previous.svg", alt: "", aria: { hidden: true })
+              - else
+                span.ui-pagination__button.ui-pagination__button--disabled aria-hidden="true"
+                  = image_tag("audit_logs/audit-previous.svg", alt: "")
 
-                - @pagy.series.each do |item|
-                  - case item
-                  - when Integer
-                    = link_to item, settings_audit_logs_path(request.query_parameters.merge(page: item)), class: "ui-pagination__button", aria: { label: t("audit_logs.page_number", default: "Page %{page}", page: item) }
-                  - when String
-                    span.ui-pagination__button.ui-pagination__button--active aria-current="page" = item
-                  - when :gap
-                    span.ui-pagination__gap …
+              - @pagy.series.each do |item|
+                - case item
+                - when Integer
+                  = link_to item, settings_audit_logs_path(request.query_parameters.merge(page: item)), class: "ui-pagination__button", aria: { label: t("audit_logs.page_number", default: "Page %{page}", page: item) }
+                - when String
+                  span.ui-pagination__button.ui-pagination__button--active aria-current="page" = item
+                - when :gap
+                  span.ui-pagination__gap …
 
-                - if @pagy.next
-                  = link_to settings_audit_logs_path(request.query_parameters.merge(page: @pagy.next)), class: "ui-pagination__button", aria: { label: t("audit_logs.next_page", default: "Next page") }
-                    = image_tag("audit_logs/audit-next.svg", alt: "", aria: { hidden: true })
-                - else
-                  span.ui-pagination__button.ui-pagination__button--disabled aria-hidden="true"
-                    = image_tag("audit_logs/audit-next.svg", alt: "")
+              - if @pagy.next
+                = link_to settings_audit_logs_path(request.query_parameters.merge(page: @pagy.next)), class: "ui-pagination__button", aria: { label: t("audit_logs.next_page", default: "Next page") }
+                  = image_tag("audit_logs/audit-next.svg", alt: "", aria: { hidden: true })
+              - else
+                span.ui-pagination__button.ui-pagination__button--disabled aria-hidden="true"
+                  = image_tag("audit_logs/audit-next.svg", alt: "")

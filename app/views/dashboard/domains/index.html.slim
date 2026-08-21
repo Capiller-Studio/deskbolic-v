@@ -1,187 +1,187 @@
-= render("dashboard/shared/dashboard_container", current_page: "domains") do
-  = render("dashboard/settings/settings_sidebar", current_page: "domains") do
-    .body-section.ui-settings-page
-      header.ui-settings-page__header
-        .ui-settings-page__heading
-          h1 = t("dashboard.domains.index.title")
-          p = t("dashboard.domains.index.subtitle", default: "Manage your custom domains and system subdomain.")
+/ = render("dashboard/shared/dashboard_container", current_page: "domains") do
+= render("dashboard/settings/settings_sidebar", current_page: "domains") do
+  .body-section.ui-settings-page
+    header.ui-settings-page__header
+      .ui-settings-page__heading
+        h1 = t("dashboard.domains.index.title")
+        p = t("dashboard.domains.index.subtitle", default: "Manage your custom domains and system subdomain.")
 
-      / - if flash[:notice]
-      /   .alert.alert-green
-      /     p.f-reg-12 = flash[:notice]
-      / - if flash[:alert]
-      /   .alert.alert-red
-      /     p.f-reg-12 = flash[:alert]
+    / - if flash[:notice]
+    /   .alert.alert-green
+    /     p.f-reg-12 = flash[:notice]
+    / - if flash[:alert]
+    /   .alert.alert-red
+    /     p.f-reg-12 = flash[:alert]
 
-      main.ui-settings-page__content.ui-domain-page
-        - if @subdomain
-          section.ui-domain-section aria-labelledby="system-subdomain-title"
-            .ui-domain-section__header
-              .ui-domain-section__heading
-                .ui-domain-section__icon aria-hidden="true"
+    main.ui-settings-page__content.ui-domain-page
+      - if @subdomain
+        section.ui-domain-section aria-labelledby="system-subdomain-title"
+          .ui-domain-section__header
+            .ui-domain-section__heading
+              .ui-domain-section__icon aria-hidden="true"
+                = inline_svg_tag("domain.svg")
+              div
+                h2#system-subdomain-title = t("dashboard.domains.index.system_subdomain.title")
+                p = t("dashboard.domains.index.system_subdomain.description")
+
+          .ui-domain-card
+            .ui-domain-card__top
+              .ui-domain-card__identity
+                .ui-domain-card__icon aria-hidden="true"
                   = inline_svg_tag("domain.svg")
                 div
-                  h2#system-subdomain-title = t("dashboard.domains.index.system_subdomain.title")
-                  p = t("dashboard.domains.index.system_subdomain.description")
+                  h3 = @subdomain.value
+                  - if @subdomain.name.present? && @subdomain.name != @subdomain.subdomain_slug
+                    p = @subdomain.name
+              .ui-domain-card__statuses
+                span.ui-domain-status.ui-domain-status--success
+                  span.ui-domain-status__dot aria-hidden="true"
+                  = t("dashboard.domains.index.system_subdomain.active")
+                span.ui-domain-status.ui-domain-status--success
+                  = inline_svg_tag("green_lock.svg", aria: { hidden: true })
+                  = t("dashboard.domains.index.system_subdomain.ssl_active")
+            .ui-domain-card__footer
+              p
+                span = t("dashboard.domains.index.system_subdomain.portal_label", name: "")
+                - if @subdomain.portal.present?
+                  = link_to @subdomain.portal.name, edit_help_center_portal_path(@subdomain.portal)
+                - else
+                  span.ui-domain-card__muted = t("dashboard.domains.index.system_subdomain.no_portal")
+              = link_to edit_domain_path(@subdomain), class: "ui-domain-card__chevron", aria: { label: t("dashboard.domains.index.edit") } do
+                = inline_svg_tag("arrow.svg", aria: { hidden: true })
+      - else
+        section.ui-domain-empty.ui-domain-empty--soft aria-labelledby="system-subdomain-empty-title"
+          = image_tag("empty-system-subdomain.png", class: "ui-domain-empty__illustration", alt: "")
+          h2#system-subdomain-empty-title = t("dashboard.domains.index.system_subdomain.empty_title")
+          p = t("dashboard.domains.index.system_subdomain.empty")
 
-            .ui-domain-card
-              .ui-domain-card__top
-                .ui-domain-card__identity
-                  .ui-domain-card__icon aria-hidden="true"
-                    = inline_svg_tag("domain.svg")
-                  div
-                    h3 = @subdomain.value
-                    - if @subdomain.name.present? && @subdomain.name != @subdomain.subdomain_slug
-                      p = @subdomain.name
-                .ui-domain-card__statuses
-                  span.ui-domain-status.ui-domain-status--success
-                    span.ui-domain-status__dot aria-hidden="true"
-                    = t("dashboard.domains.index.system_subdomain.active")
-                  span.ui-domain-status.ui-domain-status--success
-                    = inline_svg_tag("green_lock.svg", aria: { hidden: true })
-                    = t("dashboard.domains.index.system_subdomain.ssl_active")
-              .ui-domain-card__footer
-                p
-                  span = t("dashboard.domains.index.system_subdomain.portal_label", name: "")
-                  - if @subdomain.portal.present?
-                    = link_to @subdomain.portal.name, edit_help_center_portal_path(@subdomain.portal)
-                  - else
-                    span.ui-domain-card__muted = t("dashboard.domains.index.system_subdomain.no_portal")
-                = link_to edit_domain_path(@subdomain), class: "ui-domain-card__chevron", aria: { label: t("dashboard.domains.index.edit") } do
-                  = inline_svg_tag("arrow.svg", aria: { hidden: true })
-        - else
-          section.ui-domain-empty.ui-domain-empty--soft aria-labelledby="system-subdomain-empty-title"
-            = image_tag("empty-system-subdomain.png", class: "ui-domain-empty__illustration", alt: "")
-            h2#system-subdomain-empty-title = t("dashboard.domains.index.system_subdomain.empty_title")
-            p = t("dashboard.domains.index.system_subdomain.empty")
-
-        - if @custom_domains.any?
-          section.ui-domain-section aria-labelledby="custom-domains-title"
-            .ui-domain-section__header
-              .ui-domain-section__heading
-                .ui-domain-section__icon aria-hidden="true"
-                  = inline_svg_tag("domain.svg")
-                div
-                  h2#custom-domains-title = t("dashboard.domains.index.custom_domains.title")
-                  p = t("dashboard.domains.index.custom_domains.description")
-              - if current_account.feature_enabled?(:custom_domains)
-                = link_to new_domain_path, class: "ui-domain-section__action" do
-                  = inline_svg_tag("plus_white.svg", aria: { hidden: true })
-                  span = t("dashboard.domains.index.add_domain", default: "Add Domain")
-              - else
-                = link_to dashboard_billing_path, class: "ui-domain-section__action" do
-                  = inline_svg_tag("plus_white.svg", aria: { hidden: true })
-                  span = t("dashboard.domains.index.upgrade_to_add", default: "Upgrade to Add Domain")
-
-            .ui-domain-table-wrap
-              table.ui-domain-table
-                thead
-                  tr
-                    th = t("dashboard.domains.index.table.domain")
-                    th = t("dashboard.domains.index.table.dns_status")
-                    th = t("dashboard.domains.index.table.ssl_status")
-                    th = t("dashboard.domains.index.table.portal")
-                    th.ui-domain-table__actions = t("dashboard.domains.index.table.actions")
-                tbody
-                  - @custom_domains.each do |domain|
-                    tr
-                      td
-                        strong = domain.value
-                        - if domain.name.present?
-                          span = domain.name
-                      td
-                        - case domain.dns_status
-                        - when "dns_verified"
-                          span.ui-domain-status.ui-domain-status--pill.ui-domain-status--success
-                            = inline_svg_tag("grey_tick.svg", class: "ui-domain-status__mark", aria: { hidden: true })
-                            = t("dashboard.domains.dns_status_badge.dns_verified")
-                        - when "dns_pending"
-                          span.ui-domain-status.ui-domain-status--pill.ui-domain-status--pending
-                            span.ui-domain-status__dot aria-hidden="true"
-                            = t("dashboard.domains.dns_status_badge.dns_pending")
-                        - when "dns_failed"
-                          span.ui-domain-status.ui-domain-status--pill.ui-domain-status--error
-                            = inline_svg_tag("cross.svg", class: "ui-domain-status__mark", aria: { hidden: true })
-                            = t("dashboard.domains.dns_status_badge.dns_failed")
-                        - else
-                          span.ui-domain-status.ui-domain-status--pill.ui-domain-status--neutral
-                            span.ui-domain-status__dot aria-hidden="true"
-                            = t("dashboard.domains.dns_status_badge.dns_unverified")
-                      td
-                        - case domain.ssl_status
-                        - when "ssl_active"
-                          span.ui-domain-status.ui-domain-status--pill.ui-domain-status--success
-                            = inline_svg_tag("green_lock.svg", aria: { hidden: true })
-                            = t("dashboard.domains.ssl_status_badge.ssl_active")
-                        - when "ssl_pending"
-                          span.ui-domain-status.ui-domain-status--pill.ui-domain-status--pending
-                            = inline_svg_tag("lock_orange.svg", aria: { hidden: true })
-                            = t("dashboard.domains.ssl_status_badge.ssl_pending")
-                        - when "ssl_expired", "ssl_failed"
-                          span.ui-domain-status.ui-domain-status--pill.ui-domain-status--error
-                            = inline_svg_tag("red_lock.svg", aria: { hidden: true })
-                            = t("dashboard.domains.ssl_status_badge.#{domain.ssl_status}")
-                        - else
-                          span.ui-domain-status.ui-domain-status--pill.ui-domain-status--error
-                            = inline_svg_tag("red_lock.svg", aria: { hidden: true })
-                            = t("dashboard.domains.ssl_status_badge.ssl_none")
-                      td
-                        - if domain.portal.present?
-                          strong = domain.portal.name
-                        - else
-                          span.ui-domain-table__muted = t("dashboard.domains.index.custom_domains.unattached")
-                      td.ui-domain-table__actions
-                        - unless domain.dns_verified?
-                          = link_to verify_dns_domain_path(domain), method: :post, class: "ui-domain-table__action", title: t("dashboard.domains.index.verify_dns") do
-                            = inline_svg_tag("refresh.svg", aria: { hidden: true })
-                        = link_to edit_domain_path(domain), class: "ui-domain-table__action", title: t("dashboard.domains.index.edit") do
-                          = inline_svg_tag("edit.svg", aria: { hidden: true })
-                        - unless domain.portal.present?
-                          = link_to domain_path(domain), method: :delete, data: { turbo_method: :delete, turbo_confirm: t("dashboard.domains.index.delete_confirm") }, class: "ui-domain-table__action ui-domain-table__action--danger", title: t("dashboard.domains.index.delete") do
-                            = inline_svg_tag("delete_red.svg", aria: { hidden: true })
-        - else
-          section.ui-domain-empty aria-labelledby="custom-domains-empty-title"
-            = image_tag("empty-custom-domain.png", class: "ui-domain-empty__illustration", alt: "")
-            h2#custom-domains-empty-title = t("dashboard.domains.index.custom_domains.empty_title")
-            p = t("dashboard.domains.index.custom_domains.empty_description")
-            span.ui-domain-empty__example = t("dashboard.domains.index.custom_domains.example")
+      - if @custom_domains.any?
+        section.ui-domain-section aria-labelledby="custom-domains-title"
+          .ui-domain-section__header
+            .ui-domain-section__heading
+              .ui-domain-section__icon aria-hidden="true"
+                = inline_svg_tag("domain.svg")
+              div
+                h2#custom-domains-title = t("dashboard.domains.index.custom_domains.title")
+                p = t("dashboard.domains.index.custom_domains.description")
             - if current_account.feature_enabled?(:custom_domains)
-              = link_to new_domain_path, class: "ui-domain-empty__action" do
+              = link_to new_domain_path, class: "ui-domain-section__action" do
                 = inline_svg_tag("plus_white.svg", aria: { hidden: true })
-                span = t("dashboard.domains.index.add_custom_domain")
+                span = t("dashboard.domains.index.add_domain", default: "Add Domain")
             - else
-              = link_to dashboard_billing_path, class: "ui-domain-empty__action" do
+              = link_to dashboard_billing_path, class: "ui-domain-section__action" do
                 = inline_svg_tag("plus_white.svg", aria: { hidden: true })
                 span = t("dashboard.domains.index.upgrade_to_add", default: "Upgrade to Add Domain")
-            p.ui-domain-empty__note
-              = inline_svg_tag("circle_tick.svg", aria: { hidden: true })
-              span = t("dashboard.domains.index.custom_domains.dns_note")
 
-        section.ui-setup-guide aria-labelledby="domain-setup-guide-title"
-          h2#domain-setup-guide-title = t("dashboard.domains.index.cname_instructions.title")
-          ol.ui-setup-guide__steps
-            li.ui-setup-guide__step
-              = inline_svg_tag("setup-add-domain.svg", aria: { hidden: true })
-              h3 = t("dashboard.domains.index.cname_instructions.step_1_title")
-              p = t("dashboard.domains.index.cname_instructions.step_1_desc")
-            li.ui-setup-guide__step
-              = inline_svg_tag("setup-configure-dns.svg", aria: { hidden: true })
-              h3 = t("dashboard.domains.index.cname_instructions.step_2_title")
-              p = t("dashboard.domains.index.cname_instructions.step_2_desc")
-            li.ui-setup-guide__step
-              = inline_svg_tag("setup-verify-ssl.svg", aria: { hidden: true })
-              h3 = t("dashboard.domains.index.cname_instructions.step_3_title")
-              p = t("dashboard.domains.index.cname_instructions.step_3_desc")
-
-          .ui-domain-dns-record
-            table
+          .ui-domain-table-wrap
+            table.ui-domain-table
               thead
                 tr
-                  th = t("dashboard.domains.index.cname_instructions.cname_type")
-                  th = t("dashboard.domains.index.cname_instructions.cname_host")
-                  th = t("dashboard.domains.index.cname_instructions.cname_target")
+                  th = t("dashboard.domains.index.table.domain")
+                  th = t("dashboard.domains.index.table.dns_status")
+                  th = t("dashboard.domains.index.table.ssl_status")
+                  th = t("dashboard.domains.index.table.portal")
+                  th.ui-domain-table__actions = t("dashboard.domains.index.table.actions")
               tbody
-                tr
-                  td CNAME
-                  td = t("dashboard.domains.index.cname_instructions.cname_host_value")
-                  td = Domain::CNAME_TARGET
+                - @custom_domains.each do |domain|
+                  tr
+                    td
+                      strong = domain.value
+                      - if domain.name.present?
+                        span = domain.name
+                    td
+                      - case domain.dns_status
+                      - when "dns_verified"
+                        span.ui-domain-status.ui-domain-status--pill.ui-domain-status--success
+                          = inline_svg_tag("grey_tick.svg", class: "ui-domain-status__mark", aria: { hidden: true })
+                          = t("dashboard.domains.dns_status_badge.dns_verified")
+                      - when "dns_pending"
+                        span.ui-domain-status.ui-domain-status--pill.ui-domain-status--pending
+                          span.ui-domain-status__dot aria-hidden="true"
+                          = t("dashboard.domains.dns_status_badge.dns_pending")
+                      - when "dns_failed"
+                        span.ui-domain-status.ui-domain-status--pill.ui-domain-status--error
+                          = inline_svg_tag("cross.svg", class: "ui-domain-status__mark", aria: { hidden: true })
+                          = t("dashboard.domains.dns_status_badge.dns_failed")
+                      - else
+                        span.ui-domain-status.ui-domain-status--pill.ui-domain-status--neutral
+                          span.ui-domain-status__dot aria-hidden="true"
+                          = t("dashboard.domains.dns_status_badge.dns_unverified")
+                    td
+                      - case domain.ssl_status
+                      - when "ssl_active"
+                        span.ui-domain-status.ui-domain-status--pill.ui-domain-status--success
+                          = inline_svg_tag("green_lock.svg", aria: { hidden: true })
+                          = t("dashboard.domains.ssl_status_badge.ssl_active")
+                      - when "ssl_pending"
+                        span.ui-domain-status.ui-domain-status--pill.ui-domain-status--pending
+                          = inline_svg_tag("lock_orange.svg", aria: { hidden: true })
+                          = t("dashboard.domains.ssl_status_badge.ssl_pending")
+                      - when "ssl_expired", "ssl_failed"
+                        span.ui-domain-status.ui-domain-status--pill.ui-domain-status--error
+                          = inline_svg_tag("red_lock.svg", aria: { hidden: true })
+                          = t("dashboard.domains.ssl_status_badge.#{domain.ssl_status}")
+                      - else
+                        span.ui-domain-status.ui-domain-status--pill.ui-domain-status--error
+                          = inline_svg_tag("red_lock.svg", aria: { hidden: true })
+                          = t("dashboard.domains.ssl_status_badge.ssl_none")
+                    td
+                      - if domain.portal.present?
+                        strong = domain.portal.name
+                      - else
+                        span.ui-domain-table__muted = t("dashboard.domains.index.custom_domains.unattached")
+                    td.ui-domain-table__actions
+                      - unless domain.dns_verified?
+                        = link_to verify_dns_domain_path(domain), method: :post, class: "ui-domain-table__action", title: t("dashboard.domains.index.verify_dns") do
+                          = inline_svg_tag("refresh.svg", aria: { hidden: true })
+                      = link_to edit_domain_path(domain), class: "ui-domain-table__action", title: t("dashboard.domains.index.edit") do
+                        = inline_svg_tag("edit.svg", aria: { hidden: true })
+                      - unless domain.portal.present?
+                        = link_to domain_path(domain), method: :delete, data: { turbo_method: :delete, turbo_confirm: t("dashboard.domains.index.delete_confirm") }, class: "ui-domain-table__action ui-domain-table__action--danger", title: t("dashboard.domains.index.delete") do
+                          = inline_svg_tag("delete_red.svg", aria: { hidden: true })
+      - else
+        section.ui-domain-empty aria-labelledby="custom-domains-empty-title"
+          = image_tag("empty-custom-domain.png", class: "ui-domain-empty__illustration", alt: "")
+          h2#custom-domains-empty-title = t("dashboard.domains.index.custom_domains.empty_title")
+          p = t("dashboard.domains.index.custom_domains.empty_description")
+          span.ui-domain-empty__example = t("dashboard.domains.index.custom_domains.example")
+          - if current_account.feature_enabled?(:custom_domains)
+            = link_to new_domain_path, class: "ui-domain-empty__action" do
+              = inline_svg_tag("plus_white.svg", aria: { hidden: true })
+              span = t("dashboard.domains.index.add_custom_domain")
+          - else
+            = link_to dashboard_billing_path, class: "ui-domain-empty__action" do
+              = inline_svg_tag("plus_white.svg", aria: { hidden: true })
+              span = t("dashboard.domains.index.upgrade_to_add", default: "Upgrade to Add Domain")
+          p.ui-domain-empty__note
+            = inline_svg_tag("circle_tick.svg", aria: { hidden: true })
+            span = t("dashboard.domains.index.custom_domains.dns_note")
+
+      section.ui-setup-guide aria-labelledby="domain-setup-guide-title"
+        h2#domain-setup-guide-title = t("dashboard.domains.index.cname_instructions.title")
+        ol.ui-setup-guide__steps
+          li.ui-setup-guide__step
+            = inline_svg_tag("setup-add-domain.svg", aria: { hidden: true })
+            h3 = t("dashboard.domains.index.cname_instructions.step_1_title")
+            p = t("dashboard.domains.index.cname_instructions.step_1_desc")
+          li.ui-setup-guide__step
+            = inline_svg_tag("setup-configure-dns.svg", aria: { hidden: true })
+            h3 = t("dashboard.domains.index.cname_instructions.step_2_title")
+            p = t("dashboard.domains.index.cname_instructions.step_2_desc")
+          li.ui-setup-guide__step
+            = inline_svg_tag("setup-verify-ssl.svg", aria: { hidden: true })
+            h3 = t("dashboard.domains.index.cname_instructions.step_3_title")
+            p = t("dashboard.domains.index.cname_instructions.step_3_desc")
+
+        .ui-domain-dns-record
+          table
+            thead
+              tr
+                th = t("dashboard.domains.index.cname_instructions.cname_type")
+                th = t("dashboard.domains.index.cname_instructions.cname_host")
+                th = t("dashboard.domains.index.cname_instructions.cname_target")
+            tbody
+              tr
+                td CNAME
+                td = t("dashboard.domains.index.cname_instructions.cname_host_value")
+                td = Domain::CNAME_TARGET

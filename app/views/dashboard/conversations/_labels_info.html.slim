@@ -1,32 +1,24 @@
 - workspace_labels = current_account.labels.order(:title)
-.label-comp.agent id="conversation-labels-#{conversation.id}"
-  p.f-semi-14 = t("dashboard.automations.attributes.labels")
-  .card.team-info
-    button.accordian data-action="click->accordion#toggle"
-      = inline_svg_tag("tag.svg", class: "team-card-icon")
-      - if conversation.labels.any?
-        p.f-reg-14 = conversation.labels.pluck(:title).join(", ")
-      - else
-        p.f-reg-14 = t("ui.dashboard.conversations.labels_info.manage_labels")
-      = inline_svg_tag("arrow_down.svg", class: "arrow-icon ml-auto")
+.label-comp id="conversation-labels-#{conversation.id}"
+  button.inspector-accordion.inspector-label-trigger type="button" data-action="click->accordion#toggle"
+    span.inspector-label-heading
+      span = t('ui.dashboard.conversations.labels_info.manage_labels', default: 'Manage labels')
+      = inline_svg_tag('arrow_down.svg', class: 'inspector-chevron', aria: { hidden: true })
+    span.inspector-label-chips
+      - conversation.labels.each do |label|
+        span.inspector-label-chip style="--label-color: #{label.color.presence || '#344f8f'}" = label.title
+      span.inspector-label-add = "+ #{t('general.add', default: 'Add')}"
 
-    .panel data-accordion-target="panel"
-      - if workspace_labels.any?
-        - conversation.labels.each do |label|
-          .assigned-team-row style="justify-content: space-between;"
-            .label-badge style="display: flex; align-items: center; gap: 8px;"
-              .color-dot style="width: 12px; height: 12px; border-radius: 50%; background-color: #{label.color.presence || '#ccc'};"
-              p.f-reg-12 = label.title
-            = button_to(t("general.remove"), remove_label_conversation_path(conversation, label_id: label.id), method: :delete, class: "unassign-btn f-reg-12", data: { turbo_confirm: t("dashboard.shared.are_you_sure") })
-
-        - assigned_label_ids = conversation.labels.map(&:id)
-        - workspace_labels.reject { |label| assigned_label_ids.include?(label.id) }.each do |label|
-          .team-row style="justify-content: space-between; margin-top: 8px;"
-            .label-badge style="display: flex; align-items: center; gap: 8px;"
-              .color-dot style="width: 12px; height: 12px; border-radius: 50%; background-color: #{label.color.presence || '#ccc'};"
-              p.f-reg-12 = label.title
-            = button_to(t("general.add"), add_label_conversation_path(conversation, label_id: label.id), method: :post, class: "assign-btn assign-team-btn f-reg-12")
-      - else
-        .details-empty-state
-          p.f-reg-12 = t("dashboard.labels.index.empty_description")
-          = link_to t("dashboard.labels.index.add_new_label"), labels_path, class: "details-empty-action f-semi-12", data: { turbo_frame: "_top" }
+  .panel.inspector-panel.inspector-label-options data-accordion-target="panel"
+    - if workspace_labels.any?
+      - workspace_labels.each do |label|
+        .inspector-label-option
+          span.label-color style="background-color: #{label.color.presence || '#a3aab8'}"
+          span = label.title
+          - if conversation.labels.include?(label)
+            = button_to t('general.remove'), remove_label_conversation_path(conversation, label_id: label.id), method: :delete, class: 'label-option-action label-option-action--remove'
+          - else
+            = button_to t('general.add'), add_label_conversation_path(conversation, label_id: label.id), method: :post, class: 'label-option-action'
+    - else
+      p.inspector-empty = t('dashboard.labels.index.empty_description')
+      = link_to t('dashboard.labels.index.add_new_label'), labels_path, class: 'inspector-empty-action', data: { turbo_frame: '_top' }

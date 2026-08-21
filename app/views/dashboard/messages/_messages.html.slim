@@ -1,15 +1,25 @@
 .card.conversation-card data-controller="modal-toggler frame-toggler"
   = render("dashboard/shared/modal_popper")
   .chat-section
-    .header
-      .user-details
-        - @conversation.customers.each do |customer|
-            p.f-semi-18 = full_name(customer)
-      .actions style="display: flex; gap: 8px; align-items: center; margin-left: auto;"
-        - if @conversation.resolved?
-          = button_to t('dashboard.messages.reopen'), conversation_path(@conversation, conversation: { status: 'active' }), method: :patch, class: "ui-btn-secondary f-reg-12", style: "padding: 6px 12px; border-radius: 6px;"
+    header.header.conversation-header
+      - customer = @conversation.customers.first
+      .conversation-header-identity
+        - if customer&.avatar&.attached?
+          = image_tag(customer.avatar, class: 'conversation-header-avatar', alt: full_name(customer))
         - else
-          = button_to t('dashboard.messages.resolve'), conversation_path(@conversation, conversation: { status: 'resolved' }), method: :patch, class: "ui-btn-primary f-reg-12", style: "padding: 6px 12px; border-radius: 6px;"
+          .conversation-header-avatar.avatar-fallback class=avatar_fallback_color_class(full_name(customer))
+            = initials(customer)
+        .user-details
+          p.conversation-header-name = full_name(customer)
+          .conversation-header-meta
+            span = customer&.email.presence || t('dashboard.conversation_details.no_email', default: 'No email')
+            i aria-hidden="true"
+            span = @conversation.inbox.name
+      .actions.conversation-header-actions
+        - if @conversation.resolved?
+          = button_to t('dashboard.messages.reopen'), conversation_path(@conversation, conversation: { status: 'active' }), method: :patch, class: 'conversation-resolve-button conversation-resolve-button--secondary', form: { data: { turbo: false } }
+        - else
+          = button_to t('dashboard.messages.resolve'), conversation_path(@conversation, conversation: { status: 'resolved' }), method: :patch, class: 'conversation-resolve-button', form: { data: { turbo: false } }
       / .actions data-controller="accordion conversations"
         = inline_svg_tag("plus.svg", class:"chat-action", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
         = inline_svg_tag("star.svg", class:"chat-action", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
@@ -25,8 +35,10 @@
             = inline_svg_tag("export.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
             p.f-reg-12 = t('dashboard.messages.export_conversation')
         
-        = render "dashboard/conversations/snooz_conv_modal"
     .conversation#oppp data-controller="scroll-to-bottom mark-as-read" data-mark-as-read-url-value=mark_as_read_conversation_path(@conversation) data-conversation-id=@conversation.id
+      - timeline_date = @timeline_items.first&.created_at || Time.current
+      .conversation-date-divider
+        span = timeline_date.strftime('%A · %d %B')
       = turbo_frame_tag "messages-page-#{@pagy.next}", src: conversation_messages_path(@conversation, page: @pagy.next), loading: :lazy if defined?(@pagy) && @pagy&.next
       - @timeline_items.each do |item|
         - if item.is_a?(Message)
@@ -36,7 +48,7 @@
       
       turbo-frame#message-frame
       
-    .footer
+    .footer data-controller="canned-responses" data-canned-responses-lexical-outlet=".note-area" data-canned-responses-conversation-id-value=@conversation.id
       .message-box data-controller="message-form"
         = form_with(model: Message.new, method: :post, class:"msg-form", multipart: true, data: { action: "turbo:submit-end->message-form#clear" }) do |f|
           .text-translation
@@ -73,7 +85,7 @@
             .actions
               / .response-action
                 = inline_svg_tag("menu.svg", class:"action-btn")
-              .response-action data-controller="canned-responses" data-canned-responses-lexical-outlet=".note-area" data-canned-responses-conversation-id-value="#{@conversation.id}"
+              .response-action
                 .replies data-action="click->canned-responses#toggleMenu"
                   = inline_svg_tag("reply_star.svg", class:"action-btn")
                 .menu.save-replies data-canned-responses-target="menu"
@@ -89,7 +101,7 @@
                         input type="text" placeholder=t("dashboard.messages.search_canned_responses") data-action="input->canned-responses#searchCannedResponses keydown.enter->canned-responses#preventSubmit" style="width: 100%; padding: 6px; border: 1px solid #cbd5e1; border-radius: 4px; outline: none;" class="f-reg-12"
                       .results-container data-canned-responses-target="resultsContainer" style="max-height: 300px; overflow-y: auto;"
                         / Results will be injected here via Javascript
-                    .right-panel data-canned-responses-target="response" style="display: none;"
+                    .right-panel data-canned-responses-target="response"
                       .response-description
                         p.f-semi-18.response-title
                         p.f-reg-14.response-text

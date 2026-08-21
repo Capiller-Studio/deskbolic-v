@@ -1,105 +1,120 @@
-.helpdesk-section.center-wrapper
-  .helpdesk-container data-controller="toggler"
-    #channels-sidebar.helpdesk-nav data-toggler-target="sidebar"
-      .card
-        .header data-controller="modal-toggler frame-toggler"
-          button.sidebar-toggle type="button" aria-controls="channels-sidebar" aria-expanded="true" aria-label=t("ui.dashboard.agent.agent_sidebar.menu") data-action="click->toggler#toggleSidebar" data-toggler-target="sidebarToggle"
-            = inline_svg_tag("sidebar.svg", class:"link-icon", aria: { hidden: true })
-          p.f-reg-14 = t('dashboard.sidebar.channels.title')
-          = inline_svg_tag("note_pencil.svg", class:"note-pencil-icon ml-auto", alt:t("ui.dashboard.agent.agent_sidebar.menu"), data: { action: "click->modal-toggler#showModal click->frame-toggler#loadModal", popup_view:"_suggested_ticket_modal"})
-          = render("dashboard/shared/modal_popper")
-          turbo-frame#facebook-page-frame
-        .channel-header.list-header data-controller="accordion modal-toggler frame-toggler"
-          = inline_svg_tag("dropdown_icon.svg", class:"channel-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-          h4.f-reg-14 = t('dashboard.sidebar.channels.inboxes')
-          .toggle-menu.ml-auto data-action="click->accordion#toggleMenu"
-            = inline_svg_tag("menu.svg", class:"channel-menu ml-auto", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-          .menu data-accordion-target="menu"
-            = link_to new_channels_email_path, class: "menu-link"
-              = inline_svg_tag("email.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-              p.f-reg-14 = t('dashboard.sidebar.channels.email')
-              = inline_svg_tag("plus.svg", class:"menu-icon ml-auto", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-            = link_to new_channels_facebook_path, class: "menu-link"
-              = inline_svg_tag("facebook.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-              p.f-reg-14 = t('dashboard.sidebar.channels.facebook')
-              = inline_svg_tag("plus.svg", class:"menu-icon ml-auto", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-            = link_to new_channels_instagram_path, class: "menu-link"
-              = inline_svg_tag("instagram.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-              p.f-reg-14 = t('dashboard.sidebar.channels.instagram')
-              = inline_svg_tag("plus.svg", class:"menu-icon ml-auto", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-            = link_to new_channels_whatsapp_path, class: "menu-link"
-              = inline_svg_tag("whatsapp.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-              p.f-reg-14 = t('dashboard.sidebar.channels.whatsapp')
-              = inline_svg_tag("plus.svg", class:"menu-icon ml-auto", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-            = link_to new_channels_web_widget_path, class: "menu-link"
-              = inline_svg_tag("widget.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-              p.f-reg-14 = t('dashboard.sidebar.channels.widget')
-              = inline_svg_tag("plus.svg", class:"menu-icon ml-auto", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-            = link_to new_channels_contact_form_path, class: "menu-link"
-              = inline_svg_tag("contact_form.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-              p.f-reg-14 = t('dashboard.sidebar.channels.contact_form')
-              = inline_svg_tag("plus.svg", class:"menu-icon ml-auto", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-        ul.channel-list  data-controller="accordion modal-toggler frame-toggler"
-          .help-nav-menu
-            / All inboxes
-            li.nav-item class=""
-              .nav-link.link data-target-id="conversations-frame" data-controller="section" data-action="click->section#toggleSection" data-url="#{conversations_path}"
-                .link-text
-                  = inline_svg_tag("inbox.svg", class:"link-icon", alt:t("ui.dashboard.channels.channels.inbox_icon"))
-                  p.f-reg-14 = t('dashboard.sidebar.channels.all')
-                .nav-link-badges style="display: flex; gap: 4px;"
-                  - all_unread = @inboxes&.sum { |inbox| @unread_counts[:inboxes][inbox.id].to_i } || 0
-                  .unread-badge data-controller="unread-badge" data-action="deskbolic:unread-counts-updated@window->unread-badge#update" data-unread-badge-target="badge" data-unread-badge-type-value="all" style="background: var(--primary-500, #4F46E5); color: white; border-radius: 12px; padding: 2px 8px; align-items: center; justify-content: center; display: #{all_unread > 0 ? 'flex' : 'none'}; width: 24px; height: 24px;"
-                    p.f-semi-12 = all_unread
-                  .back-oval-gray
-                    p.f-reg-12 = current_account.conversations.count
-            - @inboxes&.each do |inbox|
-              li.nav-item class=""
-                .nav-link.link data-target-id="conversations-frame" data-controller="section" data-action="click->section#toggleSection" data-url="#{conversations_path(resource_id: inbox.id)}"
-                  .link-text
-                    = inbox_icon(inbox)
-                    p.f-reg-14 title=inbox.name style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px;" = inbox.name
-                  .nav-link-badges style="display: flex; gap: 4px;"
-                    - unread = @unread_counts[:inboxes][inbox.id].to_i
-                    .unread-badge data-controller="unread-badge" data-action="deskbolic:unread-counts-updated@window->unread-badge#update" data-unread-badge-target="badge" data-unread-badge-id-value=inbox.id data-unread-badge-type-value="inbox" style="background: var(--primary-500, #4F46E5); color: white; border-radius: 12px; padding: 2px 8px; align-items: center; justify-content: center; display: #{unread > 0 ? 'flex' : 'none'}; width: 24px; height: 24px;"
-                      p.f-semi-12 = unread
-                    .back-oval-gray
-                      p.f-reg-12 = inbox.conversations&.count
-        
-        / teams
-        .teams-header.list-header
-          = inline_svg_tag("dropdown_icon.svg", class:"channel-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-          h4.f-reg-14 = t('dashboard.sidebar.channels.teams')
-        ul.teams-list.channel-list
-          .help-nav-menu
-            - @teams.each do |team|
-              li.nav-item class=""
-                .nav-link.pad-link
-                  .link-text
-                    = inline_svg_tag("users.svg", class:"link-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-                    p.f-reg-14 = team.name
-                  .back-oval-gray
-                    p.f-reg-12 = team.team_users.count
+- view_items = dashboard_sidebar_view_items(@sidebar_counts, @unread_counts)
 
-        / teammates
-        .teams-header.list-header
-          = inline_svg_tag("dropdown_icon.svg", class:"channel-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-          h4.f-reg-14 = t('dashboard.sidebar.channels.teammates')
-        ul.teams-list.channel-list
-          .help-nav-menu
-            - @team_users.each do |team_user|
-              li.nav-item class=""
-                .nav-link.pad-link
-                  .link-text
-                    - if team_user.user.avatar&.attached?
-                      = image_tag(team_user.user.avatar, class:"user-icon", alt:t("ui.dashboard.channels.channels.img"))
+.helpdesk-section.center-wrapper.deskbolic-shell
+  .helpdesk-container data-controller="toggler"
+    #channels-sidebar.helpdesk-nav.deskbolic-sidebar data-toggler-target="sidebar"
+      .sidebar-brand
+        .sidebar-brand-mark aria-hidden="true"
+          = inline_svg_tag("gradient_logo.svg", class: "sidebar-brand-logo")
+        .sidebar-brand-copy
+          p.sidebar-brand-name Deskbolic
+          p.sidebar-brand-product = t('dashboard.sidebar.channels.title')
+        button.sidebar-toggle type="button" aria-controls="channels-sidebar" aria-expanded="true" aria-label=t("ui.dashboard.agent.agent_sidebar.menu") data-action="click->toggler#toggleSidebar" data-toggler-target="sidebarToggle"
+          = image_tag("dashboard_collapse.svg", class: "link-icon", alt: "", aria: { hidden: true })
+
+      button.sidebar-search type="button" data-action="click->toggler#openSearch"
+        = image_tag("dashboard_search.svg", class: "sidebar-search-icon", alt: "", aria: { hidden: true })
+        span = t('dashboard.conversations.search', default: 'Search')
+        kbd ⌘K
+
+      .sidebar-navigation
+        section.sidebar-section
+          h2.sidebar-section-title = t('dashboard.sidebar.channels.views', default: 'Views')
+          ul.sidebar-list
+            - view_items.each do |item|
+              - active_view = @inbox.blank? && @team_id.blank? && @assignee_id.blank? && @filter.to_s == item[:key].to_s
+              li
+                .sidebar-link class=(active_view ? 'is-active' : '') data-controller="section" data-action="click->section#toggleSection" data-url=conversations_path(filter: item[:key].presence)
+                  = image_tag(item[:icon], class: "sidebar-link-icon", alt: "", aria: { hidden: true })
+                  span.sidebar-link-label = item[:label]
+                  span.sidebar-link-count = item[:count]
+
+        section.sidebar-section
+          h2.sidebar-section-title = t('dashboard.sidebar.channels.inboxes', default: 'Inboxes')
+          ul.sidebar-list
+            - @inboxes&.each do |inbox|
+              li
+                .sidebar-link class=(@inbox&.id == inbox.id ? 'is-active' : '') data-controller="section" data-action="click->section#toggleSection" data-url=conversations_path(resource_id: inbox.id)
+                  span.sidebar-link-icon = inbox_icon(inbox)
+                  span.sidebar-link-label title=inbox.name = inbox.name
+                  span.sidebar-link-count = inbox.conversations.count
+
+        - if @teams.present?
+          section.sidebar-section
+            h2.sidebar-section-title = t('dashboard.sidebar.channels.teams')
+            ul.sidebar-list
+              - @teams.each do |team|
+                - team_icon = team.name.to_s.downcase.include?('engineering') ? 'dashboard_team_engineering.svg' : 'dashboard_team_support.svg'
+                li
+                  .sidebar-link class=(@team_id.to_s == team.id.to_s ? 'is-active' : '') data-controller="section" data-action="click->section#toggleSection" data-url=conversations_path(team_id: team.id)
+                    = image_tag(team_icon, class: "sidebar-link-icon sidebar-link-icon--team", alt: "", aria: { hidden: true })
+                    span.sidebar-link-label = team.name
+                    span.sidebar-link-count = team.conversations.active.count
+
+        - if @team_users.present?
+          section.sidebar-section
+            h2.sidebar-section-title = t('dashboard.sidebar.channels.teammates')
+            ul.sidebar-list
+              - @team_users.each do |team_user|
+                - teammate = team_user.user
+                li
+                  .sidebar-link class=(@assignee_id.to_s == teammate.id.to_s ? 'is-active' : '') data-controller="section" data-action="click->section#toggleSection" data-url=conversations_path(assignee_id: teammate.id)
+                    - if teammate.avatar&.attached?
+                      = image_tag(teammate.avatar, class: "sidebar-avatar", alt: teammate.display_name)
                     - else
-                      .link-icon.avatar-fallback.customer-list-initials-avatar.f-reg-12 class=avatar_fallback_color_class(team_user.user.display_name)
-                        = (team_user.user.display_name)&.first&.upcase
-                    p.f-reg-14 = team_user.user.display_name
-                  .back-oval-gray
-                    p.f-reg-12 = team_user.user.teams.count
-    
+                      .sidebar-avatar.avatar-fallback class=avatar_fallback_color_class(teammate.display_name)
+                        = initials(teammate)
+                    span.sidebar-link-label = teammate.display_name
+                    span.sidebar-link-count = current_account.conversations.where(assignee: teammate, status: :active).count
+
+      .sidebar-user data-controller="accordion"
+        button.sidebar-user-main.sidebar-user-trigger type="button" aria-haspopup="menu" aria-expanded="false" data-action="click->accordion#toggleMenu"
+          - if current_user.avatar&.attached?
+            = image_tag(current_user.avatar, class: "sidebar-user-avatar", alt: current_user.display_name)
+          - else
+            .sidebar-user-avatar.avatar-fallback class=avatar_fallback_color_class(full_name(current_user))
+              = initials(current_user)
+          .sidebar-user-copy
+            strong = current_user.display_name
+            span.sidebar-presence
+              i aria-hidden="true"
+              = t('dashboard.sidebar.available', default: 'Available')
+        .menu.sidebar-account-menu data-accordion-target="menu" role="menu"
+          = link_to profile_path, class: "sidebar-account-header", data: { turbo: false } do
+            - if current_user.avatar&.attached?
+              = image_tag(current_user.avatar, class: "sidebar-account-avatar", alt: current_user.display_name)
+            - else
+              .sidebar-account-avatar.avatar-fallback class=avatar_fallback_color_class(full_name(current_user))
+                = initials(current_user)
+            .sidebar-account-details
+              strong = current_user.display_name
+              - email = current_user.email
+              - local, domain = email.to_s.split("@", 2)
+              - display_email = local.present? && domain.present? && local.length > 8 ? "#{local.first(8)}...@#{domain}" : email
+              span title=email = display_email
+
+          .sidebar-account-options
+            / = link_to help_center_path, class: "menu-link", role: "menuitem" do
+            /   span = t("ui.dashboard.shared.dashboard_container.help_desk_help_center")
+            / = link_to community_path, class: "menu-link", role: "menuitem" do
+            /   span = t("ui.dashboard.shared.dashboard_container.help_desk_community_forum")
+            / = link_to terms_path, class: "menu-link", role: "menuitem" do
+            /   span = t("ui.dashboard.shared.dashboard_container.terms_policies")
+            = link_to settings_path, class: "menu-link", role: "menuitem", data: { turbo: false } do
+              = inline_svg_tag("settings.svg", class: "menu-icon", alt: "", aria: { hidden: true })
+              span = t("dashboard.sidebar.settings.title")
+
+          .sidebar-account-locale.dashboard-locale-selector.form-floating.ui-select style="border: none;"
+            - locale_names = { en: "English", de: "Deutsch", es: "Español", fr: "Français", "pt-BR": "Português", ar: "العربية", ko: "한국어" }
+            - locale_options = Core::SUPPORTED_LOCALES.map { |loc| [locale_names[loc.to_sym] || loc.to_s.upcase, url_for(request.params.merge(locale: (loc.to_s == I18n.default_locale.to_s ? nil : loc), only_path: true))] }
+            - selected_locale_url = url_for(request.params.merge(locale: (I18n.locale.to_s == I18n.default_locale.to_s ? nil : I18n.locale), only_path: true))
+            = select_tag :dashboard_locale, options_for_select(locale_options, selected_locale_url), id: "dashboard-sidebar-locale-select", class: "f-reg-14 field form-control", data: { controller: "select" }, aria: { label: t("forms.options.select_language") }, onchange: "window.location.href=this.value"
+
+          .sidebar-account-logout
+            = button_to destroy_user_session_path, method: :delete, class: "menu-link", role: "menuitem" do
+              = inline_svg_tag("logout.svg", class: "menu-icon", alt: "", aria: { hidden: true })
+              span = t("ui.dashboard.shared.dashboard_container.sign_out")
+
     .helpdesk-body
-      turbo-frame#conversations-frame[data-turbo-permanent]
-      == yield
+      turbo-frame#conversations-frame data-turbo-permanent="true"
+        == yield

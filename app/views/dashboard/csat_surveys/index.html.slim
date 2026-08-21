@@ -1,23 +1,23 @@
-= render("dashboard/shared/dashboard_container", current_page: "csat-surveys") do
-  = render("dashboard/settings/settings_sidebar", current_page: "csat-surveys") do
-    .ui-settings-page
-      header.ui-settings-page__header
-        .ui-settings-page__heading
-          h1 = t("dashboard.csat_surveys.index.title")
-          p = t("dashboard.csat_surveys.index.description")
-        = link_to new_csat_survey_path, class: "ui-settings-page__action" do
-          span = t("dashboard.csat_surveys.index.new_survey")
-          = inline_svg_tag("plus_white.svg", class: "ui-settings-page__action-icon", aria: { hidden: true })
+/ = render("dashboard/shared/dashboard_container", current_page: "csat-surveys") do
+= render("dashboard/settings/settings_sidebar", current_page: "csat-surveys") do
+  .ui-settings-page
+    header.ui-settings-page__header
+      .ui-settings-page__heading
+        h1 = t("dashboard.csat_surveys.index.title")
+        p = t("dashboard.csat_surveys.index.description")
+      = link_to new_csat_survey_path, class: "ui-settings-page__action" do
+        span = t("dashboard.csat_surveys.index.new_survey")
+        = inline_svg_tag("plus_white.svg", class: "ui-settings-page__action-icon", aria: { hidden: true })
 
-      main.ui-settings-page__content
-        - if @csat_surveys.any?
-          .ui-card-grid.csat-survey-card-grid
-            - @csat_surveys.each_with_index do |survey, index|
-              = render("dashboard/csat_surveys/survey_card", survey: survey, index: index)
-        - else
-          .ui-empty-state.ui-empty-state--bordered
-            .ui-empty-state__graphic
-              = image_tag("reports-csat.svg", alt: "", aria: { hidden: true })
-            h2 = t("dashboard.csat_surveys.index.empty_title")
-            p = t("dashboard.csat_surveys.index.empty_description")
-            = link_to t("dashboard.csat_surveys.index.new_survey"), new_csat_survey_path, class: "ui-settings-page__action"
+    main.ui-settings-page__content
+      - if @csat_surveys.any?
+        .ui-card-grid.csat-survey-card-grid
+          - @csat_surveys.each_with_index do |survey, index|
+            = render("dashboard/csat_surveys/survey_card", survey: survey, index: index)
+      - else
+        .ui-empty-state.ui-empty-state--bordered
+          .ui-empty-state__graphic
+            = image_tag("reports-csat.svg", alt: "", aria: { hidden: true })
+          h2 = t("dashboard.csat_surveys.index.empty_title")
+          p = t("dashboard.csat_surveys.index.empty_description")
+          = link_to t("dashboard.csat_surveys.index.new_survey"), new_csat_survey_path, class: "ui-settings-page__action"

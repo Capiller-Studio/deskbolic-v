@@ -1,59 +1,59 @@
-= render("dashboard/shared/dashboard_container", current_page: "agent-test") do
-  = render("dashboard/agent/agent_sidebar", current_page: "agent-test") do
-    .agent-body-section.agent-workflow-body
-      .agent-header.agent-workflow-header
-        .topbar
-          h2.f-semi-18 = t("ui.dashboard.agent.task.cancel_subscription")
-          .actions
-            = form_with url: "#", method: :get, local: true do
-              .form-floating.translate-statuses
-                = select_tag :status, options_for_select([[t("forms.options.let_fin_decide"), "let fin decide"], [t("forms.options.informal"), "informal"], [t("forms.options.formal"), "formal"]], params[:status]), class: "con-statuses", data: { controller: "select" }
-            button data-action="click->accordion#toggle"
-              = inline_svg_tag("play_black.svg", class:"btn-icon")
-              p.f-reg-14 = t("dashboard.email_builder.preview")
-            button data-action="click->accordion#toggle"
-              p.f-reg-14 = t("dashboard.profile.index.save")
-              = inline_svg_tag("black_tick.svg", class:"btn-icon")
-            button.live-btn data-action="click->accordion#toggle"
-              = inline_svg_tag("play_white.svg", class:"btn-icon")
-              p.f-reg-14 = t("ui.dashboard.agent.workflow.set_live")
-        .header-options
-          .tags
-            .tag.f-reg-16 = t("ui.dashboard.agent.workflow.workflow")
-            .tag.f-reg-16 = t("ui.dashboard.agent.workflow.path_analysis")
-          .workflow-overview.f-semi-14 = t("ui.dashboard.agent.workflow.overview")
-      .agent-body.agent-workflow-container data-controller="accordion modal-toggler frame-toggler"
-        .flow-card
-          = image_tag("flow_action.png", class:"link-icon avatar", alt:t("ui.dashboard.agent.index.image"))
-          h4.f-semi-14 = t("ui.dashboard.agent.workflow.trigger")
-          h3.f-semi-16 = t("ui.dashboard.agent.workflow.cancel_subscription")
-          p.f-reg-14 = t("ui.dashboard.agent.workflow.use_this_when_a_customer_asks_to_cancel_a_subscription")
-          .
-          h4.f-semi-14 = t("ui.dashboard.agent.workflow.channel")
-          .tag 
-            = inline_svg_tag("users.svg", class:"btn-icon")
-            p.f-reg-14 = t("ui.dashboard.agent.workflow.web_and_zendesk_messaging")
-          .tag.live-btn 
-            = inline_svg_tag("plus_black.svg", class:"btn-icon")
-            p.f-reg-14 = t("ui.dashboard.agent.workflow.1_more")
-        = image_tag("link_sm.png", class:"link-sm", alt:t("ui.dashboard.agent.index.image"))
-        .flow-card
-          h4.f-semi-14 = t("ui.dashboard.agent.workflow.path")
-          = image_tag("flow_action.png", class:"link-icon avatar", alt:t("ui.dashboard.agent.index.image"))
-          h4.f-semi-14 = t("dashboard.custom_channels.tabs.instructions")
-          p.f-reg-14 = t("ui.dashboard.agent.workflow.ask_the_suer_which_subscription_they_want_to_cancel")
-          p.f-reg-14 -Subscription A...
-          .
-          h4.f-semi-14 = t("ui.dashboard.agent.workflow.if_unable_to_complete")
-          h4.f-semi-12 = t("ui.dashboard.agent.workflow.once_complete")
-          = image_tag("virus.png", class:"link-icon avatar", alt:t("ui.dashboard.agent.index.image"))
-          p.f-reg-14 = t("ui.dashboard.agent.workflow.ask_if_it_helped")
-        = image_tag("link_lg.png", class:"link-lg", alt:t("ui.dashboard.agent.index.image"))
-        .flow-card
-          h4.f-semi-14 B.Path
-          .tag 
-            p.f-reg-14 = t("ui.dashboard.agent.workflow.unable_to_complete")
-          h4.f-semi-12 = t("ui.dashboard.agent.workflow.once_complete")
-          .tag.live-btn 
-            = inline_svg_tag("users.svg", class:"btn-icon")
-            p.f-reg-14 = t("ui.dashboard.agent.workflow.fin_hands_over")
+/ = render("dashboard/shared/dashboard_container", current_page: "agent-test") do
+= render("dashboard/agent/agent_sidebar", current_page: "agent-test") do
+  .agent-body-section.agent-workflow-body
+    .agent-header.agent-workflow-header
+      .topbar
+        h2.f-semi-18 = t("ui.dashboard.agent.task.cancel_subscription")
+        .actions
+          = form_with url: "#", method: :get, local: true do
+            .form-floating.translate-statuses
+              = select_tag :status, options_for_select([[t("forms.options.let_fin_decide"), "let fin decide"], [t("forms.options.informal"), "informal"], [t("forms.options.formal"), "formal"]], params[:status]), class: "con-statuses", data: { controller: "select" }
+          button data-action="click->accordion#toggle"
+            = inline_svg_tag("play_black.svg", class:"btn-icon")
+            p.f-reg-14 = t("dashboard.email_builder.preview")
+          button data-action="click->accordion#toggle"
+            p.f-reg-14 = t("dashboard.profile.index.save")
+            = inline_svg_tag("black_tick.svg", class:"btn-icon")
+          button.live-btn data-action="click->accordion#toggle"
+            = inline_svg_tag("play_white.svg", class:"btn-icon")
+            p.f-reg-14 = t("ui.dashboard.agent.workflow.set_live")
+      .header-options
+        .tags
+          .tag.f-reg-16 = t("ui.dashboard.agent.workflow.workflow")
+          .tag.f-reg-16 = t("ui.dashboard.agent.workflow.path_analysis")
+        .workflow-overview.f-semi-14 = t("ui.dashboard.agent.workflow.overview")
+    .agent-body.agent-workflow-container data-controller="accordion modal-toggler frame-toggler"
+      .flow-card
+        = image_tag("flow_action.png", class:"link-icon avatar", alt:t("ui.dashboard.agent.index.image"))
+        h4.f-semi-14 = t("ui.dashboard.agent.workflow.trigger")
+        h3.f-semi-16 = t("ui.dashboard.agent.workflow.cancel_subscription")
+        p.f-reg-14 = t("ui.dashboard.agent.workflow.use_this_when_a_customer_asks_to_cancel_a_subscription")
+        .
+        h4.f-semi-14 = t("ui.dashboard.agent.workflow.channel")
+        .tag 
+          = inline_svg_tag("users.svg", class:"btn-icon")
+          p.f-reg-14 = t("ui.dashboard.agent.workflow.web_and_zendesk_messaging")
+        .tag.live-btn 
+          = inline_svg_tag("plus_black.svg", class:"btn-icon")
+          p.f-reg-14 = t("ui.dashboard.agent.workflow.1_more")
+      = image_tag("link_sm.png", class:"link-sm", alt:t("ui.dashboard.agent.index.image"))
+      .flow-card
+        h4.f-semi-14 = t("ui.dashboard.agent.workflow.path")
+        = image_tag("flow_action.png", class:"link-icon avatar", alt:t("ui.dashboard.agent.index.image"))
+        h4.f-semi-14 = t("dashboard.custom_channels.tabs.instructions")
+        p.f-reg-14 = t("ui.dashboard.agent.workflow.ask_the_suer_which_subscription_they_want_to_cancel")
+        p.f-reg-14 -Subscription A...
+        .
+        h4.f-semi-14 = t("ui.dashboard.agent.workflow.if_unable_to_complete")
+        h4.f-semi-12 = t("ui.dashboard.agent.workflow.once_complete")
+        = image_tag("virus.png", class:"link-icon avatar", alt:t("ui.dashboard.agent.index.image"))
+        p.f-reg-14 = t("ui.dashboard.agent.workflow.ask_if_it_helped")
+      = image_tag("link_lg.png", class:"link-lg", alt:t("ui.dashboard.agent.index.image"))
+      .flow-card
+        h4.f-semi-14 B.Path
+        .tag 
+          p.f-reg-14 = t("ui.dashboard.agent.workflow.unable_to_complete")
+        h4.f-semi-12 = t("ui.dashboard.agent.workflow.once_complete")
+        .tag.live-btn 
+          = inline_svg_tag("users.svg", class:"btn-icon")
+          p.f-reg-14 = t("ui.dashboard.agent.workflow.fin_hands_over")

@@ -1,35 +1,35 @@
-= render("dashboard/shared/dashboard_container", current_page: "skills") do
-  = render("dashboard/settings/settings_sidebar", current_page: "skills") do
-    .ui-settings-page data-controller="filterable-collection"
-      header.ui-settings-page__header
-        .ui-settings-page__heading
-          h1 = t("dashboard.skills.index.title")
-          p = t("dashboard.skills.index.description")
-        = link_to new_skill_path, class: "ui-settings-page__action", id: "new-skill" do
-          span = t("dashboard.skills.index.new_skill")
-          = inline_svg_tag("plus_white.svg", class: "ui-settings-page__action-icon", aria: { hidden: true })
+/ = render("dashboard/shared/dashboard_container", current_page: "skills") do
+= render("dashboard/settings/settings_sidebar", current_page: "skills") do
+  .ui-settings-page data-controller="filterable-collection"
+    header.ui-settings-page__header
+      .ui-settings-page__heading
+        h1 = t("dashboard.skills.index.title")
+        p = t("dashboard.skills.index.description")
+      = link_to new_skill_path, class: "ui-settings-page__action", id: "new-skill" do
+        span = t("dashboard.skills.index.new_skill")
+        = inline_svg_tag("plus_white.svg", class: "ui-settings-page__action-icon", aria: { hidden: true })
 
-      main.ui-settings-page__content
-        .ui-toolbar
-          .ui-filter-tabs role="tablist" aria-label=t("dashboard.skills.index.type_filter", default: "Filter skills by type")
-            - @skill_tabs.each do |tab|
-              - active_tab = tab[:key] == :all ? @selected_type == "all" : @selected_type == tab[:key].to_s
-              = link_to tab[:path], class: "ui-filter-tabs__tab #{active_tab ? 'active' : ''}", role: "tab", aria: { selected: active_tab ? "true" : "false" }, tabindex: (active_tab ? "0" : "-1") do
-                span = tab[:label]
-                span.ui-filter-tabs__count = @skill_counts.fetch(tab[:key])
+    main.ui-settings-page__content
+      .ui-toolbar
+        .ui-filter-tabs role="tablist" aria-label=t("dashboard.skills.index.type_filter", default: "Filter skills by type")
+          - @skill_tabs.each do |tab|
+            - active_tab = tab[:key] == :all ? @selected_type == "all" : @selected_type == tab[:key].to_s
+            = link_to tab[:path], class: "ui-filter-tabs__tab #{active_tab ? 'active' : ''}", role: "tab", aria: { selected: active_tab ? "true" : "false" }, tabindex: (active_tab ? "0" : "-1") do
+              span = tab[:label]
+              span.ui-filter-tabs__count = @skill_counts.fetch(tab[:key])
 
-        - if @skills.any?
-          .ui-card-grid.sk-skill-card-grid data-filterable-collection-target="container"
-            - @skills.each do |skill|
-              = render("dashboard/skills/skill_card", skill: skill)
+      - if @skills.any?
+        .ui-card-grid.sk-skill-card-grid data-filterable-collection-target="container"
+          - @skills.each do |skill|
+            = render("dashboard/skills/skill_card", skill: skill)
 
-          .ui-empty-state.ui-empty-state--bordered data-filterable-collection-target="empty" hidden=true
-            h2 = t("dashboard.skills.index.empty_filtered_title", default: "No matching skills")
-            p = t("dashboard.skills.index.empty_filtered_description", default: "Try another skill type.")
-        - else
-          .ui-empty-state.ui-empty-state--bordered
-            .ui-empty-state__graphic
-              = image_tag("skill_bases.svg", alt: "", aria: { hidden: true })
-            h2 = params[:type].present? ? t("dashboard.skills.index.empty_filtered_title", default: "No matching skills") : t("dashboard.skills.index.empty_title")
-            p = params[:type].present? ? t("dashboard.skills.index.empty_filtered_description", default: "Try another skill type.") : t("dashboard.skills.index.empty_description")
-            = link_to t("dashboard.skills.index.new_skill"), new_skill_path, class: "ui-settings-page__action"
+        .ui-empty-state.ui-empty-state--bordered data-filterable-collection-target="empty" hidden=true
+          h2 = t("dashboard.skills.index.empty_filtered_title", default: "No matching skills")
+          p = t("dashboard.skills.index.empty_filtered_description", default: "Try another skill type.")
+      - else
+        .ui-empty-state.ui-empty-state--bordered
+          .ui-empty-state__graphic
+            = image_tag("skill_bases.svg", alt: "", aria: { hidden: true })
+          h2 = params[:type].present? ? t("dashboard.skills.index.empty_filtered_title", default: "No matching skills") : t("dashboard.skills.index.empty_title")
+          p = params[:type].present? ? t("dashboard.skills.index.empty_filtered_description", default: "Try another skill type.") : t("dashboard.skills.index.empty_description")
+          = link_to t("dashboard.skills.index.new_skill"), new_skill_path, class: "ui-settings-page__action"

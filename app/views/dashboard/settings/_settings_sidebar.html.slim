@@ -8,7 +8,10 @@
     .helpdesk-nav
       .card data-controller="filterable-collection"
         .header data-controller="modal-toggler frame-toggler"
-          p.f-reg-14 = t('dashboard.sidebar.settings.title')
+          .settings-sidebar-heading
+            = link_to conversations_path, class: "settings-sidebar-back", data: { turbo: false }, aria: { label: t("dashboard.sidebar.settings.back_to_dashboard") } do
+              = image_tag("dashboard_collapse.svg", class: "settings-sidebar-back-icon", alt: "", aria: { hidden: true })
+            p.f-reg-14 = t('dashboard.sidebar.settings.title')
           = render("dashboard/shared/modal_popper")
         label.settings-sidebar-search
           span.settings-sidebar-search-icon aria-hidden="true"

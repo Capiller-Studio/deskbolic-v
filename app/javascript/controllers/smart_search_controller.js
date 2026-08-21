@@ -12,10 +12,13 @@ export default class extends Controller {
     // Global keyboard shortcut: Cmd+K / Ctrl+K
     this.handleKeydown = this._handleKeydown.bind(this)
     document.addEventListener("keydown", this.handleKeydown)
+    this.handleExternalOpen = () => this.open()
+    window.addEventListener("deskbolic:smart-search-open", this.handleExternalOpen)
   }
 
   disconnect() {
     document.removeEventListener("keydown", this.handleKeydown)
+    window.removeEventListener("deskbolic:smart-search-open", this.handleExternalOpen)
   }
 
   _handleKeydown(event) {

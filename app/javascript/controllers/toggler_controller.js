@@ -9,6 +9,10 @@ export default class extends Controller {
     this.sidebarToggleTarget.setAttribute("aria-expanded", String(!collapsed));
   }
 
+  openSearch() {
+    window.dispatchEvent(new CustomEvent("deskbolic:smart-search-open"))
+  }
+
   toggle_link(event) {
     const target = event.currentTarget;
     this.linkTargets.forEach(linkTarget => {

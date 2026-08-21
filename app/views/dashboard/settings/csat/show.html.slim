@@ -1,22 +1,22 @@
-= render("dashboard/shared/dashboard_container", current_page: "settings") do
-  .ap-index-header
-    .ap-title-area
-      h2.f-semi-32 = t("settings.csat.title")
-      p.f-reg-16 = t("settings.csat.description")
+/ = render("dashboard/shared/dashboard_container", current_page: "settings") do
+.ap-index-header
+  .ap-title-area
+    h2.f-semi-32 = t("settings.csat.title")
+    p.f-reg-16 = t("settings.csat.description")
 
-  .ap-section style="margin-top: 32px; max-width: 800px;"
-    = form_with url: settings_csat_path, method: :patch, local: true do |f|
-      .ap-section-header
-        span.ap-section-icon ⭐
-        = t("settings.csat.configuration")
-      .ap-section-body
-        .ap-form-row
-          .ap-toggle-row
-            = f.check_box :csat_enabled, { checked: current_account.feature_enabled?(:csat), class: "ap-checkbox", id: "csat-toggle" }, "true", "false"
-            label.f-semi-14 for="csat-toggle" style="margin-left: 8px;" = t("settings.csat.enable_label")
-            
-        p.f-reg-13 style="margin-top: 12px; color: #666;"
-          = t("settings.csat.info_text")
+.ap-section style="margin-top: 32px; max-width: 800px;"
+  = form_with url: settings_csat_path, method: :patch, local: true do |f|
+    .ap-section-header
+      span.ap-section-icon ⭐
+      = t("settings.csat.configuration")
+    .ap-section-body
+      .ap-form-row
+        .ap-toggle-row
+          = f.check_box :csat_enabled, { checked: current_account.feature_enabled?(:csat), class: "ap-checkbox", id: "csat-toggle" }, "true", "false"
+          label.f-semi-14 for="csat-toggle" style="margin-left: 8px;" = t("settings.csat.enable_label")
           
-      .ap-form-footer
-        = f.submit t("settings.csat.save"), class: "ap-btn-primary"
+      p.f-reg-13 style="margin-top: 12px; color: #666;"
+        = t("settings.csat.info_text")
+        
+    .ap-form-footer
+      = f.submit t("settings.csat.save"), class: "ap-btn-primary"

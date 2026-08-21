@@ -1,16 +1,16 @@
-= render("dashboard/shared/dashboard_container", current_page: "skills") do
-  = render("dashboard/settings/settings_sidebar", current_page: "skills") do
-    .ui-settings-editor.ap-settings-editor
-      header.ui-settings-editor__header
-        = link_to skills_path, class: "ui-settings-editor__back", aria: { label: t("ui.dashboard.skills.edit.back_to_skills") } do
-          = inline_svg_tag("back_arrow.svg", aria: { hidden: true })
-        .ui-settings-editor__heading
-          h1 = t("dashboard.skills.edit.title")
-          p = t("dashboard.skills.new.description")
-        .ui-settings-editor__header-actions
-          = link_to t("dashboard.skills.form.cancel"), skills_path, class: "ui-btn-secondary"
-          button.ap-btn-save-header type="submit" form="skill-form"
-            = image_tag("mark.svg", class: "ap-save-mark-icon", alt: "")
-            span = t("dashboard.skills.form.save")
-      .ui-settings-editor__body
-        = render("dashboard/skills/form", skill: @skill)
+/ = render("dashboard/shared/dashboard_container", current_page: "skills") do
+= render("dashboard/settings/settings_sidebar", current_page: "skills") do
+  .ui-settings-editor.ap-settings-editor
+    header.ui-settings-editor__header
+      = link_to skills_path, class: "ui-settings-editor__back", aria: { label: t("ui.dashboard.skills.edit.back_to_skills") } do
+        = inline_svg_tag("back_arrow.svg", aria: { hidden: true })
+      .ui-settings-editor__heading
+        h1 = t("dashboard.skills.edit.title")
+        p = t("dashboard.skills.new.description")
+      .ui-settings-editor__header-actions
+        = link_to t("dashboard.skills.form.cancel"), skills_path, class: "ui-btn-secondary"
+        button.ap-btn-save-header type="submit" form="skill-form"
+          = image_tag("mark.svg", class: "ap-save-mark-icon", alt: "")
+          span = t("dashboard.skills.form.save")
+    .ui-settings-editor__body
+      = render("dashboard/skills/form", skill: @skill)

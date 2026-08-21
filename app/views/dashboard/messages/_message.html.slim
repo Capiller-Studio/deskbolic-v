@@ -1,40 +1,42 @@
 - show_unread_divider = (defined?(@unread_start_message_id) && @unread_start_message_id == message.id) || (defined?(show_divider) && show_divider && message.incoming?)
 - translation_target_language = t("languages.#{I18n.locale.to_s.downcase}", default: I18n.locale.to_s)
-- if show_unread_divider
-  .unread-divider data-controller="fade-out" style="text-align: center; margin: 15px 0; position: relative; clear: both; width: 100%; display: block;"
-    span.f-med-12 style="background: #eef2f6; padding: 4px 12px; border-radius: 12px; color: #5a6a85;" = t('dashboard.messages.new_messages')
+- message_time = message.created_at.strftime('%H:%M')
+- delivery_status = message_delivery_status(message)
 
-- if message.sender_type == "Customer"
+- if show_unread_divider
+  .unread-divider data-controller="fade-out"
+    span.f-med-12 = t('dashboard.messages.new_messages')
+
+- if message.sender_type == 'Customer'
   .user-response.response id=dom_id(message) data-controller="translator" data-translator-translate-url-value=translate_message_path(message) data-translator-target="response"
     .text-content
       .chat-user
         - customer = message.sender
         - if customer.avatar.attached?
-          = image_tag(customer.avatar, class:"img", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+          = image_tag(customer.avatar, class: 'img', alt: full_name(customer))
         - else
           .img.avatar-fallback.customer-message-initials-avatar.f-reg-12 class=avatar_fallback_color_class(full_name(customer))
             = initials(customer)
       .user-text
         - if message.content.present?
-          - if single_emoji_message?(message.content)
-            .original.single-emoji-message data-translator-target="original"
+          - single_emoji = single_emoji_message?(message.content)
+          .original data-translator-target="original" class=(single_emoji ? 'single-emoji-message' : 'f-reg-14')
+            - if single_emoji
               = message.content.strip
-              .message-status-container
-                .msg-time = message.created_at.strftime("%I:%M %p")
-          - else
-            .original.f-reg-14 data-translator-target="original"
+            - else
               == sanitize(message.content, tags: Parser::MailParser::ALLOWED_TAGS, attributes: Parser::MailParser::ALLOWED_ATTRIBUTES)
-              .message-status-container
-                .msg-time = message.created_at.strftime("%I:%M %p")
+          .message-status-container
+            .msg-time = message_time
+          - unless single_emoji
             .translate-text
               button.translate-button type="button" data-action="click->translator#toggle_translate" aria-label=t('dashboard.messages.translate', language: translation_target_language)
-                = inline_svg_tag("translate.svg", class: "translate-button-icon", aria: { hidden: true })
+                = inline_svg_tag('translate.svg', class: 'translate-button-icon', aria: { hidden: true })
                 span = t('dashboard.messages.translate', language: translation_target_language)
             .translated-text.d-none
               h5.f-med-10 = t('dashboard.messages.translation_header', language: translation_target_language)
               div
-                .translation.f-light-italic-12 data-translator-target="translation" style="display: inline-block; margin-right: 8px;"
-                span.f-med-10.close-translation data-action="click->translator#toggle" style="cursor: pointer; text-decoration: underline;" = t('dashboard.messages.close')
+                .translation.f-light-italic-12 data-translator-target="translation"
+                span.f-med-10.close-translation data-action="click->translator#toggle" = t('dashboard.messages.close')
         - if message.attachments.any?
           .msg-attachments
             - message.attachments.each do |attachment|
@@ -43,64 +45,27 @@
                   audio controls=true preload="metadata" src=rails_blob_path(attachment.file)
               - elsif attachment.image? && attachment.file.attached?
                 .msg-attachment-img
-                  = image_tag(attachment.file, class: "attachment-image")
+                  = image_tag(attachment.file, class: 'attachment-image')
               - elsif attachment.file.attached?
-                a.msg-attachment-file href=rails_blob_path(attachment.file, disposition: "attachment") target="_blank"
+                a.msg-attachment-file href=rails_blob_path(attachment.file, disposition: 'attachment') target="_blank"
                   span.file-icon 📄
                   span.file-name = attachment.file.filename
-              .message-status-container
-                .msg-time = message.created_at.strftime("%I:%M %p")
-- if message.sender_type == "User" || message.sender_type == "Ai::Agent" || message.sender_type == "Account"
+          - if message.content.blank?
+            .message-status-container
+              .msg-time = message_time
+
+- if ['User', 'Ai::Agent', 'Account'].include?(message.sender_type)
   - is_private = message.personal?
+  - single_emoji = message.content.present? && single_emoji_message?(ActionView::Base.full_sanitizer.sanitize(message.content.to_s).strip)
   .agent-response.response id=dom_id(message) data-controller="translator" data-translator-translate-url-value=translate_message_path(message) data-translator-target="response"
     .agent-text
+      .agent-message-sender = message.sender.try(:display_name).presence || message.sender_type.humanize
       - if message.content.present?
-        - if single_emoji_message?(ActionView::Base.full_sanitizer.sanitize(message.content.to_s).to_s.strip)
-          .original.single-emoji-message data-translator-target="original"
-            = message.content.html_safe
-            span.message-status-container
-              - if is_private
-                = inline_svg_tag("lock_orange.svg", class:"lock", style: "width: 12px; height: 12px;")
-              .msg-time = message.created_at.strftime("%I:%M %p")
-              - if message.failed?
-                span.status-tooltip style="color: #ef4444; display: flex;" data-tooltip=t('dashboard.messages.status.failed')
-                  = inline_svg_tag("failed.svg", class:"", style:"width:12px; height: 12px;")
-              - elsif message.read?
-                span.status-tooltip style="color: #3b82f6; display: flex;" data-tooltip=t('dashboard.messages.status.read')
-                  = inline_svg_tag("read_tick.svg", class:"", style:"width:15px; height: 15px;")
-              - elsif message.delivered?
-                span.status-tooltip style="color: #9ca3af; display: flex;" data-tooltip=t('dashboard.messages.status.delivered')
-                  = inline_svg_tag("delivered.svg", class:"", style:"width:15px; height: 15px;")
-              - else
-                span.status-tooltip style="color: #9ca3af; display: flex;" data-tooltip=t('dashboard.messages.status.sent')
-                  = inline_svg_tag("sent.svg", class:"", style:"width:15px; height: 15px;")
-        - else
-          .original.f-reg-14 data-translator-target="original" class=(is_private ? "private-note-bg" : "")
-            span == sanitize(message.content, tags: Parser::MailParser::ALLOWED_TAGS, attributes: Parser::MailParser::ALLOWED_ATTRIBUTES)
-            span.message-status-container
-              - if is_private
-                = inline_svg_tag("lock_orange.svg", class:"lock", style: "width: 12px; height: 12px;")
-              .msg-time = message.created_at.strftime("%I:%M %p")
-              - if message.failed?
-                span.status-tooltip style="color: #ef4444; display: flex;" data-tooltip=t('dashboard.messages.status.failed')
-                  = inline_svg_tag("failed.svg", class:"", style:"width:12px; height: 12px;")
-              - elsif message.read?
-                span.status-tooltip style="color: #3b82f6; display: flex;" data-tooltip=t('dashboard.messages.status.read')
-                  = inline_svg_tag("read_tick.svg", class:"", style:"width:15px; height: 15px;")
-              - elsif message.delivered?
-                span.status-tooltip style="color: #9ca3af; display: flex;" data-tooltip=t('dashboard.messages.status.delivered')
-                  = inline_svg_tag("delivered.svg", class:"", style:"width:15px; height: 15px;")
-              - else
-                span.status-tooltip style="color: #9ca3af; display: flex;" data-tooltip=t('dashboard.messages.status.sent')
-                  = inline_svg_tag("sent.svg", class:"", style:"width:15px; height: 15px;")
-                    
-          / .translate-text
-          /   button.f-light-italic-10 data-action="click->translator#toggle_translate" = t('dashboard.messages.translate')
-          / .translated-text.d-none style="margin-bottom: 4px;"
-          /   h5.f-med-10 = t('dashboard.messages.translation_header')
-          /   div
-              .translation.f-light-italic-12 data-translator-target="translation" style="display: inline-block; margin-right: 8px;"
-              span.f-med-10.close-translation data-action="click->translator#toggle" style="cursor: pointer; text-decoration: underline;" = t('dashboard.messages.close')
+        .original data-translator-target="original" class=[(single_emoji ? 'single-emoji-message' : 'f-reg-14'), (is_private ? 'private-note-bg' : nil)]
+          - if single_emoji
+            == message.content
+          - else
+            == sanitize(message.content, tags: Parser::MailParser::ALLOWED_TAGS, attributes: Parser::MailParser::ALLOWED_ATTRIBUTES)
       - if message.attachments.any?
         .msg-attachments
           - message.attachments.each do |attachment|
@@ -109,26 +74,14 @@
                 audio controls=true preload="metadata" src=rails_blob_path(attachment.file)
             - elsif attachment.image? && attachment.file.attached?
               .msg-attachment-img
-                = image_tag(attachment.file, class: "attachment-image")
+                = image_tag(attachment.file, class: 'attachment-image')
             - elsif attachment.file.attached?
-              a.msg-attachment-file href=rails_blob_path(attachment.file, disposition: "attachment") target="_blank"
+              a.msg-attachment-file href=rails_blob_path(attachment.file, disposition: 'attachment') target="_blank"
                 span.file-icon 📄
                 span.file-name = attachment.file.filename
-
-      - if message.content.blank?
-        .message-status-container style="align-self: flex-end; margin-top: 6px; display: flex; align-items: center;"
-          - if is_private 
-            = inline_svg_tag("lock_orange.svg", class:"lock", style: "width: 12px; height: 12px;")
-          .msg-time = message.created_at.strftime("%I:%M %p")
-          - if message.failed?
-            span.status-tooltip style="color: #ef4444; display: flex;" data-tooltip=t('dashboard.messages.status.failed')
-              = inline_svg_tag("failed.svg", class:"", style:"width:12px; height: 12px;")
-          - elsif message.read?
-            span.status-tooltip style="color: #3b82f6; display: flex;" data-tooltip=t('dashboard.messages.status.read')
-              = inline_svg_tag("read_tick.svg", class:"", style:"width:15px; height: 15px;")
-          - elsif message.delivered?
-            span.status-tooltip style="color: #9ca3af; display: flex;" data-tooltip=t('dashboard.messages.status.delivered')
-              = inline_svg_tag("delivered.svg", class:"", style:"width:15px; height: 15px;")
-          - else
-            span.status-tooltip style="color: #9ca3af; display: flex;" data-tooltip=t('dashboard.messages.status.sent')
-              = inline_svg_tag("sent.svg", class:"", style:"width:15px; height: 15px;")
+      - if message.content.present? || message.attachments.any?
+        .message-status-container class=('message-status-container--failed' if message.failed?)
+          - if is_private
+            = inline_svg_tag('lock_orange.svg', class: 'lock', aria: { hidden: true })
+          .msg-time = message_time
+          span.msg-delivery-state = "· #{delivery_status}"

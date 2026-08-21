@@ -1,41 +1,41 @@
-= render("dashboard/shared/dashboard_container", current_page: "email_templates") do
-  = render("dashboard/settings/settings_sidebar", current_page: "email_templates") do
-    .eb-templates
-      .eb-templates__header
-        div
-          h2.eb-templates__title = t("dashboard.email_templates.index.title")
-          p.eb-templates__subtitle = t("dashboard.email_templates.index.subtitle")
-        .eb-templates__nav
-          = link_to new_email_template_path, class: "eb-btn eb-btn--primary"
-            = t("ui.dashboard.email_templates.new.create_template")
-          = link_to email_templates_path, class: "eb-btn eb-btn--outline"
-            = t("dashboard.email_templates.index.tab_templates")
-          = link_to email_template_layouts_path, class: "eb-btn eb-btn--outline"
-            = t("dashboard.email_templates.index.tab_layouts")
+/ = render("dashboard/shared/dashboard_container", current_page: "email_templates") do
+= render("dashboard/settings/settings_sidebar", current_page: "email_templates") do
+  .eb-templates
+    .eb-templates__header
+      div
+        h2.eb-templates__title = t("dashboard.email_templates.index.title")
+        p.eb-templates__subtitle = t("dashboard.email_templates.index.subtitle")
+      .eb-templates__nav
+        = link_to new_email_template_path, class: "eb-btn eb-btn--primary"
+          = t("ui.dashboard.email_templates.new.create_template")
+        = link_to email_templates_path, class: "eb-btn eb-btn--outline"
+          = t("dashboard.email_templates.index.tab_templates")
+        = link_to email_template_layouts_path, class: "eb-btn eb-btn--outline"
+          = t("dashboard.email_templates.index.tab_layouts")
 
-      - if @email_templates.any?
-        .eb-templates__grid
-          - @email_templates.each do |template|
-            .eb-card
-              .eb-card__body
-                .eb-card__header
-                  h3.eb-card__name = template.name.titleize
-                  .eb-card__badges
-                    - if template.has_unpublished_changes?
-                      span.eb-badge.eb-badge--draft = t("dashboard.email_templates.index.badge_draft")
-                    span class="eb-badge eb-badge--#{template.status}"
-                      = t("dashboard.email_templates.index.badge_#{template.status}")
-                - description_key = "dashboard.email_builder.template_descriptions.#{template.name}"
-                p.eb-card__description = I18n.exists?(description_key) ? t(description_key) : t("dashboard.email_templates.index.default_description")
+    - if @email_templates.any?
+      .eb-templates__grid
+        - @email_templates.each do |template|
+          .eb-card
+            .eb-card__body
+              .eb-card__header
+                h3.eb-card__name = template.name.titleize
+                .eb-card__badges
+                  - if template.has_unpublished_changes?
+                    span.eb-badge.eb-badge--draft = t("dashboard.email_templates.index.badge_draft")
+                  span class="eb-badge eb-badge--#{template.status}"
+                    = t("dashboard.email_templates.index.badge_#{template.status}")
+              - description_key = "dashboard.email_builder.template_descriptions.#{template.name}"
+              p.eb-card__description = I18n.exists?(description_key) ? t(description_key) : t("dashboard.email_templates.index.default_description")
 
-              .eb-card__footer
-                span.eb-card__meta = t("dashboard.email_templates.index.last_modified", time: time_ago_in_words(template.updated_at))
-                .eb-card__actions
-                  = link_to edit_email_template_path(template), class: "eb-btn eb-btn--primary"
-                    = t("dashboard.email_templates.index.edit_design")
-                  = link_to email_template_path(template), data: { turbo_method: :delete, turbo_confirm: t("ui.dashboard.email_templates.index.are_you_sure_you_want_to_delete_this_template") }, class: "eb-btn eb-btn--danger"
-                    = t("general.delete")
-      - else
-        .auto-empty-state
-          h3.f-semi-18 = t("dashboard.email_templates.index.empty_title")
-          p.f-reg-14 = t("dashboard.email_templates.index.empty_description")
+            .eb-card__footer
+              span.eb-card__meta = t("dashboard.email_templates.index.last_modified", time: time_ago_in_words(template.updated_at))
+              .eb-card__actions
+                = link_to edit_email_template_path(template), class: "eb-btn eb-btn--primary"
+                  = t("dashboard.email_templates.index.edit_design")
+                = link_to email_template_path(template), data: { turbo_method: :delete, turbo_confirm: t("ui.dashboard.email_templates.index.are_you_sure_you_want_to_delete_this_template") }, class: "eb-btn eb-btn--danger"
+                  = t("general.delete")
+    - else
+      .auto-empty-state
+        h3.f-semi-18 = t("dashboard.email_templates.index.empty_title")
+        p.f-reg-14 = t("dashboard.email_templates.index.empty_description")

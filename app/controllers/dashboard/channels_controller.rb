@@ -3,9 +3,7 @@
 module Dashboard
   class ChannelsController < DashboardController
     def index
-      @inboxes = current_account.inboxes.all
-      @teams = current_account.teams.includes(:team_users).order(:name)
-      @team_users = @teams.flat_map(&:team_users).reject { |tu| tu.user_id == current_user.id }.uniq(&:user_id)
+      redirect_to(conversations_path)
     end
 
     def create

@@ -1,20 +1,40 @@
-= render("dashboard/shared/dashboard_container", current_page: "agent-test") do
-  = render("dashboard/agent/agent_sidebar", current_page: "agent-test") do
-    .agent-body-section.agent-topic-body
-      .agent-header.agent-workflow-header.agent-topic-header
-        .topbar
-          h2.f-semi-18 = t("ui.dashboard.agent.topics.topic_explorer")
-        .header-options
-          = image_tag("calender.png", class:"link-icon", alt:t("ui.dashboard.agent.index.image"))
-          .f-reg-14 = t("ui.dashboard.agent.topics.jun_4_2025_jul_1_2025")
-          .tag
-            = inline_svg_tag("plus_black.svg", class:"btn-icon")
-            .f-reg-14 = t("ui.dashboard.agent.topics.add_filter")
-      .agent-body.agent-topic-container data-controller="accordion modal-toggler frame-toggler"
-        h3.f-semi-14 = t("ui.dashboard.agent.topics.10_highest_volume_topics")
-        .topics-container
-          .topics-grid
-            .topic-row1
+/ = render("dashboard/shared/dashboard_container", current_page: "agent-test") do
+= render("dashboard/agent/agent_sidebar", current_page: "agent-test") do
+  .agent-body-section.agent-topic-body
+    .agent-header.agent-workflow-header.agent-topic-header
+      .topbar
+        h2.f-semi-18 = t("ui.dashboard.agent.topics.topic_explorer")
+      .header-options
+        = image_tag("calender.png", class:"link-icon", alt:t("ui.dashboard.agent.index.image"))
+        .f-reg-14 = t("ui.dashboard.agent.topics.jun_4_2025_jul_1_2025")
+        .tag
+          = inline_svg_tag("plus_black.svg", class:"btn-icon")
+          .f-reg-14 = t("ui.dashboard.agent.topics.add_filter")
+    .agent-body.agent-topic-container data-controller="accordion modal-toggler frame-toggler"
+      h3.f-semi-14 = t("ui.dashboard.agent.topics.10_highest_volume_topics")
+      .topics-container
+        .topics-grid
+          .topic-row1
+            .topic
+              .f-semi-14 = t("ui.dashboard.agent.topics.messenger_setup")
+              .detailed
+                .f-reg-12 = t("ui.dashboard.agent.topics.1_306_conversation")
+                = inline_svg_tag("arrow_export.svg", class:"btn-icon")
+              .f-reg-12 = t("ui.dashboard.agent.topics.80_9_cx_score")
+            .topic
+              .f-semi-14 = t("ui.dashboard.agent.topics.messenger_setup")
+              .detailed
+                .f-reg-12 = t("ui.dashboard.agent.topics.1_306_conversation")
+                = inline_svg_tag("arrow_export.svg", class:"btn-icon")
+              .f-reg-12 = t("ui.dashboard.agent.topics.80_9_cx_score")
+            .topic
+              .f-semi-14 = t("ui.dashboard.agent.topics.messenger_setup")
+              .detailed
+                .f-reg-12 = t("ui.dashboard.agent.topics.1_306_conversation")
+                = inline_svg_tag("arrow_export.svg", class:"btn-icon")
+              .f-reg-12 = t("ui.dashboard.agent.topics.80_9_cx_score")
+          .topic-row2
+            .topic-col1
               .topic
                 .f-semi-14 = t("ui.dashboard.agent.topics.messenger_setup")
                 .detailed
@@ -27,14 +47,21 @@
                   .f-reg-12 = t("ui.dashboard.agent.topics.1_306_conversation")
                   = inline_svg_tag("arrow_export.svg", class:"btn-icon")
                 .f-reg-12 = t("ui.dashboard.agent.topics.80_9_cx_score")
-              .topic
-                .f-semi-14 = t("ui.dashboard.agent.topics.messenger_setup")
-                .detailed
+            .topic-col2
+              .row1
+                .topic
+                  .f-semi-14 = t("ui.dashboard.agent.topics.messenger_setup")
                   .f-reg-12 = t("ui.dashboard.agent.topics.1_306_conversation")
-                  = inline_svg_tag("arrow_export.svg", class:"btn-icon")
-                .f-reg-12 = t("ui.dashboard.agent.topics.80_9_cx_score")
-            .topic-row2
-              .topic-col1
+                  .f-reg-12 = t("ui.dashboard.agent.topics.80_9_cx_score")
+                .topic
+                  .f-semi-14 = t("ui.dashboard.agent.topics.messenger_setup")
+                  .f-reg-12 = t("ui.dashboard.agent.topics.1_306_conversation")
+                  .f-reg-12 = t("ui.dashboard.agent.topics.80_9_cx_score")
+                .topic
+                  .f-semi-14 = t("ui.dashboard.agent.topics.messenger_setup")
+                  .f-reg-12 = t("ui.dashboard.agent.topics.1_306_conversation")
+                  .f-reg-12 = t("ui.dashboard.agent.topics.80_9_cx_score")
+              .row2
                 .topic
                   .f-semi-14 = t("ui.dashboard.agent.topics.messenger_setup")
                   .detailed
@@ -47,105 +74,78 @@
                     .f-reg-12 = t("ui.dashboard.agent.topics.1_306_conversation")
                     = inline_svg_tag("arrow_export.svg", class:"btn-icon")
                   .f-reg-12 = t("ui.dashboard.agent.topics.80_9_cx_score")
-              .topic-col2
-                .row1
-                  .topic
-                    .f-semi-14 = t("ui.dashboard.agent.topics.messenger_setup")
-                    .f-reg-12 = t("ui.dashboard.agent.topics.1_306_conversation")
-                    .f-reg-12 = t("ui.dashboard.agent.topics.80_9_cx_score")
-                  .topic
-                    .f-semi-14 = t("ui.dashboard.agent.topics.messenger_setup")
-                    .f-reg-12 = t("ui.dashboard.agent.topics.1_306_conversation")
-                    .f-reg-12 = t("ui.dashboard.agent.topics.80_9_cx_score")
-                  .topic
-                    .f-semi-14 = t("ui.dashboard.agent.topics.messenger_setup")
-                    .f-reg-12 = t("ui.dashboard.agent.topics.1_306_conversation")
-                    .f-reg-12 = t("ui.dashboard.agent.topics.80_9_cx_score")
-                .row2
-                  .topic
-                    .f-semi-14 = t("ui.dashboard.agent.topics.messenger_setup")
-                    .detailed
-                      .f-reg-12 = t("ui.dashboard.agent.topics.1_306_conversation")
-                      = inline_svg_tag("arrow_export.svg", class:"btn-icon")
-                    .f-reg-12 = t("ui.dashboard.agent.topics.80_9_cx_score")
-                  .topic
-                    .f-semi-14 = t("ui.dashboard.agent.topics.messenger_setup")
-                    .detailed
-                      .f-reg-12 = t("ui.dashboard.agent.topics.1_306_conversation")
-                      = inline_svg_tag("arrow_export.svg", class:"btn-icon")
-                    .f-reg-12 = t("ui.dashboard.agent.topics.80_9_cx_score")
-            .progress 
-              .f-semi-14 79%
-              .bar 
-              .f-semi-14 79%
-          .topics-list
-            .topic-stats
-              p.f-semi-12 = t("ui.dashboard.agent.topics.messenger_setup")
-              = image_tag("chart1.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
-              = image_tag("chart2.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
-              = image_tag("chart3.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
-            .topic-stats
-              p.f-semi-12 = t("ui.dashboard.agent.topics.fin_features")
-              = image_tag("chart1.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
-              = image_tag("chart2.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
-              = image_tag("chart3.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
-            .topic-stats
-              p.f-semi-12 = t("ui.dashboard.agent.topics.surveys")
-              = image_tag("chart1.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
-              = image_tag("chart2.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
-              = image_tag("chart3.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
-            .topic-stats
-              p.f-semi-12 = t("ui.dashboard.agent.topics.fin_agent")
-              = image_tag("chart1.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
-              = image_tag("chart2.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
-              = image_tag("chart3.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
-            .topic-stats
-              p.f-semi-12 = t("ui.dashboard.agent.topics.conversation_data")
-              = image_tag("chart1.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
-              = image_tag("chart2.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
-              = image_tag("chart3.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
-            .topic-stats
-              p.f-semi-12 = t("ui.dashboard.agent.topics.fin_agent")
-              = image_tag("chart1.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
-              = image_tag("chart2.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
-              = image_tag("chart3.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
-            .progress 
-              .f-semi-14 79%
-              .bar 
-              .f-semi-14 79%
+          .progress 
+            .f-semi-14 79%
+            .bar 
+            .f-semi-14 79%
+        .topics-list
+          .topic-stats
+            p.f-semi-12 = t("ui.dashboard.agent.topics.messenger_setup")
+            = image_tag("chart1.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
+            = image_tag("chart2.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
+            = image_tag("chart3.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
+          .topic-stats
+            p.f-semi-12 = t("ui.dashboard.agent.topics.fin_features")
+            = image_tag("chart1.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
+            = image_tag("chart2.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
+            = image_tag("chart3.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
+          .topic-stats
+            p.f-semi-12 = t("ui.dashboard.agent.topics.surveys")
+            = image_tag("chart1.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
+            = image_tag("chart2.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
+            = image_tag("chart3.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
+          .topic-stats
+            p.f-semi-12 = t("ui.dashboard.agent.topics.fin_agent")
+            = image_tag("chart1.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
+            = image_tag("chart2.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
+            = image_tag("chart3.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
+          .topic-stats
+            p.f-semi-12 = t("ui.dashboard.agent.topics.conversation_data")
+            = image_tag("chart1.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
+            = image_tag("chart2.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
+            = image_tag("chart3.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
+          .topic-stats
+            p.f-semi-12 = t("ui.dashboard.agent.topics.fin_agent")
+            = image_tag("chart1.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
+            = image_tag("chart2.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
+            = image_tag("chart3.png", class:"chart-img", alt:t("ui.dashboard.agent.index.image"))
+          .progress 
+            .f-semi-14 79%
+            .bar 
+            .f-semi-14 79%
 
-        / .flow-card
-        /   = image_tag("flow_action.png", class:"link-icon avatar", alt:"image")
-        /   h4.f-semi-14 Trigger
-        /   h3.f-semi-16 Cancel Subscription
-        /   p.f-reg-14 Use this when a customer asks to  cancel a subscription
-        /   .
-        /   h4.f-semi-14 Channel
-        /   .tag 
-        /     = inline_svg_tag("users.svg", class:"btn-icon")
-        /     p.f-reg-14 Web and Zendesk Messaging
-        /   .tag.live-btn 
-        /     = inline_svg_tag("plus_black.svg", class:"btn-icon")
-        /     p.f-reg-14 1 More
-        / = image_tag("link_sm.png", class:"link-sm", alt:"image")
-        / .flow-card
-        /   h4.f-semi-14 Path
-        /   = image_tag("flow_action.png", class:"link-icon avatar", alt:"image")
-        /   h4.f-semi-14 Instructions
-        /   p.f-reg-14 Ask the suer which subscription they want to cancel
-        /   p.f-reg-14 -Subscription A...
-        /   .
-        /   h4.f-semi-14 If unable to complete
-        /   h4.f-semi-12 Once Complete
-        /   = image_tag("virus.png", class:"link-icon avatar", alt:"image")
-        /   p.f-reg-14 Ask if it helped
-        / = image_tag("link_lg.png", class:"link-lg", alt:"image")
-        / .flow-card
-        /   h4.f-semi-14 B.Path
-        /   .tag 
-        /     p.f-reg-14 unable to complete
-        /   h4.f-semi-12 Once Complete
-        /   .tag.live-btn 
-        /     = inline_svg_tag("users.svg", class:"btn-icon")
-        /     p.f-reg-14 Fin hands over
+      / .flow-card
+      /   = image_tag("flow_action.png", class:"link-icon avatar", alt:"image")
+      /   h4.f-semi-14 Trigger
+      /   h3.f-semi-16 Cancel Subscription
+      /   p.f-reg-14 Use this when a customer asks to  cancel a subscription
+      /   .
+      /   h4.f-semi-14 Channel
+      /   .tag 
+      /     = inline_svg_tag("users.svg", class:"btn-icon")
+      /     p.f-reg-14 Web and Zendesk Messaging
+      /   .tag.live-btn 
+      /     = inline_svg_tag("plus_black.svg", class:"btn-icon")
+      /     p.f-reg-14 1 More
+      / = image_tag("link_sm.png", class:"link-sm", alt:"image")
+      / .flow-card
+      /   h4.f-semi-14 Path
+      /   = image_tag("flow_action.png", class:"link-icon avatar", alt:"image")
+      /   h4.f-semi-14 Instructions
+      /   p.f-reg-14 Ask the suer which subscription they want to cancel
+      /   p.f-reg-14 -Subscription A...
+      /   .
+      /   h4.f-semi-14 If unable to complete
+      /   h4.f-semi-12 Once Complete
+      /   = image_tag("virus.png", class:"link-icon avatar", alt:"image")
+      /   p.f-reg-14 Ask if it helped
+      / = image_tag("link_lg.png", class:"link-lg", alt:"image")
+      / .flow-card
+      /   h4.f-semi-14 B.Path
+      /   .tag 
+      /     p.f-reg-14 unable to complete
+      /   h4.f-semi-12 Once Complete
+      /   .tag.live-btn 
+      /     = inline_svg_tag("users.svg", class:"btn-icon")
+      /     p.f-reg-14 Fin hands over
 

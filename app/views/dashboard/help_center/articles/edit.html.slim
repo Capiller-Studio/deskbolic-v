@@ -10,84 +10,84 @@
 - draft_title = translation.draft_title.presence || translation.title.presence || ""
 - has_unpublished = @article.respond_to?(:has_unpublished_changes?) ? @article.has_unpublished_changes?(locale: locale) : false
 
-= render("dashboard/shared/dashboard_container", current_page: "help_center") do
-  = render("dashboard/help_center/help_center_sidebar", current_page: "articles") do
-    - editor_opts = { class: "hc-articles hc-form-page hc-form-no-sidebar", data: { \
-        controller: "help-center--article-editor", \
-        "help-center--article-editor-update-url-value" => help_center_article_path(id: @article.id), \
-        "help-center--article-editor-publish-url-value" => publish_help_center_article_path(id: @article.id), \
-        "help-center--article-editor-discard-url-value" => discard_draft_help_center_article_path(id: @article.id), \
-        "help-center--article-editor-copy-locale-url-value" => copy_locale_help_center_article_path(id: @article.id), \
-        "help-center--article-editor-upload-url-value" => attachments_path, \
-        "help-center--article-editor-article-id-value" => @article.id, \
-        "help-center--article-editor-csrf-token-value" => form_authenticity_token, \
-        "help-center--article-editor-draft-content-value" => draft_content, \
-        "help-center--article-editor-draft-title-value" => draft_title, \
-        "help-center--article-editor-locale-value" => locale, \
-        "help-center--article-editor-has-unpublished-changes-value" => has_unpublished, \
-        "help-center--article-editor-status-value" => (@article.status || "draft"), \
-        "help-center--article-editor-edit-url-value" => edit_help_center_article_path(id: @article.id) \
-      } }
+/ = render("dashboard/shared/dashboard_container", current_page: "help_center") do
+= render("dashboard/help_center/help_center_sidebar", current_page: "articles") do
+  - editor_opts = { class: "hc-articles hc-form-page hc-form-no-sidebar", data: { \
+      controller: "help-center--article-editor", \
+      "help-center--article-editor-update-url-value" => help_center_article_path(id: @article.id), \
+      "help-center--article-editor-publish-url-value" => publish_help_center_article_path(id: @article.id), \
+      "help-center--article-editor-discard-url-value" => discard_draft_help_center_article_path(id: @article.id), \
+      "help-center--article-editor-copy-locale-url-value" => copy_locale_help_center_article_path(id: @article.id), \
+      "help-center--article-editor-upload-url-value" => attachments_path, \
+      "help-center--article-editor-article-id-value" => @article.id, \
+      "help-center--article-editor-csrf-token-value" => form_authenticity_token, \
+      "help-center--article-editor-draft-content-value" => draft_content, \
+      "help-center--article-editor-draft-title-value" => draft_title, \
+      "help-center--article-editor-locale-value" => locale, \
+      "help-center--article-editor-has-unpublished-changes-value" => has_unpublished, \
+      "help-center--article-editor-status-value" => (@article.status || "draft"), \
+      "help-center--article-editor-edit-url-value" => edit_help_center_article_path(id: @article.id) \
+    } }
 
-    div *editor_opts
+  div *editor_opts
 
-      .hc-form-header-bar
-        = link_to help_center_article_path(id: @article.id), class: "hc-back-link" do
-          | Back
+    .hc-form-header-bar
+      = link_to help_center_article_path(id: @article.id), class: "hc-back-link" do
+        | Back
 
-        .ae-locale-area style="margin-left: 16px; margin-right: auto; display: flex; align-items: center; gap: 8px;"
-          /! Locale Switcher
+      .ae-locale-area style="margin-left: 16px; margin-right: auto; display: flex; align-items: center; gap: 8px;"
+        /! Locale Switcher
+        .ae-dropdown-wrapper
+          button.ae-locale-btn type="button" data-action="click->help-center--article-editor#toggleLocaleMenu"
+            span.ae-locale-flag = locale.upcase
+            svg.ae-icon-xs xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+              path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 011.06 0L10 11.94l3.72-3.72a.75.75 0 111.06 1.06l-4.25 4.25a.75.75 0 01-1.06 0L5.22 9.28a.75.75 0 010-1.06z" clip-rule="evenodd"
+          .ae-dropdown data-help-center--article-editor-target="localeMenu"
+            .ae-dropdown-header = I18n.t("dashboard.articles.locale", default: "Locale")
+            - existing_locales.each do |loc|
+              a.ae-dropdown-item href="#" data-action="click->help-center--article-editor#switchLocale" data-locale=loc class=("ae-dropdown-item--active" if loc == locale)
+                span.ae-locale-flag.ae-locale-flag--sm = loc.upcase
+                span = language_names[loc.to_s] || loc.upcase
+                - if loc == locale
+                  svg.ae-icon-xs xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                    path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd"
+
+        /! Add Locale
+        - if available_to_add.any?
           .ae-dropdown-wrapper
-            button.ae-locale-btn type="button" data-action="click->help-center--article-editor#toggleLocaleMenu"
-              span.ae-locale-flag = locale.upcase
-              svg.ae-icon-xs xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 011.06 0L10 11.94l3.72-3.72a.75.75 0 111.06 1.06l-4.25 4.25a.75.75 0 01-1.06 0L5.22 9.28a.75.75 0 010-1.06z" clip-rule="evenodd"
-            .ae-dropdown data-help-center--article-editor-target="localeMenu"
-              .ae-dropdown-header = I18n.t("dashboard.articles.locale", default: "Locale")
-              - existing_locales.each do |loc|
-                a.ae-dropdown-item href="#" data-action="click->help-center--article-editor#switchLocale" data-locale=loc class=("ae-dropdown-item--active" if loc == locale)
+            button.ae-add-locale-btn type="button" data-action="click->help-center--article-editor#toggleAddLocaleMenu" title=I18n.t("dashboard.articles.add_locale", default: "Add locale")
+              | +
+            .ae-dropdown data-help-center--article-editor-target="addLocaleMenu"
+              .ae-dropdown-header = I18n.t("dashboard.articles.add_locale", default: "Add Locale")
+              - available_to_add.each do |loc|
+                a.ae-dropdown-item href="#" data-action="click->help-center--article-editor#addLocale" data-locale=loc
                   span.ae-locale-flag.ae-locale-flag--sm = loc.upcase
                   span = language_names[loc.to_s] || loc.upcase
-                  - if loc == locale
-                    svg.ae-icon-xs xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                      path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd"
 
-          /! Add Locale
-          - if available_to_add.any?
-            .ae-dropdown-wrapper
-              button.ae-add-locale-btn type="button" data-action="click->help-center--article-editor#toggleAddLocaleMenu" title=I18n.t("dashboard.articles.add_locale", default: "Add locale")
-                | +
-              .ae-dropdown data-help-center--article-editor-target="addLocaleMenu"
-                .ae-dropdown-header = I18n.t("dashboard.articles.add_locale", default: "Add Locale")
-                - available_to_add.each do |loc|
-                  a.ae-dropdown-item href="#" data-action="click->help-center--article-editor#addLocale" data-locale=loc
-                    span.ae-locale-flag.ae-locale-flag--sm = loc.upcase
-                    span = language_names[loc.to_s] || loc.upcase
+        /! Copy from Locale
+        - if existing_locales.length > 1
+          .ae-dropdown-wrapper
+            button.ae-copy-locale-btn type="button" data-action="click->help-center--article-editor#toggleCopyMenu" title=I18n.t("dashboard.articles.copy_from_another_locale", default: "Copy from another locale")
+              svg.ae-icon-sm xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                path d="M7 3.5A1.5 1.5 0 018.5 2h3.879a1.5 1.5 0 011.06.44l3.122 3.12A1.5 1.5 0 0117 6.622V12.5a1.5 1.5 0 01-1.5 1.5h-1v-3.379a3 3 0 00-.879-2.121L10.5 5.379A3 3 0 008.379 4.5H7v-1z"
+                path d="M4.5 6A1.5 1.5 0 003 7.5v9A1.5 1.5 0 004.5 18h7a1.5 1.5 0 001.5-1.5v-5.879a1.5 1.5 0 00-.44-1.06L9.44 6.439A1.5 1.5 0 008.378 6H4.5z"
+            .ae-dropdown data-help-center--article-editor-target="copyMenu"
+              .ae-dropdown-header = I18n.t("dashboard.articles.copy_content_from", default: "Copy content from")
+              - existing_locales.reject { |l| l == locale }.each do |source_locale|
+                a.ae-dropdown-item href="#" data-action="click->help-center--article-editor#copyFromLocale" data-source-locale=source_locale
+                  span.ae-locale-flag.ae-locale-flag--sm = source_locale.upcase
+                  span = I18n.t("dashboard.articles.copy_from_locale", default: "Copy from %{locale_name}", locale_name: language_names[source_locale.to_s] || source_locale.upcase)
 
-          /! Copy from Locale
-          - if existing_locales.length > 1
-            .ae-dropdown-wrapper
-              button.ae-copy-locale-btn type="button" data-action="click->help-center--article-editor#toggleCopyMenu" title=I18n.t("dashboard.articles.copy_from_another_locale", default: "Copy from another locale")
-                svg.ae-icon-sm xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                  path d="M7 3.5A1.5 1.5 0 018.5 2h3.879a1.5 1.5 0 011.06.44l3.122 3.12A1.5 1.5 0 0117 6.622V12.5a1.5 1.5 0 01-1.5 1.5h-1v-3.379a3 3 0 00-.879-2.121L10.5 5.379A3 3 0 008.379 4.5H7v-1z"
-                  path d="M4.5 6A1.5 1.5 0 003 7.5v9A1.5 1.5 0 004.5 18h7a1.5 1.5 0 001.5-1.5v-5.879a1.5 1.5 0 00-.44-1.06L9.44 6.439A1.5 1.5 0 008.378 6H4.5z"
-              .ae-dropdown data-help-center--article-editor-target="copyMenu"
-                .ae-dropdown-header = I18n.t("dashboard.articles.copy_content_from", default: "Copy content from")
-                - existing_locales.reject { |l| l == locale }.each do |source_locale|
-                  a.ae-dropdown-item href="#" data-action="click->help-center--article-editor#copyFromLocale" data-source-locale=source_locale
-                    span.ae-locale-flag.ae-locale-flag--sm = source_locale.upcase
-                    span = I18n.t("dashboard.articles.copy_from_locale", default: "Copy from %{locale_name}", locale_name: language_names[source_locale.to_s] || source_locale.upcase)
+        span.ae-draft-badge data-help-center--article-editor-target="draftBadge"
+          = has_unpublished ? I18n.t("dashboard.articles.unsaved_changes", default: "Unsaved changes") : (@article.status || "draft").humanize
 
-          span.ae-draft-badge data-help-center--article-editor-target="draftBadge"
-            = has_unpublished ? I18n.t("dashboard.articles.unsaved_changes", default: "Unsaved changes") : (@article.status || "draft").humanize
+      .hc-form-header-actions
+        = link_to I18n.t("dashboard.articles.cancel", default: "Cancel"), help_center_article_path(id: @article.id), class: "hc-btn-secondary hc-header-btn"
+        button.hc-btn-primary.hc-header-btn type="submit" form="article-form" id="ae-save-btn" name="save_draft" value="1"
+          = I18n.t("dashboard.articles.save", default: "Save")
+        button.hc-btn-primary.hc-btn-green.hc-header-btn type="submit" form="article-form" name="publish" value="1" data-disable-with=I18n.t("dashboard.articles.publishing", default: "Publishing...")
+          = I18n.t("dashboard.articles.publish", default: "Publish")
 
-        .hc-form-header-actions
-          = link_to I18n.t("dashboard.articles.cancel", default: "Cancel"), help_center_article_path(id: @article.id), class: "hc-btn-secondary hc-header-btn"
-          button.hc-btn-primary.hc-header-btn type="submit" form="article-form" id="ae-save-btn" name="save_draft" value="1"
-            = I18n.t("dashboard.articles.save", default: "Save")
-          button.hc-btn-primary.hc-btn-green.hc-header-btn type="submit" form="article-form" name="publish" value="1" data-disable-with=I18n.t("dashboard.articles.publishing", default: "Publishing...")
-            = I18n.t("dashboard.articles.publish", default: "Publish")
-
-      .hc-form-layout
-        .hc-form-main
-          = render "form", article: @article, draft_title: draft_title, draft_content: draft_content, locale: locale
+    .hc-form-layout
+      .hc-form-main
+        = render "form", article: @article, draft_title: draft_title, draft_content: draft_content, locale: locale

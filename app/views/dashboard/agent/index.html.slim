@@ -1,109 +1,109 @@
-= render("dashboard/shared/dashboard_container", current_page: "roles") do
-  = render("dashboard/agent/agent_sidebar", current_page: "roles") do
-    .agent-body-section data-controller="modal-toggler frame-toggler"
-      .agent-header
-        h2.f-semi-18 = t("dashboard.sidebar.settings.title")
-      .agent-body
-        ul.agent-configs-list  data-controller="accordion modal-toggler frame-toggler"
-          .configs-nav-menu
-            .config-item
-              li.config-nav-item class="" data-action="click->accordion#toggle"
-                .config-nav-link
-                  .link-text
-                    = image_tag("agent_img.png", class:"link-icon avatar", alt:t("ui.dashboard.agent.index.image"))
-                    .left
-                      p.f-semi-14 = t("ui.dashboard.agent.index.identity")
-                      p.f-reg-12 = t("ui.dashboard.agent.index.customize_fin_s_profile_picture_and_name_this_identity_will")
-                    = inline_svg_tag("arrow_down.svg", class:"team-dropdown-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-              .config-panel.panel data-accordion-target="panel"
-                .config-body
-                  = form_with(url: "#", method: :patch) do |f|
-                    .form-fields
-                      .form-floating
-                        = image_tag("agent_img.png", class:"link-icon avatar", alt:t("ui.dashboard.agent.index.image"))
-                        .form-field
-                          = f.label :name, t("forms.labels.name"), class: "form-label f-semi-14"
-                          = f.text_field :name, autofocus: true, class: "form-control f-reg-14", placeholder: "Deskbolic", required: true
-                    .form-actions
-                      = f.submit t("dashboard.profile.index.save"), class: "btn f-semi-14 btn-update"
-            
-            .config-item
-              li.config-nav-item class="" data-action="click->accordion#toggle"
-                .config-nav-link
-                  .link-text
-                    = image_tag("reply.png", class:"link-icon avatar", alt:t("ui.dashboard.agent.index.image"))
-                    .left
-                      p.f-semi-14 = t("ui.dashboard.agent.index.deskbolic_s_reply_buttons")
-                      p.f-reg-12 = t("ui.dashboard.agent.index.choose_how_fin_phrases_the_options_it_presents_to_your")
-                    = inline_svg_tag("arrow_down.svg", class:"team-dropdown-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-              .config-panel.panel data-accordion-target="panel"
-                .config-body.replies-body
-                  .widget-section
-                    .f-reg-12 = t("ui.dashboard.agent.index.wed_8_21_am")
-                    .customer-text
-                      = image_tag("bot.png", class:"customer-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-                      p.f-reg-14 = t("ui.dashboard.agent.guidance.hallo_ich_bin_fitbot_ich_bin_dein_pers_nlicher_sportassistent")
-                    .response-buttons
-                      = form_with url: "#", method: :get, local: true do
-                        .form-floating.reply-statuses
-                          = select_tag :status, options_for_select([[t("forms.options.let_fin_decide"), "let fin decide"], [t("forms.options.informal"), "informal"], [t("forms.options.formal"), "formal"]], params[:status]), onchange: "this.form.submit();", class: "con-statuses", data: { controller: "select" }
-                      = form_with url: "#", method: :get, local: true do
-                        .form-floating.reply-statuses
-                          = select_tag :status, options_for_select([[t("forms.options.let_fin_decide"), "let fin decide"], [t("forms.options.informal"), "informal"], [t("forms.options.formal"), "formal"]], params[:status]), onchange: "this.form.submit();", class: "con-statuses", data: { controller: "select" }
-                    / .message-box
-                    /   p.f-reg-14 message...
-                    /   = inline_svg_tag("file_attach.svg", class:"resp-icon", alt:"icon")
-                    /   = inline_svg_tag("emoji.svg", class:"resp-icon", alt:"icon")
-                    /   = inline_svg_tag("gif.svg", class:"resp-icon", alt:"icon")
-                  .description-section
-                    h3.f-semi-14 = t("ui.dashboard.agent.index.customize_the_reply_buttons_here")
-                    p.f-reg-12 = t("ui.dashboard.agent.index.you_can_pick_what_works_best_for_your_audience_this")
-                    = image_tag("big_arrow.png", class:"big-arrow", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-                    p.f-reg-12 = t("ui.dashboard.agent.index.resolves_the_conversation")
-                    p.f-reg-12 = t("ui.dashboard.agent.index.routes_the_customer_to_teammates")
-            
-            .config-item
-              li.config-nav-item class="" data-action="click->accordion#toggle"
-                .config-nav-link
-                  .link-text
-                    = image_tag("transfer.png", class:"link-icon avatar", alt:t("ui.dashboard.agent.index.image"))
-                    .left
-                      p.f-semi-14 = t("ui.dashboard.agent.index.deskbolic_s_multilingual_support")
-                      p.f-reg-12 = t("ui.dashboard.agent.index.control_the_language_fin_will_use_to_create_ai_answers")
-                    = inline_svg_tag("arrow_down.svg", class:"team-dropdown-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-              .config-panel.panel data-accordion-target="panel"
-                .config-body.lingual-support
-                  p.f-semi-14 = t("ui.dashboard.agent.index.supported_languages")
-                  p.f-reg-12 = t("ui.dashboard.agent.index.fin_will_automatically_detect_and_reply_to_customer_in_the")
-                  li.f-semi-14 = t("ui.dashboard.agent.index.english_default")
-                  .field-group
-                    label.switch
-                      = check_box_tag 'toggle', 'on', true, class:'toggle-input'
-                      span.slider
-                    .content
-                      p.f-semi-14 = t("ui.dashboard.agent.index.real_time_translation")
-                      p.f-reg-12 = t("ui.dashboard.agent.index.fin_will_automatically_detect_and_reply_to_customer_in_the")
-                .tag = t("ui.dashboard.agent.index.default_language_english")
-                span.tag = t("dashboard.messages.close")
-                span.link = t("ui.dashboard.agent.index.multilingual_fin")
-            
-            .config-item
-              li.config-nav-item class="" data-action="click->accordion#toggle"
-                .config-nav-link
-                  .link-text
-                    = image_tag("chat.png", class:"link-icon avatar", alt:t("ui.dashboard.agent.index.image"))
-                    .left
-                      p.f-semi-14 = t("ui.dashboard.agent.index.deskbolic_s_pronoun_formality")
-                      p.f-reg-12 = t("ui.dashboard.agent.index.choose_formal_or_informal_pronouns_for_all_applicable_languages")
-                    = inline_svg_tag("arrow_down.svg", class:"team-dropdown-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-              .config-panel.foramality-panel.panel data-accordion-target="panel"
-                / .config-header
-                /   h3.f-semi-18 Team Members
-                .config-body.formality-body
-                  = form_with url: "#", method: :get, local: true do
-                    .form-floating.formality-statuses
-                      = select_tag :status, options_for_select([[t("forms.options.let_fin_decide"), "let fin decide"], [t("forms.options.informal"), "informal"], [t("forms.options.formal"), "formal"]], params[:status]), onchange: "this.form.submit();", class: "con-statuses", data: { controller: "select" }
-                .f-reg-12.formality-text = t("ui.dashboard.agent.index.fin_will_follow_the_same_language_style_as_the_user")
-                span.tag = t("dashboard.messages.close")
-                span.link = t("ui.dashboard.agent.index.fin_s_pronoun_formality")
-            
+/ = render("dashboard/shared/dashboard_container", current_page: "roles") do
+= render("dashboard/agent/agent_sidebar", current_page: "roles") do
+  .agent-body-section data-controller="modal-toggler frame-toggler"
+    .agent-header
+      h2.f-semi-18 = t("dashboard.sidebar.settings.title")
+    .agent-body
+      ul.agent-configs-list  data-controller="accordion modal-toggler frame-toggler"
+        .configs-nav-menu
+          .config-item
+            li.config-nav-item class="" data-action="click->accordion#toggle"
+              .config-nav-link
+                .link-text
+                  = image_tag("agent_img.png", class:"link-icon avatar", alt:t("ui.dashboard.agent.index.image"))
+                  .left
+                    p.f-semi-14 = t("ui.dashboard.agent.index.identity")
+                    p.f-reg-12 = t("ui.dashboard.agent.index.customize_fin_s_profile_picture_and_name_this_identity_will")
+                  = inline_svg_tag("arrow_down.svg", class:"team-dropdown-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+            .config-panel.panel data-accordion-target="panel"
+              .config-body
+                = form_with(url: "#", method: :patch) do |f|
+                  .form-fields
+                    .form-floating
+                      = image_tag("agent_img.png", class:"link-icon avatar", alt:t("ui.dashboard.agent.index.image"))
+                      .form-field
+                        = f.label :name, t("forms.labels.name"), class: "form-label f-semi-14"
+                        = f.text_field :name, autofocus: true, class: "form-control f-reg-14", placeholder: "Deskbolic", required: true
+                  .form-actions
+                    = f.submit t("dashboard.profile.index.save"), class: "btn f-semi-14 btn-update"
+          
+          .config-item
+            li.config-nav-item class="" data-action="click->accordion#toggle"
+              .config-nav-link
+                .link-text
+                  = image_tag("reply.png", class:"link-icon avatar", alt:t("ui.dashboard.agent.index.image"))
+                  .left
+                    p.f-semi-14 = t("ui.dashboard.agent.index.deskbolic_s_reply_buttons")
+                    p.f-reg-12 = t("ui.dashboard.agent.index.choose_how_fin_phrases_the_options_it_presents_to_your")
+                  = inline_svg_tag("arrow_down.svg", class:"team-dropdown-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+            .config-panel.panel data-accordion-target="panel"
+              .config-body.replies-body
+                .widget-section
+                  .f-reg-12 = t("ui.dashboard.agent.index.wed_8_21_am")
+                  .customer-text
+                    = image_tag("bot.png", class:"customer-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                    p.f-reg-14 = t("ui.dashboard.agent.guidance.hallo_ich_bin_fitbot_ich_bin_dein_pers_nlicher_sportassistent")
+                  .response-buttons
+                    = form_with url: "#", method: :get, local: true do
+                      .form-floating.reply-statuses
+                        = select_tag :status, options_for_select([[t("forms.options.let_fin_decide"), "let fin decide"], [t("forms.options.informal"), "informal"], [t("forms.options.formal"), "formal"]], params[:status]), onchange: "this.form.submit();", class: "con-statuses", data: { controller: "select" }
+                    = form_with url: "#", method: :get, local: true do
+                      .form-floating.reply-statuses
+                        = select_tag :status, options_for_select([[t("forms.options.let_fin_decide"), "let fin decide"], [t("forms.options.informal"), "informal"], [t("forms.options.formal"), "formal"]], params[:status]), onchange: "this.form.submit();", class: "con-statuses", data: { controller: "select" }
+                  / .message-box
+                  /   p.f-reg-14 message...
+                  /   = inline_svg_tag("file_attach.svg", class:"resp-icon", alt:"icon")
+                  /   = inline_svg_tag("emoji.svg", class:"resp-icon", alt:"icon")
+                  /   = inline_svg_tag("gif.svg", class:"resp-icon", alt:"icon")
+                .description-section
+                  h3.f-semi-14 = t("ui.dashboard.agent.index.customize_the_reply_buttons_here")
+                  p.f-reg-12 = t("ui.dashboard.agent.index.you_can_pick_what_works_best_for_your_audience_this")
+                  = image_tag("big_arrow.png", class:"big-arrow", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+                  p.f-reg-12 = t("ui.dashboard.agent.index.resolves_the_conversation")
+                  p.f-reg-12 = t("ui.dashboard.agent.index.routes_the_customer_to_teammates")
+          
+          .config-item
+            li.config-nav-item class="" data-action="click->accordion#toggle"
+              .config-nav-link
+                .link-text
+                  = image_tag("transfer.png", class:"link-icon avatar", alt:t("ui.dashboard.agent.index.image"))
+                  .left
+                    p.f-semi-14 = t("ui.dashboard.agent.index.deskbolic_s_multilingual_support")
+                    p.f-reg-12 = t("ui.dashboard.agent.index.control_the_language_fin_will_use_to_create_ai_answers")
+                  = inline_svg_tag("arrow_down.svg", class:"team-dropdown-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+            .config-panel.panel data-accordion-target="panel"
+              .config-body.lingual-support
+                p.f-semi-14 = t("ui.dashboard.agent.index.supported_languages")
+                p.f-reg-12 = t("ui.dashboard.agent.index.fin_will_automatically_detect_and_reply_to_customer_in_the")
+                li.f-semi-14 = t("ui.dashboard.agent.index.english_default")
+                .field-group
+                  label.switch
+                    = check_box_tag 'toggle', 'on', true, class:'toggle-input'
+                    span.slider
+                  .content
+                    p.f-semi-14 = t("ui.dashboard.agent.index.real_time_translation")
+                    p.f-reg-12 = t("ui.dashboard.agent.index.fin_will_automatically_detect_and_reply_to_customer_in_the")
+              .tag = t("ui.dashboard.agent.index.default_language_english")
+              span.tag = t("dashboard.messages.close")
+              span.link = t("ui.dashboard.agent.index.multilingual_fin")
+          
+          .config-item
+            li.config-nav-item class="" data-action="click->accordion#toggle"
+              .config-nav-link
+                .link-text
+                  = image_tag("chat.png", class:"link-icon avatar", alt:t("ui.dashboard.agent.index.image"))
+                  .left
+                    p.f-semi-14 = t("ui.dashboard.agent.index.deskbolic_s_pronoun_formality")
+                    p.f-reg-12 = t("ui.dashboard.agent.index.choose_formal_or_informal_pronouns_for_all_applicable_languages")
+                  = inline_svg_tag("arrow_down.svg", class:"team-dropdown-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+            .config-panel.foramality-panel.panel data-accordion-target="panel"
+              / .config-header
+              /   h3.f-semi-18 Team Members
+              .config-body.formality-body
+                = form_with url: "#", method: :get, local: true do
+                  .form-floating.formality-statuses
+                    = select_tag :status, options_for_select([[t("forms.options.let_fin_decide"), "let fin decide"], [t("forms.options.informal"), "informal"], [t("forms.options.formal"), "formal"]], params[:status]), onchange: "this.form.submit();", class: "con-statuses", data: { controller: "select" }
+              .f-reg-12.formality-text = t("ui.dashboard.agent.index.fin_will_follow_the_same_language_style_as_the_user")
+              span.tag = t("dashboard.messages.close")
+              span.link = t("ui.dashboard.agent.index.fin_s_pronoun_formality")
+          

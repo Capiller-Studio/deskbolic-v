@@ -1,38 +1,38 @@
-= render("dashboard/shared/dashboard_container", current_page: "help_desk") do
-  = render("dashboard/settings/settings_sidebar", current_page: "help-center-portals") do
-    .body-section.help-center-portal-body
-      .help-center-portal-header
-        div
-          h2.f-semi-18 = t("dashboard.sidebar.settings.all_help_centers")
-          p.f-reg-12 = t("ui.dashboard.help_center.portals.index.manage_the_help_centers_created_for_this_workspace")
-        = link_to(new_help_center_portal_path, class: "new-portal-btn") do
-          span.f-reg-14 = t("dashboard.settings_index.new_help_center")
-          = inline_svg_tag("plus_white.svg", class: "plus-icon", alt: t("ui.dashboard.domains.index.add"))
+/ = render("dashboard/shared/dashboard_container", current_page: "help_desk") do
+= render("dashboard/settings/settings_sidebar", current_page: "help-center-portals") do
+  .body-section.help-center-portal-body
+    .help-center-portal-header
+      div
+        h2.f-semi-18 = t("dashboard.sidebar.settings.all_help_centers")
+        p.f-reg-12 = t("ui.dashboard.help_center.portals.index.manage_the_help_centers_created_for_this_workspace")
+      = link_to(new_help_center_portal_path, class: "new-portal-btn") do
+        span.f-reg-14 = t("dashboard.settings_index.new_help_center")
+        = inline_svg_tag("plus_white.svg", class: "plus-icon", alt: t("ui.dashboard.domains.index.add"))
 
-      - if flash[:notice]
-        .alert.alert-green
-          p.f-reg-12 = flash[:notice]
-      - if flash[:alert]
-        .alert.alert-red
-          p.f-reg-12 = flash[:alert]
+    - if flash[:notice]
+      .alert.alert-green
+        p.f-reg-12 = flash[:notice]
+    - if flash[:alert]
+      .alert.alert-red
+        p.f-reg-12 = flash[:alert]
 
-      .portal-list-section
-        - if @portals.any?
-          .portal-grid
-            - @portals.each do |portal|
-              .portal-card
-                - if portal.hero_image.attached?
-                  = image_tag(portal.hero_image, class: "portal-card-hero-image", alt: t("dashboard.help_center.portals.index.hero_image_alt", name: portal.name.presence || t("dashboard.help_center.portals.index.untitled")))
-                .portal-card-main
-                  h3.f-semi-14 = portal.name.presence || t("dashboard.help_center.portals.index.untitled")
-                  p.f-reg-12 = portal.domain&.value
-                .portal-card-meta
-                  span.f-reg-12 = portal.default_locale.to_s.upcase
-                  span.f-reg-12 = pluralize(Array(portal.locales).size, "language")
-                  = link_to edit_help_center_portal_path(portal), class: "portal-edit-btn", title: t("ui.dashboard.help_center.portals.edit.edit_help_center") do
-                    = inline_svg_tag("edit.svg", class: "portal-edit-icon", alt: t("dashboard.skills.index.edit"))
-        - else
-          .portal-empty
-            p.f-reg-14 = t("ui.dashboard.help_center.portals.index.no_help_centers_yet")
-            p.f-reg-12 = t("ui.dashboard.help_center.portals.index.create_a_help_center_to_configure_branding_languages_and_its")
-            = link_to t("ui.dashboard.help_center.portals.index.create_help_center"), new_help_center_portal_path, class: "add-portal-link"
+    .portal-list-section
+      - if @portals.any?
+        .portal-grid
+          - @portals.each do |portal|
+            .portal-card
+              - if portal.hero_image.attached?
+                = image_tag(portal.hero_image, class: "portal-card-hero-image", alt: t("dashboard.help_center.portals.index.hero_image_alt", name: portal.name.presence || t("dashboard.help_center.portals.index.untitled")))
+              .portal-card-main
+                h3.f-semi-14 = portal.name.presence || t("dashboard.help_center.portals.index.untitled")
+                p.f-reg-12 = portal.domain&.value
+              .portal-card-meta
+                span.f-reg-12 = portal.default_locale.to_s.upcase
+                span.f-reg-12 = pluralize(Array(portal.locales).size, "language")
+                = link_to edit_help_center_portal_path(portal), class: "portal-edit-btn", title: t("ui.dashboard.help_center.portals.edit.edit_help_center") do
+                  = inline_svg_tag("edit.svg", class: "portal-edit-icon", alt: t("dashboard.skills.index.edit"))
+      - else
+        .portal-empty
+          p.f-reg-14 = t("ui.dashboard.help_center.portals.index.no_help_centers_yet")
+          p.f-reg-12 = t("ui.dashboard.help_center.portals.index.create_a_help_center_to_configure_branding_languages_and_its")
+          = link_to t("ui.dashboard.help_center.portals.index.create_help_center"), new_help_center_portal_path, class: "add-portal-link"

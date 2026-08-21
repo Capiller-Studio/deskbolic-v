@@ -1,23 +1,23 @@
-= render("dashboard/shared/dashboard_container", current_page: "identity-sources") do
-  = render("dashboard/settings/settings_sidebar", current_page: "identity-sources") do
-    .ui-settings-page
-      header.ui-settings-page__header
-        .ui-settings-page__heading
-          h1 = t("dashboard.identity_sources.index.title")
-          p = t("dashboard.identity_sources.index.description")
-        = link_to new_identity_source_path, class: "ui-settings-page__action", id: "new-identity-source" do
-          span = t("dashboard.identity_sources.index.create_button")
-          = inline_svg_tag("plus_white.svg", class: "ui-settings-page__action-icon", aria: { hidden: true })
+/ = render("dashboard/shared/dashboard_container", current_page: "identity-sources") do
+= render("dashboard/settings/settings_sidebar", current_page: "identity-sources") do
+  .ui-settings-page
+    header.ui-settings-page__header
+      .ui-settings-page__heading
+        h1 = t("dashboard.identity_sources.index.title")
+        p = t("dashboard.identity_sources.index.description")
+      = link_to new_identity_source_path, class: "ui-settings-page__action", id: "new-identity-source" do
+        span = t("dashboard.identity_sources.index.create_button")
+        = inline_svg_tag("plus_white.svg", class: "ui-settings-page__action-icon", aria: { hidden: true })
 
-      main.ui-settings-page__content
-        - if @identity_sources.any?
-          .ui-card-grid.is-source-card-grid
-            - @identity_sources.each do |source|
-              = render("dashboard/identity_sources/source_card", source: source)
-        - else
-          .ui-empty-state.ui-empty-state--bordered
-            .ui-empty-state__graphic
-              = image_tag("chain_link.svg", alt: "", aria: { hidden: true })
-            h2 = t("dashboard.identity_sources.index.empty_title", default: "No identity sources yet")
-            p = t("dashboard.identity_sources.index.empty_description", default: "Create your first identity source to fetch and verify customer information.")
-            = link_to t("dashboard.identity_sources.index.create_button"), new_identity_source_path, class: "ui-settings-page__action"
+    main.ui-settings-page__content
+      - if @identity_sources.any?
+        .ui-card-grid.is-source-card-grid
+          - @identity_sources.each do |source|
+            = render("dashboard/identity_sources/source_card", source: source)
+      - else
+        .ui-empty-state.ui-empty-state--bordered
+          .ui-empty-state__graphic
+            = image_tag("chain_link.svg", alt: "", aria: { hidden: true })
+          h2 = t("dashboard.identity_sources.index.empty_title", default: "No identity sources yet")
+          p = t("dashboard.identity_sources.index.empty_description", default: "Create your first identity source to fetch and verify customer information.")
+          = link_to t("dashboard.identity_sources.index.create_button"), new_identity_source_path, class: "ui-settings-page__action"

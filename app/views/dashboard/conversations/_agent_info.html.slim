@@ -1,18 +1,21 @@
 - assigned_conversation = conversation.assignee.present?
 .agent id="conversation-agent-#{conversation.id}"
-  p.f-semi-14 = t('dashboard.conversation_details.agent')
   .card.agent-detail
-    button.accordian data-action="click->accordion#toggle"
+    button.accordian type="button" data-action="click->accordion#toggle" aria-expanded="false"
       - if assigned_conversation
         - if conversation.assignee.avatar.attached?
           = image_tag(conversation.assignee.avatar, class:"chat-user", alt: t("ui.dashboard.conversations.agent_info.avatar"))
         - else
           .chat-user.avatar-fallback.agent-initials-avatar.f-reg-12 class=avatar_fallback_color_class(full_name(conversation.assignee))
             = initials(conversation.assignee)
-        p.f-reg-14 = conversation.assignee.display_name
+        span.assignment-copy
+          strong = conversation.assignee.display_name
+          small = t('dashboard.conversation_details.agent')
       - else 
         = image_tag("profile_icon.png", class:"chat-user", alt: t("ui.dashboard.conversations.agent_info.unassigned"))
-        p.f-reg-14 = t('dashboard.conversation_details.unassigned')
+        span.assignment-copy
+          strong = t('dashboard.conversation_details.unassigned')
+          small = t('dashboard.conversation_details.agent')
       = inline_svg_tag("arrow_down.svg", class:"arrow-icon ml-auto")
       
     .panel data-accordion-target="panel"

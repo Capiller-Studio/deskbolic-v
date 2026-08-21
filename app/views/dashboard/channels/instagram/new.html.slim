@@ -1,52 +1,52 @@
-= render("dashboard/shared/dashboard_container", current_page: "settings") do
-  = render("dashboard/settings/settings_sidebar", current_page: "instagram-channels") do
-    .channel-theme-instagram
-      .ui-page-body
-        .ui-page-header
-          = link_to channels_instagram_index_path, class: "ui-back-link"
-            | ← #{t("dashboard.instagram_channels.form.back")}
+/ = render("dashboard/shared/dashboard_container", current_page: "settings") do
+= render("dashboard/settings/settings_sidebar", current_page: "instagram-channels") do
+  .channel-theme-instagram
+    .ui-page-body
+      .ui-page-header
+        = link_to channels_instagram_index_path, class: "ui-back-link"
+          | ← #{t("dashboard.instagram_channels.form.back")}
 
-        .channel-connect-container
-          .channel-connect-card
-            .channel-connect-visual
-              .channel-gradient-ring
-                .channel-connect-icon
-                  svg viewBox="0 0 24 24" width="36" height="36"
-                    defs
-                      linearGradient id="ig-grad" x1="0%" y1="100%" x2="100%" y2="0%"
-                        stop offset="0%" stop-color="#fd5949"
-                        stop offset="50%" stop-color="#d6249f"
-                        stop offset="100%" stop-color="#285AEB"
-                    path fill="url(#ig-grad)" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"
+      .channel-connect-container
+        .channel-connect-card
+          .channel-connect-visual
+            .channel-gradient-ring
+              .channel-connect-icon
+                svg viewBox="0 0 24 24" width="36" height="36"
+                  defs
+                    linearGradient id="ig-grad" x1="0%" y1="100%" x2="100%" y2="0%"
+                      stop offset="0%" stop-color="#fd5949"
+                      stop offset="50%" stop-color="#d6249f"
+                      stop offset="100%" stop-color="#285AEB"
+                  path fill="url(#ig-grad)" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"
 
-            h3 = t("dashboard.instagram_channels.new.connect_title")
-            p = t("dashboard.instagram_channels.new.connect_description")
+          h3 = t("dashboard.instagram_channels.new.connect_title")
+          p = t("dashboard.instagram_channels.new.connect_description")
 
-            .channel-scopes-info
-              h4 = t("dashboard.instagram_channels.new.permissions_title")
-              ul.channel-scopes-list
-                li
-                  span.channel-scope-icon
-                    svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
-                      path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"
-                  span = t("dashboard.instagram_channels.new.scope_basic")
-                li
-                  span.channel-scope-icon
-                    svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
-                      path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"
-                  span = t("dashboard.instagram_channels.new.scope_messages")
+          .channel-scopes-info
+            h4 = t("dashboard.instagram_channels.new.permissions_title")
+            ul.channel-scopes-list
+              li
+                span.channel-scope-icon
+                  svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
+                    path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"
+                span = t("dashboard.instagram_channels.new.scope_basic")
+              li
+                span.channel-scope-icon
+                  svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
+                    path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"
+                span = t("dashboard.instagram_channels.new.scope_messages")
 
-            .channel-connect-action
-              = link_to oauth_authorize_channels_instagram_index_path, class: "channel-connect-btn", data: { turbo: false }
-                .channel-connect-btn-gradient
-                  svg viewBox="0 0 24 24" width="20" height="20" fill="white"
-                    path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"
-                  span = t("dashboard.instagram_channels.new.connect_button")
+          .channel-connect-action
+            = link_to oauth_authorize_channels_instagram_index_path, class: "channel-connect-btn", data: { turbo: false }
+              .channel-connect-btn-gradient
+                svg viewBox="0 0 24 24" width="20" height="20" fill="white"
+                  path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"
+                span = t("dashboard.instagram_channels.new.connect_button")
 
-              .channel-connect-note
-                p.f-reg-12 = t("dashboard.instagram_channels.new.connect_note")
+            .channel-connect-note
+              p.f-reg-12 = t("dashboard.instagram_channels.new.connect_note")
 
-        - if flash[:alert].present?
-          .ui-error-banner
-            .ui-error-icon ❌
-            p.f-semi-14 = flash[:alert]
+      - if flash[:alert].present?
+        .ui-error-banner
+          .ui-error-icon ❌
+          p.f-semi-14 = flash[:alert]

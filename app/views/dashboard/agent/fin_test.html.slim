@@ -1,49 +1,49 @@
-= render("dashboard/shared/dashboard_container", current_page: "agent-test") do
-  = render("dashboard/agent/agent_sidebar", current_page: "agent-test") do
-    .agent-body-section.fin-test-body
-      .agent-header.fin-test-header
-        h2.f-semi-18 = t("ui.dashboard.agent.fin_test.batch_test_fin_s_answers_to_go_live_with_confidence")
-      .agent-body.fin-test-container
-        .topbar
-          .left
-            h3.f-semi-18 = t("ui.dashboard.agent.agent_sidebar.fin_testing")
-            = inline_svg_tag("arrow_down_black.svg", class:"st-dropdown-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-          .right
-            = inline_svg_tag("edit.svg", class:"st-dropdown-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-            h3.f-semi-14 = t("dashboard.settings.integrations.manage")
-        .up-status
-          p.f-reg-14 = t("ui.dashboard.agent.fin_test.update_a_minute_ago_by")
-          = inline_svg_tag("profile_pic.svg", class:"st-dropdown-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-          p.f-reg-14 = t("ui.dashboard.agent.fin_test.matthew_attard")
-        .labels 
-          p.f-reg-14 = t("ui.dashboard.agent.fin_test.testing_as")
-          .label.bg-white
-            = inline_svg_tag("new_user.svg", class:"lab-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-            h3.f-semi-14 = t("ui.dashboard.agent.fin_test.preview_user")
-          .label
-            = inline_svg_tag("info.svg", class:"lab-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-            h3.f-semi-14 = t("ui.dashboard.agent.fin_test.answer_status_is_any")
-          .label
-            = inline_svg_tag("star_black.svg", class:"lab-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-            h3.f-semi-14 = t("ui.dashboard.agent.fin_test.answer_rating_is_any")
-        .fin-test-body 
-          = inline_svg_tag("question.svg", class:"icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-          h3.f-semi-18 = t("ui.dashboard.agent.fin_test.there_group_has_no_questions")
-          p.f-reg-14 = t("ui.dashboard.agent.fin_test.start_testing_by_adding_questions_for_fin_to_answer")
-          .question-menu data-controller="accordion modal-toggler frame-toggler"
-            .q-text.f-reg-14 = t("ui.dashboard.agent.fin_test.add_questions")
-            .toggle-menu data-action="click->accordion#toggleMenu"
-              = inline_svg_tag("arrow_down_white.svg", class:"st-dropdown-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-            .menu data-accordion-target="menu"
-              h4.f-semi-14 = t("dashboard.automations.attributes.inbox_id")
-              hr
-              .menu-link.f-semi-14 = t("ui.dashboard.agent.fin_test.generate_from_past_conversations")
-              .menu-link.f-semi-14 data-action="click->modal-toggler#showModal click->frame-toggler#loadModal" data-popup-view="_topic_questions_modal" Generate by topics
-              hr
-              h4.f-semi-14 = t("ui.dashboard.agent.fin_test.others")
-              .menu-link.f-semi-14 = t("ui.dashboard.agent.fin_test.upload_a_cv")
-              .menu-link.f-semi-14 = t("ui.dashboard.agent.fin_test.add_question")
-              hr
-              .menu-link-btn 
-                = inline_svg_tag("plus.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-                .menu-link.f-semi-14 = t("ui.dashboard.agent.fin_test.create_a_new_group")
+/ = render("dashboard/shared/dashboard_container", current_page: "agent-test") do
+= render("dashboard/agent/agent_sidebar", current_page: "agent-test") do
+  .agent-body-section.fin-test-body
+    .agent-header.fin-test-header
+      h2.f-semi-18 = t("ui.dashboard.agent.fin_test.batch_test_fin_s_answers_to_go_live_with_confidence")
+    .agent-body.fin-test-container
+      .topbar
+        .left
+          h3.f-semi-18 = t("ui.dashboard.agent.agent_sidebar.fin_testing")
+          = inline_svg_tag("arrow_down_black.svg", class:"st-dropdown-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+        .right
+          = inline_svg_tag("edit.svg", class:"st-dropdown-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+          h3.f-semi-14 = t("dashboard.settings.integrations.manage")
+      .up-status
+        p.f-reg-14 = t("ui.dashboard.agent.fin_test.update_a_minute_ago_by")
+        = inline_svg_tag("profile_pic.svg", class:"st-dropdown-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+        p.f-reg-14 = t("ui.dashboard.agent.fin_test.matthew_attard")
+      .labels 
+        p.f-reg-14 = t("ui.dashboard.agent.fin_test.testing_as")
+        .label.bg-white
+          = inline_svg_tag("new_user.svg", class:"lab-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+          h3.f-semi-14 = t("ui.dashboard.agent.fin_test.preview_user")
+        .label
+          = inline_svg_tag("info.svg", class:"lab-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+          h3.f-semi-14 = t("ui.dashboard.agent.fin_test.answer_status_is_any")
+        .label
+          = inline_svg_tag("star_black.svg", class:"lab-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+          h3.f-semi-14 = t("ui.dashboard.agent.fin_test.answer_rating_is_any")
+      .fin-test-body 
+        = inline_svg_tag("question.svg", class:"icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+        h3.f-semi-18 = t("ui.dashboard.agent.fin_test.there_group_has_no_questions")
+        p.f-reg-14 = t("ui.dashboard.agent.fin_test.start_testing_by_adding_questions_for_fin_to_answer")
+        .question-menu data-controller="accordion modal-toggler frame-toggler"
+          .q-text.f-reg-14 = t("ui.dashboard.agent.fin_test.add_questions")
+          .toggle-menu data-action="click->accordion#toggleMenu"
+            = inline_svg_tag("arrow_down_white.svg", class:"st-dropdown-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+          .menu data-accordion-target="menu"
+            h4.f-semi-14 = t("dashboard.automations.attributes.inbox_id")
+            hr
+            .menu-link.f-semi-14 = t("ui.dashboard.agent.fin_test.generate_from_past_conversations")
+            .menu-link.f-semi-14 data-action="click->modal-toggler#showModal click->frame-toggler#loadModal" data-popup-view="_topic_questions_modal" Generate by topics
+            hr
+            h4.f-semi-14 = t("ui.dashboard.agent.fin_test.others")
+            .menu-link.f-semi-14 = t("ui.dashboard.agent.fin_test.upload_a_cv")
+            .menu-link.f-semi-14 = t("ui.dashboard.agent.fin_test.add_question")
+            hr
+            .menu-link-btn 
+              = inline_svg_tag("plus.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+              .menu-link.f-semi-14 = t("ui.dashboard.agent.fin_test.create_a_new_group")

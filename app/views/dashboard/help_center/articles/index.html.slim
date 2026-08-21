@@ -1,118 +1,118 @@
-= render("dashboard/shared/dashboard_container", current_page: "help_center") do
-  = render("dashboard/help_center/help_center_sidebar", current_page: "articles") do
-    .hc-articles
-      .hc-search-row
-        = form_with url: help_center_articles_path, method: :get, local: true, class: "hc-search-row-form" do
-          .hc-search-input-wrap
-            span.hc-search-icon 🔍
-            = text_field_tag :q, @query, class: "hc-search-row-input", placeholder: I18n.t("dashboard.articles.search_placeholder", default: "Search..."), oninput: "clearTimeout(this._timer); this._timer=setTimeout(()=>Turbo.visit(this.form.action+'?'+new URLSearchParams(new FormData(this.form)).toString(),{action:'replace'}),300)"
-            - if @query.present?
-              = link_to help_center_articles_path, class: "hc-search-clear", title: I18n.t("dashboard.articles.clear_search", default: "Clear search") do
-                = image_tag("cross_clear.svg", alt: "clear", class: "hc-search-clear-icon")
+/ = render("dashboard/shared/dashboard_container", current_page: "help_center") do
+= render("dashboard/help_center/help_center_sidebar", current_page: "articles") do
+  .hc-articles
+    .hc-search-row
+      = form_with url: help_center_articles_path, method: :get, local: true, class: "hc-search-row-form" do
+        .hc-search-input-wrap
+          span.hc-search-icon 🔍
+          = text_field_tag :q, @query, class: "hc-search-row-input", placeholder: I18n.t("dashboard.articles.search_placeholder", default: "Search..."), oninput: "clearTimeout(this._timer); this._timer=setTimeout(()=>Turbo.visit(this.form.action+'?'+new URLSearchParams(new FormData(this.form)).toString(),{action:'replace'}),300)"
+          - if @query.present?
+            = link_to help_center_articles_path, class: "hc-search-clear", title: I18n.t("dashboard.articles.clear_search", default: "Clear search") do
+              = image_tag("cross_clear.svg", alt: "clear", class: "hc-search-clear-icon")
 
-      .hc-index-header
-        .hc-title-area
-          h1.f-semi-32 = I18n.t("dashboard.articles.all_articles", default: "All Articles")
-        .hc-header-actions
+    .hc-index-header
+      .hc-title-area
+        h1.f-semi-32 = I18n.t("dashboard.articles.all_articles", default: "All Articles")
+      .hc-header-actions
 
+        = link_to new_help_center_article_path, class: "hc-btn-primary"
+          = I18n.t("dashboard.articles.new_article", default: "+ New Article")
+
+    .hc-toolbar
+      = form_with url: help_center_articles_path, method: :get, local: true, class: "hc-search-form" do
+        = hidden_field_tag :q, @query if @query.present?
+
+    .hc-table-wrap
+      - if @articles.any?
+        .hc-table-count-bar
+          span.hc-table-count = I18n.t("dashboard.articles.count_articles", count: (@pagy.present? ? @pagy.count : @articles.size), default: "%{count} Articles")
+          details.hc-columns-menu
+            summary.hc-btn-secondary
+              = I18n.t("dashboard.articles.display_columns", default: "Display Columns")
+              span.hc-caret ▾
+            = form_with url: help_center_articles_path, method: :get, local: true, class: "hc-columns-panel" do
+              .hc-columns-panel-header = I18n.t("dashboard.articles.columns", default: "Columns")
+              = hidden_field_tag :q, @query if @query.present?
+              = hidden_field_tag :status, @status if @status.present?
+              = hidden_field_tag :category_id, @category_id if @category_id.present?
+              - {"title" => I18n.t("dashboard.articles.col_title", default: "Title"), "last_edit" => I18n.t("dashboard.articles.col_last_edit", default: "Last Edit"), "status" => I18n.t("dashboard.articles.col_status", default: "Status"), "collection" => I18n.t("dashboard.articles.col_collection", default: "Collection")}.each do |key, label|
+                label.hc-checkbox-row
+                  = check_box_tag "columns[]", key, @columns.include?(key)
+                  span.hc-checkbox-label = label
+              = button_tag I18n.t("dashboard.articles.apply", default: "Apply"), type: :submit, class: "hc-btn-primary hc-columns-apply"
+        div data-controller="sortable" data-sortable-url-value="#{reorder_help_center_articles_path}"
+          table.hc-articles-table
+            thead
+              tr
+                th.hc-drag-th
+                  span.hc-th-content 
+                - if @columns.include?("title")
+                  th
+                    span.hc-th-content
+                      = I18n.t("dashboard.articles.col_title", default: "Title")
+                      span.hc-sort-caret ↓
+                - if @columns.include?("last_edit")
+                  th
+                    span.hc-th-content
+                      = I18n.t("dashboard.articles.col_last_edit", default: "Last Edit")
+                      span.hc-sort-caret ↓
+                - if @columns.include?("status")
+                  th
+                    span.hc-th-content
+                      = I18n.t("dashboard.articles.col_status", default: "Status")
+                      span.hc-sort-caret ↓
+                - if @columns.include?("collection")
+                  th
+                    span.hc-th-content
+                      = I18n.t("dashboard.articles.col_collection", default: "Collection")
+                      span.hc-sort-caret ↓
+            tbody
+              - @articles.each do |article|
+                - collection = article.primary_category || article.categories.first
+                tr.hc-table-row id="article_#{article.id}" data-sortable-target="item" data-id="#{article.id}" draggable="true" data-action="dragstart->sortable#dragStart dragend->sortable#dragEnd"
+                  td.hc-drag-cell
+                    span.hc-drag-handle
+                      | ⠿
+                  - if @columns.include?("title")
+                    td.hc-title-cell
+                      .hc-title-wrapper
+                        = link_to help_center_article_path(id: article.id), class: "hc-article-title"
+                          = article.title.presence || article.draft_title.presence || I18n.t("dashboard.articles.untitled", default: "Untitled article")
+                  - if @columns.include?("last_edit")
+                    td
+                      span.hc-date-text = time_ago_in_words(article.updated_at) + " ago"
+                  - if @columns.include?("status")
+                    td
+                      span.hc-status-badge class="hc-status-#{article.status}"
+                        span.hc-status-dot class="hc-dot-#{article.status}"
+                        = article.status.humanize
+                  - if @columns.include?("collection")
+                    td.hc-collection-cell
+                      span.hc-collection-tag title=collection&.name
+                        - if collection&.name.present?
+                          - words = collection.name.split
+                          = words.first(2).join(' ') + (words.length > 2 ? '...' : '')
+                        - else
+                          = I18n.t("dashboard.articles.uncategorized", default: "Uncategorized")
+
+        - if @pagy && @pagy.last > 1
+          .hc-pagination
+            - if @pagy.prev
+              = link_to help_center_articles_path(page: @pagy.prev, q: @query, status: @status, category_id: @category_id, columns: @columns), class: "hc-pagination-btn"
+                = I18n.t("dashboard.articles.prev", default: "← Previous")
+            - else
+              span.hc-pagination-btn.disabled = I18n.t("dashboard.articles.prev", default: "← Previous")
+            span.hc-pagination-info
+              = I18n.t("dashboard.articles.page_info", page: @pagy.page, total: @pagy.last, default: "Page %{page} of %{total}")
+            - if @pagy.next
+              = link_to help_center_articles_path(page: @pagy.next, q: @query, status: @status, category_id: @category_id, columns: @columns), class: "hc-pagination-btn"
+                = I18n.t("dashboard.articles.next", default: "Next →")
+            - else
+              span.hc-pagination-btn.disabled = I18n.t("dashboard.articles.next", default: "Next →")
+      - else
+        .hc-empty-state
+          .hc-empty-icon 📄
+          h3.f-semi-18 = I18n.t("dashboard.articles.no_articles_found", default: "No articles found")
+          p.f-reg-14.text-muted = I18n.t("dashboard.articles.create_first_article", default: "Create your first article or adjust the current search and filters.")
           = link_to new_help_center_article_path, class: "hc-btn-primary"
             = I18n.t("dashboard.articles.new_article", default: "+ New Article")
-
-      .hc-toolbar
-        = form_with url: help_center_articles_path, method: :get, local: true, class: "hc-search-form" do
-          = hidden_field_tag :q, @query if @query.present?
-
-      .hc-table-wrap
-        - if @articles.any?
-          .hc-table-count-bar
-            span.hc-table-count = I18n.t("dashboard.articles.count_articles", count: (@pagy.present? ? @pagy.count : @articles.size), default: "%{count} Articles")
-            details.hc-columns-menu
-              summary.hc-btn-secondary
-                = I18n.t("dashboard.articles.display_columns", default: "Display Columns")
-                span.hc-caret ▾
-              = form_with url: help_center_articles_path, method: :get, local: true, class: "hc-columns-panel" do
-                .hc-columns-panel-header = I18n.t("dashboard.articles.columns", default: "Columns")
-                = hidden_field_tag :q, @query if @query.present?
-                = hidden_field_tag :status, @status if @status.present?
-                = hidden_field_tag :category_id, @category_id if @category_id.present?
-                - {"title" => I18n.t("dashboard.articles.col_title", default: "Title"), "last_edit" => I18n.t("dashboard.articles.col_last_edit", default: "Last Edit"), "status" => I18n.t("dashboard.articles.col_status", default: "Status"), "collection" => I18n.t("dashboard.articles.col_collection", default: "Collection")}.each do |key, label|
-                  label.hc-checkbox-row
-                    = check_box_tag "columns[]", key, @columns.include?(key)
-                    span.hc-checkbox-label = label
-                = button_tag I18n.t("dashboard.articles.apply", default: "Apply"), type: :submit, class: "hc-btn-primary hc-columns-apply"
-          div data-controller="sortable" data-sortable-url-value="#{reorder_help_center_articles_path}"
-            table.hc-articles-table
-              thead
-                tr
-                  th.hc-drag-th
-                    span.hc-th-content 
-                  - if @columns.include?("title")
-                    th
-                      span.hc-th-content
-                        = I18n.t("dashboard.articles.col_title", default: "Title")
-                        span.hc-sort-caret ↓
-                  - if @columns.include?("last_edit")
-                    th
-                      span.hc-th-content
-                        = I18n.t("dashboard.articles.col_last_edit", default: "Last Edit")
-                        span.hc-sort-caret ↓
-                  - if @columns.include?("status")
-                    th
-                      span.hc-th-content
-                        = I18n.t("dashboard.articles.col_status", default: "Status")
-                        span.hc-sort-caret ↓
-                  - if @columns.include?("collection")
-                    th
-                      span.hc-th-content
-                        = I18n.t("dashboard.articles.col_collection", default: "Collection")
-                        span.hc-sort-caret ↓
-              tbody
-                - @articles.each do |article|
-                  - collection = article.primary_category || article.categories.first
-                  tr.hc-table-row id="article_#{article.id}" data-sortable-target="item" data-id="#{article.id}" draggable="true" data-action="dragstart->sortable#dragStart dragend->sortable#dragEnd"
-                    td.hc-drag-cell
-                      span.hc-drag-handle
-                        | ⠿
-                    - if @columns.include?("title")
-                      td.hc-title-cell
-                        .hc-title-wrapper
-                          = link_to help_center_article_path(id: article.id), class: "hc-article-title"
-                            = article.title.presence || article.draft_title.presence || I18n.t("dashboard.articles.untitled", default: "Untitled article")
-                    - if @columns.include?("last_edit")
-                      td
-                        span.hc-date-text = time_ago_in_words(article.updated_at) + " ago"
-                    - if @columns.include?("status")
-                      td
-                        span.hc-status-badge class="hc-status-#{article.status}"
-                          span.hc-status-dot class="hc-dot-#{article.status}"
-                          = article.status.humanize
-                    - if @columns.include?("collection")
-                      td.hc-collection-cell
-                        span.hc-collection-tag title=collection&.name
-                          - if collection&.name.present?
-                            - words = collection.name.split
-                            = words.first(2).join(' ') + (words.length > 2 ? '...' : '')
-                          - else
-                            = I18n.t("dashboard.articles.uncategorized", default: "Uncategorized")
-
-          - if @pagy && @pagy.last > 1
-            .hc-pagination
-              - if @pagy.prev
-                = link_to help_center_articles_path(page: @pagy.prev, q: @query, status: @status, category_id: @category_id, columns: @columns), class: "hc-pagination-btn"
-                  = I18n.t("dashboard.articles.prev", default: "← Previous")
-              - else
-                span.hc-pagination-btn.disabled = I18n.t("dashboard.articles.prev", default: "← Previous")
-              span.hc-pagination-info
-                = I18n.t("dashboard.articles.page_info", page: @pagy.page, total: @pagy.last, default: "Page %{page} of %{total}")
-              - if @pagy.next
-                = link_to help_center_articles_path(page: @pagy.next, q: @query, status: @status, category_id: @category_id, columns: @columns), class: "hc-pagination-btn"
-                  = I18n.t("dashboard.articles.next", default: "Next →")
-              - else
-                span.hc-pagination-btn.disabled = I18n.t("dashboard.articles.next", default: "Next →")
-        - else
-          .hc-empty-state
-            .hc-empty-icon 📄
-            h3.f-semi-18 = I18n.t("dashboard.articles.no_articles_found", default: "No articles found")
-            p.f-reg-14.text-muted = I18n.t("dashboard.articles.create_first_article", default: "Create your first article or adjust the current search and filters.")
-            = link_to new_help_center_article_path, class: "hc-btn-primary"
-              = I18n.t("dashboard.articles.new_article", default: "+ New Article")

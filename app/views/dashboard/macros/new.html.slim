@@ -1,6 +1,6 @@
-= render("dashboard/shared/dashboard_container", current_page: "settings") do
-  = render("dashboard/settings/settings_sidebar", current_page: "macros") do
-    = render "form",
-      macro: @macro,
-      page_title: t("dashboard.macros.new.title"),
-      page_description: t("dashboard.macros.new.subtitle", default: "Create a new macro")
+/ = render("dashboard/shared/dashboard_container", current_page: "settings") do
+= render("dashboard/settings/settings_sidebar", current_page: "macros") do
+  = render "form",
+    macro: @macro,
+    page_title: t("dashboard.macros.new.title"),
+    page_description: t("dashboard.macros.new.subtitle", default: "Create a new macro")

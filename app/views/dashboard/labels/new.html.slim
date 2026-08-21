@@ -1,6 +1,6 @@
-= render("dashboard/shared/dashboard_container", current_page: "labels") do
-  = render("dashboard/settings/settings_sidebar", current_page: "labels") do
-    = render "form",
-      label: @label,
-      page_title: t("dashboard.labels.new.title"),
-      page_description: t("dashboard.labels.new.subtitle")
+/ = render("dashboard/shared/dashboard_container", current_page: "labels") do
+= render("dashboard/settings/settings_sidebar", current_page: "labels") do
+  = render "form",
+    label: @label,
+    page_title: t("dashboard.labels.new.title"),
+    page_description: t("dashboard.labels.new.subtitle")

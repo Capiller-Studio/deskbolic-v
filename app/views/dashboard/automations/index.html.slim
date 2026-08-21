@@ -1,29 +1,29 @@
-= render("dashboard/shared/dashboard_container", current_page: "settings") do
-  = render("dashboard/settings/settings_sidebar", current_page: "automations") do
-    .ui-settings-page
-      header.ui-settings-page__header
-        .ui-settings-page__heading
-          h1 = t("dashboard.automations.index.title")
-          p = t("dashboard.automations.index.description")
-        = link_to new_automation_path, class: "ui-settings-page__action" do
-          span = t("dashboard.automations.index.new_automation")
-          = inline_svg_tag("plus_white.svg", class: "ui-settings-page__action-icon", aria: { hidden: true })
+/ = render("dashboard/shared/dashboard_container", current_page: "settings") do
+= render("dashboard/settings/settings_sidebar", current_page: "automations") do
+  .ui-settings-page
+    header.ui-settings-page__header
+      .ui-settings-page__heading
+        h1 = t("dashboard.automations.index.title")
+        p = t("dashboard.automations.index.description")
+      = link_to new_automation_path, class: "ui-settings-page__action" do
+        span = t("dashboard.automations.index.new_automation")
+        = inline_svg_tag("plus_white.svg", class: "ui-settings-page__action-icon", aria: { hidden: true })
 
-      main.ui-settings-page__content
-        .ui-tabs
-          = link_to automations_path, class: "ui-tab #{params[:type].blank? ? 'ui-tab--active' : ''}"
-            = t("dashboard.automations.index.tab_all")
-          = link_to automations_path(type: :event_trigger), class: "ui-tab #{params[:type] == 'event_trigger' ? 'ui-tab--active' : ''}"
-            = t("dashboard.automations.index.tab_event_triggers")
-          = link_to automations_path(type: :time_trigger), class: "ui-tab #{params[:type] == 'time_trigger' ? 'ui-tab--active' : ''}"
-            = t("dashboard.automations.index.tab_time_triggers")
+    main.ui-settings-page__content
+      .ui-tabs
+        = link_to automations_path, class: "ui-tab #{params[:type].blank? ? 'ui-tab--active' : ''}"
+          = t("dashboard.automations.index.tab_all")
+        = link_to automations_path(type: :event_trigger), class: "ui-tab #{params[:type] == 'event_trigger' ? 'ui-tab--active' : ''}"
+          = t("dashboard.automations.index.tab_event_triggers")
+        = link_to automations_path(type: :time_trigger), class: "ui-tab #{params[:type] == 'time_trigger' ? 'ui-tab--active' : ''}"
+          = t("dashboard.automations.index.tab_time_triggers")
 
-        - if @automations.any?
-          .auto-list data-controller="sortable" data-sortable-url-value="#{reorder_automations_path}"
-            - @automations.each do |automation|
-              = render("dashboard/automations/automation", automation: automation)
-        - else
-          .ui-empty-state
-            .ui-empty-icon ⚡
-            h3.f-semi-18 = t("dashboard.automations.index.empty_title")
-            p.f-reg-14 = t("dashboard.automations.index.empty_description")
+      - if @automations.any?
+        .auto-list data-controller="sortable" data-sortable-url-value="#{reorder_automations_path}"
+          - @automations.each do |automation|
+            = render("dashboard/automations/automation", automation: automation)
+      - else
+        .ui-empty-state
+          .ui-empty-icon ⚡
+          h3.f-semi-18 = t("dashboard.automations.index.empty_title")
+          p.f-reg-14 = t("dashboard.automations.index.empty_description")

@@ -33,7 +33,7 @@
               = initials(current_user)
           .menu data-accordion-target="menu"
             - if current_user
-              = link_to(profile_path, class: "header profile-menu-header") do
+              = link_to(profile_path, class: "header profile-menu-header", data: { turbo: false }) do
                 - if current_user.avatar.attached?
                   = image_tag(current_user.avatar, class:"user-img", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
                 - else

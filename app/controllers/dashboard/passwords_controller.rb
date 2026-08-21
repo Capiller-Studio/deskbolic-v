@@ -7,22 +7,7 @@
 module Dashboard
   class PasswordsController < Devise::PasswordsController
     layout "auth"
-    # GET /resource/password/new
-    # def new
-    #   super
-    # end
 
-    # POST /resource/password
-    # def create
-    #   super
-    # end
-
-    # GET /resource/password/edit?reset_password_token=abcdef
-    # def edit
-    #   super
-    # end
-
-    # PUT /resource/password
     def update
       super do |resource|
         if resource.errors.empty? && resource.accounts.any?
@@ -33,15 +18,24 @@ module Dashboard
       end
     end
 
-    # protected
+    def redirect_to(options = {}, response_options = {})
+      response_options[:allow_other_host] = true if options.is_a?(String) && options.match?(/\Ahttps?:\/\//)
+      super(options, response_options)
+    end
 
-    # def after_resetting_password_path_for(resource)
-    #   super(resource)
-    # end
+    protected
 
-    # The path used after sending reset password instructions
-    # def after_sending_reset_password_instructions_path_for(resource_name)
-    #   super(resource_name)
-    # end
+    def after_resetting_password_path_for(resource)
+      if resource.accounts.any?
+        account = resource.accounts.first
+        root_url(subdomain: account.identifier)
+      else
+        workspace_url(subdomain: "")
+      end
+    end
+
+    def after_sending_reset_password_instructions_path_for(_resource_name)
+      new_user_session_url(subdomain: "")
+    end
   end
 end

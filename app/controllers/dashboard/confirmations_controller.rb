@@ -7,31 +7,25 @@
 module Dashboard
   class ConfirmationsController < Devise::ConfirmationsController
     layout "auth"
-    # GET /resource/confirmation/new
-    # def new
-    #   super
-    # end
 
-    # POST /resource/confirmation
-    # def create
-    #   super
-    # end
+    def redirect_to(options = {}, response_options = {})
+      response_options[:allow_other_host] = true if options.is_a?(String) && options.match?(/\Ahttps?:\/\//)
+      super(options, response_options)
+    end
 
-    # GET /resource/confirmation?confirmation_token=abcdef
-    # def show
-    #   super
-    # end
+    protected
 
-    # protected
+    def after_resending_confirmation_instructions_path_for(_resource_name)
+      new_user_session_url(subdomain: "")
+    end
 
-    # The path used after resending confirmation instructions.
-    # def after_resending_confirmation_instructions_path_for(resource_name)
-    #   super(resource_name)
-    # end
-
-    # The path used after confirmation.
-    # def after_confirmation_path_for(resource_name, resource)
-    #   super(resource_name, resource)
-    # end
+    def after_confirmation_path_for(_resource_name, resource)
+      if resource.accounts.any?
+        account = resource.accounts.first
+        new_user_session_url(subdomain: account.identifier)
+      else
+        new_user_session_url(subdomain: "")
+      end
+    end
   end
 end

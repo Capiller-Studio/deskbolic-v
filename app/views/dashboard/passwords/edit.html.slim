@@ -12,7 +12,7 @@
       p = t("auth.passwords.reset_subtitle")
 
       .form-fields
-        = form_with url: user_password_path, method: :put, local: true do |f|
+        = form_with url: user_password_path, method: :put, local: true, data: { turbo: false } do |f|
           = f.hidden_field :reset_password_token, name: "user[reset_password_token]", value: params[:reset_password_token]
 
           div data-controller="password-strength"

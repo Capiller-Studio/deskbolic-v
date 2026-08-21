@@ -7,31 +7,20 @@
 module Dashboard
   class UnlocksController < Devise::UnlocksController
     layout "auth"
-    # GET /resource/unlock/new
-    # def new
-    #   super
-    # end
 
-    # POST /resource/unlock
-    # def create
-    #   super
-    # end
+    def redirect_to(options = {}, response_options = {})
+      response_options[:allow_other_host] = true if options.is_a?(String) && options.match?(/\Ahttps?:\/\//)
+      super(options, response_options)
+    end
 
-    # GET /resource/unlock?unlock_token=abcdef
-    # def show
-    #   super
-    # end
+    protected
 
-    # protected
+    def after_sending_unlock_instructions_path_for(_resource)
+      new_user_session_url(subdomain: "")
+    end
 
-    # The path used after sending unlock password instructions
-    # def after_sending_unlock_instructions_path_for(resource)
-    #   super(resource)
-    # end
-
-    # The path used after unlocking the resource
-    # def after_unlock_path_for(resource)
-    #   super(resource)
-    # end
+    def after_unlock_path_for(_resource)
+      new_user_session_url(subdomain: "")
+    end
   end
 end

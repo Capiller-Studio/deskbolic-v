@@ -1,16 +1,16 @@
-= render("dashboard/shared/dashboard_container", current_page: "assignment-policies") do
-  = render("dashboard/settings/settings_sidebar", current_page: "assignment-policies") do
-    .ui-settings-editor.ap-settings-editor
-      header.ui-settings-editor__header
-        = link_to assignment_policies_path, class: "ui-settings-editor__back", aria: { label: t("ui.dashboard.assignment_policies.edit.back_to_policies") } do
-          = inline_svg_tag("back_arrow.svg", aria: { hidden: true })
-        .ui-settings-editor__heading
-          h1 = t("dashboard.assignment_policies.form.page_title", default: "Policy Details")
-          p = t("dashboard.assignment_policies.form.page_description", default: "Create and configure an assignment policy to manage how conversations are assigned.")
-        .ui-settings-editor__header-actions
-          = link_to t("dashboard.assignment_policies.form.cancel"), assignment_policies_path, class: "ui-btn-secondary"
-          button.ap-btn-save-header type="submit" form="assignment-policy-form"
-            = image_tag("mark.svg", class: "ap-save-mark-icon", alt: "")
-            span = t("dashboard.assignment_policies.form.save_changes", default: "Save changes")
-      .ui-settings-editor__body
-        = render("dashboard/assignment_policies/form", policy: @policy)
+/ = render("dashboard/shared/dashboard_container", current_page: "assignment-policies") do
+= render("dashboard/settings/settings_sidebar", current_page: "assignment-policies") do
+  .ui-settings-editor.ap-settings-editor
+    header.ui-settings-editor__header
+      = link_to assignment_policies_path, class: "ui-settings-editor__back", aria: { label: t("ui.dashboard.assignment_policies.edit.back_to_policies") } do
+        = inline_svg_tag("back_arrow.svg", aria: { hidden: true })
+      .ui-settings-editor__heading
+        h1 = t("dashboard.assignment_policies.form.page_title", default: "Policy Details")
+        p = t("dashboard.assignment_policies.form.page_description", default: "Create and configure an assignment policy to manage how conversations are assigned.")
+      .ui-settings-editor__header-actions
+        = link_to t("dashboard.assignment_policies.form.cancel"), assignment_policies_path, class: "ui-btn-secondary"
+        button.ap-btn-save-header type="submit" form="assignment-policy-form"
+          = image_tag("mark.svg", class: "ap-save-mark-icon", alt: "")
+          span = t("dashboard.assignment_policies.form.save_changes", default: "Save changes")
+    .ui-settings-editor__body
+      = render("dashboard/assignment_policies/form", policy: @policy)

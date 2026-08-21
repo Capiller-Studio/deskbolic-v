@@ -3,16 +3,16 @@
 module Dashboard
   class ConversationsController < DashboardController
     def index
-      @inboxes = current_account.inboxes.all
-      @teams = current_account.teams.includes(:team_users).order(:name)
-      @team_users = @teams.flat_map(&:team_users).reject { |tu| tu.user_id == current_user.id }.uniq(&:user_id)
+      load_navigation
 
       @conversations = find_conversations(params[:resource_id])
-      @conversations = @conversations.current_conversations(current_user).or(@conversations.not_assigned_to_user)
+      @conversations = visible_conversations(@conversations)
+      apply_sidebar_scope
+      @list_counts = conversation_counts(@conversations)
 
       @query = params[:q].to_s.strip
       @filter = params[:filter].presence
-      @conversations = filter_conversations(@filter) if @filter.present?
+      @conversations = filter_conversations(@conversations, @filter)
       @conversations = search_conversations(@conversations, @query) if @query.present?
       @conversations = @conversations.includes(:customers, :last_message).order(last_activity_at: :desc)
       @pagy_conversations, @conversations = pagy(@conversations, items: 20)
@@ -30,18 +30,19 @@ module Dashboard
     end
 
     def show
-      @inboxes = current_account.inboxes.all
-      @teams = current_account.teams.includes(:team_users).order(:name)
-      @team_users = @teams.flat_map(&:team_users).reject { |tu| tu.user_id == current_user.id }.uniq(&:user_id)
+      load_navigation
 
       @conversation = current_account.conversations.find(params[:id])
-      @inbox = @conversation.inbox
-      @conversations = @inbox.conversations.where(account: current_account).where(status: @conversation.status)
-      @conversations = @conversations.current_conversations(current_user).or(@conversations.not_assigned_to_user)
+      @inbox = current_account.inboxes.find_by(id: params[:resource_id]) if params[:resource_id].present?
+      conversation_scope = @inbox ? @inbox.conversations.where(account: current_account) : current_account.conversations
+      @conversations = visible_conversations(conversation_scope)
+      apply_sidebar_scope
+      @list_counts = conversation_counts(@conversations)
 
       @query = params[:q].to_s.strip
       @filter = params[:filter].presence
-      @conversations = filter_conversations(@filter) if @filter.present?
+      @filter ||= @conversation.status if @conversation.snoozed? || @conversation.resolved?
+      @conversations = filter_conversations(@conversations, @filter)
       @conversations = search_conversations(@conversations, @query) if @query.present?
       @conversations = @conversations.includes(:customers, :last_message).order(last_activity_at: :desc)
       @pagy_conversations, @conversations = pagy(@conversations, items: 20, page_param: :conversations_page)
@@ -62,8 +63,7 @@ module Dashboard
         @activities = @conversation.activities.where.not(event_key: "conversation.update")
         @timeline_items = @activities.to_a.sort_by(&:created_at)
       end
-      @canned_responses = CannedResponse.where(account: current_account).all
-      @notes = Note.where(account: current_account, user: current_user).all
+      @notes = current_account.notes.where(user: current_user, resource: @conversation)
 
       # Fetch unread count before resetting
       key = RedisUtilities::Keys::UNREAD_CONVERSATION_COUNT % { account_id: current_account.id, member_id: current_user.id }
@@ -108,7 +108,7 @@ module Dashboard
 
       if @conversation.update(conversation_params)
         @teams = current_account.teams.includes(:team_users).order(:name)
-        @notes = Note.where(account: current_account, user: current_user).all
+        @notes = current_account.notes.where(user: current_user, resource: @conversation)
 
         respond_to do |format|
           format.turbo_stream do
@@ -304,14 +304,20 @@ module Dashboard
       render(turbo_stream: streams)
     end
 
-    def filter_conversations(filter)
+    def filter_conversations(conversations, filter)
       case filter
       when "assigned"
-          @conversations.where(assignee: current_user)
+        conversations.where(status: :active, assignee: current_user)
       when "unassigned"
-          @conversations.not_assigned_to_user
+        conversations.where(status: :active).not_assigned_to_user
+      when "mentions"
+        conversations.where(id: mentioned_conversation_ids).where(status: :active)
+      when "snoozed"
+        conversations.where(status: :snoozed)
+      when "resolved"
+        conversations.where(status: :resolved)
       else
-          @conversations.current_conversations(current_user).or(@conversations.not_assigned_to_user)
+        conversations.where(status: :active)
       end
     end
 
@@ -334,6 +340,52 @@ module Dashboard
     end
 
     private
+
+    def load_navigation
+      @inboxes = current_account.inboxes.all
+      @teams = current_account.teams.includes(:team_users).order(:name)
+      @team_users = @teams.flat_map(&:team_users).reject { |team_user| team_user.user_id == current_user.id }.uniq(&:user_id)
+      @team_id = params[:team_id].presence
+      @assignee_id = params[:assignee_id].presence
+      @filter = params[:filter].presence
+      @sidebar_counts = conversation_counts(visible_conversations(current_account.conversations))
+    end
+
+    def visible_conversations(scope)
+      scope.current_conversations(current_user).or(scope.not_assigned_to_user).distinct
+    end
+
+    def apply_sidebar_scope
+      @conversations = @conversations.where(team_id: @team_id) if @team_id.present?
+
+      return unless @assignee_id.present?
+
+      assignee = current_account.users.find(@assignee_id)
+      @conversations = current_account.conversations.where(assignee: assignee)
+      @inbox = nil
+    end
+
+    def conversation_counts(scope)
+      {
+        all: scope.where(status: :active).count,
+        assigned: scope.where(status: :active, assignee: current_user).count,
+        unassigned: scope.where(status: :active, assignee_id: nil).count,
+        mentions: scope.where(id: mentioned_conversation_ids, status: :active).count,
+        snoozed: scope.where(status: :snoozed).count,
+        resolved: scope.where(status: :resolved).count
+      }
+    end
+
+    def mentioned_conversation_ids
+      @mentioned_conversation_ids ||= begin
+        message_ids = current_account.mentions.where(
+          mentioned: current_user,
+          resource_type: "Message"
+        ).select(:resource_id)
+
+        current_account.messages.where(id: message_ids).select(:conversation_id)
+      end
+    end
 
     def conversation_params
       params.expect(conversation: [ :status, :priority ])

@@ -1,24 +1,24 @@
-= render("dashboard/shared/dashboard_container", current_page: "settings") do
-  = render("dashboard/settings/settings_sidebar", current_page: sidebar_page) do
-    .ui-settings-page.channel-index
-      header.ui-settings-page__header
-        .ui-settings-page__heading
-          h1 = title
-          p = description
+/ = render("dashboard/shared/dashboard_container", current_page: "settings") do
+= render("dashboard/settings/settings_sidebar", current_page: sidebar_page) do
+  .ui-settings-page.channel-index
+    header.ui-settings-page__header
+      .ui-settings-page__heading
+        h1 = title
+        p = description
 
-        .tm-users-header-actions
-          = link_to new_channel_path, class: "tm-users-invite tm-team-modal-button" do
-            span = new_channel_label
-            = inline_svg_tag("plus_white.svg", class: "plus-icon", aria: { hidden: true })
+      .tm-users-header-actions
+        = link_to new_channel_path, class: "tm-users-invite tm-team-modal-button" do
+          span = new_channel_label
+          = inline_svg_tag("plus_white.svg", class: "plus-icon", aria: { hidden: true })
 
-      main.ui-settings-page__content
-        - if channels.any?
-          section.channel-grid aria-live="polite"
-            - channels.each do |channel|
-              = render "dashboard/channels/shared/card", channel: channel, show_type: false, delete_confirmation: delete_confirmation
-        - else
-          .channel-empty
-            .channel-empty__icon
-              = image_tag channel_overview_icon(channel_type), alt: "", aria: { hidden: true }
-            h2 = empty_title
-            p = empty_description
+    main.ui-settings-page__content
+      - if channels.any?
+        section.channel-grid aria-live="polite"
+          - channels.each do |channel|
+            = render "dashboard/channels/shared/card", channel: channel, show_type: false, delete_confirmation: delete_confirmation
+      - else
+        .channel-empty
+          .channel-empty__icon
+            = image_tag channel_overview_icon(channel_type), alt: "", aria: { hidden: true }
+          h2 = empty_title
+          p = empty_description

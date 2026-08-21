@@ -4,13 +4,18 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["panel", "npanel", "menu", "response"];
   static values = { exclusive: Boolean };
-  
+
   initialize() {
-    document.addEventListener("click", this.closeMenuOutside.bind(this));
+    this.boundCloseMenuOutside = this.closeMenuOutside.bind(this);
   }
-  
+
   connect() {
     this.searchTimeout = null;
+    document.addEventListener("click", this.boundCloseMenuOutside);
+  }
+
+  disconnect() {
+    document.removeEventListener("click", this.boundCloseMenuOutside);
   }
   
   toggle(event) {
@@ -20,6 +25,14 @@ export default class extends Controller {
     if (!panel || !this.panelTargets.includes(panel)) return;
 
     const opening = !panel.classList.contains("visible");
+
+    if (opening && panel.closest(".agent, .team")) {
+      this.panelTargets.forEach((otherPanel) => {
+        if (otherPanel !== panel && otherPanel.closest(".agent, .team")) {
+          this.setPanelState(otherPanel, false);
+        }
+      });
+    }
 
     if (opening && this.exclusiveValue) {
       this.panelTargets.forEach((otherPanel) => {
@@ -92,8 +105,11 @@ export default class extends Controller {
     textarea.focus();
   }
   
-  toggleMenu() {
-    this.menuTarget.classList.toggle('visible');
+  toggleMenu(event) {
+    const opening = !this.menuTarget.classList.contains("visible");
+
+    this.menuTarget.classList.toggle("visible", opening);
+    event?.currentTarget?.setAttribute("aria-expanded", opening.toString());
   }
   
   preventSubmit(event) {
@@ -103,10 +119,16 @@ export default class extends Controller {
   closeMenuOutside(event) {
     if (this.hasMenuTarget && !this.element.contains(event.target)) {
       this.menuTarget.classList.remove("visible");
-      if (this.hasPanelTarget) {
-        this.panelTarget.style.display = 'none';
-        this.panelTarget.classList.remove("visible");
-      }
+      this.element
+        .querySelectorAll('[data-action*="accordion#toggleMenu"]')
+        .forEach((trigger) => trigger.setAttribute("aria-expanded", "false"));
     }
+
+    this.panelTargets.forEach((panel) => {
+      const assignmentField = panel.closest(".agent, .team");
+      if (assignmentField && !assignmentField.contains(event.target)) {
+        this.setPanelState(panel, false);
+      }
+    });
   }
 }

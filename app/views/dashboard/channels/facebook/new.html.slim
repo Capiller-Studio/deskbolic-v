@@ -1,68 +1,68 @@
-= render("dashboard/shared/dashboard_container", current_page: "settings") do
-  = render("dashboard/settings/settings_sidebar", current_page: "facebook-channels") do
-    .channel-theme-facebook
-      .ui-page-body data-controller="facebook-channel" data-facebook-channel-app-id-value="#{@facebook_app_id}" data-facebook-channel-callback-url-value="#{callback_channels_facebook_index_path}"
-        .ui-page-header
-          = link_to channels_facebook_index_path, class: "ui-back-link"
-            | ← #{t("dashboard.facebook_channels.form.back")}
+/ = render("dashboard/shared/dashboard_container", current_page: "settings") do
+= render("dashboard/settings/settings_sidebar", current_page: "facebook-channels") do
+  .channel-theme-facebook
+    .ui-page-body data-controller="facebook-channel" data-facebook-channel-app-id-value="#{@facebook_app_id}" data-facebook-channel-callback-url-value="#{callback_channels_facebook_index_path}"
+      .ui-page-header
+        = link_to channels_facebook_index_path, class: "ui-back-link"
+          | ← #{t("dashboard.facebook_channels.form.back")}
 
-        .channel-connect-container
-          .channel-connect-card data-facebook-channel-target="step1"
-            .channel-connect-visual
-              .channel-gradient-ring
-                .channel-connect-icon
-                  svg viewBox="0 0 24 24" width="40" height="40" fill="var(--channel-brand, #1877F2)"
-                    path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
+      .channel-connect-container
+        .channel-connect-card data-facebook-channel-target="step1"
+          .channel-connect-visual
+            .channel-gradient-ring
+              .channel-connect-icon
+                svg viewBox="0 0 24 24" width="40" height="40" fill="var(--channel-brand, #1877F2)"
+                  path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
 
-            h3 = t("dashboard.facebook_channels.new.step1_title")
-            p = t("dashboard.facebook_channels.new.step1_description")
+          h3 = t("dashboard.facebook_channels.new.step1_title")
+          p = t("dashboard.facebook_channels.new.step1_description")
 
-            .channel-scopes-info
-              h4 = t("dashboard.facebook_channels.new.permissions_title")
-              ul.channel-scopes-list
-                li
-                  span.channel-scope-icon
-                    svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
-                      path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"
-                  span = t("dashboard.facebook_channels.new.scope_view")
-                li
-                  span.channel-scope-icon
-                    svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
-                      path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"
-                  span = t("dashboard.facebook_channels.new.scope_messages")
+          .channel-scopes-info
+            h4 = t("dashboard.facebook_channels.new.permissions_title")
+            ul.channel-scopes-list
+              li
+                span.channel-scope-icon
+                  svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
+                    path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"
+                span = t("dashboard.facebook_channels.new.scope_view")
+              li
+                span.channel-scope-icon
+                  svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
+                    path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"
+                span = t("dashboard.facebook_channels.new.scope_messages")
 
-            .channel-connect-action
-              button.channel-connect-btn type="button" data-action="click->facebook-channel#connectFb"
-                .channel-connect-btn-icon
-                  svg viewBox="0 0 24 24" width="20" height="20" fill="white"
-                    path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
-                span = t("dashboard.facebook_channels.new.connect_button")
+          .channel-connect-action
+            button.channel-connect-btn type="button" data-action="click->facebook-channel#connectFb"
+              .channel-connect-btn-icon
+                svg viewBox="0 0 24 24" width="20" height="20" fill="white"
+                  path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
+              span = t("dashboard.facebook_channels.new.connect_button")
 
-              .channel-connect-note
-                p.f-reg-12 = t("dashboard.facebook_channels.new.connect_note")
+            .channel-connect-note
+              p.f-reg-12 = t("dashboard.facebook_channels.new.connect_note")
 
-          /! Step 2: Select a Page (rendered via Turbo Stream after callback)
-          #page-selector.facebook-channel-step.ui-step-hidden data-facebook-channel-target="step2"
+        /! Step 2: Select a Page (rendered via Turbo Stream after callback)
+        #page-selector.facebook-channel-step.ui-step-hidden data-facebook-channel-target="step2"
 
-          /! Step 3: Configure (hidden form, shown after page selection)
-          .channel-connect-card.facebook-channel-step-card.ui-step-hidden data-facebook-channel-target="step3"
-            .facebook-channel-step-heading
-              .facebook-channel-step-number 3
-              h3 = t("dashboard.facebook_channels.new.step3_title")
-              p = t("dashboard.facebook_channels.new.step3_description")
+        /! Step 3: Configure (hidden form, shown after page selection)
+        .channel-connect-card.facebook-channel-step-card.ui-step-hidden data-facebook-channel-target="step3"
+          .facebook-channel-step-heading
+            .facebook-channel-step-number 3
+            h3 = t("dashboard.facebook_channels.new.step3_title")
+            p = t("dashboard.facebook_channels.new.step3_description")
 
-            = form_with url: channels_facebook_index_path, method: :post, class: "ui-form-wrapper facebook-channel-config-form" do |f|
-              input type="hidden" name="facebook_channel[access_token]" data-facebook-channel-target="accessToken"
-              input type="hidden" name="facebook_channel[user_access_token]" data-facebook-channel-target="userAccessToken"
-              input type="hidden" name="facebook_channel[page_identifier]" data-facebook-channel-target="pageIdentifier"
-              input type="hidden" name="facebook_channel[avatar_url]" data-facebook-channel-target="avatarUrl"
+          = form_with url: channels_facebook_index_path, method: :post, class: "ui-form-wrapper facebook-channel-config-form" do |f|
+            input type="hidden" name="facebook_channel[access_token]" data-facebook-channel-target="accessToken"
+            input type="hidden" name="facebook_channel[user_access_token]" data-facebook-channel-target="userAccessToken"
+            input type="hidden" name="facebook_channel[page_identifier]" data-facebook-channel-target="pageIdentifier"
+            input type="hidden" name="facebook_channel[avatar_url]" data-facebook-channel-target="avatarUrl"
 
-              .ui-form-group
-                label.ui-label for="facebook_channel_name" = t("dashboard.facebook_channels.new.name_label")
-                input.ui-input type="text" name="facebook_channel[name]" id="facebook_channel_name" placeholder=t("dashboard.facebook_channels.new.name_placeholder") data-facebook-channel-target="channelName" required=true
+            .ui-form-group
+              label.ui-label for="facebook_channel_name" = t("dashboard.facebook_channels.new.name_label")
+              input.ui-input type="text" name="facebook_channel[name]" id="facebook_channel_name" placeholder=t("dashboard.facebook_channels.new.name_placeholder") data-facebook-channel-target="channelName" required=true
 
-              .ui-form-actions
-                = link_to channels_facebook_index_path, class: "ui-btn-secondary"
-                  | #{t("dashboard.facebook_channels.form.cancel")}
-                button.ui-btn-primary type="submit"
-                  | #{t("dashboard.facebook_channels.form.create")}
+            .ui-form-actions
+              = link_to channels_facebook_index_path, class: "ui-btn-secondary"
+                | #{t("dashboard.facebook_channels.form.cancel")}
+              button.ui-btn-primary type="submit"
+                | #{t("dashboard.facebook_channels.form.create")}

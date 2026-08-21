@@ -1,185 +1,138 @@
 - customer = @conversation.customers.first
-.details-section id="conversation-details-#{@conversation.id}" data-controller="accordion"
-  h2.f-semi-24 = t('dashboard.conversation_details.title')
-  .descriptive-details
-    = render partial: "dashboard/conversations/agent_info", locals: { conversation: @conversation }
-    = render partial: "dashboard/conversations/team_info", locals: { conversation: @conversation, assigned_team: assigned_team }
-    = render partial: "dashboard/conversations/labels_info", locals: { conversation: @conversation }
-    .card.ticket-info
-      button.accordian data-action="click->accordion#toggle"
-        p.f-reg-14 = t('dashboard.conversation_details.ticket_info')
-        = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
-      .panel data-accordion-target="panel"
-        .section-flex 
-          h5.f-reg-14 = t('dashboard.conversation_details.ticket_id')
-          .status-tag.bg-gray.f-reg-12 = "##{@conversation.identifier}"
-        .section-flex 
-          h5.f-reg-14 = t('dashboard.conversation_details.created')
-          p.f-reg-14 = @conversation.created_at.strftime("%d %b %Y")
-        .section-flex style="align-items: center;"
-          h5.f-reg-14 = t('dashboard.conversation_details.status')
-          = form_with model: @conversation, url: conversation_path(@conversation), method: :patch do |f|
-            = f.select :status, Conversation.statuses.keys.map { |s| [t("enums.conversation.status.#{s}"), s] }, {}, class: "status-tag bg-green f-reg-12", onchange: "this.form.requestSubmit()", style: "border: none; cursor: pointer; appearance: none;"
-        .section-flex style="align-items: center;"
-          h5.f-reg-14 = t('dashboard.conversation_details.priority')
-          = form_with model: @conversation, url: conversation_path(@conversation), method: :patch do |f|
-            = f.select :priority, Conversation.priorities.keys.map { |s| [t("enums.conversation.priority.#{s}"), s] }, {}, class: "status-tag bg-red f-reg-12", onchange: "this.form.requestSubmit()", style: "border: none; cursor: pointer; appearance: none;"
-    
-    - if @conversation.ai_metadata.present? && (@conversation.ai_metadata["sentiment"].present? || @conversation.ai_metadata["category"].present?)
-      .card.ai-insights-info
-        button.accordian data-action="click->accordion#toggle"
-          p.f-reg-14 = t('dashboard.conversation_details.ai_insights')
-          = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
-        .panel data-accordion-target="panel"
-          - if @conversation.ai_metadata["sentiment"].present?
-            .section-flex style="align-items: center;"
-              h5.f-reg-14 = t('dashboard.conversation_details.sentiment')
-              - sentiment_color = case @conversation.ai_metadata["sentiment"]
-              - when "positive" then "bg-green"
-              - when "negative", "angry" then "bg-red"
-              - else "bg-gray"
-              .status-tag.f-reg-12 class=sentiment_color = @conversation.ai_metadata["sentiment"].titleize
-          
-          - if @conversation.ai_metadata["category"].present?
-            .section-flex style="align-items: center;"
-              h5.f-reg-14 = t('dashboard.conversation_details.category')
-              .status-tag.bg-gray.f-reg-12 = @conversation.ai_metadata["category"].titleize
-    
-    .card.sla-info
-      button.accordian data-action="click->accordion#toggle"
-        p.f-reg-14 = t('dashboard.conversation_details.sla_status')
-        = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
-      .panel data-accordion-target="panel"
-        - active_sla = @conversation.conversation_slas.active.first
-        .section-flex
-          h5.f-reg-14 = t('dashboard.conversation_details.next_target')
-          p.f-reg-14 = active_sla&.target_next_response_at&.strftime("%d %b %H:%M") || t('dashboard.conversation_details.not_applicable')
+- csat_response = @conversation.csat_survey_responses.last
+- active_sla = @conversation.conversation_slas.active.first
+- recent_conversations = customer.conversations.where.not(id: @conversation.id).order(created_at: :desc).limit(5)
+- status_label = @conversation.active? ? t('dashboard.conversation_details.open', default: 'Open') : t("enums.conversation.status.#{@conversation.status}", default: @conversation.status.humanize)
 
-    .card.csat-info
-      button.accordian data-action="click->accordion#toggle"
-        p.f-reg-14 = t('dashboard.conversation_details.csat_rating')
-        = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
-      .panel data-accordion-target="panel"
-        .section-flex
-          h5.f-reg-14 = t('dashboard.conversation_details.rating')
-          - csat_response = @conversation.csat_survey_responses.last
-          - if csat_response&.rating
-            p.f-reg-14 = "#{csat_response.rating} / 5"
-          - else
-            p.f-reg-14 = t('dashboard.conversation_details.pending')
+aside.details-section.conversation-inspector id="conversation-details-#{@conversation.id}" data-controller="accordion"
+  .inspector-scroll
+    section.inspector-section.inspector-assignment
+      .inspector-section-heading
+        h2 = t('dashboard.conversation_details.assignment', default: 'Assignment')
+        span.inspector-status-badge class="status-#{@conversation.status}" = status_label
+      .assignment-fields
+        = render partial: 'dashboard/conversations/agent_info', locals: { conversation: @conversation }
+        = render partial: 'dashboard/conversations/team_info', locals: { conversation: @conversation, assigned_team: @conversation.team }
 
-    .card.identity-info
-      button.accordian data-action="click->accordion#toggle"
-        p.f-reg-14 = t('dashboard.conversation_details.verified_identities')
-        = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
-      .panel data-accordion-target="panel"
-        - if customer&.identities&.any?
+    section.inspector-section.inspector-labels
+      = render partial: 'dashboard/conversations/labels_info', locals: { conversation: @conversation }
+
+    section.inspector-section.ticket-info
+      button.inspector-accordion.active-accordian type="button" data-action="click->accordion#toggle" aria-expanded="true"
+        span = t('dashboard.conversation_details.ticket_info')
+        = inline_svg_tag('arrow_down.svg', class: 'inspector-chevron', aria: { hidden: true })
+      .panel.inspector-panel.visible data-accordion-target="panel"
+        .inspector-data-row
+          span = t('dashboard.conversation_details.ticket_id', default: 'Ticket')
+          strong = "##{@conversation.identifier}"
+        .inspector-data-row
+          span = t('dashboard.conversation_details.created')
+          strong = @conversation.created_at.strftime('%d %b %H:%M')
+        .inspector-data-row
+          span = t('dashboard.conversation_details.priority')
+          = form_with model: @conversation, url: conversation_path(@conversation), method: :patch do |f|
+            = f.select :priority, Conversation.priorities.keys.map { |priority| [t("enums.conversation.priority.#{priority}", default: priority.humanize), priority] }, {}, class: 'inspector-inline-select', onchange: 'this.form.requestSubmit()'
+        .inspector-data-row
+          span = t('dashboard.conversation_details.status')
+          = form_with model: @conversation, url: conversation_path(@conversation), method: :patch do |f|
+            = f.select :status, Conversation.statuses.keys.map { |status| [t("enums.conversation.status.#{status}", default: status.humanize), status] }, {}, class: 'inspector-inline-select', onchange: 'this.form.requestSubmit()'
+
+    - if @conversation.ai_metadata.present? && (@conversation.ai_metadata['sentiment'].present? || @conversation.ai_metadata['category'].present?)
+      section.inspector-section
+        button.inspector-accordion type="button" data-action="click->accordion#toggle"
+          span = t('dashboard.conversation_details.ai_insights')
+          = inline_svg_tag('arrow_down.svg', class: 'inspector-chevron', aria: { hidden: true })
+        .panel.inspector-panel data-accordion-target="panel"
+          - if @conversation.ai_metadata['sentiment'].present?
+            .inspector-data-row
+              span = t('dashboard.conversation_details.sentiment')
+              strong = @conversation.ai_metadata['sentiment'].titleize
+          - if @conversation.ai_metadata['category'].present?
+            .inspector-data-row
+              span = t('dashboard.conversation_details.category')
+              strong = @conversation.ai_metadata['category'].titleize
+
+    section.inspector-section
+      button.inspector-accordion type="button" data-action="click->accordion#toggle"
+        span = t('dashboard.conversation_details.sla_status')
+        small = active_sla.present? ? t('dashboard.conversation_details.on_track', default: 'On track') : t('dashboard.conversation_details.not_applicable')
+        = inline_svg_tag('arrow_down.svg', class: 'inspector-chevron', aria: { hidden: true })
+      .panel.inspector-panel data-accordion-target="panel"
+        .inspector-data-row
+          span = t('dashboard.conversation_details.next_target')
+          strong = active_sla&.target_next_response_at&.strftime('%d %b %H:%M') || t('dashboard.conversation_details.not_applicable')
+
+    section.inspector-section
+      button.inspector-accordion type="button" data-action="click->accordion#toggle"
+        span = t('dashboard.conversation_details.csat_rating')
+        small = csat_response&.rating ? "#{csat_response.rating} / 5" : t('dashboard.conversation_details.no_rating_yet', default: 'No rating yet')
+        = inline_svg_tag('arrow_down.svg', class: 'inspector-chevron', aria: { hidden: true })
+      .panel.inspector-panel data-accordion-target="panel"
+        .inspector-data-row
+          span = t('dashboard.conversation_details.rating')
+          strong = csat_response&.rating ? "#{csat_response.rating} / 5" : t('dashboard.conversation_details.pending')
+
+    section.inspector-section
+      button.inspector-accordion type="button" data-action="click->accordion#toggle"
+        span = t('dashboard.conversation_details.verified_identities')
+        small = customer.identities.count
+        = inline_svg_tag('arrow_down.svg', class: 'inspector-chevron', aria: { hidden: true })
+      .panel.inspector-panel data-accordion-target="panel"
+        - if customer.identities.any?
           - customer.identities.includes(:identity_source).each do |identity|
-            .section-flex style="margin-bottom: 8px; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px;"
-              h5.f-reg-14 = identity.identity_source&.name || identity.identity_type.titleize
-              p.f-reg-14.ml-auto = identity.identifier
+            .inspector-data-row
+              span = identity.identity_source&.name || identity.identity_type.titleize
+              strong = identity.identifier
         - else
-          .details-empty-state
-            p.f-reg-12 = t('dashboard.conversation_details.no_identities')
-            = link_to t('dashboard.identity_sources.index.create_button'), identity_sources_path, class: "details-empty-action f-semi-12", data: { turbo_frame: "_top" }
-                
-    .card.user-data
-      button.accordian data-action="click->accordion#toggle"
-        p.f-reg-14 = t('dashboard.conversation_details.customer_data')
-        = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
-      .panel data-accordion-target="panel"
-        .user-details data-controller="accordion"
-          .user-info
-            .profile-pic
-              - if customer.avatar.attached?
-                = image_tag(customer.avatar, class:"img", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-              - else
-                .img.avatar-fallback.customer-initials-avatar.f-reg-12 class=avatar_fallback_color_class(full_name(customer))
-                  = initials(customer)
-              p.f-reg-12 = customer.name || customer.display_name
-            = inline_svg_tag("menu.svg", class:"profile-menu",  data: { "action" => "click->accordion#toggleMenu" })
-          .menu data-accordion-target="menu"
-            = link_to("#", class: "all menu-link") do
-              p.f-reg-12 = t('dashboard.conversation_details.show_all')
-              = inline_svg_tag("export_arrow.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-            = link_to("#", class: "block menu-link") do
-              = inline_svg_tag("block.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-              p.f-reg-12 = t('dashboard.conversation_details.block')
-            = link_to("#", class: "unsub menu-link") do
-              = inline_svg_tag("cross.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-              p.f-reg-12 = t('dashboard.conversation_details.unsubscribe')
-        .section-flex
-          = inline_svg_tag("user_id.svg", class: "left-img")
-          h5.f-reg-12 = t('dashboard.conversation_details.customer_id')
-          p.f-reg-12.ml-auto = customer.id.last(10)
-        .section-flex 
-          = inline_svg_tag("mail.svg", class: "left-img")
-          h5.f-reg-12 = t('dashboard.conversation_details.email')
-          p.f-reg-12.ml-auto = customer.email
-        / .section-flex 
-        /   = inline_svg_tag("location.svg", class: "left-img")
-        /   h5.f-reg-12 Location
-        /   p.f-reg-12.ml-auto = customer.address&.address1
-        .section-flex 
-          / = inline_svg_tag("location.svg", class: "left-img")
-          h5.f-reg-12 = t('dashboard.conversation_details.status')
-          .status-tag.bg-green.f-reg-12 = t("enums.conversation.status.#{@conversation.status}")
-    / .card.tickets
-    /   button.accordian data-action="click->accordion#toggle"
-    /     p.f-reg-14 Tickets
-    /     = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
-    /   .panel data-accordion-target="panel"
-    /     .section-flex
-    /       = inline_svg("ticket_black.svg", class: "left-img")
-    /       h5.f-reg-12 Customer Ticket
-    /       .ml-auto = inline_svg("refresh.svg")
-    /     .section-flex
-    /       = inline_svg("track.svg", class: "left-img")
-    /       h5.f-reg-12 Tracker Ticket
-    /       .ml-auto = inline_svg("plus_black.svg")
-    /     .section-flex
-    /       = inline_svg("office.svg", class: "left-img")
-    /       h5.f-reg-12 Back-office Ticket
-    /       p.f-reg-12.ml-auto = inline_svg("plus_black.svg")
-    /     .section-flex
-    /       = inline_svg("chat.svg", class: "left-img")
-    /       h5.f-reg-12 Side Conversation
-    /       .ml-auto = inline_svg("plus_black.svg")
-    .card.user-notes
-      button.accordian data-action="click->accordion#toggle"
-        p.f-reg-14.mr-auto = t('dashboard.conversation_details.user_notes')
-        = inline_svg_tag("plus_black.svg", class:"plus-icon", data: { action: "click->accordion#toggleNote"})
-        = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
-      .panel.notes-panel data-accordion-target="panel" id="conversation-notes"
+          p.inspector-empty = t('dashboard.conversation_details.no_identities')
+
+    section.inspector-section
+      button.inspector-accordion type="button" data-action="click->accordion#toggle"
+        span = t('dashboard.conversation_details.customer_data')
+        = inline_svg_tag('arrow_down.svg', class: 'inspector-chevron', aria: { hidden: true })
+      .panel.inspector-panel data-accordion-target="panel"
+        .inspector-customer
+          - if customer.avatar&.attached?
+            = image_tag(customer.avatar, class: 'inspector-customer-avatar', alt: full_name(customer))
+          - else
+            .inspector-customer-avatar.avatar-fallback class=avatar_fallback_color_class(full_name(customer))
+              = initials(customer)
+          strong = full_name(customer)
+        .inspector-data-row
+          span = t('dashboard.conversation_details.customer_id')
+          strong = customer.id.last(10)
+        .inspector-data-row
+          span = t('dashboard.conversation_details.email')
+          strong = customer.email.presence || '—'
+
+    section.inspector-section.user-notes
+      button.inspector-accordion type="button" data-action="click->accordion#toggle"
+        span = t('dashboard.conversation_details.user_notes')
+        small = @notes.count
+        = inline_svg_tag('plus_black.svg', class: 'inspector-add-icon', data: { action: 'click->accordion#toggleNote' }, aria: { hidden: true })
+        = inline_svg_tag('arrow_down.svg', class: 'inspector-chevron', aria: { hidden: true })
+      .panel.inspector-panel data-accordion-target="panel" id="conversation-notes"
         - @notes.each do |note|
           = render 'dashboard/notes/note', note: note
       .panel.note-panel data-accordion-target="npanel"
-        = form_with(model: Note.new, url: notes_path, class: "new-note", html: { novalidate: true }, data: { action: "submit->accordion#preventBlankNote turbo:submit-end->accordion#clearNote" }) do |f|
-          = f.text_area :content, class: "note-field f-reg-12", placeholder: t('dashboard.conversation_details.add_new_note'), required: true, aria: { describedby: "new-note-content-error" }, data: { action: "input->accordion#clearNoteValidation" }
-          .invalid-feedback#new-note-content-error role="alert" = t('dashboard.conversation_details.note_empty')
-          = f.hidden_field :resource_type, value: "Conversation"
+        = form_with model: Note.new, url: notes_path, class: 'new-note', html: { novalidate: true }, data: { action: 'submit->accordion#preventBlankNote turbo:submit-end->accordion#clearNote' } do |f|
+          = f.text_area :content, class: 'note-field', placeholder: t('dashboard.conversation_details.add_new_note'), required: true, data: { action: 'input->accordion#clearNoteValidation' }
+          = f.hidden_field :resource_type, value: 'Conversation'
           = f.hidden_field :resource_id, value: @conversation.id
-          .actions
-            = image_tag("delete_note.png", class:"note-btn cancel-note", data: { action: "click->accordion#toggleNote"}, alt:t("ui.dashboard.conversations.conversation_details.cancel"))
-            = image_submit_tag("update_note.png", class:"note-btn add-note", alt: t('dashboard.conversation_details.add'))
-            
-    .card.recent-chats
-      button.accordian data-action="click->accordion#toggle"
-        p.f-reg-14 = t('dashboard.conversation_details.recent_chats')
-        = inline_svg_tag("arrow_down.svg", class:"arrow-icon")
-      .panel data-accordion-target="panel"
-        - recent_conversations = customer.conversations.where.not(id: @conversation.id).order(created_at: :desc).limit(5)
+          .note-actions
+            button type="button" data-action="click->accordion#toggleNote" = t('general.cancel', default: 'Cancel')
+            = f.submit t('general.add', default: 'Add')
+
+    section.inspector-section
+      button.inspector-accordion type="button" data-action="click->accordion#toggle"
+        span = t('dashboard.conversation_details.recent_chats')
+        small = recent_conversations.count
+        = inline_svg_tag('arrow_down.svg', class: 'inspector-chevron', aria: { hidden: true })
+      .panel.inspector-panel data-accordion-target="panel"
         - if recent_conversations.any?
-          ul
-            .inbox-nav-menu
-              - recent_conversations.each do |recent|
-                li.nav-item
-                  = inline_svg_tag("chat1.svg", class:"user-img", alt:t("ui.dashboard.conversations.conversation_details.chat"))
-                  = link_to(conversation_path(recent.id), class: "nav-link") do
-                    h4.f-semi-14 = recent.title.presence || "##{recent.identifier}"
-                    p.f-reg-12 = truncate(recent.messages.last&.content || t('dashboard.conversation_details.no_messages'), length: 30)
-                  .actions
-                    .status-tag.f-reg-10 class=(recent.resolved? || recent.closed? ? "bg-red" : "bg-green") = t("enums.conversation.status.#{recent.status}")
-                    p.f-reg-10 = time_ago_in_words(recent.created_at)
+          - recent_conversations.each do |recent|
+            = link_to conversation_path(recent), class: 'recent-conversation-link' do
+              strong = recent.title.presence || "##{recent.identifier}"
+              span = truncate(recent.last_message_preview, length: 42)
         - else
-          p.f-reg-14 = t('dashboard.conversation_details.no_recent_chats')
+          p.inspector-empty = t('dashboard.conversation_details.no_recent_chats')

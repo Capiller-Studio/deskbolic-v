@@ -1,99 +1,99 @@
-= render("dashboard/shared/dashboard_container", current_page: "reports") do
-  = render("dashboard/settings/settings_sidebar", current_page: "reports") do
-    .ui-settings-page
-      header.ui-settings-page__header
-        .ui-settings-page__heading
-          h1 = t("dashboard.sidebar.reports")
-          p = t("dashboard.reports.description")
+/ = render("dashboard/shared/dashboard_container", current_page: "reports") do
+= render("dashboard/settings/settings_sidebar", current_page: "reports") do
+  .ui-settings-page
+    header.ui-settings-page__header
+      .ui-settings-page__heading
+        h1 = t("dashboard.sidebar.reports")
+        p = t("dashboard.reports.description")
 
-      main.ui-settings-page__content
-        .ui-split-layout
-          .ui-stack
-            section.ui-panel.ui-panel--compact aria-labelledby="reports-overview-title"
-              h2.ui-panel__title#reports-overview-title
-                span = t("dashboard.reports.overview_title")
-                span.ui-panel__muted = " (#{t('dashboard.reports.last_30_days')})"
-
-              .ui-metric-grid
-                article.ui-metric-card.ui-metric-card--purple
-                  .ui-metric-card__icon
-                    = inline_svg_tag("reports-conversations.svg", class: "ui-metric-card__glyph", aria: { hidden: true })
-                  .ui-metric-card__body
-                    p.ui-metric-card__label = t("dashboard.reports.total_conversations")
-                    p.ui-metric-card__value = @total_conversations_count
-
-                article.ui-metric-card.ui-metric-card--red
-                  .ui-metric-card__icon
-                    = inline_svg_tag("reports-sla.svg", class: "ui-metric-card__glyph", aria: { hidden: true })
-                  .ui-metric-card__body
-                    p.ui-metric-card__label = t("dashboard.reports.sla_breaches")
-                    p.ui-metric-card__value = @sla_breaches_count
-
-                article.ui-metric-card.ui-metric-card--green
-                  .ui-metric-card__icon
-                    = inline_svg_tag("reports-csat.svg", class: "ui-metric-card__glyph", aria: { hidden: true })
-                  .ui-metric-card__body
-                    p.ui-metric-card__label = t("dashboard.reports.avg_csat")
-                    p.ui-metric-card__value
-                      = @csat_avg
-                      span.ui-metric-card__suffix = " / 5.0"
-
-            section.ui-panel.ui-panel--chart aria-labelledby="reports-volume-title"
-              .ui-panel__header
-                h2.ui-panel__title#reports-volume-title = t("dashboard.reports.conversations_volume")
-                / .ui-select-pill
-                  span = t("dashboard.reports.daily")
-                  = inline_svg_tag("reports-chevron.svg", aria: { hidden: true })
-
-              .ui-chart
-                = line_chart @conversations_by_day, height: "328px", colors: ["#377DFF"], points: false, curve: false, dataset: { backgroundColor: "rgba(55, 125, 255, 0.12)", borderWidth: 2, fill: true, pointRadius: 0 }, library: { plugins: { legend: { display: false } }, scales: { x: { grid: { display: false }, ticks: { color: "#8E8E93", font: { size: 12 } } }, y: { beginAtZero: true, grid: { color: "#F3F4F6", borderDash: [2, 2] }, ticks: { color: "#8E8E93", precision: 0, font: { size: 12 } } } } }
-
-          section.ui-panel.ui-panel--data aria-labelledby="reports-workload-title"
-            h2.ui-panel__title#reports-workload-title
-              span = t("dashboard.reports.agent_workload_title")
+    main.ui-settings-page__content
+      .ui-split-layout
+        .ui-stack
+          section.ui-panel.ui-panel--compact aria-labelledby="reports-overview-title"
+            h2.ui-panel__title#reports-overview-title
+              span = t("dashboard.reports.overview_title")
               span.ui-panel__muted = " (#{t('dashboard.reports.last_30_days')})"
 
-            - visible_agent_workload = @agent_workload.select { |agent_id, _count| @agents[agent_id] }
-            - if visible_agent_workload.empty?
-              .ui-empty-state.ui-empty-state--compact
-                .ui-empty-state__icon aria-hidden="true" 📊
-                h3 = t("dashboard.reports.no_data_title")
-                p = t("dashboard.reports.no_data_desc")
-            - else
-              .ui-table-wrap
-                table.ui-table
-                  thead
-                    tr
-                      th.ui-table__primary scope="col" = t("dashboard.reports.agent")
-                      th.ui-table__numeric scope="col" = t("dashboard.reports.conversations")
-                  tbody
-                    - visible_agent_workload.each do |agent_id, count|
-                      - agent = @agents[agent_id]
-                      - agent_name = full_name(agent).presence || agent.email
-                      tr
-                        td
-                          .ui-identity
-                            - if agent.avatar.attached?
-                              = image_tag(agent.avatar, class: "ui-avatar ui-avatar--small", alt: agent_name)
-                            - else
-                              .ui-avatar.ui-avatar--small.ui-avatar--fallback.avatar-fallback class=avatar_fallback_color_class(agent_name) aria-hidden="true"
-                                = initials(agent)
-                            span.ui-identity__name = agent_name
-                        td.ui-table__numeric = count
+            .ui-metric-grid
+              article.ui-metric-card.ui-metric-card--purple
+                .ui-metric-card__icon
+                  = inline_svg_tag("reports-conversations.svg", class: "ui-metric-card__glyph", aria: { hidden: true })
+                .ui-metric-card__body
+                  p.ui-metric-card__label = t("dashboard.reports.total_conversations")
+                  p.ui-metric-card__value = @total_conversations_count
 
-              .ui-pagination
-                p.ui-pagination__summary = t("dashboard.reports.showing_agents", from: @pagy_agent_workload.from, to: @pagy_agent_workload.to, total: @pagy_agent_workload.count)
-                .ui-pagination__controls aria-label=t("dashboard.reports.pagination_label")
-                  - if @pagy_agent_workload.prev
-                    = link_to reports_path(agent_page: @pagy_agent_workload.prev), class: "ui-pagination__button", aria: { label: t("dashboard.reports.previous_page") } do
-                      = inline_svg_tag("reports-pagination-prev.svg", aria: { hidden: true })
-                  - else
-                    span.ui-pagination__button.ui-pagination__button--disabled aria-hidden="true"
-                      = inline_svg_tag("reports-pagination-prev.svg")
-                  span.ui-pagination__button.ui-pagination__button--active aria-current="page" = @pagy_agent_workload.page
-                  - if @pagy_agent_workload.next
-                    = link_to reports_path(agent_page: @pagy_agent_workload.next), class: "ui-pagination__button", aria: { label: t("dashboard.reports.next_page") } do
-                      = inline_svg_tag("reports-pagination-next.svg", aria: { hidden: true })
-                  - else
-                    span.ui-pagination__button.ui-pagination__button--disabled aria-hidden="true"
-                      = inline_svg_tag("reports-pagination-next.svg")
+              article.ui-metric-card.ui-metric-card--red
+                .ui-metric-card__icon
+                  = inline_svg_tag("reports-sla.svg", class: "ui-metric-card__glyph", aria: { hidden: true })
+                .ui-metric-card__body
+                  p.ui-metric-card__label = t("dashboard.reports.sla_breaches")
+                  p.ui-metric-card__value = @sla_breaches_count
+
+              article.ui-metric-card.ui-metric-card--green
+                .ui-metric-card__icon
+                  = inline_svg_tag("reports-csat.svg", class: "ui-metric-card__glyph", aria: { hidden: true })
+                .ui-metric-card__body
+                  p.ui-metric-card__label = t("dashboard.reports.avg_csat")
+                  p.ui-metric-card__value
+                    = @csat_avg
+                    span.ui-metric-card__suffix = " / 5.0"
+
+          section.ui-panel.ui-panel--chart aria-labelledby="reports-volume-title"
+            .ui-panel__header
+              h2.ui-panel__title#reports-volume-title = t("dashboard.reports.conversations_volume")
+              / .ui-select-pill
+                span = t("dashboard.reports.daily")
+                = inline_svg_tag("reports-chevron.svg", aria: { hidden: true })
+
+            .ui-chart
+              = line_chart @conversations_by_day, height: "328px", colors: ["#377DFF"], points: false, curve: false, dataset: { backgroundColor: "rgba(55, 125, 255, 0.12)", borderWidth: 2, fill: true, pointRadius: 0 }, library: { plugins: { legend: { display: false } }, scales: { x: { grid: { display: false }, ticks: { color: "#8E8E93", font: { size: 12 } } }, y: { beginAtZero: true, grid: { color: "#F3F4F6", borderDash: [2, 2] }, ticks: { color: "#8E8E93", precision: 0, font: { size: 12 } } } } }
+
+        section.ui-panel.ui-panel--data aria-labelledby="reports-workload-title"
+          h2.ui-panel__title#reports-workload-title
+            span = t("dashboard.reports.agent_workload_title")
+            span.ui-panel__muted = " (#{t('dashboard.reports.last_30_days')})"
+
+          - visible_agent_workload = @agent_workload.select { |agent_id, _count| @agents[agent_id] }
+          - if visible_agent_workload.empty?
+            .ui-empty-state.ui-empty-state--compact
+              .ui-empty-state__icon aria-hidden="true" 📊
+              h3 = t("dashboard.reports.no_data_title")
+              p = t("dashboard.reports.no_data_desc")
+          - else
+            .ui-table-wrap
+              table.ui-table
+                thead
+                  tr
+                    th.ui-table__primary scope="col" = t("dashboard.reports.agent")
+                    th.ui-table__numeric scope="col" = t("dashboard.reports.conversations")
+                tbody
+                  - visible_agent_workload.each do |agent_id, count|
+                    - agent = @agents[agent_id]
+                    - agent_name = full_name(agent).presence || agent.email
+                    tr
+                      td
+                        .ui-identity
+                          - if agent.avatar.attached?
+                            = image_tag(agent.avatar, class: "ui-avatar ui-avatar--small", alt: agent_name)
+                          - else
+                            .ui-avatar.ui-avatar--small.ui-avatar--fallback.avatar-fallback class=avatar_fallback_color_class(agent_name) aria-hidden="true"
+                              = initials(agent)
+                          span.ui-identity__name = agent_name
+                      td.ui-table__numeric = count
+
+            .ui-pagination
+              p.ui-pagination__summary = t("dashboard.reports.showing_agents", from: @pagy_agent_workload.from, to: @pagy_agent_workload.to, total: @pagy_agent_workload.count)
+              .ui-pagination__controls aria-label=t("dashboard.reports.pagination_label")
+                - if @pagy_agent_workload.prev
+                  = link_to reports_path(agent_page: @pagy_agent_workload.prev), class: "ui-pagination__button", aria: { label: t("dashboard.reports.previous_page") } do
+                    = inline_svg_tag("reports-pagination-prev.svg", aria: { hidden: true })
+                - else
+                  span.ui-pagination__button.ui-pagination__button--disabled aria-hidden="true"
+                    = inline_svg_tag("reports-pagination-prev.svg")
+                span.ui-pagination__button.ui-pagination__button--active aria-current="page" = @pagy_agent_workload.page
+                - if @pagy_agent_workload.next
+                  = link_to reports_path(agent_page: @pagy_agent_workload.next), class: "ui-pagination__button", aria: { label: t("dashboard.reports.next_page") } do
+                    = inline_svg_tag("reports-pagination-next.svg", aria: { hidden: true })
+                - else
+                  span.ui-pagination__button.ui-pagination__button--disabled aria-hidden="true"
+                    = inline_svg_tag("reports-pagination-next.svg")

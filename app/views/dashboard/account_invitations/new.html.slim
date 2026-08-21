@@ -1,53 +1,53 @@
-= render("dashboard/shared/dashboard_container", current_page: "settings") do
-  = render("dashboard/settings/settings_sidebar", current_page: "users") do
-    - roles = current_account.roles.order(system_provided: :desc, name: :asc)
+/ = render("dashboard/shared/dashboard_container", current_page: "settings") do
+= render("dashboard/settings/settings_sidebar", current_page: "users") do
+  - roles = current_account.roles.order(system_provided: :desc, name: :asc)
 
-    .tm-invite data-controller="option-preview" data-option-preview-more-label-value=invitation_more_permissions_text("__COUNT__") data-option-preview-show-less-label-value=t("ui.dashboard.account_invitations.new.show_less") data-option-preview-no-permissions-label-value=invitation_no_permissions_text
-      .tm-invite-header
-        h1 = t("ui.dashboard.account_invitations.new.invite_team_member")
-        p = t("ui.dashboard.account_invitations.new.invite_someone_to_join_your_workspace_and_assign_permissions")
+  .tm-invite data-controller="option-preview" data-option-preview-more-label-value=invitation_more_permissions_text("__COUNT__") data-option-preview-show-less-label-value=t("ui.dashboard.account_invitations.new.show_less") data-option-preview-no-permissions-label-value=invitation_no_permissions_text
+    .tm-invite-header
+      h1 = t("ui.dashboard.account_invitations.new.invite_team_member")
+      p = t("ui.dashboard.account_invitations.new.invite_someone_to_join_your_workspace_and_assign_permissions")
 
-      = form_with url: invitations_path, local: true, class: "tm-invite-form" do |f|
-        .tm-invite-content
-          .tm-invite-main
-            section.tm-step
-              .tm-step-heading
-                span.tm-step-number 1
-                h2 = t("dashboard.users.form.email_label")
-              .tm-email-field
-                svg viewBox="0 0 24 24" aria-hidden="true"
-                  path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2Z"
-                  path d="m22 6-10 7L2 6"
-                = f.email_field :email, placeholder: t("ui.dashboard.account_invitations.new.name_company_com"), required: true, autocomplete: "email"
+    = form_with url: invitations_path, local: true, class: "tm-invite-form" do |f|
+      .tm-invite-content
+        .tm-invite-main
+          section.tm-step
+            .tm-step-heading
+              span.tm-step-number 1
+              h2 = t("dashboard.users.form.email_label")
+            .tm-email-field
+              svg viewBox="0 0 24 24" aria-hidden="true"
+                path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2Z"
+                path d="m22 6-10 7L2 6"
+              = f.email_field :email, placeholder: t("ui.dashboard.account_invitations.new.name_company_com"), required: true, autocomplete: "email"
 
-            section.tm-step
-              .tm-step-heading
-                span.tm-step-number 2
-                h2 = t("ui.dashboard.account_invitations.new.assign_role")
-              p.tm-step-hint = t("ui.dashboard.account_invitations.new.choose_a_role_for_this_member")
-              = render "dashboard/shared/role_picker", roles: roles, field_name: "role_ids[]", selected_role_ids: [], multiple: false
+          section.tm-step
+            .tm-step-heading
+              span.tm-step-number 2
+              h2 = t("ui.dashboard.account_invitations.new.assign_role")
+            p.tm-step-hint = t("ui.dashboard.account_invitations.new.choose_a_role_for_this_member")
+            = render "dashboard/shared/role_picker", roles: roles, field_name: "role_ids[]", selected_role_ids: [], multiple: false
 
-            section.tm-step.tm-step-permissions
-              .tm-step-heading
-                span.tm-step-number 3
-                h2 = t("ui.dashboard.account_invitations.new.permission_preview")
-              p.tm-step-hint = t("ui.dashboard.account_invitations.new.this_member_will_receive")
-              = render "dashboard/shared/permission_preview", selected_roles: roles.first ? [roles.first] : []
+          section.tm-step.tm-step-permissions
+            .tm-step-heading
+              span.tm-step-number 3
+              h2 = t("ui.dashboard.account_invitations.new.permission_preview")
+            p.tm-step-hint = t("ui.dashboard.account_invitations.new.this_member_will_receive")
+            = render "dashboard/shared/permission_preview", selected_roles: roles.first ? [roles.first] : []
 
-          aside.tm-invite-summary
-            .tm-invite-summary-graphic
-              svg viewBox="0 0 120 100" aria-hidden="true"
-                rect x="12" y="14" width="88" height="58" rx="8"
-                path d="m16 20 40 29 40-29"
-                circle cx="94" cy="68" r="18"
-                path d="m86 68 6 6 11-13"
-            h2 = t("ui.dashboard.account_invitations.new.invitation_summary")
-            p = t("ui.dashboard.account_invitations.new.an_invitation_email_will_be_sent_to_the_member_with")
+        aside.tm-invite-summary
+          .tm-invite-summary-graphic
+            svg viewBox="0 0 120 100" aria-hidden="true"
+              rect x="12" y="14" width="88" height="58" rx="8"
+              path d="m16 20 40 29 40-29"
+              circle cx="94" cy="68" r="18"
+              path d="m86 68 6 6 11-13"
+          h2 = t("ui.dashboard.account_invitations.new.invitation_summary")
+          p = t("ui.dashboard.account_invitations.new.an_invitation_email_will_be_sent_to_the_member_with")
 
-        .tm-invite-actions
-          = link_to t("dashboard.teams.form.cancel"), users_path, class: "tm-button tm-button-secondary"
-          = f.button type: "submit", class: "tm-button tm-button-primary" do
-            svg viewBox="0 0 24 24" aria-hidden="true"
-              path d="m22 2-7 20-4-9-9-4 20-7Z"
-              path d="M22 2 11 13"
-            | #{t("ui.dashboard.account_invitations.new.invite_member")}
+      .tm-invite-actions
+        = link_to t("dashboard.teams.form.cancel"), users_path, class: "tm-button tm-button-secondary"
+        = f.button type: "submit", class: "tm-button tm-button-primary" do
+          svg viewBox="0 0 24 24" aria-hidden="true"
+            path d="m22 2-7 20-4-9-9-4 20-7Z"
+            path d="M22 2 11 13"
+          | #{t("ui.dashboard.account_invitations.new.invite_member")}

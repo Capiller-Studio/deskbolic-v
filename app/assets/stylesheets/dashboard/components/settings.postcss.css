@@ -3,6 +3,43 @@
     padding-top: 10px;
   }
 }
+.settings-sidebar-heading {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  p {
+    margin: 0 !important;
+  }
+}
+
+.settings-sidebar-back {
+  display: inline-flex;
+  flex: 0 0 28px;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 8px;
+  background-color: transparent;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    background-color: $black-5;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $primary-purple-50;
+    outline-offset: 2px;
+  }
+
+  .settings-sidebar-back-icon {
+    width: 10px;
+    height: 10px;
+  }
+}
 .settings-sidebar-search {
   display: flex;
   align-items: center;

@@ -1,57 +1,57 @@
-= render("dashboard/shared/dashboard_container", current_page: "agent-test") do
-  = render("dashboard/agent/agent_sidebar", current_page: "agent-test") do
-    .agent-body-section.agent-guidance-body data-controller="modal-toggler frame-toggler"
-      .agent-header.agent-guidance-header
-        h2.f-semi-18 = t("ui.dashboard.agent.agent_sidebar.guidance")
-      .agent-container.agent-guidance-container
-        .guidance-section
-          .guidance-header
-            h3.f-semi-18 = t("ui.dashboard.agent.guidance.all_guidance_0_100")
-            .tag.f-reg-12 = t("ui.dashboard.agent.guidance.not_enabled")
-            .tag.f-reg-12.ml-auto = t("dashboard.teams.form.cancel")
-            .tag.f-reg-12
-              = inline_svg_tag("grey_tick.svg", class:"tag-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-              | #{t("dashboard.profile.index.save")}
-            .tag.f-reg-12 
-              = inline_svg_tag("play.svg", class:"tag-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-              | #{t("ui.dashboard.agent.guidance.enabled")}
-          .guidance-list
-            / = render 'dashboard/guidance/instruction', response: response
-            .agent-instruction
-              = inline_svg_tag("msg_icon.svg", class:"icon", alt:t("ui.dashboard.agent.guidance.icon"))
-              .inst-details
-                h4.f-semi-16 = t("ui.dashboard.agent.guidance.communication_style")
-                p.f-reg-12 = t("ui.dashboard.agent.guidance.specific_vocabulary_and_terminology_fin_should_use")
-              = link_to("#", class:"member-action new-action") do
-                = inline_svg_tag("grey_plus.svg", class:"plus-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-                span.f-semi-12 = t("ui.dashboard.agent.guidance.new")
-            .agent-instruction
-              = inline_svg_tag("msg_icon.svg", class:"icon", alt:t("ui.dashboard.agent.guidance.icon"))
-              .inst-details
-                h4.f-semi-16 = t("ui.dashboard.agent.guidance.context_and_clarification")
-                p.f-reg-12 = t("ui.dashboard.agent.guidance.follow_up_questions_fin_should_ask_to_ensure_accurate_answers")
-              = link_to("#", class:"member-action new-action") do
-                = inline_svg_tag("grey_plus.svg", class:"plus-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-                span.f-semi-12 = t("ui.dashboard.agent.guidance.new")
-            .agent-instruction
-              = inline_svg_tag("msg_icon.svg", class:"icon", alt:t("ui.dashboard.agent.guidance.icon"))
-              .inst-details
-                h4.f-semi-16 = t("ui.dashboard.agent.guidance.handover_and_escalation")
-                p.f-reg-12 = t("ui.dashboard.agent.guidance.how_to_handle_cases_that_should_be_routed_straight_to")
-              = link_to("#", class:"member-action new-action") do
-                = inline_svg_tag("grey_plus.svg", class:"plus-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-                span.f-semi-12 = t("ui.dashboard.agent.guidance.new")
-        .widget-section
-          .w-header
-            = image_tag("avatar1.png", class:"avatar-icon avatar1", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-            = image_tag("avatar2.png", class:"avatar-icon avatar2", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-            = image_tag("avatar3.png", class:"avatar-icon avatar3", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-            h3.f-semi-16 = t("ui.dashboard.agent.guidance.messages")
-          .customer-text
-            = image_tag("bot.png", class:"customer-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-            p.f-reg-14 = t("ui.dashboard.agent.guidance.hallo_ich_bin_fitbot_ich_bin_dein_pers_nlicher_sportassistent")
-          .message-box
-            p.f-reg-14 = t("ui.dashboard.agent.guidance.message")
-            = inline_svg_tag("file_attach.svg", class:"resp-icon", alt:t("ui.dashboard.agent.guidance.icon"))
-            = inline_svg_tag("emoji.svg", class:"resp-icon", alt:t("ui.dashboard.agent.guidance.icon"))
-            = inline_svg_tag("gif.svg", class:"resp-icon", alt:t("ui.dashboard.agent.guidance.icon"))
+/ = render("dashboard/shared/dashboard_container", current_page: "agent-test") do
+= render("dashboard/agent/agent_sidebar", current_page: "agent-test") do
+  .agent-body-section.agent-guidance-body data-controller="modal-toggler frame-toggler"
+    .agent-header.agent-guidance-header
+      h2.f-semi-18 = t("ui.dashboard.agent.agent_sidebar.guidance")
+    .agent-container.agent-guidance-container
+      .guidance-section
+        .guidance-header
+          h3.f-semi-18 = t("ui.dashboard.agent.guidance.all_guidance_0_100")
+          .tag.f-reg-12 = t("ui.dashboard.agent.guidance.not_enabled")
+          .tag.f-reg-12.ml-auto = t("dashboard.teams.form.cancel")
+          .tag.f-reg-12
+            = inline_svg_tag("grey_tick.svg", class:"tag-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+            | #{t("dashboard.profile.index.save")}
+          .tag.f-reg-12 
+            = inline_svg_tag("play.svg", class:"tag-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+            | #{t("ui.dashboard.agent.guidance.enabled")}
+        .guidance-list
+          / = render 'dashboard/guidance/instruction', response: response
+          .agent-instruction
+            = inline_svg_tag("msg_icon.svg", class:"icon", alt:t("ui.dashboard.agent.guidance.icon"))
+            .inst-details
+              h4.f-semi-16 = t("ui.dashboard.agent.guidance.communication_style")
+              p.f-reg-12 = t("ui.dashboard.agent.guidance.specific_vocabulary_and_terminology_fin_should_use")
+            = link_to("#", class:"member-action new-action") do
+              = inline_svg_tag("grey_plus.svg", class:"plus-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+              span.f-semi-12 = t("ui.dashboard.agent.guidance.new")
+          .agent-instruction
+            = inline_svg_tag("msg_icon.svg", class:"icon", alt:t("ui.dashboard.agent.guidance.icon"))
+            .inst-details
+              h4.f-semi-16 = t("ui.dashboard.agent.guidance.context_and_clarification")
+              p.f-reg-12 = t("ui.dashboard.agent.guidance.follow_up_questions_fin_should_ask_to_ensure_accurate_answers")
+            = link_to("#", class:"member-action new-action") do
+              = inline_svg_tag("grey_plus.svg", class:"plus-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+              span.f-semi-12 = t("ui.dashboard.agent.guidance.new")
+          .agent-instruction
+            = inline_svg_tag("msg_icon.svg", class:"icon", alt:t("ui.dashboard.agent.guidance.icon"))
+            .inst-details
+              h4.f-semi-16 = t("ui.dashboard.agent.guidance.handover_and_escalation")
+              p.f-reg-12 = t("ui.dashboard.agent.guidance.how_to_handle_cases_that_should_be_routed_straight_to")
+            = link_to("#", class:"member-action new-action") do
+              = inline_svg_tag("grey_plus.svg", class:"plus-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+              span.f-semi-12 = t("ui.dashboard.agent.guidance.new")
+      .widget-section
+        .w-header
+          = image_tag("avatar1.png", class:"avatar-icon avatar1", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+          = image_tag("avatar2.png", class:"avatar-icon avatar2", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+          = image_tag("avatar3.png", class:"avatar-icon avatar3", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+          h3.f-semi-16 = t("ui.dashboard.agent.guidance.messages")
+        .customer-text
+          = image_tag("bot.png", class:"customer-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
+          p.f-reg-14 = t("ui.dashboard.agent.guidance.hallo_ich_bin_fitbot_ich_bin_dein_pers_nlicher_sportassistent")
+        .message-box
+          p.f-reg-14 = t("ui.dashboard.agent.guidance.message")
+          = inline_svg_tag("file_attach.svg", class:"resp-icon", alt:t("ui.dashboard.agent.guidance.icon"))
+          = inline_svg_tag("emoji.svg", class:"resp-icon", alt:t("ui.dashboard.agent.guidance.icon"))
+          = inline_svg_tag("gif.svg", class:"resp-icon", alt:t("ui.dashboard.agent.guidance.icon"))

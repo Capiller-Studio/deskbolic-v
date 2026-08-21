@@ -1,13 +1,17 @@
 .team id="conversation-team-#{conversation.id}"
-  p.f-semi-14 = t("dashboard.conversation_details.team")
   .card.team-info
-    button.accordian data-action="click->accordion#toggle"
+    button.accordian type="button" data-action="click->accordion#toggle" aria-expanded="false"
       - if assigned_team
-        = inline_svg_tag("users.svg", class: "team-card-icon")
-        p.f-reg-14 = assigned_team.name
+        .team-card-icon.avatar-fallback class=avatar_fallback_color_class(assigned_team.name)
+          = assigned_team.name.to_s.split.filter_map { |word| word.first }.first(2).join.upcase
+        span.assignment-copy
+          strong = assigned_team.name
+          small = t("dashboard.conversation_details.team")
       - else
-        = inline_svg_tag("users.svg", class: "team-card-icon")
-        p.f-reg-14 = t("dashboard.users.form.assign")
+        .team-card-icon.avatar-fallback class=avatar_fallback_color_class(t("dashboard.conversation_details.team")) T
+        span.assignment-copy
+          strong = t("dashboard.users.form.assign")
+          small = t("dashboard.conversation_details.team")
       = inline_svg_tag("arrow_down.svg", class: "arrow-icon ml-auto")
 
     .panel data-accordion-target="panel"

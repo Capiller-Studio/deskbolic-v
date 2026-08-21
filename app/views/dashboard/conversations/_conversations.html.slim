@@ -1,60 +1,55 @@
-.inbox-section.center-wrapper
-  .inbox-container data-controller="toggler"
-    .inbox-nav
-      .card
-        .f-semi-24 = t('dashboard.conversations.title')
-        = form_with url: conversations_path, method: :get, local: true, class: "search-bar" do
-          = hidden_field_tag :resource_id, @inbox&.id
-          = hidden_field_tag :filter, @filter if @filter.present?
-          = inline_svg_tag("search.svg", class: "search-icon", alt: "")
-          = text_field_tag :q, @query, class: "conversation-search-input f-reg-14", placeholder: t("dashboard.conversations.search"), aria: { label: t("dashboard.conversations.search") }, autocomplete: "off", oninput: "clearTimeout(this._timer); this._timer=setTimeout(()=>Turbo.visit(this.form.action+'?'+new URLSearchParams(new FormData(this.form)).toString(),{action:'replace'}),300)"
-          - if @query.present?
-            = link_to conversations_path(resource_id: @inbox&.id, filter: @filter.presence), class: "conversation-search-clear", title: t("dashboard.conversations.search") do
-              = image_tag("cross_clear.svg", alt: t("dashboard.conversations.search"), class: "conversation-search-clear-icon")
+- selected_scope = conversation_list_scope(inbox: @inbox, team_id: @team_id, teams: @teams, assignee_id: @assignee_id, account: current_account, filter: @filter)
+- list_title = selected_scope.presence || t('dashboard.sidebar.channels.all_conversations', default: 'All conversations')
+- list_total = @list_counts&.dig(@filter&.to_sym || :all) || @conversations.size
+- scope_description = @inbox ? t('dashboard.conversations.in_inbox', default: 'Conversations in this inbox') : t('dashboard.conversations.across_inboxes', default: 'Everything across every inbox')
+- filter_items = conversation_filter_items(@list_counts)
 
-        = turbo_frame_tag "conversations-list-frame" do
-          = form_with url: conversations_path, method: :get, html: { id: "conversations-filter-form", data: { turbo_frame: "conversations-list-frame", turbo_action: "advance" } } do
-            = hidden_field_tag "resource_id", @inbox&.id
-            = hidden_field_tag "q", @query if @query.present?
-            .filter-tabs
-              = button_tag t('dashboard.conversations.filter_all'), type: "submit", name: "filter", value: "", form: "conversations-filter-form", class: "filter-tab #{@filter.blank? ? 'active' : ''}"
-              = button_tag t('dashboard.conversations.filter_assigned'), type: "submit", name: "filter", value: "assigned", form: "conversations-filter-form", class: "filter-tab #{@filter == 'assigned' ? 'active' : ''}"
-              = button_tag t('dashboard.conversations.filter_unassigned'), type: "submit", name: "filter", value: "unassigned", form: "conversations-filter-form", class: "filter-tab #{@filter == 'unassigned' ? 'active' : ''}"
-          ul data-toggler-target="conversation hide"
-            .inbox-nav-menu#conversations-list
-              - if @conversations.empty?
-                .empty-state style="text-align: center; padding: 40px 20px; color: #6B7280; display: flex; flex-direction: column; align-items: center;"
-                  svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom: 12px; color: #9CA3AF;"
-                    circle cx="11" cy="11" r="8"
-                    line x1="21" y1="21" x2="16.65" y2="16.65"
-                  p.f-reg-14 = t('dashboard.conversations.no_results', default: "No conversations found")
-              - else
-                - @conversations.each do |conversation|
-                  - customer = conversation.customers.first
-                  - conversation_url = conversation_path(conversation.id, filter: @filter.presence, q: @query.presence)
-                  li.nav-item id=dom_id(conversation) class="#{@conversation&.id == conversation.id ? 'inbox-nav-active' : ''}"
-                    - if customer&.avatar&.attached?
-                      = image_tag(customer.avatar, class:"user-img", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-                    - else
-                      .user-img.avatar-fallback.customer-list-initials-avatar.f-reg-12 class=avatar_fallback_color_class(full_name(customer))
-                        = initials(customer)
-                    .nav-link.link data-target-id="conversations-frame" data-controller="section" data-action="click->section#toggleSection" data-url="#{conversation_url}"
-                      - conversation.customers.each do |customer|
-                        h4.f-semi-14 = full_name(customer)
-                        p.f-reg-12 id="conversation-#{conversation.id}-preview" = conversation.last_message_preview
-                    .actions
-                      - unread_count = @unread_counts && @unread_counts[:conversations] ? @unread_counts[:conversations][conversation.id].to_i : 0
-                      .unread-badge data-controller="unread-badge" data-action="deskbolic:unread-counts-updated@window->unread-badge#update" data-unread-badge-target="badge" data-unread-badge-id-value=conversation.id data-unread-badge-type-value="conversation" style="background: var(--primary-500, #4F46E5); color: white; border-radius: 12px; align-items: center; justify-content: center; display: #{unread_count > 0 ? 'flex' : 'none'}; width: 16px; height: 16px;"
-                        p.f-semi-12 style="color: white; font-size: 8px;" = unread_count
-                      / = inline_svg_tag("menu.svg", class:"menu-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-                      / = inline_svg_tag("close.svg", class:"close-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-                      p.f-reg-10 style="margin-top: auto;" id="conversation-#{conversation.id}-date" = conversation.messages.order(:created_at).last&.created_at&.strftime("%d %b")
-              
-              - if @pagy_conversations&.next
-                turbo-frame.inbox-nav-menu id="conversations-page-#{@pagy_conversations.next}" src=conversations_path(page: @pagy_conversations.next, resource_id: @inbox&.id, filter: @filter, q: @query.presence) loading="lazy"
-                  .loading-spinner style="text-align: center; padding: 20px; color: #9CA3AF;"
-                    p.f-reg-14 Loading more conversations...
+.inbox-section.center-wrapper.conversations-workspace
+  .inbox-container
+    aside.inbox-nav.conversation-list-pane
+      .conversation-list-header
+        .conversation-list-heading
+          h1 = list_title
+          p
+            span = "#{@conversations.size} of #{list_total}"
+            |  · #{scope_description}
+      = form_with url: conversations_path, method: :get, local: true, class: 'conversation-search' do
+        = hidden_field_tag :resource_id, @inbox&.id
+        = hidden_field_tag :team_id, @team_id if @team_id.present?
+        = hidden_field_tag :assignee_id, @assignee_id if @assignee_id.present?
+        = hidden_field_tag :filter, @filter if @filter.present?
+        = inline_svg_tag('search.svg', class: 'conversation-search-icon', aria: { hidden: true })
+        = text_field_tag :q, @query, class: 'conversation-search-input', placeholder: t('dashboard.conversations.search_full', default: 'Search name, message or ticket'), aria: { label: t('dashboard.conversations.search') }, autocomplete: 'off', oninput: "clearTimeout(this._timer); this._timer=setTimeout(()=>Turbo.visit(this.form.action+'?'+new URLSearchParams(new FormData(this.form)).toString(),{action:'replace'}),300)"
+        - if @query.present?
+          = link_to conversations_path(resource_id: @inbox&.id, team_id: @team_id, assignee_id: @assignee_id, filter: @filter), class: 'conversation-search-clear', title: t('dashboard.conversations.search') do
+            = image_tag('cross_clear.svg', alt: '', class: 'conversation-search-clear-icon')
 
-    .inbox-body 
+      nav.conversation-filter-tabs aria-label=t('dashboard.conversations.filters', default: 'Conversation filters')
+        - filter_items.each do |item|
+          button.conversation-filter-tab type="button" class=(@filter.to_s == item[:key].to_s ? 'is-active' : '') data-controller="section" data-action="click->section#toggleSection" data-url=conversations_path(resource_id: @inbox&.id, team_id: @team_id, assignee_id: @assignee_id, filter: item[:key].presence, q: @query.presence)
+            span = item[:label]
+            small = item[:count]
+
+      .conversation-list-scroll data-controller="toggler"
+        #conversations-list
+          - if @conversations.empty?
+            .conversation-list-empty
+              = image_tag('dashboard_empty_conversations.png', alt: '')
+              h2 = t('dashboard.conversations.no_conversations_yet', default: 'No conversations yet')
+              p = t('dashboard.conversations.no_conversations_description', default: 'When someone sends you a message, your conversations will appear here.')
+          - else
+            - @conversations.each do |conversation|
+              = render 'dashboard/conversations/conversation', conversation: conversation
+
+          - if @pagy_conversations&.next
+            turbo-frame id="conversations-page-#{@pagy_conversations.next}" src=conversations_path(page: @pagy_conversations.next, resource_id: @inbox&.id, team_id: @team_id, assignee_id: @assignee_id, filter: @filter, q: @query.presence) loading="lazy"
+              .conversation-list-loading = t('dashboard.conversations.loading_more', default: 'Loading more conversations…')
+
+    main.inbox-body.conversation-content-pane
       turbo-frame#messages-frame
-      == yield
+        == yield
+        - unless @conversation
+          .conversation-selection-empty
+            = image_tag('dashboard_no_conversation_selected.png', alt: '')
+            h2 = t('dashboard.conversations.no_selection', default: 'No conversation selected')
+            p = t('dashboard.conversations.no_selection_description', default: 'Choose a conversation from the list to view messages and details here.')

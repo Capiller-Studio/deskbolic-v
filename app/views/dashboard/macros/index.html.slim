@@ -1,88 +1,88 @@
-= render("dashboard/shared/dashboard_container", current_page: "settings") do
-  = render("dashboard/settings/settings_sidebar", current_page: "macros") do
-    .ui-settings-page.ui-labels-page.ui-macros-page
-      header.ui-settings-page__header
-        .ui-settings-page__heading
-          h1 = t("dashboard.macros.index.title")
-          p = t("dashboard.macros.index.page_description", default: "Organize and categorize conversations with Macros.")
+/ = render("dashboard/shared/dashboard_container", current_page: "settings") do
+= render("dashboard/settings/settings_sidebar", current_page: "macros") do
+  .ui-settings-page.ui-labels-page.ui-macros-page
+    header.ui-settings-page__header
+      .ui-settings-page__heading
+        h1 = t("dashboard.macros.index.title")
+        p = t("dashboard.macros.index.page_description", default: "Organize and categorize conversations with Macros.")
 
-        = link_to new_macro_path, class: "ui-settings-page__action" do
-          span = t("dashboard.macros.index.add_macro", default: "Add Macro")
-          = inline_svg_tag("plus_white.svg", class: "ui-settings-page__action-icon", aria: { hidden: true })
+      = link_to new_macro_path, class: "ui-settings-page__action" do
+        span = t("dashboard.macros.index.add_macro", default: "Add Macro")
+        = inline_svg_tag("plus_white.svg", class: "ui-settings-page__action-icon", aria: { hidden: true })
 
-      main.ui-settings-page__content
-        section.ui-panel.ui-labels-panel aria-labelledby="macros-table-title"
-          h2#macros-table-title.ui-sr-only = t("dashboard.macros.index.title")
+    main.ui-settings-page__content
+      section.ui-panel.ui-labels-panel aria-labelledby="macros-table-title"
+        h2#macros-table-title.ui-sr-only = t("dashboard.macros.index.title")
 
-          .ui-table-wrap.ui-table-wrap--labels
-            table.ui-table.ui-table--labels.ui-table--macros
-              colgroup
-                col.ui-table__macro-column
-                col.ui-table__macro-description-column
-                col.ui-table__macro-actions-column
-              thead
+        .ui-table-wrap.ui-table-wrap--labels
+          table.ui-table.ui-table--labels.ui-table--macros
+            colgroup
+              col.ui-table__macro-column
+              col.ui-table__macro-description-column
+              col.ui-table__macro-actions-column
+            thead
+              tr
+                th = t("dashboard.macros.index.action", default: "Action")
+                th = t("dashboard.macros.index.description_heading", default: "Description")
+                th.ui-table__actions-heading = t("dashboard.macros.index.actions", default: "Actions")
+            tbody
+              - if @macros.empty?
                 tr
-                  th = t("dashboard.macros.index.action", default: "Action")
-                  th = t("dashboard.macros.index.description_heading", default: "Description")
-                  th.ui-table__actions-heading = t("dashboard.macros.index.actions", default: "Actions")
-              tbody
-                - if @macros.empty?
-                  tr
-                    td.ui-table__empty colspan="3"
-                      = t("dashboard.macros.index.empty_description")
+                  td.ui-table__empty colspan="3"
+                    = t("dashboard.macros.index.empty_description")
+              - else
+                - @macros.each do |macro|
+                  - primary_action = Array(macro.actions).first || {}
+                  - action_type = (primary_action["action"] || primary_action[:action] || primary_action["type"] || primary_action[:type]).to_s
+                  - icon_kind = action_type.match?(/email|message|note/) ? "email" : (action_type.match?(/label/) ? "label" : (action_type.match?(/assign/) ? "agent" : "default"))
+                  - icon_name = { "email" => "mail.svg", "label" => "tag.svg", "agent" => "users.svg", "default" => "star_plus.svg" }.fetch(icon_kind)
+                  tr id="macro_#{macro.id}"
+                    td
+                      .ui-macro-identity
+                        span class="ui-macro-identity__icon ui-macro-identity__icon--#{icon_kind}" aria-hidden="true"
+                          = inline_svg_tag(icon_name)
+                        strong.ui-macro-identity__title = macro.name
+                    td.ui-table__muted
+                      = macro.description.presence || t("ui.dashboard.macros.index.action_s", count: macro.actions&.length || 0)
+                    td
+                      .ui-table-actions
+                        = link_to edit_macro_path(macro), class: "ui-icon-button", aria: { label: t("dashboard.macros.index.edit") }, title: t("dashboard.macros.index.edit") do
+                          = image_tag("pencil.svg", alt: "", aria: { hidden: true })
+                        - unless macro.system_provided?
+                          = button_to macro_path(macro), method: :delete, form: { class: "ui-label-action-form" }, class: "ui-icon-button ui-label-delete-button", data: { turbo_confirm: t("dashboard.macros.index.delete_confirm") }, aria: { label: t("dashboard.macros.index.delete") }, title: t("dashboard.macros.index.delete") do
+                            = image_tag("delete.svg", alt: "", aria: { hidden: true })
+
+        - if @macros.any?
+          footer.ui-pagination.ui-pagination--large.ui-labels-pagination
+            p.ui-pagination__summary
+              = t("dashboard.macros.index.showing", default: "Showing %{from} to %{to} of %{count} macros", from: @pagy.from, to: @pagy.to, count: @pagy.count)
+
+            .ui-pagination__end
+              = form_with url: macros_path, method: :get, class: "ui-rows-per-page" do
+                = hidden_field_tag :scope, params[:scope]
+                label for="macro-rows-per-page" = t("dashboard.macros.index.rows_per_page", default: "Rows per page")
+                .ui-settings-form
+                  .ui-field-control.ui-field-control--compact.ui-field-control--no-icon.ui-field-control--rows
+                    = select_tag :per_page,
+                      options_for_select([10, 20, 50], @per_page),
+                      id: "macro-rows-per-page",
+                      class: "ui-select ui-control",
+                      data: { controller: "select" },
+                      onchange: "this.form.requestSubmit()"
+
+              nav.ui-pagination__controls aria-label=t("dashboard.macros.index.pagination", default: "Macro pagination")
+                - if @pagy.prev
+                  = link_to macros_path(request.query_parameters.merge(page: @pagy.prev)), class: "ui-pagination__button", aria: { label: t("dashboard.macros.index.previous_page", default: "Previous page") }
+                    = image_tag("audit_logs/audit-previous.svg", alt: "", aria: { hidden: true })
                 - else
-                  - @macros.each do |macro|
-                    - primary_action = Array(macro.actions).first || {}
-                    - action_type = (primary_action["action"] || primary_action[:action] || primary_action["type"] || primary_action[:type]).to_s
-                    - icon_kind = action_type.match?(/email|message|note/) ? "email" : (action_type.match?(/label/) ? "label" : (action_type.match?(/assign/) ? "agent" : "default"))
-                    - icon_name = { "email" => "mail.svg", "label" => "tag.svg", "agent" => "users.svg", "default" => "star_plus.svg" }.fetch(icon_kind)
-                    tr id="macro_#{macro.id}"
-                      td
-                        .ui-macro-identity
-                          span class="ui-macro-identity__icon ui-macro-identity__icon--#{icon_kind}" aria-hidden="true"
-                            = inline_svg_tag(icon_name)
-                          strong.ui-macro-identity__title = macro.name
-                      td.ui-table__muted
-                        = macro.description.presence || t("ui.dashboard.macros.index.action_s", count: macro.actions&.length || 0)
-                      td
-                        .ui-table-actions
-                          = link_to edit_macro_path(macro), class: "ui-icon-button", aria: { label: t("dashboard.macros.index.edit") }, title: t("dashboard.macros.index.edit") do
-                            = image_tag("pencil.svg", alt: "", aria: { hidden: true })
-                          - unless macro.system_provided?
-                            = button_to macro_path(macro), method: :delete, form: { class: "ui-label-action-form" }, class: "ui-icon-button ui-label-delete-button", data: { turbo_confirm: t("dashboard.macros.index.delete_confirm") }, aria: { label: t("dashboard.macros.index.delete") }, title: t("dashboard.macros.index.delete") do
-                              = image_tag("delete.svg", alt: "", aria: { hidden: true })
+                  span.ui-pagination__button.ui-pagination__button--disabled aria-hidden="true"
+                    = image_tag("audit_logs/audit-previous.svg", alt: "")
 
-          - if @macros.any?
-            footer.ui-pagination.ui-pagination--large.ui-labels-pagination
-              p.ui-pagination__summary
-                = t("dashboard.macros.index.showing", default: "Showing %{from} to %{to} of %{count} macros", from: @pagy.from, to: @pagy.to, count: @pagy.count)
+                span.ui-pagination__button.ui-pagination__button--active aria-current="page" = @pagy.page
 
-              .ui-pagination__end
-                = form_with url: macros_path, method: :get, class: "ui-rows-per-page" do
-                  = hidden_field_tag :scope, params[:scope]
-                  label for="macro-rows-per-page" = t("dashboard.macros.index.rows_per_page", default: "Rows per page")
-                  .ui-settings-form
-                    .ui-field-control.ui-field-control--compact.ui-field-control--no-icon.ui-field-control--rows
-                      = select_tag :per_page,
-                        options_for_select([10, 20, 50], @per_page),
-                        id: "macro-rows-per-page",
-                        class: "ui-select ui-control",
-                        data: { controller: "select" },
-                        onchange: "this.form.requestSubmit()"
-
-                nav.ui-pagination__controls aria-label=t("dashboard.macros.index.pagination", default: "Macro pagination")
-                  - if @pagy.prev
-                    = link_to macros_path(request.query_parameters.merge(page: @pagy.prev)), class: "ui-pagination__button", aria: { label: t("dashboard.macros.index.previous_page", default: "Previous page") }
-                      = image_tag("audit_logs/audit-previous.svg", alt: "", aria: { hidden: true })
-                  - else
-                    span.ui-pagination__button.ui-pagination__button--disabled aria-hidden="true"
-                      = image_tag("audit_logs/audit-previous.svg", alt: "")
-
-                  span.ui-pagination__button.ui-pagination__button--active aria-current="page" = @pagy.page
-
-                  - if @pagy.next
-                    = link_to macros_path(request.query_parameters.merge(page: @pagy.next)), class: "ui-pagination__button", aria: { label: t("dashboard.macros.index.next_page", default: "Next page") }
-                      = image_tag("audit_logs/audit-next.svg", alt: "", aria: { hidden: true })
-                  - else
-                    span.ui-pagination__button.ui-pagination__button--disabled aria-hidden="true"
-                      = image_tag("audit_logs/audit-next.svg", alt: "")
+                - if @pagy.next
+                  = link_to macros_path(request.query_parameters.merge(page: @pagy.next)), class: "ui-pagination__button", aria: { label: t("dashboard.macros.index.next_page", default: "Next page") }
+                    = image_tag("audit_logs/audit-next.svg", alt: "", aria: { hidden: true })
+                - else
+                  span.ui-pagination__button.ui-pagination__button--disabled aria-hidden="true"
+                    = image_tag("audit_logs/audit-next.svg", alt: "")

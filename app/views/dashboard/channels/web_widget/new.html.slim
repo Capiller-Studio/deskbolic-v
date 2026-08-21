@@ -1,26 +1,26 @@
-= render("dashboard/shared/dashboard_container", current_page: "settings") do
-  = render("dashboard/settings/settings_sidebar", current_page: "web-widget-channels") do
-    .channel-edit.channel-theme-web-widget
-      header.channel-edit__header
-        .channel-edit__header-main
-          = link_to channels_web_widget_index_path, class: "channel-edit__back", aria: { label: t("dashboard.web_widget_channels.form.back") } do
-            = inline_svg_tag("back_arrow.svg", aria: { hidden: true })
-          .channel-edit__heading
-            h1 = t("dashboard.web_widget_channels.new.title")
-            p = t("dashboard.web_widget_channels.new.subtitle", default: "Create a new web widget for your website.")
+/ = render("dashboard/shared/dashboard_container", current_page: "settings") do
+= render("dashboard/settings/settings_sidebar", current_page: "web-widget-channels") do
+  .channel-edit.channel-theme-web-widget
+    header.channel-edit__header
+      .channel-edit__header-main
+        = link_to channels_web_widget_index_path, class: "channel-edit__back", aria: { label: t("dashboard.web_widget_channels.form.back") } do
+          = inline_svg_tag("back_arrow.svg", aria: { hidden: true })
+        .channel-edit__heading
+          h1 = t("dashboard.web_widget_channels.new.title")
+          p = t("dashboard.web_widget_channels.new.subtitle", default: "Create a new web widget for your website.")
 
-        .channel-edit__header-actions
-          = link_to t("dashboard.web_widget_channels.form.cancel"), channels_web_widget_index_path, class: "channel-edit__button channel-edit__button--secondary"
-          button.channel-edit__button.channel-edit__button--primary type="submit" form="web-widget-channel-form"
-            = inline_svg_tag("ai_agents/new_agent_check.svg", aria: { hidden: true })
-            span = t("dashboard.web_widget_channels.form.save")
+      .channel-edit__header-actions
+        = link_to t("dashboard.web_widget_channels.form.cancel"), channels_web_widget_index_path, class: "channel-edit__button channel-edit__button--secondary"
+        button.channel-edit__button.channel-edit__button--primary type="submit" form="web-widget-channel-form"
+          = inline_svg_tag("ai_agents/new_agent_check.svg", aria: { hidden: true })
+          span = t("dashboard.web_widget_channels.form.save")
 
-      .channel-edit__viewport
-        .ww-page-body
-          .ww-form-layout
-            .ww-form-main
-              .ww-form-wrapper
-                = render "form", web_widget_channel: @web_widget_channel
+    .channel-edit__viewport
+      .ww-page-body
+        .ww-form-layout
+          .ww-form-main
+            .ww-form-wrapper
+              = render "form", web_widget_channel: @web_widget_channel
 
-            .ww-preview-section
-              = render "preview", web_widget_channel: @web_widget_channel
+          .ww-preview-section
+            = render "preview", web_widget_channel: @web_widget_channel

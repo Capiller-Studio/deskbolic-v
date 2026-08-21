@@ -3,231 +3,231 @@
 - overview_items = [{ icon: "flag.svg", label: t("dashboard.channels.edit.channel_name", default: "Channel Name"), value: channel_name }, { icon_text: "#", label: t("dashboard.channels.edit.identifier", default: "Identifier"), value: @custom_channel.identifier }]
 - overview_meta = { icon: "clock.svg", label: t("dashboard.channels.edit.created", default: "Created"), value: t("dashboard.channels.edit.created_ago", time: time_ago_in_words(@custom_channel.created_at), default: "About %{time} ago") }
 
-= render("dashboard/shared/dashboard_container", current_page: "settings") do
-  = render("dashboard/settings/settings_sidebar", current_page: "custom-channels") do
-    .channel-edit.channel-theme-custom
-      header.channel-edit__header
-        .channel-edit__header-main
-          = link_to channels_custom_index_path, class: "channel-edit__back", aria: { label: t("dashboard.custom_channels.edit.back") } do
-            = inline_svg_tag("back_arrow.svg", aria: { hidden: true })
-          .channel-edit__heading
-            h1 = t("dashboard.channels.edit.custom_title", default: "Edit Custom Channel")
-            p = t("dashboard.channels.edit.custom_description", default: "Update your custom channel connection and settings.")
+/ = render("dashboard/shared/dashboard_container", current_page: "settings") do
+= render("dashboard/settings/settings_sidebar", current_page: "custom-channels") do
+  .channel-edit.channel-theme-custom
+    header.channel-edit__header
+      .channel-edit__header-main
+        = link_to channels_custom_index_path, class: "channel-edit__back", aria: { label: t("dashboard.custom_channels.edit.back") } do
+          = inline_svg_tag("back_arrow.svg", aria: { hidden: true })
+        .channel-edit__heading
+          h1 = t("dashboard.channels.edit.custom_title", default: "Edit Custom Channel")
+          p = t("dashboard.channels.edit.custom_description", default: "Update your custom channel connection and settings.")
 
-        .channel-edit__header-actions
-          = link_to t("general.cancel"), channels_custom_index_path, class: "channel-edit__button channel-edit__button--secondary"
-          button.channel-edit__button.channel-edit__button--primary type="submit" form="custom-channel-edit-form"
-            = inline_svg_tag("ai_agents/new_agent_check.svg", aria: { hidden: true })
-            span = t("dashboard.channels.edit.save_changes", default: "Save Changes")
+      .channel-edit__header-actions
+        = link_to t("general.cancel"), channels_custom_index_path, class: "channel-edit__button channel-edit__button--secondary"
+        button.channel-edit__button.channel-edit__button--primary type="submit" form="custom-channel-edit-form"
+          = inline_svg_tag("ai_agents/new_agent_check.svg", aria: { hidden: true })
+          span = t("dashboard.channels.edit.save_changes", default: "Save Changes")
 
-      .channel-edit__viewport
-        .channel-edit__layout
-          = form_with model: @custom_channel, url: channels_custom_path(id: @custom_channel.id), method: :patch, id: "custom-channel-edit-form", class: "channel-edit__form ui-settings-form", data: { controller: "key-value-builder" } do |f|
-            - if @custom_channel.errors.any?
-              .channel-edit__errors role="alert"
-                p = @custom_channel.errors.full_messages.to_sentence
+    .channel-edit__viewport
+      .channel-edit__layout
+        = form_with model: @custom_channel, url: channels_custom_path(id: @custom_channel.id), method: :patch, id: "custom-channel-edit-form", class: "channel-edit__form ui-settings-form", data: { controller: "key-value-builder" } do |f|
+          - if @custom_channel.errors.any?
+            .channel-edit__errors role="alert"
+              p = @custom_channel.errors.full_messages.to_sentence
 
-            section.channel-edit-profile.channel-edit-card
-              .channel-edit-profile__body
-                .channel-edit-profile__identity
-                  .channel-edit-profile__avatar.channel-edit-profile__avatar--fallback
-                    = inline_svg_tag("custom_ch.svg", aria: { hidden: true })
-                  .channel-edit-profile__copy
-                    .channel-edit-profile__title
-                      h2 = channel_name
-                      span.channel-edit-profile__type = t("dashboard.channels.edit.custom_badge", default: "Custom")
-                    p = @custom_channel.identifier
+          section.channel-edit-profile.channel-edit-card
+            .channel-edit-profile__body
+              .channel-edit-profile__identity
+                .channel-edit-profile__avatar.channel-edit-profile__avatar--fallback
+                  = inline_svg_tag("custom_ch.svg", aria: { hidden: true })
+                .channel-edit-profile__copy
+                  .channel-edit-profile__title
+                    h2 = channel_name
+                    span.channel-edit-profile__type = t("dashboard.channels.edit.custom_badge", default: "Custom")
+                  p = @custom_channel.identifier
 
-                = inline_svg_tag("menu.svg", class: "channel-edit-profile__menu", aria: { hidden: true })
+              = inline_svg_tag("menu.svg", class: "channel-edit-profile__menu", aria: { hidden: true })
 
-              .channel-edit-profile__footer
-                .channel-edit-profile__created
-                  = inline_svg_tag("clock.svg", aria: { hidden: true })
-                  span = t("dashboard.custom_channels.index.created_ago", time: time_ago_in_words(@custom_channel.created_at))
-                .channel-edit-profile__status class=(connected ? "channel-edit-profile__status--connected" : "channel-edit-profile__status--disconnected")
-                  span aria-hidden="true"
-                  = connected ? t("dashboard.channels.edit.active", default: "Active") : t("dashboard.custom_channels.index.status_disconnected")
+            .channel-edit-profile__footer
+              .channel-edit-profile__created
+                = inline_svg_tag("clock.svg", aria: { hidden: true })
+                span = t("dashboard.custom_channels.index.created_ago", time: time_ago_in_words(@custom_channel.created_at))
+              .channel-edit-profile__status class=(connected ? "channel-edit-profile__status--connected" : "channel-edit-profile__status--disconnected")
+                span aria-hidden="true"
+                = connected ? t("dashboard.channels.edit.active", default: "Active") : t("dashboard.custom_channels.index.status_disconnected")
 
-            section.channel-edit-section.channel-edit-card
-              .channel-edit-section__heading
-                .channel-edit-section__icon
-                  = inline_svg_tag("info.svg", aria: { hidden: true })
-                h2 = t("dashboard.channels.edit.channel_information", default: "Channel Information")
-              .channel-edit-section__body
-                .channel-edit-field
-                  = f.label :name, t("dashboard.channels.edit.channel_name", default: "Channel Name")
-                  = f.text_field :name, required: true
+          section.channel-edit-section.channel-edit-card
+            .channel-edit-section__heading
+              .channel-edit-section__icon
+                = inline_svg_tag("info.svg", aria: { hidden: true })
+              h2 = t("dashboard.channels.edit.channel_information", default: "Channel Information")
+            .channel-edit-section__body
+              .channel-edit-field
+                = f.label :name, t("dashboard.channels.edit.channel_name", default: "Channel Name")
+                = f.text_field :name, required: true
 
-                .channel-edit-field.channel-edit-field--stacked
-                  = f.label :description, t("dashboard.custom_channels.form.description")
-                  = f.text_area :description, rows: 3
+              .channel-edit-field.channel-edit-field--stacked
+                = f.label :description, t("dashboard.custom_channels.form.description")
+                = f.text_area :description, rows: 3
 
-            - if @custom_channel.primary_inbox
-              = f.fields_for :primary_inbox, @custom_channel.primary_inbox do |inbox|
-                = inbox.hidden_field :id
+          - if @custom_channel.primary_inbox
+            = f.fields_for :primary_inbox, @custom_channel.primary_inbox do |inbox|
+              = inbox.hidden_field :id
 
-                section.channel-edit-section.channel-edit-card
-                  .channel-edit-section__heading
-                    .channel-edit-section__icon
-                      = inline_svg_tag("envelope.svg", aria: { hidden: true })
-                    h2 = t("dashboard.custom_channels.form.inbox_settings")
-                  .channel-edit-section__body
-                    .channel-edit-toggle-row
-                      label.channel-edit-toggle
-                        = inbox.check_box :csat_survey_enabled
-                        span.channel-edit-toggle__track aria-hidden="true"
-                      .channel-edit-toggle-row__copy
-                        = inbox.label :csat_survey_enabled, t("dashboard.custom_channels.form.enable_csat", default: "Enable CSAT survey after conversations")
-                        p = t("dashboard.channels.edit.csat_hint", default: "Show CSAT survey to customers after conversations are resolved.")
+              section.channel-edit-section.channel-edit-card
+                .channel-edit-section__heading
+                  .channel-edit-section__icon
+                    = inline_svg_tag("envelope.svg", aria: { hidden: true })
+                  h2 = t("dashboard.custom_channels.form.inbox_settings")
+                .channel-edit-section__body
+                  .channel-edit-toggle-row
+                    label.channel-edit-toggle
+                      = inbox.check_box :csat_survey_enabled
+                      span.channel-edit-toggle__track aria-hidden="true"
+                    .channel-edit-toggle-row__copy
+                      = inbox.label :csat_survey_enabled, t("dashboard.custom_channels.form.enable_csat", default: "Enable CSAT survey after conversations")
+                      p = t("dashboard.channels.edit.csat_hint", default: "Show CSAT survey to customers after conversations are resolved.")
 
-                    .channel-edit-fields-grid.channel-edit-fields-grid--selects
-                      .channel-edit-field
-                        = inbox.label :csat_survey_id, t("dashboard.custom_channels.form.csat_survey", default: "Select CSAT Survey")
-                        .channel-edit-select.ui-field-control.ui-field-control--no-icon
-                          = inbox.collection_select :csat_survey_id, current_account.csat_surveys, :id, :name, { include_blank: t("dashboard.custom_channels.form.csat_default") }, { class: "ui-select ui-control", data: { controller: "select" } }
-
-                      .channel-edit-field
-                        = inbox.label :conversation_reply_template_id, t("forms.labels.custom_reply_template")
-                        .channel-edit-select.ui-field-control.ui-field-control--no-icon
-                          = inbox.collection_select :conversation_reply_template_id, current_account.email_templates, :id, :name, { include_blank: t("forms.options.default_email_view") }, { class: "ui-select ui-control", data: { controller: "select" } }
-
-                section.channel-edit-section.channel-edit-card
-                  .channel-edit-section__heading.channel-edit-section__heading--with-description
-                    .channel-edit-section__icon
-                      = inline_svg_tag("code_snipet.svg", aria: { hidden: true })
-                    .channel-edit-section__heading-copy
-                      h2 = t("dashboard.channels.edit.integration_details", default: "Integration Details")
-                  .channel-edit-section__body
-                    .channel-edit-copy-list
-                      .channel-edit-copy data-controller="clipboard"
-                        label = t("dashboard.custom_channels.form.webhook_url")
-                        .channel-edit-copy__control
-                          input type="text" value=@custom_channel.webhook_endpoint readonly=true data-clipboard-target="source"
-                          button.channel-edit-copy__button.channel-edit-copy__button--compact type="button" data-action="click->clipboard#copy" data-clipboard-target="button"
-                            = inline_svg_tag("copy.svg", aria: { hidden: true })
-                            span = t("general.copy")
-
-                      .channel-edit-copy data-controller="clipboard"
-                        label = t("dashboard.channels.edit.verify_token", default: "Verify Token")
-                        .channel-edit-copy__control
-                          input type="text" value=@custom_channel.hmac_token readonly=true data-clipboard-target="source"
-                          button.channel-edit-copy__button.channel-edit-copy__button--compact type="button" data-action="click->clipboard#copy" data-clipboard-target="button"
-                            = inline_svg_tag("copy.svg", aria: { hidden: true })
-                            span = t("general.copy")
-
-                section.channel-edit-section.channel-edit-card
-                  .channel-edit-section__heading.channel-edit-section__heading--with-description
-                    .channel-edit-section__icon
-                      = inline_svg_tag("clock.svg", aria: { hidden: true })
-                    .channel-edit-section__heading-copy
-                      h2 = t("forms.labels.business_hours")
-                      p = t("dashboard.channels.edit.business_hours_hint", default: "Define when you are available to respond.")
-                  .channel-edit-section__body
-                    .channel-edit-field.channel-edit-field--select
-                      = inbox.label :business_hour_group_id, t("forms.options.always_online_24_7")
+                  .channel-edit-fields-grid.channel-edit-fields-grid--selects
+                    .channel-edit-field
+                      = inbox.label :csat_survey_id, t("dashboard.custom_channels.form.csat_survey", default: "Select CSAT Survey")
                       .channel-edit-select.ui-field-control.ui-field-control--no-icon
-                        = inbox.collection_select :business_hour_group_id, current_account.business_hour_groups, :id, :name, { include_blank: t("dashboard.channels.edit.always_available", default: "Your team is available 24/7") }, { class: "ui-select ui-control", data: { controller: "select" } }
+                        = inbox.collection_select :csat_survey_id, current_account.csat_surveys, :id, :name, { include_blank: t("dashboard.custom_channels.form.csat_default") }, { class: "ui-select ui-control", data: { controller: "select" } }
 
-                section.channel-edit-section.channel-edit-card
-                  .channel-edit-section__heading.channel-edit-section__heading--with-description
-                    .channel-edit-section__icon
-                      = inline_svg_tag("reports-sla.svg", aria: { hidden: true })
-                    .channel-edit-section__heading-copy
-                      h2 = t("forms.labels.sla_policies")
-                      p = t("dashboard.channels.edit.sla_hint", default: "Choose the SLA policy for this channel.")
-                  .channel-edit-section__body
-                    .channel-edit-field.channel-edit-field--select
+                    .channel-edit-field
+                      = inbox.label :conversation_reply_template_id, t("forms.labels.custom_reply_template")
                       .channel-edit-select.ui-field-control.ui-field-control--no-icon
-                        = select_tag "#{inbox.object_name}[sla_policy_ids][]", options_from_collection_for_select(current_account.sla_policies, :id, :name, inbox.object.sla_policy_ids.first), include_blank: t("dashboard.channels.edit.none_selected", default: "None Selected"), class: "ui-select ui-control", data: { controller: "select" }
+                        = inbox.collection_select :conversation_reply_template_id, current_account.email_templates, :id, :name, { include_blank: t("forms.options.default_email_view") }, { class: "ui-select ui-control", data: { controller: "select" } }
 
-            section#webhook-settings.channel-edit-section.channel-edit-card.channel-edit-kv-section data-key-value-builder-section=true
-              .channel-edit-section__heading.channel-edit-section__heading--with-description
-                .channel-edit-section__icon
-                  = inline_svg_tag("code_snipet.svg", aria: { hidden: true })
-                .channel-edit-section__heading-copy
-                  h2 = t("dashboard.channels.edit.webhook_settings", default: "Webhook Settings")
-                  p = t("dashboard.custom_channels.form.outbound_desc")
-              .channel-edit-section__body
-                .channel-edit-field
-                  = f.label :webhook_url, t("dashboard.custom_channels.form.webhook_url")
-                  = f.url_field :webhook_url, required: true, placeholder: "https://api.example.com/webhooks/deskbolic"
+              section.channel-edit-section.channel-edit-card
+                .channel-edit-section__heading.channel-edit-section__heading--with-description
+                  .channel-edit-section__icon
+                    = inline_svg_tag("code_snipet.svg", aria: { hidden: true })
+                  .channel-edit-section__heading-copy
+                    h2 = t("dashboard.channels.edit.integration_details", default: "Integration Details")
+                .channel-edit-section__body
+                  .channel-edit-copy-list
+                    .channel-edit-copy data-controller="clipboard"
+                      label = t("dashboard.custom_channels.form.webhook_url")
+                      .channel-edit-copy__control
+                        input type="text" value=@custom_channel.webhook_endpoint readonly=true data-clipboard-target="source"
+                        button.channel-edit-copy__button.channel-edit-copy__button--compact type="button" data-action="click->clipboard#copy" data-clipboard-target="button"
+                          = inline_svg_tag("copy.svg", aria: { hidden: true })
+                          span = t("general.copy")
 
-                .channel-edit-kv-section.channel-edit-field--stacked data-key-value-builder-section=true
-                  .channel-edit-kv-heading
-                    strong = t("dashboard.custom_channels.form.headers")
-                    p = t("dashboard.custom_channels.form.headers_help")
+                    .channel-edit-copy data-controller="clipboard"
+                      label = t("dashboard.channels.edit.verify_token", default: "Verify Token")
+                      .channel-edit-copy__control
+                        input type="text" value=@custom_channel.hmac_token readonly=true data-clipboard-target="source"
+                        button.channel-edit-copy__button.channel-edit-copy__button--compact type="button" data-action="click->clipboard#copy" data-clipboard-target="button"
+                          = inline_svg_tag("copy.svg", aria: { hidden: true })
+                          span = t("general.copy")
 
-                  = hidden_field_tag "channel_custom[headers][_empty][key]", ""
-                  .ui-kv-builder.channel-edit-kv-list data-key-value-builder-target="container"
-                    - @custom_channel.headers.each_with_index do |(key, value), index|
-                      .kv-row.channel-edit-kv-row
-                        = text_field_tag "channel_custom[headers][#{index}][key]", key, placeholder: t("dashboard.custom_channels.form.header_name_placeholder")
-                        = text_field_tag "channel_custom[headers][#{index}][value]", value, placeholder: t("dashboard.custom_channels.form.header_value_placeholder")
-                        button.channel-edit-kv-remove type="button" data-action="click->key-value-builder#removeRow" aria-label=t("general.delete") &times;
+              section.channel-edit-section.channel-edit-card
+                .channel-edit-section__heading.channel-edit-section__heading--with-description
+                  .channel-edit-section__icon
+                    = inline_svg_tag("clock.svg", aria: { hidden: true })
+                  .channel-edit-section__heading-copy
+                    h2 = t("forms.labels.business_hours")
+                    p = t("dashboard.channels.edit.business_hours_hint", default: "Define when you are available to respond.")
+                .channel-edit-section__body
+                  .channel-edit-field.channel-edit-field--select
+                    = inbox.label :business_hour_group_id, t("forms.options.always_online_24_7")
+                    .channel-edit-select.ui-field-control.ui-field-control--no-icon
+                      = inbox.collection_select :business_hour_group_id, current_account.business_hour_groups, :id, :name, { include_blank: t("dashboard.channels.edit.always_available", default: "Your team is available 24/7") }, { class: "ui-select ui-control", data: { controller: "select" } }
 
-                  template data-key-value-builder-target="template"
+              section.channel-edit-section.channel-edit-card
+                .channel-edit-section__heading.channel-edit-section__heading--with-description
+                  .channel-edit-section__icon
+                    = inline_svg_tag("reports-sla.svg", aria: { hidden: true })
+                  .channel-edit-section__heading-copy
+                    h2 = t("forms.labels.sla_policies")
+                    p = t("dashboard.channels.edit.sla_hint", default: "Choose the SLA policy for this channel.")
+                .channel-edit-section__body
+                  .channel-edit-field.channel-edit-field--select
+                    .channel-edit-select.ui-field-control.ui-field-control--no-icon
+                      = select_tag "#{inbox.object_name}[sla_policy_ids][]", options_from_collection_for_select(current_account.sla_policies, :id, :name, inbox.object.sla_policy_ids.first), include_blank: t("dashboard.channels.edit.none_selected", default: "None Selected"), class: "ui-select ui-control", data: { controller: "select" }
+
+          section#webhook-settings.channel-edit-section.channel-edit-card.channel-edit-kv-section data-key-value-builder-section=true
+            .channel-edit-section__heading.channel-edit-section__heading--with-description
+              .channel-edit-section__icon
+                = inline_svg_tag("code_snipet.svg", aria: { hidden: true })
+              .channel-edit-section__heading-copy
+                h2 = t("dashboard.channels.edit.webhook_settings", default: "Webhook Settings")
+                p = t("dashboard.custom_channels.form.outbound_desc")
+            .channel-edit-section__body
+              .channel-edit-field
+                = f.label :webhook_url, t("dashboard.custom_channels.form.webhook_url")
+                = f.url_field :webhook_url, required: true, placeholder: "https://api.example.com/webhooks/deskbolic"
+
+              .channel-edit-kv-section.channel-edit-field--stacked data-key-value-builder-section=true
+                .channel-edit-kv-heading
+                  strong = t("dashboard.custom_channels.form.headers")
+                  p = t("dashboard.custom_channels.form.headers_help")
+
+                = hidden_field_tag "channel_custom[headers][_empty][key]", ""
+                .ui-kv-builder.channel-edit-kv-list data-key-value-builder-target="container"
+                  - @custom_channel.headers.each_with_index do |(key, value), index|
                     .kv-row.channel-edit-kv-row
-                      = text_field_tag "channel_custom[headers][NEW_RECORD][key]", nil, placeholder: t("dashboard.custom_channels.form.header_name_placeholder")
-                      = text_field_tag "channel_custom[headers][NEW_RECORD][value]", nil, placeholder: t("dashboard.custom_channels.form.header_value_placeholder")
+                      = text_field_tag "channel_custom[headers][#{index}][key]", key, placeholder: t("dashboard.custom_channels.form.header_name_placeholder")
+                      = text_field_tag "channel_custom[headers][#{index}][value]", value, placeholder: t("dashboard.custom_channels.form.header_value_placeholder")
                       button.channel-edit-kv-remove type="button" data-action="click->key-value-builder#removeRow" aria-label=t("general.delete") &times;
 
-                  button.channel-edit-add-button type="button" data-action="click->key-value-builder#addRow"
-                    span aria-hidden="true" +
-                    = t("dashboard.channels.edit.add_header", default: "Add Header")
+                template data-key-value-builder-target="template"
+                  .kv-row.channel-edit-kv-row
+                    = text_field_tag "channel_custom[headers][NEW_RECORD][key]", nil, placeholder: t("dashboard.custom_channels.form.header_name_placeholder")
+                    = text_field_tag "channel_custom[headers][NEW_RECORD][value]", nil, placeholder: t("dashboard.custom_channels.form.header_value_placeholder")
+                    button.channel-edit-kv-remove type="button" data-action="click->key-value-builder#removeRow" aria-label=t("general.delete") &times;
 
-                .channel-edit-kv-section.channel-edit-field--stacked data-key-value-builder-section=true
-                  .channel-edit-kv-heading
-                    strong = t("dashboard.channels.edit.response_mapping", default: "Response Mapping")
-                    p = t("dashboard.custom_channels.form.inbound_desc")
+                button.channel-edit-add-button type="button" data-action="click->key-value-builder#addRow"
+                  span aria-hidden="true" +
+                  = t("dashboard.channels.edit.add_header", default: "Add Header")
 
-                  = hidden_field_tag "channel_custom[response_mapping][_empty][key]", ""
-                  .ui-kv-builder.channel-edit-kv-list data-key-value-builder-target="container"
-                    - @custom_channel.response_mapping.each_with_index do |(key, value), index|
-                      .kv-row.channel-edit-kv-row
-                        .channel-edit-select.ui-field-control.ui-field-control--no-icon
-                          = select_tag "channel_custom[response_mapping][#{index}][key]", grouped_options_for_select(custom_channel_response_mapping_options(current_account), key), prompt: t("forms.options.select_deskbolic_attribute"), class: "ui-select ui-control", data: { controller: "select" }
-                        = text_field_tag "channel_custom[response_mapping][#{index}][value]", value, placeholder: t("ui.dashboard.channels.custom.form.json_path_e_g_data_user_id")
-                        button.channel-edit-kv-remove type="button" data-action="click->key-value-builder#removeRow" aria-label=t("general.delete") &times;
+              .channel-edit-kv-section.channel-edit-field--stacked data-key-value-builder-section=true
+                .channel-edit-kv-heading
+                  strong = t("dashboard.channels.edit.response_mapping", default: "Response Mapping")
+                  p = t("dashboard.custom_channels.form.inbound_desc")
 
-                  template data-key-value-builder-target="template"
+                = hidden_field_tag "channel_custom[response_mapping][_empty][key]", ""
+                .ui-kv-builder.channel-edit-kv-list data-key-value-builder-target="container"
+                  - @custom_channel.response_mapping.each_with_index do |(key, value), index|
                     .kv-row.channel-edit-kv-row
                       .channel-edit-select.ui-field-control.ui-field-control--no-icon
-                        = select_tag "channel_custom[response_mapping][NEW_RECORD][key]", grouped_options_for_select(custom_channel_response_mapping_options(current_account)), prompt: t("forms.options.select_deskbolic_attribute"), class: "ui-select ui-control", data: { controller: "select" }
-                      = text_field_tag "channel_custom[response_mapping][NEW_RECORD][value]", nil, placeholder: t("ui.dashboard.channels.custom.form.json_path_e_g_data_user_id")
+                        = select_tag "channel_custom[response_mapping][#{index}][key]", grouped_options_for_select(custom_channel_response_mapping_options(current_account), key), prompt: t("forms.options.select_deskbolic_attribute"), class: "ui-select ui-control", data: { controller: "select" }
+                      = text_field_tag "channel_custom[response_mapping][#{index}][value]", value, placeholder: t("ui.dashboard.channels.custom.form.json_path_e_g_data_user_id")
                       button.channel-edit-kv-remove type="button" data-action="click->key-value-builder#removeRow" aria-label=t("general.delete") &times;
 
-                  button.channel-edit-add-button type="button" data-action="click->key-value-builder#addRow"
-                    span aria-hidden="true" +
-                    = t("dashboard.channels.edit.add_mapping", default: "Add Mapping")
+                template data-key-value-builder-target="template"
+                  .kv-row.channel-edit-kv-row
+                    .channel-edit-select.ui-field-control.ui-field-control--no-icon
+                      = select_tag "channel_custom[response_mapping][NEW_RECORD][key]", grouped_options_for_select(custom_channel_response_mapping_options(current_account)), prompt: t("forms.options.select_deskbolic_attribute"), class: "ui-select ui-control", data: { controller: "select" }
+                    = text_field_tag "channel_custom[response_mapping][NEW_RECORD][value]", nil, placeholder: t("ui.dashboard.channels.custom.form.json_path_e_g_data_user_id")
+                    button.channel-edit-kv-remove type="button" data-action="click->key-value-builder#removeRow" aria-label=t("general.delete") &times;
 
-            section.channel-edit-section.channel-edit-card
-              .channel-edit-section__heading.channel-edit-section__heading--with-description
-                .channel-edit-section__icon
-                  = inline_svg_tag("green_lock.svg", aria: { hidden: true })
-                .channel-edit-section__heading-copy
-                  h2 = t("dashboard.channels.edit.webhook_secret", default: "Webhook Secret")
-                  p = t("dashboard.channels.edit.webhook_secret_hint", default: "Used to verify that requests are coming from Deskbolic.")
-              .channel-edit-section__body
-                .channel-edit-copy data-controller="clipboard"
-                  .channel-edit-copy__control
-                    input type="text" value=@custom_channel.webhook_secret readonly=true data-clipboard-target="source"
-                    button.channel-edit-copy__button type="button" data-action="click->clipboard#copy" data-clipboard-target="button"
-                      = inline_svg_tag("copy.svg", aria: { hidden: true })
-                      span = t("general.copy")
+                button.channel-edit-add-button type="button" data-action="click->key-value-builder#addRow"
+                  span aria-hidden="true" +
+                  = t("dashboard.channels.edit.add_mapping", default: "Add Mapping")
 
-                .channel-edit-security-note
-                  = inline_svg_tag("info.svg", aria: { hidden: true })
-                  span = t("dashboard.channels.edit.webhook_secret_warning", default: "Keep your webhook secret secure. Do not share it publicly.")
+          section.channel-edit-section.channel-edit-card
+            .channel-edit-section__heading.channel-edit-section__heading--with-description
+              .channel-edit-section__icon
+                = inline_svg_tag("green_lock.svg", aria: { hidden: true })
+              .channel-edit-section__heading-copy
+                h2 = t("dashboard.channels.edit.webhook_secret", default: "Webhook Secret")
+                p = t("dashboard.channels.edit.webhook_secret_hint", default: "Used to verify that requests are coming from Deskbolic.")
+            .channel-edit-section__body
+              .channel-edit-copy data-controller="clipboard"
+                .channel-edit-copy__control
+                  input type="text" value=@custom_channel.webhook_secret readonly=true data-clipboard-target="source"
+                  button.channel-edit-copy__button type="button" data-action="click->clipboard#copy" data-clipboard-target="button"
+                    = inline_svg_tag("copy.svg", aria: { hidden: true })
+                    span = t("general.copy")
 
-          aside.channel-edit__aside
-            = render "dashboard/channels/shared/edit_overview", platform_icon: "inboxes.svg", platform_label: t("dashboard.channels.edit.channel_type", default: "Channel Type"), platform_name: t("dashboard.channels.edit.custom_channel", default: "Custom Channel"), overview_items: overview_items, connected: connected, status_label: (connected ? t("dashboard.custom_channels.index.status_active") : t("dashboard.custom_channels.index.status_disconnected")), meta_item: overview_meta
+              .channel-edit-security-note
+                = inline_svg_tag("info.svg", aria: { hidden: true })
+                span = t("dashboard.channels.edit.webhook_secret_warning", default: "Keep your webhook secret secure. Do not share it publicly.")
 
-            = render "instructions", custom_channel: @custom_channel
-            = render "testing_sandbox", custom_channel: @custom_channel
+        aside.channel-edit__aside
+          = render "dashboard/channels/shared/edit_overview", platform_icon: "inboxes.svg", platform_label: t("dashboard.channels.edit.channel_type", default: "Channel Type"), platform_name: t("dashboard.channels.edit.custom_channel", default: "Custom Channel"), overview_items: overview_items, connected: connected, status_label: (connected ? t("dashboard.custom_channels.index.status_active") : t("dashboard.custom_channels.index.status_disconnected")), meta_item: overview_meta
 
-            section.channel-edit-danger.channel-edit-card
-              h2 = t("dashboard.custom_channels.edit.danger_title", default: "Danger Zone")
-              p = t("dashboard.custom_channels.edit.danger_description", default: "Disconnecting this channel will remove the inbox and stop receiving new messages. Existing conversations will be preserved.")
-              = link_to channels_custom_path(id: @custom_channel.id), class: "channel-edit-danger__button", data: { turbo_method: :delete, turbo_confirm: t("dashboard.custom_channels.index.delete_confirm") } do
-                = inline_svg_tag("delete_red.svg", aria: { hidden: true })
-                span = t("dashboard.channels.edit.disconnect_channel", default: "Disconnect Channel")
+          = render "instructions", custom_channel: @custom_channel
+          = render "testing_sandbox", custom_channel: @custom_channel
+
+          section.channel-edit-danger.channel-edit-card
+            h2 = t("dashboard.custom_channels.edit.danger_title", default: "Danger Zone")
+            p = t("dashboard.custom_channels.edit.danger_description", default: "Disconnecting this channel will remove the inbox and stop receiving new messages. Existing conversations will be preserved.")
+            = link_to channels_custom_path(id: @custom_channel.id), class: "channel-edit-danger__button", data: { turbo_method: :delete, turbo_confirm: t("dashboard.custom_channels.index.delete_confirm") } do
+              = inline_svg_tag("delete_red.svg", aria: { hidden: true })
+              span = t("dashboard.channels.edit.disconnect_channel", default: "Disconnect Channel")

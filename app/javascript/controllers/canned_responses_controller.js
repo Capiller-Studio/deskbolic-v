@@ -8,15 +8,18 @@ export default class extends Controller {
   connect() {
     this.searchTimeout = null;
     this.loadedInitialCannedResponses = false;
-    document.addEventListener("click", this.closeMenuOutside.bind(this));
+    this.boundCloseMenuOutside = this.closeMenuOutside.bind(this);
+    document.addEventListener("click", this.boundCloseMenuOutside);
   }
 
   disconnect() {
-    document.removeEventListener("click", this.closeMenuOutside.bind(this));
+    document.removeEventListener("click", this.boundCloseMenuOutside);
   }
 
   toggleMenu() {
     this.menuTarget.classList.toggle('visible');
+    if (!this.menuTarget.classList.contains('visible')) this.closePreview();
+
     if (this.menuTarget.classList.contains('visible') && !this.loadedInitialCannedResponses) {
       this.fetchCannedResponses("");
       this.loadedInitialCannedResponses = true;
@@ -97,7 +100,8 @@ export default class extends Controller {
     if (titleEl) titleEl.textContent = title;
     if (descEl) descEl.textContent = description;
     
-    this.responseTarget.style.display = 'block';
+    this.responseTarget.classList.add('visible');
+    this.menuTarget.classList.add('is-previewing');
   }
 
   switchResponse() {
@@ -109,15 +113,19 @@ export default class extends Controller {
     }
     
     this.menuTarget.classList.remove('visible');
-    this.responseTarget.style.display = 'none';
+    this.closePreview();
   }
 
   closeMenuOutside(event) {
-    if (this.hasMenuTarget && !this.element.contains(event.target)) {
+    const toggle = event.target.closest('[data-action*="canned-responses#toggleMenu"]');
+    if (this.hasMenuTarget && !this.menuTarget.contains(event.target) && !toggle) {
       this.menuTarget.classList.remove("visible");
-      if (this.hasResponseTarget) {
-        this.responseTarget.style.display = 'none';
-      }
+      this.closePreview();
     }
+  }
+
+  closePreview() {
+    this.menuTarget?.classList.remove('is-previewing');
+    if (this.hasResponseTarget) this.responseTarget.classList.remove('visible');
   }
 }

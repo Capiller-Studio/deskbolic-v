@@ -1,60 +1,60 @@
-= render("dashboard/shared/dashboard_container", current_page: "settings") do
-  = render("dashboard/settings/settings_sidebar", current_page: "notification-settings") do
-    .ns-page
-      header.ns-page-header
-        .ns-page-header-copy
-          h1 = t("notification_settings.title")
-          p = t("notification_settings.description")
+/ = render("dashboard/shared/dashboard_container", current_page: "settings") do
+= render("dashboard/settings/settings_sidebar", current_page: "notification-settings") do
+  .ns-page
+    header.ns-page-header
+      .ns-page-header-copy
+        h1 = t("notification_settings.title")
+        p = t("notification_settings.description")
 
-      main.ns-page-content
-        - vapid_key = ENV["VAPID_PUBLIC_KEY"] || Rails.application.credentials.dig(:vapid, :public_key) || "BFktHT70vu9y-6mepwuLzFOKvfPgMiFH0Mzzo_oJXeSgbgckj8fdildJ1c-WxTa7DQwnj-dzPeLNPmnnSjwU1dQ"
-        section.ns-browser-card
-          .ns-browser-icon aria-hidden="true"
-            svg viewBox="0 0 24 24"
-              path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"
-              path d="M13.73 21a2 2 0 0 1-3.46 0"
-          .ns-browser-copy
-            h2 = t("notification_settings.browser_push")
-            p = t("notification_settings.browser_push_desc")
-          button.ns-push-button#enable-push-btn type="button" data-controller="push-notifications" data-action="click->push-notifications#toggle" data-push-notifications-vapid-public-key-value=vapid_key data-vapid-public-key=vapid_key
-            = t("notification_settings.enable_browser_push")
+    main.ns-page-content
+      - vapid_key = ENV["VAPID_PUBLIC_KEY"] || Rails.application.credentials.dig(:vapid, :public_key) || "BFktHT70vu9y-6mepwuLzFOKvfPgMiFH0Mzzo_oJXeSgbgckj8fdildJ1c-WxTa7DQwnj-dzPeLNPmnnSjwU1dQ"
+      section.ns-browser-card
+        .ns-browser-icon aria-hidden="true"
+          svg viewBox="0 0 24 24"
+            path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"
+            path d="M13.73 21a2 2 0 0 1-3.46 0"
+        .ns-browser-copy
+          h2 = t("notification_settings.browser_push")
+          p = t("notification_settings.browser_push_desc")
+        button.ns-push-button#enable-push-btn type="button" data-controller="push-notifications" data-action="click->push-notifications#toggle" data-push-notifications-vapid-public-key-value=vapid_key data-vapid-public-key=vapid_key
+          = t("notification_settings.enable_browser_push")
 
-        = form_with(model: @notification_setting, url: settings_notification_settings_path, method: :put, class: "ns-preferences-form") do |f|
-          section.ns-preferences-card
-            .ns-preferences-header
-              div
-                h2 = t("notification_settings.delivery_preferences")
-                p = t("notification_settings.delivery_preferences_desc")
+      = form_with(model: @notification_setting, url: settings_notification_settings_path, method: :put, class: "ns-preferences-form") do |f|
+        section.ns-preferences-card
+          .ns-preferences-header
+            div
+              h2 = t("notification_settings.delivery_preferences")
+              p = t("notification_settings.delivery_preferences_desc")
 
-            .ns-preferences-table-wrap
-              table.ns-preferences-table
-                thead
+          .ns-preferences-table-wrap
+            table.ns-preferences-table
+              thead
+                tr
+                  th scope="col" = t("notification_settings.event")
+                  th.ns-channel-heading scope="col"
+                    svg viewBox="0 0 24 24" aria-hidden="true"
+                      rect x="3" y="5" width="18" height="14" rx="2"
+                      path d="m4 7 8 6 8-6"
+                    span = t("notification_settings.email")
+                  th.ns-channel-heading scope="col"
+                    svg viewBox="0 0 24 24" aria-hidden="true"
+                      path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"
+                      path d="M13.73 21a2 2 0 0 1-3.46 0"
+                    span = t("notification_settings.push")
+              tbody
+                - user_configurable_events = %w[conversation_created conversation_assigned conversation_resolved sla_breached message_created conversation_mention team_assigned]
+                - user_configurable_events.each do |event|
+                  - event_label = t("notifications.events.#{event}")
                   tr
-                    th scope="col" = t("notification_settings.event")
-                    th.ns-channel-heading scope="col"
-                      svg viewBox="0 0 24 24" aria-hidden="true"
-                        rect x="3" y="5" width="18" height="14" rx="2"
-                        path d="m4 7 8 6 8-6"
-                      span = t("notification_settings.email")
-                    th.ns-channel-heading scope="col"
-                      svg viewBox="0 0 24 24" aria-hidden="true"
-                        path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"
-                        path d="M13.73 21a2 2 0 0 1-3.46 0"
-                      span = t("notification_settings.push")
-                tbody
-                  - user_configurable_events = %w[conversation_created conversation_assigned conversation_resolved sla_breached message_created conversation_mention team_assigned]
-                  - user_configurable_events.each do |event|
-                    - event_label = t("notifications.events.#{event}")
-                    tr
-                      th.ns-event-name scope="row" = event_label
-                      td.ns-channel-cell data-label=t("notification_settings.email")
-                        label.ns-toggle
-                          = f.check_box :"email_#{event}", class: "ns-toggle-input", aria: { label: "#{t('notification_settings.email')}: #{event_label}" }
-                          span.ns-toggle-track aria-hidden="true"
-                      td.ns-channel-cell data-label=t("notification_settings.push")
-                        label.ns-toggle
-                          = f.check_box :"push_#{event}", class: "ns-toggle-input", aria: { label: "#{t('notification_settings.push')}: #{event_label}" }
-                          span.ns-toggle-track aria-hidden="true"
+                    th.ns-event-name scope="row" = event_label
+                    td.ns-channel-cell data-label=t("notification_settings.email")
+                      label.ns-toggle
+                        = f.check_box :"email_#{event}", class: "ns-toggle-input", aria: { label: "#{t('notification_settings.email')}: #{event_label}" }
+                        span.ns-toggle-track aria-hidden="true"
+                    td.ns-channel-cell data-label=t("notification_settings.push")
+                      label.ns-toggle
+                        = f.check_box :"push_#{event}", class: "ns-toggle-input", aria: { label: "#{t('notification_settings.push')}: #{event_label}" }
+                        span.ns-toggle-track aria-hidden="true"
 
-            .ns-form-actions
-              = f.submit t("general.save_changes"), class: "ns-save-button"
+          .ns-form-actions
+            = f.submit t("general.save_changes"), class: "ns-save-button"

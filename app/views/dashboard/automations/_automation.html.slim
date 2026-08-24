@@ -1,29 +1,36 @@
 div id="automation_#{automation.id}" class="auto-card #{automation.inactive? ? 'inactive' : ''}" data-sortable-target="item" data-id="#{automation.id}" draggable="true"
   .auto-drag-handle data-action="dragstart->sortable#dragStart dragend->sortable#dragEnd" data-sortable-target="handle"
-    | ⠿
+    = image_tag("drag_handle.svg", alt: "", aria: { hidden: true })
+
+  .auto-card-icon
+    = image_tag("automation.svg", alt: "", aria: { hidden: true })
 
   .auto-card-info
-    .auto-card-name = automation.name
+    .auto-card-name-row
+      h3.auto-card-name = automation.name
+      span.ui-status-badge class=(automation.active? ? "ui-status-badge--active" : "ui-status-badge--inactive")
+        span.ui-status-badge__dot aria-hidden="true"
+        = automation.active? ? t("general.active", default: "Active") : t("general.inactive", default: "Inactive")
     .auto-card-meta
-      - if automation.event_trigger?
-        span.auto-badge.badge-event = t("dashboard.automations.types.event_trigger")
-      - elsif automation.time_trigger?
-        span.auto-badge.badge-time = t("dashboard.automations.types.time_trigger")
       - if automation.event_name.present?
         span.auto-card-event = t("dashboard.automations.events.#{automation.event_name.tr('.', '_')}")
       - if automation.description.present?
         span.auto-card-event — #{truncate(automation.description, length: 60)}
 
   .auto-card-actions
-    = button_to toggle_automation_path(automation), method: :patch, class: "auto-toggle #{automation.active? ? 'active' : ''}", data: { turbo_frame: "_top" } do
-      / | #{t("ui.dashboard.automations.automation.toggle")}
+    = button_to duplicate_automation_path(automation), method: :post, class: "auto-action-btn", title: t("dashboard.automations.index.duplicate"), aria: { label: t("dashboard.automations.index.duplicate") } do
+      = image_tag("copy-check.svg", alt: "", aria: { hidden: true })
 
-    = link_to edit_automation_path(automation), class: "auto-action-btn", title: t("dashboard.skills.index.edit")
-      | ✎
+    = button_to toggle_automation_path(automation), method: :patch, class: "auto-toggle #{automation.active? ? 'active' : ''}", data: { turbo_frame: "_top" }, aria: { label: t("dashboard.automations.index.toggle") } do
+      - if automation.active?
+        span.auto-toggle-check aria-hidden="true" = image_tag("mark.svg", alt: "", aria: { hidden: true })
 
-    = button_to duplicate_automation_path(automation), method: :post, class: "auto-action-btn", title: t("dashboard.automations.index.duplicate")
-      | ⧉
-
-    - unless automation.system_provided?
-      = button_to automation_path(automation), method: :delete, class: "auto-action-btn danger", title: t("dashboard.skills.index.delete"), data: { turbo_confirm: t("dashboard.automations.index.delete_confirm") }
-        | ✕
+    details.auto-card-menu
+      summary.auto-card-menu__trigger aria-label=t("dashboard.automations.index.actions_for", name: automation.name, default: "Actions for %{name}")
+        span.auto-card-menu__icon aria-hidden="true" ⋮
+      .auto-card-menu__popover role="menu"
+        = link_to edit_automation_path(automation), role: "menuitem" do
+          = t("general.edit", default: "Edit")
+        - unless automation.system_provided?
+          = button_to automation_path(automation), method: :delete, role: "menuitem", form: { class: "auto-card-menu__delete-form" }, data: { turbo_confirm: t("dashboard.automations.index.delete_confirm") } do
+            span = t("general.delete", default: "Delete")

@@ -2,7 +2,7 @@
 - action_params = action["params"] || action[:params] || {}
 - action_value = action["value"] || action[:value]
 
-.auto-row data-action-row=""
+.autom-action-row data-action-row=""
   .ui-field-control.ui-field-control--plain.ui-field-control--no-icon.ui-macro-action-select
     = select_tag "action_type_#{action_index}", options_for_select(action_type_options, action_name), include_blank: t("forms.options.select_action"), class: "ui-select ui-control", data: { controller: "select", action: "change->automation-builder#actionTypeChanged", "action-type": true }
 
@@ -18,14 +18,14 @@
     - when "set_priority"
       = select_tag "action_param_#{action_index}", options_for_select([[t("forms.options.low"), "low"], [t("forms.options.medium"), "medium"], [t("forms.options.high"), "high"], [t("forms.options.urgent"), "urgent"]], action_params["priority"] || action_params[:priority] || action_value), class: "ui-select ui-control", data: { controller: "select", "action-param": "priority" }
     - when "send_message", "add_note"
-      = text_area_tag "action_param_#{action_index}", action_params["content"] || action_params[:content], placeholder: t("ui.dashboard.automations.action_row.enter_message"), rows: 2, data: { "action-param": "content" }, class: "auto-row"
+      = text_area_tag "action_param_#{action_index}", action_params["content"] || action_params[:content], placeholder: t("ui.dashboard.automations.action_row.enter_message", default: "Enter message..."), rows: 2, data: { "action-param": "content" }, class: "ap-input"
     - when "snooze"
-      = number_field_tag "action_param_#{action_index}", action_params["duration_hours"] || action_params[:duration_hours], placeholder: t("ui.dashboard.automations.action_row.hours"), min: 1, data: { "action-param": "duration_hours" }, class: "auto-row"
+      = number_field_tag "action_param_#{action_index}", action_params["duration_hours"] || action_params[:duration_hours], placeholder: t("ui.dashboard.automations.action_row.hours", default: "Hours"), min: 1, data: { "action-param": "duration_hours" }, class: "ap-input"
     - when "set_locale"
-      = text_field_tag "action_param_#{action_index}", action_params["locale"] || action_params[:locale], placeholder: t("ui.dashboard.automations.action_row.e_g_en_fr_de"), data: { "action-param": "locale" }, class: "auto-row"
+      = text_field_tag "action_param_#{action_index}", action_params["locale"] || action_params[:locale], placeholder: t("ui.dashboard.automations.action_row.e_g_en_fr_de", default: "e.g. en, fr, de"), data: { "action-param": "locale" }, class: "ap-input"
     - when "trigger_webhook"
-      = text_field_tag "action_param_url_#{action_index}", action_params["url"] || action_params[:url], placeholder: "https://...", data: { "action-param": "url" }, class: "auto-row"
+      = text_field_tag "action_param_url_#{action_index}", action_params["url"] || action_params[:url], placeholder: "https://...", data: { "action-param": "url" }, class: "ap-input"
       = select_tag "action_param_method_#{action_index}", options_for_select(%w[POST GET PUT PATCH], action_params["method"] || action_params[:method] || "POST"), class: "ui-select ui-control", data: { controller: "select", "action-param": "method" }
 
-  button.auto-remove-btn.ui-macro-remove-action type="button" data-action="click->automation-builder#removeAction" aria-label=t("general.delete")
-    = image_tag("delete.svg", alt: "", aria: { hidden: true })
+  button.autom-remove-action-btn type="button" data-action="click->automation-builder#removeAction" aria-label=t("general.delete")
+    = image_tag("cross.svg", class: "autom-close-icon", alt: "", aria: { hidden: true })

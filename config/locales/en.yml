@@ -555,30 +555,39 @@ en:
     automations:
       index:
         title: Automations
-        description: Automate repetitive tasks with event-based and time-based rules.
-        new_automation: New Automation
+        description: Create rules to automate repetitive tasks and save time.
+        new_automation: Add Automation
         empty_title: No automations yet
         empty_description: Create your first automation to start handling conversations
           automatically.
-        tab_all: All
-        tab_event_triggers: Event Triggers
-        tab_time_triggers: Time Triggers
+        tab_all: All Automations
+        tab_active: Active
+        tab_inactive: Inactive
         edit: Edit
         duplicate: Duplicate
         delete: Delete
         delete_confirm: Are you sure you want to delete this automation?
+        toggle: Toggle automation
+        actions_for: Actions for %{name}
       new:
         title: New Automation
+        description: Create rules to automate repetitive tasks and save time.
       edit:
         title: Edit Automation
+        description: Create rules to automate repetitive tasks and save time.
       form:
         name_placeholder: e.g. Auto-assign VIP conversations
-        description_label: Description (optional)
+        description_label: Description
         description_placeholder: What does this automation do?
       builder:
-        trigger_section: When this happens...
-        conditions_section: If these conditions are met...
-        actions_section: Then do this...
+        details_section: Details
+        name_label: Name
+        name_hint: Choose a clear name for your automation.
+        description_label: Description
+        optional_label: (Optional)
+        trigger_section: When this happens
+        conditions_section: If these conditions are met
+        actions_section: Then do this
         options_section: Options
         type_label: Automation Type
         event_label: Event
@@ -588,10 +597,13 @@ en:
         add_condition: Add Condition
         add_condition_group: Add Condition Group
         add_action: Add Action
+        event_trigger_banner_title: Event Trigger
+        event_trigger_banner_text: Run this automation when a matching event occurs in your workspace, such as a new conversation or message.
         stop_processing: Stop processing subsequent rules
         stop_processing_hint: When this rule fires, no lower-priority rules will execute
           for this event.
-        save: Save Automation
+        save: Save Changes
+        create: Create Automation
         cancel: Cancel
         remove: Remove
       create:
@@ -3347,9 +3359,10 @@ en:
         condition_group:
           group_match: Group %{value} — Match
           remove_group: Remove group
+          remove_condition: Remove condition
           value: Value...
         form:
-          of_the_following_condition_groups: 'of the following condition groups:'
+          of_the_following_condition_groups: 'Match of the following condition groups:'
       channels:
         channels:
           img: img

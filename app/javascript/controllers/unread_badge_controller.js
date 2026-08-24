@@ -1,9 +1,12 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
+  static targets = ["count"]
+
   static values = {
     id: String,
-    type: String
+    type: String,
+    hideZero: { type: Boolean, default: true }
   }
 
   update(event) {
@@ -30,12 +33,9 @@ export default class extends Controller {
       }
     }
 
-    if (newCount > 0) {
-      this.element.style.display = "flex"
-      this.element.querySelector("p").textContent = newCount
-    } else {
-      this.element.style.display = "none"
-      this.element.querySelector("p").textContent = "0"
-    }
+    if (this.hasCountTarget) this.countTarget.textContent = newCount
+
+    const shouldShow = newCount > 0 || !this.hideZeroValue
+    this.element.style.display = shouldShow ? "" : "none"
   }
 }

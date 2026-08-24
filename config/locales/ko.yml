@@ -182,6 +182,7 @@ ko:
     sidebar:
       channels:
         title: 헬프 데스크
+        views: 보기
         inboxes: 받은편지함
         email: 이메일
         facebook: Facebook
@@ -190,8 +191,13 @@ ko:
         widget: 위젯
         contact_form: 문의 양식
         all: 모두
+        all_conversations: 모든 대화
+        assigned_to_me: 나에게 할당됨
+        mentions: 멘션
+        unread_messages: 읽지 않은 메시지
         teams: 팀
         teammates: 팀원
+      available: 사용 가능
       settings:
         back_to_dashboard: 대시보드로 돌아가기
         title: 설정
@@ -291,9 +297,28 @@ ko:
     conversations:
       title: 모든 대화
       search: 검색
+      search_full: 이름, 메시지 또는 티켓 검색
+      filters: 대화 필터
       filter_all: 모두
       filter_assigned: 할당됨
       filter_unassigned: 할당되지 않음
+      showing_count: "총 %{total}개 중 %{visible}개"
+      in_inbox: 이 받은편지함의 대화
+      across_inboxes: 모든 받은편지함의 대화
+      attachment: 첨부 파일
+      no_conversations_yet: 아직 대화가 없습니다
+      no_conversations_description: 새 메시지가 도착하면 여기에 대화가 표시됩니다.
+      loading_more: 대화를 더 불러오는 중…
+      no_selection: 선택된 대화가 없습니다
+      no_selection_description: 메시지와 세부정보를 보려면 대화를 선택하세요.
+      channel_types:
+        facebook: Facebook
+        instagram: Instagram
+        whatsapp: WhatsApp
+        email: 이메일 지원
+        contact_form: 문의 양식
+        custom_widget: 사용자 정의 위젯
+        web_widget: 웹 위젯
       snooze:
         apply: 적용
         pick_datetime: 날짜 및 시간 선택
@@ -335,6 +360,7 @@ ko:
       schedule: 일정
       send_and_close: 보내기 및 닫기
       send: 보내기
+      sending: 보내는 중...
       add: 추가
       recording_voice: 음성 녹음 중...
       new_messages: 새 메시지
@@ -359,6 +385,8 @@ ko:
       resolve: 해결
       search_canned_responses: 미리 준비된 답변 검색...
     conversation_details:
+      open: 열림
+      assignment: 할당
       title: 세부정보
       agent: 대리인
       unassigned: 할당되지 않음
@@ -368,9 +396,11 @@ ko:
       assign: 할당
       unassign: 할당 취소
       sla_status: SLA 상태
+      on_track: 정상 진행
       next_target: '다음 목표:'
       not_applicable: 해당 없음
       csat_rating: CSAT 평가
+      no_rating_yet: 아직 평가 없음
       rating: '평가:'
       pending: 보류 중
       verified_identities: 확인된 신원
@@ -380,6 +410,7 @@ ko:
       unsubscribe: 구독 취소
       customer_id: 고객 ID
       email: 이메일
+      no_email: 이메일 없음
       user_notes: 사용자 메모
       add_new_note: 새 메모 추가
       note_empty: 필드를 비워 둘 수 없습니다
@@ -1442,6 +1473,7 @@ ko:
     profile:
       index:
         title: 개인정보
+        description: 개인 정보와 공개 프로필을 관리하세요.
         public_profile: 공개 프로필
         save: 저장
         created_at: 생성 날짜

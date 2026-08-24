@@ -192,6 +192,7 @@ fr:
     sidebar:
       channels:
         title: Service d'assistance
+        views: Vues
         inboxes: Boîtes de réception
         email: Courriel
         facebook: Facebook
@@ -200,8 +201,13 @@ fr:
         widget: Widget
         contact_form: Formulaire de contact
         all: Tout
+        all_conversations: Toutes les conversations
+        assigned_to_me: Mes conversations
+        mentions: Mentions
+        unread_messages: Messages non lus
         teams: Équipes
         teammates: Coéquipiers
+      available: Disponible
       settings:
         back_to_dashboard: Retour au tableau de bord
         title: Paramètres
@@ -305,9 +311,28 @@ fr:
     conversations:
       title: Toutes les conversations
       search: Rechercher
+      search_full: Rechercher un nom, un message ou un ticket
+      filters: Filtres de conversations
       filter_all: Tout
       filter_assigned: Attribué
       filter_unassigned: Non attribué
+      showing_count: "%{visible} sur %{total}"
+      in_inbox: Conversations de cette boîte de réception
+      across_inboxes: Conversations de toutes les boîtes de réception
+      attachment: Pièce jointe
+      no_conversations_yet: Aucune conversation pour le moment
+      no_conversations_description: Lorsqu'un message arrive, la conversation apparaît ici.
+      loading_more: Chargement d'autres conversations…
+      no_selection: Aucune conversation sélectionnée
+      no_selection_description: Sélectionnez une conversation pour afficher ses messages et ses détails.
+      channel_types:
+        facebook: Facebook
+        instagram: Instagram
+        whatsapp: WhatsApp
+        email: Assistance par e-mail
+        contact_form: Formulaire de contact
+        custom_widget: Widget personnalisé
+        web_widget: Widget Web
       snooze:
         apply: Postuler
         pick_datetime: Choisissez une date et une heure
@@ -351,6 +376,7 @@ fr:
       schedule: Calendrier
       send_and_close: Envoyer et fermer
       send: Envoyer
+      sending: Envoi en cours...
       add: Ajouter
       recording_voice: Enregistrement de la voix...
       new_messages: Nouveaux messages
@@ -375,6 +401,8 @@ fr:
       resolve: Résoudre
       search_canned_responses: Rechercher des réponses standardisées...
     conversation_details:
+      open: Ouverte
+      assignment: Attribution
       title: Détails
       agent: Agent
       unassigned: Non attribué
@@ -384,9 +412,11 @@ fr:
       assign: Attribuer
       unassign: Annuler l'attribution
       sla_status: Statut du SLA
+      on_track: Dans les délais
       next_target: 'Prochaine cible :'
       not_applicable: N/D
       csat_rating: Note CSAT
+      no_rating_yet: Pas encore de note
       rating: 'Note :'
       pending: En attente
       verified_identities: Identités vérifiées
@@ -396,6 +426,7 @@ fr:
       unsubscribe: Se désabonner
       customer_id: Numéro client
       email: Courriel
+      no_email: Aucun e-mail
       user_notes: Notes d'utilisateur
       add_new_note: Ajouter une nouvelle note
       note_empty: Le champ ne peut pas être vide
@@ -1570,6 +1601,7 @@ fr:
     profile:
       index:
         title: Détails personnels
+        description: Gérez vos informations personnelles et votre profil public.
         public_profile: Profil public
         save: Enregistrer
         created_at: Créé à

@@ -15,12 +15,19 @@ article.conversation-list-item id=dom_id(conversation) class=(active_conversatio
     .conversation-list-copy
       .conversation-list-row
         h2 = full_name(customer)
-        time id="conversation-#{conversation.id}-date" datetime=last_activity&.iso8601 = display_time
-      p.conversation-preview id="conversation-#{conversation.id}-preview" = conversation.last_message_preview.presence || t('dashboard.conversation_details.no_messages', default: 'No messages yet')
+      p.conversation-preview id="conversation-#{conversation.id}-preview"
+        - if conversation.last_message&.attachments&.any?
+          span.conversation-preview-attachment
+            = inline_svg_tag('file_attach.svg', class: 'conversation-preview-attachment-icon', aria: { hidden: true })
+            span = t('dashboard.conversations.attachment')
+        - else
+          = conversation.last_message_preview.presence || t('dashboard.conversation_details.no_messages', default: 'No messages yet')
       .conversation-list-meta
         span.conversation-source class="conversation-source--#{inbox_channel_tag_type(conversation.inbox)}" title=conversation.inbox.name
           span.conversation-source-icon = inbox_icon(conversation.inbox)
           = inbox_channel_tag_label(conversation.inbox)
 
-    .conversation-unread data-controller="unread-badge" data-action="deskbolic:unread-counts-updated@window->unread-badge#update" data-unread-badge-target="badge" data-unread-badge-id-value=conversation.id data-unread-badge-type-value="conversation" style="display: #{unread_count.positive? ? 'inline-flex' : 'none'}"
-      span = unread_count
+    .conversation-list-actions
+      time id="conversation-#{conversation.id}-date" datetime=last_activity&.iso8601 = display_time
+      .conversation-unread data-controller="unread-badge" data-action="deskbolic:unread-counts-updated@window->unread-badge#update" data-unread-badge-id-value=conversation.id data-unread-badge-type-value="conversation" style=(unread_count.positive? ? nil : 'display: none')
+        span data-unread-badge-target="count" = unread_count

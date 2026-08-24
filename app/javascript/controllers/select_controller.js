@@ -8,7 +8,8 @@ export default class extends Controller {
       silent: true,
       searchEnabled: true,
       itemSelectText: 'choose an option',
-      allowHTML: true
+      allowHTML: true,
+      position: 'bottom'
     });
   }
 }

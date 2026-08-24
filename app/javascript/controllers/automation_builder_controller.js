@@ -17,7 +17,10 @@ export default class extends Controller {
     "actionRows",
     "conditionsField",
     "actionsField",
-    "stopProcessing"
+    "stopProcessing",
+    "descriptionInput",
+    "descriptionCounter",
+    "topOperatorField"
   ]
 
   static values = {
@@ -111,6 +114,39 @@ export default class extends Controller {
   connect() {
     this.element.addEventListener("submit", this.serialize.bind(this))
     this._cache = {}
+    this.updateDescriptionCounter()
+  }
+
+  updateDescriptionCounter() {
+    if (!this.hasDescriptionInputTarget || !this.hasDescriptionCounterTarget) return
+    this.descriptionCounterTarget.textContent = `${this.descriptionInputTarget.value.length} / 500`
+  }
+
+  setTopOperator(event) {
+    const operator = event.currentTarget.dataset.operator
+    if (this.hasTopOperatorFieldTarget) {
+      this.topOperatorFieldTarget.value = operator
+    }
+    this._updatePillState(event.currentTarget.closest(".autom-match-row"), operator)
+  }
+
+  setGroupOperator(event) {
+    const operator = event.currentTarget.dataset.operator
+    const group = event.currentTarget.closest("[data-automation-builder-target='conditionGroup']")
+    if (!group) return
+
+    const hiddenField = group.querySelector("[data-condition-group-operator]")
+    if (hiddenField) hiddenField.value = operator
+
+    this._updatePillState(event.currentTarget.closest(".autom-group-pills"), operator)
+  }
+
+  _updatePillState(container, activeOperator) {
+    if (!container) return
+    container.querySelectorAll(".autom-pill").forEach(pill => {
+      const isActive = pill.dataset.operator === activeOperator
+      pill.classList.toggle("autom-pill--active", isActive)
+    })
   }
 
   // =========================================================================
@@ -357,7 +393,7 @@ export default class extends Controller {
       const opts = fixedOptions[attribute].map(([label, val]) =>
         `<option value="${val}"${val === currentValue ? " selected" : ""}>${label}</option>`
       ).join("")
-      return `<select data-condition-val class="auto-row"><option value="">Select...</option>${opts}</select>`
+      return `<select data-condition-val class="ap-input"><option value="">Select...</option>${opts}</select>`
     }
 
     const ajaxTypes = { "inbox.id": "inboxes", "assignee.id": "agents", "team.id": "teams", "labels": "labels" }
@@ -367,10 +403,10 @@ export default class extends Controller {
         `<option value="${item.id}"${String(item.id) === String(currentValue) ? " selected" : ""}>${this._escapeHtml(item.name)}</option>`
       ).join("")
       const hint = data.has_more ? ` <small style="color:#94a3b8;">(${data.total} total)</small>` : ""
-      return `<select data-condition-val class="auto-row"><option value="">Select...</option>${opts}</select>${hint}`
+      return `<select data-condition-val class="ap-input"><option value="">Select...</option>${opts}</select>${hint}`
     }
 
-    return `<input type="text" data-condition-val placeholder="Value..." value="${this._escapeHtml(currentValue)}" class="auto-row">`
+    return `<input type="text" data-condition-val placeholder="Value..." value="${this._escapeHtml(currentValue)}" class="ap-input">`
   }
 
   // =========================================================================
@@ -405,16 +441,16 @@ export default class extends Controller {
           <option value="high">High</option><option value="urgent">Urgent</option></select>`
       case "send_message":
       case "add_note":
-        return `<textarea data-action-param="content" placeholder="Enter message..." rows="2" class="auto-row"></textarea>`
+        return `<textarea data-action-param="content" placeholder="Enter message..." rows="2" class="ap-input"></textarea>`
       case "snooze":
-        return `<input type="number" data-action-param="duration_hours" placeholder="Hours" min="1" class="auto-row">`
+        return `<input type="number" data-action-param="duration_hours" placeholder="Hours" min="1" class="ap-input">`
       case "set_locale":
-        return `<input type="text" data-action-param="locale" placeholder="e.g. en, fr, de" class="auto-row">`
+        return `<input type="text" data-action-param="locale" placeholder="e.g. en, fr, de" class="ap-input">`
       case "set_custom_field":
-        return `<input type="text" data-action-param="key" placeholder="Field key" class="auto-row" style="flex:1">
-          <input type="text" data-action-param="value" placeholder="Value" class="auto-row" style="flex:1">`
+        return `<input type="text" data-action-param="key" placeholder="Field key" class="ap-input" style="flex:1">
+          <input type="text" data-action-param="value" placeholder="Value" class="ap-input" style="flex:1">`
       case "trigger_webhook":
-        return `<input type="text" data-action-param="url" placeholder="https://..." class="auto-row">
+        return `<input type="text" data-action-param="url" placeholder="https://..." class="ap-input">
           <select data-controller="select" data-action-param="method" class="ui-select ui-control">
             <option value="POST">POST</option><option value="GET">GET</option>
             <option value="PUT">PUT</option><option value="PATCH">PATCH</option></select>`
@@ -423,7 +459,7 @@ export default class extends Controller {
       case "mute_conversation":
         return ""
       default:
-        return `<input type="text" data-action-param="value" placeholder="Value..." class="auto-row">`
+        return `<input type="text" data-action-param="value" placeholder="Value..." class="ap-input">`
     }
   }
 
@@ -433,19 +469,22 @@ export default class extends Controller {
 
   _conditionGroupTemplate(groupIndex) {
     return `
-      <div class="auto-row-group" data-automation-builder-target="conditionGroup">
-        <div class="auto-group-header">
-          Group ${groupIndex + 1} — Match
-          <select data-condition-group-operator class="auto-row" style="width: auto; padding: 4px 28px 4px 10px;">
-            <option value="AND">ALL</option>
-            <option value="OR">ANY</option>
-          </select>
-          <button class="auto-remove-btn" type="button" data-action="click->automation-builder#removeConditionGroup" style="margin-left: auto;" title="Remove group">✕</button>
+      <div class="autom-condition-group" data-automation-builder-target="conditionGroup">
+        <div class="autom-group-header">
+          <span class="autom-group-label">Group ${groupIndex + 1}</span>
+          <div class="autom-group-pills">
+            <button type="button" class="autom-pill autom-pill--sm autom-pill--active" data-action="click->automation-builder#setGroupOperator" data-operator="AND" data-group-index="${groupIndex}">All</button>
+            <button type="button" class="autom-pill autom-pill--sm" data-action="click->automation-builder#setGroupOperator" data-operator="OR" data-group-index="${groupIndex}">Any</button>
+          </div>
+          <input type="hidden" data-condition-group-operator value="AND">
+          <button type="button" class="autom-remove-group-btn" data-action="click->automation-builder#removeConditionGroup" title="Remove group">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M2 4h12v8H2zM4 6h8v4H4z" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
         </div>
         <div data-condition-group-rows>
           ${this._conditionRowTemplate(groupIndex, 0)}
         </div>
-        <button class="auto-add-btn" type="button" data-action="click->automation-builder#addCondition" data-group-index="${groupIndex}">
+        <button type="button" class="autom-add-condition-link" data-action="click->automation-builder#addCondition" data-group-index="${groupIndex}">
           + Add Condition
         </button>
       </div>
@@ -457,25 +496,27 @@ export default class extends Controller {
     const attrOptions = attrs.map(([label, val]) => `<option value="${val}">${label}</option>`).join("")
 
     return `
-      <div class="auto-row" data-condition-row>
-        <select data-condition-attr data-action="change->automation-builder#attributeChanged" class="auto-row">
+      <div class="autom-condition-row" data-condition-row>
+        <select data-condition-attr data-action="change->automation-builder#attributeChanged" class="ap-input">
           <option value="">Select attribute...</option>
           ${attrOptions}
         </select>
-        <select data-condition-op class="auto-row">
+        <select data-condition-op class="ap-input">
           <option value="">Select attribute first...</option>
         </select>
         <span data-condition-value-container style="display: contents;">
-          <input type="text" data-condition-val placeholder="Select attribute first..." class="auto-row" disabled>
+          <input type="text" data-condition-val placeholder="Select attribute first..." class="ap-input" disabled>
         </span>
-        <button class="auto-remove-btn" type="button" data-action="click->automation-builder#removeCondition">✕</button>
+        <button type="button" class="autom-remove-condition-btn" data-action="click->automation-builder#removeCondition" aria-label="Remove condition">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M12.666 4.667l-.578 8.094A1.333 1.333 0 0110.758 14H5.241a1.333 1.333 0 01-1.33-1.239l-.578-8.094M6.666 7.333v4M9.333 7.333v4M10 4.667v-2A.667.667 0 009.333 2H6.666A.667.667 0 006 2.667v2M2.666 4.667h10.667" stroke="#EF4444" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
       </div>
     `
   }
 
   _actionRowTemplate(actionIndex) {
     return `
-      <div class="auto-row" data-action-row>
+      <div class="autom-action-row" data-action-row>
         <div class="ui-field-control ui-field-control--plain ui-field-control--no-icon ui-macro-action-select">
           <select data-controller="select" data-action-type data-action="change->automation-builder#actionTypeChanged" class="ui-select ui-control">
             <option value="">Select action...</option>
@@ -483,7 +524,7 @@ export default class extends Controller {
           </select>
         </div>
         <span class="ui-field-control ui-field-control--plain ui-field-control--no-icon" data-action-params></span>
-        <button class="auto-remove-btn ui-macro-remove-action" type="button" data-action="click->automation-builder#removeAction" aria-label="Delete action">
+        <button type="button" class="autom-remove-action-btn" data-action="click->automation-builder#removeAction" aria-label="Delete action">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
             <path d="M12.666 4.667l-.578 8.094A1.333 1.333 0 0110.758 14H5.241a1.333 1.333 0 01-1.33-1.239l-.578-8.094M6.666 7.333v4M9.333 7.333v4M10 4.667v-2A.667.667 0 009.333 2H6.666A.667.667 0 006 2.667v2M2.666 4.667h10.667" stroke="#EF4444" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>

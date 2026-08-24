@@ -12,7 +12,7 @@ module Dashboard
       authorize(Automation)
 
       @automations = current_account.automations.order(:automation_type, :position)
-      @automations = @automations.where(automation_type: params[:type]) if params[:type].present?
+      @automations = @automations.where(status: params[:status]) if params[:status].present?
     end
 
     def show

@@ -1,47 +1,69 @@
-= form_with(model: automation, url: (automation.persisted? ? automation_path(automation) : automations_path), id: "automation-form", class: "ui-settings-form", data: { controller: "automation-builder" }) do |f|
-  / --- Name & Description ---
-  .auto-section.ui-section--always-open
-    .auto-section-header
-      span.auto-section-icon 📝
-      | #{t("dashboard.conversation_details.title")}
-    .auto-section-body
-      .auto-row style="flex-direction: column; align-items: stretch; gap: 16px;"
-        div
-          label.f-semi-13 style="display: block; margin-bottom: 6px; color: #334155;" Name
-          = f.text_field :name, class: "auto-row", placeholder: t("dashboard.automations.form.name_placeholder"), style: "width: 100%; padding: 10px 14px; border: 1px solid #e2e8f0; border-radius: 8px;"
-        div
-          label.f-semi-13 style="display: block; margin-bottom: 6px; color: #334155;" Description (optional)
-          = f.text_area :description, class: "auto-row", rows: 2, placeholder: t("dashboard.automations.form.description_placeholder"), style: "width: 100%; padding: 10px 14px; border: 1px solid #e2e8f0; border-radius: 8px; resize: vertical;"
+- description_length = automation.description.to_s.length
 
-  / --- Trigger Section ---
-  .auto-section.ui-section--always-open
-    .auto-section-header
-      span.auto-section-icon.trigger ⚡
-      = t("dashboard.automations.builder.trigger_section")
-    .auto-section-body
-      .auto-row
+= form_with(model: automation, url: (automation.persisted? ? automation_path(automation) : automations_path), id: "automation-form", class: "ui-settings-form", data: { controller: "automation-builder" }) do |f|
+  / --- Details Section ---
+  .ap-section.automation-section
+    .ap-section-header
+      span.ap-section-icon
+        = image_tag("pencil_blue.svg", class: "ap-icon-svg", alt: "")
+      span = t("dashboard.automations.builder.details_section", default: "Details")
+    .ap-section-body
+      .ap-policy-details-grid
+        div
+          label.f-semi-13.ap-label for="automation-name"
+            = t("dashboard.automations.builder.name_label", default: "Name")
+            span.ap-required-marker *
+          .ui-field-control.ui-field-control--plain class=("ui-field-control--invalid" if automation.errors[:name].any?)
+            = f.text_field :name, class: "ap-input ui-control ui-input", placeholder: t("dashboard.automations.builder.name_placeholder", default: "e.g. Auto-assign new conversations"), id: "automation-name", autocomplete: "off", required: true
+          p.ap-hint = t("dashboard.automations.builder.name_hint", default: "Choose a clear name for your automation.")
+        div
+          .ap-label-row
+            label.f-semi-13.ap-label for="automation-description"
+              = t("dashboard.automations.builder.description_label", default: "Description")
+              span.ap-optional-label = t("dashboard.automations.builder.optional_label", default: "(Optional)")
+            span.ap-character-counter data-automation-builder-target="descriptionCounter" = "#{description_length} / 500"
+          = f.text_area :description, class: "ap-input ap-textarea", rows: 4, maxlength: 500, placeholder: t("dashboard.automations.builder.description_placeholder", default: "Describe when this automation should run."), id: "automation-description", data: { "automation-builder-target": "descriptionInput", action: "input->automation-builder#updateDescriptionCounter" }
+
+  / --- When this happens Section ---
+  .ap-section.autom-section
+    .ap-section-header
+      span.ap-section-icon
+        = image_tag("clock-blue.svg", class: "ap-icon-svg", alt: "")
+      span = t("dashboard.automations.builder.trigger_section", default: "When this happens")
+    .ap-section-body
+      .ap-form-row
         div style="flex: 1;"
-          label.f-semi-13 style="display: block; margin-bottom: 6px; color: #334155;" = t("dashboard.automations.builder.type_label")
+          label.f-semi-13.ap-label = t("dashboard.automations.builder.type_label", default: "Automation Type")
           .ui-field-control.ui-field-control--plain.ui-field-control--no-icon
             = f.select :automation_type, options_for_select([[t("forms.options.event_trigger"), "event_trigger"], [t("forms.options.time_trigger"), "time_trigger"]], automation.automation_type), {}, class: "ui-select ui-control", data: { controller: "select", action: "change->automation-builder#typeChanged" }
         div style="flex: 1;"
-          label.f-semi-13 style="display: block; margin-bottom: 6px; color: #334155;" = t("dashboard.automations.builder.event_label")
+          label.f-semi-13.ap-label = t("dashboard.automations.builder.event_label", default: "Event")
           .ui-field-control.ui-field-control--plain.ui-field-control--no-icon
             = f.select :event_name, options_for_select(event_options_for_type(automation.automation_type), automation.event_name), { include_blank: t("forms.options.select_event") }, class: "ui-select ui-control", data: { controller: "select", "automation-builder-target": "eventSelect", action: "change->automation-builder#eventChanged" }
 
-  / --- Conditions Section ---
-  .auto-section.ui-section--always-open
-    .auto-section-header
-      span.auto-section-icon.condition 🔍
-      = t("dashboard.automations.builder.conditions_section")
-    .auto-section-body data-automation-builder-target="conditionsContainer"
-      / Top-level operator
+      .autom-info-banner
+        .autom-info-banner__icon aria-hidden="true"
+          = image_tag("info_blue.svg", class: "autom-info-banner__icon-svg", alt: "")
+        .autom-info-banner__copy
+          strong = t("dashboard.automations.builder.event_trigger_banner_title", default: "Event Trigger")
+          span = t("dashboard.automations.builder.event_trigger_banner_text", default: "Runs when a matching event occurs in your workspace, such as a new conversation or message.")
+
+  / --- If these conditions are met Section ---
+  .ap-section.autom-section
+    .ap-section-header
+      span.ap-section-icon
+        = image_tag("filter_blue.svg", class: "ap-icon-svg", alt: "")
+      span = t("dashboard.automations.builder.conditions_section", default: "If these conditions are met")
+    .ap-section-body data-automation-builder-target="conditionsContainer"
       - cond_hash = automation.conditions.is_a?(Hash) ? automation.conditions : {}
-      .auto-group-header
-        = t("dashboard.automations.builder.match_label")
-        .ui-field-control.ui-field-control--compact.ui-field-control--no-icon style="width: 110px;"
-          = select_tag "automation[conditions][operator]", options_for_select([[t("forms.options.all"), "AND"], [t("forms.options.any"), "OR"]], cond_hash.dig("operator") || "AND"), class: "ui-select ui-control", data: { controller: "select" }
-        | #{t("ui.dashboard.automations.form.of_the_following_condition_groups")}
+      .autom-match-row
+        .autom-match-pills
+          button.autom-pill type="button" class=("autom-pill--active" if (cond_hash.dig("operator") || "AND") == "AND") data-action="click->automation-builder#setTopOperator" data-operator="AND"
+            = t("forms.options.all", default: "All")
+          button.autom-pill type="button" class=("autom-pill--active" if (cond_hash.dig("operator") || "AND") == "OR") data-action="click->automation-builder#setTopOperator" data-operator="OR"
+            = t("forms.options.any", default: "Any")
+        span.autom-match-label = t("ui.dashboard.automations.form.of_the_following_condition_groups", default: "Match of the following condition groups:")
+        = hidden_field_tag "automation[conditions][operator]", (cond_hash.dig("operator") || "AND"), data: { "automation-builder-target": "topOperatorField" }
 
       / Condition groups rendered by Stimulus
       div data-automation-builder-target="conditionGroups"
@@ -50,28 +72,27 @@
           = render("dashboard/automations/condition_group", group: group, group_index: gi)
 
       button.auto-add-group-btn type="button" data-action="click->automation-builder#addConditionGroup"
-        | + #{t("dashboard.automations.builder.add_condition_group")}
+        | + #{t("dashboard.automations.builder.add_condition_group", default: "Add Condition Group")}
 
-  / --- Actions Section ---
-  .auto-section.ui-section--always-open
-    .auto-section-header
-      span.auto-section-icon.action 🚀
-      = t("dashboard.automations.builder.actions_section")
-    .auto-section-body data-automation-builder-target="actionsContainer"
+  / --- Then do this Section ---
+  .ap-section.autom-section
+    .ap-section-header
+      span.ap-section-icon
+        = image_tag("chain_link.svg", class: "ap-icon-svg", alt: "")
+      span = t("dashboard.automations.builder.actions_section", default: "Then do this")
+      .autom-stop-processing
+        label.f-semi-13 = t("dashboard.automations.builder.stop_processing", default: "Stop processing subsequent rules")
+        label.ui-toggle.autom-stop-toggle
+          = f.check_box :stop_processing, data: { "automation-builder-target": "stopProcessing" }
+          span.ui-toggle-slider
+    .ap-section-body data-automation-builder-target="actionsContainer"
       div data-automation-builder-target="actionRows"
         - actions = automation.actions.presence || [{}]
         - actions.each_with_index do |action, ai|
           = render("dashboard/automations/action_row", action: action, action_index: ai)
 
-      button.auto-add-btn type="button" data-action="click->automation-builder#addAction"
-        | + #{t("dashboard.automations.builder.add_action")}
-
-    / Options
-    .auto-options
-      = f.check_box :stop_processing, { data: { "automation-builder-target": "stopProcessing" } }, "1", "0"
-      label for="automation_stop_processing"
-        = t("dashboard.automations.builder.stop_processing")
-        small = t("dashboard.automations.builder.stop_processing_hint")
+      button.auto-add-btn.autom-add-action-btn type="button" data-action="click->automation-builder#addAction"
+        | + #{t("dashboard.automations.builder.add_action", default: "Add Action")}
 
   / --- Hidden fields for JSON serialization ---
   = f.hidden_field :conditions, value: automation.conditions.to_json, data: { "automation-builder-target": "conditionsField" }

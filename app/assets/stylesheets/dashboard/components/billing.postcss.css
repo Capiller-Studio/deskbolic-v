@@ -1013,20 +1013,23 @@
 
 /* Warning Banner */
 .ap-billing-warning-banner {
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  z-index: 100;
+  box-sizing: border-box;
+  width: 65%;
+  margin: 0;
+  transform: translateX(-50%);
   isolation: isolate;
   overflow: hidden;
   min-height: 72px;
   padding: 10px 20px;
-  width: 65%;
   border-radius: 15px;
-  margin: 10px auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  position: sticky;
-  top: 0;
-  z-index: 100;
   color: #fff;
   background: #172b69;
   /* background:

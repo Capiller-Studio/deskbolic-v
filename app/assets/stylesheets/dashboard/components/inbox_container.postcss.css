@@ -225,7 +225,6 @@
   .conversation-list-row {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     gap: 8px;
 
     h2 {
@@ -237,13 +236,23 @@
       text-overflow: ellipsis;
       white-space: nowrap;
     }
+  }
+
+  .conversation-list-actions {
+    display: flex;
+    min-width: 44px;
+    align-self: stretch;
+    flex: 0 0 auto;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-between;
 
     time {
-      flex: 0 0 auto;
       color: #a3aab8;
       font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
       font-size: 10px;
       line-height: 14px;
+      white-space: nowrap;
     }
   }
 
@@ -256,6 +265,20 @@
     line-height: 16px;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+
+  .conversation-preview-attachment {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .conversation-preview-attachment-icon,
+  .conversation-preview-attachment-icon > svg {
+    display: block;
+    width: 12px;
+    height: 12px;
+    opacity: 0.65;
   }
 
   .conversation-list-meta {
@@ -331,7 +354,6 @@
   .conversation-unread {
     display: inline-flex;
     flex: 0 0 20px;
-    align-self: center;
     align-items: center;
     justify-content: center;
     width: 20px;

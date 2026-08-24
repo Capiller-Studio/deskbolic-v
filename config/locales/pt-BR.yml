@@ -190,6 +190,7 @@ pt-BR:
     sidebar:
       channels:
         title: Suporte Técnico
+        views: Visualizações
         inboxes: Caixas de entrada
         email: E-mail
         facebook: Facebook
@@ -198,8 +199,13 @@ pt-BR:
         widget: Widget
         contact_form: Formulário de contato
         all: Todos
+        all_conversations: Todas as conversas
+        assigned_to_me: Atribuídas a mim
+        mentions: Menções
+        unread_messages: Mensagens não lidas
         teams: Equipes
         teammates: Companheiros de equipe
+      available: Disponível
       settings:
         back_to_dashboard: Voltar ao painel
         title: Configurações
@@ -305,9 +311,28 @@ pt-BR:
     conversations:
       title: Todas as conversas
       search: Pesquisar
+      search_full: Pesquisar por nome, mensagem ou ticket
+      filters: Filtros de conversas
       filter_all: Todos
       filter_assigned: Atribuído
       filter_unassigned: Aberto
+      showing_count: "%{visible} de %{total}"
+      in_inbox: Conversas nesta caixa de entrada
+      across_inboxes: Conversas de todas as caixas de entrada
+      attachment: Anexo
+      no_conversations_yet: Ainda não há conversas
+      no_conversations_description: Quando uma mensagem chegar, a conversa aparecerá aqui.
+      loading_more: Carregando mais conversas…
+      no_selection: Nenhuma conversa selecionada
+      no_selection_description: Selecione uma conversa para ver as mensagens e os detalhes.
+      channel_types:
+        facebook: Facebook
+        instagram: Instagram
+        whatsapp: WhatsApp
+        email: Suporte por e-mail
+        contact_form: Formulário de contato
+        custom_widget: Widget personalizado
+        web_widget: Widget da web
       snooze:
         apply: Aplicar
         pick_datetime: Escolha uma data e hora
@@ -350,6 +375,7 @@ pt-BR:
       schedule: Cronograma
       send_and_close: Enviar e fechar
       send: Enviar
+      sending: Enviando...
       add: Adicionar
       recording_voice: Gravando voz...
       new_messages: Novas mensagens
@@ -374,6 +400,8 @@ pt-BR:
       resolve: Resolver
       search_canned_responses: Pesquisar respostas automáticas...
     conversation_details:
+      open: Aberta
+      assignment: Atribuição
       title: Detalhes
       agent: Agente
       unassigned: Não atribuído
@@ -383,9 +411,11 @@ pt-BR:
       assign: Atribuir
       unassign: Cancelar atribuição
       sla_status: Status do SLA
+      on_track: Dentro do prazo
       next_target: 'Próximo alvo:'
       not_applicable: N/A
       csat_rating: Classificação CSAT
+      no_rating_yet: Ainda sem avaliação
       rating: 'Avaliação:'
       pending: Pendente
       verified_identities: Identidades verificadas
@@ -395,6 +425,7 @@ pt-BR:
       unsubscribe: Cancelar inscrição
       customer_id: ID do cliente
       email: E-mail
+      no_email: Sem e-mail
       user_notes: Notas do usuário
       add_new_note: Adicionar nova nota
       note_empty: O campo não pode ficar vazio
@@ -1551,6 +1582,7 @@ pt-BR:
     profile:
       index:
         title: Detalhes pessoais
+        description: Gerencie suas informações pessoais e seu perfil público.
         public_profile: Perfil Público
         save: Salvar
         created_at: Criado em

@@ -68,7 +68,7 @@ module Dashboard
       end
 
       streams << turbo_stream.update("conversation-#{@message.conversation_id}-preview", ActionController::Base.helpers.strip_tags(@message.content.to_s)&.truncate(100))
-      streams << turbo_stream.update("conversation-#{@message.conversation_id}-date", @message.created_at.strftime("%d %b"))
+      streams << turbo_stream.update("conversation-#{@message.conversation_id}-date", helpers.conversation_list_time(@message.created_at))
 
       render(turbo_stream: streams)
     end

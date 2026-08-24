@@ -33,11 +33,15 @@
           h2.sidebar-section-title = t('dashboard.sidebar.channels.inboxes', default: 'Inboxes')
           ul.sidebar-list
             - @inboxes&.each do |inbox|
+              - inbox_unread_count = @unread_counts&.dig(:inboxes, inbox.id.to_s).to_i
               li
                 .sidebar-link class=(@inbox&.id == inbox.id ? 'is-active' : '') data-controller="section" data-action="click->section#toggleSection" data-url=conversations_path(resource_id: inbox.id)
                   span.sidebar-link-icon = inbox_icon(inbox)
                   span.sidebar-link-label title=inbox.name = inbox.name
-                  span.sidebar-link-count = inbox.conversations.count
+                  span.sidebar-link-badges
+                    span.sidebar-unread-notification role="img" aria-label=t('dashboard.sidebar.channels.unread_messages', default: 'Unread messages') data-controller="unread-badge" data-action="deskbolic:unread-counts-updated@window->unread-badge#update" data-unread-badge-id-value=inbox.id data-unread-badge-type-value="inbox" style=(inbox_unread_count.positive? ? nil : 'display: none')
+                      = inline_svg_tag('notification.svg', class: 'sidebar-unread-notification-icon', aria: { hidden: true })
+                    span.sidebar-link-count = inbox.conversations.count
 
         - if @teams.present?
           section.sidebar-section
@@ -104,11 +108,14 @@
               = inline_svg_tag("settings.svg", class: "menu-icon", alt: "", aria: { hidden: true })
               span = t("dashboard.sidebar.settings.title")
 
-          .sidebar-account-locale.dashboard-locale-selector.form-floating.ui-select style="border: none;"
+          .sidebar-account-locale
+            span.sidebar-account-locale-icon aria-hidden="true"
+              = inline_svg_tag("world.svg")
             - locale_names = { en: "English", de: "Deutsch", es: "Español", fr: "Français", "pt-BR": "Português", ar: "العربية", ko: "한국어" }
             - locale_options = Core::SUPPORTED_LOCALES.map { |loc| [locale_names[loc.to_sym] || loc.to_s.upcase, url_for(request.params.merge(locale: (loc.to_s == I18n.default_locale.to_s ? nil : loc), only_path: true))] }
             - selected_locale_url = url_for(request.params.merge(locale: (I18n.locale.to_s == I18n.default_locale.to_s ? nil : I18n.locale), only_path: true))
-            = select_tag :dashboard_locale, options_for_select(locale_options, selected_locale_url), id: "dashboard-sidebar-locale-select", class: "f-reg-14 field form-control", data: { controller: "select" }, aria: { label: t("forms.options.select_language") }, onchange: "window.location.href=this.value"
+            .sidebar-account-locale-picker
+              = select_tag :dashboard_locale, options_for_select(locale_options, selected_locale_url), id: "dashboard-sidebar-locale-select", class: "sidebar-account-locale-select", data: { controller: "select" }, aria: { label: t("forms.options.select_language") }, onchange: "window.location.href=this.value"
 
           .sidebar-account-logout
             = button_to destroy_user_session_path, method: :delete, class: "menu-link", role: "menuitem" do

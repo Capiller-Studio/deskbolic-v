@@ -11,7 +11,7 @@
         .conversation-list-heading
           h1 = list_title
           p
-            span = "#{@conversations.size} of #{list_total}"
+            span = t('dashboard.conversations.showing_count', visible: @conversations.size, total: list_total)
             |  · #{scope_description}
       = form_with url: conversations_path, method: :get, local: true, class: 'conversation-search' do
         = hidden_field_tag :resource_id, @inbox&.id
@@ -33,7 +33,7 @@
       .conversation-list-scroll data-controller="toggler"
         #conversations-list
           - if @conversations.empty?
-            .conversation-list-empty
+            #conversation-list-empty.conversation-list-empty
               = image_tag('dashboard_empty_conversations.png', alt: '')
               h2 = t('dashboard.conversations.no_conversations_yet', default: 'No conversations yet')
               p = t('dashboard.conversations.no_conversations_description', default: 'When someone sends you a message, your conversations will appear here.')

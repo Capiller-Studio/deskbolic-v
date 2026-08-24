@@ -193,6 +193,7 @@ de:
     sidebar:
       channels:
         title: Helpdesk
+        views: Ansichten
         inboxes: Posteingänge
         email: E-Mail
         facebook: Facebook
@@ -201,8 +202,13 @@ de:
         widget: Widget
         contact_form: Kontaktformular
         all: Alle
+        all_conversations: Alle Unterhaltungen
+        assigned_to_me: Mir zugewiesen
+        mentions: Erwähnungen
+        unread_messages: Ungelesene Nachrichten
         teams: Mannschaften
         teammates: Teamkollegen
+      available: Verfügbar
       settings:
         back_to_dashboard: Zurück zum Dashboard
         title: Einstellungen
@@ -312,9 +318,28 @@ de:
     conversations:
       title: Alle Gespräche
       search: Suchen
+      search_full: Nach Name, Nachricht oder Ticket suchen
+      filters: Konversationsfilter
       filter_all: Alle
       filter_assigned: zugeteilt
       filter_unassigned: Unzugewiesen
+      showing_count: "%{visible} von %{total}"
+      in_inbox: Unterhaltungen in diesem Posteingang
+      across_inboxes: Alle Unterhaltungen aus allen Posteingängen
+      attachment: Anhang
+      no_conversations_yet: Noch keine Unterhaltungen
+      no_conversations_description: Neue Nachrichten werden hier als Unterhaltungen angezeigt.
+      loading_more: Weitere Unterhaltungen werden geladen…
+      no_selection: Keine Unterhaltung ausgewählt
+      no_selection_description: Wählen Sie eine Unterhaltung aus, um Nachrichten und Details anzuzeigen.
+      channel_types:
+        facebook: Facebook
+        instagram: Instagram
+        whatsapp: WhatsApp
+        email: E-Mail-Support
+        contact_form: Kontaktformular
+        custom_widget: Benutzerdefiniertes Widget
+        web_widget: Web-Widget
       snooze:
         apply: Bewerben
         pick_datetime: Wählen Sie ein Datum und eine Uhrzeit
@@ -359,6 +384,7 @@ de:
       schedule: Zeitplan
       send_and_close: Senden und schließen
       send: Senden
+      sending: Wird gesendet...
       add: Hinzufügen
       recording_voice: Sprachaufnahme...
       new_messages: Neue Nachrichten
@@ -383,6 +409,8 @@ de:
       resolve: Lösen
       search_canned_responses: Vorgefertigte Antworten durchsuchen...
     conversation_details:
+      open: Offen
+      assignment: Zuweisung
       title: Einzelheiten
       agent: Agent
       unassigned: Nicht zugewiesen
@@ -392,9 +420,11 @@ de:
       assign: Zuweisen
       unassign: Zuweisung aufheben
       sla_status: SLA-Status
+      on_track: Im Zeitplan
       next_target: 'Nächstes Ziel:'
       not_applicable: N/A
       csat_rating: CSAT-Bewertung
+      no_rating_yet: Noch keine Bewertung
       rating: 'Bewertung:'
       pending: Ausstehend
       verified_identities: Verifizierte Identitäten
@@ -404,6 +434,7 @@ de:
       unsubscribe: Abmelden
       customer_id: Kunden-ID
       email: E-Mail
+      no_email: Keine E-Mail
       user_notes: Benutzernotizen
       add_new_note: Neue Notiz hinzufügen
       note_empty: Feld darf nicht leer sein
@@ -1582,6 +1613,7 @@ de:
     profile:
       index:
         title: Persönliche Daten
+        description: Verwalten Sie Ihre persönlichen Informationen und Ihr öffentliches Profil.
         public_profile: Öffentliches Profil
         save: Speichern
         created_at: Erstellt bei

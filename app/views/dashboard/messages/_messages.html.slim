@@ -175,7 +175,7 @@
                     p = t('dashboard.messages.ai_assist.disclaimer', default: 'AI responses may not always be accurate. Please review before sending.')
                         
             .send-button data-controller="accordion"
-              = f.submit t('dashboard.messages.send'), class: "f-semi-12", data: { turbo_submits_with: "Sending..." }
+              = f.submit t('dashboard.messages.send'), class: "f-semi-12", data: { turbo_submits_with: t('dashboard.messages.sending') }
               .arrow-container data-action="click->accordion#toggleMenu" 
                 = inline_svg_tag("arrow_down_white.svg")
 

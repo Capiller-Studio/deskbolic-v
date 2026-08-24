@@ -213,6 +213,7 @@ en:
     sidebar:
       channels:
         title: Help Desk
+        views: Views
         inboxes: Inboxes
         email: Email
         facebook: Facebook
@@ -221,8 +222,13 @@ en:
         widget: Widget
         contact_form: Contact Form
         all: All
+        all_conversations: All conversations
+        assigned_to_me: Assigned to me
+        mentions: Mentions
+        unread_messages: Unread messages
         teams: Teams
         teammates: Teammates
+      available: Available
       settings:
         title: Settings
         back_to_dashboard: Back to dashboard
@@ -446,9 +452,28 @@ en:
     conversations:
       title: All Conversations
       search: Search
+      search_full: Search name, message or ticket
+      filters: Conversation filters
       filter_all: All
       filter_assigned: Assigned
       filter_unassigned: Unassigned
+      showing_count: "%{visible} of %{total}"
+      in_inbox: Conversations in this inbox
+      across_inboxes: Everything across every inbox
+      attachment: Attachment
+      no_conversations_yet: No conversations yet
+      no_conversations_description: When someone sends you a message, your conversations will appear here.
+      loading_more: Loading more conversations…
+      no_selection: No conversation selected
+      no_selection_description: Choose a conversation from the list to view messages and details here.
+      channel_types:
+        facebook: Facebook
+        instagram: Instagram
+        whatsapp: WhatsApp
+        email: Email support
+        contact_form: Contact Form
+        custom_widget: Custom Widget
+        web_widget: Web widget
       snooze:
         apply: Apply
         pick_datetime: Pick a date & time
@@ -491,6 +516,7 @@ en:
       schedule: Schedule
       send_and_close: Send and Close
       send: Send
+      sending: Sending...
       add: Add
       recording_voice: Recording voice...
       new_messages: New messages
@@ -515,6 +541,8 @@ en:
       resolve: Resolve
       search_canned_responses: Search canned responses...
     conversation_details:
+      open: Open
+      assignment: Assignment
       ai_insights: AI Insights
       sentiment: Sentiment
       category: Category
@@ -527,9 +555,11 @@ en:
       assign: Assign
       unassign: Unassign
       sla_status: SLA Status
+      on_track: On track
       next_target: 'Next target:'
       not_applicable: N/A
       csat_rating: CSAT Rating
+      no_rating_yet: No rating yet
       rating: 'Rating:'
       pending: Pending
       verified_identities: Verified Identities
@@ -539,6 +569,7 @@ en:
       unsubscribe: Unsubscribe
       customer_id: Customer Id
       email: Email
+      no_email: No email
       user_notes: User notes
       add_new_note: Add new note
       note_empty: Field can't be empty
@@ -1740,6 +1771,7 @@ en:
     profile:
       index:
         title: Personal Details
+        description: Manage your personal information and public profile.
         public_profile: Public Profile
         save: Save
         created_at: Created at

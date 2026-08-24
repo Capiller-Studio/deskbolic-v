@@ -281,26 +281,28 @@ module Dashboard
     def append_conversation
       @conversation = current_account.conversations.find(params[:id])
       @active_conversation_id = params[:active_conversation_id]
-      render(turbo_stream: turbo_stream.prepend(
-        "conversations-list",
-        partial: "dashboard/conversations/conversation",
-        locals: { conversation: @conversation }
-      ))
-    end
-
-    def reorder_conversation
-      @conversation = current_account.conversations.find(params[:id])
-      @active_conversation_id = params[:active_conversation_id]
       streams = []
+      streams << turbo_stream.remove("conversation-list-empty")
       streams << turbo_stream.remove(ActionView::RecordIdentifier.dom_id(@conversation))
       streams << turbo_stream.prepend(
         "conversations-list",
         partial: "dashboard/conversations/conversation",
         locals: { conversation: @conversation }
       )
-      # Also update the preview text and date in case content changed
-      streams << turbo_stream.update("conversation-#{@conversation.id}-preview", @conversation.last_message_preview)
-      streams << turbo_stream.update("conversation-#{@conversation.id}-date", @conversation.last_message_date)
+      render(turbo_stream: streams)
+    end
+
+    def reorder_conversation
+      @conversation = current_account.conversations.find(params[:id])
+      @active_conversation_id = params[:active_conversation_id]
+      streams = []
+      streams << turbo_stream.remove("conversation-list-empty")
+      streams << turbo_stream.remove(ActionView::RecordIdentifier.dom_id(@conversation))
+      streams << turbo_stream.prepend(
+        "conversations-list",
+        partial: "dashboard/conversations/conversation",
+        locals: { conversation: @conversation }
+      )
       render(turbo_stream: streams)
     end
 

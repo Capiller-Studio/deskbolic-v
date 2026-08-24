@@ -41,7 +41,10 @@ module Dashboard
     end
 
     def inbox_channel_tag_label(inbox)
-      CHANNEL_TAG_LABELS.fetch(inbox_channel_tag_type(inbox))
+      tag_type = inbox_channel_tag_type(inbox)
+      translation_key = tag_type.tr("-", "_")
+
+      t("dashboard.conversations.channel_types.#{translation_key}", default: CHANNEL_TAG_LABELS.fetch(tag_type))
     end
 
     def dashboard_sidebar_view_items(sidebar_counts, unread_counts)

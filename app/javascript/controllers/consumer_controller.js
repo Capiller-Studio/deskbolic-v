@@ -107,18 +107,23 @@ export default class extends Controller {
   
   configureUrl(broadcast_event) {
     if (broadcast_event == "message.created") {
-      return "/messages/append_message"
+      return this.localizedPath("/messages/append_message")
     } else if (broadcast_event == "conversation.created") {
-      return "/conversations/append_conversation"
+      return this.localizedPath("/conversations/append_conversation")
     } else if (broadcast_event == "conversation.updated") {
-      return "/conversations/reorder_conversation"
+      return this.localizedPath("/conversations/reorder_conversation")
     } else if (broadcast_event == "message.updated") {
-      return "/messages/update_message"
+      return this.localizedPath("/messages/update_message")
     } else if (broadcast_event == "activity.created") {
-      return "/activities/append_activity"
+      return this.localizedPath("/activities/append_activity")
     } else if (broadcast_event == "notification.created") {
-      return "/notifications/update_badge"
+      return this.localizedPath("/notifications/update_badge")
     }
+  }
+
+  localizedPath(path) {
+    const locale = document.documentElement.lang
+    return locale && locale !== "en" ? `/${locale}${path}` : path
   }
   
   appendData(url, resourceId, activeConversationId) {
@@ -139,7 +144,7 @@ export default class extends Controller {
 
   reorderConversation(conversationId) {
     const activeConversationId = document.querySelector(".conversation#oppp")?.dataset.conversationId;
-    let fetchUrl = `/conversations/reorder_conversation?id=${conversationId}`;
+    let fetchUrl = `${this.localizedPath("/conversations/reorder_conversation")}?id=${conversationId}`;
     if (activeConversationId) {
       fetchUrl += `&active_conversation_id=${activeConversationId}`;
     }

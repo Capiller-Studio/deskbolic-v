@@ -189,6 +189,7 @@ es:
     sidebar:
       channels:
         title: Mesa de ayuda
+        views: Vistas
         inboxes: Bandejas de entrada
         email: Correo electrónico
         facebook: Facebook
@@ -197,8 +198,13 @@ es:
         widget: widget
         contact_form: Formulario de contacto
         all: Todos
+        all_conversations: Todas las conversaciones
+        assigned_to_me: Asignadas a mí
+        mentions: Menciones
+        unread_messages: Mensajes no leídos
         teams: equipos
         teammates: Compañeros de equipo
+      available: Disponible
       settings:
         back_to_dashboard: Volver al panel
         title: Configuración
@@ -305,9 +311,28 @@ es:
     conversations:
       title: Todas las conversaciones
       search: Buscar
+      search_full: Buscar por nombre, mensaje o ticket
+      filters: Filtros de conversaciones
       filter_all: Todos
       filter_assigned: Asignado
       filter_unassigned: Abierto
+      showing_count: "%{visible} de %{total}"
+      in_inbox: Conversaciones en esta bandeja de entrada
+      across_inboxes: Conversaciones de todas las bandejas de entrada
+      attachment: Archivo adjunto
+      no_conversations_yet: Aún no hay conversaciones
+      no_conversations_description: Cuando llegue un mensaje, la conversación aparecerá aquí.
+      loading_more: Cargando más conversaciones…
+      no_selection: No hay ninguna conversación seleccionada
+      no_selection_description: Selecciona una conversación para ver sus mensajes y detalles.
+      channel_types:
+        facebook: Facebook
+        instagram: Instagram
+        whatsapp: WhatsApp
+        email: Soporte por correo electrónico
+        contact_form: Formulario de contacto
+        custom_widget: Widget personalizado
+        web_widget: Widget web
       snooze:
         apply: Aplicar
         pick_datetime: Elige una fecha y hora
@@ -350,6 +375,7 @@ es:
       schedule: Horario
       send_and_close: Enviar y cerrar
       send: enviar
+      sending: Enviando...
       add: Añadir
       recording_voice: Grabando voz...
       new_messages: Nuevos mensajes
@@ -374,6 +400,8 @@ es:
       resolve: resolver
       search_canned_responses: Buscar respuestas almacenadas...
     conversation_details:
+      open: Abierta
+      assignment: Asignación
       title: Detalles
       agent: Agente
       unassigned: No asignado
@@ -383,9 +411,11 @@ es:
       assign: Asignar
       unassign: Desasignar
       sla_status: Estado del SLA
+      on_track: En plazo
       next_target: 'Próximo objetivo:'
       not_applicable: N/A
       csat_rating: Clasificación CSAT
+      no_rating_yet: Aún no hay valoración
       rating: 'Clasificación:'
       pending: Pendiente
       verified_identities: Identidades verificadas
@@ -395,6 +425,7 @@ es:
       unsubscribe: Darse de baja
       customer_id: Identificación del cliente
       email: Correo electrónico
+      no_email: Sin correo electrónico
       user_notes: Notas de usuario
       add_new_note: Agregar nueva nota
       note_empty: El campo no puede estar vacío
@@ -1568,6 +1599,7 @@ es:
     profile:
       index:
         title: Detalles personales
+        description: Administra tu información personal y tu perfil público.
         public_profile: Perfil público
         save: Guardar
         created_at: Creado en

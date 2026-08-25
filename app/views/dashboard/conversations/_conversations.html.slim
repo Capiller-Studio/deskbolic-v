@@ -4,12 +4,20 @@
 - scope_description = @inbox ? t('dashboard.conversations.in_inbox', default: 'Conversations in this inbox') : t('dashboard.conversations.across_inboxes', default: 'Everything across every inbox')
 - filter_items = conversation_filter_items(@list_counts)
 
-.inbox-section.center-wrapper.conversations-workspace
+.inbox-section.center-wrapper.conversations-workspace class=(@conversation.present? ? 'is-conversation-open' : nil)
   .inbox-container
     aside.inbox-nav.conversation-list-pane
       .conversation-list-header
+        .conversation-list-mobile-avatar
+          - if current_user.avatar&.attached?
+            = image_tag(current_user.avatar, alt: current_user.display_name)
+          - else
+            .avatar-fallback class=avatar_fallback_color_class(full_name(current_user))
+              = initials(current_user)
         .conversation-list-heading
-          h1 = list_title
+          .conversation-list-title
+            h1 = list_title
+            = inline_svg_tag('arrow_down.svg', class: 'conversation-list-title-chevron', aria: { hidden: true })
           p
             span = t('dashboard.conversations.showing_count', visible: @conversations.size, total: list_total)
             |  · #{scope_description}
@@ -29,6 +37,9 @@
           button.conversation-filter-tab type="button" class=(@filter.to_s == item[:key].to_s ? 'is-active' : '') data-controller="section" data-action="click->section#toggleSection" data-url=conversations_path(resource_id: @inbox&.id, team_id: @team_id, assignee_id: @assignee_id, filter: item[:key].presence, q: @query.presence)
             span = item[:label]
             small = item[:count]
+
+      .conversation-list-mobile-summary
+        span = t('dashboard.conversations.showing_count', visible: @conversations.size, total: list_total)
 
       .conversation-list-scroll data-controller="toggler"
         #conversations-list

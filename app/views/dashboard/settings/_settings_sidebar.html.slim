@@ -3,7 +3,7 @@
 - selected_channel_type = current_page == "all-channels" ? (@selected_type || "all") : nil
 - data_open = %w[assignment-policies sla-policies business-hours skills custom-fields csat-surveys identity-sources canned-responses labels macros automations ai_agents email_templates].include?(current_page)
 
-.helpdesk-section.center-wrapper
+.helpdesk-section.center-wrapper class=(current_page == "profile" ? nil : "settings-desktop-shell")
   .helpdesk-container
     .helpdesk-nav
       .card data-controller="filterable-collection"
@@ -329,3 +329,6 @@
     .helpdesk-body.settings-body
       turbo-frame#conversations-frame[data-turbo-permanent]
       == yield
+
+    - if current_page == 'profile'
+      = render 'dashboard/shared/mobile_navigation', active: 'profile'

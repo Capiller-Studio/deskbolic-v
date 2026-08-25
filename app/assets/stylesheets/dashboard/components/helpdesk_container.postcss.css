@@ -943,3 +943,277 @@
     display: none;
   }
 }
+
+.mobile-dashboard-nav {
+  display: none;
+}
+
+@media screen and (max-width: 600px) {
+  .helpdesk-section,
+  .deskbolic-shell {
+    width: 100%;
+    height: 100dvh;
+    min-height: 100dvh;
+    overflow: hidden;
+  }
+
+  .deskbolic-shell .helpdesk-container,
+  .helpdesk-section:not(.deskbolic-shell) .helpdesk-container {
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: stretch;
+    box-sizing: border-box;
+    padding-bottom: calc(72px + env(safe-area-inset-bottom));
+  }
+
+  .deskbolic-shell .helpdesk-body,
+  .helpdesk-section:not(.deskbolic-shell) .helpdesk-body {
+    min-width: 0;
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .deskbolic-shell .deskbolic-sidebar {
+    display: none;
+    flex: 1 1 auto;
+    width: 100%;
+    min-width: 0;
+    height: 100%;
+    border-right: 0;
+    background: #fff;
+  }
+
+  .deskbolic-shell.mobile-view-inboxes {
+    .deskbolic-sidebar {
+      display: flex;
+    }
+
+    .helpdesk-body {
+      display: none;
+    }
+
+    .deskbolic-sidebar > :not(.sidebar-brand) {
+      display: flex;
+    }
+
+    .deskbolic-sidebar .sidebar-brand {
+      display: flex;
+      flex: 0 0 52px;
+      justify-content: flex-start;
+      gap: 9px;
+      height: 52px;
+      padding: 0 16px;
+      border-bottom: 1px solid #eceef2;
+    }
+
+    .deskbolic-sidebar .sidebar-brand-mark,
+    .deskbolic-sidebar .sidebar-brand-copy {
+      display: flex;
+    }
+
+    .deskbolic-sidebar .sidebar-brand-mark {
+      width: 30px;
+      height: 30px;
+    }
+
+    .deskbolic-sidebar .sidebar-brand-logo {
+      width: 22px;
+      height: 22px;
+    }
+
+    .deskbolic-sidebar .sidebar-brand-copy {
+      min-width: 0;
+      flex-direction: row;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    .deskbolic-sidebar .sidebar-brand-name {
+      font-size: 15px;
+    }
+
+    .deskbolic-sidebar .sidebar-brand-product {
+      font-size: 11px;
+    }
+
+    .deskbolic-sidebar .sidebar-toggle,
+    .deskbolic-sidebar .sidebar-user {
+      display: none;
+    }
+
+    .deskbolic-sidebar .sidebar-search {
+      display: flex;
+      flex: 0 0 38px;
+      width: auto;
+      height: 38px;
+      margin: 12px 16px 6px;
+      border-radius: 7px;
+    }
+
+    .deskbolic-sidebar .sidebar-navigation {
+      display: block;
+      padding: 4px 12px 20px;
+      overflow-y: auto;
+    }
+
+    .deskbolic-sidebar .sidebar-section {
+      margin-top: 13px;
+    }
+
+    .deskbolic-sidebar .sidebar-section-title {
+      padding: 0 4px 7px;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+    }
+
+    .deskbolic-sidebar .sidebar-link {
+      min-height: 44px;
+      padding: 0 12px;
+      border-radius: 8px;
+      font-size: 13px;
+    }
+
+    .deskbolic-sidebar .sidebar-link-icon,
+    .deskbolic-sidebar .sidebar-avatar {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  .mobile-dashboard-nav {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1200;
+    display: grid;
+    height: calc(72px + env(safe-area-inset-bottom));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    padding: 9px 8px env(safe-area-inset-bottom);
+    border-top: 1px solid #e5e7eb;
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: 0 -4px 16px rgba(16, 24, 40, 0.035);
+  }
+
+  .mobile-dashboard-nav__item {
+    position: relative;
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 4px;
+    padding: 3px 2px 4px;
+    color: #8b92a3;
+    font-family: $font-family-inter-medium;
+    font-size: 11px;
+    line-height: 15px;
+    text-align: center;
+    text-decoration: none;
+
+    &.is-active {
+      color: #778dff;
+      background: transparent;
+      font-family: $font-family-inter-semibold;
+    }
+  }
+
+  .mobile-dashboard-nav__icon,
+  .mobile-dashboard-nav__icon svg {
+    display: block;
+    width: 20px;
+    height: 20px;
+  }
+
+  .mobile-dashboard-nav__item .mobile-dashboard-nav__icon svg [fill]:not([fill="none"]) {
+    fill: currentColor;
+  }
+
+  .mobile-dashboard-nav__item .mobile-dashboard-nav__icon svg [stroke]:not([stroke="none"]) {
+    stroke: currentColor;
+  }
+
+  .mobile-dashboard-nav__item.is-active:last-child .mobile-dashboard-nav__icon svg path {
+    fill: currentColor;
+    stroke: currentColor;
+  }
+
+  .mobile-dashboard-nav__badge {
+    position: absolute;
+    top: 1px;
+    left: calc(50% + 8px);
+    display: inline-flex;
+    min-width: 14px;
+    height: 14px;
+    align-items: center;
+    justify-content: center;
+    padding: 0 3px;
+    border: 2px solid #fff;
+    border-radius: 999px;
+    color: #fff;
+    background: #d34d57;
+    font-size: 8px;
+    line-height: 10px;
+  }
+
+  .deskbolic-shell.is-mobile-conversation-open {
+    .helpdesk-container {
+      padding-bottom: 0;
+    }
+
+    .mobile-dashboard-nav {
+      display: none;
+    }
+  }
+
+  .helpdesk-section:not(.deskbolic-shell) {
+    .helpdesk-container {
+      flex-direction: row;
+    }
+
+    .helpdesk-nav {
+      display: none;
+    }
+  }
+
+  .helpdesk-section.settings-desktop-shell {
+    width: 100%;
+    max-width: none;
+    height: 100dvh;
+    min-height: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+
+    > .helpdesk-container {
+      display: flex;
+      width: 1300px;
+      min-width: 1300px;
+      height: 100%;
+      flex-direction: row;
+      padding-bottom: 0;
+    }
+
+    .helpdesk-nav {
+      display: block;
+      flex: 0 0 220px;
+      width: 220px;
+      min-width: 220px;
+      height: 100%;
+      border-right: 1px solid $black-5;
+      background: $primary-light;
+    }
+
+    .helpdesk-body {
+      display: block;
+      flex: 0 0 1080px;
+      width: 1080px;
+      min-width: 1080px;
+      height: 100%;
+    }
+  }
+}

@@ -1,6 +1,6 @@
 - view_items = dashboard_sidebar_view_items(@sidebar_counts, @unread_counts)
 
-.helpdesk-section.center-wrapper.deskbolic-shell
+.helpdesk-section.center-wrapper.deskbolic-shell class=[(params[:mobile_view] == 'inboxes' ? 'mobile-view-inboxes' : nil), (@conversation.present? ? 'is-mobile-conversation-open' : nil)]
   .helpdesk-container data-controller="toggler"
     #channels-sidebar.helpdesk-nav.deskbolic-sidebar data-toggler-target="sidebar"
       .sidebar-brand
@@ -125,3 +125,5 @@
     .helpdesk-body
       turbo-frame#conversations-frame data-turbo-permanent="true"
         == yield
+
+    = render 'dashboard/shared/mobile_navigation', active: (params[:mobile_view] == 'inboxes' ? 'inboxes' : 'inbox')

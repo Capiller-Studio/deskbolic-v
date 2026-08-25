@@ -5,6 +5,11 @@ module Dashboard
     def index
       @user = current_user
       @address = @user.address
+      @mobile_profile_counts = {
+        assigned: current_account.conversations.where(status: :active, assignee: current_user).count,
+        mentions: @unread_counts&.dig(:mentions).to_i,
+        resolved: current_account.conversations.where(status: :resolved, updated_at: Time.zone.today.all_day).count
+      }
     end
 
     def update

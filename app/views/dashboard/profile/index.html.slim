@@ -1,5 +1,59 @@
 / = render("dashboard/shared/dashboard_container", current_page: "profile") do
 = render("dashboard/settings/settings_sidebar", current_page: "profile") do
+  .mobile-profile-home
+    header.mobile-profile-header
+      h1 = t("dashboard.mobile_navigation.you", default: "You")
+      span Deskbolic
+
+    .mobile-profile-content
+      section.mobile-profile-identity
+        - if current_user.avatar&.attached?
+          = image_tag(current_user.avatar, class: "mobile-profile-avatar", alt: current_user.display_name)
+        - else
+          .mobile-profile-avatar.avatar-fallback class=avatar_fallback_color_class(full_name(current_user))
+            = initials(current_user)
+        .mobile-profile-identity-copy
+          strong = current_user.display_name
+          span = current_user.email
+
+      .mobile-profile-status
+        span.mobile-profile-status-dot aria-hidden="true"
+        span = t("enums.user.status.active", default: "Active")
+
+      nav.mobile-profile-shortcuts
+        = link_to conversations_path(filter: "assigned"), class: "mobile-profile-shortcut", data: { turbo: false } do
+          = image_tag("dashboard_assigned.svg", alt: "", aria: { hidden: true })
+          span = t("dashboard.sidebar.channels.assigned_to_me", default: "Assigned to me")
+          small = @mobile_profile_counts&.dig(:assigned).to_i
+          = inline_svg_tag("arrow_left.svg", class: "mobile-profile-chevron", aria: { hidden: true })
+        = link_to conversations_path(filter: "mentions"), class: "mobile-profile-shortcut", data: { turbo: false } do
+          = image_tag("dashboard_mentions.svg", alt: "", aria: { hidden: true })
+          span = t("dashboard.sidebar.channels.mentions", default: "Mentions")
+          small = @mobile_profile_counts&.dig(:mentions).to_i
+          = inline_svg_tag("arrow_left.svg", class: "mobile-profile-chevron", aria: { hidden: true })
+        = link_to conversations_path(filter: "resolved"), class: "mobile-profile-shortcut", data: { turbo: false } do
+          = image_tag("dashboard_resolved.svg", alt: "", aria: { hidden: true })
+          span = t("dashboard.mobile_profile.resolved_today", default: "Resolved today")
+          small = @mobile_profile_counts&.dig(:resolved).to_i
+          = inline_svg_tag("arrow_left.svg", class: "mobile-profile-chevron", aria: { hidden: true })
+
+      section.mobile-profile-settings
+        h2 = t("forms.options.select_language")
+        .mobile-profile-language
+          span.mobile-profile-language-icon aria-hidden="true"
+            = inline_svg_tag("world.svg")
+          - locale_names = { en: "English", de: "Deutsch", es: "Español", fr: "Français", "pt-BR": "Português", ar: "العربية", ko: "한국어" }
+          - locale_options = Core::SUPPORTED_LOCALES.map { |loc| [locale_names[loc.to_sym] || loc.to_s.upcase, url_for(request.params.merge(locale: (loc.to_s == I18n.default_locale.to_s ? nil : loc), only_path: true))] }
+          - selected_locale_url = url_for(request.params.merge(locale: (I18n.locale.to_s == I18n.default_locale.to_s ? nil : I18n.locale), only_path: true))
+          .mobile-profile-language-picker
+            = select_tag :mobile_profile_locale,
+              options_for_select(locale_options, selected_locale_url),
+              id: "mobile-profile-locale-select",
+              class: "mobile-profile-language-select",
+              data: { controller: "select" },
+              aria: { label: t("forms.options.select_language") },
+              onchange: "window.location.href=this.value"
+
   .ui-settings-page.profile-page
     header.ui-settings-page__header
       .ui-settings-page__heading

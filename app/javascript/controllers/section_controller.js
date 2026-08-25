@@ -18,6 +18,7 @@ export default class extends Controller {
     if (sidebarLink) {
       document.querySelectorAll(".sidebar-link.is-active").forEach((item) => item.classList.remove("is-active"))
       sidebarLink.classList.add("is-active")
+      this.showMobileInbox()
     }
 
     history.pushState(null, '', targetUrl);    
@@ -33,6 +34,41 @@ export default class extends Controller {
     }).
     then((html) => {
       Turbo.renderStreamMessage(html);
+      if (conversationItem) this.showMobileConversation()
     }).catch(() => Turbo.visit(targetUrl))
+  }
+
+  backToList(event) {
+    event.preventDefault()
+    const targetUrl = event.currentTarget.dataset.url
+
+    document.querySelector(".conversations-workspace")?.classList.remove("is-conversation-open")
+    document.querySelector(".deskbolic-shell")?.classList.remove("is-mobile-conversation-open")
+
+    if (targetUrl) history.pushState(null, "", targetUrl)
+  }
+
+  showMobileInbox() {
+    document.querySelector(".deskbolic-shell")?.classList.remove("mobile-view-inboxes")
+
+    document.querySelectorAll("[data-mobile-dashboard-tab]").forEach((item) => {
+      const active = item.dataset.mobileDashboardTab === "inbox"
+      item.classList.toggle("is-active", active)
+
+      if (active) {
+        item.setAttribute("aria-current", "page")
+      } else {
+        item.removeAttribute("aria-current")
+      }
+    })
+  }
+
+  showMobileConversation() {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        document.querySelector(".conversations-workspace")?.classList.add("is-conversation-open")
+        document.querySelector(".deskbolic-shell")?.classList.add("is-mobile-conversation-open")
+      })
+    })
   }
 }

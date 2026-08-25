@@ -1,0 +1,25 @@
+- active = local_assigns.fetch(:active, 'inbox').to_s
+
+nav.mobile-dashboard-nav aria-label=t('dashboard.mobile_navigation.label', default: 'Mobile dashboard navigation')
+  = link_to conversations_path(mobile_view: 'inboxes'), class: "mobile-dashboard-nav__item #{active == 'inboxes' ? 'is-active' : ''}", data: { turbo: false, mobile_dashboard_tab: 'inboxes' }, aria: { current: (active == 'inboxes' ? 'page' : nil) } do
+    span.mobile-dashboard-nav__icon
+      = inline_svg_tag('dashboard_all_conversations.svg', aria: { hidden: true })
+    span = t('dashboard.mobile_navigation.all_inboxes', default: 'All Inboxes')
+
+  = link_to conversations_path, class: "mobile-dashboard-nav__item #{active == 'inbox' ? 'is-active' : ''}", data: { turbo: false, mobile_dashboard_tab: 'inbox' }, aria: { current: (active == 'inbox' ? 'page' : nil) } do
+    span.mobile-dashboard-nav__icon
+      = inline_svg_tag('chat-prompt.svg', aria: { hidden: true })
+    span = t('dashboard.mobile_navigation.inbox', default: 'Inbox')
+    - mobile_unread_count = @sidebar_counts&.dig(:all).to_i
+    - if mobile_unread_count.positive?
+      span.mobile-dashboard-nav__badge = mobile_unread_count
+
+  = link_to settings_path, class: "mobile-dashboard-nav__item #{active == 'settings' ? 'is-active' : ''}", data: { turbo: false, mobile_dashboard_tab: 'settings' }, aria: { current: (active == 'settings' ? 'page' : nil) } do
+    span.mobile-dashboard-nav__icon
+      = inline_svg_tag('settings.svg', aria: { hidden: true })
+    span = t('dashboard.mobile_navigation.settings', default: 'Setting')
+
+  = link_to profile_path, class: "mobile-dashboard-nav__item #{active == 'profile' ? 'is-active' : ''}", data: { turbo: false, mobile_dashboard_tab: 'profile' }, aria: { current: (active == 'profile' ? 'page' : nil) } do
+    span.mobile-dashboard-nav__icon
+      = inline_svg_tag('user.svg', aria: { hidden: true })
+    span = t('dashboard.mobile_navigation.you', default: 'You')

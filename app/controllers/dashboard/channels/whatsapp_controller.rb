@@ -24,6 +24,8 @@ module Dashboard
       def callback
         result = ::Channels::Whatsapp::SignupService.call(
           code: params[:code],
+          waba_id: params[:waba_id],
+          phone_number_id: params[:phone_number_id],
           account: current_account
         )
 

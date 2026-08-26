@@ -6,10 +6,18 @@ export default class extends Controller {
     configId: String,
     callbackUrl: String
   }
-  static targets = ["callbackForm", "code"]
+  static targets = ["callbackForm", "code", "wabaId", "phoneNumberId", "connectButton", "buttonSpinner", "buttonText"]
 
   connect() {
+    this.boundMessageHandler = this.handleEmbeddedMessage.bind(this)
+    window.addEventListener("message", this.boundMessageHandler)
     this.loadFacebookSDK()
+  }
+
+  disconnect() {
+    if (this.boundMessageHandler) {
+      window.removeEventListener("message", this.boundMessageHandler)
+    }
   }
 
   loadFacebookSDK() {
@@ -37,27 +45,56 @@ export default class extends Controller {
     })(document, "script", "facebook-jssdk")
   }
 
+  handleEmbeddedMessage(event) {
+    if (event.origin !== "https://www.facebook.com" && event.origin !== "https://web.facebook.com") return
+
+    try {
+      const data = typeof event.data === "string" ? JSON.parse(event.data) : event.data
+      if (data && data.type === "WA_EMBEDDED_SIGNUP") {
+        if (data.event === "FINISH") {
+          const sessionData = data.data || {}
+          if (sessionData.waba_id && this.hasWabaIdTarget) {
+            this.wabaIdTarget.value = sessionData.waba_id
+          }
+          if (sessionData.phone_number_id && this.hasPhoneNumberIdTarget) {
+            this.phoneNumberIdTarget.value = sessionData.phone_number_id
+          }
+        } else if (data.event === "CANCEL") {
+          this.resetButtonState()
+        } else if (data.event === "ERROR") {
+          this.resetButtonState()
+          console.error("WhatsApp Embedded Signup error:", data.data)
+        }
+      }
+    } catch (e) {
+      // Ignore non-JSON postMessages
+    }
+  }
+
   connectWa(event) {
     if (event) event.preventDefault()
 
     if (!window.FB) {
-      alert("Facebook SDK is not loaded yet. Please try again in a few seconds.")
+      alert("Facebook SDK is loading. Please try again in a moment.")
       return
     }
 
     if (!this.configIdValue) {
-      alert("WhatsApp Configuration ID is missing. Please contact support.")
+      alert("WhatsApp Configuration ID is missing. Please check your credentials configuration.")
       return
     }
+
+    this.setLoadingState()
 
     // Launch WhatsApp Embedded Signup Flow
     window.FB.login(
       (response) => {
-        if (response.authResponse) {
+        if (response.authResponse && response.authResponse.code) {
           // Send the authorization code to our backend callback
           this.codeTarget.value = response.authResponse.code
           this.callbackFormTarget.submit()
         } else {
+          this.resetButtonState()
           console.log("User cancelled login or did not fully authorize.")
         }
       },
@@ -68,9 +105,35 @@ export default class extends Controller {
         extras: {
           setup: {},
           featureType: "",
-          sessionInfoVersion: "2"
+          sessionInfoVersion: "3"
         }
       }
     )
+  }
+
+  setLoadingState() {
+    if (this.hasConnectButtonTarget) {
+      this.connectButtonTarget.disabled = true
+      this.connectButtonTarget.classList.add("is-loading")
+    }
+    if (this.hasButtonSpinnerTarget) {
+      this.buttonSpinnerTarget.style.display = "inline-block"
+    }
+    if (this.hasButtonTextTarget) {
+      this.buttonTextTarget.textContent = "Connecting..."
+    }
+  }
+
+  resetButtonState() {
+    if (this.hasConnectButtonTarget) {
+      this.connectButtonTarget.disabled = false
+      this.connectButtonTarget.classList.remove("is-loading")
+    }
+    if (this.hasButtonSpinnerTarget) {
+      this.buttonSpinnerTarget.style.display = "none"
+    }
+    if (this.hasButtonTextTarget) {
+      this.buttonTextTarget.textContent = "Connect with WhatsApp"
+    }
   }
 }

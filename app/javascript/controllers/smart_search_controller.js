@@ -14,11 +14,20 @@ export default class extends Controller {
     document.addEventListener("keydown", this.handleKeydown)
     this.handleExternalOpen = () => this.open()
     window.addEventListener("deskbolic:smart-search-open", this.handleExternalOpen)
+
+    // Turbo lifecycle cleanup
+    this.handleTurboBeforeCache = () => this.close()
+    this.handleTurboBeforeVisit = () => this.close()
+    document.addEventListener("turbo:before-cache", this.handleTurboBeforeCache)
+    document.addEventListener("turbo:before-visit", this.handleTurboBeforeVisit)
   }
 
   disconnect() {
     document.removeEventListener("keydown", this.handleKeydown)
     window.removeEventListener("deskbolic:smart-search-open", this.handleExternalOpen)
+    document.removeEventListener("turbo:before-cache", this.handleTurboBeforeCache)
+    document.removeEventListener("turbo:before-visit", this.handleTurboBeforeVisit)
+    if (this.debounceTimer) clearTimeout(this.debounceTimer)
   }
 
   _handleKeydown(event) {
@@ -98,6 +107,13 @@ export default class extends Controller {
     }
   }
 
+  onResultClick(event) {
+    const link = event.target.closest(".smart-search-result-item")
+    if (link) {
+      this.close()
+    }
+  }
+
   // ---- Quick Actions (client-side) ----
 
   filterQuickActions(query) {
@@ -124,7 +140,7 @@ export default class extends Controller {
         </div>
       `
       let globalIndex = 0
-      matches.forEach((action, i) => {
+      matches.forEach((action) => {
         html += this.renderQuickActionItem(action, globalIndex)
         globalIndex++
       })
@@ -148,7 +164,7 @@ export default class extends Controller {
       : '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>'
 
     return `
-      <a href="${action.url}" class="smart-search-result-item smart-search-quick-action" data-index="${index}" data-action="mouseenter->smart-search#highlightItem">
+      <a href="${action.url}" class="smart-search-result-item smart-search-quick-action" data-index="${index}" data-turbo-frame="_top" data-action="mouseenter->smart-search#highlightItem click->smart-search#onResultClick">
         <div class="smart-search-result-main">
           <div class="smart-search-result-header">
             <span class="smart-search-quick-action-icon">${icon}</span>
@@ -245,7 +261,7 @@ export default class extends Controller {
     const statusClass = `status-${conv.status}`
     const priorityIcon = this.priorityIcon(conv.priority)
     return `
-      <a href="${conv.url}" class="smart-search-result-item" data-index="${index}" data-action="mouseenter->smart-search#highlightItem">
+      <a href="${conv.url}" class="smart-search-result-item" data-index="${index}" data-turbo-frame="_top" data-action="mouseenter->smart-search#highlightItem click->smart-search#onResultClick">
         <div class="smart-search-result-main">
           <div class="smart-search-result-header">
             <span class="smart-search-result-id">${conv.identifier}</span>
@@ -266,7 +282,7 @@ export default class extends Controller {
   renderMessageItem(msg, index) {
     const senderIcon = msg.sender_type === "Customer" ? "↙" : "↗"
     return `
-      <a href="${msg.url}" class="smart-search-result-item smart-search-result-message" data-index="${index}" data-action="mouseenter->smart-search#highlightItem">
+      <a href="${msg.url}" class="smart-search-result-item smart-search-result-message" data-index="${index}" data-turbo-frame="_top" data-action="mouseenter->smart-search#highlightItem click->smart-search#onResultClick">
         <div class="smart-search-result-main">
           <div class="smart-search-result-header">
             <span class="smart-search-result-id">${msg.conversation_identifier}</span>
@@ -324,10 +340,13 @@ export default class extends Controller {
 
   selectCurrent() {
     if (this.selectedIndex >= 0 && this.resultItems[this.selectedIndex]) {
-      this.resultItems[this.selectedIndex].click()
+      const targetLink = this.resultItems[this.selectedIndex]
+      this.close()
+      targetLink.click()
     } else {
       const query = this.inputTarget.value.trim()
       if (query.length > 0) {
+        this.close()
         window.location.href = `/search?q=${encodeURIComponent(query)}`
       }
     }
@@ -376,3 +395,4 @@ export default class extends Controller {
     return div.innerHTML
   }
 }
+

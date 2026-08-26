@@ -123,7 +123,7 @@
               span = t("ui.dashboard.shared.dashboard_container.sign_out")
 
     .helpdesk-body
-      turbo-frame#conversations-frame data-turbo-permanent="true"
+      turbo-frame#conversations-frame
         == yield
 
     = render 'dashboard/shared/mobile_navigation', active: (params[:mobile_view] == 'inboxes' ? 'inboxes' : 'inbox')

@@ -10,7 +10,7 @@
 - quick_actions = quick_action_links.map { |category, action, route| { category: t("dashboard.search.categories.#{category}"), label: t("dashboard.search.quick_actions.#{action}"), keywords: t("dashboard.search.quick_actions.#{action}_keywords"), url: public_send(route) } }
 - search_sections = { quick_actions: t("dashboard.search.section_quick_actions"), conversations: t("dashboard.search.section_conversations"), messages: t("dashboard.search.section_messages"), unknown_customer: t("dashboard.search.unknown_customer"), unknown_sender: t("dashboard.search.unknown_sender") }
 
-.smart-search-overlay data-controller="smart-search" data-smart-search-target="modal" data-action="click->smart-search#closeOnBackdrop" data-smart-search-quick-actions-value=quick_actions.to_json data-smart-search-section-labels-value=search_sections.to_json
+.smart-search-overlay data-controller="smart-search" data-smart-search-target="modal" data-action="click->smart-search#closeOnBackdrop click->smart-search#onResultClick" data-smart-search-quick-actions-value=quick_actions.to_json data-smart-search-section-labels-value=search_sections.to_json
   .smart-search-dialog
     .smart-search-input-wrapper
       svg.smart-search-input-icon width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"

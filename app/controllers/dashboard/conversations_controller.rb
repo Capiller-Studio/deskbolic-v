@@ -47,6 +47,11 @@ module Dashboard
       @conversations = @conversations.includes(:customers, :last_message).order(last_activity_at: :desc)
       @pagy_conversations, @conversations = pagy(@conversations, items: 20, page_param: :conversations_page)
 
+      if params[:message_id].present? && (target_msg = @conversation.messages.find_by(id: params[:message_id]))
+        newer_count = @conversation.messages.where("created_at > ?", target_msg.created_at).count
+        params[:page] ||= (newer_count / 20) + 1
+      end
+
       @pagy, @messages = pagy(@conversation.messages.includes(:attachments).order(created_at: :desc), items: 20)
       @messages = @messages.reverse
 

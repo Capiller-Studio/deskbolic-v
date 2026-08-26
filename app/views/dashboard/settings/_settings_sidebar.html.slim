@@ -327,7 +327,6 @@
               = t("ui.dashboard.settings.settings_sidebar.no_results")
 
     .helpdesk-body.settings-body
-      turbo-frame#conversations-frame[data-turbo-permanent]
       == yield
 
     - if current_page == 'profile'

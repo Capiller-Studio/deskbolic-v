@@ -1,7 +1,7 @@
 - customer = @conversation.customers.first
 - csat_response = @conversation.csat_survey_responses.last
 - active_sla = @conversation.conversation_slas.active.first
-- recent_conversations = customer.conversations.where.not(id: @conversation.id).order(created_at: :desc).limit(5)
+- recent_conversations = customer ? customer.conversations.where.not(id: @conversation.id).order(created_at: :desc).limit(5) : []
 - status_label = @conversation.active? ? t('dashboard.conversation_details.open', default: 'Open') : t("enums.conversation.status.#{@conversation.status}", default: @conversation.status.humanize)
 
 aside.details-section.conversation-inspector id="conversation-details-#{@conversation.id}" data-controller="accordion"
@@ -75,10 +75,10 @@ aside.details-section.conversation-inspector id="conversation-details-#{@convers
     section.inspector-section
       button.inspector-accordion type="button" data-action="click->accordion#toggle"
         span = t('dashboard.conversation_details.verified_identities')
-        small = customer.identities.count
+        small = customer&.identities&.count.to_i
         = inline_svg_tag('arrow_down.svg', class: 'inspector-chevron', aria: { hidden: true })
       .panel.inspector-panel data-accordion-target="panel"
-        - if customer.identities.any?
+        - if customer && customer.identities.any?
           - customer.identities.includes(:identity_source).each do |identity|
             .inspector-data-row
               span = identity.identity_source&.name || identity.identity_type.titleize
@@ -91,19 +91,22 @@ aside.details-section.conversation-inspector id="conversation-details-#{@convers
         span = t('dashboard.conversation_details.customer_data')
         = inline_svg_tag('arrow_down.svg', class: 'inspector-chevron', aria: { hidden: true })
       .panel.inspector-panel data-accordion-target="panel"
-        .inspector-customer
-          - if customer.avatar&.attached?
-            = image_tag(customer.avatar, class: 'inspector-customer-avatar', alt: full_name(customer))
-          - else
-            .inspector-customer-avatar.avatar-fallback class=avatar_fallback_color_class(full_name(customer))
-              = initials(customer)
-          strong = full_name(customer)
-        .inspector-data-row
-          span = t('dashboard.conversation_details.customer_id')
-          strong = customer.id.last(10)
-        .inspector-data-row
-          span = t('dashboard.conversation_details.email')
-          strong = customer.email.presence || '—'
+        - if customer
+          .inspector-customer
+            - if customer.avatar&.attached?
+              = image_tag(customer.avatar, class: 'inspector-customer-avatar', alt: full_name(customer))
+            - else
+              .inspector-customer-avatar.avatar-fallback class=avatar_fallback_color_class(full_name(customer))
+                = initials(customer)
+            strong = full_name(customer)
+          .inspector-data-row
+            span = t('dashboard.conversation_details.customer_id')
+            strong = customer.id.last(10)
+          .inspector-data-row
+            span = t('dashboard.conversation_details.email')
+            strong = customer.email.presence || '—'
+        - else
+          p.inspector-empty = t('dashboard.conversation_details.no_customer', default: 'No customer data')
 
     section.inspector-section.user-notes
       button.inspector-accordion type="button" data-action="click->accordion#toggle"

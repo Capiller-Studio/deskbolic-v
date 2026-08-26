@@ -7,7 +7,7 @@ RSpec.describe 'Dashboard::Channels', type: :request do
   let(:user) { create(:user, confirmed_at: Time.current) }
   let!(:account_user) { create(:account_user, account: account, user: user, owner: true) }
   let(:plan) do
-    create(:plan, features: { 'channels' => { 'email' => true, 'instagram' => true } }, limits: { 'channels' => 100, 'users' => 100 })
+    create(:plan, features: { 'channels' => { 'email' => true, 'instagram' => true, 'whatsapp' => true } }, limits: { 'channels' => 100, 'users' => 100 })
   end
   let!(:subscription) { create(:subscription, account: account, plan: plan, status: :active) }
   let(:email_channel) { account.with_shard { create(:channel_email, account: account, email: "test_#{SecureRandom.hex(4)}@acme.com") } }
@@ -46,6 +46,129 @@ RSpec.describe 'Dashboard::Channels', type: :request do
       delete channels_email_path(id: email_channel.id, locale: :en)
       expect(response).to have_http_status(:redirect)
       expect(account.with_shard { Channel::Email.where(id: email_channel.id) }).not_to exist
+    end
+  end
+
+  describe 'WhatsApp Channels' do
+    let(:phone_suffix) { SecureRandom.random_number(1000000..9999999).to_s }
+    let(:whatsapp_channel) do
+      account.with_shard do
+        create(:channel_whatsapp, account: account, name: 'Support WhatsApp', full_phone_number: "+1555#{phone_suffix}", phone_number_id: "phone_#{phone_suffix}", business_account_id: "waba_#{phone_suffix}")
+      end
+    end
+
+    describe 'GET /channels/whatsapp' do
+      it 'renders whatsapp channels index' do
+        get channels_whatsapp_index_path(locale: :en)
+        expect(response).to have_http_status(:ok)
+      end
+    end
+
+    describe 'GET /channels/whatsapp/new' do
+      it 'renders new whatsapp channel form' do
+        get new_channels_whatsapp_path(locale: :en)
+        expect(response).to have_http_status(:ok)
+      end
+    end
+
+    describe 'POST /channels/whatsapp/callback' do
+      let(:cb_phone) { "+1 555-#{SecureRandom.random_number(100..999)}-#{SecureRandom.random_number(1000..9999)}" }
+      let(:cb_phone_id) { "phone_#{SecureRandom.hex(4)}" }
+      let(:cb_waba_id) { "waba_#{SecureRandom.hex(4)}" }
+
+      before do
+        allow(::Channels::Whatsapp::SignupService).to receive(:call).with(
+          code: 'valid_auth_code',
+          waba_id: cb_waba_id,
+          phone_number_id: cb_phone_id,
+          account: account
+        ).and_return({
+          access_token: 'meta_access_token',
+          waba_id: cb_waba_id,
+          phone_number_id: cb_phone_id,
+          display_phone_number: cb_phone,
+          name: 'Techbolic Live Support'
+        })
+      end
+
+      it 'completes embedded signup and redirects to edit' do
+        post callback_channels_whatsapp_index_path(locale: :en), params: {
+          code: 'valid_auth_code',
+          waba_id: cb_waba_id,
+          phone_number_id: cb_phone_id
+        }
+        expect(response).to have_http_status(:see_other)
+        expect(account.with_shard { Channel::Whatsapp.where(phone_number_id: cb_phone_id) }).to exist
+      end
+
+      it 'handles SignupService errors gracefully and redirects to new' do
+        allow(::Channels::Whatsapp::SignupService).to receive(:call).and_raise(RuntimeError.new('Invalid OAuth Code'))
+
+        post callback_channels_whatsapp_index_path(locale: :en), params: { code: 'bad_code' }
+        expect(response).to have_http_status(:redirect)
+        expect(response).to redirect_to(new_channels_whatsapp_path)
+        follow_redirect!
+        expect(response.body).to include(I18n.t('dashboard.whatsapp_channels.callback_error'))
+      end
+
+      it 'redirects if channel limit is reached' do
+        allow_any_instance_of(Account).to receive(:within_limit?).with(:channels).and_return(false)
+
+        post callback_channels_whatsapp_index_path(locale: :en), params: {
+          code: 'valid_auth_code',
+          waba_id: cb_waba_id,
+          phone_number_id: cb_phone_id
+        }
+        expect(response).to have_http_status(:redirect)
+      end
+    end
+
+    describe 'POST /channels/whatsapp (Manual setup)' do
+      let(:manual_suffix) { SecureRandom.random_number(1000000..9999999).to_s }
+      let(:valid_params) do
+        {
+          channel_whatsapp: {
+            name: 'Manual WhatsApp',
+            phone_code: '+1',
+            phone_number: "555#{manual_suffix}",
+            phone_number_id: "phone_manual_#{manual_suffix}",
+            business_account_id: "waba_manual_#{manual_suffix}",
+            api_key: 'permanent_token_123'
+          }
+        }
+      end
+
+      it 'creates a new manual WhatsApp channel and redirects to edit' do
+        post channels_whatsapp_index_path(locale: :en), params: valid_params
+        expect(response).to have_http_status(:see_other)
+        expect(account.with_shard { Channel::Whatsapp.where(phone_number_id: "phone_manual_#{manual_suffix}") }).to exist
+      end
+
+      it 'handles invalid parameters by redirecting to new form' do
+        post channels_whatsapp_index_path(locale: :en), params: {
+          channel_whatsapp: { name: '', phone_number: '' }
+        }
+        expect(response).to have_http_status(:see_other)
+        expect(response).to redirect_to(new_channels_whatsapp_path)
+      end
+    end
+
+    describe 'PATCH /channels/whatsapp/:id' do
+      it 'updates channel name' do
+        patch channels_whatsapp_path(id: whatsapp_channel.id, locale: :en), params: {
+          channel_whatsapp: { name: 'Updated Channel Name' }
+        }
+        expect(response).to have_http_status(:see_other)
+        expect(account.with_shard { whatsapp_channel.reload.name }).to eq('Updated Channel Name')
+      end
+    end
+
+    describe 'DELETE /channels/whatsapp/:id' do
+      it 'destroys whatsapp channel' do
+        delete channels_whatsapp_path(id: whatsapp_channel.id, locale: :en)
+        expect(response).to have_http_status(:redirect)
+        expect(account.with_shard { Channel::Whatsapp.where(id: whatsapp_channel.id) }).not_to exist
+      end
     end
   end
 

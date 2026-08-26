@@ -8,11 +8,14 @@ if Rails.env.development?
   Seeds::CountriesSeeder.new.seed
   Seeds::StatesSeeder.new.seed
   Seeds::PlanSeeder.seed
+  Seeds::AdminSeeder.seed
   Seeds::DevelopmentSeeder.seed
+  Seeds::Development::AffiliateSeeder.seed
   Seeds::ApiDocumentationSeeder.seed(domain: "developers.deskbolic.localhost")
 elsif Rails.env.production?
   Seeds::CountriesSeeder.new.seed
   Seeds::StatesSeeder.new.seed
   Seeds::PlanSeeder.seed
+  Seeds::AdminSeeder.seed
   # Seeds::ApiDocumentationSeeder.seed(domain: "developers.deskbolic.com")
 end

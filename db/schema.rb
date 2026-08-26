@@ -196,7 +196,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_04_180002) do
     t.string "external_id"
     t.datetime "funded_at"
     t.string "name"
+    t.integer "provider", default: 0, null: false
     t.integer "status", default: 0, null: false
+    t.decimal "total_amount", precision: 12, scale: 2, default: "0.0"
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["code"], name: "index_affiliate_payout_batches_on_code", unique: true
     t.index ["created_at"], name: "index_affiliate_payout_batches_on_created_at"
@@ -384,6 +386,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_04_180002) do
     t.index ["account_id", "is_default"], name: "index_payment_methods_on_account_id_and_is_default"
     t.index ["account_id"], name: "index_payment_methods_on_account_id"
     t.index ["external_id"], name: "index_payment_methods_on_external_id"
+  end
+
+  create_table "account_plans", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "account_id", null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.uuid "plan_id", null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["account_id", "plan_id"], name: "index_account_plans_on_account_id_and_plan_id", unique: true
+    t.index ["account_id"], name: "index_account_plans_on_account_id"
+    t.index ["plan_id"], name: "index_account_plans_on_plan_id"
   end
 
   create_table "plan_translations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -684,6 +696,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_04_180002) do
   add_foreign_key "domains", "accounts", on_delete: :cascade
   add_foreign_key "global_routings", "accounts", on_delete: :cascade
   add_foreign_key "payment_methods", "accounts", on_delete: :cascade
+  add_foreign_key "account_plans", "accounts", on_delete: :cascade
+  add_foreign_key "account_plans", "plans", on_delete: :cascade
   add_foreign_key "plan_translations", "plans", on_delete: :cascade
   add_foreign_key "platform_comments", "platform_staffs", column: "staff_id", on_delete: :cascade
   add_foreign_key "platform_staff_roles", "platform_roles", column: "role_id", on_delete: :cascade

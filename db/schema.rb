@@ -49,6 +49,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_04_180002) do
     t.index ["token"], name: "index_account_invitations_on_token", unique: true
   end
 
+  create_table "account_plans", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "account_id", null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.uuid "plan_id", null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["account_id", "plan_id"], name: "index_account_plans_on_account_id_and_plan_id", unique: true
+    t.index ["account_id"], name: "index_account_plans_on_account_id"
+    t.index ["plan_id", "account_id"], name: "index_account_plans_on_plan_id_and_account_id"
+    t.index ["plan_id"], name: "index_account_plans_on_plan_id"
+  end
+
   create_table "account_users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "account_id", null: false
     t.integer "availability", default: 0, null: false
@@ -388,16 +399,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_04_180002) do
     t.index ["external_id"], name: "index_payment_methods_on_external_id"
   end
 
-  create_table "account_plans", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "account_id", null: false
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.uuid "plan_id", null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.index ["account_id", "plan_id"], name: "index_account_plans_on_account_id_and_plan_id", unique: true
-    t.index ["account_id"], name: "index_account_plans_on_account_id"
-    t.index ["plan_id"], name: "index_account_plans_on_plan_id"
-  end
-
   create_table "plan_translations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.text "description"
@@ -671,6 +672,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_04_180002) do
 
   add_foreign_key "account_invitations", "accounts", on_delete: :cascade
   add_foreign_key "account_invitations", "users", column: "invited_by_id", on_delete: :nullify
+  add_foreign_key "account_plans", "accounts", on_delete: :cascade
+  add_foreign_key "account_plans", "plans", on_delete: :cascade
   add_foreign_key "account_users", "accounts", on_delete: :cascade
   add_foreign_key "account_users", "users", column: "invited_by_id", on_delete: :nullify
   add_foreign_key "account_users", "users", on_delete: :cascade
@@ -696,8 +699,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_04_180002) do
   add_foreign_key "domains", "accounts", on_delete: :cascade
   add_foreign_key "global_routings", "accounts", on_delete: :cascade
   add_foreign_key "payment_methods", "accounts", on_delete: :cascade
-  add_foreign_key "account_plans", "accounts", on_delete: :cascade
-  add_foreign_key "account_plans", "plans", on_delete: :cascade
   add_foreign_key "plan_translations", "plans", on_delete: :cascade
   add_foreign_key "platform_comments", "platform_staffs", column: "staff_id", on_delete: :cascade
   add_foreign_key "platform_staff_roles", "platform_roles", column: "role_id", on_delete: :cascade

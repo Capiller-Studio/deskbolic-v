@@ -1,5 +1,5 @@
 - customer = conversation.customers.first
-a.search-result-card href=conversation_path(conversation)
+a.search-result-card href=conversation_path(conversation) data-turbo-frame="_top"
   .search-result-card-body
     .search-result-card-header
       span.smart-search-result-id = conversation.identifier

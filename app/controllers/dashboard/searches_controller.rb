@@ -66,7 +66,7 @@ module Dashboard
       end
 
       messages = results[:messages].map do |msg|
-        highlighted = msg.search_highlights.dig(:content) || ActionController::Base.helpers.strip_tags(msg.content.to_s).truncate(150)
+        highlighted = msg.try(:search_highlights)&.dig(:content) || ActionController::Base.helpers.strip_tags(msg.content.to_s).truncate(150)
         {
           id: msg.id,
           content: highlighted,
@@ -75,7 +75,7 @@ module Dashboard
           conversation_id: msg.conversation_id,
           conversation_identifier: msg.conversation&.identifier,
           created_at: msg.created_at&.strftime("%d %b %Y, %H:%M"),
-          url: conversation_path(msg.conversation_id, anchor: "message_#{msg.id}")
+          url: conversation_path(msg.conversation_id, message_id: msg.id, anchor: "message_#{msg.id}")
         }
       end
 

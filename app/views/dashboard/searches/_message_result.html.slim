@@ -1,6 +1,6 @@
 - highlighted_content = message.try(:search_highlights)&.dig(:content) || strip_tags(message.content.to_s).truncate(200)
 - sender_icon = message.sender_type == "Customer" ? "↙" : "↗"
-a.search-result-card.search-result-card-message href=conversation_path(message.conversation_id, anchor: "message_#{message.id}")
+a.search-result-card.search-result-card-message href=conversation_path(message.conversation_id, message_id: message.id, anchor: "message_#{message.id}") data-turbo-frame="_top"
   .search-result-card-body
     .search-result-card-header
       span.smart-search-result-id = message.conversation&.identifier

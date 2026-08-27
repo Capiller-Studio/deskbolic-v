@@ -111,7 +111,7 @@ module Dashboard
         creator = ::Channels::ChannelCreator.new(
           channel_type: "whatsapp",
           channel_params: {
-            name: result[:display_phone_number] || result[:phone_number_id],
+            name: result[:name].presence || result[:display_phone_number],
             api_key: result[:access_token],
             full_phone_number: result[:display_phone_number],
             phone_number_id: result[:phone_number_id],

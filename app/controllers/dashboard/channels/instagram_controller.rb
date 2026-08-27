@@ -96,7 +96,7 @@ module Dashboard
           channel_params: {
             instagram_id: result[:user][:id],
             username: result[:user][:username],
-            name: result[:user][:name],
+            name: result[:user][:name].presence || result[:user][:username].presence || "Instagram",
             avatar_url: result[:user][:avatar_url],
             access_token: result[:access_token],
             expires_at: result[:expires_at]

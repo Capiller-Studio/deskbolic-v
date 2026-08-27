@@ -7,7 +7,7 @@
           | ← #{t("dashboard.facebook_channels.form.back")}
 
       .channel-connect-container
-        .channel-connect-card data-facebook-channel-target="step1"
+        .channel-connect-card class=("ui-step-hidden" if @pages.present?) data-facebook-channel-target="step1"
           .channel-connect-visual
             .channel-gradient-ring
               .channel-connect-icon
@@ -32,7 +32,7 @@
                 span = t("dashboard.facebook_channels.new.scope_messages")
 
           .channel-connect-action
-            button.channel-connect-btn type="button" data-action="click->facebook-channel#connectFb"
+            = link_to oauth_authorize_channels_facebook_index_path, class: "channel-connect-btn", data: { turbo: false } do
               .channel-connect-btn-icon
                 svg viewBox="0 0 24 24" width="20" height="20" fill="white"
                   path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
@@ -41,8 +41,29 @@
             .channel-connect-note
               p.f-reg-12 = t("dashboard.facebook_channels.new.connect_note")
 
-        /! Step 2: Select a Page (rendered via Turbo Stream after callback)
-        #page-selector.facebook-channel-step.ui-step-hidden data-facebook-channel-target="step2"
+        /! Step 2: Select a Page (rendered after callback)
+        #page-selector.facebook-channel-step class=("ui-step-hidden" unless @pages.present?) data-facebook-channel-target="step2"
+          - if @pages.present?
+            .channel-connect-card.facebook-channel-step-card data-facebook-channel-step-success="true"
+              .facebook-channel-step-heading
+                .facebook-channel-step-number 2
+                h3 = t("dashboard.facebook_channels.new.step2_title")
+                p = t("dashboard.facebook_channels.new.step2_description")
+
+              .channel-page-grid.facebook-channel-page-grid
+                - @pages.each do |page|
+                  .channel-page-card class=("channel-page-card-disabled" if page[:already_connected]) data-action="click->facebook-channel#selectPage" data-page-id=page[:id] data-page-name=page[:name] data-page-token=page[:access_token] data-page-avatar=page[:avatar_url] data-user-token=@user_access_token
+                    .channel-page-card-avatar
+                      - if page[:avatar_url].present?
+                        img src=page[:avatar_url] alt=page[:name]
+                      - else
+                        .ui-avatar-placeholder
+                          | 📘
+                    .channel-page-card-details
+                      h4.f-semi-14 = page[:name]
+                      p.f-reg-12 = page[:category]
+                      - if page[:already_connected]
+                        span.channel-page-connected = t("dashboard.facebook_channels.new.already_connected")
 
         /! Step 3: Configure (hidden form, shown after page selection)
         .channel-connect-card.facebook-channel-step-card.ui-step-hidden data-facebook-channel-target="step3"

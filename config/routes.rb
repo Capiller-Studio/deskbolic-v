@@ -85,6 +85,8 @@ Rails.application.routes.draw do
     patch "profile", to: "profile#update"
     namespace :channels do
       get "instagram/callback", to: "instagram#callback"
+      get "whatsapp/callback", to: "whatsapp#callback"
+      get "facebook/callback", to: "facebook#callback"
     end
 
     constraints(SubdomainConstraint) do
@@ -134,6 +136,8 @@ Rails.application.routes.draw do
             post :reconnect
           end
           collection do
+            get :oauth_authorize
+            get :callback
             post :callback
           end
         end
@@ -150,6 +154,8 @@ Rails.application.routes.draw do
             post :reconnect
           end
           collection do
+            get :oauth_authorize
+            get :callback
             post :callback
           end
         end

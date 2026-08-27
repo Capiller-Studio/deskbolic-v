@@ -24,11 +24,12 @@ module Dashboard
       # GET /instagram_channels/oauth_authorize
       # Generates the Instagram OAuth URL and redirects the user to Instagram
       def oauth_authorize
-        state = generate_state_token(current_account.id)
+        callback_uri = instagram_callback_url
+        state = generate_state_token(current_account.id, callback_uri)
 
         oauth_service = ::Channels::Instagram::OauthService.new(account: current_account)
         redirect_url = oauth_service.authorization_url(
-          redirect_uri: instagram_callback_url,
+          redirect_uri: callback_uri,
           state: state
         )
 
@@ -44,7 +45,11 @@ module Dashboard
           return
         end
 
-        account_id = verify_state_token(params[:state])
+        # Clean code immediately from any hash fragment or URL encoding artifacts (#_ or %23_)
+        clean_code = params[:code].to_s.split("#").first.gsub(/%23.*/, "").strip
+
+        state_payload = verify_state_token(params[:state])
+        account_id = state_payload.is_a?(Hash) ? state_payload["sub"] : state_payload
         if account_id.blank?
           redirect_target = current_account ? new_channels_instagram_path : root_path
           redirect_to(redirect_target, alert: t("dashboard.instagram_channels.invalid_state"))
@@ -61,7 +66,7 @@ module Dashboard
         if request.subdomain.blank? || request.subdomain == "www" || current_account&.id != target_account.id
           redirect_to(callback_channels_instagram_index_url(
             subdomain: target_account.identifier,
-            code: params[:code],
+            code: clean_code,
             state: params[:state]
           ), allow_other_host: true)
           return
@@ -73,12 +78,12 @@ module Dashboard
 
         oauth_service = ::Channels::Instagram::OauthService.new(account: current_account)
 
-        # Strip potential #_ fragment that Meta sometimes appends
-        safe_code = params[:code].to_s.gsub(/#_\z/, "")
+        # Use the exact redirect_uri stored in the verified JWT state payload to ensure 100% match with OAuth dialog
+        token_redirect_uri = (state_payload.is_a?(Hash) && state_payload["redirect_uri"].presence) || instagram_callback_url
 
         result = oauth_service.exchange_code(
-          code: safe_code,
-          redirect_uri: instagram_callback_url
+          code: clean_code,
+          redirect_uri: token_redirect_uri
         )
 
         unless current_account.within_limit?(:channels)
@@ -105,7 +110,7 @@ module Dashboard
           redirect_to(new_channels_instagram_path, alert: t("dashboard.instagram_channels.create_failed"))
         end
       rescue StandardError => e
-        Rails.logger.error("Instagram OAuth callback error: #{e.message}")
+        Rails.logger.error("Instagram OAuth callback error: #{e.message}\n#{e.backtrace&.first(10)&.join("\n")}")
         fallback_target = current_account ? new_channels_instagram_path : root_path
         redirect_to(fallback_target, alert: t("dashboard.instagram_channels.callback_error"))
       end
@@ -158,16 +163,23 @@ module Dashboard
         )
       end
 
-      # JWT-based state parameter to prevent CSRF during OAuth redirect
-      def generate_state_token(account_id)
+      # JWT-based state parameter to prevent CSRF during OAuth redirect and preserve exact redirect_uri
+      def generate_state_token(account_id, redirect_uri = nil)
         secret = Rails.application.credentials.dig(:channels, :instagram, :app_secret)
-        ::JWT.encode({ sub: account_id, iat: Time.current.to_i, exp: 10.minutes.from_now.to_i }, secret, "HS256")
+        payload = {
+          sub: account_id,
+          iat: Time.current.to_i,
+          exp: 15.minutes.from_now.to_i
+        }
+        payload[:redirect_uri] = redirect_uri if redirect_uri.present?
+        ::JWT.encode(payload, secret, "HS256")
       end
 
       def verify_state_token(token)
+        return nil if token.blank?
         secret = Rails.application.credentials.dig(:channels, :instagram, :app_secret)
         decoded = ::JWT.decode(token, secret, true, { algorithm: "HS256" })
-        decoded.first["sub"]
+        decoded.first
       rescue ::JWT::DecodeError, ::JWT::ExpiredSignature => e
         Rails.logger.error("Instagram state token verification failed: #{e.message}")
         nil

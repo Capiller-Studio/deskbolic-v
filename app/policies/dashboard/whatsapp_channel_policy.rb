@@ -10,6 +10,10 @@ module Dashboard
       create?
     end
 
+    def oauth_authorize?
+      create?
+    end
+
     def create?
       authorized?("inboxes.write", feature: "channels.whatsapp", limit: :channels)
     end

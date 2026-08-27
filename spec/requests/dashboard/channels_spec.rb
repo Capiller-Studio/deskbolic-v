@@ -7,7 +7,7 @@ RSpec.describe 'Dashboard::Channels', type: :request do
   let(:user) { create(:user, confirmed_at: Time.current) }
   let!(:account_user) { create(:account_user, account: account, user: user, owner: true) }
   let(:plan) do
-    create(:plan, features: { 'channels' => { 'email' => true, 'instagram' => true, 'whatsapp' => true } }, limits: { 'channels' => 100, 'users' => 100 })
+    create(:plan, features: { 'channels' => { 'email' => true, 'instagram' => true, 'whatsapp' => true, 'facebook' => true } }, limits: { 'channels' => 100, 'users' => 100 })
   end
   let!(:subscription) { create(:subscription, account: account, plan: plan, status: :active) }
   let(:email_channel) { account.with_shard { create(:channel_email, account: account, email: "test_#{SecureRandom.hex(4)}@acme.com") } }
@@ -41,11 +41,63 @@ RSpec.describe 'Dashboard::Channels', type: :request do
     end
   end
 
-  describe 'DELETE /channels/email/:id' do
-    it 'destroys email channel' do
-      delete channels_email_path(id: email_channel.id, locale: :en)
-      expect(response).to have_http_status(:redirect)
-      expect(account.with_shard { Channel::Email.where(id: email_channel.id) }).not_to exist
+    describe 'DELETE /channels/email/:id' do
+      it 'destroys email channel' do
+        delete channels_email_path(id: email_channel.id, locale: :en)
+        expect(response).to have_http_status(:redirect)
+        expect(account.with_shard { Channel::Email.where(id: email_channel.id) }).not_to exist
+      end
+    end
+
+  describe 'Facebook Pages Channels' do
+    describe 'GET /channels/facebook/oauth_authorize' do
+      it 'redirects to Meta dialog oauth URL' do
+        get oauth_authorize_channels_facebook_index_path(locale: :en)
+        expect(response).to have_http_status(:redirect)
+        expect(response.location).to include('https://www.facebook.com')
+        expect(response.location).to include('dialog/oauth')
+      end
+    end
+
+    describe 'GET /channels/facebook/callback' do
+      let(:secret) { 'test_secret' }
+      let(:state_token) do
+        JWT.encode({ sub: account.id, iat: Time.current.to_i, exp: 10.minutes.from_now.to_i }, secret, 'HS256')
+      end
+
+      before do
+        allow(Rails.application.credentials).to receive(:dig).and_call_original
+        allow(Rails.application.credentials).to receive(:dig).with(:channels, :facebook, :app_secret).and_return(secret)
+        allow(Rails.application.credentials).to receive(:dig).with(:channels, :facebook, :app_id).and_return('fb_app_123')
+      end
+
+      context 'when accessed on apex domain' do
+        before { set_subdomain(nil) }
+
+        it 'redirects to the tenant subdomain callback' do
+          get channels_facebook_callback_path(code: 'test_code', state: state_token)
+          expect(response).to have_http_status(:redirect)
+          expect(response.location).to include(account.identifier)
+          expect(response.location).to include('test_code')
+        end
+      end
+
+      context 'when accessed on tenant subdomain' do
+        before do
+          allow(Channels::FacebookPages::TokenExchangeService).to receive(:call).and_return({
+            user_access_token: 'user_token',
+            pages: [
+              { id: 'page_123', name: 'My Page', access_token: 'page_token', category: 'Business', avatar_url: nil, already_connected: false }
+            ]
+          })
+        end
+
+        it 'exchanges the code and renders page selection' do
+          get callback_channels_facebook_index_path(code: 'test_code', state: state_token, locale: :en)
+          expect(response).to have_http_status(:ok)
+          expect(response.body).to include('My Page')
+        end
+      end
     end
   end
 
@@ -71,6 +123,61 @@ RSpec.describe 'Dashboard::Channels', type: :request do
       end
     end
 
+    describe 'GET /channels/whatsapp/oauth_authorize' do
+      it 'redirects to Meta dialog oauth URL' do
+        get oauth_authorize_channels_whatsapp_index_path(locale: :en)
+        expect(response).to have_http_status(:redirect)
+        expect(response.location).to include('https://www.facebook.com')
+        expect(response.location).to include('dialog/oauth')
+      end
+    end
+
+    describe 'GET /channels/whatsapp/callback' do
+      let(:secret) { 'test_secret' }
+      let(:state_token) do
+        JWT.encode({ sub: account.id, iat: Time.current.to_i, exp: 10.minutes.from_now.to_i }, secret, 'HS256')
+      end
+
+      before do
+        allow(Rails.application.credentials).to receive(:dig).and_call_original
+        allow(Rails.application.credentials).to receive(:dig).with(:channels, :whatsapp, :app_secret).and_return(secret)
+        allow(Rails.application.credentials).to receive(:dig).with(:channels, :whatsapp, :app_id).and_return('wa_app_123')
+      end
+
+      context 'when accessed on apex domain' do
+        before { set_subdomain(nil) }
+
+        it 'redirects to the tenant subdomain callback' do
+          get channels_whatsapp_callback_path(code: 'test_code', state: state_token)
+          expect(response).to have_http_status(:redirect)
+          expect(response.location).to include(account.identifier)
+          expect(response.location).to include('test_code')
+        end
+      end
+
+      context 'when accessed on tenant subdomain' do
+        let(:cb_phone) { "+1 555-#{SecureRandom.random_number(100..999)}-#{SecureRandom.random_number(1000..9999)}" }
+        let(:cb_phone_id) { "phone_#{SecureRandom.hex(4)}" }
+        let(:cb_waba_id) { "waba_#{SecureRandom.hex(4)}" }
+
+        before do
+          allow(::Channels::Whatsapp::SignupService).to receive(:call).and_return({
+            access_token: 'meta_access_token',
+            waba_id: cb_waba_id,
+            phone_number_id: cb_phone_id,
+            display_phone_number: cb_phone,
+            name: 'Techbolic Live Support'
+          })
+        end
+
+        it 'exchanges the code, creates the channel, and redirects to edit' do
+          get callback_channels_whatsapp_index_path(code: 'test_code', state: state_token, locale: :en)
+          expect(response).to have_http_status(:see_other)
+          expect(account.with_shard { Channel::Whatsapp.where(phone_number_id: cb_phone_id) }).to exist
+        end
+      end
+    end
+
     describe 'POST /channels/whatsapp/callback' do
       let(:cb_phone) { "+1 555-#{SecureRandom.random_number(100..999)}-#{SecureRandom.random_number(1000..9999)}" }
       let(:cb_phone_id) { "phone_#{SecureRandom.hex(4)}" }
@@ -78,10 +185,12 @@ RSpec.describe 'Dashboard::Channels', type: :request do
 
       before do
         allow(::Channels::Whatsapp::SignupService).to receive(:call).with(
-          code: 'valid_auth_code',
-          waba_id: cb_waba_id,
-          phone_number_id: cb_phone_id,
-          account: account
+          hash_including(
+            code: 'valid_auth_code',
+            waba_id: cb_waba_id,
+            phone_number_id: cb_phone_id,
+            account: account
+          )
         ).and_return({
           access_token: 'meta_access_token',
           waba_id: cb_waba_id,

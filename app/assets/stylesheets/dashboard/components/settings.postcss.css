@@ -92,6 +92,39 @@
   color: $black-40;
   text-align: center;
 }
+
+.helpdesk-section.settings-desktop-shell {
+  .helpdesk-nav {
+    min-height: 0;
+    overflow: hidden;
+
+    > .card {
+      display: flex;
+      min-height: 0;
+      flex-direction: column;
+      overflow: hidden;
+    }
+  }
+
+  ul.settings-sidebar-accordion {
+    min-height: 0;
+    flex: 1;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #c3c3c3 transparent;
+  }
+
+  ul.settings-sidebar-accordion::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  ul.settings-sidebar-accordion::-webkit-scrollbar-thumb {
+    border-radius: 6px;
+    background-color: #c3c3c3;
+  }
+}
+
 .helpdesk-section .helpdesk-container .helpdesk-nav .card ul.settings-sidebar-accordion .help-nav-menu {
   li.nav-item > .nav-link .link-text .st-dropdown-icon {
     rotate: -90deg;

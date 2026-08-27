@@ -1,0 +1,12 @@
+.helpdesk-section.mobile-notifications-page
+  .helpdesk-container
+    main.mobile-notifications-shell
+      header.mobile-notifications-header
+        h1 = t("notifications.title")
+        = button_to t("notifications.mark_all_as_read"), mark_all_read_notifications_path, method: :post, class: "mobile-notifications-mark-all", data: { turbo: true }
+
+      .notifications-body.mobile-notifications-body
+        turbo-frame id="notifications-list"
+          = render partial: "dashboard/notifications/list", locals: { notifications: @notifications }
+
+    = render "dashboard/shared/mobile_navigation", active: "notifications"

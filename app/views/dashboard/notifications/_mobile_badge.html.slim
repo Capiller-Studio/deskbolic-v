@@ -1,0 +1,4 @@
+- unread = current_user.notifications.unread.count
+span#mobile-notification-badge.mobile-dashboard-nav__badge style=(unread.positive? ? nil : "display: none")
+  - if unread.positive?
+    = unread > 99 ? "99+" : unread

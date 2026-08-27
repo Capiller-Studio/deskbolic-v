@@ -422,6 +422,73 @@
     }
   }
 
+  .sidebar-notifications {
+    position: relative;
+    margin: 0 12px 12px;
+  }
+
+  .sidebar-notifications-trigger {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    width: 100%;
+    min-height: 40px;
+    padding: 8px 10px;
+    border: 0;
+    border-radius: 9px;
+    color: #303747;
+    background: #f2f4ff;
+    font-family: $font-family-inter-semibold;
+    font-size: 13px;
+    line-height: 16px;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 120ms ease;
+
+    &:hover {
+      background: #e9edff;
+    }
+  }
+
+  .sidebar-notifications-icon {
+    flex: 0 0 16px;
+    width: 16px;
+    height: 16px;
+
+    path {
+      fill: currentColor;
+    }
+  }
+
+  .sidebar-notifications-label {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .sidebar-notifications .notification-badge-frame {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .sidebar-notifications .unread-badge {
+    display: inline-flex;
+    min-width: 24px;
+    height: 24px;
+    align-items: center;
+    justify-content: center;
+    padding: 0 6px;
+    border: 1px solid #edf0f7;
+    border-radius: 999px;
+    color: #626977;
+    background: #fff;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 11px;
+    line-height: 14px;
+    box-shadow: 0 1px 2px rgba(16, 19, 32, 0.04);
+  }
+
   .sidebar-navigation {
     display: flex;
     min-height: 0;
@@ -653,7 +720,7 @@
     right: auto;
     bottom: 50px;
     left: 12px;
-    width: 286px;
+    width: 320px;
     max-height: calc(100vh - 32px);
     padding: 0 12px;
     overflow: visible;
@@ -671,35 +738,79 @@
       overflow: visible;
     }
 
-    .sidebar-account-header {
-      display: flex;
-      align-items: center;
-      gap: 11px;
-      width: 100%;
-      padding: 13px 4px;
+    .sidebar-account-switcher {
+      padding: 14px 0 9px;
       border-bottom: 1px solid #e5e8ef;
-      color: #14171f;
+
+      h2 {
+        margin: 0 8px 7px;
+        color: #6f7686;
+        font-family: $font-family-inter-semibold;
+        font-size: 11px;
+        line-height: 16px;
+        text-align: left;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
     }
 
-    .sidebar-account-avatar {
+    .sidebar-account-list {
+      max-height: 224px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+    }
+
+    .sidebar-workspace-form {
+      width: 100%;
+      margin: 0;
+    }
+
+    .sidebar-workspace,
+    .sidebar-create-account {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      min-height: 50px;
+      padding: 7px 8px;
+      border: 0;
+      border-radius: 9px;
+      color: #14171f;
+      background: transparent;
+      text-align: left;
+      cursor: pointer;
+
+      &:hover {
+        background: #f2f4f8;
+      }
+    }
+
+    .sidebar-workspace:disabled {
+      color: #14171f;
+      cursor: default;
+      opacity: 1;
+    }
+
+    .sidebar-workspace-avatar {
       display: inline-flex;
       flex: 0 0 36px;
       align-items: center;
       justify-content: center;
       width: 36px;
       height: 36px;
-      border-radius: 50%;
-      object-fit: cover;
+      border-radius: 9px;
       color: #fff;
       font-family: $font-family-inter-semibold;
-      font-size: 12px;
+      font-size: 11px;
+      line-height: 1;
     }
 
-    .sidebar-account-details {
+    .sidebar-workspace-details {
       display: flex;
       min-width: 0;
+      flex: 1;
       flex-direction: column;
-      gap: 2px;
+      gap: 1px;
 
       strong,
       span {
@@ -710,16 +821,45 @@
 
       strong {
         font-family: $font-family-inter-semibold;
-        font-size: 14px;
-        line-height: 20px;
+        font-size: 13px;
+        line-height: 18px;
       }
 
       span {
         color: #858c9b;
         font-family: $font-family-inter-regular;
-        font-size: 12px;
-        line-height: 17px;
+        font-size: 11px;
+        line-height: 16px;
       }
+    }
+
+    .sidebar-workspace-check {
+      display: inline-flex;
+      flex: 0 0 18px;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      color: #3f4655;
+
+      svg {
+        width: 18px;
+        height: 18px;
+      }
+    }
+
+    .sidebar-create-account {
+      min-height: 40px;
+      font-family: $font-family-inter-semibold;
+      font-size: 12px;
+      line-height: 18px;
+    }
+
+    .sidebar-create-account-icon {
+      flex: 0 0 20px;
+      width: 20px;
+      height: 20px;
+      margin-inline-start: 8px;
     }
 
     .sidebar-account-options {
@@ -906,6 +1046,7 @@
     .sidebar-brand-mark,
     .sidebar-brand-copy,
     .sidebar-search,
+    .sidebar-notifications,
     .sidebar-navigation,
     .sidebar-user-main {
       display: none;
@@ -1045,6 +1186,10 @@
       display: none;
     }
 
+    .deskbolic-sidebar .sidebar-notifications {
+      display: none;
+    }
+
     .deskbolic-sidebar .sidebar-search {
       display: flex;
       flex: 0 0 38px;
@@ -1092,7 +1237,7 @@
     z-index: 1200;
     display: grid;
     height: calc(72px + env(safe-area-inset-bottom));
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     padding: 9px 8px env(safe-area-inset-bottom);
     border-top: 1px solid #e5e7eb;
     background: rgba(255, 255, 255, 0.98);
@@ -1144,20 +1289,21 @@
 
   .mobile-dashboard-nav__badge {
     position: absolute;
-    top: 1px;
+    top: 0;
     left: calc(50% + 8px);
-    display: inline-flex;
-    min-width: 14px;
-    height: 14px;
-    align-items: center;
-    justify-content: center;
-    padding: 0 3px;
+    display: grid;
+    min-width: 18px;
+    height: 18px;
+    place-items: center;
+    box-sizing: border-box;
+    padding: 0 4px;
     border: 2px solid #fff;
     border-radius: 999px;
     color: #fff;
     background: #d34d57;
-    font-size: 8px;
-    line-height: 10px;
+    font-family: $font-family-inter-semibold;
+    font-size: 9px;
+    line-height: 1;
   }
 
   .deskbolic-shell.is-mobile-conversation-open {
@@ -1215,5 +1361,117 @@
       min-width: 1080px;
       height: 100%;
     }
+  }
+}
+
+html[lang="ar"] .deskbolic-shell {
+  .sidebar-toggle {
+    transform: rotate(180deg);
+  }
+
+  .deskbolic-sidebar.is-collapsed .sidebar-toggle {
+    transform: none;
+  }
+
+  .sidebar-brand {
+    height: auto;
+    min-height: 61px;
+    padding-block: 8px;
+  }
+
+  .sidebar-brand-name,
+  .sidebar-brand-product,
+  .sidebar-section-title,
+  .sidebar-link-label,
+  .sidebar-user-copy strong,
+  .sidebar-user-copy span,
+  .sidebar-workspace-details strong,
+  .sidebar-workspace-details span,
+  .sidebar-account-menu .menu-link {
+    line-height: 1.5;
+  }
+
+  .sidebar-search {
+    height: auto;
+    min-height: 34px;
+    padding-block: 5px;
+  }
+
+  .sidebar-search input {
+    line-height: 1.5;
+  }
+
+  .sidebar-notifications-trigger {
+    line-height: 1.5;
+    text-align: right;
+  }
+
+  .sidebar-section-title {
+    min-height: 22px;
+    padding-block: 3px;
+  }
+
+  .sidebar-link {
+    height: auto;
+    min-height: 40px;
+    padding-block: 7px;
+  }
+
+  .sidebar-link-label,
+  .sidebar-user-copy,
+  .sidebar-workspace-details {
+    overflow: visible;
+  }
+
+  .sidebar-account-menu .menu-link,
+  .sidebar-account-locale {
+    height: auto;
+    min-height: 40px;
+    padding-block: 6px;
+  }
+
+  .sidebar-account-menu {
+    right: 12px;
+    left: auto;
+  }
+
+  .sidebar-account-switcher h2,
+  .sidebar-workspace,
+  .sidebar-create-account,
+  .sidebar-workspace-details,
+  .sidebar-account-menu .menu-link {
+    text-align: right;
+  }
+
+  .sidebar-workspace-details {
+    flex: 1;
+  }
+
+  .sidebar-account-locale .choices__inner,
+  .sidebar-account-locale .choices__list--single {
+    height: auto;
+    line-height: 1.5;
+  }
+
+  .sidebar-account-locale .choices__inner {
+    padding-right: 0;
+    padding-left: 18px;
+  }
+
+  .sidebar-account-locale .choices[data-type*=select-one]::after {
+    right: auto;
+    left: 3px;
+  }
+
+  .sidebar-account-locale .choices__list--dropdown {
+    right: auto;
+    left: -9px;
+  }
+}
+
+@media screen and (min-width: 601px) {
+  html[lang="ar"] .deskbolic-shell .deskbolic-sidebar {
+    border-right: 0;
+    border-left: 1px solid #e5e8ef;
   }
 }

@@ -43,6 +43,8 @@ article.channel-card id=dom_id(channel) class="channel-card--#{type.dasherize}"
               = inline_svg_tag("delete_red.svg", aria: { hidden: true })
               span = t("general.delete", default: "Delete")
 
+  = render "dashboard/channels/shared/embed_instructions", channel: channel
+
   footer.channel-card__footer
     .channel-card__created
       = inline_svg_tag("clock.svg", aria: { hidden: true })

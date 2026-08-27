@@ -16,9 +16,13 @@ module Dashboard
         resource.try(:name).presence || resource.try(:display_name).presence
     end
 
-    def initials(resource)
+    def initials(resource, limit: 1)
       return "?" if full_name(resource).blank?
-      full_name(resource).first.upcase
+
+      words = full_name(resource).split
+      return words.first.first(limit).upcase if words.one?
+
+      words.first(limit).filter_map(&:first).join.upcase
     end
   end
 end

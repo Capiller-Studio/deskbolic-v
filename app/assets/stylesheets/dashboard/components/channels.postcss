@@ -796,6 +796,90 @@
   background: #f3f4f6;
 }
 
+.channel-card__embed {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  border-top: 1px solid #f3f4f6;
+  background: $white;
+}
+
+.channel-card__embed-label {
+  flex: 0 0 auto;
+  color: #9ca3af;
+  font-family: $font-family-inter-semibold;
+  font-size: 10px;
+  line-height: 14px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.channel-card__embed-control {
+  display: flex;
+  min-width: 0;
+  height: 34px;
+  flex: 1;
+  align-items: center;
+  overflow: hidden;
+  border: 1px solid #1c1c1c;
+  border-radius: 8px;
+  background: #1c1c1c;
+}
+
+.channel-card__embed .channel-card__embed-input {
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  flex: 1;
+  padding: 0 10px;
+  overflow: hidden;
+  border: 0;
+  outline: 0;
+  color: #f3f4f6;
+  background: transparent;
+  direction: ltr;
+  font: 11px/16px "SF Mono", "Fira Code", monospace;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.channel-card__embed .channel-card__embed-copy {
+  display: inline-flex;
+  height: 100%;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 5px;
+  padding: 0 10px;
+  border: 0;
+  border-inline-start: 1px solid #3b3b3b;
+  color: #f3f4f6;
+  background: transparent;
+  font: 11px/16px $font-family-inter-medium;
+  cursor: pointer;
+  transition: color 120ms ease, background-color 120ms ease;
+
+  svg {
+    width: 14px;
+    height: 14px;
+
+    path {
+      fill: currentColor;
+    }
+  }
+
+  &:hover {
+    color: #fff;
+    background: #303030;
+  }
+
+  &.ui-copy-btn--copied {
+    color: #168a4a;
+    background: #effaf3;
+  }
+}
+
 .channel-card__footer {
   display: flex;
   min-height: 49px;

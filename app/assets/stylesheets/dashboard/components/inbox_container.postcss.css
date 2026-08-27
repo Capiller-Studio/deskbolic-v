@@ -695,3 +695,88 @@
     padding-bottom: 30px;
   }
 }
+
+html[lang="ar"] .conversations-workspace {
+  .conversation-list-header {
+    min-height: 66px;
+    align-items: center;
+    padding-block: 14px;
+  }
+
+  .conversation-list-heading h1 {
+    line-height: 1.45;
+  }
+
+  .conversation-list-heading p,
+  .conversation-preview,
+  .conversation-list-row h2 {
+    line-height: 1.5;
+  }
+
+  .conversation-search {
+    height: auto;
+    min-height: 38px;
+    padding-block: 5px;
+  }
+
+  .conversation-search-input {
+    padding-right: 2px;
+    padding-left: 22px;
+    line-height: 1.5;
+    text-align: right;
+  }
+
+  .conversation-search-clear {
+    right: auto;
+    left: 9px;
+  }
+
+  .conversation-filter-tab {
+    height: auto;
+    min-height: 32px;
+    padding-block: 5px;
+    line-height: 1.4;
+  }
+
+  .conversation-list-item.is-active::before {
+    right: 0;
+    left: auto;
+  }
+
+  .conversation-list-link {
+    min-height: 88px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+  }
+
+  .conversation-list-row h2,
+  .conversation-preview {
+    unicode-bidi: plaintext;
+    text-align: right;
+  }
+
+  .conversation-source {
+    height: auto;
+    min-height: 22px;
+    padding-block: 3px;
+    line-height: 1.4;
+  }
+
+  .conversation-list-actions time {
+    direction: ltr;
+    unicode-bidi: isolate;
+  }
+}
+
+@media screen and (min-width: 601px) {
+  html[lang="ar"] .conversations-workspace .conversation-list-pane {
+    border-right: 0;
+    border-left: 1px solid #e5e8ef;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  html[lang="ar"] .conversations-workspace .conversation-list-title-chevron {
+    transform: rotate(90deg);
+  }
+}

@@ -13,7 +13,7 @@
         = link_to t("dashboard.shared.cancel"), integrations_path, class: "channel-edit__button channel-edit__button--secondary"
         button.channel-edit__button.channel-edit__button--primary type="submit" form="integration-form"
           = inline_svg_tag("ai_agents/new_agent_check.svg", aria: { hidden: true })
-          span = t("dashboard.shared.update")
+          span = t("dashboard.shared.#{@provider == 'webhook' ? 'webhooks' : @provider}.update")
 
     .channel-edit__viewport
       .channel-edit__layout style="display: block;"

@@ -10,9 +10,12 @@ nav.mobile-dashboard-nav aria-label=t('dashboard.mobile_navigation.label', defau
     span.mobile-dashboard-nav__icon
       = inline_svg_tag('chat-prompt.svg', aria: { hidden: true })
     span = t('dashboard.mobile_navigation.inbox', default: 'Inbox')
-    - mobile_unread_count = @sidebar_counts&.dig(:all).to_i
-    - if mobile_unread_count.positive?
-      span.mobile-dashboard-nav__badge = mobile_unread_count
+
+  = link_to notifications_path(mobile_view: 'notifications'), class: "mobile-dashboard-nav__item #{active == 'notifications' ? 'is-active' : ''}", data: { turbo: false, mobile_dashboard_tab: 'notifications' }, aria: { current: (active == 'notifications' ? 'page' : nil) } do
+    span.mobile-dashboard-nav__icon
+      = inline_svg_tag('notification.svg', aria: { hidden: true })
+    span = t('notifications.title')
+    = render 'dashboard/notifications/mobile_badge'
 
   = link_to settings_path, class: "mobile-dashboard-nav__item #{active == 'settings' ? 'is-active' : ''}", data: { turbo: false, mobile_dashboard_tab: 'settings' }, aria: { current: (active == 'settings' ? 'page' : nil) } do
     span.mobile-dashboard-nav__icon

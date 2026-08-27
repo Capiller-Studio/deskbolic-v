@@ -817,6 +817,27 @@ input:checked + .ui-toggle-slider::before {
     }
   }
 
+  .ui-settings-page__action--webhook {
+    box-sizing: border-box;
+    /* width: 170px; */
+    min-height: 40px;
+    padding: 8px 18px;
+    border: 1px solid #16a34a;
+    border-radius: 10px;
+    color: #15803d;
+    background: $white;
+    font-family: $font-family-inter-medium;
+    font-weight: 500;
+    transition: background-color 0.15s ease;
+
+    &:hover {
+      border-color: #16a34a;
+      color: #15803d;
+      background: #f0fdf4;
+      transform: none;
+    }
+  }
+
   .ui-settings-page__content {
     padding: 30px 32px 56px;
   }

@@ -27,6 +27,7 @@ module Dashboard
       @response = params[:message][:response]
       @attachments = params[:message][:attachments]&.reject(&:blank?)
       @visibility = params[:message][:visibility] == "personal" ? "personal" : "global"
+      @resolve_after_send = params[:message][:resolve_conversation] == "1"
       @conversation = current_account.conversations.find(params[:message][:conversation_id])
 
       if @response.present? || @attachments.present?
@@ -50,11 +51,23 @@ module Dashboard
         elsif @message.personal? && @message.content.present?
           parse_mentions(@message)
         end
+
+        @conversation.update!(status: :resolved) if @resolve_after_send
       end
 
       respond_to do |format|
-        format.turbo_stream
-        format.js { render(js: "document.querySelector('.response-area').value = ''; document.dispatchEvent(new CustomEvent('deskbolic:message-sent'));") }
+        format.turbo_stream do
+          if @resolve_after_send && @message&.persisted?
+            redirect_to(request.referer || conversations_path(resource_id: @conversation.inbox_id), status: :see_other)
+          else
+            render(:create)
+          end
+        end
+        format.js do
+          script = "document.querySelector('.response-area').value = ''; document.dispatchEvent(new CustomEvent('deskbolic:message-sent'));"
+          script += " window.location.reload();" if @resolve_after_send && @message&.persisted?
+          render(js: script)
+        end
         format.html { redirect_to(request.referer) }
       end
     end

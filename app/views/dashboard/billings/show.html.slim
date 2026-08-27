@@ -5,7 +5,7 @@
       h1.f-semi-20.ap-billing-page-title = I18n.t("dashboard.billing.title")
       p.f-reg-14.ap-billing-page-subtitle = I18n.t("dashboard.billing.subtitle")
 
-  .ap-billing-layout data-controller="modal-toggler"
+  .ap-billing-layout data-controller="modal"
 
     .ap-billing-main
       .ap-billing-primary
@@ -38,7 +38,7 @@
                   = link_to I18n.t("dashboard.billing.resume_subscription"), resume_subscription_path(@active_subscription), method: :post, data: { turbo_method: :post, turbo_confirm: I18n.t("dashboard.billing.resume_confirm", default: "Are you sure you want to resume your subscription?") }, class: "ap-btn-primary"
               - else
                 .ap-billing-actions
-                  button.ap-billing-change-plan-btn type="button" data-action="click->modal-toggler#showModal"
+                  button.ap-billing-change-plan-btn type="button" data-action="click->modal#open" aria-controls="changePlanModal" aria-haspopup="dialog"
                     = image_tag "double_arrow.svg", class: "ap-billing-action-icon", alt: ""
                     = I18n.t("dashboard.billing.change_plan")
 
@@ -352,40 +352,40 @@
                       span style="font-size: 14px;" 🤖
                       = I18n.t("dashboard.billing.buy_ai_credits", default: "Buy AI Credits")
 
-        - if @active_subscription && !@active_subscription.cancelled_at.present?
-          #changePlanModal.ap-card.ap-billing-inline-change-plan-card data-controller="change-plan" data-modal-toggler-target="model"
-            .ap-card-body.ap-billing-card-body
-              .ap-billing-modal-header.ap-billing-inline-topup-header
-                h2.f-semi-18 = I18n.t("dashboard.billing.change_plan", default: "Change Plan")
-                button.ap-billing-panel-close type="button" data-action="click->modal-toggler#hideModal" aria-label=I18n.t("dashboard.billing.cancel", default: "Cancel") ×
-              .ap-billing-modal-body.ap-billing-inline-change-plan-body
-                = form_with url: subscription_path(@active_subscription), method: :patch, data: { controller: "plan-selector" } do |f|
-                  = f.hidden_field :billing_cycle, value: (@active_subscription.annual? ? "annual" : "monthly")
+    - if @active_subscription && !@active_subscription.cancelled_at.present?
+      #changePlanModal.ap-billing-modal-overlay data-modal-target="dialog" data-action="click->modal#closeOnOutsideClick" role="dialog" aria-modal="true" aria-labelledby="changePlanModalTitle"
+        .ap-billing-modal-content.medium.ap-billing-change-plan-modal data-controller="change-plan"
+          .ap-billing-modal-header
+            h3#changePlanModalTitle.f-semi-20 = I18n.t("dashboard.billing.change_plan", default: "Change Plan")
+            button.ap-action-btn type="button" data-action="click->modal#close" aria-label=I18n.t("dashboard.billing.cancel", default: "Cancel") ✕
+          .ap-billing-modal-body
+            = form_with url: subscription_path(@active_subscription), method: :patch, data: { controller: "plan-selector" } do |f|
+              = f.hidden_field :billing_cycle, value: (@active_subscription.annual? ? "annual" : "monthly")
 
-                  .ap-billing-plan-grid.ap-billing-modal-plan-grid.ap-billing-inline-plan-grid
-                    - @available_plans.each do |plan|
-                      - selected_plan = plan.id == @active_subscription.plan_id
-                      label.ap-billing-plan-option data-action="click->plan-selector#select"
-                        = f.radio_button :plan_id, plan.id, class: "ap-billing-plan-radio", checked: plan.id == @active_subscription.plan_id, data: { plan_selector_target: "radio", action: "change->plan-selector#updateHighlight", min_users: plan.min_users, max_users: plan.max_users, monthly_price: plan.base_price, annual_price: plan.annual_price, currency: plan.currency }
-                        .ap-billing-plan-card class=(selected_plan ? "is-selected" : "") data-plan-selector-target="card"
-                          span.ap-billing-plan-radio-indicator aria-hidden="true"
-                          .ap-billing-plan-card-content
-                            .ap-billing-modal-plan-header
-                              h4.f-semi-16 = plan.display_name
-                              - if selected_plan
-                                span.f-reg-12.ap-billing-current-plan-badge = I18n.t("dashboard.billing.current_plan", default: "Current")
-                            p.f-reg-12.ap-billing-plan-price data-plan-selector-target="planPrice"
-                              span.ap-billing-price-amount data-plan-selector-target="priceAmount" = ActionController::Base.helpers.number_to_currency((@active_subscription.annual? ? plan.annual_price : plan.base_price), unit: plan.currency.upcase + " ")
-                              span.ap-billing-price-period data-plan-selector-target="pricePeriod" = @active_subscription.annual? ? I18n.t("dashboard.billing.per_month_annual", default: " / mo (billed yearly)") : I18n.t("dashboard.billing.per_month", default: " / month")
+              .ap-billing-plan-grid.ap-billing-modal-plan-grid.ap-billing-change-plan-grid
+                - @available_plans.each do |plan|
+                  - selected_plan = plan.id == @active_subscription.plan_id
+                  label.ap-billing-plan-option data-action="click->plan-selector#select"
+                    = f.radio_button :plan_id, plan.id, class: "ap-billing-plan-radio", checked: plan.id == @active_subscription.plan_id, data: { plan_selector_target: "radio", action: "change->plan-selector#updateHighlight", min_users: plan.min_users, max_users: plan.max_users, monthly_price: plan.base_price, annual_price: plan.annual_price, currency: plan.currency }
+                    .ap-billing-plan-card class=(selected_plan ? "is-selected" : "") data-plan-selector-target="card"
+                      span.ap-billing-plan-radio-indicator aria-hidden="true"
+                      .ap-billing-plan-card-content
+                        .ap-billing-modal-plan-header
+                          h4.f-semi-16 = plan.display_name
+                          - if selected_plan
+                            span.f-reg-12.ap-billing-current-plan-badge = I18n.t("dashboard.billing.current_plan", default: "Current")
+                        p.f-reg-12.ap-billing-plan-price data-plan-selector-target="planPrice"
+                          span.ap-billing-price-amount data-plan-selector-target="priceAmount" = ActionController::Base.helpers.number_to_currency((@active_subscription.annual? ? plan.annual_price : plan.base_price), unit: plan.currency.upcase + " ")
+                          span.ap-billing-price-period data-plan-selector-target="pricePeriod" = @active_subscription.annual? ? I18n.t("dashboard.billing.per_month_annual", default: " / mo (billed yearly)") : I18n.t("dashboard.billing.per_month", default: " / month")
 
-                  .ap-billing-form-group
-                    label.f-semi-14.ap-billing-form-label = I18n.t("dashboard.billing.number_of_seats", default: "Number of Agent Seats")
-                    p.f-reg-13.ap-billing-form-hint data-plan-selector-target="planLimitText"
-                      = I18n.t("dashboard.billing.plan_limits", min: @active_subscription.plan.min_users, max: @active_subscription.plan.unlimited?(:users_max) ? I18n.t("dashboard.billing.unlimited", default: 'Unlimited') : @active_subscription.plan.max_users, default: "Your plan limits: Min %{min}, Max %{max}")
-                    - max_seats_val = @active_subscription.plan.unlimited?(:users_max) ? nil : @active_subscription.plan.max_users
-                    = f.number_field :quantity, value: @active_subscription.quantity, min: [@active_subscription.plan.min_users, current_account.users_count].max, max: max_seats_val, class: "ap-input ap-billing-form-input", data: { plan_selector_target: "quantityInput", current_users: current_account.users_count }
+              .ap-billing-form-group
+                label.f-semi-14.ap-billing-form-label = I18n.t("dashboard.billing.number_of_seats", default: "Number of Agent Seats")
+                p.f-reg-13.ap-billing-form-hint data-plan-selector-target="planLimitText"
+                  = I18n.t("dashboard.billing.plan_limits", min: @active_subscription.plan.min_users, max: @active_subscription.plan.unlimited?(:users_max) ? I18n.t("dashboard.billing.unlimited", default: 'Unlimited') : @active_subscription.plan.max_users, default: "Your plan limits: Min %{min}, Max %{max}")
+                - max_seats_val = @active_subscription.plan.unlimited?(:users_max) ? nil : @active_subscription.plan.max_users
+                = f.number_field :quantity, value: @active_subscription.quantity, min: [@active_subscription.plan.min_users, current_account.users_count].max, max: max_seats_val, class: "ap-input ap-billing-form-input", data: { plan_selector_target: "quantityInput", current_users: current_account.users_count }
 
-                  .ap-billing-modal-actions
-                    button.ap-btn-secondary type="reset" = I18n.t("dashboard.billing.cancel", default: "Cancel")
-                    - confirm_msg = @active_subscription.trialing? ? I18n.t("dashboard.billing.change_plan_trial_confirm", default: "Are you sure you want to change your plan? Your trial will continue normally, and you'll be billed for this new plan when your trial ends.") : I18n.t("dashboard.billing.update_subscription_confirm", default: "Are you sure you want to update your subscription? This action will result in immediate prorated charges or wallet credits.")
-                    = f.submit I18n.t("dashboard.billing.update_plan", default: "Update Plan"), class: "ap-btn-primary ap-billing-brand-action", data: { turbo_confirm: confirm_msg }
+              .ap-billing-modal-actions
+                button.ap-btn-secondary type="button" data-action="click->modal#close" = I18n.t("dashboard.billing.cancel", default: "Cancel")
+                - confirm_msg = @active_subscription.trialing? ? I18n.t("dashboard.billing.change_plan_trial_confirm", default: "Are you sure you want to change your plan? Your trial will continue normally, and you'll be billed for this new plan when your trial ends.") : I18n.t("dashboard.billing.update_subscription_confirm", default: "Are you sure you want to update your subscription? This action will result in immediate prorated charges or wallet credits.")
+                = f.submit I18n.t("dashboard.billing.update_plan", default: "Update Plan"), class: "ap-btn-primary ap-billing-brand-action", data: { turbo_confirm: confirm_msg }

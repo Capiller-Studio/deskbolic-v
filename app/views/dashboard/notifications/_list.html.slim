@@ -1,32 +1,14 @@
-style
-  | .notif-item { padding: 16px; border-radius: 12px; background: #ffffff; display: flex !important; flex-direction: row !important; align-items: flex-start !important; gap: 14px; transition: all 0.2s ease; border: 1px solid transparent; box-shadow: 0 1px 3px rgba(0,0,0,0.05); text-align: left !important; }
-  | .notif-item:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.08); }
-  | .notif-item.unread { background: #F8FAFC; border: 1px solid #E2E8F0; }
-  | .notif-icon-wrapper { width: 40px; height: 40px; border-radius: 50%; display: flex !important; align-items: center !important; justify-content: center !important; flex-shrink: 0; }
-  | .notif-icon-wrapper svg { width: 20px !important; height: 20px !important; }
-  | .notif-icon-wrapper svg path { fill: currentColor; }
-  | .notif-icon-wrapper.conversation_created { background: #E0E7FF; color: #4F46E5; }
-  | .notif-icon-wrapper.conversation_assigned, .notif-icon-wrapper.team_assigned { background: #FEF3C7; color: #D97706; }
-  | .notif-icon-wrapper.message_created { background: #DCFCE7; color: #16A34A; }
-  | .notif-icon-wrapper.conversation_resolved, .notif-icon-wrapper.conversation_closed { background: #F3F4F6; color: #4B5563; }
-  | .notif-content { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: flex-start !important; justify-content: flex-start !important; text-align: left !important; }
-  | .notif-title { font-size: 14px !important; font-weight: 600 !important; color: #111827 !important; margin-bottom: 2px !important; letter-spacing: -0.01em !important; text-align: left !important; }
-  | .notif-body-text { font-size: 13px !important; color: #4B5563 !important; line-height: 1.4 !important; margin-bottom: 6px !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; text-align: left !important; }
-  | .notif-time { font-size: 11px !important; font-weight: 500 !important; color: #9CA3AF !important; text-transform: uppercase !important; letter-spacing: 0.03em !important; text-align: left !important; }
-  | .notif-actions { margin-left: auto; flex-shrink: 0; display: flex; align-items: center; position: relative; z-index: 2; }
-  | .notif-action-btn { background: #ffffff !important; border: 1px solid #E5E7EB !important; color: #374151 !important; font-size: 12px !important; font-weight: 500 !important; padding: 6px 12px !important; border-radius: 6px !important; cursor: pointer; transition: all 0.2s; box-shadow: 0 1px 2px rgba(0,0,0,0.02); }
-  | .notif-action-btn:hover { background: #F9FAFB !important; border-color: #D1D5DB !important; color: #111827 !important; }
-
 - if notifications.empty?
-  .empty-state style="text-align: center; padding: 60px 20px; color: #6B7280; display: flex; flex-direction: column; align-items: center;"
-    = inline_svg_tag("bell.svg", style: "width: 48px; height: 48px; opacity: 0.2; margin-bottom: 16px;")
-    p style="font-size: 16px; font-weight: 500; color: #374151;" = t("notifications.empty")
-    p style="font-size: 14px; margin-top: 6px; color: #6B7280;" = t("notifications.empty_sub")
+  .notifications-empty-state
+    .notifications-empty-icon aria-hidden="true"
+      = inline_svg_tag("notification.svg")
+    h4 = t("notifications.empty")
+    p = t("notifications.empty_sub")
 - else
-  .notifications-list style="display: flex; flex-direction: column; gap: 12px;"
+  .notifications-list
     - notifications.each do |notification|
       = render partial: "dashboard/notifications/notification", locals: { notification: notification }
     - if @pagy && @pagy.next
       turbo-frame id="notifications-page-#{@pagy.next}" src=notifications_path(page: @pagy.next) loading="lazy"
-        .loading-spinner style="text-align: center; padding: 20px; color: #9CA3AF;"
+        .notifications-loading
           p.f-reg-14 = t("ui.dashboard.notifications.list.loading_more_notifications")

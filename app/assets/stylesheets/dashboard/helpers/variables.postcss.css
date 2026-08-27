@@ -23,14 +23,15 @@
   src: url('PlusJakartaSans-SemiBold.ttf');
 }
 
-$font-family-primary: 'Open Sans', sans-serif;
-$font-family-secondary: 'Poppins', sans-serif;
+$font-family-arabic: 'Noto Sans Arabic', 'Geeza Pro', Tahoma, Arial, sans-serif;
+$font-family-primary: 'Open Sans', $font-family-arabic;
+$font-family-secondary: 'Poppins', $font-family-arabic;
 
-$font-family-inter-regular: 'Inter Regular', sans-serif;
-$font-family-inter-semibold: 'Inter SemiBold', sans-serif;
-$font-family-inter-medium: 'Inter Medium', sans-serif;
-$font-family-inter-light-italic: 'Inter Light Italic', sans-serif;
-$font-family-jakarta-semibold: 'Jakarta Semibold', sans-serif;
+$font-family-inter-regular: 'Inter Regular', $font-family-arabic;
+$font-family-inter-semibold: 'Inter SemiBold', $font-family-arabic;
+$font-family-inter-medium: 'Inter Medium', $font-family-arabic;
+$font-family-inter-light-italic: 'Inter Light Italic', $font-family-arabic;
+$font-family-jakarta-semibold: 'Jakarta Semibold', $font-family-arabic;
 
 $col1 : 1fr;
 $col2 : 1fr 1fr;

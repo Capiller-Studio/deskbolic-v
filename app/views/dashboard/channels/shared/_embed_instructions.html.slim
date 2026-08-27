@@ -1,0 +1,10 @@
+- embed_code = channel_overview_embed_code(channel, current_account)
+
+- if embed_code.present?
+  .channel-card__embed data-controller="clipboard"
+    span.channel-card__embed-label = t("dashboard.channels_overview.embed", default: "Embed")
+    .channel-card__embed-control
+      input.channel-card__embed-input type="text" value=embed_code readonly=true aria-label=t("dashboard.channels_overview.embed_code", default: "Embed code") data-clipboard-target="source"
+      button.channel-card__embed-copy type="button" aria-label=t("general.copy") data-action="click->clipboard#copy" data-clipboard-target="button"
+        = inline_svg_tag("copy.svg", aria: { hidden: true })
+        span = t("general.copy")

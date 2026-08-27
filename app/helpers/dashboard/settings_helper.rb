@@ -69,6 +69,18 @@ module Dashboard
       end
     end
 
+    def channel_overview_embed_code(channel, account)
+      channel_path =
+        case channel
+        when Channel::WebWidget then "w"
+        when Channel::ContactForm then "f"
+        end
+      return if channel_path.nil?
+
+      widget_app_url = (ENV["WIDGET_APP_URL"].presence || "https://widget.deskbolic.com").delete_suffix("/")
+      %(<script src="#{widget_app_url}/#{channel_path}/#{account.id}/#{channel.id}/embed.js"></script>)
+    end
+
     def channel_overview_logo(channel)
       return channel.avatar_url if channel.respond_to?(:avatar_url) && channel.avatar_url.present?
       return channel.scaled_logo if channel.is_a?(Channel::WebWidget) && channel.logo.attached?

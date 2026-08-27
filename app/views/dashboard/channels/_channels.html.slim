@@ -17,6 +17,13 @@
         span = t('dashboard.conversations.search', default: 'Search')
         kbd ⌘K
 
+      .sidebar-notifications data-controller="modal-toggler frame-toggler"
+        button.sidebar-notifications-trigger type="button" data-action="click->modal-toggler#showModal click->frame-toggler#loadModal" data-url=notifications_path aria-haspopup="dialog"
+          = inline_svg_tag("notification.svg", class: "sidebar-notifications-icon", alt: "", aria: { hidden: true })
+          span.sidebar-notifications-label = t("notifications.title")
+          = render "dashboard/notifications/badge"
+        = render "dashboard/shared/modal_popper"
+
       .sidebar-navigation
         section.sidebar-section
           h2.sidebar-section-title = t('dashboard.sidebar.channels.views', default: 'Views')
@@ -84,18 +91,25 @@
               i aria-hidden="true"
               = t('dashboard.sidebar.available', default: 'Available')
         .menu.sidebar-account-menu data-accordion-target="menu" role="menu"
-          = link_to profile_path, class: "sidebar-account-header", data: { turbo: false } do
-            - if current_user.avatar&.attached?
-              = image_tag(current_user.avatar, class: "sidebar-account-avatar", alt: current_user.display_name)
-            - else
-              .sidebar-account-avatar.avatar-fallback class=avatar_fallback_color_class(full_name(current_user))
-                = initials(current_user)
-            .sidebar-account-details
-              strong = current_user.display_name
-              - email = current_user.email
-              - local, domain = email.to_s.split("@", 2)
-              - display_email = local.present? && domain.present? && local.length > 8 ? "#{local.first(8)}...@#{domain}" : email
-              span title=email = display_email
+          .sidebar-account-switcher
+            h2 = t("ui.dashboard.shared.dashboard_container.switch_account")
+            .sidebar-account-list
+              - current_user.accounts.sort_by { |account| account == current_account ? 0 : 1 }.each do |account|
+                - active_account = account == current_account
+                = button_to switch_account_path(id: account.id), method: :post, class: "sidebar-workspace", role: "menuitem", disabled: active_account, form: { class: "sidebar-workspace-form" } do
+                  .sidebar-workspace-avatar.avatar-fallback class=avatar_fallback_color_class(account.name)
+                    = initials(account, limit: 2)
+                  .sidebar-workspace-details
+                    strong = account.name
+                    span title=(account.email.presence || current_user.email) = account.email.presence || current_user.email
+                  - if active_account
+                    span.sidebar-workspace-check aria-hidden="true"
+                      svg viewBox="0 0 20 20" fill="none"
+                        path d="M4 10.5 8 14l8-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+
+            = link_to workspace_path, class: "sidebar-create-account", role: "menuitem", data: { turbo: false } do
+              = inline_svg_tag("plus_black.svg", class: "sidebar-create-account-icon", alt: "", aria: { hidden: true })
+              span = t("auth.login.create_account")
 
           .sidebar-account-options
             / = link_to help_center_path, class: "menu-link", role: "menuitem" do
@@ -104,6 +118,9 @@
             /   span = t("ui.dashboard.shared.dashboard_container.help_desk_community_forum")
             / = link_to terms_path, class: "menu-link", role: "menuitem" do
             /   span = t("ui.dashboard.shared.dashboard_container.terms_policies")
+            = link_to profile_path, class: "menu-link", role: "menuitem", data: { turbo: false } do
+              = inline_svg_tag("account.svg", class: "menu-icon", alt: "", aria: { hidden: true })
+              span = t("dashboard.profile.index.title")
             = link_to settings_path, class: "menu-link", role: "menuitem", data: { turbo: false } do
               = inline_svg_tag("settings.svg", class: "menu-icon", alt: "", aria: { hidden: true })
               span = t("dashboard.sidebar.settings.title")

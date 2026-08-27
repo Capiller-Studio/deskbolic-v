@@ -30,6 +30,19 @@ table {
 body {
   -webkit-text-size-adjust: none;
 }
+
+html[lang="ar"] body {
+  font-family: $font-family-inter-regular;
+  line-height: 1.45;
+}
+
+html[lang="ar"] body :is(h1, h2, h3, h4, h5, h6, strong, [class*="f-semi"]) {
+  font-weight: 600;
+}
+
+html[lang="ar"] body [class*="f-med"] {
+  font-weight: 500;
+}
 mark {
   background-color: transparent;
   color: inherit;

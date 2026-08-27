@@ -5,6 +5,7 @@
       .ui-settings-page__heading
         h1 = t("dashboard.settings.integrations.index.title")
         p = t("dashboard.settings.integrations.index.description")
+      = link_to t("dashboard.settings.integrations.webhooks.connect"), new_integration_path(provider: :webhook), class: "ui-settings-page__action ui-settings-page__action--webhook"
 
     main.ui-settings-page__content
       section.ui-domain-section aria-labelledby="integrations-table-title"
@@ -58,56 +59,78 @@
                           = image_tag("https://cdn.worldvectorlogo.com/logos/slack-new-logo.svg", width: 16, height: 16, alt: "")
                           span = t("dashboard.settings.integrations.slack.connect")
 
-              tr
-                td
-                  .ui-card-info
-                    .ui-domain-section__icon aria-hidden="true"
-                      = image_tag("https://cdn.jsdelivr.net/npm/@phosphor-icons/core@2.1.1/assets/regular/link.svg", width: 28, height: 28, alt: "")
-                    div
-                      h3.f-semi-18 = t("ui.dashboard.integrations.index.webhooks")
-                      p.ui-meta-tag Developer
-                td
-                  p.f-reg-14 = t("dashboard.settings.integrations.webhooks.description")
-                td
-                  - if @webhooks.any?
+              / tr
+              /   td
+              /     .ui-card-info
+              /       .ui-domain-section__icon aria-hidden="true"
+              /         = image_tag("https://cdn.jsdelivr.net/npm/@phosphor-icons/core@2.1.1/assets/regular/link.svg", width: 28, height: 28, alt: "")
+              /       div
+              /         h3.f-semi-18 = t("ui.dashboard.integrations.index.webhooks")
+              /         p.ui-meta-tag Developer
+              /   td
+              /     p.f-reg-14 = t("dashboard.settings.integrations.webhooks.description")
+              /   td
+              /     - if @webhooks.any?
+              /       span.ui-domain-status.ui-domain-status--pill.ui-domain-status--success
+              /         = inline_svg_tag("circle_tick.svg", class: "ui-domain-status__mark", aria: { hidden: true })
+              /         | Configured
+              /     - else
+              /       span.ui-domain-status.ui-domain-status--pill.ui-domain-status--neutral
+              /         = inline_svg_tag("clock-two.svg", class: "ui-domain-status__mark", aria: { hidden: true })
+              /         | Not Connected
+              /   td.ui-domain-table__actions
+              - @webhooks.each do |webhook|
+                tr
+                  td
+                    .ui-card-info
+                      .ui-domain-section__icon aria-hidden="true"
+                        = image_tag("https://cdn.jsdelivr.net/npm/@phosphor-icons/core@2.1.1/assets/regular/link.svg", width: 28, height: 28, alt: "")
+                      div
+                        h3.f-semi-18 = t("ui.dashboard.integrations.index.webhooks")
+                        p.ui-meta-tag Developer
+                  td
+                    p.f-reg-14 = t("dashboard.settings.integrations.webhooks.description")
+                  td
                     span.ui-domain-status.ui-domain-status--pill.ui-domain-status--success
                       = inline_svg_tag("circle_tick.svg", class: "ui-domain-status__mark", aria: { hidden: true })
                       | Configured
-                  - else
-                    span.ui-domain-status.ui-domain-status--pill.ui-domain-status--neutral
-                      = inline_svg_tag("clock-two.svg", class: "ui-domain-status__mark", aria: { hidden: true })
-                      | Not Connected
-                td.ui-domain-table__actions
-                  .ui-integrations-actions
-                    - if @webhooks.any?
-                      - webhook = @webhooks.first
+                    / - if @webhooks.any?
+                    / - else
+                    /   span.ui-domain-status.ui-domain-status--pill.ui-domain-status--neutral
+                    /     = inline_svg_tag("clock-two.svg", class: "ui-domain-status__mark", aria: { hidden: true })
+                    /     | Not Connected
+                  td.ui-domain-table__actions
+                    .ui-integrations-actions
+                      / - webhook = @webhooks.first
                       = link_to edit_integration_path(webhook), class: "ui-icon-button", aria: { label: t("dashboard.shared.edit") }, title: t("dashboard.shared.edit") do
                         = image_tag("pencil.svg", alt: "", aria: { hidden: true })
                       = link_to integration_path(webhook), class: "ui-icon-button", data: { turbo_method: :delete, turbo_confirm: t("dashboard.shared.are_you_sure") }, aria: { label: t("general.delete") }, title: t("general.delete") do
                         = image_tag("delete.svg", alt: "", aria: { hidden: true })
-                    - else
-                      = link_to t("dashboard.settings.integrations.webhooks.connect"), new_integration_path(provider: :webhook), class: "ui-integrations-action ui-integrations-action--webhook"
+                      / - if @webhooks.any?
+                      / - else
+                      /   = link_to t("dashboard.settings.integrations.webhooks.connect"), new_integration_path(provider: :webhook), class: "ui-integrations-action ui-integrations-action--webhook"
 
-              tr
-                td
-                  .ui-card-info
-                    .ui-domain-section__icon aria-hidden="true"
-                      = image_tag("https://upload.wikimedia.org/wikipedia/commons/d/d7/Google_Translate_logo.svg", width: 38, height: 38, alt: "")
-                    div
-                      h3.f-semi-18 = t("ui.dashboard.integrations.index.google_translate")
-                      p.ui-meta-tag Productivity
-                td
-                  p.f-reg-14 = t("dashboard.settings.integrations.google_translate.description")
-                td
-                  - if @google_translate
-                    span.ui-domain-status.ui-domain-status--pill.ui-domain-status--neutral
-                      = inline_svg_tag("clock-two.svg", class: "ui-domain-status__mark", aria: { hidden: true })
-                      = t("dashboard.settings.integrations.coming_soon")
-                  - else
-                    span.ui-domain-status.ui-domain-status--pill.ui-domain-status--neutral
-                      = inline_svg_tag("clock-two.svg", class: "ui-domain-status__mark", aria: { hidden: true })
-                      | Not Connected
-                td.ui-domain-table__actions
-                  .ui-integrations-actions
-                    button.ui-integrations-action.ui-integrations-action--disabled type="button" disabled=true
-                      = t("dashboard.settings.integrations.coming_soon")
+
+              / tr
+              /   td
+              /     .ui-card-info
+              /       .ui-domain-section__icon aria-hidden="true"
+              /         = image_tag("https://upload.wikimedia.org/wikipedia/commons/d/d7/Google_Translate_logo.svg", width: 38, height: 38, alt: "")
+              /       div
+              /         h3.f-semi-18 = t("ui.dashboard.integrations.index.google_translate")
+              /         p.ui-meta-tag Productivity
+              /   td
+              /     p.f-reg-14 = t("dashboard.settings.integrations.google_translate.description")
+              /   td
+              /     - if @google_translate
+              /       span.ui-domain-status.ui-domain-status--pill.ui-domain-status--neutral
+              /         = inline_svg_tag("clock-two.svg", class: "ui-domain-status__mark", aria: { hidden: true })
+              /         = t("dashboard.settings.integrations.coming_soon")
+              /     - else
+              /       span.ui-domain-status.ui-domain-status--pill.ui-domain-status--neutral
+              /         = inline_svg_tag("clock-two.svg", class: "ui-domain-status__mark", aria: { hidden: true })
+              /         | Not Connected
+              /   td.ui-domain-table__actions
+              /     .ui-integrations-actions
+              /       button.ui-integrations-action.ui-integrations-action--disabled type="button" disabled=true
+              /         = t("dashboard.settings.integrations.coming_soon")

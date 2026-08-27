@@ -13,7 +13,13 @@ module Dashboard
       )
 
       respond_to do |format|
-        format.html { render(layout: false) }
+        format.html do
+          if params[:mobile_view] == "notifications"
+            render(:mobile)
+          else
+            render(layout: false)
+          end
+        end
         format.turbo_stream
       end
     end
@@ -32,6 +38,9 @@ module Dashboard
           ) + turbo_stream.replace(
             "notification-badge",
             partial: "dashboard/notifications/badge"
+          ) + turbo_stream.replace(
+            "mobile-notification-badge",
+            partial: "dashboard/notifications/mobile_badge"
           ))
         }
         format.html { redirect_back(fallback_location: root_path) }
@@ -54,6 +63,9 @@ module Dashboard
           ) + turbo_stream.replace(
             "notification-badge",
             partial: "dashboard/notifications/badge"
+          ) + turbo_stream.replace(
+            "mobile-notification-badge",
+            partial: "dashboard/notifications/mobile_badge"
           ))
         }
         format.html { redirect_back(fallback_location: root_path, notice: I18n.t("notifications.marked_all_read", default: "All notifications marked as read.")) }
@@ -66,6 +78,9 @@ module Dashboard
       render(turbo_stream: turbo_stream.replace(
         "notification-badge",
         partial: "dashboard/notifications/badge"
+      ) + turbo_stream.replace(
+        "mobile-notification-badge",
+        partial: "dashboard/notifications/mobile_badge"
       ))
     end
 

@@ -2131,88 +2131,49 @@ ko:
         mapped_attributes: '매핑된 속성:'
     settings:
       integrations:
-        integrations:
-          index:
-            title: 통합
-            description: 즐겨 사용하는 도구와 Deskbolic을 연결하세요.
-          new:
-            title: "%{provider} 구성"
-            description: 통합 설정을 지정하세요.
-          edit:
-            title: "%{provider} 통합 편집"
-            description: 통합 설정을 업데이트하세요.
-          slack:
-            description: Slack 채널에서 직접 새로운 대화와 업데이트에 대한 즉각적인 알림을 받으세요.
-            connect: Slack에 추가
-            not_configured: 이 서버에는 Slack 자격 증명이 구성되어 있지 않습니다.
-            auth_failed: Slack 인증이 실패했거나 취소되었습니다.
-            exchange_failed: 'Slack 토큰 교환 실패: %{error}'
-            unexpected_error: Slack 인증 중에 예상치 못한 오류가 발생했습니다.
-            connected: Slack이 성공적으로 연결되었습니다.
-          webhooks:
-            description: 실시간 이벤트 알림을 Deskbolic에서 자체 서버 및 외부 서비스로 푸시하세요.
-            configured_count: "%{count} 구성됨"
-            connect: 웹훅 구성
-            url_label: 웹훅 URL
-            url_hint: Deskbolic이 이벤트에 대한 POST 요청을 보내는 엔드포인트입니다.
-            secret_label: 웹훅 비밀
-            secret_hint: 이 비밀을 사용하여 수신 요청의 HMAC 서명을 확인하세요.
-            events_label: 구독한 이벤트
-          google_translate:
-            description: 들어오는 메시지와 나가는 응답을 실시간으로 자동 번역합니다.
-          coming_soon: 출시 예정
-          connected: 연결됨
-          disconnect: 연결 끊기
-          manage: 관리하다
-          not_supported: 이 공급자에 대한 구성은 이 인터페이스를 통해 지원되지 않습니다.
-          invalid_provider: 잘못된 통합 공급자입니다.
-          created: 통합이 성공적으로 생성되었습니다.
-          updated: 통합이 성공적으로 업데이트되었습니다.
-          destroyed: 통합이 성공적으로 제거되었습니다.
-        created: 통합이 성공적으로 구성되었습니다.
-        updated: 통합 설정이 업데이트되었습니다.
-        destroyed: 통합이 성공적으로 연결 해제되었습니다.
-        invalid_provider: 선택한 통합 공급자가 잘못되었습니다.
-        slack:
-          auth_failed: Slack 인증에 실패했습니다. 다시 시도해 주세요.
-          not_configured: Slack OAuth 자격 증명이 이 서버에 구성되어 있지 않습니다.
-          connected: Slack에 성공적으로 연결되었습니다!
-          exchange_failed: 'Slack OAuth 토큰 교환 실패: %{error}'
-          unexpected_error: Slack 인증 중에 예상치 못한 오류가 발생했습니다.
-          basic_section: Slack 설정
-          manual_hint: Slack OAuth는 이 설치에 대해 전역적으로 구성되지 않으므로 Slack Workspace에서 수신
-            웹후크를 생성하고 여기에 URL을 붙여넣어 Slack을 수동으로 연결할 수 있습니다.
-          url_label: Slack 수신 웹훅 URL
-          description: Slack 채널에서 직접 새로운 대화와 업데이트에 대한 즉각적인 알림을 받으세요.
-          connect: Slack에 추가
-        not_supported: 이 공급자에 대한 구성은 이 인터페이스를 통해 지원되지 않습니다.
-        coming_soon: 출시 예정
-        connected: 연결됨
-        disconnect: 연결 끊기
-        manage: 관리하다
-        form:
-          back: "← 통합으로 돌아가기"
+        index:
+          title: 통합
+          description: 즐겨 사용하는 도구와 Deskbolic을 연결하세요.
         new:
           title: "%{provider} 구성"
+          description: 통합 설정을 지정하세요.
         edit:
           title: "%{provider} 통합 편집"
+          description: 통합 설정을 업데이트하세요.
+        not_connected: 연결되지 않음
+        connected: 연결됨
+        disconnect: 연결 끊기
+        coming_soon: 출시 예정
+        manage: 관리하다
+        not_supported: 이 공급자에 대한 구성은 이 인터페이스를 통해 지원되지 않습니다.
+        invalid_provider: 잘못된 통합 공급자입니다.
+        created: 통합이 성공적으로 생성되었습니다.
+        updated: 통합이 성공적으로 업데이트되었습니다.
+        destroyed: 통합이 성공적으로 제거되었습니다.
+        slack:
+          description: Slack 채널에서 직접 새로운 대화와 업데이트에 대한 즉각적인 알림을 받으세요.
+          connect: Slack에 추가
+          connected: "%{channel}에 성공적으로 연결되었습니다!"
+          test_sent: "%{channel}로 테스트 알림이 전송되었습니다!"
+          send_test: 테스트 알림 보내기
+          channel_label: "채널: %{channel}"
+          auth_failed: Slack 인증이 실패했거나 취소되었습니다.
+          not_configured: 이 서버에는 Slack 자격 증명이 구성되어 있지 않습니다.
+          exchange_failed: "Slack 토큰 교환 실패: %{error}"
+          unexpected_error: Slack 인증 중에 예상치 못한 오류가 발생했습니다.
         webhooks:
           description: 실시간 이벤트 알림을 Deskbolic에서 자체 서버 및 외부 서비스로 푸시하세요.
-          connect: 웹훅 구성
           configured_count: "%{count} 구성됨"
-          manage: 관리하다
-          basic_section: 웹훅 설정
+          connect: 웹훅 구성
           url_label: 웹훅 URL
           url_hint: Deskbolic이 이벤트에 대한 POST 요청을 보내는 엔드포인트입니다.
           secret_label: 웹훅 비밀
           secret_hint: 이 비밀을 사용하여 수신 요청의 HMAC 서명을 확인하세요.
           events_label: 구독한 이벤트
-          instructions_title: 웹훅 수신
         google_translate:
           description: 들어오는 메시지와 나가는 응답을 실시간으로 자동 번역합니다.
-        index:
-          description: 즐겨 사용하는 도구와 Deskbolic을 연결하세요.
-          title: 통합
+        form:
+          back: "← 통합으로 돌아가기"
       api_keys:
         index:
           created_ago: "%{date} 전에 생성됨"
@@ -2882,6 +2843,21 @@ ko:
       team_assigned:
         title: 팀 과제
         body: '대화 #%{identifier}가 %{team_name}에게 할당되었습니다'
+    slack:
+      new_message_header: "%{icon} 새 고객 메시지"
+      new_conversation_header: "%{icon} 새 대화 시작됨"
+      from_field: "*보낸 사람:*\n%{sender}"
+      customer_field: "*고객:*\n%{customer}"
+      channel_field: "*채널:*\n%{channel}"
+      message_field: "*메시지:*\n%{message}"
+      initial_message_field: "*첫 메시지:*\n%{message}"
+      attachment_preview: "*(첨부 파일 / 미디어)*"
+      open_button: "Deskbolic에서 열기 ↗"
+      default_customer: "고객"
+      default_channel: "채널"
+      default_support: "지원"
+      default_conversation_preview: "새로운 고객 대화가 시작되었습니다."
+      event_triggered: "Deskbolic 이벤트 트리거됨: %{event_name}"
   settings:
     csat:
       configuration: CSAT 구성

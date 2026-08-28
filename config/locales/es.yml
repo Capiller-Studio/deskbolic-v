@@ -2296,104 +2296,49 @@ es:
         mapped_attributes: 'Atributos mapeados:'
     settings:
       integrations:
-        integrations:
-          index:
-            title: Integraciones
-            description: Conecta Deskbolic con tus herramientas favoritas.
-          new:
-            title: Configurar %{provider}
-            description: Configure sus ajustes de integración.
-          edit:
-            title: Editar integración %{provider}
-            description: Actualice su configuración de integración.
-          slack:
-            description: Recibe notificaciones instantáneas de nuevas conversaciones
-              y actualizaciones directamente en tus canales de Slack.
-            connect: Añadir a Slack
-            not_configured: Las credenciales de Slack no están configuradas en este
-              servidor.
-            auth_failed: La autenticación de Slack falló o se canceló.
-            exchange_failed: 'No se pudo intercambiar el token de Slack: %{error}'
-            unexpected_error: Se produjo un error inesperado durante la autenticación
-              de Slack.
-            connected: Slack se ha conectado correctamente.
-          webhooks:
-            description: Envíe notificaciones de eventos en tiempo real desde Deskbolic
-              a sus propios servidores y servicios externos.
-            configured_count: "%{count} configurado"
-            connect: Configurar webhooks
-            url_label: URL de webhook
-            url_hint: El punto final donde Deskbolic enviará solicitudes POST para
-              eventos.
-            secret_label: Secreto del webhook
-            secret_hint: Utilice este secreto para verificar la firma HMAC de las
-              solicitudes entrantes.
-            events_label: Eventos suscritos
-          google_translate:
-            description: Traduce automáticamente los mensajes entrantes y las respuestas
-              salientes en tiempo real.
-          coming_soon: Próximamente
-          connected: Conectado
-          disconnect: Desconectar
-          manage: Administrar
-          not_supported: La configuración para este proveedor no se admite a través
-            de esta interfaz.
-          invalid_provider: Proveedor de integración no válido.
-          created: Integración creada exitosamente.
-          updated: La integración se actualizó correctamente.
-          destroyed: La integración se eliminó correctamente.
-        created: La integración se configuró correctamente.
-        updated: La configuración de integración se actualizó correctamente.
-        destroyed: La integración se desconectó correctamente.
-        invalid_provider: El proveedor de integración seleccionado no es válido.
-        slack:
-          auth_failed: Error de autenticación Slack. Por favor inténtalo de nuevo.
-          not_configured: Las credenciales de Slack OAuth no están configuradas en
-            este servidor.
-          connected: "¡Conectado exitosamente a Slack!"
-          exchange_failed: 'No se pudo intercambiar el token Slack OAuth: %{error}'
-          unexpected_error: Se produjo un error inesperado durante la autenticación
-            de Slack.
-          basic_section: Configuración de Slack
-          manual_hint: Debido a que Slack OAuth no está configurado globalmente para
-            esta instalación, puedes conectar Slack manualmente creando un Webhook
-            entrante en tu espacio de trabajo de Slack y pegando la URL aquí.
-          url_label: URL de webhook entrante de Slack
-          description: Recibe notificaciones instantáneas de nuevas conversaciones
-            y actualizaciones directamente en tus canales de Slack.
-          connect: Añadir a Slack
-        not_supported: La configuración para este proveedor no se admite a través
-          de esta interfaz.
-        coming_soon: Próximamente
-        connected: Conectado
-        disconnect: Desconectar
-        manage: Administrar
-        form:
-          back: "← Volver a Integraciones"
+        index:
+          title: Integraciones
+          description: Conecta Deskbolic con tus herramientas favoritas.
         new:
           title: Configurar %{provider}
+          description: Configure sus ajustes de integración.
         edit:
           title: Editar integración %{provider}
+          description: Actualice su configuración de integración.
+        not_connected: No conectado
+        connected: Conectado
+        disconnect: Desconectar
+        coming_soon: Próximamente
+        manage: Administrar
+        not_supported: La configuración para este proveedor no se admite a través de esta interfaz.
+        invalid_provider: Proveedor de integración no válido.
+        created: Integración creada exitosamente.
+        updated: La integración se actualizó correctamente.
+        destroyed: La integración se eliminó correctamente.
+        slack:
+          description: Recibe notificaciones instantáneas de nuevas conversaciones y actualizaciones directamente en tus canales de Slack.
+          connect: Añadir a Slack
+          connected: "¡Conectado exitosamente a %{channel}!"
+          test_sent: "¡Notificación de prueba enviada a %{channel}!"
+          send_test: Enviar notificación de prueba
+          channel_label: "Canal: %{channel}"
+          auth_failed: La autenticación de Slack falló o se canceló.
+          not_configured: Las credenciales de Slack no están configuradas en este servidor.
+          exchange_failed: "No se pudo intercambiar el token de Slack: %{error}"
+          unexpected_error: Se produjo un error inesperado durante la autenticación de Slack.
         webhooks:
-          description: Envíe notificaciones de eventos en tiempo real desde Deskbolic
-            a sus propios servidores y servicios externos.
-          connect: Configurar webhooks
+          description: Envíe notificaciones de eventos en tiempo real desde Deskbolic a sus propios servidores y servicios externos.
           configured_count: "%{count} configurado"
-          manage: Administrar
-          basic_section: Configuración de webhook
+          connect: Configurar webhooks
           url_label: URL de webhook
           url_hint: El punto final donde Deskbolic enviará solicitudes POST para eventos.
           secret_label: Secreto del webhook
-          secret_hint: Utilice este secreto para verificar la firma HMAC de las solicitudes
-            entrantes.
+          secret_hint: Utilice este secreto para verificar la firma HMAC de las solicitudes entrantes.
           events_label: Eventos suscritos
-          instructions_title: Recibir webhooks
         google_translate:
-          description: Traduce automáticamente los mensajes entrantes y las respuestas
-            salientes en tiempo real.
-        index:
-          description: Conecta Deskbolic con tus herramientas favoritas.
-          title: Integraciones
+          description: Traduce automáticamente los mensajes entrantes y las respuestas salientes en tiempo real.
+        form:
+          back: "← Volver a Integraciones"
       api_keys:
         index:
           created_ago: Generado hace %{date}
@@ -3088,6 +3033,21 @@ es:
       team_assigned:
         title: Asignación de equipo
         body: 'La conversación #%{identifier} ha sido asignada a %{team_name}.'
+    slack:
+      new_message_header: "%{icon} Nuevo mensaje del cliente"
+      new_conversation_header: "%{icon} Nueva conversación abierta"
+      from_field: "*De:*\n%{sender}"
+      customer_field: "*Cliente:*\n%{customer}"
+      channel_field: "*Canal:*\n%{channel}"
+      message_field: "*Mensaje:*\n%{message}"
+      initial_message_field: "*Mensaje inicial:*\n%{message}"
+      attachment_preview: "*(Archivo adjunto / Multimedia)*"
+      open_button: "Abrir en Deskbolic ↗"
+      default_customer: "Cliente"
+      default_channel: "Canal"
+      default_support: "Soporte"
+      default_conversation_preview: "Se ha abierto una nueva conversación con un cliente."
+      event_triggered: "Evento de Deskbolic activado: %{event_name}"
   settings:
     csat:
       configuration: Configuración CSAT

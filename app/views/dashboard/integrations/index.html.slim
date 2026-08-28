@@ -35,6 +35,11 @@
                       p.ui-meta-tag Communication
                 td
                   p.f-reg-14 = t("dashboard.settings.integrations.slack.description")
+                  - if @slack&.settings&.dig("channel").present?
+                    p.f-reg-12.c-subtext style="margin-top: 4px; color: var(--color-text-secondary, #667085);"
+                      = t("dashboard.settings.integrations.slack.channel_label", channel: @slack.settings["channel"])
+                      - if @slack.metadata["team_name"].present?
+                        |  (#{@slack.metadata["team_name"]})
                 td
                   - if @slack
                     span.ui-domain-status.ui-domain-status--pill.ui-domain-status--success
@@ -43,21 +48,18 @@
                   - else
                     span.ui-domain-status.ui-domain-status--pill.ui-domain-status--neutral
                       = inline_svg_tag("clock-two.svg", class: "ui-domain-status__mark", aria: { hidden: true })
-                      | Not Connected
+                      = t("dashboard.settings.integrations.not_connected")
                 td.ui-domain-table__actions
                   .ui-integrations-actions
                     - if @slack
+                      = button_to slack_test_integrations_path, method: :post, class: "ui-icon-button", aria: { label: t("dashboard.settings.integrations.slack.send_test") }, title: t("dashboard.settings.integrations.slack.send_test") do
+                        = image_tag("test_connection.svg", alt: "", aria: { hidden: true })
                       = link_to integration_path(@slack), class: "ui-icon-button", data: { turbo_method: :delete, turbo_confirm: t("dashboard.shared.are_you_sure") }, aria: { label: t("dashboard.settings.integrations.disconnect") }, title: t("dashboard.settings.integrations.disconnect") do
                         = image_tag("delete.svg", alt: "", aria: { hidden: true })
                     - else
-                      - if @slack_client_id.present?
-                        = link_to "https://slack.com/oauth/v2/authorize?client_id=#{@slack_client_id}&scope=incoming-webhook&redirect_uri=#{slack_callback_integrations_url}", data: { turbo: false }, class: "ui-integrations-action ui-integrations-action--slack" do
-                          = image_tag("https://cdn.worldvectorlogo.com/logos/slack-new-logo.svg", width: 16, height: 16, alt: "")
-                          span = t("dashboard.settings.integrations.slack.connect")
-                      - else
-                        = link_to new_integration_path(provider: :slack), class: "ui-integrations-action ui-integrations-action--slack" do
-                          = image_tag("https://cdn.worldvectorlogo.com/logos/slack-new-logo.svg", width: 16, height: 16, alt: "")
-                          span = t("dashboard.settings.integrations.slack.connect")
+                      = link_to slack_oauth_authorize_integrations_path, data: { turbo: false }, class: "ui-integrations-action ui-integrations-action--slack" do
+                        = image_tag("https://cdn.worldvectorlogo.com/logos/slack-new-logo.svg", width: 16, height: 16, alt: "")
+                        span = t("dashboard.settings.integrations.slack.connect")
 
               / tr
               /   td

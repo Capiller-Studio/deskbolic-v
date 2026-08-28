@@ -9,16 +9,22 @@
     .ui-section-body
       .ui-form-row
         div
+          = f.label :name, t("dashboard.settings.integrations.name_label", default: "Integration Name"), class: "ui-label"
+          p.ui-input-hint style="margin-top: 0; margin-bottom: 8px;" = t("dashboard.settings.integrations.name_hint", default: "A friendly name to identify this integration.")
+          = f.text_field :name, class: "ui-input", placeholder: "e.g. Production Webhook / CRM Sync"
+
+      .ui-form-row style="margin-top: 24px;"
+        div
           = f.label :webhook_url, t("dashboard.settings.integrations.webhooks.url_label"), class: "ui-label"
           p.ui-input-hint style="margin-top: 0; margin-bottom: 8px;" = t("dashboard.settings.integrations.webhooks.url_hint")
-          = f.text_field :webhook_url, name: "integration[settings][webhook_url]", value: integration.settings["webhook_url"], class: "ui-input", placeholder: "https://your-server.com/webhooks/deskbolic", required: true
+          = f.text_field :webhook_url, name: "integration[settings][webhook_url]", value: integration.webhook_url, class: "ui-input", placeholder: "https://your-server.com/webhooks/deskbolic", required: true
 
       - if integration.persisted?
         .ui-form-row style="margin-top: 24px;"
           div
             = f.label :webhook_secret, t("dashboard.settings.integrations.webhooks.secret_label"), class: "ui-label"
             p.ui-input-hint style="margin-top: 0; margin-bottom: 8px;" = t("dashboard.settings.integrations.webhooks.secret_hint")
-            = f.text_field :webhook_secret, name: "integration[settings][webhook_secret]", value: integration.settings["webhook_secret"], class: "ui-input", readonly: true, style: "background-color: #f8fafc; font-family: monospace;"
+            = f.text_field :webhook_secret, value: integration.webhook_secret, class: "ui-input", readonly: true, style: "background-color: #f8fafc; font-family: monospace;"
       
       .ui-form-row style="margin-top: 24px;"
         div

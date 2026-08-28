@@ -88,6 +88,7 @@ Rails.application.routes.draw do
       get "whatsapp/callback", to: "whatsapp#callback"
       get "facebook/callback", to: "facebook#callback"
     end
+    get "integrations/slack/callback", to: "integrations#slack_callback"
 
     constraints(SubdomainConstraint) do
       resources :search, only: [ :index ], controller: "searches" do
@@ -323,7 +324,9 @@ Rails.application.routes.draw do
 
       resources :integrations, except: [ :show ] do
         collection do
+          get "slack/oauth_authorize", to: "integrations#oauth_authorize_slack"
           get "slack/callback", to: "integrations#slack_callback"
+          post "slack/test", to: "integrations#test_slack"
         end
       end
 

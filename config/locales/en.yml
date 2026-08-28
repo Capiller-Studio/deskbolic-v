@@ -2487,72 +2487,47 @@ en:
         mapped_attributes: 'Mapped Attributes:'
     settings:
       integrations:
-        integrations:
-          index:
-            title: Integrations
-            description: Connect Deskbolic with your favorite tools.
-          new:
-            title: Configure %{provider}
-            description: Set up your integration settings.
-          edit:
-            title: Edit %{provider} Integration
-            description: Update your integration settings.
-          slack:
-            description: Get instant notifications for new conversations and updates
-              directly in your Slack channels.
-            connect: Add to Slack
-            not_configured: Slack credentials are not configured on this server.
-            auth_failed: Slack authentication failed or was cancelled.
-            exchange_failed: 'Failed to exchange Slack token: %{error}'
-            unexpected_error: An unexpected error occurred during Slack authentication.
-            connected: Slack has been successfully connected.
-          webhooks:
-            description: Push real-time event notifications from Deskbolic to your
-              own servers and external services.
-            configured_count: "%{count} configured"
-            connect: Configure Webhooks
-            url_label: Webhook URL
-            url_hint: The endpoint where Deskbolic will send POST requests for events.
-            secret_label: Webhook Secret
-            secret_hint: Use this secret to verify the HMAC signature of incoming
-              requests.
-            events_label: Subscribed Events
-          google_translate:
-            description: Automatically translate incoming messages and outgoing replies
-              in real-time.
-          coming_soon: Coming Soon
-          connected: Connected
-          disconnect: Disconnect
-          manage: Manage
-          not_supported: Configuration for this provider is not supported via this
-            interface.
-          invalid_provider: Invalid integration provider.
-          created: Integration created successfully.
-          updated: Integration updated successfully.
-          destroyed: Integration removed successfully.
-        created: Integration was successfully configured.
-        updated: Integration settings were successfully updated.
-        destroyed: Integration was successfully disconnected.
-        invalid_provider: The selected integration provider is invalid.
-        slack:
-          auth_failed: Slack authentication failed. Please try again.
-          not_configured: Slack OAuth credentials are not configured on this server.
-          connected: Successfully connected to Slack!
-          exchange_failed: 'Failed to exchange Slack OAuth token: %{error}'
-          unexpected_error: An unexpected error occurred during Slack authentication.
-          basic_section: Slack Setup
-          manual_hint: Because Slack OAuth is not configured globally for this installation,
-            you can connect Slack manually by creating an Incoming Webhook in your
-            Slack Workspace and pasting the URL here.
-          url_label: Slack Incoming Webhook URL
-          description: Get instant notifications for new conversations and updates
-            directly in your Slack channels.
-          connect: Add to Slack
-        not_supported: Configuration for this provider is not supported via this interface.
-        coming_soon: Coming Soon
+        index:
+          title: Integrations
+          description: Connect Deskbolic with your favorite tools.
+        new:
+          title: Configure %{provider}
+          description: Set up your integration settings.
+        edit:
+          title: Edit %{provider} Integration
+          description: Update your integration settings.
+        not_connected: Not Connected
         connected: Connected
         disconnect: Disconnect
+        coming_soon: Coming Soon
         manage: Manage
+        not_supported: Configuration for this provider is not supported via this interface.
+        invalid_provider: Invalid integration provider.
+        created: Integration created successfully.
+        updated: Integration updated successfully.
+        destroyed: Integration removed successfully.
+        slack:
+          description: Get instant notifications for new conversations and updates directly in your Slack channels.
+          connect: Add to Slack
+          connected: "Successfully connected to %{channel}!"
+          test_sent: "Test notification sent to %{channel}!"
+          send_test: Send Test Notification
+          channel_label: "Channel: %{channel}"
+          auth_failed: Slack authentication failed or was cancelled.
+          not_configured: Slack credentials are not configured on this server.
+          exchange_failed: "Failed to exchange Slack token: %{error}"
+          unexpected_error: An unexpected error occurred during Slack authentication.
+        webhooks:
+          description: Push real-time event notifications from Deskbolic to your own servers and external services.
+          configured_count: "%{count} configured"
+          connect: Configure Webhooks
+          url_label: Webhook URL
+          url_hint: The endpoint where Deskbolic will send POST requests for events.
+          secret_label: Webhook Secret
+          secret_hint: Use this secret to verify the HMAC signature of incoming requests.
+          events_label: Subscribed Events
+        google_translate:
+          description: Automatically translate incoming messages and outgoing replies in real-time.
         form:
           back: "← Back to Integrations"
         new:
@@ -3107,6 +3082,21 @@ en:
       team_assigned:
         title: Team Assignment
         body: 'Conversation #%{identifier} has been assigned to %{team_name}'
+    slack:
+      new_message_header: "%{icon} New Customer Message"
+      new_conversation_header: "%{icon} New Conversation Opened"
+      from_field: "*From:*\n%{sender}"
+      customer_field: "*Customer:*\n%{customer}"
+      channel_field: "*Channel:*\n%{channel}"
+      message_field: "*Message:*\n%{message}"
+      initial_message_field: "*Initial Message:*\n%{message}"
+      attachment_preview: "*(Attachment / Media)*"
+      open_button: "Open in Deskbolic ↗"
+      default_customer: "Customer"
+      default_channel: "Channel"
+      default_support: "Support"
+      default_conversation_preview: "A new customer conversation has been opened."
+      event_triggered: "Deskbolic Event Triggered: %{event_name}"
   settings:
     csat:
       configuration: CSAT Configuration

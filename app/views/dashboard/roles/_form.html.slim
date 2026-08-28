@@ -1,4 +1,4 @@
-- permission_columns = [{ key: "read", label: "Read", actions: %w[read view], icon: "read.svg" }, { key: "write", label: "Write", actions: %w[write], icon: "write.svg" }, { key: "delete", label: "Delete", actions: %w[delete remove], icon: "delete.svg" }, { key: "manage", label: "Manage", actions: %w[manage], icon: "setting_orange.svg" }, { key: "export", label: "Export", actions: %w[export], icon: "export_blue.svg" }, { key: "execute", label: "Execute", actions: %w[execute], icon: "execute.svg" }, { key: "invite", label: "Invite", actions: %w[invite], icon: "invite.svg" }]
+- permission_columns = [{ key: "read", label: t("dashboard.roles.form.actions.read", default: "Read"), actions: %w[read view], icon: "read.svg" }, { key: "write", label: t("dashboard.roles.form.actions.write", default: "Write"), actions: %w[write], icon: "write.svg" }, { key: "delete", label: t("dashboard.roles.form.actions.delete", default: "Delete"), actions: %w[delete remove], icon: "delete.svg" }, { key: "manage", label: t("dashboard.roles.form.actions.manage", default: "Manage"), actions: %w[manage], icon: "setting_orange.svg" }, { key: "export", label: t("dashboard.roles.form.actions.export", default: "Export"), actions: %w[export], icon: "export_blue.svg" }, { key: "execute", label: t("dashboard.roles.form.actions.execute", default: "Execute"), actions: %w[execute], icon: "execute.svg" }, { key: "invite", label: t("dashboard.roles.form.actions.invite", default: "Invite"), actions: %w[invite], icon: "invite.svg" }]
 - schema = ::Access::Role::PERMISSION_SCHEMA
 - resource_icons = { "conversations" => "message.svg", "inboxes" => "inboxes.svg", "teams" => "team.svg", "agents" => "team.svg", "customers" => "team.svg", "automations" => "automation.svg", "macros" => "macros.svg", "reports" => "reports.svg", "settings" => "setting.svg", "assignment_policies" => "setting.svg", "custom_fields" => "fields.svg", "sla_policies" => "timer.svg", "integrations" => "setting.svg", "billing" => "billing.svg", "roles" => "roles.svg", "skills" => "skills.svg", "email_templates" => "mail.svg", "identity_sources" => "identity.svg", "domains" => "domain.svg", "labels" => "label.svg", "business_hours" => "clock.svg", "csat_surveys" => "permission.svg" }
 - all_permissions = schema.transform_values { |actions| actions.index_with { true } }
@@ -6,7 +6,7 @@
 - support_resources = %w[conversations inboxes teams macros customers labels]
 - support_permissions = schema.slice(*support_resources).transform_values { |actions| actions.select { |action| %w[read view write manage execute].include?(action) }.index_with { true } }.reject { |_resource, actions| actions.empty? }
 - read_only_permissions = schema.transform_values { |actions| actions.select { |action| %w[read view].include?(action) }.index_with { true } }.reject { |_resource, actions| actions.empty? }
-- presets = [{ key: "administrator", name: "Administrator", description: "Full system access", icon: "shieldsvg.svg", permissions: all_permissions }, { key: "manager", name: "Manager", description: "Access to manage and view", icon: "manager.svg", permissions: manager_permissions }, { key: "support_agent", name: "Support Agent", description: "Limited access for support", icon: "support_agent.svg", permissions: support_permissions }, { key: "read_only", name: "Read Only", description: "View-only access", icon: "read_only.svg", permissions: read_only_permissions }, { key: "scratch", name: "Start From Scratch", description: "Custom permissions", icon: "custom.svg", permissions: {} }]
+- presets = [{ key: "administrator", name: t("dashboard.roles.form.presets.administrator.name", default: "Administrator"), description: t("dashboard.roles.form.presets.administrator.description", default: "Full system access"), icon: "shieldsvg.svg", permissions: all_permissions }, { key: "manager", name: t("dashboard.roles.form.presets.manager.name", default: "Manager"), description: t("dashboard.roles.form.presets.manager.description", default: "Access to manage and view"), icon: "manager.svg", permissions: manager_permissions }, { key: "support_agent", name: t("dashboard.roles.form.presets.support_agent.name", default: "Support Agent"), description: t("dashboard.roles.form.presets.support_agent.description", default: "Limited access for support"), icon: "support_agent.svg", permissions: support_permissions }, { key: "read_only", name: t("dashboard.roles.form.presets.read_only.name", default: "Read Only"), description: t("dashboard.roles.form.presets.read_only.description", default: "View-only access"), icon: "read_only.svg", permissions: read_only_permissions }, { key: "scratch", name: t("dashboard.roles.form.presets.scratch.name", default: "Start From Scratch"), description: t("dashboard.roles.form.presets.scratch.description", default: "Custom permissions"), icon: "custom.svg", permissions: {} }]
 
 = form_with model: role, url: role.new_record? ? roles_path : role_path(role), id: dom_id(role, :form), local: true, data: { controller: "role-permissions" }, class: "roles-editor-form" do |f|
   - if role.errors.any?
@@ -60,19 +60,20 @@
                 span = column[:label]
           - schema.each do |resource, actions|
             - resource_icon = resource_icons.fetch(resource, "permission.svg")
+            - resource_label = t("dashboard.roles.form.resources.#{resource}", default: resource.humanize.titleize)
             .roles-matrix-row
               .roles-matrix-resource
                 .roles-resource-icon
                   = inline_svg_tag(resource_icon, class: "roles-icon")
-                span = resource.humanize.titleize
+                span = resource_label
                 = inline_svg_tag("dropdown.svg", class: "roles-icon")
               - permission_columns.each do |column|
                 - actual_action = column[:actions].find { |candidate| actions.include?(candidate) }
                 .roles-matrix-cell
                   - if actual_action
                     - is_checked = role.permissions.dig(resource, actual_action) == true || role.permissions.dig(resource, actual_action) == "true"
-                    label.pm-toggle-label title="#{column[:label]} #{resource.humanize}"
+                    label.pm-toggle-label title="#{column[:label]} #{resource_label}"
                       input.pm-toggle-input type="checkbox" checked=is_checked disabled=role.system_provided? data-role-permissions-target="checkbox" data-action="change->role-permissions#toggle" data-resource=resource data-permission-action=actual_action
-                      span.sr-only = "#{column[:label]} #{resource.humanize}"
+                      span.sr-only = "#{column[:label]} #{resource_label}"
                   - else
                     span.roles-matrix-unavailable aria-hidden="true"

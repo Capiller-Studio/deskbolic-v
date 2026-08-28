@@ -19,22 +19,24 @@
           = inline_svg_tag("plus_white.svg", class:"plus-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
 
     .tm-users-body
-      .tm-users-filters
+      .tm-users-filters.ui-settings-form
         label.tm-users-search
           svg viewBox="0 0 24 24" aria-hidden="true"
             circle cx="11" cy="11" r="7"
             path d="m20 20-4-4"
           input type="search" placeholder=t("ui.dashboard.account_invitations.index.search_invitations") aria-label=t("ui.dashboard.account_invitations.index.search_invitations") data-filterable-collection-target="query" data-action="input->filterable-collection#update"
 
-        select.tm-users-select aria-label=t("ui.dashboard.account_users.index.filter_by_role") data-filterable-collection-target="filter" data-action="change->filterable-collection#update"
-          option value="" = t("ui.dashboard.account_users.index.all_roles")
-          - available_roles.each do |role|
-            option value=role.id = role.name
+        .tm-users-select.ui-field-control.ui-field-control--compact.ui-field-control--no-icon
+          select.ui-select.ui-control aria-label=t("ui.dashboard.account_users.index.filter_by_role") data-controller="select" data-filterable-collection-target="filter" data-action="change->filterable-collection#update"
+            option value="" = t("ui.dashboard.account_users.index.all_roles")
+            - available_roles.each do |role|
+              option value=role.id = role.name
 
-        select.tm-users-select aria-label=t("ui.dashboard.account_invitations.index.sort_invitations") data-filterable-collection-target="sort" data-action="change->filterable-collection#update"
-          option value="sent:desc" = t("ui.dashboard.account_users.index.sort_newest")
-          option value="sent:asc" = t("ui.dashboard.account_users.index.sort_oldest")
-          option value="email:asc" = t("ui.dashboard.account_invitations.index.sort_email")
+        .tm-users-select.ui-field-control.ui-field-control--compact.ui-field-control--no-icon
+          select.ui-select.ui-control aria-label=t("ui.dashboard.account_invitations.index.sort_invitations") data-controller="select" data-filterable-collection-target="sort" data-action="change->filterable-collection#update"
+            option value="sent:desc" = t("ui.dashboard.account_users.index.sort_newest")
+            option value="sent:asc" = t("ui.dashboard.account_users.index.sort_oldest")
+            option value="email:asc" = t("ui.dashboard.account_invitations.index.sort_email")
 
       - if @invitations.any?
         .tm-users-grid data-filterable-collection-target="container"

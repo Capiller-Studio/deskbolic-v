@@ -114,6 +114,10 @@
  /* top: 20px;*/
 }
 
+html[lang="ar"] .channel-theme-web-widget .ww-iframe-wrapper {
+  direction: ltr;
+}
+
 .channel-theme-web-widget .ww-section {
   background: #fff;
   border: 1px solid var(--ww-border);
@@ -491,6 +495,9 @@
   font-size: 13px;
   overflow-x: auto;
   margin: 0;
+  direction: ltr;
+  unicode-bidi: isolate;
+  text-align: left;
 }
 
 .channel-theme-web-widget .ww-params-title {
@@ -548,6 +555,9 @@
 .channel-theme-web-widget .ww-code-cell {
   font-family: monospace;
   color: #0ea5e9;
+  direction: ltr;
+  unicode-bidi: isolate;
+  text-align: left;
 }
 
 .channel-theme-web-widget .ww-alert {

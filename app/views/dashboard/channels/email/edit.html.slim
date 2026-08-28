@@ -119,8 +119,9 @@
                   label for="email_channel_smtp_password" = t("dashboard.email_channels.form.smtp_password")
                   .channel-edit-password.ui-password-wrapper
                     = f.password_field :smtp_password, name: "email_channel[smtp_configurations][password]", value: @email_channel.smtp_configurations&.dig("password"), placeholder: t("dashboard.email_channels.form.smtp_password_placeholder"), autocomplete: "new-password"
-                    button.ui-password-toggle type="button" data-action="click->email-channel#togglePassword" aria-label=t("dashboard.email_channels.form.smtp_password")
-                      | 👁️
+                    button.ui-password-toggle type="button" data-action="click->email-channel#togglePassword" aria-label=t("dashboard.channels.edit.toggle_token_visibility") aria-pressed="false"
+                      = inline_svg_tag("password_show.svg", class: "ui-password-toggle__icon ui-password-toggle__icon--show", aria: { hidden: true })
+                      = inline_svg_tag("password_hide.svg", class: "ui-password-toggle__icon ui-password-toggle__icon--hide", aria: { hidden: true })
                 .channel-edit-field
                   label for="email_channel_smtp_domain" = t("dashboard.email_channels.form.smtp_domain")
                   = f.text_field :smtp_domain, name: "email_channel[smtp_configurations][domain]", value: @email_channel.smtp_configurations&.dig("domain"), placeholder: t("dashboard.email_channels.form.smtp_domain_placeholder")
@@ -167,8 +168,9 @@
                   label for="email_channel_imap_password" = t("dashboard.email_channels.form.imap_password")
                   .channel-edit-password.ui-password-wrapper
                     = f.password_field :imap_password, name: "email_channel[imap_configurations][password]", value: @email_channel.imap_configurations&.dig("password"), placeholder: t("dashboard.email_channels.form.imap_password_placeholder"), autocomplete: "new-password"
-                    button.ui-password-toggle type="button" data-action="click->email-channel#togglePassword" aria-label=t("dashboard.email_channels.form.imap_password")
-                      | 👁️
+                    button.ui-password-toggle type="button" data-action="click->email-channel#togglePassword" aria-label=t("dashboard.channels.edit.toggle_token_visibility") aria-pressed="false"
+                      = inline_svg_tag("password_show.svg", class: "ui-password-toggle__icon ui-password-toggle__icon--show", aria: { hidden: true })
+                      = inline_svg_tag("password_hide.svg", class: "ui-password-toggle__icon ui-password-toggle__icon--hide", aria: { hidden: true })
 
         aside.channel-edit__aside
           section.channel-edit-danger.channel-edit-card

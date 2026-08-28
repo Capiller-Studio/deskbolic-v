@@ -322,6 +322,30 @@ de:
       empty_description: Verbinden Sie einen Kanal, um Kundenkonversationen in Deskbolic
         zu empfangen.
       empty_filtered_description: Sie haben noch keine %{type}-Kanäle verbunden.
+      new_channel_modal:
+        title: Neuen Kanal hinzufügen
+        description: Wählen Sie einen Kanaltyp aus, den Sie mit Ihrem Konto verbinden möchten.
+        facebook:
+          title: Facebook-Seite
+          description: Verbinden Sie Ihre Facebook-Seite, um Nachrichten und Kommentare zu verwalten.
+        instagram:
+          title: Instagram
+          description: Verbinden Sie Ihr Instagram-Business-Konto, um Direktnachrichten zu verwalten.
+        whatsapp:
+          title: WhatsApp
+          description: Verbinden Sie Ihre WhatsApp-Business-Nummer, um Unterhaltungen zu verwalten.
+        email:
+          title: E-Mail
+          description: Fügen Sie Ihren E-Mail-Kanal und die Weiterleitungseinstellungen hinzu.
+        contact_form:
+          title: Support-Anfrageformular
+          description: Erstellen Sie ein Formular, über das Kunden Supportanfragen senden können.
+        custom:
+          title: Benutzerdefinierter Kanal
+          description: Erstellen Sie einen benutzerdefinierten Kanal für Ihre individuelle Integration.
+        web_widget:
+          title: Web-Widget
+          description: Aktualisieren Sie die Konfiguration und Einstellungen Ihres Web-Widgets.
       status:
         active: Aktiv
         disconnected: Nicht verbunden
@@ -597,6 +621,8 @@ de:
       sidebar:
         label: Zuweisungsrichtlinien
       index:
+        no_matching_policies: Keine passenden Richtlinien
+        adjust_filters: Versuchen Sie einen anderen Filter.
         title: Zuweisungsrichtlinien
         description: Konfigurieren Sie, wie Gespräche automatisch weitergeleitet und
           Agenten zugewiesen werden.
@@ -713,6 +739,9 @@ de:
       sidebar:
         label: Identitätsquellen
       index:
+        empty_title: Noch keine Identitätsquellen
+        empty_description: Erstellen Sie Ihre erste Identitätsquelle, um Kundeninformationen
+          abzurufen und zu überprüfen.
         title: Identitätsquellen
         description: Konfigurieren Sie externe Webhooks und APIs, um Kundenidentitäten
           automatisch abzurufen und zu überprüfen.
@@ -1773,6 +1802,58 @@ de:
         preset_description: Wählen Sie eine Voreinstellung, um schnell loszulegen.
         role_details: Rollendetails
         save: Rolle speichern
+        actions:
+          read: Lesen
+          write: Schreiben
+          delete: Löschen
+          manage: Verwalten
+          export: Exportieren
+          execute: Ausführen
+          invite: Einladen
+        presets:
+          administrator:
+            name: Administrator
+            description: Vollständiger Systemzugriff
+          manager:
+            name: Manager
+            description: Zugriff zum Verwalten und Anzeigen
+          support_agent:
+            name: Support-Mitarbeiter
+            description: Eingeschränkter Zugriff für den Support
+          read_only:
+            name: Nur Lesen
+            description: Reiner Lesezugriff
+          scratch:
+            name: Von Grund auf beginnen
+            description: Benutzerdefinierte Berechtigungen
+        resources:
+          account: Konto
+          conversations: Konversationen
+          inboxes: Posteingänge
+          teams: Teams
+          automations: Automatisierungen
+          macros: Makros
+          reports: Berichte
+          settings: Einstellungen
+          billing: Abrechnung
+          roles: Rollen
+          agents: Agenten
+          email_templates: E-Mail-Vorlagen
+          assignment_policies: Zuweisungsrichtlinien
+          skills: Fähigkeiten
+          identity_sources: Identitätsquellen
+          domains: Domains
+          customers: Kunden
+          labels: Labels
+          custom_fields: Benutzerdefinierte Felder
+          business_hours: Geschäftszeiten
+          sla_policies: SLA-Richtlinien
+          csat_surveys: CSAT-Umfragen
+          integrations: Integrationen
+          audit_logs: Prüfprotokolle
+          help_center_portals: Hilfe-Center-Portale
+          help_center_articles: Hilfe-Center-Artikel
+          help_center_categories: Hilfe-Center-Kategorien
       edit:
         description: Ändern Sie die mit dieser Rolle verknüpften Berechtigungen.
         title: 'Rolle bearbeiten: %{name}'
@@ -2019,6 +2100,20 @@ de:
           invalid_image: Ungültiges Bild. Prüfen Sie das Format und das Limit von
             1 MB.
         form:
+          error_heading: 'Bitte beheben Sie die folgenden Fehler:'
+          theme_options:
+            light: Hell
+            dark: Dunkel
+            system: System
+          hero_styles:
+            plain: Einfach
+            gradient: Farbverlauf
+            image: Bild
+          upload_hero_image: Hero-Bild hochladen
+          uploading: Wird hochgeladen, bitte warten...
+          layouts:
+            grid: Rasterlayout
+            list: Listenlayout
           template_name_label: Vorlagenname
           template_name_placeholder: Kundensupport-Center
           name_label: Name des Hilfecenters
@@ -3578,6 +3673,9 @@ de:
           published_2: Veröffentlicht
           settings: Einstellungen
         portals:
+          new:
+            description: Konfigurieren Sie Branding, Erscheinungsbild, Sprachen und
+              Domain-Einstellungen für Ihr neues Hilfe-Center.
           edit:
             appearance_settings: ERSCHEINUNGSEINSTELLUNGEN
             basic_information: GRUNDLEGENDE INFORMATIONEN

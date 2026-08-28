@@ -1,13 +1,20 @@
 / = render("dashboard/shared/dashboard_container", current_page: "help_desk") do
 = render("dashboard/settings/settings_sidebar", current_page: "help-center-portals") do
-  .body-section.help-center-portal-body
-    .create-portal-shell
-      .create-portal-header
-        div
-          h2.f-semi-18 = t("ui.dashboard.help_center.portals.edit.edit_help_center")
-          p.f-reg-12 = t("ui.dashboard.help_center.portals.edit.update_branding_appearance_languages_and_domain_settings_for_this_help")
+  .body-section.help-center-portal-body.ui-settings-editor
+    header.ui-settings-editor__header
+      = link_to help_center_portals_path, class: "ui-settings-editor__back", aria: { label: t("shared.back", default: "Back") } do
+        = inline_svg_tag("back-arrow.svg", aria: { hidden: true })
+      .ui-settings-editor__heading
+        h1 = t("ui.dashboard.help_center.portals.edit.edit_help_center")
+        p = t("ui.dashboard.help_center.portals.edit.update_branding_appearance_languages_and_domain_settings_for_this_help")
+      .ui-settings-editor__header-actions
+        = link_to t("general.cancel"), help_center_portals_path, class: "ui-btn-secondary"
+        = button_tag type: "submit", form: "help-center-portal-form", class: "ui-btn-primary" do
+          = inline_svg_tag("mark.svg", aria: { hidden: true })
+          span = t("ui.dashboard.help_center.portals.edit.update_help_center")
 
-      = form_with(model: @portal, url: help_center_portal_path(@portal), method: :patch, class: "create-portal-form", multipart: true) do |f|
+    = form_with(model: @portal, url: help_center_portal_path(@portal), method: :patch, id: "help-center-portal-form", class: "ui-settings-editor__body help-center-portal-editor-body", multipart: true) do |f|
+      .create-portal-shell
         - if @portal.errors.any?
           .alert.alert-red
             p.f-semi-14 = t("dashboard.domains.errors.fix_errors")
@@ -132,7 +139,7 @@
                 label.segment-option class=("is-selected" if @selected_theme == value) data-portal-option-group-target="option" data-action="click->portal-option-group#select"
                   = radio_button_tag "help_center_portal[ui_configurations][theme_preference]", value, @selected_theme == value
                   = inline_svg_tag(icon, class: "segment-icon", alt: "")
-                  span.f-reg-12 = label_text
+                  span.f-reg-12 = t("dashboard.help_center.portals.form.theme_options.#{value}", default: label_text)
 
           .form-group
             label.f-reg-14 = t("ui.dashboard.help_center.portals.edit.primary_color")
@@ -155,7 +162,7 @@
                 - @hero_style_options.each do |value, label_text|
                   label.hero-option class=("is-selected" if @selected_hero == value) data-portal-option-group-target="option" data-action="click->portal-option-group#select"
                     = radio_button_tag "help_center_portal[ui_configurations][hero_style]", value, @selected_hero == value
-                    span.f-semi-12 = label_text
+                    span.f-semi-12 = t("dashboard.help_center.portals.form.hero_styles.#{value}", default: label_text)
                     span.option-check aria-hidden="true"
                     .hero-preview class="hero-preview-#{value}"
                       - if value == "image"
@@ -168,13 +175,13 @@
               .hero-upload-box data-portal-option-group-target="uploadBox"
                 .hero-upload-dropzone role="button" tabindex="0" data-action="click->portal-option-group#openUploadPicker keydown.enter->portal-option-group#openUploadPicker keydown.space->portal-option-group#openUploadPicker"
                   = f.file_field :hero_image, accept: "image/*", class: "hero-upload-input", data: { "portal-option-group-target": "fileInput", action: "change->portal-option-group#uploadFile" }
-                  span.hero-upload-title.f-semi-14 data-portal-option-group-target="uploadTitle" Upload hero image
+                  span.hero-upload-title.f-semi-14 data-portal-option-group-target="uploadTitle" = t("dashboard.help_center.portals.form.upload_hero_image", default: "Upload hero image")
                   span.hero-upload-hint.f-reg-12 = t("ui.dashboard.help_center.portals.edit.png_jpg_or_svg_up_to_5mb")
                 .hero-upload-progress.is-hidden data-portal-option-group-target="progress"
                   .hero-progress-track
                     .hero-progress-fill data-portal-option-group-target="progressFill"
                   .hero-progress-meta
-                    span.f-reg-12 data-portal-option-group-target="progressLabel" Uploading, wait...
+                    span.f-reg-12 data-portal-option-group-target="progressLabel" = t("dashboard.help_center.portals.form.uploading", default: "Uploading, wait...")
                     button.hero-upload-clear type="button" aria-label=t("general.cancel_upload") data-action="click->portal-option-group#clearUpload" = t("ui.dashboard.help_center.portals.edit.x")
 
           .form-group
@@ -184,9 +191,5 @@
                 label.layout-option class=("is-selected" if @selected_layout == value) data-portal-option-group-target="option" data-action="click->portal-option-group#select"
                   = radio_button_tag "help_center_portal[ui_configurations][category_layout]", value, @selected_layout == value
                   span.layout-icon class="layout-icon-#{value}"
-                  span.f-reg-14 = label_text
+                  span.f-reg-14 = t("dashboard.help_center.portals.form.layouts.#{value}", default: label_text)
                   span.option-check aria-hidden="true"
-
-        .portal-form-actions
-          = link_to t("dashboard.teams.form.cancel"), help_center_portals_path, class: "btn-secondary"
-          = f.submit t("ui.dashboard.help_center.portals.edit.update_help_center"), class: "btn-primary"

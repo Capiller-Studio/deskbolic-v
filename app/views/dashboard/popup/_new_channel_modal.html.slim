@@ -2,8 +2,8 @@
   .model-content role="dialog" aria-modal="true" aria-labelledby="new-channel-modal-title" aria-describedby="new-channel-modal-description"
     .modal-header
       .modal-header-text
-        h3#new-channel-modal-title Add New Channel
-        p#new-channel-modal-description.modal-subtitle Choose a channel type to connect with your account.
+        h3#new-channel-modal-title = t("dashboard.channels_overview.new_channel_modal.title")
+        p#new-channel-modal-description.modal-subtitle = t("dashboard.channels_overview.new_channel_modal.description")
       button.channel-modal-close type="button" aria-label=t("ui.dashboard.notifications.index.close") data-action="click->modal-toggler#hideModal"
         = inline_svg_tag("cross_clear.svg", aria: { hidden: true })
 
@@ -12,54 +12,54 @@
         span.channel-option__icon aria-hidden="true"
           = inline_svg_tag("facebook.svg")
         span.channel-option__copy
-          strong Facebook Page
-          span Connect your Facebook Page to manage messages and comments.
+          strong = t("dashboard.channels_overview.new_channel_modal.facebook.title")
+          span = t("dashboard.channels_overview.new_channel_modal.facebook.description")
         = inline_svg_tag("ai-assistant-chevron.svg", class: "channel-option__chevron", aria: { hidden: true })
 
       = link_to new_channels_instagram_path, class: "channel-option channel-option--instagram" do
         span.channel-option__icon aria-hidden="true"
           = inline_svg_tag("instagram.svg")
         span.channel-option__copy
-          strong Instagram
-          span Connect your Instagram Business account to manage DMs.
+          strong = t("dashboard.channels_overview.new_channel_modal.instagram.title")
+          span = t("dashboard.channels_overview.new_channel_modal.instagram.description")
         = inline_svg_tag("ai-assistant-chevron.svg", class: "channel-option__chevron", aria: { hidden: true })
 
       = link_to new_channels_whatsapp_path, class: "channel-option channel-option--whatsapp" do
         span.channel-option__icon aria-hidden="true"
           = inline_svg_tag("whatsapp.svg")
         span.channel-option__copy
-          strong WhatsApp
-          span Connect your WhatsApp Business number to manage conversations.
+          strong = t("dashboard.channels_overview.new_channel_modal.whatsapp.title")
+          span = t("dashboard.channels_overview.new_channel_modal.whatsapp.description")
         = inline_svg_tag("ai-assistant-chevron.svg", class: "channel-option__chevron", aria: { hidden: true })
 
       = link_to new_channels_email_path, class: "channel-option channel-option--email" do
         span.channel-option__icon aria-hidden="true"
           = inline_svg_tag("email.svg")
         span.channel-option__copy
-          strong Email
-          span Add your email channel and forwarding settings.
+          strong = t("dashboard.channels_overview.new_channel_modal.email.title")
+          span = t("dashboard.channels_overview.new_channel_modal.email.description")
         = inline_svg_tag("ai-assistant-chevron.svg", class: "channel-option__chevron", aria: { hidden: true })
 
       = link_to new_channels_contact_form_path, class: "channel-option channel-option--contact-form" do
         span.channel-option__icon aria-hidden="true"
           = inline_svg_tag("contact_form.svg")
         span.channel-option__copy
-          strong Support Request form
-          span Create a form for customers to submit support requests.
+          strong = t("dashboard.channels_overview.new_channel_modal.contact_form.title")
+          span = t("dashboard.channels_overview.new_channel_modal.contact_form.description")
         = inline_svg_tag("ai-assistant-chevron.svg", class: "channel-option__chevron", aria: { hidden: true })
 
       = link_to new_channels_custom_path, class: "channel-option channel-option--custom" do
         span.channel-option__icon aria-hidden="true"
           = inline_svg_tag("custom.svg")
         span.channel-option__copy
-          strong Custom Channel
-          span Create a custom channel for your unique integration.
+          strong = t("dashboard.channels_overview.new_channel_modal.custom.title")
+          span = t("dashboard.channels_overview.new_channel_modal.custom.description")
         = inline_svg_tag("ai-assistant-chevron.svg", class: "channel-option__chevron", aria: { hidden: true })
 
       = link_to new_channels_web_widget_path, class: "channel-option channel-option--widget" do
         span.channel-option__icon aria-hidden="true"
           = inline_svg_tag("widget.svg")
         span.channel-option__copy
-          strong Web Widget
-          span Update your web widget configuration and preferences.
+          strong = t("dashboard.channels_overview.new_channel_modal.web_widget.title")
+          span = t("dashboard.channels_overview.new_channel_modal.web_widget.description")
         = inline_svg_tag("ai-assistant-chevron.svg", class: "channel-option__chevron", aria: { hidden: true })

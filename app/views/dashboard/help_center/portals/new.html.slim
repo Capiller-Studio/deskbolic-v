@@ -1,26 +1,37 @@
 / = render("dashboard/shared/dashboard_container", current_page: "help_desk") do
 = render("dashboard/settings/settings_sidebar", current_page: "new-help-center") do
-  .body-section.help-center-portal-body
-    .create-portal-shell
-      .create-portal-header
-        div
-          h2.f-semi-18 Create Help Center
-          p.f-reg-12 Configure branding, appearance, languages, and domain settings for your new Help Center.
+  - custom_domain_supported = current_account.feature_enabled?(:custom_domains)
+  - preselected_domain_type = params.dig(:help_center_portal, :domain_type) || "subdomain"
 
-      = form_with(model: @portal, url: help_center_portals_path, method: :post, class: "create-portal-form", multipart: true, data: { controller: "portal-domain", portal_domain_has_domains_value: @available_domains.any?.to_s }) do |f|
+  .body-section.help-center-portal-body.ui-settings-editor data-controller="portal-domain" data-portal-domain-has-domains-value=@available_domains.any?.to_s
+    header.ui-settings-editor__header
+      = link_to help_center_portals_path, class: "ui-settings-editor__back", aria: { label: t("shared.back", default: "Back") } do
+        = inline_svg_tag("back-arrow.svg", aria: { hidden: true })
+      .ui-settings-editor__heading
+        h1 = t("ui.dashboard.help_center.portals.index.create_help_center")
+        p = t("ui.dashboard.help_center.portals.new.description", default: "Configure branding, appearance, languages, and domain settings for your new Help Center.")
+      .ui-settings-editor__header-actions
+        = link_to t("general.cancel"), help_center_portals_path, class: "ui-btn-secondary"
+        = button_tag type: "submit", form: "new-help-center-portal-form", class: "ui-btn-primary", disabled: (@available_domains.blank? && preselected_domain_type == "custom"), data: { portal_domain_target: "submitButton" } do
+          = inline_svg_tag("mark.svg", aria: { hidden: true })
+          span = t("ui.dashboard.help_center.portals.index.create_help_center")
+
+    .create-portal-shell
+
+      = form_with(model: @portal, url: help_center_portals_path, method: :post, id: "new-help-center-portal-form", class: "create-portal-form", multipart: true) do |f|
         - if @portal.errors.any?
           .alert.alert-red
-            p.f-semi-14 Please fix the following errors:
+            p.f-semi-14 = t("dashboard.help_center.portals.form.error_heading", default: "Please fix the following errors:")
             ul
               - @portal.errors.full_messages.each do |message|
                 li.f-reg-12 = message
 
         .portal-form-section
-          h3.f-semi-12 BASIC INFORMATION
+          h3.f-semi-12 = t("ui.dashboard.help_center.portals.edit.basic_information")
           .form-group
-            = f.label :name, "Help Center Name", class: "f-reg-14"
-            = f.text_field :name, class: "portal-input", placeholder: "Customer Support Center", required: true, autocomplete: "off"
-            p.form-hint.f-reg-12 The public-facing name. Internal ID will be generated automatically.
+            = f.label :name, t("dashboard.help_center.portals.form.name_label"), class: "f-reg-14"
+            = f.text_field :name, class: "portal-input", placeholder: t("dashboard.help_center.portals.form.template_name_placeholder"), required: true, autocomplete: "off"
+            p.form-hint.f-reg-12 = t("ui.dashboard.help_center.portals.edit.the_public_facing_name_internal_id_will_be_generated_automatically")
 
         .portal-form-section.brand-assets-section
           h3.f-semi-12 = t("dashboard.help_center.portals.brand_assets.title")
@@ -80,9 +91,6 @@
         .portal-form-section
           h3.f-semi-12 = I18n.t("dashboard.portals.domain_assignment", default: "DOMAIN ASSIGNMENT")
 
-          - custom_domain_supported = current_account.feature_enabled?(:custom_domains)
-          - preselected_domain_type = params.dig(:help_center_portal, :domain_type) || "subdomain"
-
           .domain-options style="margin-bottom: 24px;"
             label.option-pill class=("is-selected" if preselected_domain_type == "subdomain") data-portal-domain-target="option" data-action="click->portal-domain#select"
               = radio_button_tag "help_center_portal[domain_type]", "subdomain", preselected_domain_type == "subdomain", data: { portal_domain_target: "radio" }
@@ -126,7 +134,7 @@
             p.form-hint.f-reg-12 = t("dashboard.help_center.portals.form.ai_training_hint", default: "If enabled, your AI credits will be used when you publish new articles to keep your AI Agent up to date.")
 
         .portal-form-section
-          h3.f-semi-12 LANGUAGES
+          h3.f-semi-12 = t("ui.dashboard.help_center.portals.edit.languages")
           .language-options data-controller="portal-option-group"
             - Core::SUPPORTED_LOCALES.each do |locale|
               - locale_value = locale.to_s
@@ -134,44 +142,44 @@
                 = check_box_tag "help_center_portal[locales][]", locale_value, @selected_locales.include?(locale_value)
                 span.f-reg-12 = I18n.t("languages.#{locale_value.downcase}", default: locale_value.upcase)
                 - if locale_value == I18n.default_locale.to_s
-                  span.f-reg-12.default-label Default
+                  span.f-reg-12.default-label = t("ui.dashboard.help_center.portals.edit.default")
                 span.option-check aria-hidden="true"
           = f.hidden_field :default_locale, value: I18n.default_locale.to_s
 
         .portal-form-section
-          h3.f-semi-12 APPEARANCE SETTINGS
+          h3.f-semi-12 = t("ui.dashboard.help_center.portals.edit.appearance_settings")
 
           .form-group
-            label.f-reg-14 Theme Preference
+            label.f-reg-14 = t("ui.dashboard.help_center.portals.edit.theme_preference")
             .segmented-options data-controller="portal-option-group"
               - @theme_options.each do |value, label_text, icon|
                 label.segment-option class=("is-selected" if @selected_theme == value) data-portal-option-group-target="option" data-action="click->portal-option-group#select"
                   = radio_button_tag "help_center_portal[ui_configurations][theme_preference]", value, @selected_theme == value
                   = inline_svg_tag(icon, class: "segment-icon", alt: "")
-                  span.f-reg-12 = label_text
+                  span.f-reg-12 = t("dashboard.help_center.portals.form.theme_options.#{value}", default: label_text)
 
           .form-group
-            label.f-reg-14 Primary Color
+            label.f-reg-14 = t("ui.dashboard.help_center.portals.edit.primary_color")
             .color-options data-controller="portal-option-group"
               - @primary_colors.each do |color|
                 label.color-swatch style="--swatch-color: #{color};" class=("is-selected" if @selected_primary == color) data-portal-option-group-target="option" data-action="click->portal-option-group#select"
                   = radio_button_tag "help_center_portal[ui_configurations][primary_color]", color, @selected_primary == color
 
           .form-group
-            label.f-reg-14 Secondary Color
+            label.f-reg-14 = t("ui.dashboard.help_center.portals.edit.secondary_color")
             .color-options data-controller="portal-option-group"
               - @secondary_colors.each do |color|
                 label.color-swatch style="--swatch-color: #{color};" class=("is-selected" if @selected_secondary == color) data-portal-option-group-target="option" data-action="click->portal-option-group#select"
                   = radio_button_tag "help_center_portal[ui_configurations][secondary_color]", color, @selected_secondary == color
 
           .form-group
-            label.f-reg-14 Hero Style
+            label.f-reg-14 = t("ui.dashboard.help_center.portals.edit.hero_style")
             .hero-style-control data-controller="portal-option-group"
               .hero-options
                 - @hero_style_options.each do |value, label_text|
                   label.hero-option class=("is-selected" if @selected_hero == value) data-portal-option-group-target="option" data-action="click->portal-option-group#select"
                     = radio_button_tag "help_center_portal[ui_configurations][hero_style]", value, @selected_hero == value
-                    span.f-semi-12 = label_text
+                    span.f-semi-12 = t("dashboard.help_center.portals.form.hero_styles.#{value}", default: label_text)
                     span.option-check aria-hidden="true"
                     .hero-preview class="hero-preview-#{value}"
                       - if value == "image"
@@ -184,25 +192,21 @@
               .hero-upload-box data-portal-option-group-target="uploadBox"
                 .hero-upload-dropzone role="button" tabindex="0" data-action="click->portal-option-group#openUploadPicker keydown.enter->portal-option-group#openUploadPicker keydown.space->portal-option-group#openUploadPicker"
                   = f.file_field :hero_image, accept: "image/*", class: "hero-upload-input", data: { "portal-option-group-target": "fileInput", action: "change->portal-option-group#uploadFile" }
-                  span.hero-upload-title.f-semi-14 data-portal-option-group-target="uploadTitle" Upload hero image
-                  span.hero-upload-hint.f-reg-12 PNG, JPG, or SVG up to 5MB.
+                  span.hero-upload-title.f-semi-14 data-portal-option-group-target="uploadTitle" = t("dashboard.help_center.portals.form.upload_hero_image", default: "Upload hero image")
+                  span.hero-upload-hint.f-reg-12 = t("ui.dashboard.help_center.portals.edit.png_jpg_or_svg_up_to_5mb")
                 .hero-upload-progress.is-hidden data-portal-option-group-target="progress"
                   .hero-progress-track
                     .hero-progress-fill data-portal-option-group-target="progressFill"
                   .hero-progress-meta
-                    span.f-reg-12 data-portal-option-group-target="progressLabel" Uploading, wait...
-                    button.hero-upload-clear type="button" aria-label="Cancel upload" data-action="click->portal-option-group#clearUpload" x
+                    span.f-reg-12 data-portal-option-group-target="progressLabel" = t("dashboard.help_center.portals.form.uploading", default: "Uploading, wait...")
+                    button.hero-upload-clear type="button" aria-label=t("general.cancel_upload") data-action="click->portal-option-group#clearUpload" x
 
           .form-group
-            label.f-reg-14 Category Layout
+            label.f-reg-14 = t("ui.dashboard.help_center.portals.edit.category_layout")
             .layout-options data-controller="portal-option-group"
               - @layout_options.each do |value, label_text|
                 label.layout-option class=("is-selected" if @selected_layout == value) data-portal-option-group-target="option" data-action="click->portal-option-group#select"
                   = radio_button_tag "help_center_portal[ui_configurations][category_layout]", value, @selected_layout == value
                   span.layout-icon class="layout-icon-#{value}"
-                  span.f-reg-14 = label_text
+                  span.f-reg-14 = t("dashboard.help_center.portals.form.layouts.#{value}", default: label_text)
                   span.option-check aria-hidden="true"
-
-        .portal-form-actions
-          = link_to "Cancel", settings_path, class: "btn-secondary"
-          = f.submit "Create Help Center", class: "btn-primary", disabled: (@available_domains.blank? && preselected_domain_type == "custom"), data: { portal_domain_target: "submitButton" }

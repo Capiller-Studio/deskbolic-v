@@ -315,6 +315,30 @@ pt-BR:
       empty_description: Conecte um canal para começar a receber conversas de clientes
         no Deskbolic.
       empty_filtered_description: Você ainda não conectou nenhum canal de %{type}.
+      new_channel_modal:
+        title: Adicionar novo canal
+        description: Escolha um tipo de canal para conectar à sua conta.
+        facebook:
+          title: Página do Facebook
+          description: Conecte sua Página do Facebook para gerenciar mensagens e comentários.
+        instagram:
+          title: Instagram
+          description: Conecte sua conta comercial do Instagram para gerenciar mensagens diretas.
+        whatsapp:
+          title: WhatsApp
+          description: Conecte seu número do WhatsApp Business para gerenciar conversas.
+        email:
+          title: E-mail
+          description: Adicione seu canal de e-mail e as configurações de encaminhamento.
+        contact_form:
+          title: Formulário de solicitação de suporte
+          description: Crie um formulário para os clientes enviarem solicitações de suporte.
+        custom:
+          title: Canal personalizado
+          description: Crie um canal personalizado para sua integração exclusiva.
+        web_widget:
+          title: Widget da web
+          description: Atualize a configuração e as preferências do seu widget da web.
       status:
         active: Ativo
         disconnected: Desconectado
@@ -588,6 +612,8 @@ pt-BR:
       sidebar:
         label: Políticas de Atribuição
       index:
+        no_matching_policies: Nenhuma política correspondente
+        adjust_filters: Tente outro filtro.
         title: Políticas de Atribuição
         description: Configure como as conversas são roteadas e atribuídas automaticamente
           aos agentes.
@@ -702,6 +728,9 @@ pt-BR:
       sidebar:
         label: Fontes de identidade
       index:
+        empty_title: Ainda não há fontes de identidade
+        empty_description: Crie sua primeira fonte de identidade para buscar e verificar
+          informações dos clientes.
         title: Fontes de identidade
         description: Configure webhooks e APIs externos para buscar e verificar identidades
           de clientes automaticamente.
@@ -1740,6 +1769,58 @@ pt-BR:
         preset_description: Escolha uma predefinição para começar rapidamente.
         role_details: Detalhes da função
         save: Salvar função
+        actions:
+          read: Ler
+          write: Escrever
+          delete: Excluir
+          manage: Gerenciar
+          export: Exportar
+          execute: Executar
+          invite: Convidar
+        presets:
+          administrator:
+            name: Administrador
+            description: Acesso total ao sistema
+          manager:
+            name: Gerente
+            description: Acesso para gerenciar e visualizar
+          support_agent:
+            name: Agente de suporte
+            description: Acesso limitado para suporte
+          read_only:
+            name: Somente leitura
+            description: Acesso apenas para visualização
+          scratch:
+            name: Começar do zero
+            description: Permissões personalizadas
+        resources:
+          account: Conta
+          conversations: Conversas
+          inboxes: Caixas de entrada
+          teams: Equipes
+          automations: Automações
+          macros: Macros
+          reports: Relatórios
+          settings: Configurações
+          billing: Faturamento
+          roles: Funções
+          agents: Agentes
+          email_templates: Modelos de e-mail
+          assignment_policies: Políticas de atribuição
+          skills: Habilidades
+          identity_sources: Fontes de identidade
+          domains: Domínios
+          customers: Clientes
+          labels: Etiquetas
+          custom_fields: Campos personalizados
+          business_hours: Horário comercial
+          sla_policies: Políticas de SLA
+          csat_surveys: Pesquisas CSAT
+          integrations: Integrações
+          audit_logs: Logs de auditoria
+          help_center_portals: Portais da Central de Ajuda
+          help_center_articles: Artigos da Central de Ajuda
+          help_center_categories: Categorias da Central de Ajuda
       edit:
         description: Modifique as permissões associadas a esta função.
         title: 'Editar função: %{name}'
@@ -1982,6 +2063,20 @@ pt-BR:
           current_social_image_alt: Imagem atual de compartilhamento social
           invalid_image: Imagem inválida. Verifique o formato e o limite de 1 MB.
         form:
+          error_heading: 'Corrija os seguintes erros:'
+          theme_options:
+            light: Claro
+            dark: Escuro
+            system: Sistema
+          hero_styles:
+            plain: Simples
+            gradient: Gradiente
+            image: Imagem
+          upload_hero_image: Enviar imagem principal
+          uploading: Enviando, aguarde...
+          layouts:
+            grid: Layout em grade
+            list: Layout em lista
           template_name_label: Nome do modelo
           template_name_placeholder: Centro de Suporte ao Cliente
           name_label: Nome da Central de Ajuda
@@ -3518,6 +3613,9 @@ pt-BR:
           published_2: Publicado
           settings: configurações
         portals:
+          new:
+            description: Configure a identidade visual, a aparência, os idiomas e as
+              configurações de domínio da sua nova Central de Ajuda.
           edit:
             appearance_settings: CONFIGURAÇÕES DE APARÊNCIA
             basic_information: INFORMAÇÕES BÁSICAS

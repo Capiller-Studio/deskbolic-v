@@ -30,6 +30,6 @@
         .ui-empty-state.ui-empty-state--bordered
           .ui-empty-state__graphic
             = image_tag("round_robbin.svg", alt: "", aria: { hidden: true })
-          h2 = t(".empty_title")
-          p = t(".empty_description")
-          = link_to t(".new_policy"), new_assignment_policy_path, class: "ui-settings-page__action"
+          h2 = t("dashboard.assignment_policies.index.empty_title")
+          p = t("dashboard.assignment_policies.index.empty_description")
+          = link_to t("dashboard.assignment_policies.index.new_policy"), new_assignment_policy_path, class: "ui-settings-page__action"

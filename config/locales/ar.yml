@@ -318,6 +318,30 @@ ar:
       empty_title: "لم يتم العثور على قنوات"
       empty_description: "قم بتوصيل قناة لبدء تلقي محادثات العملاء في Deskbolic."
       empty_filtered_description: "لم تقم بتوصيل أي قنوات %{type} حتى الآن."
+      new_channel_modal:
+        title: "إضافة قناة جديدة"
+        description: "اختر نوع القناة التي تريد ربطها بحسابك."
+        facebook:
+          title: "صفحة فيسبوك"
+          description: "اربط صفحتك على فيسبوك لإدارة الرسائل والتعليقات."
+        instagram:
+          title: "إنستغرام"
+          description: "اربط حساب إنستغرام للأعمال لإدارة الرسائل الخاصة."
+        whatsapp:
+          title: "واتساب"
+          description: "اربط رقم واتساب للأعمال لإدارة المحادثات."
+        email:
+          title: "البريد الإلكتروني"
+          description: "أضف قناة بريدك الإلكتروني وإعدادات إعادة التوجيه."
+        contact_form:
+          title: "نموذج طلب الدعم"
+          description: "أنشئ نموذجًا ليتمكن العملاء من إرسال طلبات الدعم."
+        custom:
+          title: "قناة مخصصة"
+          description: "أنشئ قناة مخصصة لتكاملك الفريد."
+        web_widget:
+          title: "أداة الويب"
+          description: "حدّث إعدادات أداة الويب وتفضيلاتها."
       status:
         active: "نشط"
         disconnected: "غير متصل"
@@ -710,6 +734,8 @@ ar:
       sidebar:
         label: "سياسات التعيين"
       index:
+        no_matching_policies: "لا توجد سياسات مطابقة"
+        adjust_filters: "جرّب عامل تصفية آخر."
         title: "سياسات التعيين"
         description: "إنشاء وإدارة قواعد لتعيين المحادثات للوكلاء."
         new_policy: "إنشاء سياسة جديدة"
@@ -718,7 +744,7 @@ ar:
         tab_load_balanced: "تحميل متوازن"
         tab_skills_based: "المهارات على أساس"
         tab_manual: "دليل"
-        empty_title: "لا توجد سياسات مهمة حتى الآن"
+        empty_title: "لا توجد سياسات تعيين حتى الآن"
         empty_description: "أنشئ سياستك الأولى لبدء توجيه المحادثات تلقائيًا."
         actions_for: "إجراءات لـ %{name}"
         no_description: "لم تتم إضافة أي وصف."
@@ -826,6 +852,8 @@ ar:
       sidebar:
         label: "مصادر الهوية"
       index:
+        empty_title: "لا توجد مصادر هوية حتى الآن"
+        empty_description: "أنشئ أول مصدر هوية لجلب معلومات العملاء والتحقق منها."
         title: "مصادر الهوية"
         description: "قم بتكوين webhooks وواجهات برمجة التطبيقات الخارجية لجلب هويات العملاء والتحقق منها تلقائيًا."
         create_button: "إنشاء مصدر الهوية"
@@ -1771,6 +1799,58 @@ ar:
         preset_description: "اختر إعدادًا مسبقًا للبدء بسرعة."
         role_details: "تفاصيل الدور"
         save: "حفظ الدور"
+        actions:
+          read: "قراءة"
+          write: "كتابة"
+          delete: "حذف"
+          manage: "إدارة"
+          export: "تصدير"
+          execute: "تنفيذ"
+          invite: "دعوة"
+        presets:
+          administrator:
+            name: "المسؤول"
+            description: "وصول كامل إلى النظام"
+          manager:
+            name: "المدير"
+            description: "صلاحية الإدارة والعرض"
+          support_agent:
+            name: "وكيل الدعم"
+            description: "وصول محدود لتقديم الدعم"
+          read_only:
+            name: "قراءة فقط"
+            description: "صلاحية العرض فقط"
+          scratch:
+            name: "البدء من الصفر"
+            description: "أذونات مخصصة"
+        resources:
+          account: "الحساب"
+          conversations: "المحادثات"
+          inboxes: "صناديق الوارد"
+          teams: "الفرق"
+          automations: "الأتمتة"
+          macros: "وحدات الماكرو"
+          reports: "التقارير"
+          settings: "الإعدادات"
+          billing: "الفوترة"
+          roles: "الأدوار"
+          agents: "الوكلاء"
+          email_templates: "قوالب البريد الإلكتروني"
+          assignment_policies: "سياسات التعيين"
+          skills: "المهارات"
+          identity_sources: "مصادر الهوية"
+          domains: "المجالات"
+          customers: "العملاء"
+          labels: "التصنيفات"
+          custom_fields: "الحقول المخصصة"
+          business_hours: "ساعات العمل"
+          sla_policies: "سياسات اتفاقية مستوى الخدمة"
+          csat_surveys: "استطلاعات رضا العملاء"
+          integrations: "التكاملات"
+          audit_logs: "سجلات التدقيق"
+          help_center_portals: "بوابات مركز المساعدة"
+          help_center_articles: "مقالات مركز المساعدة"
+          help_center_categories: "فئات مركز المساعدة"
       edit:
         description: "قم بتعديل الأذونات المرتبطة بهذا الدور."
         title: "تحرير الدور: %{name}"
@@ -1999,6 +2079,20 @@ ar:
           current_social_image_alt: "صورة المشاركة الاجتماعية الحالية"
           invalid_image: "صورة غير صالحة. تحقق من التنسيق وحد 1 ميجابايت."
         form:
+          error_heading: "يرجى تصحيح الأخطاء التالية:"
+          theme_options:
+            light: "فاتح"
+            dark: "داكن"
+            system: "النظام"
+          hero_styles:
+            plain: "عادي"
+            gradient: "متدرج"
+            image: "صورة"
+          upload_hero_image: "تحميل صورة الواجهة"
+          uploading: "جارٍ التحميل، يرجى الانتظار..."
+          layouts:
+            grid: "تخطيط شبكي"
+            list: "تخطيط القائمة"
           template_name_label: "اسم القالب"
           template_name_placeholder: "مركز دعم العملاء"
           name_label: "اسم مركز المساعدة"
@@ -3257,6 +3351,8 @@ ar:
           published_2: "تم النشر"
           settings: "الإعدادات"
         portals:
+          new:
+            description: "قم بتكوين إعدادات العلامة التجارية والمظهر واللغات والنطاق لمركز المساعدة الجديد."
           edit:
             appearance_settings: "إعدادات المظهر"
             basic_information: "المعلومات الأساسية"

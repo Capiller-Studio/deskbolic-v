@@ -35,14 +35,10 @@ export default class extends Controller {
     const btn = event.currentTarget
     const wrapper = btn.closest(".ui-password-wrapper")
     const input = wrapper.querySelector("input")
+    const isPasswordVisible = input.type === "password"
 
-    if (input.type === "password") {
-      input.type = "text"
-      btn.textContent = "🙈"
-    } else {
-      input.type = "password"
-      btn.textContent = "👁️"
-    }
+    input.type = isPasswordVisible ? "text" : "password"
+    btn.setAttribute("aria-pressed", String(isPasswordVisible))
   }
 
   // ─── Test SMTP Connection ───

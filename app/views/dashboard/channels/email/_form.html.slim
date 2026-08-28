@@ -92,7 +92,9 @@
           label.ui-label = t("dashboard.email_channels.form.smtp_password")
           .ui-password-wrapper
             = f.password_field :smtp_password, name: "email_channel[smtp_configurations][password]", value: email_channel.smtp_configurations&.dig("password"), class: "ui-input", placeholder: t("dashboard.email_channels.form.smtp_password_placeholder"), data: { "email-channel-target": "passwordField" }
-            button.ui-password-toggle type="button" data-action="click->email-channel#togglePassword" 👁️
+            button.ui-password-toggle type="button" data-action="click->email-channel#togglePassword" aria-label=t("dashboard.channels.edit.toggle_token_visibility") aria-pressed="false"
+              = inline_svg_tag("password_show.svg", class: "ui-password-toggle__icon ui-password-toggle__icon--show", aria: { hidden: true })
+              = inline_svg_tag("password_hide.svg", class: "ui-password-toggle__icon ui-password-toggle__icon--hide", aria: { hidden: true })
 
       .ui-form-row
         div
@@ -147,7 +149,9 @@
           label.ui-label = t("dashboard.email_channels.form.imap_password")
           .ui-password-wrapper
             = f.password_field :imap_password, name: "email_channel[imap_configurations][password]", value: email_channel.imap_configurations&.dig("password"), class: "ui-input", placeholder: t("dashboard.email_channels.form.imap_password_placeholder"), data: { "email-channel-target": "passwordField" }
-            button.ui-password-toggle type="button" data-action="click->email-channel#togglePassword" 👁️
+            button.ui-password-toggle type="button" data-action="click->email-channel#togglePassword" aria-label=t("dashboard.channels.edit.toggle_token_visibility") aria-pressed="false"
+              = inline_svg_tag("password_show.svg", class: "ui-password-toggle__icon ui-password-toggle__icon--show", aria: { hidden: true })
+              = inline_svg_tag("password_hide.svg", class: "ui-password-toggle__icon ui-password-toggle__icon--hide", aria: { hidden: true })
 
       .ui-toggle-row
         span.ui-toggle-label = t("dashboard.email_channels.form.imap_ssl")

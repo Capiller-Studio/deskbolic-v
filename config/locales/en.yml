@@ -333,6 +333,30 @@ en:
       empty_description: Connect a channel to start receiving customer conversations
         in Deskbolic.
       empty_filtered_description: You haven't connected any %{type} channels yet.
+      new_channel_modal:
+        title: Add New Channel
+        description: Choose a channel type to connect with your account.
+        facebook:
+          title: Facebook Page
+          description: Connect your Facebook Page to manage messages and comments.
+        instagram:
+          title: Instagram
+          description: Connect your Instagram Business account to manage DMs.
+        whatsapp:
+          title: WhatsApp
+          description: Connect your WhatsApp Business number to manage conversations.
+        email:
+          title: Email
+          description: Add your email channel and forwarding settings.
+        contact_form:
+          title: Support Request Form
+          description: Create a form for customers to submit support requests.
+        custom:
+          title: Custom Channel
+          description: Create a custom channel for your unique integration.
+        web_widget:
+          title: Web Widget
+          description: Update your web widget configuration and preferences.
       status:
         active: Active
         disconnected: Disconnected
@@ -740,6 +764,8 @@ en:
       sidebar:
         label: Assignment Policies
       index:
+        no_matching_policies: No matching policies
+        adjust_filters: Try another filter.
         title: Assignment Policies
         description: Create and manage rules for assigning conversations to agents.
         new_policy: Create new policy
@@ -1926,6 +1952,58 @@ en:
         preset_description: Choose a preset to get started quickly.
         role_details: Role Details
         save: Save Role
+        actions:
+          read: Read
+          write: Write
+          delete: Delete
+          manage: Manage
+          export: Export
+          execute: Execute
+          invite: Invite
+        presets:
+          administrator:
+            name: Administrator
+            description: Full system access
+          manager:
+            name: Manager
+            description: Access to manage and view
+          support_agent:
+            name: Support Agent
+            description: Limited access for support
+          read_only:
+            name: Read Only
+            description: View-only access
+          scratch:
+            name: Start From Scratch
+            description: Custom permissions
+        resources:
+          account: Account
+          conversations: Conversations
+          inboxes: Inboxes
+          teams: Teams
+          automations: Automations
+          macros: Macros
+          reports: Reports
+          settings: Settings
+          billing: Billing
+          roles: Roles
+          agents: Agents
+          email_templates: Email Templates
+          assignment_policies: Assignment Policies
+          skills: Skills
+          identity_sources: Identity Sources
+          domains: Domains
+          customers: Customers
+          labels: Labels
+          custom_fields: Custom Fields
+          business_hours: Business Hours
+          sla_policies: SLA Policies
+          csat_surveys: CSAT Surveys
+          integrations: Integrations
+          audit_logs: Audit Logs
+          help_center_portals: Help Center Portals
+          help_center_articles: Help Center Articles
+          help_center_categories: Help Center Categories
       edit:
         description: Modify the permissions associated with this role.
         title: 'Edit Role: %{name}'
@@ -2196,6 +2274,20 @@ en:
           current_social_image_alt: Current social share image
           invalid_image: Invalid image. Check the format and 1MB limit.
         form:
+          error_heading: 'Please fix the following errors:'
+          theme_options:
+            light: Light
+            dark: Dark
+            system: System
+          hero_styles:
+            plain: Plain
+            gradient: Gradient
+            image: Image
+          upload_hero_image: Upload hero image
+          uploading: Uploading, wait...
+          layouts:
+            grid: Grid Layout
+            list: List Layout
           template_name_label: Template Name
           template_name_placeholder: Customer Support Center
           name_label: Help Center Name
@@ -3591,6 +3683,9 @@ en:
           published_2: Published
           settings: settings
         portals:
+          new:
+            description: Configure branding, appearance, languages, and domain settings
+              for your new Help Center.
           edit:
             appearance_settings: APPEARANCE SETTINGS
             basic_information: BASIC INFORMATION

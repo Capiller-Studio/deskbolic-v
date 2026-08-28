@@ -18,22 +18,24 @@
           = inline_svg_tag("plus_white.svg", class:"plus-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
 
     .tm-users-body
-      .tm-users-filters
+      .tm-users-filters.ui-settings-form
         label.tm-users-search
           svg viewBox="0 0 24 24" aria-hidden="true"
             circle cx="11" cy="11" r="7"
             path d="m20 20-4-4"
           input type="search" placeholder=t("ui.dashboard.account_users.index.search_members") aria-label=t("ui.dashboard.account_users.index.search_members") data-filterable-collection-target="query" data-action="input->filterable-collection#update"
 
-        select.tm-users-select aria-label=t("ui.dashboard.account_users.index.filter_by_role") data-filterable-collection-target="filter" data-action="change->filterable-collection#update"
-          option value="" = t("ui.dashboard.account_users.index.all_roles")
-          - available_roles.each do |role|
-            option value=role.id = role.name
+        .tm-users-select.ui-field-control.ui-field-control--compact.ui-field-control--no-icon
+          select.ui-select.ui-control aria-label=t("ui.dashboard.account_users.index.filter_by_role") data-controller="select" data-filterable-collection-target="filter" data-action="change->filterable-collection#update"
+            option value="" = t("ui.dashboard.account_users.index.all_roles")
+            - available_roles.each do |role|
+              option value=role.id = role.name
 
-        select.tm-users-select aria-label=t("ui.dashboard.account_users.index.sort_members") data-filterable-collection-target="sort" data-action="change->filterable-collection#update"
-          option value="joined:desc" = t("ui.dashboard.account_users.index.sort_newest")
-          option value="joined:asc" = t("ui.dashboard.account_users.index.sort_oldest")
-          option value="name:asc" = t("ui.dashboard.account_users.index.sort_name")
+        .tm-users-select.ui-field-control.ui-field-control--compact.ui-field-control--no-icon
+          select.ui-select.ui-control aria-label=t("ui.dashboard.account_users.index.sort_members") data-controller="select" data-filterable-collection-target="sort" data-action="change->filterable-collection#update"
+            option value="joined:desc" = t("ui.dashboard.account_users.index.sort_newest")
+            option value="joined:asc" = t("ui.dashboard.account_users.index.sort_oldest")
+            option value="name:asc" = t("ui.dashboard.account_users.index.sort_name")
 
       - if @account_users.any?
         .tm-users-grid data-filterable-collection-target="container"
@@ -89,7 +91,7 @@
                     span = t("ui.dashboard.account_users.index.last_active")
                     strong class=("tm-member-card-active-time" if account_user.online?)
                       = time_ago_in_words(last_active_at)
-                      | #{t("dashboard.identity_sources.index.ago")}
+                      |  #{t("dashboard.identity_sources.index.ago")}
 
               .tm-member-card-footer
                 .tm-member-card-roles

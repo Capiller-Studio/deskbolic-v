@@ -42,26 +42,25 @@
             strong = @custom_roles.size
             span = t("dashboard.roles.index.custom_roles", default: "Custom Roles")
 
-      .roles-toolbar
+      .roles-toolbar.ui-settings-form
         .roles-toolbar-left
           label.roles-search
             = inline_svg_tag("search_gray.svg", class: "roles-icon")
             input type="search" placeholder=t("dashboard.roles.index.search_placeholder", default: "Search roles...") aria-label=t("dashboard.roles.index.search_placeholder", default: "Search roles") data-filterable-collection-target="query" data-action="input->filterable-collection#update"
-          label.roles-filter
-            = inline_svg_tag("filter_gray.svg", class: "roles-icon")
-            select aria-label=t("dashboard.roles.index.filter_label", default: "Filter roles") data-filterable-collection-target="filter" data-action="change->filterable-collection#update"
+          label.roles-filter.ui-field-control.ui-field-control--compact
+            .ui-field-control__icon
+              = inline_svg_tag("filter_gray.svg", class: "roles-icon")
+            select.ui-select.ui-control aria-label=t("dashboard.roles.index.filter_label", default: "Filter roles") data-controller="select" data-filterable-collection-target="filter" data-action="change->filterable-collection#update"
               option value="" = t("dashboard.roles.index.all_roles", default: "All Roles")
               option value="system" = t("dashboard.roles.index.system_roles", default: "System Roles")
               option value="custom" = t("dashboard.roles.index.custom_roles", default: "Custom Roles")
-            = inline_svg_tag("dropdown.svg", class: "roles-icon")
         label.roles-sort
           span = t("dashboard.roles.index.sort_by", default: "Sort by:")
-          .roles-sort-select
-            select aria-label=t("dashboard.roles.index.sort_label", default: "Sort roles") data-filterable-collection-target="sort" data-action="change->filterable-collection#update"
+          .roles-sort-select.ui-field-control.ui-field-control--compact.ui-field-control--no-icon
+            select.ui-select.ui-control aria-label=t("dashboard.roles.index.sort_label", default: "Sort roles") data-controller="select" data-filterable-collection-target="sort" data-action="change->filterable-collection#update"
               option value="updated:desc" = t("dashboard.roles.index.recently_updated", default: "Recently Updated")
               option value="name:asc" = t("dashboard.roles.index.name_ascending", default: "Name A–Z")
               option value="members:desc" = t("dashboard.roles.index.most_members", default: "Most Members")
-            = inline_svg_tag("dropdown.svg", class: "roles-icon")
 
       - if roles.any?
         .roles-grid data-filterable-collection-target="container"

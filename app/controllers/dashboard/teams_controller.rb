@@ -19,7 +19,7 @@ module Dashboard
         params: team_create_params
       )
 
-      redirect_to(teams_path, notice: "Team created successfully")
+      redirect_to(teams_path, notice: t("dashboard.teams.create.created"))
     rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved => e
       redirect_back(fallback_location: teams_path, alert: e.message)
     end
@@ -30,7 +30,7 @@ module Dashboard
         params: team_update_params
       )
 
-      redirect_to(teams_path, notice: "Team updated successfully")
+      redirect_to(teams_path, notice: t("dashboard.teams.update.updated"))
     rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved => e
       redirect_back(fallback_location: teams_path, alert: e.message)
     end

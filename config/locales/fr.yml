@@ -315,6 +315,30 @@ fr:
       empty_description: Connectez un canal pour commencer à recevoir les conversations
         des clients dans Deskbolic.
       empty_filtered_description: Vous n'avez encore connecté aucun canal %{type}.
+      new_channel_modal:
+        title: Ajouter un canal
+        description: Choisissez un type de canal à connecter à votre compte.
+        facebook:
+          title: Page Facebook
+          description: Connectez votre page Facebook pour gérer les messages et les commentaires.
+        instagram:
+          title: Instagram
+          description: Connectez votre compte Instagram professionnel pour gérer les messages privés.
+        whatsapp:
+          title: WhatsApp
+          description: Connectez votre numéro WhatsApp Business pour gérer les conversations.
+        email:
+          title: E-mail
+          description: Ajoutez votre canal e-mail et ses paramètres de transfert.
+        contact_form:
+          title: Formulaire de demande d’assistance
+          description: Créez un formulaire permettant aux clients d’envoyer des demandes d’assistance.
+        custom:
+          title: Canal personnalisé
+          description: Créez un canal personnalisé pour votre intégration.
+        web_widget:
+          title: Widget Web
+          description: Mettez à jour la configuration et les préférences de votre widget Web.
       status:
         active: Actif
         disconnected: Déconnecté
@@ -589,6 +613,8 @@ fr:
       sidebar:
         label: Politiques d'affectation
       index:
+        no_matching_policies: Aucune politique correspondante
+        adjust_filters: Essayez un autre filtre.
         title: Politiques d'affectation
         description: Configurez la manière dont les conversations sont automatiquement
           acheminées et attribuées aux agents.
@@ -707,6 +733,9 @@ fr:
       sidebar:
         label: Sources d'identité
       index:
+        empty_title: Aucune source d'identité pour l'instant
+        empty_description: Créez votre première source d'identité pour récupérer et
+          vérifier les informations client.
         title: Sources d'identité
         description: Configurez des webhooks et des API externes pour récupérer et
           vérifier automatiquement les identités des clients.
@@ -1760,6 +1789,58 @@ fr:
         preset_description: Choisissez un préréglage pour démarrer rapidement.
         role_details: Détails du rôle
         save: Enregistrer le rôle
+        actions:
+          read: Lire
+          write: Écrire
+          delete: Supprimer
+          manage: Gérer
+          export: Exporter
+          execute: Exécuter
+          invite: Inviter
+        presets:
+          administrator:
+            name: Administrateur
+            description: Accès complet au système
+          manager:
+            name: Responsable
+            description: Accès à la gestion et à la consultation
+          support_agent:
+            name: Agent d’assistance
+            description: Accès limité à l’assistance
+          read_only:
+            name: Lecture seule
+            description: Accès en consultation uniquement
+          scratch:
+            name: Partir de zéro
+            description: Autorisations personnalisées
+        resources:
+          account: Compte
+          conversations: Conversations
+          inboxes: Boîtes de réception
+          teams: Équipes
+          automations: Automatisations
+          macros: Macros
+          reports: Rapports
+          settings: Paramètres
+          billing: Facturation
+          roles: Rôles
+          agents: Agents
+          email_templates: Modèles d’e-mail
+          assignment_policies: Politiques d’attribution
+          skills: Compétences
+          identity_sources: Sources d’identité
+          domains: Domaines
+          customers: Clients
+          labels: Étiquettes
+          custom_fields: Champs personnalisés
+          business_hours: Heures ouvrables
+          sla_policies: Politiques SLA
+          csat_surveys: Enquêtes CSAT
+          integrations: Intégrations
+          audit_logs: Journaux d’audit
+          help_center_portals: Portails du centre d’aide
+          help_center_articles: Articles du centre d’aide
+          help_center_categories: Catégories du centre d’aide
       edit:
         description: Modifiez les autorisations associées à ce rôle.
         title: 'Modifier le rôle : %{name}'
@@ -2006,6 +2087,20 @@ fr:
           current_social_image_alt: Image actuelle de partage social
           invalid_image: Image non valide. Vérifiez le format et la limite de 1 Mo.
         form:
+          error_heading: 'Veuillez corriger les erreurs suivantes :'
+          theme_options:
+            light: Clair
+            dark: Sombre
+            system: Système
+          hero_styles:
+            plain: Uni
+            gradient: Dégradé
+            image: Image
+          upload_hero_image: Importer l’image principale
+          uploading: Importation en cours, veuillez patienter…
+          layouts:
+            grid: Disposition en grille
+            list: Disposition en liste
           template_name_label: Nom du modèle
           template_name_placeholder: Centre de support client
           name_label: Nom du centre d'aide
@@ -3572,6 +3667,9 @@ fr:
           published_2: Publié
           settings: paramètres
         portals:
+          new:
+            description: Configurez l’identité visuelle, l’apparence, les langues et
+              les paramètres de domaine de votre nouveau centre d’aide.
           edit:
             appearance_settings: PARAMÈTRES D'APPARENCE
             basic_information: INFORMATIONS DE BASE

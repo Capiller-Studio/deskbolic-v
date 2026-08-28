@@ -78,7 +78,7 @@
                           - else
                             .ui-avatar.ui-avatar--small.ui-avatar--fallback.avatar-fallback class=avatar_fallback_color_class(agent_name) aria-hidden="true"
                               = initials(agent)
-                          span.ui-identity__name = agent_name
+                          span.ui-identity__name dir="auto" title=agent_name = agent_name
                       td.ui-table__numeric = count
 
             .ui-pagination

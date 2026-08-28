@@ -194,20 +194,20 @@
   display: flex;
   align-items: center;
   height: 38px;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  background: #fff;
-  color: #8ea0bd;
 }
 
 .roles-search {
   gap: 13px;
   width: 256px;
   padding: 0 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #fff;
+  color: #8ea0bd;
 }
 
 .roles-search .roles-icon,
-.roles-filter > .roles-icon:first-child {
+.roles-filter .ui-field-control__icon .roles-icon {
   flex: 0 0 auto;
   width: 16px;
   height: 16px;
@@ -229,31 +229,14 @@
 
 .roles-filter {
   width: 160px;
-  padding: 0 13px;
-  gap: 8px;
+  padding: 0;
 }
 
-.roles-filter select,
-.roles-sort-select select {
-  min-width: 0;
-  flex: 1;
-  border: 0;
-  outline: 0;
-  appearance: none;
-  background: transparent;
-  color: #475569;
-  font: inherit;
-  font-size: 14px;
-  line-height: 20px;
-  cursor: pointer;
-}
-
-.roles-filter > .roles-icon:last-child,
-.roles-sort-select .roles-icon {
-  width: 16px;
-  height: 16px;
-  color: #48566c;
-  pointer-events: none;
+.roles-filter > .choices,
+.roles-filter > .choices .choices__inner,
+.roles-sort-select > .choices,
+.roles-sort-select > .choices .choices__inner {
+  border-radius: 8px;
 }
 
 .roles-sort {
@@ -267,7 +250,28 @@
 
 .roles-sort-select {
   width: 166px;
-  padding: 0 13px;
+  padding: 0;
+}
+
+html[lang="ar"] .roles-filter .ui-field-control__icon {
+  right: 13px;
+  left: auto;
+}
+
+html[lang="ar"] .roles-filter > .choices .choices__list--single {
+  padding-right: 36px;
+  padding-left: 38px;
+}
+
+html[lang="ar"] .roles-sort-select > .choices .choices__list--single {
+  padding-right: 13px;
+  padding-left: 38px;
+}
+
+html[lang="ar"] .roles-filter > .choices[data-type*=select-one]::after,
+html[lang="ar"] .roles-sort-select > .choices[data-type*=select-one]::after {
+  right: auto;
+  left: 16px;
 }
 
 .roles-grid {
@@ -457,6 +461,12 @@
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
 }
 
+html[lang="ar"] .roles-card-menu-popover {
+  right: auto;
+  left: 0;
+  text-align: right;
+}
+
 .roles-card-menu-popover a {
   display: flex;
   align-items: center;
@@ -524,6 +534,10 @@
   transform: scale(1.8);
   transform-box: fill-box;
   transform-origin: center;
+}
+
+html[lang="ar"] .roles-back-link .roles-icon {
+  transform: rotate(180deg);
 }
 
 .roles-editor-content {
@@ -817,7 +831,7 @@
 
 .roles-matrix-actions,
 .roles-matrix-row {
-  grid-template-columns: 176px repeat(7, minmax(64px, 1fr));
+  grid-template-columns: 209px repeat(7, minmax(64px, 1fr));
 }
 
 .roles-matrix-actions {
@@ -893,6 +907,22 @@
   height: 12px;
   color: #9babbe;
   transform: rotate(-90deg);
+}
+
+html[lang="ar"] .roles-matrix-superheader span:first-child {
+  padding-right: 16px;
+  padding-left: 0;
+  text-align: right;
+}
+
+html[lang="ar"] .roles-matrix-superheader span:last-child {
+  padding-right: 8px;
+  padding-left: 0;
+  text-align: right;
+}
+
+html[lang="ar"] .roles-matrix-resource > .roles-icon {
+  transform: rotate(90deg);
 }
 
 .roles-matrix-cell {

@@ -1,13 +1,13 @@
 / = render("dashboard/shared/dashboard_container", current_page: "help_desk") do
 = render("dashboard/settings/settings_sidebar", current_page: "help-center-portals") do
-  .body-section.help-center-portal-body
-    .help-center-portal-header
-      div
-        h2.f-semi-18 = t("dashboard.sidebar.settings.all_help_centers")
-        p.f-reg-12 = t("ui.dashboard.help_center.portals.index.manage_the_help_centers_created_for_this_workspace")
-      = link_to(new_help_center_portal_path, class: "new-portal-btn") do
-        span.f-reg-14 = t("dashboard.settings_index.new_help_center")
-        = inline_svg_tag("plus_white.svg", class: "plus-icon", alt: t("ui.dashboard.domains.index.add"))
+  .body-section.help-center-portal-body.ui-settings-page
+    header.ui-settings-page__header
+      .ui-settings-page__heading
+        h1 = t("dashboard.sidebar.settings.all_help_centers")
+        p = t("ui.dashboard.help_center.portals.index.manage_the_help_centers_created_for_this_workspace")
+      = link_to new_help_center_portal_path, class: "ui-settings-page__action" do
+        span = t("dashboard.settings_index.new_help_center")
+        = inline_svg_tag("plus_white.svg", class: "ui-settings-page__action-icon", aria: { hidden: true })
 
     - if flash[:notice]
       .alert.alert-green

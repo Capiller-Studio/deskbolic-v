@@ -568,6 +568,9 @@
   text-decoration: none;
   white-space: nowrap;
 }
+.tm-users-invite > span {
+  font-family: $font-family-inter-semibold;
+}
 .tm-users-invite svg {
   width: 12px;
   height: 12px;
@@ -622,22 +625,26 @@
   color: #6b7280;
 }
 .tm-users-select {
+  position: relative;
+  min-width: 0;
   height: 38px;
-  padding: 0 42px 0 17px;
-  border: 1px solid #f3f4f6;
-  border-radius: 12px;
-  background: rgba(237, 238, 239, 0.4)
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23666d7b' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")
-    no-repeat right 13px center;
-  appearance: none;
-  outline: 0;
-  color: #111827;
-  font-family: $font-family-inter-regular;
-  font-size: 14px;
-  line-height: 20px;
 }
-.tm-users-search:focus-within,
-.tm-users-select:focus {
+
+.tm-users-select > .choices,
+.tm-users-select > .choices[data-type*=select-one] {
+  border-radius: 12px;
+}
+
+.tm-users-select > .choices .choices__inner {
+  border-radius: 12px;
+  background: rgba(237, 238, 239, 0.4);
+}
+
+.tm-users-select > .choices .choices__list--single {
+  padding-left: 17px;
+}
+
+.tm-users-search:focus-within {
   border-color: #7486ff;
   box-shadow: 0 0 0 3px rgba(116, 134, 255, 0.1);
 }
@@ -786,6 +793,23 @@
 .tm-member-card-menu .tm-member-card-remove svg {
   stroke: #ef4444;
 }
+
+html[lang="ar"] .tm-member-card-person {
+  padding-right: 0;
+  padding-left: 28px;
+}
+
+html[lang="ar"] .tm-member-card-menu-button {
+  right: auto;
+  left: 20px;
+}
+
+html[lang="ar"] .tm-member-card-menu {
+  right: auto;
+  left: 20px;
+  text-align: right;
+}
+
 .tm-member-card-activity {
   height: 80px;
   display: grid;
@@ -971,7 +995,7 @@
 /* Teams index */
 .tm-team-modal-button {
   border: 0;
-  font-family: inherit;
+  font-family: $font-family-inter-semibold;
   cursor: pointer;
 }
 .tm-teams-grid {

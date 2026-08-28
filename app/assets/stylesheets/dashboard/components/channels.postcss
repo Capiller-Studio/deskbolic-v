@@ -791,6 +791,11 @@
   }
 }
 
+html[lang="ar"] .channel-card__menu {
+  position-area: bottom span-right;
+  text-align: right;
+}
+
 .channel-card__menu-divider {
   height: 1px;
   background: #f3f4f6;
@@ -1284,7 +1289,7 @@
   display: grid;
   width: 100%;
   box-sizing: border-box;
-  grid-template-columns: minmax(0, 932px) minmax(300px, 396px);
+  grid-template-columns: minmax(0, 1012px) minmax(300px, 396px);
   justify-content: space-between;
   gap: 32px;
   padding: 30px 32px 39px;
@@ -1580,7 +1585,7 @@
 
 .channel-edit-section__body {
   margin-top: 4px;
-  padding-left: 66px;
+  padding-inline-start: 66px;
 }
 
 .channel-edit-field {
@@ -2506,6 +2511,9 @@
   font-size: 11px;
   line-height: 17px;
   white-space: pre-wrap;
+  direction: ltr;
+  unicode-bidi: isolate;
+  text-align: left;
 }
 
 .channel-edit-code-block {
@@ -2614,6 +2622,9 @@
     font-size: 10px;
     line-height: 16px;
     white-space: pre-wrap;
+    direction: ltr;
+    unicode-bidi: isolate;
+    text-align: left;
   }
 }
 
@@ -2716,6 +2727,79 @@
   &:hover {
     border-color: #fca5a5;
     background: #fffafa;
+  }
+}
+
+html[lang="ar"] .channel-edit {
+  .channel-edit__back svg {
+    transform: rotate(180deg);
+  }
+
+  .channel-edit-field select {
+    padding-right: 16px;
+    padding-left: 42px;
+    background-position: left 17px center;
+  }
+
+  .ui-settings-form .channel-edit-select > .choices {
+    .choices__list--single {
+      padding-right: 16px;
+      padding-left: 42px;
+    }
+
+    &[data-type*=select-one]::after {
+      right: auto;
+      left: 11.5px;
+    }
+  }
+
+  .ui-section-chevron,
+  .ww-section-chevron,
+  .channel-edit-forwarding-guide__heading > svg {
+    margin-right: auto;
+    margin-left: 0;
+  }
+
+  .channel-edit-forwarding__control input {
+    padding-right: 16px;
+    padding-left: 48px;
+  }
+
+  .channel-edit-forwarding__copy-button {
+    margin-right: -47px;
+    margin-left: 0;
+    border-right: 1px solid #e1e7ef;
+    border-left: 0;
+    border-radius: 9px 0 0 9px;
+
+    &.ui-copy-btn--copied {
+      margin-right: -89px;
+      margin-left: 0;
+    }
+  }
+
+  .channel-edit-password {
+    input {
+      padding-right: 16px;
+      padding-left: 48px;
+    }
+
+    .ui-password-toggle {
+      right: auto;
+      left: 10px;
+    }
+  }
+
+  #email-channel-form .ui-password-wrapper {
+    input {
+      padding-right: 14px;
+      padding-left: 48px;
+    }
+
+    .ui-password-toggle {
+      right: auto;
+      left: 12px;
+    }
   }
 }
 
@@ -2878,7 +2962,7 @@
 
   .channel-edit-section__body {
     margin-top: 20px;
-    padding-left: 0;
+    padding-inline-start: 0;
   }
 
   .channel-edit-fields-grid {

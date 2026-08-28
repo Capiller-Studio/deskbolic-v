@@ -301,6 +301,30 @@ ko:
       empty_title: 채널을 찾을 수 없습니다
       empty_description: Deskbolic에서 고객 대화를 받으려면 채널을 연결하세요.
       empty_filtered_description: 아직 연결된 %{type} 채널이 없습니다.
+      new_channel_modal:
+        title: 새 채널 추가
+        description: 계정에 연결할 채널 유형을 선택하세요.
+        facebook:
+          title: 페이스북 페이지
+          description: 메시지와 댓글을 관리하려면 페이스북 페이지를 연결하세요.
+        instagram:
+          title: Instagram
+          description: DM을 관리하려면 Instagram 비즈니스 계정을 연결하세요.
+        whatsapp:
+          title: WhatsApp
+          description: 대화를 관리하려면 WhatsApp Business 번호를 연결하세요.
+        email:
+          title: 이메일
+          description: 이메일 채널과 전달 설정을 추가하세요.
+        contact_form:
+          title: 지원 요청 양식
+          description: 고객이 지원 요청을 제출할 수 있는 양식을 만드세요.
+        custom:
+          title: 맞춤 채널
+          description: 고유한 연동을 위한 맞춤 채널을 만드세요.
+        web_widget:
+          title: 웹 위젯
+          description: 웹 위젯 구성과 환경설정을 업데이트하세요.
       status:
         active: 활성
         disconnected: 연결 끊김
@@ -570,6 +594,8 @@ ko:
       sidebar:
         label: 할당 정책
       index:
+        no_matching_policies: 일치하는 정책이 없습니다.
+        adjust_filters: 다른 필터를 사용해 보세요.
         title: 할당 정책
         description: 대화가 자동으로 라우팅되고 상담원에게 할당되는 방식을 구성합니다.
         new_policy: 새로운 정책
@@ -679,6 +705,8 @@ ko:
       sidebar:
         label: 신원 소스
       index:
+        empty_title: 아직 ID 소스가 없습니다.
+        empty_description: 고객 정보를 가져오고 확인하려면 첫 번째 ID 소스를 만드세요.
         title: 신원 소스
         description: 고객 신원을 자동으로 가져오고 확인하도록 외부 웹후크와 API를 구성합니다.
         create_button: ID 소스 생성
@@ -1628,6 +1656,58 @@ ko:
         preset_description: 빠르게 시작하려면 사전 설정을 선택하세요.
         role_details: 역할 세부정보
         save: 역할 저장
+        actions:
+          read: 읽기
+          write: 쓰기
+          delete: 삭제
+          manage: 관리
+          export: 내보내기
+          execute: 실행
+          invite: 초대
+        presets:
+          administrator:
+            name: 시스템 관리자
+            description: 전체 시스템 액세스
+          manager:
+            name: 관리자
+            description: 관리 및 보기 액세스
+          support_agent:
+            name: 지원 상담원
+            description: 지원을 위한 제한된 액세스
+          read_only:
+            name: 읽기 전용
+            description: 보기 전용 액세스
+          scratch:
+            name: 처음부터 시작
+            description: 사용자 지정 권한
+        resources:
+          account: 계정
+          conversations: 대화
+          inboxes: 받은편지함
+          teams: 팀
+          automations: 자동화
+          macros: 매크로
+          reports: 보고서
+          settings: 설정
+          billing: 결제
+          roles: 역할
+          agents: 상담원
+          email_templates: 이메일 템플릿
+          assignment_policies: 할당 정책
+          skills: 스킬
+          identity_sources: ID 소스
+          domains: 도메인
+          customers: 고객
+          labels: 레이블
+          custom_fields: 사용자 지정 필드
+          business_hours: 업무 시간
+          sla_policies: SLA 정책
+          csat_surveys: CSAT 설문조사
+          integrations: 통합
+          audit_logs: 감사 로그
+          help_center_portals: 도움말 센터 포털
+          help_center_articles: 도움말 센터 문서
+          help_center_categories: 도움말 센터 카테고리
       edit:
         description: 이 역할과 관련된 권한을 수정합니다.
         title: '역할 편집: %{name}'
@@ -1856,6 +1936,20 @@ ko:
           current_social_image_alt: 현재 소셜 공유 이미지
           invalid_image: 올바르지 않은 이미지입니다. 형식과 1MB 제한을 확인하세요.
         form:
+          error_heading: '다음 오류를 수정해 주세요:'
+          theme_options:
+            light: 라이트
+            dark: 다크
+            system: 시스템
+          hero_styles:
+            plain: 단색
+            gradient: 그라데이션
+            image: 이미지
+          upload_hero_image: 히어로 이미지 업로드
+          uploading: 업로드 중입니다. 잠시 기다려 주세요...
+          layouts:
+            grid: 그리드 레이아웃
+            list: 목록 레이아웃
           template_name_label: 템플릿 이름
           template_name_placeholder: 고객지원센터
           name_label: 도움말 센터 이름
@@ -3324,6 +3418,8 @@ ko:
           published_2: 게시됨
           settings: 설정
         portals:
+          new:
+            description: 새 도움말 센터의 브랜딩, 디자인, 언어 및 도메인 설정을 구성하세요.
           edit:
             appearance_settings: 외모 설정
             basic_information: 기본정보

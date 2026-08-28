@@ -39,7 +39,7 @@
                     h2 = channel_name
                   p = @whatsapp_channel.full_phone_number
 
-              = inline_svg_tag("menu.svg", class: "channel-edit-profile__menu", aria: { hidden: true })
+              / = inline_svg_tag("menu.svg", class: "channel-edit-profile__menu", aria: { hidden: true })
 
             .channel-edit-profile__footer
               .channel-edit-profile__created
@@ -98,7 +98,9 @@
                   = f.label :api_key, t("dashboard.whatsapp_channels.form.api_key_label")
                   .channel-edit-password.ui-password-wrapper
                     = f.password_field :api_key, value: @whatsapp_channel.api_key, placeholder: t("dashboard.whatsapp_channels.form.api_key_placeholder"), required: true
-                    button.ui-password-toggle type="button" data-action="click->email-channel#togglePassword" aria-label=t("dashboard.channels.edit.toggle_token_visibility", default: "Toggle access token visibility") 👁️
+                    button.ui-password-toggle type="button" data-action="click->email-channel#togglePassword" aria-label=t("dashboard.channels.edit.toggle_token_visibility", default: "Toggle access token visibility") aria-pressed="false"
+                      = inline_svg_tag("password_show.svg", class: "ui-password-toggle__icon ui-password-toggle__icon--show", aria: { hidden: true })
+                      = inline_svg_tag("password_hide.svg", class: "ui-password-toggle__icon ui-password-toggle__icon--hide", aria: { hidden: true })
 
           - if @whatsapp_channel.primary_inbox
             = f.fields_for :primary_inbox, @whatsapp_channel.primary_inbox do |inbox|

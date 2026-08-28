@@ -491,7 +491,6 @@
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 16px;
   color: $black-30;
   padding: 4px;
   line-height: 1;
@@ -499,6 +498,26 @@
 
   &:hover {
     color: $black-60;
+  }
+
+  .ui-password-toggle__icon {
+    display: block;
+    width: 20px;
+    height: 20px;
+  }
+
+  .ui-password-toggle__icon--hide {
+    display: none;
+  }
+
+  &[aria-pressed="true"] {
+    .ui-password-toggle__icon--show {
+      display: none;
+    }
+
+    .ui-password-toggle__icon--hide {
+      display: block;
+    }
   }
 }
 
@@ -736,6 +755,9 @@ input:checked + .ui-toggle-slider::before {
   overflow-x: auto;
   white-space: pre-wrap;
   word-break: break-word;
+  direction: ltr;
+  unicode-bidi: isolate;
+  text-align: left;
 }
 .ui-inst-desc { margin-bottom: 12px; }
 .ui-inst-verify {
@@ -804,6 +826,10 @@ input:checked + .ui-toggle-slider::before {
     line-height: 20px;
     text-decoration: none;
     transition: background-color 0.15s ease, transform 0.15s ease;
+
+    > span {
+      font-family: $font-family-inter-semibold;
+    }
 
     &:hover {
       background: #000000;
@@ -1215,6 +1241,8 @@ input:checked + .ui-toggle-slider::before {
     gap: 8px;
 
     .ui-identity__name {
+      min-width: 0;
+      flex: 1 1 auto;
       overflow: hidden;
       color: #111827;
       font-size: 12px;
@@ -1415,6 +1443,11 @@ input:checked + .ui-toggle-slider::before {
   .ui-date-range-picker__chevron {
     margin-left: auto;
     transition: transform 0.15s ease;
+  }
+
+  html[lang="ar"] & .ui-date-range-picker__chevron {
+    margin-right: auto;
+    margin-left: 0;
   }
 
   .ui-date-range-picker__popover {
@@ -3072,6 +3105,20 @@ input:checked + .ui-toggle-slider::before {
   }
 }
 
+html[lang="ar"] .ui-settings-page .ui-panel--data {
+  .ui-table .ui-table__primary {
+    width: 60%;
+  }
+
+  .ui-identity {
+    width: 100%;
+  }
+
+  .ui-identity__name {
+    text-align: right;
+  }
+}
+
 /* AI Agent card */
 .ai-agent-card {
   display: flex;
@@ -4105,6 +4152,24 @@ input:checked + .ui-toggle-slider::before {
         }
       }
     }
+  }
+}
+
+html[lang="ar"] .ui-settings-editor {
+  .ui-settings-editor__back {
+    img,
+    svg {
+      transform: rotate(180deg);
+    }
+
+    &:hover {
+      transform: translateX(1px);
+    }
+  }
+
+  .ui-settings-editor__header-actions {
+    margin-right: auto;
+    margin-left: 0;
   }
 }
 

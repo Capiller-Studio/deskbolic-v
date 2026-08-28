@@ -46,8 +46,8 @@
                         .user-avatar.avatar-fallback.customer-list-initials-avatar.f-reg-12 class=avatar_fallback_color_class(full_name(user))
                           = initials(user)
                       .user-details
-                        span.f-semi-14.user-name = user.display_name
-                        span.f-reg-12.user-email = user.email
+                        span.f-semi-14.user-name dir="auto" title=user.display_name = user.display_name
+                        span.f-reg-12.user-email dir="ltr" title=user.email = user.email
                     label.custom-checkbox
                       input type="checkbox" name="team[user_ids][]" value=user.id checked=checked
                       .checkmark
@@ -63,7 +63,7 @@
                   - inbox_checked = is_edit && team.inboxes.include?(inbox)
                   .inbox-row data-name=inbox.name.to_s.downcase
                     .inbox-info
-                      span.f-reg-14.inbox-name = inbox.name
+                      span.f-reg-14.inbox-name dir="auto" title=inbox.name = inbox.name
                     label.custom-checkbox
                       input type="checkbox" name="team[inbox_ids][]" value=inbox.id checked=inbox_checked
                       .checkmark

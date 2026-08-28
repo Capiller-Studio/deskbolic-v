@@ -76,6 +76,11 @@ every 30.minutes do
   runner "Webhooks::RetryFailedWorker.perform_async"
 end
 
+# Retry stuck/orphaned outgoing webhook and Slack deliveries across shards
+every 30.minutes do
+  runner "Integrations::Webhooks::DeliveryRetryWorker.perform_async"
+end
+
 # --- Data Retention ---
 # TODO: Enable DataRetentionWorker several months post-launch once traffic and data profiles stabilize.
 # every 1.month, at: "4:30 am" do

@@ -21,5 +21,13 @@ module Dashboard
     def slack_callback?
       authorized?("integrations.manage")
     end
+
+    def oauth_authorize_slack?
+      authorized?("integrations.manage")
+    end
+
+    def test_slack?
+      authorized?("integrations.manage")
+    end
   end
 end

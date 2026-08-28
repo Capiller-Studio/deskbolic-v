@@ -2274,87 +2274,49 @@ ar:
         mapped_attributes: "السمات المعينة:"
     settings:
       integrations:
-        integrations:
-          index:
-            title: "التكامل"
-            description: "قم بتوصيل Deskbolic بأدواتك المفضلة."
-          new:
-            title: "تكوين %{provider}"
-            description: "قم بإعداد إعدادات التكامل الخاصة بك."
-          edit:
-            title: "تحرير التكامل %{provider}"
-            description: "قم بتحديث إعدادات التكامل الخاصة بك."
-          slack:
-            description: "احصل على إشعارات فورية للمحادثات والتحديثات الجديدة مباشرة في قنوات Slack الخاصة بك."
-            connect: "أضف إلى سلاك"
-            not_configured: "لم يتم تكوين بيانات اعتماد Slack على هذا الخادم."
-            auth_failed: "فشلت مصادقة Slack أو تم إلغاؤها."
-            exchange_failed: "فشل في تبادل رمز Slack: %{error}"
-            unexpected_error: "حدث خطأ غير متوقع أثناء مصادقة Slack."
-            connected: "تم توصيل Slack بنجاح."
-          webhooks:
-            description: "ادفع إشعارات الأحداث في الوقت الفعلي من Deskbolic إلى الخوادم والخدمات الخارجية الخاصة بك."
-            configured_count: "تم تكوين %{count}"
-            connect: "تكوين Webhooks"
-            url_label: "Webhook URL"
-            url_hint: "نقطة النهاية حيث سيرسل Deskbolic طلبات POST للأحداث."
-            secret_label: "Webhook سر"
-            secret_hint: "استخدم هذا السر للتحقق من توقيع HMAC للطلبات الواردة."
-            events_label: "الأحداث المشتركة"
-          google_translate:
-            description: "ترجمة الرسائل الواردة والردود الصادرة تلقائيًا في الوقت الفعلي."
-          coming_soon: "قريبا"
-          connected: "متصل"
-          disconnect: "قطع الاتصال"
-          manage: "إدارة"
-          not_supported: "التكوين لهذا الموفر غير مدعوم عبر هذه الواجهة."
-          invalid_provider: "موفر التكامل غير صالح."
-          created: "تم إنشاء التكامل بنجاح."
-          updated: "تم تحديث التكامل بنجاح."
-          destroyed: "تمت إزالة التكامل بنجاح."
-        created: "تم تكوين التكامل بنجاح."
-        updated: "تم تحديث إعدادات التكامل بنجاح."
-        destroyed: "تم قطع التكامل بنجاح."
-        invalid_provider: "موفر التكامل المحدد غير صالح."
-        slack:
-          auth_failed: "فشلت المصادقة البطيئة. يرجى المحاولة مرة أخرى."
-          not_configured: "لم يتم تكوين بيانات اعتماد Slack OAuth على هذا الخادم."
-          connected: "تم الاتصال بنجاح بـ Slack!"
-          exchange_failed: "فشل في تبادل رمز Slack OAuth: %{error}"
-          unexpected_error: "حدث خطأ غير متوقع أثناء مصادقة Slack."
-          basic_section: "إعداد سلاك"
-          manual_hint: "نظرًا لأن Slack OAuth لم يتم تكوينه عالميًا لهذا التثبيت، يمكنك توصيل Slack يدويًا عن طريق إنشاء Webhook الوارد في مساحة عمل Slack ولصق URL هنا."
-          url_label: "الركود الوارد Webhook URL"
-          description: "احصل على إشعارات فورية للمحادثات والتحديثات الجديدة مباشرة في قنوات Slack الخاصة بك."
-          connect: "أضف إلى سلاك"
-        not_supported: "التكوين لهذا الموفر غير مدعوم عبر هذه الواجهة."
-        coming_soon: "قريبا"
-        connected: "متصل"
-        disconnect: "قطع الاتصال"
-        manage: "إدارة"
-        form:
-          back: "← العودة إلى التكامل"
+        index:
+          title: "التكامل"
+          description: "قم بتوصيل Deskbolic بأدواتك المفضلة."
         new:
           title: "تكوين %{provider}"
+          description: "قم بإعداد إعدادات التكامل الخاصة بك."
         edit:
           title: "تحرير التكامل %{provider}"
+          description: "قم بتحديث إعدادات التكامل الخاصة بك."
+        not_connected: "غير متصل"
+        connected: "متصل"
+        disconnect: "قطع الاتصال"
+        coming_soon: "قريبا"
+        manage: "إدارة"
+        not_supported: "التكوين لهذا الموفر غير مدعوم عبر هذه الواجهة."
+        invalid_provider: "موفر التكامل غير صالح."
+        created: "تم إنشاء التكامل بنجاح."
+        updated: "تم تحديث التكامل بنجاح."
+        destroyed: "تمت إزالة التكامل بنجاح."
+        slack:
+          description: "احصل على إشعارات فورية للمحادثات والتحديثات الجديدة مباشرة في قنوات Slack الخاصة بك."
+          connect: "أضف إلى سلاك"
+          connected: "تم الاتصال بنجاح بـ %{channel}!"
+          test_sent: "تم إرسال إشعار الاختبار إلى %{channel}!"
+          send_test: "إرسال إشعار اختبار"
+          channel_label: "القناة: %{channel}"
+          auth_failed: "فشلت مصادقة Slack أو تم إلغاؤها."
+          not_configured: "لم يتم تكوين بيانات اعتماد Slack على هذا الخادم."
+          exchange_failed: "فشل في تبادل رمز Slack: %{error}"
+          unexpected_error: "حدث خطأ غير متوقع أثناء مصادقة Slack."
         webhooks:
           description: "ادفع إشعارات الأحداث في الوقت الفعلي من Deskbolic إلى الخوادم والخدمات الخارجية الخاصة بك."
-          connect: "تكوين Webhooks"
           configured_count: "تم تكوين %{count}"
-          manage: "إدارة"
-          basic_section: "إعدادات Webhook"
+          connect: "تكوين Webhooks"
           url_label: "Webhook URL"
           url_hint: "نقطة النهاية حيث سيرسل Deskbolic طلبات POST للأحداث."
           secret_label: "Webhook سر"
           secret_hint: "استخدم هذا السر للتحقق من توقيع HMAC للطلبات الواردة."
           events_label: "الأحداث المشتركة"
-          instructions_title: "جارٍ الاستلام Webhooks"
         google_translate:
           description: "ترجمة الرسائل الواردة والردود الصادرة تلقائيًا في الوقت الفعلي."
-        index:
-          description: "قم بتوصيل Deskbolic بأدواتك المفضلة."
-          title: "التكامل"
+        form:
+          back: "← العودة إلى التكامل"
       api_keys:
         index:
           created_ago: "تم إنشاؤها منذ %{date}"
@@ -2864,6 +2826,21 @@ ar:
       team_assigned:
         title: "مهمة الفريق"
         body: "تم تعيين المحادثة #%{identifier} إلى %{team_name}"
+    slack:
+      new_message_header: "%{icon} رسالة جديدة من العميل"
+      new_conversation_header: "%{icon} تم فتح محادثة جديدة"
+      from_field: "*من:*\n%{sender}"
+      customer_field: "*العميل:*\n%{customer}"
+      channel_field: "*القناة:*\n%{channel}"
+      message_field: "*الرسالة:*\n%{message}"
+      initial_message_field: "*الرسالة الأولى:*\n%{message}"
+      attachment_preview: "*(مرفق / وسائط)*"
+      open_button: "فتح في ديسكبوليك ↗"
+      default_customer: "عميل"
+      default_channel: "قناة"
+      default_support: "الدعم"
+      default_conversation_preview: "تم فتح محادثة عميل جديدة."
+      event_triggered: "تم تشغيل حدث ديسكبوليك: %{event_name}"
   settings:
     csat:
       configuration: "تكوين CSAT"

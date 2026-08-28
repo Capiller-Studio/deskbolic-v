@@ -2315,106 +2315,49 @@ de:
         mapped_attributes: 'Zugeordnete Attribute:'
     settings:
       integrations:
-        integrations:
-          index:
-            title: Integrationen
-            description: Verbinden Sie Deskbolic mit Ihren Lieblingstools.
-          new:
-            title: Konfigurieren Sie %{provider}
-            description: Richten Sie Ihre Integrationseinstellungen ein.
-          edit:
-            title: Bearbeiten Sie die %{provider}-Integration
-            description: Aktualisieren Sie Ihre Integrationseinstellungen.
-          slack:
-            description: Erhalten Sie sofortige Benachrichtigungen über neue Konversationen
-              und Updates direkt in Ihren Slack-Kanälen.
-            connect: Zu Slack hinzufügen
-            not_configured: Slack-Anmeldeinformationen sind auf diesem Server nicht
-              konfiguriert.
-            auth_failed: Die Slack-Authentifizierung ist fehlgeschlagen oder wurde
-              abgebrochen.
-            exchange_failed: 'Slack-Token konnte nicht ausgetauscht werden: %{error}'
-            unexpected_error: Bei der Slack-Authentifizierung ist ein unerwarteter
-              Fehler aufgetreten.
-            connected: Slack wurde erfolgreich verbunden.
-          webhooks:
-            description: Senden Sie Echtzeit-Ereignisbenachrichtigungen von Deskbolic
-              an Ihre eigenen Server und externen Dienste.
-            configured_count: "%{count} konfiguriert"
-            connect: Konfigurieren Sie Webhooks
-            url_label: Webhook-URL
-            url_hint: Der Endpunkt, an den Deskbolic POST-Anfragen für Ereignisse
-              sendet.
-            secret_label: Webhook-Geheimnis
-            secret_hint: Verwenden Sie dieses Geheimnis, um die HMAC-Signatur eingehender
-              Anforderungen zu überprüfen.
-            events_label: Abonnierte Veranstaltungen
-          google_translate:
-            description: Übersetzen Sie eingehende Nachrichten und ausgehende Antworten
-              automatisch in Echtzeit.
-          coming_soon: Demnächst erhältlich
-          connected: Verbunden
-          disconnect: Trennen
-          manage: Verwalten
-          not_supported: Die Konfiguration für diesen Anbieter wird über diese Schnittstelle
-            nicht unterstützt.
-          invalid_provider: Ungültiger Integrationsanbieter.
-          created: Integration erfolgreich erstellt.
-          updated: Integration erfolgreich aktualisiert.
-          destroyed: Integration erfolgreich entfernt.
-        created: Die Integration wurde erfolgreich konfiguriert.
-        updated: Die Integrationseinstellungen wurden erfolgreich aktualisiert.
-        destroyed: Die Integration wurde erfolgreich getrennt.
-        invalid_provider: Der ausgewählte Integrationsanbieter ist ungültig.
-        slack:
-          auth_failed: Die Slack-Authentifizierung ist fehlgeschlagen. Bitte versuchen
-            Sie es erneut.
-          not_configured: Slack-OAuth-Anmeldeinformationen sind auf diesem Server
-            nicht konfiguriert.
-          connected: Erfolgreich mit Slack verbunden!
-          exchange_failed: 'Slack-OAuth-Token konnte nicht ausgetauscht werden: %{error}'
-          unexpected_error: Bei der Slack-Authentifizierung ist ein unerwarteter Fehler
-            aufgetreten.
-          basic_section: Slack-Setup
-          manual_hint: Da Slack OAuth für diese Installation nicht global konfiguriert
-            ist, können Sie Slack manuell verbinden, indem Sie einen eingehenden Webhook
-            in Ihrem Slack-Arbeitsbereich erstellen und die URL hier einfügen.
-          url_label: Eingehende Webhook-URL von Slack
-          description: Erhalten Sie sofortige Benachrichtigungen über neue Konversationen
-            und Updates direkt in Ihren Slack-Kanälen.
-          connect: Zu Slack hinzufügen
-        not_supported: Die Konfiguration für diesen Anbieter wird über diese Schnittstelle
-          nicht unterstützt.
-        coming_soon: Demnächst erhältlich
-        connected: Verbunden
-        disconnect: Trennen
-        manage: Verwalten
-        form:
-          back: "← Zurück zu Integrationen"
+        index:
+          title: Integrationen
+          description: Verbinden Sie Deskbolic mit Ihren Lieblingstools.
         new:
           title: Konfigurieren Sie %{provider}
+          description: Richten Sie Ihre Integrationseinstellungen ein.
         edit:
           title: Bearbeiten Sie die %{provider}-Integration
+          description: Aktualisieren Sie Ihre Integrationseinstellungen.
+        not_connected: Nicht verbunden
+        connected: Verbunden
+        disconnect: Trennen
+        coming_soon: Demnächst erhältlich
+        manage: Verwalten
+        not_supported: Die Konfiguration für diesen Anbieter wird über diese Schnittstelle nicht unterstützt.
+        invalid_provider: Ungültiger Integrationsanbieter.
+        created: Integration erfolgreich erstellt.
+        updated: Integration erfolgreich aktualisiert.
+        destroyed: Integration erfolgreich entfernt.
+        slack:
+          description: Erhalten Sie sofortige Benachrichtigungen über neue Konversationen und Updates direkt in Ihren Slack-Kanälen.
+          connect: Zu Slack hinzufügen
+          connected: "Erfolgreich mit %{channel} verbunden!"
+          test_sent: "Testbenachrichtigung an %{channel} gesendet!"
+          send_test: Testbenachrichtigung senden
+          channel_label: "Kanal: %{channel}"
+          auth_failed: Die Slack-Authentifizierung ist fehlgeschlagen oder wurde abgebrochen.
+          not_configured: Slack-Anmeldeinformationen sind auf diesem Server nicht konfiguriert.
+          exchange_failed: "Slack-Token konnte nicht ausgetauscht werden: %{error}"
+          unexpected_error: Bei der Slack-Authentifizierung ist ein unerwarteter Fehler aufgetreten.
         webhooks:
-          description: Senden Sie Echtzeit-Ereignisbenachrichtigungen von Deskbolic
-            an Ihre eigenen Server und externen Dienste.
-          connect: Konfigurieren Sie Webhooks
+          description: Senden Sie Echtzeit-Ereignisbenachrichtigungen von Deskbolic an Ihre eigenen Server und externen Dienste.
           configured_count: "%{count} konfiguriert"
-          manage: Verwalten
-          basic_section: Webhook-Einstellungen
+          connect: Konfigurieren Sie Webhooks
           url_label: Webhook-URL
           url_hint: Der Endpunkt, an den Deskbolic POST-Anfragen für Ereignisse sendet.
           secret_label: Webhook-Geheimnis
-          secret_hint: Verwenden Sie dieses Geheimnis, um die HMAC-Signatur eingehender
-            Anforderungen zu überprüfen.
+          secret_hint: Verwenden Sie dieses Geheimnis, um die HMAC-Signatur eingehender Anforderungen zu überprüfen.
           events_label: Abonnierte Veranstaltungen
-          instructions_title: Empfangen von Webhooks
         google_translate:
-          description: Übersetzen Sie eingehende Nachrichten und ausgehende Antworten
-            automatisch in Echtzeit.
-        index:
-          description: Verbinden Sie Deskbolic mit Ihren Lieblingstools.
-          title: Integrationen
+          description: Übersetzen Sie eingehende Nachrichten und ausgehende Antworten automatisch in Echtzeit.
+        form:
+          back: "← Zurück zu Integrationen"
       api_keys:
         index:
           created_ago: Vor %{date} generiert
@@ -3113,6 +3056,21 @@ de:
       team_assigned:
         title: Teamzuweisung
         body: 'Konversation #%{identifier} wurde %{team_name} zugewiesen'
+    slack:
+      new_message_header: "%{icon} Neue Kundennachricht"
+      new_conversation_header: "%{icon} Neue Konversation eröffnet"
+      from_field: "*Von:*\n%{sender}"
+      customer_field: "*Kunde:*\n%{customer}"
+      channel_field: "*Kanal:*\n%{channel}"
+      message_field: "*Nachricht:*\n%{message}"
+      initial_message_field: "*Erste Nachricht:*\n%{message}"
+      attachment_preview: "*(Anhang / Medien)*"
+      open_button: "In Deskbolic öffnen ↗"
+      default_customer: "Kunde"
+      default_channel: "Kanal"
+      default_support: "Support"
+      default_conversation_preview: "Eine neue Kundenkonversation wurde eröffnet."
+      event_triggered: "Deskbolic-Ereignis ausgelöst: %{event_name}"
   settings:
     csat:
       configuration: CSAT-Konfiguration

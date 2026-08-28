@@ -134,7 +134,7 @@
                           p.f-semi-14.ap-billing-pm-brand = "#{pm.brand&.capitalize} •••• #{pm.last_four}"
                           p.f-reg-12.ap-billing-pm-expiry = I18n.t("dashboard.billing.expires", month: pm.expiry_month, year: pm.expiry_year, default: "Expires %{month}/%{year}")
                       .ap-billing-pm-actions
-                        - unless pm.is_default
+                        - unless pm.default_method
                           = link_to I18n.t("dashboard.billing.make_default", default: "Default"), make_default_payment_method_path(pm), data: { turbo_method: :post }, class: "f-reg-13 ap-billing-pm-default-link"
                         - else
                           span.f-reg-12.ap-billing-pm-default-badge = I18n.t("dashboard.billing.default_label", default: "Default")

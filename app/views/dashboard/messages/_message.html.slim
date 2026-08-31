@@ -18,25 +18,89 @@
           .img.avatar-fallback.customer-message-initials-avatar.f-reg-12 class=avatar_fallback_color_class(full_name(customer))
             = initials(customer)
       .user-text
-        - if message.content.present?
-          - single_emoji = single_emoji_message?(message.content)
-          .original data-translator-target="original" class=(single_emoji ? 'single-emoji-message' : 'f-reg-14')
-            - if single_emoji
-              = message.content.strip
-            - else
-              == sanitize(message.content, tags: Parser::MailParser::ALLOWED_TAGS, attributes: Parser::MailParser::ALLOWED_ATTRIBUTES)
+        - if message.deleted?
+          .original.message-deleted-content
+            span.f-light-italic-14 = t('dashboard.messages.message_unsent')
           .message-status-container
             .msg-time = message_time
-          - unless single_emoji
-            .translate-text
-              button.translate-button type="button" data-action="click->translator#toggle_translate" aria-label=t('dashboard.messages.translate', language: translation_target_language)
-                = inline_svg_tag('translate.svg', class: 'translate-button-icon', aria: { hidden: true })
-                span = t('dashboard.messages.translate', language: translation_target_language)
-            .translated-text.d-none
-              h5.f-med-10 = t('dashboard.messages.translation_header', language: translation_target_language)
-              div
-                .translation.f-light-italic-12 data-translator-target="translation"
-                span.f-med-10.close-translation data-action="click->translator#toggle" = t('dashboard.messages.close')
+        - else
+          - if message.reply_to_message.present?
+            .reply-to-context
+              .reply-to-sender = message.reply_to_message.sender.try(:name) || message.reply_to_message.sender.try(:display_name) || message.reply_to_message.sender_type
+              .reply-to-content = ActionView::Base.full_sanitizer.sanitize(message.reply_to_message.content.to_s).strip.truncate(80)
+          - if message.content.present?
+            - single_emoji = single_emoji_message?(message.content)
+            .original data-translator-target="original" class=(single_emoji ? 'single-emoji-message' : 'f-reg-14')
+              - if single_emoji
+                = message.content.strip
+              - else
+                == sanitize(message.content, tags: Parser::MailParser::ALLOWED_TAGS, attributes: Parser::MailParser::ALLOWED_ATTRIBUTES)
+            .message-status-container
+              .msg-time = message_time
+              - if message.edited?
+                span.msg-edited-indicator title=t('dashboard.messages.edited_at', time: message.edited_at&.strftime('%H:%M')) = " (#{t('dashboard.messages.edited')})"
+            - unless single_emoji
+              .translate-text
+                button.translate-button type="button" data-action="click->translator#toggle_translate" aria-label=t('dashboard.messages.translate', language: translation_target_language)
+                  = inline_svg_tag('translate.svg', class: 'translate-button-icon', aria: { hidden: true })
+                  span = t('dashboard.messages.translate', language: translation_target_language)
+              .translated-text.d-none
+                h5.f-med-10 = t('dashboard.messages.translation_header', language: translation_target_language)
+                div
+                  .translation.f-light-italic-12 data-translator-target="translation"
+                  span.f-med-10.close-translation data-action="click->translator#toggle" = t('dashboard.messages.close')
+          - if message.attachments.any?
+            .msg-attachments
+              - message.attachments.each do |attachment|
+                - if attachment.audio? && attachment.file.attached?
+                  .msg-attachment-audio
+                    audio controls=true preload="metadata" src=rails_blob_path(attachment.file)
+                - elsif attachment.image? && attachment.file.attached?
+                  .msg-attachment-img
+                    = image_tag(attachment.file, class: 'attachment-image')
+                - elsif attachment.file.attached?
+                  a.msg-attachment-file href=rails_blob_path(attachment.file, disposition: 'attachment') target="_blank"
+                    span.file-icon 📄
+                    span.file-name = attachment.file.filename
+            - if message.content.blank?
+              .message-status-container
+                .msg-time = message_time
+                - if message.edited?
+                  span.msg-edited-indicator title=t('dashboard.messages.edited_at', time: message.edited_at&.strftime('%H:%M')) = " (#{t('dashboard.messages.edited')})"
+        - if message.reactions.any?
+          .message-reactions-container
+            - message.reactions.group_by(&:emoji).each do |emoji, reactions_list|
+              - reactor_names = reactions_list.map { |r| r.sender.try(:name) || r.sender.try(:display_name) || r.sender.try(:first_name) || r.sender_type }.compact.join(', ')
+              .reaction-pill title=reactor_names
+                span.reaction-emoji = emoji
+                - if reactions_list.size > 1
+                  span.reaction-count = reactions_list.size
+
+- if ['User', 'Ai::Agent', 'Account'].include?(message.sender_type)
+  - is_private = message.personal?
+  - single_emoji = message.content.present? && single_emoji_message?(ActionView::Base.full_sanitizer.sanitize(message.content.to_s).strip)
+  .agent-response.response id=dom_id(message) data-controller="translator" data-translator-translate-url-value=translate_message_path(message) data-translator-target="response"
+    .agent-text
+      .agent-message-sender = message.sender.try(:display_name).presence || message.sender_type.humanize
+      - if message.deleted?
+        .original.message-deleted-content
+          span.f-light-italic-14 = t('dashboard.messages.message_unsent')
+        .message-status-container
+          - if is_private
+            = inline_svg_tag('lock_orange.svg', class: 'lock', aria: { hidden: true })
+          .msg-time = message_time
+          span.msg-delivery-state = "· #{delivery_status}"
+      - else
+        - if message.reply_to_message.present?
+          .reply-to-context
+            .reply-to-sender = message.reply_to_message.sender.try(:name) || message.reply_to_message.sender.try(:display_name) || message.reply_to_message.sender_type
+            .reply-to-content = ActionView::Base.full_sanitizer.sanitize(message.reply_to_message.content.to_s).strip.truncate(80)
+        - if message.content.present?
+          .original data-translator-target="original" class=[(single_emoji ? 'single-emoji-message' : 'f-reg-14'), (is_private ? 'private-note-bg' : nil)]
+            - if single_emoji
+              == message.content
+            - else
+              == sanitize(message.content, tags: Parser::MailParser::ALLOWED_TAGS, attributes: Parser::MailParser::ALLOWED_ATTRIBUTES)
         - if message.attachments.any?
           .msg-attachments
             - message.attachments.each do |attachment|
@@ -50,38 +114,19 @@
                 a.msg-attachment-file href=rails_blob_path(attachment.file, disposition: 'attachment') target="_blank"
                   span.file-icon 📄
                   span.file-name = attachment.file.filename
-          - if message.content.blank?
-            .message-status-container
-              .msg-time = message_time
-
-- if ['User', 'Ai::Agent', 'Account'].include?(message.sender_type)
-  - is_private = message.personal?
-  - single_emoji = message.content.present? && single_emoji_message?(ActionView::Base.full_sanitizer.sanitize(message.content.to_s).strip)
-  .agent-response.response id=dom_id(message) data-controller="translator" data-translator-translate-url-value=translate_message_path(message) data-translator-target="response"
-    .agent-text
-      .agent-message-sender = message.sender.try(:display_name).presence || message.sender_type.humanize
-      - if message.content.present?
-        .original data-translator-target="original" class=[(single_emoji ? 'single-emoji-message' : 'f-reg-14'), (is_private ? 'private-note-bg' : nil)]
-          - if single_emoji
-            == message.content
-          - else
-            == sanitize(message.content, tags: Parser::MailParser::ALLOWED_TAGS, attributes: Parser::MailParser::ALLOWED_ATTRIBUTES)
-      - if message.attachments.any?
-        .msg-attachments
-          - message.attachments.each do |attachment|
-            - if attachment.audio? && attachment.file.attached?
-              .msg-attachment-audio
-                audio controls=true preload="metadata" src=rails_blob_path(attachment.file)
-            - elsif attachment.image? && attachment.file.attached?
-              .msg-attachment-img
-                = image_tag(attachment.file, class: 'attachment-image')
-            - elsif attachment.file.attached?
-              a.msg-attachment-file href=rails_blob_path(attachment.file, disposition: 'attachment') target="_blank"
-                span.file-icon 📄
-                span.file-name = attachment.file.filename
-      - if message.content.present? || message.attachments.any?
-        .message-status-container class=('message-status-container--failed' if message.failed?)
-          - if is_private
-            = inline_svg_tag('lock_orange.svg', class: 'lock', aria: { hidden: true })
-          .msg-time = message_time
-          span.msg-delivery-state = "· #{delivery_status}"
+        - if message.content.present? || message.attachments.any?
+          .message-status-container class=('message-status-container--failed' if message.failed?)
+            - if is_private
+              = inline_svg_tag('lock_orange.svg', class: 'lock', aria: { hidden: true })
+            .msg-time = message_time
+            - if message.edited?
+              span.msg-edited-indicator title=t('dashboard.messages.edited_at', time: message.edited_at&.strftime('%H:%M')) = " (#{t('dashboard.messages.edited')})"
+            span.msg-delivery-state = "· #{delivery_status}"
+      - if message.reactions.any?
+        .message-reactions-container
+          - message.reactions.group_by(&:emoji).each do |emoji, reactions_list|
+            - reactor_names = reactions_list.map { |r| r.sender.try(:name) || r.sender.try(:display_name) || r.sender.try(:first_name) || r.sender_type }.compact.join(', ')
+            .reaction-pill title=reactor_names
+              span.reaction-emoji = emoji
+              - if reactions_list.size > 1
+                span.reaction-count = reactions_list.size

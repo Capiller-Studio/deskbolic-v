@@ -2909,9 +2909,64 @@ en:
       conversation_active: Conversation was reopened
       conversation_snoozed: Conversation was snoozed
       update: Conversation details were updated
+      destroy: Conversation was deleted
       priority_updated: Priority was changed
       label_added: Label %{label} was added
       label_removed: Label %{label} was removed
+    inbox:
+      update: Inbox settings were updated
+      destroy: Inbox was deleted
+    customer:
+      update: Customer profile was updated
+      destroy: Customer was deleted
+    "channel/facebook_page":
+      update: Facebook Page channel was updated
+      destroy: Facebook Page channel was disconnected
+    "channel/instagram":
+      update: Instagram channel was updated
+      destroy: Instagram channel was disconnected
+    "channel/whatsapp":
+      update: WhatsApp channel was updated
+      destroy: WhatsApp channel was disconnected
+    "channel/email":
+      update: Email channel was updated
+      destroy: Email channel was deleted
+    "channel/web_widget":
+      update: Web Widget channel was updated
+      destroy: Web Widget channel was deleted
+    "channel/custom":
+      update: Custom channel was updated
+      destroy: Custom channel was deleted
+    "channel/contact_form":
+      update: Contact Form channel was updated
+      destroy: Contact Form channel was deleted
+    label:
+      update: Label was updated
+      destroy: Label was deleted
+    automation:
+      update: Automation rule was updated
+      destroy: Automation rule was deleted
+    "access/role":
+      update: Role permissions were updated
+      destroy: Role was deleted
+    sla_policy:
+      update: SLA Policy was updated
+      destroy: SLA Policy was deleted
+    macro:
+      update: Macro was updated
+      destroy: Macro was deleted
+    canned_response:
+      update: Canned Response was updated
+      destroy: Canned Response was deleted
+    team:
+      update: Team was updated
+      destroy: Team was deleted
+    custom_field:
+      update: Custom Field was updated
+      destroy: Custom Field was deleted
+    "help_center/article":
+      update: Article was updated
+      destroy: Article was deleted
   audit_logs:
     actions: Actions
     actor: Actor

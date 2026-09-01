@@ -7,11 +7,6 @@
 module Dashboard
   class SessionsController < Devise::SessionsController
     layout "auth"
-
-    include CurrentAttributesAccessible
-
-    before_action :authenticate_user!, only: :switch
-
     # before_action :configure_sign_in_params, only: [:create]
 
     # GET /resource/sign_in
@@ -27,8 +22,11 @@ module Dashboard
     # POST /resource/sign_in
     def create
       super do |resource|
-        account = oldest_account_for(resource)
-        persist_selected_account(account) if account
+        if resource.accounts.any?
+          account_id = resource.accounts.first.id
+          session[:current_account_id] = account_id
+          cookies.signed[:current_account_id] = { value: account_id, expires: 1.year.from_now }
+        end
       end
     end
 
@@ -38,13 +36,13 @@ module Dashboard
     # end
 
     def switch
-      account = account_from_id(params[:id])
-
-      if account && current_user.accounts.exists?(account.id)
-        persist_selected_account(account)
+      account = Account.find(params[:id])
+      if current_user.accounts.include?(account)
+        session[:current_account_id] = account.id
+        cookies.signed[:current_account_id] = { value: account.id, expires: 1.year.from_now }
         redirect_to(root_url)
       else
-        redirect_to(root_url, alert: I18n.t("dashboard.authorization.not_authorized", default: "You are not authorized to perform this action."))
+        redirect_to(accounts_path, alert: "You are not authorized")
       end
     end
 
@@ -56,9 +54,8 @@ module Dashboard
     protected
 
     def after_sign_in_path_for(resource)
-      account = oldest_account_for(resource)
-
-      if account
+      if resource.accounts.any?
+        account = resource.accounts.first
         root_url(subdomain: account.identifier)
       else
         workspace_url(subdomain: "")
@@ -72,10 +69,6 @@ module Dashboard
 
 
     private
-
-    def oldest_account_for(resource)
-      resource.accounts.order(:created_at).first
-    end
 
     # def sign_in_params
     #   # params.require(:user).permit(:email, :password, :remember_me, :account_id)

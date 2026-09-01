@@ -13,7 +13,6 @@ class DashboardController < ApplicationController
   include Pagy::Backend
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
-  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
   layout "dashboard"
 
@@ -42,7 +41,13 @@ class DashboardController < ApplicationController
   end
 
   def current_account
-    configure_account
+    return @current_account if defined?(@current_account)
+
+    if request.subdomain.present? && request.subdomain != "www"
+      @current_account = Account.find_by(identifier: request.subdomain)
+    else
+      @current_account = nil
+    end
   end
 
   def authorize(record, query = nil)
@@ -60,38 +65,23 @@ class DashboardController < ApplicationController
   private
 
   def ensure_subdomain_for_account
-    return unless user_signed_in? && user_has_accounts?
-    # Already viewing the selected workspace's subdomain — nothing to do
-    return if current_account&.identifier == request.subdomain
-
-    # Redirect to the selected workspace's subdomain when accessing the naked domain
-    if request.subdomain.blank? || request.subdomain == "www"
-      redirect_to(root_url(subdomain: current_account.identifier), allow_other_host: true) if current_account
-    elsif unauthorized_subdomain? && current_account
-      # Subdomain is provided but unknown or not one of the user's workspaces
-      redirect_to(
-        root_url(subdomain: current_account.identifier),
-        allow_other_host: true,
-        alert: "Account not found or access denied."
-      )
+    if user_signed_in? && current_user.accounts.any?
+      # If accessing naked domain, redirect to primary account's subdomain
+      if request.subdomain.blank? || request.subdomain == "www"
+        account = current_user.accounts.first
+        redirect_to(root_url(subdomain: account.identifier), allow_other_host: true)
+      elsif current_account.nil?
+        # If subdomain is provided but invalid/unauthorized
+        account = current_user.accounts.first
+        redirect_to(root_url(subdomain: account.identifier), allow_other_host: true, alert: "Account not found or access denied.")
+      end
     end
   end
 
-  def unauthorized_subdomain?
-    account = account_from_subdomain
-    account.nil? || !current_user.accounts.exists?(account.id)
-  end
-
-  def user_has_accounts?
-    return @user_has_accounts if defined?(@user_has_accounts)
-
-    @user_has_accounts = current_user.accounts.exists?
-  end
-
   def redirect_if_no_accounts
-    return unless user_signed_in? && !user_has_accounts?
-
-    redirect_to(workspace_url(subdomain: "")) unless request.path == workspace_path || request.path == submitted_path(current_user.id)
+    if user_signed_in? && current_user.accounts.empty?
+      redirect_to(workspace_url(subdomain: "")) unless request.path == workspace_path || request.path == submitted_path(current_user.id)
+    end
   end
 
   def enforce_active_subscription
@@ -143,12 +133,5 @@ class DashboardController < ApplicationController
 
     flash[:error] = I18n.t("dashboard.authorization.not_authorized", default: "You are not authorized to perform this action.")
     redirect_back(fallback_location: root_path)
-  end
-
-  def record_not_found(exception)
-    raise(exception) unless request.format.html?
-
-    flash[:alert] = I18n.t("dashboard.record_not_found", default: "That record doesn't exist in the selected workspace.")
-    redirect_to(root_path)
   end
 end

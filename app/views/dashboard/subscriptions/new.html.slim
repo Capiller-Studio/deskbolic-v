@@ -57,7 +57,7 @@
                   span.ap-subscription-feature-text = feature
 
           .ap-subscription-footer
-            = form_with url: subscriptions_path, method: :post, local: true, data: { turbo: false } do |f|
+            = form_with url: subscriptions_path, method: :post do |f|
               = f.hidden_field :plan_id, value: plan.id
               = f.hidden_field :billing_cycle, value: "monthly", class: "billing-cycle-field", data: { billing_toggle_target: "cycleField" }
               = f.hidden_field :quantity, value: [plan.min_users, 1].max

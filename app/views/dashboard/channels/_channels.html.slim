@@ -96,7 +96,7 @@
             .sidebar-account-list
               - current_user.accounts.sort_by { |account| account == current_account ? 0 : 1 }.each do |account|
                 - active_account = account == current_account
-                = button_to switch_account_path(id: account.id), method: :post, class: "sidebar-workspace", role: "menuitem", disabled: active_account, form: { class: "sidebar-workspace-form" } do
+                = button_to switch_account_path(id: account.id), method: :post, class: "sidebar-workspace", role: "menuitem", disabled: active_account, form: { class: "sidebar-workspace-form" }, data: { turbo: false } do
                   .sidebar-workspace-avatar.avatar-fallback class=avatar_fallback_color_class(account.name)
                     = initials(account, limit: 2)
                   .sidebar-workspace-details

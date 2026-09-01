@@ -62,12 +62,11 @@
                   td.ui-table__empty colspan="5"
                     = t("audit_logs.empty")
               - else
-                - ignored_fields = %w[id created_at updated_at account_id portal_id views_count inbox_id conversation_id contact_id status_id assignable_type assignable_id source identifier display_id uuid]
                 - @activities.each do |activity|
                   - actor = activity.actor
                   - actor_name = full_name(actor).presence || actor.try(:email).presence || t("audit_logs.system")
                   - actor_meta = actor.try(:email).presence || activity.actor_type.to_s.humanize.presence || t("audit_logs.member", default: "Member")
-                  - changes = activity.object_changes.present? ? activity.object_changes.reject { |field, _value| ignored_fields.include?(field) || field.end_with?("_id") } : {}
+                  - changes = audit_log_changes_for(activity)
                   tr
                     td.ui-table__timestamp
                       time datetime=activity.created_at.iso8601 = activity.created_at.strftime("%b %-d, %Y %-I:%M %p")
@@ -89,17 +88,19 @@
                         .ui-change-stack
                           - changes.first(2).each do |field, values|
                             - values = Array(values)
-                            - old_value, new_value = values.length > 1 ? values.first(2) : [nil, values.first]
+                            - old_val, new_val = values.length > 1 ? values.first(2) : [nil, values.first]
+                            - formatted_new = audit_log_format_value(field, new_val, max_len: 30)
+                            - formatted_old = audit_log_format_value(field, old_val, max_len: 18)
                             .ui-change
-                              - if old_value.nil?
+                              - if old_val.nil?
                                 p = "#{field.humanize} #{t('audit_logs.set_to', default: 'set to')}"
-                                span.ui-change-badge.ui-change-badge--value = new_value.to_s.truncate(30)
+                                span.ui-change-badge.ui-change-badge--value = formatted_new
                               - else
                                 p = "#{field.humanize} #{t('audit_logs.changed_from', default: 'changed from')}"
                                 .ui-change__values
-                                  span.ui-change-badge.ui-change-badge--before = old_value.to_s.truncate(18)
+                                  span.ui-change-badge.ui-change-badge--before = formatted_old
                                   small = t("audit_logs.to", default: "to").downcase
-                                  span.ui-change-badge.ui-change-badge--after = new_value.to_s.truncate(18)
+                                  span.ui-change-badge.ui-change-badge--after = formatted_new
                       - else
                         span.ui-table__placeholder —
                     td

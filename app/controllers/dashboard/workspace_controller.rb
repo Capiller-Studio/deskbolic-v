@@ -36,28 +36,14 @@ module Dashboard
         data: { "company-name" => params[:company_name], "workspace-size" => params[:workspace_size] }
       )
 
-      begin
-        ActiveRecord::Base.transaction do
-          account.save!
-          create_owner_with_role!(account)
-        end
-      rescue ActiveRecord::RecordInvalid => e
-        redirect_to(workspace_path, alert: e.record.errors.full_messages.join(", ")) and return
+      unless account.save
+        redirect_to(workspace_path, alert: account.errors.full_messages.join(", ")) and return
       end
 
-      persist_selected_account(account)
+      account.users << current_user
+      session[:current_account_id] = account.id
+      cookies.signed[:current_account_id] = { value: account.id, expires: 1.year.from_now }
       redirect_to(submitted_path(current_user.id), notice: "New WorkSpace Created Successfully")
-    end
-
-    def create_owner_with_role!(account)
-      account_user = AccountUser.create!(account: account, user: current_user, owner: true)
-
-      account.with_shard do
-        owner_role = account.roles.find_by!(identifier: "owner")
-        ::Access::AccountUserRole.create!(account: account, account_user_id: account_user.id, role: owner_role)
-      end
-
-      account_user
     end
 
      def submitted; end

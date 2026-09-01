@@ -11,7 +11,7 @@
             /     = image_tag('ai_agent.png', alt: 'AI Agent', class: 'link-icon')
             - current_user&.accounts&.each do |account|
               li.nav-item class="#{current_page=='help_desk' ? 'dash-nav-active' : ''}"
-                = form_with url: switch_account_path(id: account.id), method: :post, class: "switch-form", data: { turbo: false } do
+                = form_with url: switch_account_path(id: account.id), method: :post, class: "switch-form" do
                   = hidden_field_tag :id, account.id
                   = button_tag(type: 'submit', class: 'switch-button nav-link', style: 'border: none; background: none; padding: 0;') do
                     = image_tag('helpdesk_icon.svg', alt: t("ui.dashboard.shared.dashboard_container.switch_account"), class: 'switch-icon')

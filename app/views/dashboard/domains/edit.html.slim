@@ -1,6 +1,6 @@
 / = render("dashboard/shared/dashboard_container", current_page: "domains") do
 = render("dashboard/settings/settings_sidebar", current_page: "domains") do
-  = form_with(model: @domain, url: domain_path(@domain), method: :patch, class: "ui-settings-editor ui-settings-form", data: { controller: "form-validation", "form-validation-target": "form" }, html: { novalidate: true }) do |f|
+  = form_with(model: @domain, url: domain_path(@domain), method: :patch, class: "ui-settings-editor ui-settings-editor--domains ui-settings-form", data: { controller: "form-validation", "form-validation-target": "form" }, html: { novalidate: true }) do |f|
     header.ui-settings-editor__header
       = link_to domains_path, class: "ui-settings-editor__back", aria: { label: t("shared.back") } do
         = inline_svg_tag("back-arrow.svg", aria: { hidden: true })

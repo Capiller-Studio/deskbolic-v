@@ -3,7 +3,7 @@
 - selected_channel_type = current_page == "all-channels" ? (@selected_type || "all") : nil
 - data_open = %w[assignment-policies sla-policies business-hours skills custom-fields csat-surveys identity-sources canned-responses labels macros automations ai_agents email_templates].include?(current_page)
 
-.helpdesk-section.center-wrapper class=(current_page == "profile" ? nil : "settings-desktop-shell")
+.helpdesk-section.center-wrapper.settings-shell
   .helpdesk-container
     .helpdesk-nav
       .card data-controller="filterable-collection"
@@ -326,8 +326,7 @@
             )
               = t("ui.dashboard.settings.settings_sidebar.no_results")
 
-    .helpdesk-body.settings-body
+    .helpdesk-body.settings-body class=("settings-body--#{current_page}" if %w[billing users].include?(current_page))
       == yield
 
-    - if current_page == 'profile'
-      = render 'dashboard/shared/mobile_navigation', active: 'profile'
+    = render 'dashboard/shared/mobile_navigation', active: (current_page == 'profile' ? 'profile' : 'settings')

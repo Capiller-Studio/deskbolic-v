@@ -4,6 +4,7 @@
 - params_count = source.params.is_a?(Hash) ? source.params.count : 0
 - mappings_count = source.response_mapping.is_a?(Hash) ? source.response_mapping.count : 0
 - searchable_values = [source.name, description, source_type_label, source.source_url].compact.join(" ").downcase
+- menu_id = dom_id(source, :actions)
 
 article.ui-panel.ai-agent-card.is-source-card id=dom_id(source) data-searchable=searchable_values
   .ui-panel__header.ai-agent-card-header
@@ -14,13 +15,16 @@ article.ui-panel.ai-agent-card.is-source-card id=dom_id(source) data-searchable=
         h2 = source.name
         p = description
 
-    details.ai-agent-card-menu
-      summary aria-label=t("dashboard.identity_sources.index.actions_for", name: source.name, default: "Actions for %{name}")
-        = inline_svg_tag("dots.svg", class: "ai-agent-card-menu-icon", aria: { hidden: true })
-      .ai-agent-card-menu-popover role="menu"
+    .channel-card__actions
+      button type="button" aria-label=t("dashboard.identity_sources.index.actions_for", name: source.name, default: "Actions for %{name}") popovertarget=menu_id
+        = inline_svg_tag("dots.svg", aria: { hidden: true })
+      .channel-card__menu id=menu_id popover="auto" role="menu"
         = link_to edit_identity_source_path(source), role: "menuitem" do
-          = t("general.edit", default: "Edit")
-        = button_to identity_source_path(source), method: :delete, role: "menuitem", form: { class: "ai-agent-card-delete-form" }, data: { turbo_confirm: t("dashboard.identity_sources.index.delete_confirm") } do
+          = inline_svg_tag("edit.svg", aria: { hidden: true })
+          span = t("general.edit", default: "Edit")
+        .channel-card__menu-divider
+        = link_to identity_source_path(source), class: "channel-card__delete", role: "menuitem", data: { turbo_method: :delete, turbo_confirm: t("dashboard.identity_sources.index.delete_confirm") } do
+          = inline_svg_tag("delete_red.svg", aria: { hidden: true })
           span = t("general.delete", default: "Delete")
 
   .is-source-details

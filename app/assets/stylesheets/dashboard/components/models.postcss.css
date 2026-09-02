@@ -1547,16 +1547,18 @@ html[lang="ar"] .modal-popper-container .channel-modal-content {
   }
 }
 
-@media (max-width: 520px) {
+@media (max-width: 600px) {
   .modal-popper-container .channel-modal-content {
-    padding: 12px;
+    height: calc(100% - 72px - env(safe-area-inset-bottom));
+    padding: 16px;
 
     .model-content {
-      max-height: calc(100vh - 24px);
+      width: min(100%, 380px);
+      max-height: calc(100% - 32px);
       border-radius: 16px;
 
       .modal-header {
-        padding: 22px 18px 18px;
+        padding: 20px 18px 16px;
 
         .modal-header-text h3 {
           font-size: 20px;
@@ -1565,14 +1567,31 @@ html[lang="ar"] .modal-popper-container .channel-modal-content {
     }
 
     .model-content .modal-body.channel-options {
-      gap: 12px;
-      padding: 4px 18px 20px;
+      gap: 10px;
+      padding: 4px 18px 18px;
     }
 
     .channel-option {
-      grid-template-columns: 40px minmax(0, 1fr) 16px;
-      gap: 12px;
-      padding-right: 14px;
+      min-height: 72px;
+      grid-template-columns: 36px minmax(0, 1fr) 16px;
+      gap: 10px;
+      padding: 12px 14px;
+    }
+
+    .channel-option__icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    .channel-option--custom .channel-option__icon svg {
+      width: 36px;
+      height: 36px;
     }
   }
 }
@@ -1969,6 +1988,109 @@ html[lang="ar"] .team-modal-content {
 
   .user-details {
     align-items: flex-start;
+  }
+}
+
+@media (max-width: 600px) {
+  .modal-popper-container:has(.team-modal-content) {
+    z-index: 1300;
+    padding: max(30px, env(safe-area-inset-top)) 30px max(30px, env(safe-area-inset-bottom));
+    overflow: hidden;
+    background: rgba(15, 23, 42, 0.45);
+    backdrop-filter: blur(2px);
+  }
+
+  .modal-popper-container:has(.team-modal-content) .model-content-section {
+    height: 100%;
+    min-height: 0;
+  }
+
+  .modal-popper-container .model-content-section .team-modal-content {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    max-height: 100%;
+    margin: auto;
+    padding: 0;
+    overflow: hidden;
+    border-radius: 16px;
+    filter: none;
+    box-shadow: 0 20px 48px rgba(15, 23, 42, 0.24);
+
+    .modal-header {
+      min-height: 0;
+      flex: 0 0 auto;
+      padding: 20px 18px 16px;
+      margin-right: 0;
+      margin-left: 0;
+
+      .modal-header-text {
+        min-width: 0;
+        flex: 1;
+      }
+
+      .conversation-icon.m-close {
+        width: 32px;
+        height: 32px;
+        flex: 0 0 32px;
+      }
+    }
+
+    .team-form-body {
+      min-height: 0;
+      height: auto;
+      flex: 1 1 auto;
+      overflow-x: hidden;
+      overflow-y: auto;
+      overscroll-behavior-y: contain;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .team-form {
+      display: flex;
+      min-height: 100%;
+      flex-direction: column;
+    }
+
+    .form-fields {
+      flex: 1 1 auto;
+      padding: 18px 18px 0;
+    }
+
+    .team-description-field {
+      resize: none;
+    }
+
+    .user-row,
+    .inbox-row {
+      padding-right: 8px;
+      padding-left: 8px;
+    }
+
+    .user-details {
+      max-width: calc(100% - 12px);
+    }
+
+    .form-actions {
+      position: sticky;
+      z-index: 2;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      flex: 0 0 auto;
+      gap: 10px;
+      padding: 14px 18px;
+      background: #fff;
+      box-shadow: 0 -8px 20px rgba(15, 23, 42, 0.06);
+
+      .cancel-btn,
+      .submit-btn {
+        min-width: 0;
+        min-height: 44px;
+        flex: 1 1 0;
+        padding: 10px 14px;
+      }
+    }
   }
 }
 

@@ -411,16 +411,32 @@
     grid-template-columns: 1fr;
   }
 }
-.ap-section.is-overflow-card {
-  position: relative;
-  z-index: 2;
-  overflow: visible;
-}
 
-.ap-section.is-overflow-card:has(.choices.is-open) {
-  z-index: 30;
-}
+@media (max-width: 600px) {
+  .ui-settings-page.ui-settings-page--identity-sources,
+  .ui-settings-editor.ui-settings-editor--identity-source {
+    height: 100%;
+    min-height: 0;
+  }
 
-.is-kv-table:has(.choices.is-open) {
-  overflow: visible;
+  .ui-settings-page--identity-sources .ui-settings-page__content {
+    padding-bottom: calc(128px + env(safe-area-inset-bottom));
+    scroll-padding-bottom: calc(72px + env(safe-area-inset-bottom));
+  }
+
+  .ui-settings-editor--identity-source .ui-settings-editor__body {
+    padding-bottom: calc(111px + env(safe-area-inset-bottom));
+    scroll-padding-bottom: calc(72px + env(safe-area-inset-bottom));
+  }
+
+  .ui-settings-editor--identity-source .ui-settings-editor__header-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .ui-settings-editor--identity-source .ui-settings-editor__header-actions > .ap-btn-save-header {
+    width: 100%;
+    grid-column: 1 / -1;
+  }
 }

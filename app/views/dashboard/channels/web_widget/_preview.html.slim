@@ -102,3 +102,20 @@ style
   | .ww-preview-launcher-icon { color: white; display: flex; align-items: center; justify-content: center; }
   | .ww-preview-launcher-icon svg { width: 24px; height: 24px; fill: white; }
   | .ww-preview-launcher-icon img { width: 100%; height: 100%; object-fit: contain; border-radius: 50%; }
+  | @media (max-width: 600px) {
+  |   .ww-preview-wrapper { padding: 16px; }
+  |   .ww-preview-header { margin-bottom: 16px; }
+  |   .ww-iframe-wrapper {
+  |     right: 0;
+  |     left: 0;
+  |     width: 100%;
+  |     height: auto;
+  |     box-shadow: none;
+  |   }
+  |   .ww-iframe-wrapper iframe {
+  |     display: block;
+  |     width: 100%;
+  |     height: 100%;
+  |     transform: none;
+  |   }
+  | }

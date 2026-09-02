@@ -1,33 +1,43 @@
 / = render("dashboard/shared/dashboard_container", current_page: "email_templates") do
 = render("dashboard/settings/settings_sidebar", current_page: "email_templates") do
-  .eb-templates
-    .eb-templates__header
-      div
-        h2.eb-templates__title = t("dashboard.email_template_layouts.index.title")
-        p.eb-templates__subtitle = t("dashboard.email_template_layouts.index.subtitle")
-      .eb-templates__nav
-        = link_to email_templates_path, class: "eb-btn eb-btn--outline"
+  .ui-settings-page.ui-email-templates-page
+    header.ui-settings-page__header
+      .ui-settings-page__heading
+        h1 = t("dashboard.email_template_layouts.index.title")
+        p = t("dashboard.email_template_layouts.index.subtitle")
+
+    main.ui-settings-page__content
+      nav.ui-filter-tabs.email-template-tabs aria-label=t("dashboard.email_template_layouts.index.title")
+        = link_to email_templates_path, class: "ui-filter-tabs__tab"
           = t("dashboard.email_template_layouts.index.tab_templates")
-        = link_to email_template_layouts_path, class: "eb-btn eb-btn--primary"
+        = link_to email_template_layouts_path, class: "ui-filter-tabs__tab active", aria: { current: "page" }
           = t("dashboard.email_template_layouts.index.tab_layouts")
 
-    - if @email_template_layouts.any?
-      .eb-templates__grid
-        - @email_template_layouts.each do |layout|
-          .eb-card
-            .eb-card__body
-              .eb-card__header
-                h3.eb-card__name = layout.name
-                .eb-card__badges
-                  - if layout.has_unpublished_changes?
-                    span.eb-badge.eb-badge--draft = t("dashboard.email_template_layouts.index.badge_draft")
-              p.eb-card__description = t("dashboard.email_template_layouts.index.layout_description")
+      - if @email_template_layouts.any?
+        section.ui-card-grid.email-template-grid
+          - @email_template_layouts.each do |layout|
+            article.ui-panel.email-template-card
+              header.ui-panel__header.email-template-card__header
+                .ui-panel__identity.email-template-card__identity
+                  span.email-template-card__icon aria-hidden="true"
+                    = inline_svg_tag("templates.svg")
+                  .email-template-card__title
+                    h2 = layout.name
+                    .email-template-card__badges
+                      - if layout.has_unpublished_changes?
+                        span.eb-badge.eb-badge--draft = t("dashboard.email_template_layouts.index.badge_draft")
 
-            .eb-card__footer
-              span.eb-card__meta = t("dashboard.email_template_layouts.index.last_modified", time: time_ago_in_words(layout.updated_at))
-              = link_to edit_email_template_layout_path(layout), class: "eb-btn eb-btn--primary"
-                = t("dashboard.email_template_layouts.index.edit_design")
-    - else
-      .auto-empty-state
-        h3.f-semi-18 = t("dashboard.email_template_layouts.index.empty_title")
-        p.f-reg-14 = t("dashboard.email_template_layouts.index.empty_description")
+              p.email-template-card__description
+                = t("dashboard.email_template_layouts.index.layout_description")
+
+              footer.email-template-card__footer
+                span.email-template-card__meta
+                  = t("dashboard.email_template_layouts.index.last_modified", time: time_ago_in_words(layout.updated_at))
+                .email-template-card__actions
+                  = link_to t("dashboard.email_template_layouts.index.edit_design"), edit_email_template_layout_path(layout), class: "ui-button ui-button--primary"
+      - else
+        .ui-empty-state.ui-empty-state--bordered
+          .ui-empty-state__graphic
+            = inline_svg_tag("templates.svg", aria: { hidden: true })
+          h2 = t("dashboard.email_template_layouts.index.empty_title")
+          p = t("dashboard.email_template_layouts.index.empty_description")

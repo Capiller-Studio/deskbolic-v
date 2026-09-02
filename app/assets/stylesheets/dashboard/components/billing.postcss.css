@@ -1,7 +1,7 @@
 /* Billing Module Components */
 
 /* Layout & General */
-.settings-body:has(.ap-billing-page-header) {
+.settings-body--billing {
   display: flex;
   min-height: 0;
   flex-direction: column;
@@ -885,6 +885,11 @@
   table-layout: fixed;
 }
 
+.ap-billing-table-scroll {
+  min-width: 0;
+  max-width: 100%;
+}
+
 .ap-billing-transactions-card .ap-billing-table th:nth-child(1),
 .ap-billing-transactions-card .ap-billing-table td:nth-child(1) {
   width: 16.25%;
@@ -1487,6 +1492,55 @@
   }
 
   .ap-billing-tx-card {
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .ap-billing-tx-card > .ap-billing-card-body {
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .ap-billing-table-scroll {
+    width: 100%;
     overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-inline: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 600px) {
+  .helpdesk-section.settings-shell .settings-body--billing {
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .settings-body--billing .ap-billing-page-header,
+  .settings-body--billing .ap-billing-layout {
+    flex: 0 0 auto;
+  }
+
+  .settings-body--billing .ap-billing-layout {
+    min-height: auto;
+    padding-bottom: calc(92px + env(safe-area-inset-bottom));
+    overflow: visible;
+  }
+
+  .settings-body--billing .ap-billing-primary {
+    display: contents;
+  }
+
+  .settings-body--billing .ap-billing-sidebar {
+    order: 1;
+  }
+
+  .settings-body--billing .ap-billing-history-card {
+    order: 2;
   }
 }

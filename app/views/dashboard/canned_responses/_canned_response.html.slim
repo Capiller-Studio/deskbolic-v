@@ -1,9 +1,17 @@
-= turbo_frame_tag "response_#{response.id}" do
-  .macro-container
-    .macro-header
-      .macro-title
-        = image_tag("gold_star.png", class:"macro-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-        h3.f-semi-24 = response.name
-      = link_to edit_canned_response_path(response), data: { turbo_frame: "response_#{response.id}" }, class: "btn btn--light" do
-        = inline_svg_tag("pencil_edit.svg", class:"edit-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-    p.f-reg-14 = response.description
+= turbo_frame_tag "response_#{response.id}", class: "canned-response-frame" do
+  article.ui-panel.canned-response-card
+    header.canned-response-card__header
+      .canned-response-card__identity
+        span.canned-response-card__icon aria-hidden="true"
+          = image_tag("gold_star.png", alt: "")
+        h2 = response.name
+
+      = link_to edit_canned_response_path(response),
+        data: { turbo_frame: "response_#{response.id}" },
+        class: "ui-icon-button",
+        aria: { label: "#{t('general.edit')}: #{response.name}" },
+        title: t("general.edit") do
+        = inline_svg_tag("pencil_edit.svg", aria: { hidden: true })
+
+    p.canned-response-card__description
+      = response.description.presence || t("dashboard.canned_responses.index.no_description", default: "No reply text added.")

@@ -164,38 +164,39 @@
                           button.ap-btn-secondary type="button" data-action="click->modal#close" = I18n.t("dashboard.billing.cancel", default: "Cancel")
                           button.ap-btn-primary type="submit" data-stripe-elements-target="submitButton" = I18n.t("dashboard.billing.save_card", default: "Save Card")
 
-        .ap-card.ap-billing-tx-card.ap-billing-transactions-card
+        .ap-card.ap-billing-tx-card.ap-billing-transactions-card.ap-billing-history-card
           .ap-card-body.ap-billing-card-body
             h3.f-semi-18.ap-billing-section-title = I18n.t("dashboard.billing.transaction_history", default: "Transaction History")
 
             - if @transactions.any?
-              table.ap-billing-table
-                thead
-                  tr.ap-billing-tr
-                    th.f-semi-13.ap-billing-th = I18n.t("dashboard.billing.date", default: "Date")
-                    th.f-semi-13.ap-billing-th = I18n.t("dashboard.billing.description", default: "Description")
-                    th.f-semi-13.ap-billing-th = I18n.t("dashboard.billing.amount", default: "Amount")
-                    th.f-semi-13.ap-billing-th = I18n.t("dashboard.billing.status", default: "Status")
-                tbody
-                  - @transactions.each do |t|
+              .ap-billing-table-scroll
+                table.ap-billing-table
+                  thead
                     tr.ap-billing-tr
-                      td.f-reg-14.ap-billing-td = t.created_at.strftime("%b %d, %Y")
-                      td.f-reg-14.ap-billing-td
-                        - desc = t.description.to_s
-                        - if desc.start_with?("billing.events.") || desc.start_with?("wallet.events.")
-                          - desc = I18n.t(desc, **(t.data || {}).symbolize_keys, default: desc)
-                        - else
-                          - desc = desc.presence || t.transaction_type.titleize
+                      th.f-semi-13.ap-billing-th = I18n.t("dashboard.billing.date", default: "Date")
+                      th.f-semi-13.ap-billing-th = I18n.t("dashboard.billing.description", default: "Description")
+                      th.f-semi-13.ap-billing-th = I18n.t("dashboard.billing.amount", default: "Amount")
+                      th.f-semi-13.ap-billing-th = I18n.t("dashboard.billing.status", default: "Status")
+                  tbody
+                    - @transactions.each do |t|
+                      tr.ap-billing-tr
+                        td.f-reg-14.ap-billing-td = t.created_at.strftime("%b %d, %Y")
+                        td.f-reg-14.ap-billing-td
+                          - desc = t.description.to_s
+                          - if desc.start_with?("billing.events.") || desc.start_with?("wallet.events.")
+                            - desc = I18n.t(desc, **(t.data || {}).symbolize_keys, default: desc)
+                          - else
+                            - desc = desc.presence || t.transaction_type.titleize
 
-                        - if t.provider == "wallet" && t.charge?
-                          | #{I18n.t("dashboard.billing.wallet_deduction", default: "Wallet Deduction:")}
-                        = desc
-                      td.f-semi-14.ap-billing-td
-                        - sign, amount_class = t.charge? ? ["-", "ap-billing-tx-amount-charge"] : ["+", "ap-billing-tx-amount-credit"]
-                        span class=amount_class = "#{sign} #{ActionController::Base.helpers.number_to_currency(t.amount, unit: t.currency.upcase + ' ')}"
-                      td.ap-billing-td
-                        - status_class = t.completed? ? "ap-billing-tx-status-completed" : "ap-billing-tx-status-muted"
-                        span.ap-strategy-badge class=status_class = t.status.titleize
+                          - if t.provider == "wallet" && t.charge?
+                            | #{I18n.t("dashboard.billing.wallet_deduction", default: "Wallet Deduction:")}
+                          = desc
+                        td.f-semi-14.ap-billing-td
+                          - sign, amount_class = t.charge? ? ["-", "ap-billing-tx-amount-charge"] : ["+", "ap-billing-tx-amount-credit"]
+                          span class=amount_class = "#{sign} #{ActionController::Base.helpers.number_to_currency(t.amount, unit: t.currency.upcase + ' ')}"
+                        td.ap-billing-td
+                          - status_class = t.completed? ? "ap-billing-tx-status-completed" : "ap-billing-tx-status-muted"
+                          span.ap-strategy-badge class=status_class = t.status.titleize
 
               footer.ap-billing-pagination
                 p.ap-billing-pagination__summary
@@ -218,61 +219,63 @@
               p.f-reg-14.ap-billing-pm-empty style="margin-left: 20px; margin-right: 20px;" = I18n.t("dashboard.billing.no_transactions", default: "No transactions found.")
 
         - if current_account.feature_enabled?(:ai_copilot) || current_account.feature_enabled?(:ai_agent)
-          .ap-card.ap-billing-tx-card
+          .ap-card.ap-billing-tx-card.ap-billing-history-card
             .ap-card-body.ap-billing-card-body
               h3.f-semi-18.ap-billing-section-title = I18n.t("dashboard.billing.ai_credit_grants", default: "AI Credit Grants & Expiry")
               
               - if @ai_grants.any?
-                table.ap-billing-table
-                  thead
-                    tr.ap-billing-tr
-                      th.f-semi-13.ap-billing-th = I18n.t("dashboard.billing.date", default: "Date")
-                      th.f-semi-13.ap-billing-th = I18n.t("dashboard.billing.type", default: "Type")
-                      th.f-semi-13.ap-billing-th = I18n.t("dashboard.billing.amount", default: "Amount")
-                      th.f-semi-13.ap-billing-th = I18n.t("dashboard.billing.expires_at", default: "Expires At")
-                      th.f-semi-13.ap-billing-th = I18n.t("dashboard.billing.status", default: "Status")
-                  tbody
-                    - @ai_grants.each do |grant|
+                .ap-billing-table-scroll
+                  table.ap-billing-table
+                    thead
                       tr.ap-billing-tr
-                        td.f-reg-14.ap-billing-td = grant.created_at.strftime("%b %d, %Y")
-                        td.f-reg-14.ap-billing-td = grant.grant_type.titleize
-                        td.f-semi-14.ap-billing-td = ActionController::Base.helpers.number_with_delimiter(grant.amount)
-                        td.f-reg-14.ap-billing-td = grant.expires_at&.strftime("%b %d, %Y") || "Never"
-                        td.ap-billing-td
-                          - if grant.active?
-                            span.ap-strategy-badge.ap-billing-tx-status-completed = I18n.t("dashboard.billing.status_active", default: "Active")
-                          - elsif grant.exhausted?
-                            span.ap-strategy-badge.ap-billing-tx-status-muted = I18n.t("dashboard.billing.status_exhausted", default: "Exhausted")
-                          - else
-                            span.ap-strategy-badge.ap-billing-tx-status-muted = I18n.t("dashboard.billing.status_expired", default: "Expired")
+                        th.f-semi-13.ap-billing-th = I18n.t("dashboard.billing.date", default: "Date")
+                        th.f-semi-13.ap-billing-th = I18n.t("dashboard.billing.type", default: "Type")
+                        th.f-semi-13.ap-billing-th = I18n.t("dashboard.billing.amount", default: "Amount")
+                        th.f-semi-13.ap-billing-th = I18n.t("dashboard.billing.expires_at", default: "Expires At")
+                        th.f-semi-13.ap-billing-th = I18n.t("dashboard.billing.status", default: "Status")
+                    tbody
+                      - @ai_grants.each do |grant|
+                        tr.ap-billing-tr
+                          td.f-reg-14.ap-billing-td = grant.created_at.strftime("%b %d, %Y")
+                          td.f-reg-14.ap-billing-td = grant.grant_type.titleize
+                          td.f-semi-14.ap-billing-td = ActionController::Base.helpers.number_with_delimiter(grant.amount)
+                          td.f-reg-14.ap-billing-td = grant.expires_at&.strftime("%b %d, %Y") || "Never"
+                          td.ap-billing-td
+                            - if grant.active?
+                              span.ap-strategy-badge.ap-billing-tx-status-completed = I18n.t("dashboard.billing.status_active", default: "Active")
+                            - elsif grant.exhausted?
+                              span.ap-strategy-badge.ap-billing-tx-status-muted = I18n.t("dashboard.billing.status_exhausted", default: "Exhausted")
+                            - else
+                              span.ap-strategy-badge.ap-billing-tx-status-muted = I18n.t("dashboard.billing.status_expired", default: "Expired")
               - else
                 p.f-reg-14.ap-billing-pm-empty = I18n.t("dashboard.billing.no_ai_grants", default: "No AI credit grants found.")
 
-          .ap-card.ap-billing-tx-card
+          .ap-card.ap-billing-tx-card.ap-billing-history-card
             .ap-card-body.ap-billing-card-body
               h3.f-semi-18.ap-billing-section-title = I18n.t("dashboard.billing.ai_transaction_history", default: "AI Usage History")
 
               - if @ai_transactions&.any?
-                table.ap-billing-table
-                  thead
-                    tr.ap-billing-tr
-                      th.f-semi-13.ap-billing-th = I18n.t("dashboard.billing.date", default: "Date")
-                      th.f-semi-13.ap-billing-th = I18n.t("dashboard.billing.description", default: "Description")
-                      th.f-semi-13.ap-billing-th = I18n.t("dashboard.billing.amount", default: "Amount")
-                  tbody
-                    - @ai_transactions.each do |t|
+                .ap-billing-table-scroll
+                  table.ap-billing-table
+                    thead
                       tr.ap-billing-tr
-                        td.f-reg-14.ap-billing-td = t.created_at.strftime("%b %d, %Y")
-                        td.f-reg-14.ap-billing-td
-                          - desc = t.description.to_s
-                          - if desc.start_with?("billing.events.") || desc.start_with?("wallet.events.")
-                            - desc = I18n.t(desc, **(t.data || {}).symbolize_keys, default: desc)
-                          - else
-                            - desc = desc.presence || t.transaction_type.titleize
-                          = desc
-                        td.f-semi-14.ap-billing-td
-                          - sign, amount_class = t.deduction? ? ["-", "ap-billing-tx-amount-charge"] : ["+", "ap-billing-tx-amount-credit"]
-                          span class=amount_class = "#{sign} #{ActionController::Base.helpers.number_with_delimiter(t.amount)}"
+                        th.f-semi-13.ap-billing-th = I18n.t("dashboard.billing.date", default: "Date")
+                        th.f-semi-13.ap-billing-th = I18n.t("dashboard.billing.description", default: "Description")
+                        th.f-semi-13.ap-billing-th = I18n.t("dashboard.billing.amount", default: "Amount")
+                    tbody
+                      - @ai_transactions.each do |t|
+                        tr.ap-billing-tr
+                          td.f-reg-14.ap-billing-td = t.created_at.strftime("%b %d, %Y")
+                          td.f-reg-14.ap-billing-td
+                            - desc = t.description.to_s
+                            - if desc.start_with?("billing.events.") || desc.start_with?("wallet.events.")
+                              - desc = I18n.t(desc, **(t.data || {}).symbolize_keys, default: desc)
+                            - else
+                              - desc = desc.presence || t.transaction_type.titleize
+                            = desc
+                          td.f-semi-14.ap-billing-td
+                            - sign, amount_class = t.deduction? ? ["-", "ap-billing-tx-amount-charge"] : ["+", "ap-billing-tx-amount-credit"]
+                            span class=amount_class = "#{sign} #{ActionController::Base.helpers.number_with_delimiter(t.amount)}"
 
                 footer.ap-billing-pagination
                   p.ap-billing-pagination__summary

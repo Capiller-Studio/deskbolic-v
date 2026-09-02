@@ -25,9 +25,14 @@ module Dashboard
     end
 
     def canned_responses
-      @canned_responses      = CannedResponse.where(account: current_account).all
-      @canned_responses      = @canned_responses.where("name ILIKE ?",
-"%#{params[:search]}%") if params[:search].present?
+      @canned_responses = current_account.canned_responses.order(created_at: :desc)
+      return if params[:search].blank?
+
+      query = "%#{ActiveRecord::Base.sanitize_sql_like(params[:search])}%"
+      @canned_responses = @canned_responses.where(
+        "name ILIKE :query OR description ILIKE :query",
+        query: query
+      )
     end
 
 

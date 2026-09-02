@@ -1,6 +1,6 @@
 / = render("dashboard/shared/dashboard_container", current_page: "identity-sources") do
 = render("dashboard/settings/settings_sidebar", current_page: "identity-sources") do
-  .ui-settings-editor.ap-settings-editor data-controller="key-value-builder" data-key-value-builder-test-url-value=test_connection_identity_sources_path
+  .ui-settings-editor.ap-settings-editor.ui-settings-editor--identity-source data-controller="key-value-builder" data-key-value-builder-test-url-value=test_connection_identity_sources_path
     header.ui-settings-editor__header
       = link_to identity_sources_path, class: "ui-settings-editor__back", aria: { label: t("shared.back", default: "Back") } do
         = inline_svg_tag("back_arrow.svg", aria: { hidden: true })

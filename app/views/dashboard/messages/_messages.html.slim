@@ -1,4 +1,4 @@
-.card.conversation-card data-controller="modal-toggler frame-toggler"
+.card.conversation-card data-controller="modal-toggler frame-toggler conversation-inspector"
   = render("dashboard/shared/modal_popper")
   .chat-section
     header.header.conversation-header
@@ -23,6 +23,8 @@
           = button_to t('dashboard.messages.reopen'), conversation_path(@conversation, conversation: { status: 'active' }), method: :patch, class: 'conversation-resolve-button conversation-resolve-button--secondary', form: { data: { turbo: false } }
         - else
           = button_to t('dashboard.messages.resolve'), conversation_path(@conversation, conversation: { status: 'resolved' }), method: :patch, class: 'conversation-resolve-button', form: { data: { turbo: false } }
+        button.conversation-inspector-toggle type="button" aria-controls="conversation-details-#{@conversation.id}" aria-expanded="false" aria-label=t('dashboard.conversation_details.show_details', default: 'Show conversation details') data-action="click->conversation-inspector#toggle" data-conversation-inspector-target="toggle"
+          = inline_svg_tag('arrow_left.svg', aria: { hidden: true })
       / .actions data-controller="accordion conversations"
         = inline_svg_tag("plus.svg", class:"chat-action", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
         = inline_svg_tag("star.svg", class:"chat-action", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
@@ -191,4 +193,5 @@
                   button.menu-link.send-close type="submit" name="message[resolve_conversation]" value="1"
                     = inline_svg_tag("send_close.svg", class: "option-icon")
                     p.f-reg-14 = t('dashboard.messages.send_and_close')
+  button.conversation-inspector-backdrop type="button" tabindex="-1" aria-label=t('dashboard.conversation_details.hide_details', default: 'Hide conversation details') data-action="click->conversation-inspector#close" data-conversation-inspector-target="backdrop"
   = render "dashboard/conversations/conversation_details"

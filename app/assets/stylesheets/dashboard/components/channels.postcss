@@ -1077,6 +1077,20 @@ html[lang="ar"] .channel-card__menu {
   }
 }
 
+@media (max-width: 600px) {
+  .settings-body .channel-index {
+    height: 100%;
+    min-height: 0;
+    overscroll-behavior-y: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .settings-body .channel-index .ui-settings-page__content {
+    padding-bottom: calc(104px + env(safe-area-inset-bottom));
+    scroll-padding-bottom: calc(72px + env(safe-area-inset-bottom));
+  }
+}
+
 /* Generic channel edit UI */
 .channel-edit {
   --channel-edit-accent: #1167ff;
@@ -3010,5 +3024,31 @@ html[lang="ar"] .channel-edit {
     > .channel-edit-select:first-child {
       grid-column: 1 / -1;
     }
+  }
+}
+
+@media (max-width: 600px) {
+  .settings-body .channel-edit {
+    display: flex;
+    height: 100%;
+    min-height: 0;
+    flex-direction: column;
+  }
+
+  .settings-body .channel-edit__header {
+    flex: 0 0 auto;
+  }
+
+  .settings-body .channel-edit__viewport {
+    min-height: 0;
+    height: auto;
+    box-sizing: border-box;
+    flex: 1 1 auto;
+    padding-bottom: calc(72px + env(safe-area-inset-bottom));
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    scroll-padding-bottom: calc(72px + env(safe-area-inset-bottom));
+    -webkit-overflow-scrolling: touch;
   }
 }

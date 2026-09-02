@@ -4,7 +4,7 @@
   }
 }
 
-html[lang="ar"] .helpdesk-section.settings-desktop-shell {
+html[lang="ar"] .helpdesk-section.settings-shell {
   .settings-sidebar-back-icon {
     transform: rotate(180deg);
   }
@@ -149,8 +149,25 @@ html[lang="ar"] .helpdesk-section.settings-desktop-shell {
   text-align: center;
 }
 
-.helpdesk-section.settings-desktop-shell {
+.helpdesk-section.settings-shell {
+  width: 100%;
+  height: 100dvh;
+  min-height: 0;
+  overflow: hidden;
+
+  > .helpdesk-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    align-items: stretch;
+  }
+
   .helpdesk-nav {
+    flex: 0 0 220px;
+    width: 220px;
+    min-width: 220px;
+    height: 100%;
     min-height: 0;
     overflow: hidden;
 
@@ -160,6 +177,15 @@ html[lang="ar"] .helpdesk-section.settings-desktop-shell {
       flex-direction: column;
       overflow: hidden;
     }
+  }
+
+  .helpdesk-body {
+    display: block;
+    min-width: 0;
+    flex: 1 1 auto;
+    width: auto;
+    height: 100%;
+    overflow: hidden;
   }
 
   ul.settings-sidebar-accordion {
@@ -179,6 +205,11 @@ html[lang="ar"] .helpdesk-section.settings-desktop-shell {
     border-radius: 6px;
     background-color: #c3c3c3;
   }
+}
+
+html[lang="ar"] .helpdesk-section.settings-shell .helpdesk-nav {
+  border-right: 0;
+  border-left: 1px solid $black-5;
 }
 
 .helpdesk-section .helpdesk-container .helpdesk-nav .card ul.settings-sidebar-accordion .help-nav-menu {
@@ -210,55 +241,345 @@ html[lang="ar"] .helpdesk-section.settings-desktop-shell {
     opacity: 1;
   }
 }
-.settings-body {
-  .body-section {
-    h2.f-semi-18 {
-      padding: 20px;
-      border-bottom: 1px solid $black-5;
-    }
-    .st-home-container {
-      padding: 30px 80px;
-      height: 100vh;
-      overflow-y: auto;
-      .st-home-section {
-        width: fit-content;
-        h3 {
-          margin-bottom: 15px;
-          font-size: 18px;
-          line-height: 28px;
-          font-family: $font-family-inter-regular;
-        }
-        .cards {
-          @mixin grid-container $col3, auto;
-          gap: 15px;
-          margin-bottom: 20px;
-          .card {
-            @mixin flex-row $justify-start, $align-center;
-            border: 1px solid $black-10;
-            border-radius: 12px;
-            padding: 15px;
-            cursor: pointer;
-            .card-icon {
-              width: 40px;
-              height: 40px;
-              margin-right: 10px;
+
+/* Responsive settings home layout.
+ * Breakpoints: mobile < 600px, tablet 600px-1023px, web >= 1024px.
+ */
+.helpdesk-section.settings-shell .settings-body .st-home-body {
+  display: flex;
+  min-height: 0;
+  height: 100%;
+  flex-direction: column;
+
+  > h2.f-semi-18 {
+    flex: 0 0 auto;
+    padding: 20px 32px;
+  }
+
+  .st-home-container {
+    min-height: 0;
+    flex: 1 1 auto;
+    height: auto;
+    padding: 30px 32px 48px;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    .st-home-section {
+      width: 100%;
+      /* max-width: 1200px; */
+      margin: 0 auto;
+
+      h3 {
+        margin-bottom: 15px;
+        font-family: $font-family-inter-regular;
+        font-size: 18px;
+        line-height: 28px;
+      }
+
+      .cards {
+        display: grid;
+        grid-auto-rows: auto;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 15px;
+        width: 100%;
+        margin-bottom: 24px;
+
+        .card {
+          display: flex;
+          min-width: 0;
+          min-height: 76px;
+          align-items: center;
+          gap: 12px;
+          padding: 15px;
+          border: 1px solid $black-10;
+          border-radius: 12px;
+          cursor: pointer;
+
+          &:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+          }
+
+          &:focus-visible {
+            outline: 2px solid $primary-purple-50;
+            outline-offset: 2px;
+          }
+
+          .card-icon {
+            width: 40px;
+            height: 40px;
+            flex: 0 0 40px;
+            margin: 0;
+          }
+
+          .card-desc {
+            min-width: 0;
+
+            h4.f-semi-14 {
+              margin-bottom: 5px;
+              color: $black-80;
             }
-            .card-desc {
-              h4.f-semi-14 {
-                margin-bottom: 5px;
-                color: $black-80;
-              }
-              p.f-reg-12 {
-                color: $black-40;
-              }
+
+            p.f-reg-12 {
+              color: $black-40;
             }
-            
-            &:hover {
-              box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+            h4,
+            p {
+              overflow-wrap: anywhere;
             }
           }
         }
       }
+    }
+  }
+}
+
+/* Tablet */
+@media screen and (min-width: 600px) and (max-width: 1023px) {
+  .helpdesk-section.settings-shell {
+    > .helpdesk-container {
+      padding-bottom: 0;
+    }
+
+    .helpdesk-nav {
+      display: block;
+    }
+
+    .mobile-dashboard-nav {
+      display: none;
+    }
+
+    .settings-body .st-home-body {
+      > h2.f-semi-18 {
+        padding-right: 24px;
+        padding-left: 24px;
+      }
+
+      .st-home-container {
+        padding: 24px 24px 40px;
+
+        .st-home-section .cards {
+          grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+        }
+      }
+    }
+  }
+}
+
+/* Mobile */
+@media screen and (max-width: 600px) {
+  .helpdesk-section.settings-shell {
+    > .helpdesk-container {
+      padding-bottom: calc(72px + env(safe-area-inset-bottom));
+    }
+
+    .helpdesk-nav {
+      display: none;
+    }
+
+    .helpdesk-body {
+      width: 100%;
+    }
+
+    .settings-body .st-home-body {
+      > h2.f-semi-18 {
+        padding: 16px;
+      }
+
+      .st-home-container {
+        padding: 20px 16px calc(104px + env(safe-area-inset-bottom));
+        scroll-padding-bottom: calc(72px + env(safe-area-inset-bottom));
+
+        .st-home-section {
+          h3 {
+            font-size: 16px;
+            line-height: 24px;
+          }
+
+          .cards {
+            grid-template-columns: minmax(0, 1fr);
+            gap: 12px;
+
+            .card {
+              min-height: 72px;
+              padding: 14px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.settings-body {
+  .ui-canned-responses-page {
+    display: flex;
+    min-height: 0;
+    flex-direction: column;
+    overflow: hidden;
+
+    .ui-settings-page__content {
+      min-height: 0;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .canned-responses-toolbar {
+      display: flex;
+      width: 100%;
+      justify-content: flex-end;
+      margin-bottom: 24px;
+
+      .ui-search-field {
+        width: 100%;
+      }
+    }
+
+    .canned-response-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .canned-response-frame {
+      display: block;
+      min-width: 0;
+    }
+
+    .canned-response-card {
+      display: flex;
+      min-height: 172px;
+      flex-direction: column;
+      gap: 20px;
+      padding: 22px;
+    }
+
+    .canned-response-card__header,
+    .canned-response-card__identity {
+      display: flex;
+      min-width: 0;
+      align-items: center;
+    }
+
+    .canned-response-card__header {
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .canned-response-card__identity {
+      gap: 12px;
+
+      h2 {
+        overflow: hidden;
+        margin: 0;
+        color: #111827;
+        font-family: $font-family-inter-semibold;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 24px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+
+    .canned-response-card__icon {
+      display: flex;
+      width: 40px;
+      height: 40px;
+      flex: 0 0 40px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      background: #fff8e1;
+
+      img {
+        width: 22px;
+        height: 22px;
+        object-fit: contain;
+      }
+    }
+
+    .canned-response-card__description {
+      display: -webkit-box;
+      overflow: hidden;
+      margin: 0;
+      color: #6b7280;
+      font-size: 14px;
+      line-height: 22px;
+      overflow-wrap: anywhere;
+      white-space: pre-wrap;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 4;
+    }
+
+    .canned-response-card--editing {
+      min-height: 0;
+    }
+
+    .macro-form-section,
+    .macro-form-section form {
+      width: 100%;
+    }
+
+    .canned-response-field + .canned-response-field {
+      margin-top: 16px;
+    }
+
+    .canned-response-textarea {
+      min-height: 112px;
+      resize: vertical;
+      line-height: 20px;
+    }
+
+    .canned-response-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 12px 0 16px;
+
+      .tag {
+        padding: 5px 9px;
+        border: 1px solid rgba(119, 141, 255, 0.35);
+        border-radius: 999px;
+        background: rgba(119, 141, 255, 0.08);
+        color: #5568db;
+        cursor: pointer;
+        font: inherit;
+        font-size: 12px;
+        line-height: 16px;
+
+        &:hover {
+          background: rgba(119, 141, 255, 0.14);
+        }
+      }
+    }
+
+    .form-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .canned-response-delete {
+      color: #dc2626;
+    }
+
+    .ui-empty-state__graphic svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    @media (max-width: 680px) {
+      .canned-response-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  }
+
+  .body-section {
+    h2.f-semi-18 {
+      padding: 20px;
+      border-bottom: 1px solid $black-5;
     }
     .macros-container {
       @mixin flex-row $justify-between, $align-start;

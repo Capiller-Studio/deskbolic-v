@@ -304,9 +304,12 @@ RSpec.describe 'Dashboard::Channels', type: :request do
 
     describe 'GET /channels/instagram/oauth_authorize' do
       it 'redirects to Instagram OAuth authorize URL' do
-        get oauth_authorize_channels_instagram_index_path(locale: :en)
+        get oauth_authorize_channels_instagram_index_path
         expect(response).to have_http_status(:redirect)
-        expect(response.location).to include('https://api.instagram.com/oauth/authorize')
+        expect(response.location).to include('https://www.instagram.com/oauth/authorize')
+        expect(response.location).to include('client_id=')
+        expect(response.location).to include('response_type=code')
+        expect(response.location).to include('instagram_business_basic')
       end
     end
 

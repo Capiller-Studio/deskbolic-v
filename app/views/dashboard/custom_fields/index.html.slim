@@ -1,51 +1,42 @@
 / = render("dashboard/shared/dashboard_container", current_page: "settings") do
 = render("dashboard/settings/settings_sidebar", current_page: "custom-fields") do
-  .ui-settings-page
+  .ui-settings-page data-controller="tabs filterable-collection"
     header.ui-settings-page__header
       .ui-settings-page__heading
         h1 = t("dashboard.settings_index.custom_fields")
         p = t("ui.dashboard.custom_fields.index.master_data_attributes_for_personalized_customer_experiences")
-      = link_to new_custom_field_path, class: "ui-settings-page__action" do
+      = link_to new_custom_field_path, class: "ui-settings-page__action", id: "new-custom-field" do
         span = t("ui.dashboard.custom_fields.index.create_new_field").delete_prefix("+ ")
         = inline_svg_tag("plus_white.svg", class: "ui-settings-page__action-icon", aria: { hidden: true })
 
-    .ui-list
+    main.ui-settings-page__content
+      .ui-toolbar
+        .ui-filter-tabs role="tablist" aria-label=t("dashboard.custom_fields.index.entity_filter", default: "Filter custom fields by entity")
+          - [{ key: :all, label: t("dashboard.custom_fields.index.tab_all", default: "All") }, { key: :customer, label: t("dashboard.custom_fields.index.tab_customer", default: "Customer") }, { key: :conversation, label: t("dashboard.custom_fields.index.tab_conversation", default: "Conversation") }].each_with_index do |tab, index|
+            button.ui-filter-tabs__tab class=(index.zero? ? "active" : nil) type="button" role="tab" aria-selected=(index.zero? ? "true" : "false") tabindex=(index.zero? ? "0" : "-1") data-tabs-target="tab" data-filter-value=(tab[:key] == :all ? "" : tab[:key]) data-action="click->tabs#switch click->filterable-collection#selectFilter"
+              span = tab[:label]
+              span.ui-filter-tabs__count = @field_counts.fetch(tab[:key])
+
+        label.ui-search-field
+          = inline_svg_tag("search_gray.svg", class: "ui-search-field__icon", aria: { hidden: true })
+          input type="search" placeholder=t("dashboard.custom_fields.index.search_placeholder", default: "Search fields...") aria-label=t("dashboard.custom_fields.index.search_placeholder", default: "Search fields") autocomplete="off" data-filterable-collection-target="query" data-action="input->filterable-collection#update"
+
       - if @custom_fields.any?
-        - @custom_fields.each do |field|
-          div.ui-card
-            .ui-card-top
-              .ui-card-info
-                h3.f-semi-16 = field.key
-                p.f-reg-13.text-muted style="margin-top: 4px;" = field.entity_type.titleize
-              .ui-card-actions
-                = link_to edit_custom_field_path(field), class: "ui-action-btn", title: t("dashboard.skills.index.edit")
-                  | ✏️
-                = link_to custom_field_path(field), method: :delete, class: "ui-action-btn ui-action-delete", data: { turbo_method: :delete, turbo_confirm: t("dashboard.custom_fields.index.delete_confirm") }, title: t("dashboard.skills.index.delete")
-                  | 🗑️
+        .ui-card-grid data-filterable-collection-target="container"
+          - @custom_fields.each do |field|
+            = render("dashboard/custom_fields/custom_field_card", field: field)
 
-            .ui-card-meta
-              .ui-meta-tag
-                span.ui-meta-tag-icon 📝
-                span = t("ui.dashboard.custom_fields.index.input_type", titleize: field.field_type.titleize)
-              - if field.required?
-                .ui-badge style="background: #fee2e2; color: #991b1b;"
-                  span = t("dashboard.contact_form_channels.form.required_label")
-              - if field.searchable?
-                .ui-badge style="background: #dcfce7; color: #166534;"
-                  span = t("ui.dashboard.custom_fields.form.searchable")
+        .ui-empty-state.ui-empty-state--bordered data-filterable-collection-target="empty" hidden=true
+          h2 = t("dashboard.custom_fields.index.no_matching_fields", default: "No matching fields")
+          p = t("dashboard.custom_fields.index.adjust_filters", default: "Try another search term.")
 
-              .ui-meta-tag
-                span.ui-meta-tag-icon 🕐
-                span = t("ui.dashboard.custom_fields.index.created_ago", date: time_ago_in_words(field.created_at))
-
-            - if field.translations.any?
-              .channel-forward-row style="margin-top: 12px; display: flex; gap: 8px;"
-                span.channel-forward-label Locales:
-                - field.translations.pluck(:locale).each do |locale|
-                  span style="background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: 600; color: #475569;" = locale.upcase
+        - if @pagy && @pagy.pages > 1
+          nav.ui-pagy aria-label=t("dashboard.custom_fields.index.pagination", default: "Custom fields pagination")
+            == pagy_nav(@pagy)
       - else
-        .ui-empty-state
-          h3.f-semi-18 = t("ui.dashboard.custom_fields.index.no_custom_fields_found")
-          p.f-reg-14.text-muted = t("ui.dashboard.custom_fields.index.create_your_first_custom_field_to_start_tracking_rich_customer")
-          = link_to new_custom_field_path, class: "ui-btn-primary"
-            | #{t("ui.dashboard.custom_fields.index.create_new_field")}
+        .ui-empty-state.ui-empty-state--bordered
+          .ui-empty-state__graphic
+            = image_tag("custom.svg", alt: "", aria: { hidden: true })
+          h2 = t("ui.dashboard.custom_fields.index.no_custom_fields_found")
+          p = t("ui.dashboard.custom_fields.index.create_your_first_custom_field_to_start_tracking_rich_customer")
+          = link_to t("ui.dashboard.custom_fields.index.create_new_field").delete_prefix("+ "), new_custom_field_path, class: "ui-settings-page__action"

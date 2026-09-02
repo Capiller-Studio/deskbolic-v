@@ -6,7 +6,20 @@ module Dashboard
 
     def index
       authorize(CustomField)
-      @custom_fields = current_account.custom_fields.includes(:translations).order(created_at: :desc)
+
+      current_account.with_shard do
+        fields_scope = current_account.custom_fields.includes(:translations)
+        entity_counts = fields_scope.group(:entity_type).count
+        @field_counts = {
+          all: fields_scope.count,
+          customer: entity_counts.fetch("customer", 0),
+          conversation: entity_counts.fetch("conversation", 0)
+        }
+        @pagy, @custom_fields = pagy(
+          fields_scope.order(created_at: :desc),
+          page_param: :page, limit: 20
+        )
+      end
     end
 
     def new
@@ -20,31 +33,37 @@ module Dashboard
     def create
       authorize(CustomField)
 
-      @custom_field = current_account.custom_fields.new(custom_field_params)
+      current_account.with_shard do
+        @custom_field = current_account.custom_fields.new(custom_field_params)
 
-      if @custom_field.save
-        handle_translations
-        redirect_to(custom_fields_path, notice: "Custom Field was successfully created.")
-      else
-        render(:new, status: :unprocessable_entity)
+        if @custom_field.save
+          redirect_to(custom_fields_path, notice: "Custom Field was successfully created.")
+        else
+          render(:new, status: :unprocessable_entity)
+        end
       end
     end
 
 
     def update
       authorize(@custom_field)
-      if @custom_field.update(custom_field_params.except(:field_type))
-        handle_translations
-        redirect_to(custom_fields_path, notice: "Custom Field was successfully updated.")
-      else
-        render(:edit, status: :unprocessable_entity)
+
+      current_account.with_shard do
+        if @custom_field.update(custom_field_params.except(:field_type))
+          redirect_to(custom_fields_path, notice: "Custom Field was successfully updated.")
+        else
+          render(:edit, status: :unprocessable_entity)
+        end
       end
     end
 
     def destroy
       authorize(@custom_field)
-      @custom_field.destroy
-      redirect_to(custom_fields_path, notice: "Custom Field was successfully deleted.")
+
+      current_account.with_shard do
+        @custom_field.destroy
+        redirect_to(custom_fields_path, notice: "Custom Field was successfully deleted.")
+      end
     rescue ActiveRecord::InvalidForeignKey
       redirect_to(custom_fields_path, alert: "Cannot delete this field. It's in use.")
     end
@@ -52,7 +71,9 @@ module Dashboard
     private
 
     def set_custom_field
-      @custom_field = current_account.custom_fields.find(params[:id])
+      current_account.with_shard do
+        @custom_field = current_account.custom_fields.find(params[:id])
+      end
     end
 
     def custom_field_params
@@ -90,10 +111,6 @@ module Dashboard
       end
 
       permitted
-    end
-
-    def handle_translations
-      # Obsolete: accepts_nested_attributes_for :translations handles persistence automatically
     end
   end
 end

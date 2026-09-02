@@ -1,0 +1,55 @@
+- entity_label = t("dashboard.custom_fields.entity_types.#{field.entity_type}", default: field.entity_type.to_s.titleize)
+- type_label = t("dashboard.custom_fields.field_types.#{field.field_type}", default: field.field_type.to_s.titleize)
+- flag_fields = [:searchable, :filterable, :hidden, :is_readonly]
+- enabled_flags_count = flag_fields.count { |flag| field.public_send("#{flag}?") }
+- default_value = field.default_value.presence
+- locales_count = field.translations.size
+- searchable_values = [field.key, entity_label, type_label, default_value].compact.join(" ").downcase
+
+article.ui-panel.ai-agent-card id="custom_field_#{field.id}" data-filterable-collection-target="item" data-filter-values=field.entity_type data-searchable=searchable_values
+  .ui-panel__header.ai-agent-card-header
+    .ui-panel__identity.ai-agent-card-identity
+      .ai-agent-card-avatar
+        = image_tag("custom.svg", alt: "", aria: { hidden: true })
+      .ai-agent-card-title
+        h2 = field.key
+        p = entity_label
+
+    details.ai-agent-card-menu
+      summary aria-label=t("dashboard.custom_fields.index.actions_for", name: field.key, default: "Actions for %{name}")
+        = inline_svg_tag("dots.svg", class: "ai-agent-card-menu-icon", aria: { hidden: true })
+      .ai-agent-card-menu-popover role="menu"
+        = link_to edit_custom_field_path(field), role: "menuitem" do
+          = t("dashboard.custom_fields.index.edit", default: "Edit")
+        = button_to custom_field_path(field), method: :delete, role: "menuitem", form: { class: "ai-agent-card-delete-form" }, data: { turbo_confirm: t("dashboard.custom_fields.index.delete_confirm", default: "Are you sure you want to delete this field?") } do
+          span = t("dashboard.custom_fields.index.delete", default: "Delete")
+
+  dl.ai-agent-card-details
+    .ai-agent-card-detail
+      dt
+        = image_tag("contact_form.svg", alt: "", aria: { hidden: true })
+        span = t("dashboard.custom_fields.index.input_type_label", default: "Input type")
+      dd = type_label
+    .ai-agent-card-detail
+      dt
+        = image_tag("info_blue.svg", alt: "", aria: { hidden: true })
+        span = t("dashboard.custom_fields.index.default_label", default: "Default value")
+      dd title=default_value = default_value || t("general.none", default: "None")
+    .ai-agent-card-detail
+      dt
+        = image_tag("settings.svg", alt: "", aria: { hidden: true })
+        span = t("dashboard.custom_fields.index.rules_label", default: "Rules")
+      dd = t("dashboard.custom_fields.index.enabled_rules", count: enabled_flags_count, default: "#{enabled_flags_count} enabled")
+    .ai-agent-card-detail
+      dt
+        = image_tag("translate.svg", alt: "", aria: { hidden: true })
+        span = t("dashboard.custom_fields.index.locales_label", default: "Translations")
+      dd = locales_count.positive? ? t("dashboard.custom_fields.index.locales_count", count: locales_count, default: "#{locales_count} locales") : t("general.none", default: "None")
+
+  .ai-agent-card-footer
+    .ai-agent-card-language
+      = image_tag("clock.svg", alt: "", aria: { hidden: true })
+      span = t("ui.dashboard.custom_fields.index.created_ago", date: time_ago_in_words(field.created_at))
+    - if field.required?
+      span.ui-badge style="background: #fee2e2; color: #991b1b;"
+        span = t("dashboard.contact_form_channels.form.required_label")

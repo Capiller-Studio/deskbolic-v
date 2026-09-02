@@ -1,7 +1,9 @@
+/ Custom Field form — used for both new and edit.
+/ Reuses the Assignment Policy (ap-) form classes and shared settings editor layout.
 = form_with model: custom_field,
   local: true,
   id: "custom-field-form",
-  class: "settings-form form-fields ui-settings-form",
+  class: "ui-settings-form",
   data: { controller: "custom-field-form" } do |f|
   - if custom_field.errors.any?
     .ui-error-summary
@@ -10,65 +12,71 @@
         - custom_field.errors.full_messages.each do |message|
           li = message
 
-  .ui-section.ui-section--always-open
-    .ui-section-header
-      .ui-section-title
-        span.ui-section-icon ⚙️
-        span.ui-section-label = t("ui.dashboard.csat_surveys.form.basic_configuration")
-    .ui-section-body
-      .ui-form-row
+  .ap-section.cf-overflow-card
+    .ap-section-header
+      span.ap-section-icon
+        = image_tag("document.svg", class: "ap-document-icon", alt: "")
+      span = t("dashboard.custom_fields.form.details_section", default: "Field Details")
+    .ap-section-body.ap-policy-details-body
+      .ap-policy-details-grid
         div
-          = f.label :key, t("forms.labels.field_key"), class: "ui-label"
-          = f.text_field :key, class: "ui-input", placeholder: t("ui.dashboard.custom_fields.form.e_g_company_size"), disabled: custom_field.persisted?
-          p.f-reg-12.text-muted style="margin-top: 4px;" The unique identifier for this field.
-        
-        .ui-field-group
-          = f.label :entity_type, t("forms.labels.record_type"), class: "ui-label"
-          .ui-field-control.ui-field-control--plain.ui-field-control--no-icon
+          label.f-semi-13.ap-label for="custom_field_key"
+            = t("forms.labels.field_key")
+            span.ap-required-marker *
+          .ui-field-control.ui-field-control--plain class=("ui-field-control--invalid" if custom_field.errors[:key].any?)
+            = f.text_field :key, class: "ap-input ui-control ui-input", placeholder: t("ui.dashboard.custom_fields.form.e_g_company_size"), id: "custom_field_key", autocomplete: "off", required: true, disabled: custom_field.persisted?
+          p.ap-hint = t("dashboard.custom_fields.form.key_hint", default: "Unique identifier used in automations and mappings (lowercase letters, numbers and underscores).")
+        div
+          label.f-semi-13.ap-label for="custom_field_entity_type" = t("forms.labels.record_type")
+          .ui-field-control.ui-field-control--plain class=("ui-field-control--invalid" if custom_field.errors[:entity_type].any?)
             = f.select :entity_type,
               CustomField.entity_types.keys.map { |key| [key.titleize, key] },
               {},
               class: "ui-select ui-control",
+              id: "custom_field_entity_type",
               disabled: custom_field.persisted?,
               data: { controller: "select", "custom-field-form-target": "entityType", action: "change->custom-field-form#filterMappings" }
+          p.ap-hint = t("dashboard.custom_fields.form.record_type_hint", default: "Choose whether this field stores customer or conversation data.")
 
-      .ui-form-row style="margin-top: 16px;"
-        .ui-field-group
-          = f.label :field_type, t("forms.labels.input_type"), class: "ui-label"
-          .ui-field-control.ui-field-control--plain.ui-field-control--no-icon
+      .ap-policy-details-grid.cf-details-row
+        div
+          label.f-semi-13.ap-label for="custom_field_field_type_select" = t("forms.labels.input_type")
+          .ui-field-control.ui-field-control--plain class=("ui-field-control--invalid" if custom_field.errors[:field_type].any?)
             = f.select :field_type,
               CustomField.field_types.keys.map { |key| [key.titleize, key] },
               {},
               class: "ui-select ui-control",
               id: "custom_field_field_type_select",
-              data: { controller: "select", action: "change->custom-field-options#checkFieldType" },
-              disabled: custom_field.persisted?
-        .ui-field-group
-          = f.label :mapped_to, t("forms.labels.resource_mapping"), class: "ui-label"
-          .ui-field-control.ui-field-control--plain.ui-field-control--no-icon
+              disabled: custom_field.persisted?,
+              data: { controller: "select", action: "change->custom-field-options#checkFieldType" }
+          p.ap-hint = t("dashboard.custom_fields.form.input_type_hint", default: "Controls how this field is rendered and validated.")
+        div
+          label.f-semi-13.ap-label for="custom_field_mapped_to" = t("forms.labels.resource_mapping")
+          .ui-field-control.ui-field-control--plain
             = f.select :mapped_to,
               CustomField::MAPPING_TARGETS.map { |target| [target, target] },
               { include_blank: t("forms.options.not_mapped") },
               class: "ui-select ui-control",
+              id: "custom_field_mapped_to",
               disabled: custom_field.persisted?,
               data: { controller: "select", "custom-field-form-target": "mappedTo" }
-          p.f-reg-12.text-muted style="margin-top: 4px;" Map this field's value to a core Deskbolic attribute.
+          p.ap-hint = t("dashboard.custom_fields.form.mapping_hint", default: "Optionally map this field's value to a core Deskbolic attribute.")
 
-      .ui-form-row style="margin-top: 16px;"
+      .ap-policy-details-grid.cf-details-row
         div
-          = f.label :default_value, t("forms.labels.default_value"), class: "ui-label"
-          = f.text_field :default_value, class: "ui-input", placeholder: t("dashboard.custom_fields.form.default_value_placeholder")
+          label.f-semi-13.ap-label for="custom_field_default_value" = t("forms.labels.default_value")
+          = f.text_field :default_value, class: "ap-input", placeholder: t("dashboard.custom_fields.form.default_value_placeholder"), id: "custom_field_default_value", autocomplete: "off"
         div
 
-  .ui-section.ui-section--always-open
-    .ui-section-header
-      .ui-section-title
-        span.ui-section-icon 🌐
-        span.ui-section-label = t("ui.dashboard.csat_surveys.form.localized_content")
-    .ui-section-body
+  .ap-section.cf-overflow-card
+    .ap-section-header
+      span.ap-section-icon
+        = inline_svg_tag("language.svg", class: "ap-icon-svg", alt: "")
+      span = t("dashboard.custom_fields.form.localized_content_section", default: "Localized Content")
+    .ap-section-body
       div data-controller="nested-translations"
-        p.text-muted style="margin-bottom: 16px; font-size: 13px;" Provide localized strings for your custom field. These will override the default locale based on the customer's browser.
-        
+        p.ap-hint.ap-card-hint = t("dashboard.custom_fields.form.localized_content_hint", default: "Provide localized strings for your custom field. These override the default locale based on the customer's browser.")
+
         .cf-translations-container data-nested-translations-target="container"
           = f.fields_for :translations do |tf|
             = render "dashboard/custom_fields/translation_fields", f: tf
@@ -76,70 +84,61 @@
         template data-nested-translations-target="template"
           = f.fields_for :translations, CustomFieldTranslation.new, child_index: 'NEW_RECORD' do |tf|
             = render "dashboard/custom_fields/translation_fields", f: tf
-        
+
         - current_locales = custom_field.translations.reject(&:marked_for_destruction?).map(&:locale).map(&:to_s)
         - available_locales = Core::SUPPORTED_LOCALES.map(&:to_s) - current_locales
         - available_locales_options = available_locales.map { |l| [I18n.t("languages.#{l.downcase}"), l] }
-        
-        .cf-add-locale-wrapper style="margin-top: 16px; display: flex; gap: 8px; align-items: center;"
-          .ui-field-control.ui-field-control--plain.ui-field-control--no-icon style="width: 200px;"
+
+        .cf-add-locale-wrapper
+          .ui-field-control.ui-field-control--plain.cf-locale-select
             = select_tag "new_locale",
               options_for_select(available_locales_options),
               include_blank: t("forms.options.select_language"),
               class: "ui-select ui-control",
               data: { controller: "select", "nested-translations-target": "localeSelect" }
-          button.ui-btn-secondary type="button" data-action="click->nested-translations#addTranslation" style="display: inline-flex; align-items: center; gap: 6px;" 
+          button.ui-btn-secondary type="button" data-action="click->nested-translations#addTranslation"
             span +
             | #{t("ui.dashboard.channels.contact_form.form.add_language")}
 
-  .ui-section.ui-section--always-open
-    .ui-section-header
-      .ui-section-title
-        span.ui-section-icon 🛡️
-        span.ui-section-label = t("ui.dashboard.custom_fields.form.validations_rules")
-    .ui-section-body
-      .ui-toggle-row style="margin-bottom: 12px; display: flex; gap: 24px; flex-wrap: wrap;"
-        div style="display: flex; align-items: center; gap: 8px;"
-          span.ui-toggle-label = t("ui.dashboard.custom_fields.form.field_is_required")
-          label.ui-toggle
-            = f.check_box :required
-            span.ui-toggle-slider
-            
-        div style="display: flex; align-items: center; gap: 8px;"
-          span.ui-toggle-label = t("ui.dashboard.custom_fields.form.searchable")
-          label.ui-toggle
-            = f.check_box :searchable
-            span.ui-toggle-slider
+  .ap-section
+    .ap-section-header
+      span.ap-section-icon
+        = inline_svg_tag("setting_fill.svg", class: "ap-icon-svg", alt: "")
+      span = t("dashboard.custom_fields.form.validations_rules")
+    .ap-section-body.ap-options-section-body
+      - flag_rows = [{ field: :required, id: "custom-field-required", icon: "flag.svg", title: t("ui.dashboard.custom_fields.form.field_is_required"), description: t("dashboard.custom_fields.form.required_desc", default: "Customers must fill in this field before submitting.") }, { field: :searchable, id: "custom-field-searchable", icon: "search_gray.svg", title: t("ui.dashboard.custom_fields.form.searchable"), description: t("dashboard.custom_fields.form.searchable_desc", default: "Include this field's values in full-text search.") }, { field: :is_readonly, id: "custom-field-readonly", icon: "lock_orange.svg", title: t("ui.dashboard.custom_fields.form.read_only_agents_cannot_edit"), description: t("dashboard.custom_fields.form.readonly_desc", default: "Displayed to agents but cannot be edited in the UI.") }, { field: :hidden, id: "custom-field-hidden", icon: "password_hide.svg", title: t("ui.dashboard.custom_fields.form.hidden_from_ui"), description: t("dashboard.custom_fields.form.hidden_desc", default: "Stored for data purposes but not rendered in standard UIs.") }]
+      .ap-options-grid
+        - flag_rows.each do |flag|
+          .ap-option-row
+            .ap-option-copy
+              span.ap-option-icon
+                = inline_svg_tag(flag[:icon], class: "ap-icon-svg", alt: "")
+              span.ap-option-text
+                strong.f-semi-13 = flag[:title]
+                small.f-reg-12 = flag[:description]
+            label.hc-toggle.ap-switch for=flag[:id]
+              = f.check_box flag[:field], id: flag[:id]
+              span.hc-toggle-slider
 
-        div style="display: flex; align-items: center; gap: 8px;"
-          span.ui-toggle-label = t("ui.dashboard.custom_fields.form.read_only_agents_cannot_edit")
-          label.ui-toggle
-            = f.check_box :is_readonly
-            span.ui-toggle-slider
-
-        div style="display: flex; align-items: center; gap: 8px;"
-          span.ui-toggle-label = t("ui.dashboard.custom_fields.form.hidden_from_ui")
-          label.ui-toggle
-            = f.check_box :hidden
-            span.ui-toggle-slider
-
-      .ui-form-row style="margin-top: 16px;" data-controller="custom-field-validations"
+    .ap-conditional-field data-controller="custom-field-validations"
+      .ap-policy-details-grid
         div data-custom-field-validations-target="textGroup"
-          = f.label :validations_min_length, t("forms.labels.min_length"), class: "ui-label"
-          = text_field_tag "custom_field[validations][min_length]", custom_field.validations["min_length"], class: "ui-input", type: "number"
-        
-        div data-custom-field-validations-target="textGroup"
-          = f.label :validations_max_length, t("forms.labels.max_length"), class: "ui-label"
-          = text_field_tag "custom_field[validations][max_length]", custom_field.validations["max_length"], class: "ui-input", type: "number"
+          label.f-semi-13.ap-label for="custom_field_validations_min_length" = t("forms.labels.min_length")
+          = text_field_tag "custom_field[validations][min_length]", custom_field.validations["min_length"], class: "ap-input", type: "number", id: "custom_field_validations_min_length"
 
         div data-custom-field-validations-target="textGroup"
-          = f.label :validations_pattern, t("forms.labels.regex_pattern"), class: "ui-label"
-          = text_field_tag "custom_field[validations][pattern]", custom_field.validations["pattern"], class: "ui-input", placeholder: t("dashboard.custom_fields.form.validations_pattern_placeholder")
+          label.f-semi-13.ap-label for="custom_field_validations_max_length" = t("forms.labels.max_length")
+          = text_field_tag "custom_field[validations][max_length]", custom_field.validations["max_length"], class: "ap-input", type: "number", id: "custom_field_validations_max_length"
+
+        div data-custom-field-validations-target="textGroup"
+          label.f-semi-13.ap-label for="custom_field_validations_pattern" = t("forms.labels.regex_pattern")
+          = text_field_tag "custom_field[validations][pattern]", custom_field.validations["pattern"], class: "ap-input", placeholder: t("dashboard.custom_fields.form.validations_pattern_placeholder"), id: "custom_field_validations_pattern"
 
         div data-custom-field-validations-target="numberGroup" style="display: none;"
-          = f.label :validations_min_value, t("forms.labels.min_value"), class: "ui-label"
-          = text_field_tag "custom_field[validations][min_value]", custom_field.validations["min_value"], class: "ui-input", type: "number"
-        
+          label.f-semi-13.ap-label for="custom_field_validations_min_value" = t("forms.labels.min_value")
+          = text_field_tag "custom_field[validations][min_value]", custom_field.validations["min_value"], class: "ap-input", type: "number", id: "custom_field_validations_min_value"
+
         div data-custom-field-validations-target="numberGroup" style="display: none;"
-          = f.label :validations_max_value, t("forms.labels.max_value"), class: "ui-label"
-          = text_field_tag "custom_field[validations][max_value]", custom_field.validations["max_value"], class: "ui-input", type: "number"
+          label.f-semi-13.ap-label for="custom_field_validations_max_value" = t("forms.labels.max_value")
+          = text_field_tag "custom_field[validations][max_value]", custom_field.validations["max_value"], class: "ap-input", type: "number", id: "custom_field_validations_max_value"
+

@@ -23,5 +23,10 @@ export default class extends Controller {
 
     this.textGroupTargets.forEach(el => el.style.display = hasTextValidations ? 'block' : 'none')
     this.numberGroupTargets.forEach(el => el.style.display = hasNumberValidations ? 'block' : 'none')
+
+    // Hide the whole conditional block when the selected type has no validations
+    if (this.element) {
+      this.element.style.display = (hasTextValidations || hasNumberValidations) ? '' : 'none'
+    }
   }
 }

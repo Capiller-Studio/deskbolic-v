@@ -1,5 +1,6 @@
 - description_length = identity_source.description.to_s.length
 - response_mapping = identity_source.response_mapping || {}
+- attribute_options = %w[first_name middle_name last_name name identifier external_id administration_url]
 
 = form_with(model: identity_source, id: "identity-source-form", class: "ui-settings-form", data: { controller: "assignment-policy" }) do |f|
   - if identity_source.errors.any?
@@ -41,7 +42,8 @@
         div
           label.f-semi-13.ap-label for="identity-source-source-type"
             = t("dashboard.identity_sources.form.source_type")
-          = f.select :source_type, IdentitySource.source_types.keys.map { |k| [k.titleize, k] }, { include_blank: t("dashboard.identity_sources.form.select_placeholder", default: "Select") }, class: "ap-select", id: "identity-source-source-type"
+          .ui-field-control.ui-field-control--plain
+            = f.select :source_type, IdentitySource.source_types.keys.map { |k| [k.titleize, k] }, { include_blank: t("dashboard.identity_sources.form.select_placeholder", default: "Select") }, class: "ui-select ui-control", id: "identity-source-source-type", data: { controller: "select" }
         div
           label.f-semi-13.ap-label for="identity-source-source-url"
             = t("dashboard.identity_sources.form.source_url")
@@ -83,7 +85,7 @@
         value_list: nil,
         show_variables: true)
 
-  .ap-section data-key-value-builder-section=true
+  .ap-section.is-overflow-card data-key-value-builder-section=true
     .is-section-header-row
       .ap-section-header
         span.ap-section-icon
@@ -94,15 +96,6 @@
         span = t("dashboard.identity_sources.form.add_mapping")
     .ap-section-body
       p.ap-hint.ap-card-hint = t("dashboard.identity_sources.form.response_mapping_desc")
-      datalist id="deskbolic-identity-attributes"
-        option value="first_name"
-        option value="middle_name"
-        option value="last_name"
-        option value="name"
-        option value="identifier"
-        option value="external_id"
-        option value="administration_url"
-
       .is-kv-table class=("is-kv-table--hidden" unless response_mapping.any?)
         .is-kv-table-header
           span = t("dashboard.identity_sources.form.key_column", default: "Key")
@@ -112,8 +105,9 @@
           - if response_mapping.any?
             - response_mapping.each_with_index do |(k, v), index|
               .is-kv-row
-                = text_field_tag "identity_source[response_mapping][#{index}][key]", k, class: "ap-input", placeholder: t("dashboard.identity_sources.form.json_path_placeholder")
-                = text_field_tag "identity_source[response_mapping][#{index}][value]", v, list: "deskbolic-identity-attributes", class: "ap-input", placeholder: t("dashboard.identity_sources.form.attribute_placeholder"), data: { "key-value-builder-target": "valueInput", "action": "focus->key-value-builder#setFocus" }
+                = text_field_tag "identity_source[response_mapping][#{index}][key]", k, class: "ap-input", placeholder: t("dashboard.identity_sources.form.json_path_placeholder"), data: { "key-value-builder-target": "valueInput", "action": "focus->key-value-builder#setFocus" }
+                .ui-field-control.ui-field-control--plain.ui-field-control--compact
+                  = select_tag "identity_source[response_mapping][#{index}][value]", options_for_select((attribute_options | [v].compact.reject(&:blank?)), v), include_blank: t("dashboard.identity_sources.form.select_placeholder", default: "Select"), class: "ui-select ui-control", data: { controller: "select" }
                 .is-kv-row-actions
                   button.is-kv-remove-btn type="button" data-action="click->key-value-builder#removeRow" aria-label=t("dashboard.identity_sources.form.remove_row", default: "Remove row") &times;
 
@@ -124,8 +118,9 @@
 
       template data-key-value-builder-target="template"
         .is-kv-row
-          = text_field_tag "identity_source[response_mapping][NEW_RECORD][key]", nil, class: "ap-input", placeholder: t("dashboard.identity_sources.form.json_path_placeholder")
-          = text_field_tag "identity_source[response_mapping][NEW_RECORD][value]", nil, list: "deskbolic-identity-attributes", class: "ap-input", placeholder: t("dashboard.identity_sources.form.attribute_placeholder"), data: { "key-value-builder-target": "valueInput", "action": "focus->key-value-builder#setFocus" }
+          = text_field_tag "identity_source[response_mapping][NEW_RECORD][key]", nil, class: "ap-input", placeholder: t("dashboard.identity_sources.form.json_path_placeholder"), data: { "key-value-builder-target": "valueInput", "action": "focus->key-value-builder#setFocus" }
+          .ui-field-control.ui-field-control--plain.ui-field-control--compact
+            = select_tag "identity_source[response_mapping][NEW_RECORD][value]", options_for_select(attribute_options), include_blank: t("dashboard.identity_sources.form.select_placeholder", default: "Select"), class: "ui-select ui-control", data: { controller: "select" }
           .is-kv-row-actions
             button.is-kv-remove-btn type="button" data-action="click->key-value-builder#removeRow" aria-label=t("dashboard.identity_sources.form.remove_row", default: "Remove row") &times;
 

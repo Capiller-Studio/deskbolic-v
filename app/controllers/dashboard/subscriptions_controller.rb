@@ -22,10 +22,10 @@ module Dashboard
           billing_cycle: billing_cycle.to_sym
         )
         flash[:notice] = I18n.t("dashboard.billing.subscription_created", default: "Subscription successfully created!")
-        redirect_to(root_path)
+        redirect_to(root_path, status: :see_other)
       rescue StandardError => e
         flash[:alert] = I18n.t("dashboard.billing.creation_failed", error: e.message, default: "Failed to create subscription: %{error}")
-        redirect_to(new_subscription_path)
+        redirect_to(new_subscription_path, status: :see_other)
       end
     end
 
@@ -48,13 +48,13 @@ module Dashboard
         flash[:notice] = I18n.t("dashboard.billing.seats_updated", quantity: params[:quantity], default: "Subscription seats updated to %{quantity}.")
       end
 
-      redirect_to(dashboard_billing_path)
+      redirect_to(dashboard_billing_path, status: :see_other)
     rescue ActiveRecord::RecordInvalid => e
       flash[:alert] = I18n.t("dashboard.billing.update_failed", error: e.record.errors.full_messages.join(", "), default: "Failed to update subscription: %{error}")
-      redirect_to(dashboard_billing_path)
+      redirect_to(dashboard_billing_path, status: :see_other)
     rescue StandardError => e
       flash[:alert] = I18n.t("dashboard.billing.update_failed", error: e.message, default: "Failed to update subscription: %{error}")
-      redirect_to(dashboard_billing_path)
+      redirect_to(dashboard_billing_path, status: :see_other)
     end
 
     def cancel
@@ -63,10 +63,10 @@ module Dashboard
       Billing::SubscriptionCanceller.call(subscription: sub, immediate: false)
       flash[:notice] = I18n.t("dashboard.billing.subscription_cancelled", default: "Subscription has been cancelled and will end at the current billing cycle.")
 
-      redirect_to(dashboard_billing_path)
+      redirect_to(dashboard_billing_path, status: :see_other)
     rescue StandardError => e
       flash[:alert] = I18n.t("dashboard.billing.cancel_failed_error", error: e.message, default: "Failed to cancel subscription: %{error}")
-      redirect_to(dashboard_billing_path)
+      redirect_to(dashboard_billing_path, status: :see_other)
     end
 
     def resume
@@ -78,7 +78,7 @@ module Dashboard
         flash[:alert] = I18n.t("dashboard.billing.resume_failed", default: "Failed to resume subscription.")
       end
 
-      redirect_to(dashboard_billing_path)
+      redirect_to(dashboard_billing_path, status: :see_other)
     end
 
     private

@@ -3,7 +3,12 @@
   margin: 0;
   box-sizing: border-box;
   text-decoration: none;
+}
+html, body {
   font-family: $font-family-secondary;
+}
+button, input, select, textarea {
+  font-family: inherit;
 }
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
   display: block;

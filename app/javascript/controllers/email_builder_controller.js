@@ -55,17 +55,27 @@ export default class extends Controller {
     "settingsPanel",
     "subjectInput",
     "subjectModal",
+    "sidebar",
+    "sidebarToggle",
+    "sidebarBackdrop",
   ]
 
   connect() {
     this.isDirty = false
     this.initEditor()
     this._closeMenusBound = this._closeMenusOnOutsideClick.bind(this)
+    this._responsiveKeydownBound = this._handleResponsiveKeydown.bind(this)
+    this._responsiveResizeBound = this._handleResponsiveResize.bind(this)
     document.addEventListener("click", this._closeMenusBound)
+    document.addEventListener("keydown", this._responsiveKeydownBound)
+    window.addEventListener("resize", this._responsiveResizeBound)
+    this._syncSidebarAccessibility()
   }
 
   disconnect() {
     document.removeEventListener("click", this._closeMenusBound)
+    document.removeEventListener("keydown", this._responsiveKeydownBound)
+    window.removeEventListener("resize", this._responsiveResizeBound)
     if (this.editor) {
       this.editor.destroy()
       this.editor = null
@@ -536,6 +546,61 @@ export default class extends Controller {
     })
   }
 
+  // ─── Responsive Sidebar ─────────────────────────────────────────────
+
+  toggleSidebar(event) {
+    event?.preventDefault()
+    if (!this.hasSidebarTarget) return
+
+    const open = this.sidebarTarget.classList.toggle("eb-sidebar--open")
+    this.element.classList.toggle("eb-sidebar-drawer-open", open)
+    this._syncSidebarAccessibility()
+  }
+
+  closeSidebar(event) {
+    event?.preventDefault?.()
+    if (!this.hasSidebarTarget) return
+
+    const wasOpen = this.sidebarTarget.classList.contains("eb-sidebar--open")
+    this.sidebarTarget.classList.remove("eb-sidebar--open")
+    this.element.classList.remove("eb-sidebar-drawer-open")
+
+    if (wasOpen && event?.type !== "resize" && this.hasSidebarToggleTarget) {
+      this.sidebarToggleTarget.focus()
+    }
+
+    this._syncSidebarAccessibility()
+  }
+
+  _handleResponsiveKeydown(event) {
+    if (event.key === "Escape" && this.sidebarTarget?.classList.contains("eb-sidebar--open")) {
+      this.closeSidebar(event)
+    }
+  }
+
+  _handleResponsiveResize() {
+    if (!this._isSidebarDrawerViewport()) {
+      this.closeSidebar({ type: "resize" })
+    } else {
+      this._syncSidebarAccessibility()
+    }
+  }
+
+  _isSidebarDrawerViewport() {
+    return window.matchMedia("(max-width: 1024px)").matches
+  }
+
+  _syncSidebarAccessibility() {
+    if (!this.hasSidebarTarget || !this.hasSidebarToggleTarget) return
+
+    const drawerViewport = this._isSidebarDrawerViewport()
+    const open = this.sidebarTarget.classList.contains("eb-sidebar--open")
+
+    this.sidebarToggleTarget.setAttribute("aria-expanded", String(drawerViewport && open))
+    this.sidebarTarget.setAttribute("aria-hidden", String(drawerViewport && !open))
+    this.sidebarTarget.toggleAttribute("inert", drawerViewport && !open)
+  }
+
   // ─── Copy Locale ────────────────────────────────────────────────────
 
   toggleCopyMenu(event) {
@@ -653,6 +718,20 @@ export default class extends Controller {
   bindEditorEvents() {
     this.editor.on("change:changesCount", () => {
       this.isDirty = true
+    })
+
+    this.editor.on("block:drag:start", () => {
+      if (!this._isSidebarDrawerViewport()) return
+
+      this.element.classList.add("eb-sidebar-block-dragging")
+    })
+
+    this.editor.on("block:drag:stop", (component) => {
+      this.element.classList.remove("eb-sidebar-block-dragging")
+
+      if (component && this._isSidebarDrawerViewport() && this.hasSidebarTarget) {
+        requestAnimationFrame(() => this.closeSidebar({ type: "dragend" }))
+      }
     })
 
     // Override RTE alignment to modify the mj-text component directly, since MJML strips inline text-align.

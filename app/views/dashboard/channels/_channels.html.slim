@@ -142,6 +142,8 @@
               = inline_svg_tag("logout.svg", class: "menu-icon", alt: "", aria: { hidden: true })
               span = t("ui.dashboard.shared.dashboard_container.sign_out")
 
+    button.dashboard-sidebar-backdrop type="button" tabindex="-1" aria-label=t('ui.dashboard.agent.agent_sidebar.menu') data-action="click->toggler#closeSidebar" data-toggler-target="sidebarBackdrop"
+
     .helpdesk-body
       turbo-frame#conversations-frame
         == yield

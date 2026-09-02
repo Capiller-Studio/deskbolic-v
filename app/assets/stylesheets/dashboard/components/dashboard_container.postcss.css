@@ -284,25 +284,83 @@
 
 .admin-flash-container {
   @mixin flex-row $justify-center, $align-center;
-  padding: 12px 20px;
+  min-width: min(320px, calc(100% - 32px));
+  min-height: 52px;
+  padding: 14px 20px;
   width: fit-content;
+  max-width: min(640px, calc(100% - 32px));
+  margin: 0 auto;
   position: fixed;
   top: 20px;
   right: 0;
   left: 0;
-  z-index: 1;
-  @mixin border-radius 0.5;
-  animation: fadeOut 0s 4s forwards;
+  z-index: 1100;
+  border: 1px solid transparent;
+  border-inline-start-width: 4px;
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.16), 0 2px 8px rgba(15, 23, 42, 0.08);
+  animation: flashSlideIn 180ms ease-out, fadeOut 200ms ease-in 4s forwards;
   opacity: 1;
+  pointer-events: none;
   .message {
     font-size: 14px;
+    line-height: 20px;
+    font-weight: 600;
     @mixin letter-spacing 0.01;
-    text-transform: capitalize;
+    text-align: center;
     font-family: $font-family-inter-regular;
-  } 
+  }
 }
+
+.admin-flash-container.alert-blue {
+  color: #1E40AF;
+  background-color: #EFF6FF;
+  border-color: #BFDBFE;
+  border-inline-start-color: #3B82F6;
+}
+
+.admin-flash-container.alert-green {
+  color: #065F46;
+  background-color: #ECFDF5;
+  border-color: #A7F3D0;
+  border-inline-start-color: #10B981;
+}
+
+.admin-flash-container.alert-yellow {
+  color: #92400E;
+  background-color: #FFFBEB;
+  border-color: #FDE68A;
+  border-inline-start-color: #F59E0B;
+}
+
+.admin-flash-container.alert-red {
+  color: #991B1B;
+  background-color: #FEF2F2;
+  border-color: #FECACA;
+  border-inline-start-color: #EF4444;
+}
+
+@keyframes flashSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @keyframes fadeOut {
   to {
     opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .admin-flash-container {
+    animation: fadeOut 0s 4s forwards;
   }
 }

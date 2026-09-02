@@ -1,6 +1,6 @@
 / = render("dashboard/shared/dashboard_container", current_page: "identity-sources") do
 = render("dashboard/settings/settings_sidebar", current_page: "identity-sources") do
-  .ui-settings-page
+  .ui-settings-page.ui-settings-page--identity-sources
     header.ui-settings-page__header
       .ui-settings-page__heading
         h1 = t("dashboard.identity_sources.index.title")

@@ -1019,7 +1019,11 @@ html[lang="ar"] .roles-matrix-resource > .roles-icon {
   .roles-page-header,
   .roles-editor-header { align-items: flex-start; flex-direction: column; }
   .roles-page-header .roles-primary-button,
-  .roles-editor-header .roles-primary-button { width: 100%; }
+  .roles-editor-header .roles-primary-button {
+    width: 100%;
+    min-height: 40px;
+    padding: 8px 16px;
+  }
   .roles-page-body { padding-top: 24px; }
   .roles-stats { grid-template-columns: 1fr; }
   .roles-stat-card { min-height: 104px; }
@@ -1033,4 +1037,22 @@ html[lang="ar"] .roles-matrix-resource > .roles-icon {
   .roles-editor-sidebar { display: flex; }
   .roles-card-footer { align-items: flex-start; flex-direction: column; }
   .roles-card-updated { align-items: flex-start; }
+}
+
+@media (max-width: 600px) {
+  .roles-page,
+  .roles-editor-page {
+    height: 100%;
+    min-height: 0;
+    overscroll-behavior-y: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .roles-page-body {
+    padding-bottom: calc(120px + env(safe-area-inset-bottom));
+  }
+
+  .roles-editor-content {
+    padding-bottom: calc(117px + env(safe-area-inset-bottom));
+  }
 }

@@ -1153,33 +1153,105 @@ html[lang="ar"] .tm-member-card-menu {
   }
 }
 @media (max-width: 600px) {
+  .settings-body--users .tm-users,
+  .settings-body--users .tm-invite {
+    height: 100%;
+    min-height: 0;
+    overscroll-behavior-y: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .settings-body--users .tm-invite-form {
+    min-height: calc(100% - 90px);
+    padding-bottom: calc(92px + env(safe-area-inset-bottom));
+  }
+
+  .settings-body--users .tm-invite-actions {
+    display: grid;
+    min-height: 72px;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+    gap: 12px;
+    padding: 16px;
+    background: #fff;
+  }
+
+  .settings-body--users .tm-invite-actions .tm-button {
+    width: 100%;
+    min-width: 0;
+    height: 40px;
+    flex: none;
+    padding: 0 12px;
+    font-size: 14px;
+    line-height: 20px;
+    white-space: nowrap;
+  }
+
+  .settings-body--users .tm-invite-actions .tm-button-primary {
+    min-width: 0;
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .settings-body--users .tm-invite-actions .tm-button svg {
+    width: 14px;
+    height: 14px;
+    flex: 0 0 14px;
+  }
+
+  .settings-body--users .tm-users-body {
+    padding-bottom: calc(112px + env(safe-area-inset-bottom));
+  }
+
+  .tm-users.tm-teams {
+    height: 100%;
+    min-height: 0;
+    overscroll-behavior-y: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
   .tm-users-header {
     align-items: flex-start;
+    flex-direction: column;
+    gap: 16px;
     padding: 22px;
   }
   .tm-users-header p {
     font-size: 14px;
   }
   .tm-users-header-actions {
+    width: 100%;
     gap: 8px;
+  }
+  .tm-users-header-actions > form {
+    min-width: 0;
+    flex: 1 1 0;
+  }
+  .tm-users-header-actions > form .tm-users-nav-button,
+  .tm-users-header-actions > form .tm-users-invite {
+    width: 100%;
   }
   .tm-users-header-actions .tm-users-nav-button,
   .tm-users-header-actions .tm-users-invite {
-    width: 42px;
-    height: 42px;
+    width: auto;
+    min-width: 0;
+    height: 40px;
+    flex: 1 1 0;
     justify-content: center;
-    padding: 0;
+    padding: 8px 12px;
   }
   .tm-users-header-actions .tm-users-nav-button span,
   .tm-users-header-actions .tm-users-invite span {
-    display: none;
+    display: inline;
   }
   .tm-users-invite svg {
-    width: 20px;
-    height: 20px;
+    width: 14px;
+    height: 14px;
   }
   .tm-users-body {
     padding: 24px 16px 40px;
+  }
+  .tm-teams .tm-users-body {
+    padding-bottom: calc(112px + env(safe-area-inset-bottom));
   }
   .tm-users-filters {
     grid-template-columns: 1fr;

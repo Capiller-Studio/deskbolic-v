@@ -4,7 +4,11 @@
 - recent_conversations = customer ? customer.conversations.where.not(id: @conversation.id).order(created_at: :desc).limit(5) : []
 - status_label = @conversation.active? ? t('dashboard.conversation_details.open', default: 'Open') : t("enums.conversation.status.#{@conversation.status}", default: @conversation.status.humanize)
 
-aside.details-section.conversation-inspector id="conversation-details-#{@conversation.id}" data-controller="accordion"
+aside.details-section.conversation-inspector id="conversation-details-#{@conversation.id}" aria-labelledby="conversation-details-title-#{@conversation.id}" data-controller="accordion" data-conversation-inspector-target="panel"
+  header.inspector-drawer-header
+    h2 id="conversation-details-title-#{@conversation.id}" = t('dashboard.conversation_details.title', default: 'Details')
+    button.inspector-drawer-close type="button" aria-label=t('dashboard.conversation_details.hide_details', default: 'Hide conversation details') data-action="click->conversation-inspector#close" data-conversation-inspector-target="close"
+      = inline_svg_tag('arrow_left.svg', aria: { hidden: true })
   .inspector-scroll
     section.inspector-section.inspector-assignment
       .inspector-section-heading

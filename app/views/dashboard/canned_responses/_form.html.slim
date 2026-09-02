@@ -1,19 +1,22 @@
-= turbo_frame_tag "response_#{response.id}" do
-  .macro-container
+= turbo_frame_tag "response_#{response.id}", class: "canned-response-frame" do
+  article.ui-panel.canned-response-card.canned-response-card--editing
     .macro-form-section data-controller="accordion"
       = form_with(model: response, url: canned_response_path(response), method: :patch, data: { turbo_frame: "response_#{response.id}" }) do |f|
         .form-fields
-          .form-floating
-            = f.text_field :name, autofocus: true, class: "form-control rounded-3 f-reg-14 title-field", placeholder: t("dashboard.canned_responses.form.title_placeholder"), required: true
-          .tags-list
+          .canned-response-field
+            = f.label :name, t("dashboard.canned_responses.form.title_placeholder"), class: "ui-label"
+            = f.text_field :name, autofocus: true, class: "ui-input", placeholder: t("dashboard.canned_responses.form.title_placeholder"), required: true
+          .canned-response-tags
             - tags = [ { name: 'customer_name', value: '{{ customer.name }}' }, { name: 'customer_email', value: '{{ customer.email }}' }, { name: 'customer_first_name', value: '{{ customer.first_name }}' } ]
             - tags.each do |tag|
-              .tag data-value=tag[:value] data-action="click->accordion#addTag" 
+              button.tag type="button" data-value=tag[:value] data-action="click->accordion#addTag"
                 = tag[:name]
-          .form-floating
-            = f.text_area :description, class: "form-control f-reg-14 text-area-field", placeholder: t("dashboard.canned_responses.form.description_placeholder"), data: { accordion_target: "response" }, required: true
+          .canned-response-field
+            = f.label :description, t("dashboard.canned_responses.form.description_placeholder"), class: "ui-label"
+            = f.text_area :description, class: "ui-input canned-response-textarea", rows: 4, placeholder: t("dashboard.canned_responses.form.description_placeholder"), data: { accordion_target: "response" }, required: true
         .form-actions
-          = link_to(canned_response_path(response.id), class: "btn f-semi-14 btn-delete", data: { turbo_method: :delete, turbo_confirm: t("shared.confirm_delete") })
-            = inline_svg_tag("delete_red.svg", class: "del-icon")
-            = t("dashboard.canned_responses.form.delete")
-          = f.submit t("dashboard.canned_responses.form.update"), class: "btn f-semi-14 btn-update"
+          = link_to t("general.cancel"), canned_responses_settings_path, class: "ui-button", data: { turbo_frame: "_top" }
+          = link_to canned_response_path(response.id), class: "ui-button canned-response-delete", data: { turbo_method: :delete, turbo_confirm: t("shared.confirm_delete") } do
+            = inline_svg_tag("delete_red.svg", aria: { hidden: true })
+            span = t("dashboard.canned_responses.form.delete")
+          = f.submit t("dashboard.canned_responses.form.update"), class: "ui-button ui-button--primary"

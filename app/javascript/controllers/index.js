@@ -49,6 +49,9 @@ application.register("contact-form-channel", ContactFormChannelController)
 import ConversationsController from "./conversations_controller"
 application.register("conversations", ConversationsController)
 
+import ConversationInspectorController from "./conversation_inspector_controller"
+application.register("conversation-inspector", ConversationInspectorController)
+
 import CustomFieldBuilderController from "./custom_field_builder_controller"
 application.register("custom-field-builder", CustomFieldBuilderController)
 

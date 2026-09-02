@@ -852,50 +852,6 @@ html[lang="ar"] .settings-body .help-center-portal-body .hero-option > .option-c
       padding: 20px;
       border-bottom: 1px solid $black-5;
     }
-    .st-home-container {
-      padding: 30px 80px;
-      height: calc(100vh - 70px);
-      overflow-y: auto;
-      .st-home-section {
-        width: fit-content;
-        h3 {
-          margin-bottom: 15px;
-          font-size: 18px;
-          line-height: 28px;
-          font-family: $font-family-inter-regular;
-        }
-        .cards {
-          @mixin grid-container $col3, auto;
-          gap: 15px;
-          margin-bottom: 20px;
-          .card {
-            @mixin flex-row $justify-start, $align-center;
-            border: 1px solid $black-10;
-            border-radius: 12px;
-            padding: 15px;
-            cursor: pointer;
-            .card-icon {
-              width: 40px;
-              height: 40px;
-              margin-right: 10px;
-            }
-            .card-desc {
-              h4.f-semi-14 {
-                margin-bottom: 5px;
-                color: $black-80;
-              }
-              p.f-reg-12 {
-                color: $black-40;
-              }
-            }
-            
-            &:hover {
-              box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            }
-          }
-        }
-      }
-    }
     .macros-container {
       @mixin flex-row $justify-between, $align-start;
       padding: 20px;

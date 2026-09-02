@@ -1,13 +1,13 @@
-.eb-editor data-controller="email-builder" data-email-builder-update-url-value=email_template_path(@email_template, format: :json) data-email-builder-publish-url-value=publish_email_template_path(@email_template) data-email-builder-discard-url-value=discard_draft_email_template_path(@email_template) data-email-builder-preview-url-value=preview_email_template_path(@email_template) data-email-builder-send-test-url-value=send_test_email_template_path(@email_template) data-email-builder-upload-url-value=attachments_path(resource_type: 'EmailTemplate', resource_id: @email_template.id) data-email-builder-copy-locale-url-value=copy_locale_email_template_path(@email_template) data-email-builder-design-value=@draft_design.to_json data-email-builder-draft-body-value=@draft_body data-email-builder-variables-value=@template_variables.to_json data-email-builder-csrf-token-value=form_authenticity_token data-email-builder-has-unpublished-changes-value=@has_unpublished_changes data-email-builder-locale-value=@locale
+.ui-settings-editor.eb-editor.ui-email-template-builder data-controller="email-builder" data-email-builder-update-url-value=email_template_path(@email_template, format: :json) data-email-builder-publish-url-value=publish_email_template_path(@email_template) data-email-builder-discard-url-value=discard_draft_email_template_path(@email_template) data-email-builder-preview-url-value=preview_email_template_path(@email_template) data-email-builder-send-test-url-value=send_test_email_template_path(@email_template) data-email-builder-upload-url-value=attachments_path(resource_type: 'EmailTemplate', resource_id: @email_template.id) data-email-builder-copy-locale-url-value=copy_locale_email_template_path(@email_template) data-email-builder-design-value=@draft_design.to_json data-email-builder-draft-body-value=@draft_body data-email-builder-variables-value=@template_variables.to_json data-email-builder-csrf-token-value=form_authenticity_token data-email-builder-has-unpublished-changes-value=@has_unpublished_changes data-email-builder-locale-value=@locale
 
   /! ─── Top Toolbar ───
-  .eb-toolbar
-    = link_to email_templates_path, class: "eb-toolbar__back"
+  header.ui-settings-editor__header.eb-toolbar
+    = link_to email_templates_path, class: "ui-settings-editor__back eb-toolbar__back"
       svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
         polyline points="15 18 9 12 15 6"
 
-    .eb-toolbar__title
-      = @email_template.name.titleize
+    .ui-settings-editor__heading.eb-toolbar__title
+      h1 = @email_template.name.titleize
       - if @has_unpublished_changes
         span.eb-badge.eb-badge--draft#eb-draft-badge = t("dashboard.email_builder.draft")
 
@@ -19,12 +19,12 @@
     - addable_locales = available_locales - active_locales
 
     /! Locale Selector
-    .eb-toolbar__group
-      label.eb-toolbar__label = t("dashboard.email_builder.locale")
-      select.eb-toolbar__select data-action="change->email-builder#changeLocale"
-        - active_locales.each do |loc|
-          option value=loc selected=(@locale == loc)
-            = language_names[loc] || loc.upcase
+    .eb-toolbar__group.eb-toolbar__locale-group
+      .eb-toolbar__select-control.eb-toolbar__select-control--locale
+        select.eb-toolbar__select aria-label=t("dashboard.email_builder.locale") data-controller="select" data-action="change->email-builder#changeLocale"
+          - active_locales.each do |loc|
+            option value=loc selected=(@locale == loc)
+              = language_names[loc] || loc.upcase
             
       - if addable_locales.any?
         .eb-toolbar__add-locale
@@ -41,7 +41,7 @@
     - copyable_locales = active_locales - [@locale]
     - if copyable_locales.any?
       .eb-toolbar__copy-locale
-        button.eb-btn.eb-btn--ghost type="button" data-action="click->email-builder#toggleCopyMenu"
+        button.eb-btn.eb-btn--ghost.eb-toolbar__copy-button type="button" data-action="click->email-builder#toggleCopyMenu"
           svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
             rect x="9" y="9" width="13" height="13" rx="2" ry="2"
             path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
@@ -52,13 +52,13 @@
               = t("dashboard.email_builder.copy_from", from_locale: language_names[loc] || loc.upcase)
 
     /! Layout Selector
-    .eb-toolbar__group
-      label.eb-toolbar__label = t("dashboard.email_builder.layout")
-      select.eb-toolbar__select name="email_template[email_template_layout_id]" data-action="change->email-builder#changeLayout"
-        option value="" = t("dashboard.email_builder.no_layout")
-        - @layouts.each do |layout|
-          option value=layout.id selected=(@email_template.email_template_layout_id == layout.id)
-            = layout.name
+    .eb-toolbar__group.eb-toolbar__layout-group
+      .eb-toolbar__select-control
+        select.eb-toolbar__select aria-label=t("dashboard.email_builder.layout") name="email_template[email_template_layout_id]" data-controller="select" data-action="change->email-builder#changeLayout"
+          option value="" = t("dashboard.email_builder.no_layout")
+          - @layouts.each do |layout|
+            option value=layout.id selected=(@email_template.email_template_layout_id == layout.id)
+              = layout.name
 
     .eb-toolbar__divider
 
@@ -81,32 +81,32 @@
     .eb-toolbar__divider
 
     /! Action Buttons
-    .eb-toolbar__group
-      button.eb-btn.eb-btn--outline type="button" data-action="click->email-builder#openSubjectModal"
+    .ui-settings-editor__header-actions.eb-toolbar__group
+      button.ui-btn-secondary type="button" data-action="click->email-builder#openSubjectModal"
         svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
           path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
           path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"
         = t("dashboard.email_builder.edit_subject")
         
-      button.eb-btn.eb-btn--outline type="button" data-action="click->email-builder#preview"
+      button.ui-btn-secondary type="button" data-action="click->email-builder#preview"
         svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
           path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"
           circle cx="12" cy="12" r="3"
         = t("dashboard.email_builder.preview")
 
-      button.eb-btn.eb-btn--outline type="button" data-action="click->email-builder#sendTest"
+      button.ui-btn-secondary type="button" data-action="click->email-builder#sendTest"
         svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
           line x1="22" y1="2" x2="11" y2="13"
           polygon points="22 2 15 22 11 13 2 9 22 2"
         = t("dashboard.email_builder.send_test")
 
       - if @has_unpublished_changes
-        button.eb-btn.eb-btn--danger#eb-discard-btn type="button" data-action="click->email-builder#discardDraft"
+        button.ui-btn-secondary.email-builder-discard#eb-discard-btn type="button" data-action="click->email-builder#discardDraft"
           = t("dashboard.email_builder.discard")
-        button.eb-btn.eb-btn--success#eb-publish-btn type="button" data-action="click->email-builder#publish"
+        button.ui-btn-secondary#eb-publish-btn type="button" data-action="click->email-builder#publish"
           = t("dashboard.email_builder.publish")
 
-      button.eb-btn.eb-btn--primary#eb-save-btn type="button" data-action="click->email-builder#save" data-default-text=t('dashboard.email_builder.save_draft') data-saving-text=t('dashboard.email_builder.saving')
+      button.ui-btn-primary#eb-save-btn type="button" data-action="click->email-builder#save" data-default-text=t('dashboard.email_builder.save_draft') data-saving-text=t('dashboard.email_builder.saving')
         = t("dashboard.email_builder.save_draft")
 
   /! ─── Main Content ───
@@ -114,8 +114,20 @@
     /! Canvas
     .eb-canvas data-email-builder-target="canvas"
 
+    button.eb-sidebar-toggle type="button" data-email-builder-target="sidebarToggle" data-action="click->email-builder#toggleSidebar" aria-controls="email-builder-sidebar" aria-expanded="false" aria-label=t("dashboard.email_builder.open_panel", default: "Open editor panel")
+      svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"
+        rect x="3" y="4" width="18" height="16" rx="2"
+        line x1="15" y1="4" x2="15" y2="20"
+
+    .eb-sidebar-backdrop data-email-builder-target="sidebarBackdrop" data-action="click->email-builder#closeSidebar"
+
     /! Right Sidebar
-    .eb-sidebar
+    aside#email-builder-sidebar.eb-sidebar data-email-builder-target="sidebar"
+      button.eb-sidebar__close type="button" data-action="click->email-builder#closeSidebar" aria-label=t("dashboard.email_builder.close_panel", default: "Close editor panel")
+        svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"
+          line x1="18" y1="6" x2="6" y2="18"
+          line x1="6" y1="6" x2="18" y2="18"
+
       .eb-sidebar__tabs
         button.eb-sidebar__tab.eb-sidebar__tab--active type="button" data-tab="blocks" data-action="click->email-builder#switchTab"
           = t("dashboard.email_builder.blocks")

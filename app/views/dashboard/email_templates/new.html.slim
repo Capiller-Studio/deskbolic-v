@@ -1,24 +1,40 @@
 / = render("dashboard/shared/dashboard_container", current_page: "email_templates") do
 = render("dashboard/settings/settings_sidebar", current_page: "email_templates") do
-  .eb-templates
-    .eb-templates__header
-      div
-        h2.eb-templates__title = t("dashboard.email_templates.new.title")
-        p.eb-templates__subtitle = t("dashboard.email_templates.new.subtitle")
-      .eb-templates__nav
-        = link_to email_templates_path, class: "eb-btn eb-btn--outline"
-          = t("shared.back")
+  .ui-settings-editor.ui-email-template-editor
+    header.ui-settings-editor__header
+      = link_to email_templates_path, class: "ui-settings-editor__back", aria: { label: t("shared.back") } do
+        = inline_svg_tag("back-arrow.svg", aria: { hidden: true })
 
-    .eb-card
-      .eb-card__body
-        = form_with(model: @email_template, url: email_templates_path, method: :post, local: true, class: "eb-form") do |f|
-          .eb-form-group
-            = f.label :name, t("forms.labels.template_name"), class: "eb-label"
-            = f.text_field :name, class: "eb-form-input", required: true, placeholder: t("ui.dashboard.email_templates.new.e_g_my_custom_reply")
-            
-          .eb-form-group
-            = f.label :template_type, t("forms.labels.template_type"), class: "eb-label"
-            = f.select :template_type, EmailTemplate.template_types.slice("conversation_reply", "csat_survey").keys.map { |type| [t("enums.email_template.template_type.#{type}"), type] }, {}, class: "eb-form-input eb-select"
+      .ui-settings-editor__heading
+        h1 = t("dashboard.email_templates.new.title")
+        p = t("dashboard.email_templates.new.subtitle")
 
-          .eb-form-actions
-            = f.submit t("ui.dashboard.email_templates.new.create_template"), class: "eb-btn eb-btn--primary"
+      .ui-settings-editor__header-actions
+        = button_tag type: "submit", form: "new-email-template-form", class: "ui-btn-primary" do
+          span = t("ui.dashboard.email_templates.new.create_template")
+
+    = form_with model: @email_template,
+      url: email_templates_path,
+      method: :post,
+      local: true,
+      id: "new-email-template-form",
+      class: "ui-settings-form ui-settings-editor__form" do |f|
+      .ui-settings-editor__body
+        .ui-form-card.ui-form-card--roomy.ui-email-template-form
+          .ui-form-stack
+            .ui-field-group
+              = f.label :name, t("forms.labels.template_name"), class: "ui-label"
+              .ui-field-control.ui-field-control--plain
+                = f.text_field :name,
+                  class: "ui-input ui-control",
+                  required: true,
+                  placeholder: t("ui.dashboard.email_templates.new.e_g_my_custom_reply")
+
+            .ui-field-group
+              = f.label :template_type, t("forms.labels.template_type"), class: "ui-label"
+              .ui-field-control.ui-field-control--plain.ui-field-control--compact.ui-field-control--no-icon
+                = f.select :template_type,
+                  EmailTemplate.template_types.slice("conversation_reply", "csat_survey").keys.map { |type| [t("enums.email_template.template_type.#{type}"), type] },
+                  {},
+                  class: "ui-select ui-control",
+                  data: { controller: "select" }

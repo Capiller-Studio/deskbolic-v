@@ -1,7 +1,7 @@
 .user-signup-container.workspace-signup.center-wrapper
   .form-section data-controller="renderer form-wizard"
     = image_tag("logo.png", class:"img", alt:t("dashboard.workspace.new.logo"))
-    = form_for(@account, url: workspace_path(@account), html: {class: "js-form-wizard form-wizard needs-validation", novalidate: true}) do |f|
+    = form_for(@account, url: workspace_path(@account), data: { turbo: false }, html: { class: "js-form-wizard form-wizard needs-validation", novalidate: true, data: { turbo: false } }) do |f|
       fieldset.company-section
         .set-header
           h2 = t("dashboard.workspace.new.company_details")

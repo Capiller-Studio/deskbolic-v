@@ -20,31 +20,14 @@ module Dashboard
     # end
 
     # POST /resource/sign_in
-    def create
-      super do |resource|
-        if resource.accounts.any?
-          account_id = resource.accounts.first.id
-          session[:current_account_id] = account_id
-          cookies.signed[:current_account_id] = { value: account_id, expires: 1.year.from_now }
-        end
-      end
-    end
+    # def create
+    #   super
+    # end
 
     # DELETE /resource/sign_out
     # def destroy
     #   super
     # end
-
-    def switch
-      account = Account.find(params[:id])
-      if current_user.accounts.include?(account)
-        session[:current_account_id] = account.id
-        cookies.signed[:current_account_id] = { value: account.id, expires: 1.year.from_now }
-        redirect_to(root_url)
-      else
-        redirect_to(accounts_path, alert: "You are not authorized")
-      end
-    end
 
     def redirect_to(options = {}, response_options = {})
       response_options[:allow_other_host] = true if options.is_a?(String) && options.match?(/\Ahttps?:\/\//)
@@ -54,11 +37,21 @@ module Dashboard
     protected
 
     def after_sign_in_path_for(resource)
-      if resource.accounts.any?
-        account = resource.accounts.first
-        root_url(subdomain: account.identifier)
-      else
+      # 1. If signing in on a specific account subdomain
+      if request.subdomain.present? && request.subdomain != "www"
+        subdomain_account = Account.find_by(identifier: request.subdomain)
+        if subdomain_account && resource.accounts.exists?(id: subdomain_account.id)
+          return root_url(subdomain: subdomain_account.identifier)
+        end
+      end
+
+      # 2. Apex domain login routing
+      if resource.accounts.empty?
         workspace_url(subdomain: "")
+      elsif resource.accounts.count == 1
+        root_url(subdomain: resource.accounts.first.identifier)
+      else
+        workspaces_url(subdomain: "")
       end
     end
 
@@ -66,7 +59,6 @@ module Dashboard
     # def configure_sign_in_params
     #   devise_parameter_sanitizer.permit(:sign_in, keys: [:email, :password])
     # end
-
 
     private
 

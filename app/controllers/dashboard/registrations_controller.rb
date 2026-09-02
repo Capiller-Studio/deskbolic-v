@@ -55,10 +55,7 @@ module Dashboard
         if user.active_for_authentication?
           set_flash_message!(:notice, :signed_up)
           sign_up(resource_name, user)
-          if result.account
-            session[:current_account_id] = result.account.id
-            cookies.signed[:current_account_id] = { value: result.account.id, expires: 1.year.from_now }
-          end
+          @registered_account = result.account
 
           clear_onboarding_cookies
 
@@ -104,18 +101,17 @@ module Dashboard
     protected
 
     def after_sign_up_path_for(resource)
+      account = @registered_account || resource.accounts.first
+      subdomain = account&.identifier || ""
+
       if @selected_plan_id.present? && !@selected_subscription_created
         new_subscription_url(
-          subdomain: resource.accounts.first&.identifier || "",
+          subdomain: subdomain,
           plan_id: @selected_plan_id,
           billing_cycle: @selected_billing_cycle
         )
       else
-        if resource.accounts.any?
-          root_url(subdomain: resource.accounts.first.identifier)
-        else
-          root_url(subdomain: "")
-        end
+        root_url(subdomain: subdomain)
       end
     end
 

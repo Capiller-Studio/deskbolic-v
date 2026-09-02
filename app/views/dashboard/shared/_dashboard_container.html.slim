@@ -10,11 +10,9 @@
             /   = link_to(agent_index_path, class: "nav-link") do
             /     = image_tag('ai_agent.png', alt: 'AI Agent', class: 'link-icon')
             - current_user&.accounts&.each do |account|
-              li.nav-item class="#{current_page=='help_desk' ? 'dash-nav-active' : ''}"
-                = form_with url: switch_account_path(id: account.id), method: :post, class: "switch-form" do
-                  = hidden_field_tag :id, account.id
-                  = button_tag(type: 'submit', class: 'switch-button nav-link', style: 'border: none; background: none; padding: 0;') do
-                    = image_tag('helpdesk_icon.svg', alt: t("ui.dashboard.shared.dashboard_container.switch_account"), class: 'switch-icon')
+              li.nav-item class="#{current_account&.id == account.id ? 'dash-nav-active' : ''}"
+                = link_to root_url(subdomain: account.identifier), class: "nav-link", title: account.name, data: { turbo: false } do
+                  = image_tag('helpdesk_icon.svg', alt: account.name, class: 'switch-icon')
             li.nav-item
               = link_to(workspace_path, class: "nav-link") do
                 = inline_svg_tag("plus.svg", class:"link-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
@@ -50,6 +48,8 @@
                 /   = inline_svg_tag("theme.svg", class:"menu-icon", alt:"menu")
                 /   p.f-semi-14 Theme
                 /   = inline_svg_tag("light_theme.svg", class:"ml-auto", alt:"menu")
+                = link_to(workspaces_url(subdomain: ""), class: "menu-link", data: { turbo: false }) do
+                  p.f-semi-14 = t("dashboard.sidebar.switch_workspace", default: "All Workspaces")
                 = link_to(help_center_path, class: "menu-link") do
                   p.f-semi-14 = t("ui.dashboard.shared.dashboard_container.help_desk_help_center")
                 = link_to(community_path, class: "menu-link") do

@@ -62,7 +62,6 @@ Rails.application.routes.draw do
     }
 
     devise_scope :user do
-      post "sessions/switch/:id", to: "dashboard/sessions#switch", as: :switch_account
       get "users/check_email", to: "dashboard/registrations#check_email"
       get "registered", to: "dashboard/registrations#registered", as: :registered
     end
@@ -70,10 +69,10 @@ Rails.application.routes.draw do
     scope module: "dashboard" do
       root "channels#index"
 
-    get "workspace", to: "workspace#new"
-    post "workspace", to: "workspace#create"
-    get "workspaces/:id/submitted", to: "workspace#submitted", as: "submitted"
-    post :switch, to: "sessions#switch"
+      get "workspaces", to: "workspace#index", as: :workspaces
+      get "workspace", to: "workspace#new", as: :workspace
+      post "workspace", to: "workspace#create"
+      get "workspaces/:id/submitted", to: "workspace#submitted", as: "submitted"
     # Removed: post "facebook_page", to: "facebook_page#index"  — replaced by facebook_channels resource below
     get "terms", to: "pages#service_terms"
     get "help-center", to: "pages#help_center"

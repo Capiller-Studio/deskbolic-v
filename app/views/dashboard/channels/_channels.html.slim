@@ -96,7 +96,7 @@
             .sidebar-account-list
               - current_user.accounts.sort_by { |account| account == current_account ? 0 : 1 }.each do |account|
                 - active_account = account == current_account
-                = button_to switch_account_path(id: account.id), method: :post, class: "sidebar-workspace", role: "menuitem", disabled: active_account, form: { class: "sidebar-workspace-form" } do
+                = link_to root_url(subdomain: account.identifier), class: "sidebar-workspace #{active_account ? 'is-active' : ''}", role: "menuitem", data: { turbo: false } do
                   .sidebar-workspace-avatar.avatar-fallback class=avatar_fallback_color_class(account.name)
                     = initials(account, limit: 2)
                   .sidebar-workspace-details
@@ -107,7 +107,10 @@
                       svg viewBox="0 0 20 20" fill="none"
                         path d="M4 10.5 8 14l8-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
 
-            = link_to workspace_path, class: "sidebar-create-account", role: "menuitem", data: { turbo: false } do
+            = link_to workspaces_url(subdomain: ""), class: "sidebar-create-account", role: "menuitem", data: { turbo: false } do
+              span = t("dashboard.sidebar.switch_workspace", default: "All Workspaces")
+
+            = link_to workspace_path(subdomain: ""), class: "sidebar-create-account", role: "menuitem", data: { turbo: false } do
               = inline_svg_tag("plus_black.svg", class: "sidebar-create-account-icon", alt: "", aria: { hidden: true })
               span = t("auth.login.create_account")
 

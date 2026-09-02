@@ -1,15 +1,35 @@
 # frozen_string_literal: true
 
+# Company: TECHBOLIC SOLUTIONS (PRIVATE) LIMITED
+# VERSION: 1.0.0
+# Website: https://techbolic.com/
+
 module Dashboard
   class WorkspaceController < DashboardController
+    skip_before_action :enforce_active_subscription, only: %i[index new create submitted]
+    skip_around_action :set_sharding_context, only: %i[index new create submitted]
+
+    layout "auth"
+
+    def redirect_to(options = {}, response_options = {})
+      response_options[:allow_other_host] = true if options.is_a?(String) && options.match?(/\Ahttps?:\/\//)
+      super(options, response_options)
+    end
+
+    def index
+      @accounts = current_user.accounts.order(:name)
+      @account_users = current_user.account_users.index_by(&:account_id)
+    end
+
     def new
-      @account   = Account.new
-      @accounts  = Account.all
+      @account = Account.new
     end
 
     def create
       params[:user_type] == "agent" ? workspace_request : new_workspace
     end
+
+    def submitted; end
 
     private
 
@@ -40,12 +60,9 @@ module Dashboard
         redirect_to(workspace_path, alert: account.errors.full_messages.join(", ")) and return
       end
 
-      account.users << current_user
-      session[:current_account_id] = account.id
-      cookies.signed[:current_account_id] = { value: account.id, expires: 1.year.from_now }
-      redirect_to(submitted_path(current_user.id), notice: "New WorkSpace Created Successfully")
-    end
+      account.account_users.create!(user: current_user, owner: true)
 
-     def submitted; end
+      redirect_to(root_url(subdomain: account.identifier), allow_other_host: true, status: :see_other, notice: "New workspace created successfully")
+    end
   end
 end

@@ -15,10 +15,30 @@ RSpec.describe 'Dashboard::Sessions', type: :request do
   end
 
   describe 'POST /users/sign_in' do
-    it 'authenticates user and redirects' do
-      post user_session_path, params: { user: { email: user.email, password: 'password123' } }
-      expect(response).to have_http_status(:redirect).or have_http_status(:see_other)
-      expect(response.redirect_url).to include(account.identifier)
+    context 'when user has a single account' do
+      it 'authenticates user and redirects to account subdomain' do
+        post user_session_path, params: { user: { email: user.email, password: 'password123' } }
+        expect(response).to have_http_status(:redirect).or have_http_status(:see_other)
+        expect(response.redirect_url).to include(account.identifier)
+      end
+    end
+
+    context 'when user has multiple accounts' do
+      let(:account_two) { create(:account) }
+      let!(:account_user_two) { create(:account_user, account: account_two, user: user) }
+
+      it 'authenticates user on apex domain and redirects to workspaces chooser' do
+        post user_session_path, params: { user: { email: user.email, password: 'password123' } }
+        expect(response).to have_http_status(:redirect).or have_http_status(:see_other)
+        expect(response.redirect_url).to include('/workspaces')
+      end
+
+      it 'authenticates user on specific account subdomain and redirects directly to that workspace' do
+        set_subdomain(account_two.identifier)
+        post user_session_path, params: { user: { email: user.email, password: 'password123' } }
+        expect(response).to have_http_status(:redirect).or have_http_status(:see_other)
+        expect(response.redirect_url).to include(account_two.identifier)
+      end
     end
 
     it 'fails authentication with invalid password' do

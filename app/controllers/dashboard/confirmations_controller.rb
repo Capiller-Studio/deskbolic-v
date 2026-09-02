@@ -1,9 +1,5 @@
 # frozen_string_literal: true
 
-# Company: TECHBOLIC SOLUTIONS (PRIVATE) LIMITED
-# VERSION: 1.0.0
-# Website: https://techbolic.com/
-
 module Dashboard
   class ConfirmationsController < Devise::ConfirmationsController
     layout "auth"
@@ -20,9 +16,15 @@ module Dashboard
     end
 
     def after_confirmation_path_for(_resource_name, resource)
-      if resource.accounts.any?
-        account = resource.accounts.first
-        new_user_session_url(subdomain: account.identifier)
+      if request.subdomain.present? && request.subdomain != "www"
+        subdomain_account = Account.find_by(identifier: request.subdomain)
+        if subdomain_account && resource.accounts.exists?(id: subdomain_account.id)
+          return new_user_session_url(subdomain: subdomain_account.identifier)
+        end
+      end
+
+      if resource.accounts.count == 1
+        new_user_session_url(subdomain: resource.accounts.first.identifier)
       else
         new_user_session_url(subdomain: "")
       end

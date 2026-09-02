@@ -8,16 +8,6 @@ module Dashboard
   class PasswordsController < Devise::PasswordsController
     layout "auth"
 
-    def update
-      super do |resource|
-        if resource.errors.empty? && resource.accounts.any?
-          account_id = resource.accounts.first.id
-          session[:current_account_id] = account_id
-          cookies.signed[:current_account_id] = { value: account_id, expires: 1.year.from_now }
-        end
-      end
-    end
-
     def redirect_to(options = {}, response_options = {})
       response_options[:allow_other_host] = true if options.is_a?(String) && options.match?(/\Ahttps?:\/\//)
       super(options, response_options)
@@ -26,11 +16,19 @@ module Dashboard
     protected
 
     def after_resetting_password_path_for(resource)
-      if resource.accounts.any?
-        account = resource.accounts.first
-        root_url(subdomain: account.identifier)
-      else
+      if request.subdomain.present? && request.subdomain != "www"
+        subdomain_account = Account.find_by(identifier: request.subdomain)
+        if subdomain_account && resource.accounts.exists?(id: subdomain_account.id)
+          return root_url(subdomain: subdomain_account.identifier)
+        end
+      end
+
+      if resource.accounts.empty?
         workspace_url(subdomain: "")
+      elsif resource.accounts.count == 1
+        root_url(subdomain: resource.accounts.first.identifier)
+      else
+        workspaces_url(subdomain: "")
       end
     end
 

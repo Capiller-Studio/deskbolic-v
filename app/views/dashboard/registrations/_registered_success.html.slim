@@ -1,14 +1,30 @@
-.form-section#registration-wizard
-  = link_to root_path do
-    = image_tag "logo.png", class: "img", alt: "Deskbolic", style: "margin-bottom: 2rem;"
-    
-  .auth-success-card style="margin: 0 auto; margin-top: 4rem;"
-    svg.auth-success-icon width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#4F46E5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-      path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
-      polyline points="22,6 12,13 2,6"
-    
-    h2.auth-success-title = t("devise.registrations.registered_title")
-    
-    p.auth-success-message = raw t("devise.registrations.registered_message")
-    
-    = link_to t("devise.registrations.back_to_login"), new_user_session_path, class: "cont-btn auth-success-button"
+main.form-section.auth-main#registration-wizard
+  header.auth-header
+    = link_to root_path, class: "auth-logo", aria: { label: "Deskbolic" } do
+      = image_tag "logo.png", alt: "Deskbolic"
+
+  .auth-form-wrap.auth-success-wrap
+    .auth-card.auth-success-card
+      .auth-success-hero aria-hidden="true"
+        span.auth-success-decoration.auth-success-decoration--one
+        span.auth-success-decoration.auth-success-decoration--two
+        span.auth-success-spark.auth-success-spark--one
+        span.auth-success-spark.auth-success-spark--two
+        span.auth-success-spark.auth-success-spark--three
+
+        .auth-success-icon-wrap
+          svg.auth-success-icon width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+            path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+            polyline points="22,6 12,13 2,6"
+          span.auth-success-check
+            svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"
+              path d="m5 10 3 3 7-7"
+
+      .auth-success-content
+        h1.auth-success-title = t("devise.registrations.registered_title")
+        p.auth-success-message = raw t("devise.registrations.registered_message")
+        = link_to new_user_session_path, class: "auth-primary-button auth-success-button" do
+          span = t("devise.registrations.back_to_login")
+          svg.auth-success-button-icon aria-hidden="true" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            path d="M4 10h12"
+            path d="m11 5 5 5-5 5"

@@ -9,13 +9,8 @@ html lang=I18n.locale dir=(I18n.locale.to_s.match?(/^(ar|he|fa|ur)/i) ? "rtl" : 
     = favicon_link_tag(image_path("fav_icon.png"))
     = stylesheet_link_tag "auth", "data-turbo-track": "reload"
     = javascript_include_tag "auth", "data-turbo-track": "reload", defer: true
-  body
-    .locale-dropdown-container
-      select onchange="window.location.href=this.value"
-        - locale_names = { en: "English", de: "Deutsch", es: "Español", fr: "Français", "pt-BR": "Português", ar: "العربية", ko: "한국어" }
-        - Core::SUPPORTED_LOCALES.each do |loc|
-          - target_url = url_for(request.params.merge(locale: (loc.to_s == I18n.default_locale.to_s ? nil : loc), only_path: true))
-          option value=target_url selected=(loc.to_s == I18n.locale.to_s)
-            = locale_names[loc.to_sym] || loc.to_s.upcase
+  body class=content_for(:body_class)
+    - unless content_for?(:embedded_auth_locale_picker)
+      = render("layouts/auth_locale_picker", custom: content_for?(:themed_auth_layout))
     = render("layouts/dashboard/flash_message")
     == yield

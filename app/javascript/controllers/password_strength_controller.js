@@ -3,6 +3,10 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["password", "confirmation", "strengthMeter", "matchStatus", "submitButton", "ruleLength", "ruleUpper", "ruleNumber", "ruleSpecial"]
   static classes = ["weak", "medium", "strong", "match", "mismatch"]
+  static values = {
+    matchMessage: { type: String, default: "Passwords match" },
+    mismatchMessage: { type: String, default: "Passwords do not match" }
+  }
 
   connect() {
     this.validatePassword()
@@ -56,12 +60,12 @@ export default class extends Controller {
 
     if (pass === conf) {
       if (this.hasMatchStatusTarget) {
-        this.matchStatusTarget.textContent = "Passwords match"
+        this.matchStatusTarget.textContent = this.matchMessageValue
         this.matchStatusTarget.style.color = "#10b981"
       }
     } else {
       if (this.hasMatchStatusTarget) {
-        this.matchStatusTarget.textContent = "Passwords do not match"
+        this.matchStatusTarget.textContent = this.mismatchMessageValue
         this.matchStatusTarget.style.color = "#ef4444"
       }
     }

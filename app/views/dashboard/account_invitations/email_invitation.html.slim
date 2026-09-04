@@ -44,7 +44,7 @@
             .form-floating
               = f.label :email, t("auth.workspace.email_invitation.form.email"), class: "f-semi-14 form-label"
               = f.email_field :email, class: "f-reg-14 form-control", placeholder: t("auth.workspace.email_invitation.form.email"), readonly: true, value: @invitation.email
-            div data-controller="password-strength"
+            div data-controller="password-strength" data-password-strength-match-message-value=t("auth.password_match") data-password-strength-mismatch-message-value=t("auth.password_mismatch")
               .password-section.name
                 .form-floating
                   = f.label :password, t("auth.workspace.email_invitation.form.password"), class: "f-semi-14 form-label"
@@ -72,4 +72,3 @@
                   span = t("auth.password_rules.special")
             .actions
               = f.submit t("auth.workspace.email_invitation.form.submit"), class: "f-semi-15 button", data: { password_strength_target: "submitButton" }
-

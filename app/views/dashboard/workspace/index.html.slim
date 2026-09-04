@@ -1,45 +1,60 @@
-.user-login-container.center-wrapper
-  .form-section
-    .form-header
-      .logo
-        = link_to root_path do
-          = image_tag "logo.png", alt: "Deskbolic"
+- content_for :body_class, "auth-themed-body auth-workspaces-body"
+- content_for :themed_auth_layout, "true"
+- content_for :embedded_auth_locale_picker, "true"
+
+.auth-page.auth-page--workspaces
+  main.auth-main
+    header.auth-header
+      = link_to root_path, class: "auth-logo", aria: { label: "Deskbolic" } do
+        = image_tag "logo.png", alt: "Deskbolic"
+
       - if user_signed_in?
-        = link_to t("auth.logout", default: "Sign Out"), destroy_user_session_path, data: { turbo_method: :delete }, class: "join-btn"
+        .auth-header-action
+          = link_to t("auth.logout", default: "Sign Out"), destroy_user_session_path, data: { turbo_method: :delete }, class: "auth-secondary-button"
 
-  .login-container style="max-width: 540px; width: 100%; margin: 0 auto;"
-    .login-card style="padding: 32px 28px; background: #ffffff; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); border: 1px solid #f0f0f0;"
-      .header-area style="text-align: center; margin-bottom: 24px;"
-        h2 style="font-size: 24px; font-weight: 700; color: #111827; margin-bottom: 6px;"
-          = t("dashboard.workspace.chooser.title", default: "Select a Workspace")
-        p style="font-size: 14px; color: #6b7280;"
-          = t("dashboard.workspace.chooser.subtitle", default: "Choose a workspace to continue as %{email}", email: current_user.email)
+    .auth-form-wrap
+      .auth-card.auth-workspace-card
+        .auth-card-header
+          .auth-eyebrow = t("dashboard.sidebar.all_workspaces")
+          h1 = t("dashboard.workspace.chooser.title")
+          p = t("dashboard.workspace.chooser.subtitle", email: current_user.email)
 
-      .workspace-list style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;"
-        - @accounts.each do |account|
-          - account_user = @account_users[account.id]
-          - role_label = account_user&.owner? ? t("roles.owner", default: "Owner") : t("roles.member", default: "Member")
-          = link_to root_url(subdomain: account.identifier), class: "workspace-item-link", data: { turbo: false }, style: "display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border: 1px solid #e5e7eb; border-radius: 12px; text-decoration: none; transition: all 0.15s ease-in-out; background: #fafafa;" do
-            div style="display: flex; align-items: center; gap: 14px; overflow: hidden;"
-              .avatar style="width: 42px; height: 42px; border-radius: 10px; background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); color: #ffffff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; flex-shrink: 0;"
-                = account.name.first(2).upcase
-              div style="overflow: hidden; text-align: left;"
-                h4 style="font-size: 15px; font-weight: 600; color: #1f2937; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
-                  = account.name
-                p style="font-size: 13px; color: #9ca3af; margin: 2px 0 0 0;"
-                  | #{account.identifier}.#{request.domain || 'deskbolic.app'}
-            div style="display: flex; align-items: center; gap: 10px; flex-shrink: 0;"
-              span style="font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 6px; background: #eef2ff; color: #4338ca;"
-                = role_label
-              svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                polyline points="9 18 15 12 9 6"
+        .auth-workspace-list
+          - @accounts.each do |account|
+            - account_user = @account_users[account.id]
+            - role_label = account_user&.owner? ? t("roles.owner", default: "Owner") : t("roles.member", default: "Member")
+            = link_to root_url(subdomain: account.identifier), class: "auth-workspace-item", data: { turbo: false } do
+              .auth-workspace-identity
+                .auth-workspace-avatar aria-hidden="true"
+                  = account.name.first(2).upcase
+                .auth-workspace-copy
+                  h2 = account.name
+                  p #{account.identifier}.#{request.domain || "deskbolic.app"}
 
-      .actions-area style="display: flex; flex-direction: column; gap: 12px; text-align: center;"
-        = link_to workspace_path(subdomain: ""), class: "button", style: "display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; padding: 12px; font-weight: 600;" do
-          svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-            line x1="12" y1="5" x2="12" y2="19"
-            line x1="5" y1="12" x2="19" y2="12"
-          = t("dashboard.workspace.chooser.create_new", default: "Create New Workspace")
+              .auth-workspace-meta
+                span.auth-workspace-role = role_label
+                svg.auth-workspace-arrow width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"
+                  polyline points="9 18 15 12 9 6"
 
-      div style="text-align: center; margin-top: 16px;"
-        = link_to t("dashboard.workspace.chooser.signed_in_as", email: current_user.email, default: "Logged in as %{email}"), profile_path, style: "font-size: 12px; color: #9ca3af; text-decoration: none;"
+        .auth-workspace-actions
+          = link_to workspace_path(subdomain: ""), class: "auth-primary-button" do
+            svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"
+              line x1="12" y1="5" x2="12" y2="19"
+              line x1="5" y1="12" x2="19" y2="12"
+            = t("dashboard.workspace.chooser.create_new")
+
+        .auth-workspace-footer
+          = link_to t("dashboard.workspace.chooser.signed_in_as", email: current_user.email), profile_path, class: "auth-muted-link"
+
+    .auth-workspace-locale-row
+      = render("layouts/auth_locale_picker")
+
+  aside.auth-visual aria-label=t("auth.registration.marketing_text")
+    .auth-visual-orb.auth-visual-orb--one
+    .auth-visual-orb.auth-visual-orb--two
+    .auth-visual-content
+      .auth-visual-badge
+        span.auth-visual-badge-dot
+        = t("dashboard.workspace.chooser.title")
+      = image_tag "register.png", class: "auth-visual-image", alt: "", aria: { hidden: true }
+      h2 = t("auth.registration.marketing_text")

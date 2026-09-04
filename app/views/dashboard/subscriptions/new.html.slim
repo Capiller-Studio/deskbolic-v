@@ -9,8 +9,8 @@
         span = " #{I18n.t("dashboard.billing.subscription_page.title_highlight")}"
       p.ap-subscription-subtitle
         = I18n.t("dashboard.billing.subscription_page.subtitle_first_line")
-        br
-        = I18n.t("dashboard.billing.subscription_page.subtitle_second_line")
+        br.ap-subscription-subtitle-break
+        = " #{I18n.t("dashboard.billing.subscription_page.subtitle_second_line")}"
 
     .ap-billing-cycle-toggle.ap-subscription-cycle-toggle
       span.ap-billing-cycle-label.ap-billing-cycle-active data-billing-toggle-target="monthlyLabel" = I18n.t("dashboard.billing.monthly_label")

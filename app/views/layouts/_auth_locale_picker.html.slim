@@ -1,0 +1,22 @@
+- locale_names = { en: "English", de: "Deutsch", es: "Español", fr: "Français", "pt-BR": "Português", ar: "العربية", ko: "한국어" }
+- locale_options = Core::SUPPORTED_LOCALES.map { |locale| [locale_names[locale.to_sym] || locale.to_s.upcase, url_for(request.params.merge(locale: (locale.to_s == I18n.default_locale.to_s ? nil : locale), only_path: true))] }
+- selected_locale_url = url_for(request.params.merge(locale: (I18n.locale.to_s == I18n.default_locale.to_s ? nil : I18n.locale), only_path: true))
+- custom_picker = local_assigns.fetch(:custom, true)
+
+- if custom_picker
+  .locale-dropdown-container.auth-locale-picker
+    span.auth-locale-picker__icon aria-hidden="true"
+      = inline_svg_tag("world.svg")
+    = select_tag(:auth_locale,
+      options_for_select(locale_options, selected_locale_url),
+      id: "auth-locale-select",
+      class: "auth-locale-select",
+      data: { controller: "select" },
+      aria: { label: t("forms.options.select_language") },
+      onchange: "window.location.href=this.value")
+- else
+  .locale-dropdown-container
+    = select_tag(:auth_locale,
+      options_for_select(locale_options, selected_locale_url),
+      aria: { label: t("forms.options.select_language") },
+      onchange: "window.location.href=this.value")

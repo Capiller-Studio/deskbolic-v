@@ -1,27 +1,48 @@
-.user-login-container.center-wrapper
-  .form-section
-    .form-header
-      .logo
-        = link_to root_path do
-          = image_tag "logo.png", alt: "Deskbolic"
-      = link_to t("auth.login.submit"), new_user_session_path, class: "join-btn"
+- content_for :body_class, "auth-themed-body"
+- content_for :themed_auth_layout, "true"
 
-  .login-container
-    .login-card
-      h2 style="font-size: 24px; font-weight: 600; margin-bottom: 10px;" = t("auth.confirmations.title")
-      p = t("auth.confirmations.subtitle")
+.auth-page.auth-page--confirmation
+  main.auth-main
+    header.auth-header
+      = link_to root_path, class: "auth-logo", aria: { label: "Deskbolic" } do
+        = image_tag "logo.png", alt: "Deskbolic"
 
-      .form-fields
+      .auth-header-action
+        = link_to t("auth.login.submit"), new_user_session_path, class: "auth-secondary-button"
+
+    .auth-form-wrap
+      .auth-card
+        .auth-card-header
+          .auth-eyebrow = t("auth.confirmations.resend")
+          h1 = t("auth.confirmations.title")
+          p = t("auth.confirmations.subtitle")
+
         - if resource.errors.any?
-          .error-messages style="background-color: #fef2f2; border-left: 4px solid #ef4444; padding: 10px 15px; margin-bottom: 20px; border-radius: 4px;"
-            ul style="margin: 0; padding-left: 20px; color: #b91c1c; font-size: 14px;"
+          .auth-error-list role="alert"
+            ul
               - resource.errors.full_messages.each do |message|
                 li = message
 
-        = form_with url: user_confirmation_path, method: :post, local: true, data: { turbo: false } do |f|
-          .form-floating
-            = f.label :email, t("auth.email"), class: "form-label"
-            = f.email_field "user[email]", value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email), autofocus: true, autocomplete: "email", required: true, class: "form-control", placeholder: t("ui.dashboard.confirmations.new.you_example_com")
+        = form_with url: user_confirmation_path, method: :post, local: true, data: { turbo: false }, class: "auth-form" do |f|
+          .auth-field
+            = f.label :email, t("auth.email"), class: "auth-label", for: "user_email"
+            = f.email_field "user[email]",
+              id: "user_email",
+              value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email),
+              autofocus: true,
+              autocomplete: "email",
+              required: true,
+              class: "auth-input",
+              placeholder: t("ui.dashboard.confirmations.new.you_example_com")
 
-          .actions
-            = f.submit t("auth.confirmations.resend"), class: "button"
+          = f.submit t("auth.confirmations.resend"), class: "auth-primary-button"
+
+  aside.auth-visual aria-label=t("auth.registration.marketing_text")
+    .auth-visual-orb.auth-visual-orb--one
+    .auth-visual-orb.auth-visual-orb--two
+    .auth-visual-content
+      .auth-visual-badge
+        span.auth-visual-badge-dot
+        = t("auth.confirmations.subtitle")
+      = image_tag "register.png", class: "auth-visual-image", alt: "", aria: { hidden: true }
+      h2 = t("auth.registration.marketing_text")

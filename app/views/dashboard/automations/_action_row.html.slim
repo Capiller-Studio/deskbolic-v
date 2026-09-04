@@ -27,5 +27,5 @@
       = text_field_tag "action_param_url_#{action_index}", action_params["url"] || action_params[:url], placeholder: "https://...", data: { "action-param": "url" }, class: "ap-input"
       = select_tag "action_param_method_#{action_index}", options_for_select(%w[POST GET PUT PATCH], action_params["method"] || action_params[:method] || "POST"), class: "ui-select ui-control", data: { controller: "select", "action-param": "method" }
 
-  button.autom-remove-action-btn type="button" data-action="click->automation-builder#removeAction" aria-label=t("general.delete")
+  button.autom-remove-action-btn.ui-macro-remove-action type="button" data-action="click->automation-builder#removeAction" aria-label=t("general.delete")
     = image_tag("cross.svg", class: "autom-close-icon", alt: "", aria: { hidden: true })

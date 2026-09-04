@@ -12,5 +12,5 @@
         = link_to t("dashboard.business_hour_groups.form.cancel"), business_hour_groups_path, class: "ui-btn-secondary"
         button.ap-btn-save-header type="submit" form="business-hour-group-form"
           = image_tag("mark.svg", class: "ap-save-mark-icon", alt: "")
-          span = t("dashboard.business_hour_groups.form.save_policy", default: "Save Policy")
+          span = t("dashboard.business_hour_groups.form.save", default: "Save Policy")
     = render "form", business_hour_group: @business_hour_group

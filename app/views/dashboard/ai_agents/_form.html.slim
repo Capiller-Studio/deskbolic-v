@@ -3,9 +3,8 @@
 - editor_layout = local_assigns.fetch(:editor_layout, false)
 - ai_agent.translations.build(locale: I18n.default_locale) if ai_agent.translations.empty?
 - translations = ai_agent.translations.reject(&:marked_for_destruction?)
-- submit_label = ai_agent.persisted? ? t("dashboard.ai_agents.edit.submit", default: "Update Agent") : t("dashboard.ai_agents.new.submit", default: "Create Agent")
 
-= form_with(model: ai_agent, url: url, method: method, class: "ui-settings-form #{'ui-settings-editor__form' if editor_layout}") do |f|
+= form_with(model: ai_agent, url: url, method: method, id: "ai-agent-form", class: "ui-settings-form #{'ui-settings-editor__form' if editor_layout}") do |f|
   .ui-settings-editor__body
     - if ai_agent.errors.any?
       .ui-error-summary
@@ -107,9 +106,3 @@
         template data-nested-translations-target="panelTemplate"
           = f.fields_for :translations, ::Ai::Agent.new.translations.build, child_index: "NEW_RECORD" do |translation_form|
             = render "translation_fields", f: translation_form, active: false
-
-  .ui-settings-editor__actions
-    = link_to t("general.cancel"), ai_agents_path, class: "ui-btn-secondary ui-settings-editor__cancel"
-    = button_tag type: "submit", class: "ui-btn-primary ui-settings-editor__submit" do
-      = image_tag("ai_agents/new_agent_check.svg", alt: "", width: 16, height: 16, aria: { hidden: true })
-      span = submit_label

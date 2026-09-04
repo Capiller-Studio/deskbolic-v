@@ -470,7 +470,7 @@ export default class extends Controller {
   _conditionGroupTemplate(groupIndex) {
     return `
       <div class="autom-condition-group" data-automation-builder-target="conditionGroup">
-        <div class="autom-group-header">
+        <div class="autom-group-header ui-responsive-wrap-mobile">
           <span class="autom-group-label">Group ${groupIndex + 1}</span>
           <div class="autom-group-pills">
             <button type="button" class="autom-pill autom-pill--sm autom-pill--active" data-action="click->automation-builder#setGroupOperator" data-operator="AND" data-group-index="${groupIndex}">All</button>
@@ -524,7 +524,7 @@ export default class extends Controller {
           </select>
         </div>
         <span class="ui-field-control ui-field-control--plain ui-field-control--no-icon" data-action-params></span>
-        <button type="button" class="autom-remove-action-btn" data-action="click->automation-builder#removeAction" aria-label="Delete action">
+        <button type="button" class="autom-remove-action-btn ui-macro-remove-action" data-action="click->automation-builder#removeAction" aria-label="Delete action">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
             <path d="M12.666 4.667l-.578 8.094A1.333 1.333 0 0110.758 14H5.241a1.333 1.333 0 01-1.33-1.239l-.578-8.094M6.666 7.333v4M9.333 7.333v4M10 4.667v-2A.667.667 0 009.333 2H6.666A.667.667 0 006 2.667v2M2.666 4.667h10.667" stroke="#EF4444" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>

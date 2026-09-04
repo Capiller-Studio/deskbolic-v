@@ -208,6 +208,7 @@ ko:
         teams: 팀
         teammates: 팀원
       available: 사용 가능
+      all_workspaces: 모든 작업공간
       settings:
         back_to_dashboard: 대시보드로 돌아가기
         title: 설정
@@ -278,8 +279,30 @@ ko:
       custom_fields_desc: 사용자 정의 필드를 편집, 생성, 내보내기 또는 삭제합니다.
       canned_responses: 미리 준비된 답변
       canned_responses_desc: 미리 준비된 답변을 편집, 생성, 내보내기 또는 삭제하세요.
-      labels: 할당 정책
-      labels_desc: 할당 정책을 편집, 생성, 내보내기 또는 삭제합니다.
+      labels: 레이블
+      labels_desc: 레이블을 편집, 생성, 내보내기 또는 삭제하세요.
+      assignment_policies: 할당 정책
+      assignment_policies_desc: 할당 정책을 편집, 생성, 내보내기 또는 삭제하세요.
+      sla_policies: SLA 정책
+      sla_policies_desc: SLA 정책을 편집, 생성, 내보내기 또는 삭제하세요.
+      csat_surveys: CSAT 설문조사
+      csat_surveys_desc: CSAT 설문조사를 편집, 생성, 내보내기 또는 삭제하세요.
+      macros: 매크로
+      macros_desc: 매크로를 편집, 생성, 내보내기 또는 삭제하세요.
+      automations: 자동화
+      automations_desc: 자동화를 편집, 생성, 내보내기 또는 삭제하세요.
+      ai_agents: AI 에이전트
+      ai_agents_desc: AI 에이전트를 편집, 생성, 내보내기 또는 삭제하세요.
+      api_keys: API 키
+      api_keys_desc: API 키를 편집, 생성, 내보내기 또는 삭제하세요.
+      integrations: 연동
+      integrations_desc: 연동을 편집, 생성, 내보내기 또는 삭제하세요.
+      reports: 보고서
+      reports_desc: 보고서를 확인하고 내보내세요.
+      notification_settings: 알림 설정
+      notification_settings_desc: 알림 설정을 편집, 생성, 내보내기 또는 삭제하세요.
+      audit_logs: 감사 로그
+      audit_logs_desc: 감사 로그를 확인하고 내보내세요.
       skills: 기술
       skills_desc: 기술을 편집, 생성, 내보내기 또는 삭제합니다.
       email_templates: 이메일 템플릿
@@ -1532,6 +1555,7 @@ ko:
         title: 개인정보
         description: 개인 정보와 공개 프로필을 관리하세요.
         public_profile: 공개 프로필
+        account_information: 계정 정보
         save: 저장
         created_at: 생성 날짜
         email: 이메일
@@ -1547,6 +1571,7 @@ ko:
         no_organization: 아직 조직이 없습니다.
         no_phone: 아직 전화번호가 없습니다
         active_in_last: 최근에 활동 중
+        location_not_set: 위치가 설정되지 않음
         nil: 없음
     teams:
       sidebar:

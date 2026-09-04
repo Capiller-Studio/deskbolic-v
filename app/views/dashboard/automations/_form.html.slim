@@ -1,6 +1,6 @@
 - description_length = automation.description.to_s.length
 
-= form_with(model: automation, url: (automation.persisted? ? automation_path(automation) : automations_path), id: "automation-form", class: "ui-settings-form", data: { controller: "automation-builder" }) do |f|
+= form_with(model: automation, url: (automation.persisted? ? automation_path(automation) : automations_path), id: "automation-form", class: "ui-settings-form ui-responsive-form", data: { controller: "automation-builder" }) do |f|
   / --- Details Section ---
   .ap-section.automation-section
     .ap-section-header
@@ -56,7 +56,7 @@
       span = t("dashboard.automations.builder.conditions_section", default: "If these conditions are met")
     .ap-section-body data-automation-builder-target="conditionsContainer"
       - cond_hash = automation.conditions.is_a?(Hash) ? automation.conditions : {}
-      .autom-match-row
+      .autom-match-row.ui-responsive-stack-mobile
         .autom-match-pills
           button.autom-pill type="button" class=("autom-pill--active" if (cond_hash.dig("operator") || "AND") == "AND") data-action="click->automation-builder#setTopOperator" data-operator="AND"
             = t("forms.options.all", default: "All")
@@ -80,7 +80,7 @@
       span.ap-section-icon
         = image_tag("chain_link.svg", class: "ap-icon-svg", alt: "")
       span = t("dashboard.automations.builder.actions_section", default: "Then do this")
-      .autom-stop-processing
+      .autom-stop-processing.ui-responsive-header-aside
         label.f-semi-13 = t("dashboard.automations.builder.stop_processing", default: "Stop processing subsequent rules")
         label.ui-toggle.autom-stop-toggle
           = f.check_box :stop_processing, data: { "automation-builder-target": "stopProcessing" }

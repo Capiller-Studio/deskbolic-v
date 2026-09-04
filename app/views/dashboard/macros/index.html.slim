@@ -15,7 +15,7 @@
         h2#macros-table-title.ui-sr-only = t("dashboard.macros.index.title")
 
         .ui-table-wrap.ui-table-wrap--labels
-          table.ui-table.ui-table--labels.ui-table--macros
+          table.ui-table.ui-table--labels.ui-table--macros.ui-card-table
             colgroup
               col.ui-table__macro-column
               col.ui-table__macro-description-column
@@ -37,14 +37,14 @@
                   - icon_kind = action_type.match?(/email|message|note/) ? "email" : (action_type.match?(/label/) ? "label" : (action_type.match?(/assign/) ? "agent" : "default"))
                   - icon_name = { "email" => "mail.svg", "label" => "tag.svg", "agent" => "users.svg", "default" => "star_plus.svg" }.fetch(icon_kind)
                   tr id="macro_#{macro.id}"
-                    td
+                    td.ui-card-table__primary
                       .ui-macro-identity
                         span class="ui-macro-identity__icon ui-macro-identity__icon--#{icon_kind}" aria-hidden="true"
                           = inline_svg_tag(icon_name)
                         strong.ui-macro-identity__title = macro.name
-                    td.ui-table__muted
+                    td.ui-table__muted.ui-card-table__description
                       = macro.description.presence || t("ui.dashboard.macros.index.action_s", count: macro.actions&.length || 0)
-                    td
+                    td.ui-card-table__actions
                       .ui-table-actions
                         = link_to edit_macro_path(macro), class: "ui-icon-button", aria: { label: t("dashboard.macros.index.edit") }, title: t("dashboard.macros.index.edit") do
                           = image_tag("pencil.svg", alt: "", aria: { hidden: true })

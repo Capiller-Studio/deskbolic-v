@@ -17,7 +17,7 @@
         .conversation-list-heading
           .conversation-list-title
             h1 = list_title
-            = inline_svg_tag('arrow_down.svg', class: 'conversation-list-title-chevron', aria: { hidden: true })
+            = inline_svg_tag('arrow.svg', class: 'conversation-list-title-chevron', aria: { hidden: true })
           p
             span = t('dashboard.conversations.showing_count', visible: @conversations.size, total: list_total)
             |  · #{scope_description}

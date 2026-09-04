@@ -49,7 +49,7 @@
                 /   p.f-semi-14 Theme
                 /   = inline_svg_tag("light_theme.svg", class:"ml-auto", alt:"menu")
                 = link_to(workspaces_url(subdomain: ""), class: "menu-link", data: { turbo: false }) do
-                  p.f-semi-14 = t("dashboard.sidebar.switch_workspace", default: "All Workspaces")
+                  p.f-semi-14 = t("dashboard.sidebar.all_workspaces")
                 = link_to(help_center_path, class: "menu-link") do
                   p.f-semi-14 = t("ui.dashboard.shared.dashboard_container.help_desk_help_center")
                 = link_to(community_path, class: "menu-link") do

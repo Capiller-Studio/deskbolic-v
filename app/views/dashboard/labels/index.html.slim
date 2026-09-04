@@ -15,7 +15,7 @@
         h2#labels-table-title.ui-sr-only = t("dashboard.labels.index.title", default: "Labels")
 
         .ui-table-wrap.ui-table-wrap--labels
-          table.ui-table.ui-table--labels
+          table.ui-table.ui-table--labels.ui-card-table
             colgroup
               col.ui-table__label-column
               col.ui-table__description-column
@@ -36,15 +36,15 @@
                 - @labels.each do |label|
                   - label_color = label.color.presence || "#CBD5E1"
                   tr id="label_#{label.id}"
-                    td
+                    td.ui-card-table__primary
                       .ui-label-identity
                         span.ui-label-identity__dot style="background-color: #{label_color};" aria-hidden="true"
                         strong.ui-label-identity__title = label.title
                         code.ui-label-identity__color = label_color.upcase
-                    td.ui-table__muted = label.description.presence || "—"
-                    td.ui-label-created
+                    td.ui-table__muted.ui-card-table__description = label.description.presence || "—"
+                    td.ui-label-created.ui-table__muted.ui-card-table__meta
                       time datetime=label.created_at.iso8601 = label.created_at.strftime("%b %-d, %Y %I:%M %p")
-                    td
+                    td.ui-card-table__actions
                       .ui-table-actions
                         = link_to edit_label_path(label), data: { turbo: false }, class: "ui-icon-button", aria: { label: t("dashboard.skills.index.edit") }, title: t("dashboard.skills.index.edit") do
                           = image_tag("pencil.svg", alt: "", aria: { hidden: true })

@@ -3,7 +3,7 @@
   - custom_domain_supported = current_account.feature_enabled?(:custom_domains)
   - preselected_domain_type = params.dig(:help_center_portal, :domain_type) || "subdomain"
 
-  .body-section.help-center-portal-body.ui-settings-editor data-controller="portal-domain" data-portal-domain-has-domains-value=@available_domains.any?.to_s
+  .body-section.help-center-portal-body.ui-settings-editor.ui-settings-editor--help-center data-controller="portal-domain" data-portal-domain-has-domains-value=@available_domains.any?.to_s
     header.ui-settings-editor__header
       = link_to help_center_portals_path, class: "ui-settings-editor__back", aria: { label: t("shared.back", default: "Back") } do
         = inline_svg_tag("back-arrow.svg", aria: { hidden: true })

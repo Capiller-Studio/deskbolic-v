@@ -39,7 +39,8 @@
               label.f-semi-13.ap-label = target[:label]
               .sla-target-controls
                 = number_field_tag "sla_policy[#{target[:value_name]}]", target[:value], class: "ap-input", min: 1, placeholder: t("ui.dashboard.sla_policies.form.e_g_15", default: "e.g., 15")
-                = select_tag "sla_policy[#{target[:unit_name]}]", options_for_select(units, target[:unit]), class: "ap-select"
+                .ui-field-control.ui-field-control--plain.ui-field-control--no-icon
+                  = select_tag "sla_policy[#{target[:unit_name]}]", options_for_select(units, target[:unit]), class: "ui-select ui-control", data: { controller: "select" }
 
     .ap-section.ap-inboxes-card
       .ap-section-header

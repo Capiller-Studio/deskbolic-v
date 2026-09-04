@@ -1,15 +1,16 @@
 / = render("dashboard/shared/dashboard_container", current_page: "settings") do
 = render("dashboard/settings/settings_sidebar", current_page: "roles") do
-  .roles-editor-page
-    .roles-editor-backbar
-      = link_to roles_path, class: "roles-back-link" do
-        = inline_svg_tag("arrow_left.svg", class: "roles-icon")
-        = t("dashboard.roles.form.back_label", default: "Back")
-    .roles-editor-content
-      .roles-editor-header
-        div
-          h1 = t("dashboard.roles.new.title")
-          p = t("dashboard.roles.new.description")
-        button.roles-primary-button type="submit" form=dom_id(@role, :form)
-          = t("dashboard.roles.form.save")
+  .ui-settings-editor.roles-editor-page
+    header.ui-settings-editor__header
+      = link_to roles_path, class: "ui-settings-editor__back", aria: { label: t("dashboard.roles.form.back_label", default: "Back") } do
+        = inline_svg_tag("back-arrow.svg", aria: { hidden: true })
+      .ui-settings-editor__heading
+        h1 = t("dashboard.roles.new.title")
+        p = t("dashboard.roles.new.description")
+      .ui-settings-editor__header-actions
+        = link_to t("general.cancel"), roles_path, class: "ui-btn-secondary"
+        button.ui-btn-primary type="submit" form=dom_id(@role, :form)
+          = inline_svg_tag("mark.svg", aria: { hidden: true })
+          span = t("dashboard.roles.form.save")
+    .ui-settings-editor__body.roles-editor-content
       = render "form", role: @role

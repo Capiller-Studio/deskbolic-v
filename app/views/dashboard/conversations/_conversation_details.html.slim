@@ -8,7 +8,7 @@ aside.details-section.conversation-inspector id="conversation-details-#{@convers
   header.inspector-drawer-header
     h2 id="conversation-details-title-#{@conversation.id}" = t('dashboard.conversation_details.title', default: 'Details')
     button.inspector-drawer-close type="button" aria-label=t('dashboard.conversation_details.hide_details', default: 'Hide conversation details') data-action="click->conversation-inspector#close" data-conversation-inspector-target="close"
-      = inline_svg_tag('arrow_left.svg', aria: { hidden: true })
+      = inline_svg_tag('panel.svg', aria: { hidden: true })
   .inspector-scroll
     section.inspector-section.inspector-assignment
       .inspector-section-heading
@@ -35,11 +35,11 @@ aside.details-section.conversation-inspector id="conversation-details-#{@convers
         .inspector-data-row
           span = t('dashboard.conversation_details.priority')
           = form_with model: @conversation, url: conversation_path(@conversation), method: :patch do |f|
-            = f.select :priority, Conversation.priorities.keys.map { |priority| [t("enums.conversation.priority.#{priority}", default: priority.humanize), priority] }, {}, class: 'inspector-inline-select', onchange: 'this.form.requestSubmit()'
+            = f.select :priority, Conversation.priorities.keys.map { |priority| [t("enums.conversation.priority.#{priority}", default: priority.humanize), priority] }, {}, class: 'inspector-inline-select', data: { controller: 'select' }, onchange: 'this.form.requestSubmit()'
         .inspector-data-row
           span = t('dashboard.conversation_details.status')
           = form_with model: @conversation, url: conversation_path(@conversation), method: :patch do |f|
-            = f.select :status, Conversation.statuses.keys.map { |status| [t("enums.conversation.status.#{status}", default: status.humanize), status] }, {}, class: 'inspector-inline-select', onchange: 'this.form.requestSubmit()'
+            = f.select :status, Conversation.statuses.keys.map { |status| [t("enums.conversation.status.#{status}", default: status.humanize), status] }, {}, class: 'inspector-inline-select', data: { controller: 'select' }, onchange: 'this.form.requestSubmit()'
 
     - if @conversation.ai_metadata.present? && (@conversation.ai_metadata['sentiment'].present? || @conversation.ai_metadata['category'].present?)
       section.inspector-section

@@ -4,7 +4,7 @@
     header.header.conversation-header
       - customer = @conversation.customers.first
       button.conversation-mobile-back type="button" data-controller="section" data-action="click->section#backToList" data-url=conversations_path(resource_id: @inbox&.id, team_id: @team_id, assignee_id: @assignee_id, filter: @filter, q: @query.presence) aria-label=t('dashboard.mobile_navigation.back_to_inbox', default: 'Back to inbox')
-        = inline_svg_tag('arrow_left.svg', aria: { hidden: true })
+        = inline_svg_tag('arrow.svg', aria: { hidden: true })
       .conversation-header-identity
         - if customer&.avatar&.attached?
           = image_tag(customer.avatar, class: 'conversation-header-avatar', alt: full_name(customer))
@@ -24,7 +24,7 @@
         - else
           = button_to t('dashboard.messages.resolve'), conversation_path(@conversation, conversation: { status: 'resolved' }), method: :patch, class: 'conversation-resolve-button', form: { data: { turbo: false } }
         button.conversation-inspector-toggle type="button" aria-controls="conversation-details-#{@conversation.id}" aria-expanded="false" aria-label=t('dashboard.conversation_details.show_details', default: 'Show conversation details') data-action="click->conversation-inspector#toggle" data-conversation-inspector-target="toggle"
-          = inline_svg_tag('arrow_left.svg', aria: { hidden: true })
+          = inline_svg_tag('panel.svg', aria: { hidden: true })
       / .actions data-controller="accordion conversations"
         = inline_svg_tag("plus.svg", class:"chat-action", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
         = inline_svg_tag("star.svg", class:"chat-action", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
@@ -122,6 +122,7 @@
               .ai-assist data-controller="accordion ai-assist" data-ai-assist-summarize-url-value=summarize_conversation_ai_path(@conversation) data-ai-assist-draft-url-value=draft_reply_conversation_ai_path(@conversation) data-ai-assist-rewrite-url-value=rewrite_tone_conversation_ai_path(@conversation) data-ai-assist-grammar-url-value=fix_grammar_conversation_ai_path(@conversation) data-ai-assist-translate-url-value=translate_conversation_ai_path(@conversation) data-ai-assist-lexical-outlet=".note-area" data-ai-assist-generating-summary-value=t('dashboard.messages.ai_assist.generating_summary') data-ai-assist-summary-heading-value=t('dashboard.messages.ai_assist.summary_heading') data-ai-assist-drafting-reply-value=t('dashboard.messages.ai_assist.drafting_reply') data-ai-assist-error-prefix-value=t('dashboard.messages.ai_assist.error_prefix') data-ai-assist-credits-exhausted-value=t('dashboard.messages.ai_assist.credits_exhausted')
                 .paraphrase-options data-action="click->accordion#toggleMenu"
                   = inline_svg_tag("gradient_logo.svg", class: "gpt-btn gpt-btn--desktop")
+                  = image_tag("gradient_tab.svg", class: "gpt-btn gpt-btn--tab", alt: "")
                   = image_tag("gradient_mobile.svg", class: "gpt-btn gpt-btn--mobile", alt: "")
                   p.f-semi-12 = t('dashboard.messages.ai_assist.title', default: 'Boli')
                 .menu.ai-assistant-menu data-accordion-target="menu" role="dialog" aria-label=t('dashboard.messages.ai_assist.assistant_title', default: 'AI Assistant')

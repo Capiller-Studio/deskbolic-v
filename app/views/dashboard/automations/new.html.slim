@@ -1,6 +1,6 @@
 / = render("dashboard/shared/dashboard_container", current_page: "settings") do
 = render("dashboard/settings/settings_sidebar", current_page: "automations") do
-  .ui-settings-editor
+  .ui-settings-editor.ui-automation-editor
     header.ui-settings-editor__header
       = link_to automations_path, class: "ui-settings-editor__back", aria: { label: t("shared.back", default: "Back to automations") } do
         = inline_svg_tag("back-arrow.svg", aria: { hidden: true })

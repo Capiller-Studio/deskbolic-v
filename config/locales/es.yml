@@ -1539,6 +1539,10 @@ es:
         a crear el canal si el token caduca.
       reconnected: El canal se ha reactivado correctamente. Si tu token de acceso
         realmente ha caducado, actualízalo.
+      templates_synced:
+        one: "Se sincronizó correctamente 1 plantilla aprobada de Meta."
+        other: "Se sincronizaron correctamente %{count} plantillas aprobadas de Meta."
+      templates_sync_empty: "No se encontraron plantillas aprobadas en su cuenta de WhatsApp Business. Verifique en Meta WhatsApp Manager."
       index:
         title: WhatsApp
         description: Conecte su API de WhatsApp Business para gestionar las conversaciones
@@ -1604,6 +1608,14 @@ es:
             metaaplicación.
       edit:
         title: Editar canal de WhatsApp
+        whatsapp_templates_title: "Plantillas de WhatsApp (Omitir ventana de 24 h)"
+        whatsapp_templates_desc: "Seleccione una plantilla de utilidad aprobada por Meta para entregar mensajes fuera de la ventana de 24 horas."
+        templates_count:
+          one: "1 plantilla aprobada sincronizada de Meta."
+          other: "%{count} plantillas aprobadas sincronizadas de Meta."
+        last_synced_at: "(Última sincronización hace %{time})"
+        no_templates_synced: "No hay plantillas sincronizadas todavía. Haga clic en sincronizar para cargar las plantillas aprobadas."
+        sync_templates_btn: "Sincronizar plantillas de Meta"
         reauth_title: Se requiere reautorización
         reauth_description: El token de acceso ha caducado o ha sido invalidado. Vuelva
           a conectarse para restaurar los mensajes.
@@ -1625,6 +1637,10 @@ es:
         phone_code_label: Código de país
         phone_number_label: Número de teléfono
         phone_id_label: Identificación del número de teléfono
+        template_name_label: Plantilla predeterminada fuera de ventana
+        template_name_placeholder: p. ej., customer_support_update
+        template_language_label: Código de idioma de la plantilla
+        select_template: Seleccione una plantilla aprobada
         waba_id_label: ID de cuenta empresarial de WhatsApp
         api_key_label: Token de acceso
         api_key_placeholder: Pegue aquí su token de acceso de usuario permanente o

@@ -1540,6 +1540,10 @@ fr:
         Veuillez supprimer et recréer la chaîne si le jeton expire.
       reconnected: Le canal a été réactivé. Si votre jeton d'accès a réellement expiré,
         veuillez le mettre à jour.
+      templates_synced:
+        one: "1 modèle approuvé synchronisé avec succès depuis Meta."
+        other: "%{count} modèles approuvés synchronisés avec succès depuis Meta."
+      templates_sync_empty: "Aucun modèle approuvé trouvé dans votre compte WhatsApp Business. Veuillez vérifier Meta WhatsApp Manager."
       index:
         title: WhatsApp
         description: Connectez votre API WhatsApp Business pour gérer les conversations
@@ -1605,6 +1609,14 @@ fr:
           guide_5: Après la création, copiez l'URL du Webhook générée dans votre méta-application.
       edit:
         title: Modifier la chaîne WhatsApp
+        whatsapp_templates_title: "Modèles de messages WhatsApp (contournement fenêtre 24h)"
+        whatsapp_templates_desc: "Sélectionnez un modèle approuvé par Meta pour envoyer des messages en dehors de la fenêtre de 24 heures."
+        templates_count:
+          one: "1 modèle approuvé synchronisé depuis Meta."
+          other: "%{count} modèles approuvés synchronisés depuis Meta."
+        last_synced_at: "(Dernière synchronisation il y a %{time})"
+        no_templates_synced: "Aucun modèle synchronisé pour le moment. Cliquez sur synchroniser pour charger les modèles approuvés."
+        sync_templates_btn: "Synchroniser les modèles de Meta"
         reauth_title: Ré-autorisation requise
         reauth_description: Le jeton d'accès a expiré ou a été invalidé. Veuillez
           vous reconnecter pour restaurer la messagerie.
@@ -1627,6 +1639,10 @@ fr:
         phone_code_label: Indicatif du pays
         phone_number_label: Numéro de téléphone
         phone_id_label: Numéro de téléphone
+        template_name_label: Modèle par défaut hors fenêtre
+        template_name_placeholder: par ex. customer_support_update
+        template_language_label: Code de langue du modèle
+        select_template: Sélectionner un modèle approuvé
         waba_id_label: Identifiant de compte professionnel WhatsApp
         api_key_label: Jeton d'accès
         api_key_placeholder: Collez ici votre jeton d'accès utilisateur permanent

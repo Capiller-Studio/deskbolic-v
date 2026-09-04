@@ -161,7 +161,7 @@ RSpec.describe 'Dashboard::Channels', type: :request do
         let(:cb_waba_id) { "waba_#{SecureRandom.hex(4)}" }
 
         before do
-          allow(::Channels::Whatsapp::SignupService).to receive(:call).and_return({
+          allow(Channels::Whatsapp::SignupService).to receive(:call).and_return({
             access_token: 'meta_access_token',
             waba_id: cb_waba_id,
             phone_number_id: cb_phone_id,
@@ -184,7 +184,7 @@ RSpec.describe 'Dashboard::Channels', type: :request do
       let(:cb_waba_id) { "waba_#{SecureRandom.hex(4)}" }
 
       before do
-        allow(::Channels::Whatsapp::SignupService).to receive(:call).with(
+        allow(Channels::Whatsapp::SignupService).to receive(:call).with(
           hash_including(
             code: 'valid_auth_code',
             waba_id: cb_waba_id,
@@ -211,7 +211,7 @@ RSpec.describe 'Dashboard::Channels', type: :request do
       end
 
       it 'handles SignupService errors gracefully and redirects to new' do
-        allow(::Channels::Whatsapp::SignupService).to receive(:call).and_raise(RuntimeError.new('Invalid OAuth Code'))
+        allow(Channels::Whatsapp::SignupService).to receive(:call).and_raise(RuntimeError.new('Invalid OAuth Code'))
 
         post callback_channels_whatsapp_index_path(locale: :en), params: { code: 'bad_code' }
         expect(response).to have_http_status(:redirect)
@@ -221,7 +221,7 @@ RSpec.describe 'Dashboard::Channels', type: :request do
       end
 
       it 'redirects if channel limit is reached' do
-        allow_any_instance_of(Account).to receive(:within_limit?).with(:channels).and_return(false)
+        plan.update!(limits: { 'channels' => 0, 'users' => 100 })
 
         post callback_channels_whatsapp_index_path(locale: :en), params: {
           code: 'valid_auth_code',

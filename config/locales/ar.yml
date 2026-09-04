@@ -1574,6 +1574,10 @@ ar:
       callback_error: "حدث خطأ أثناء الاتصال بـ WhatsApp. يرجى المحاولة مرة أخرى."
       reconnect_not_supported_yet: "إعادة الاتصال غير مدعومة بعد. يرجى حذف القناة وإعادة إنشائها في حالة انتهاء صلاحية الرمز المميز."
       reconnected: "تم إعادة تفعيل القناة بنجاح. إذا انتهت صلاحية رمز الوصول الخاص بك بالفعل، فيرجى تحديثه."
+      templates_synced:
+        one: "تمت مزامنة قالب واحد معتمد بنجاح من Meta."
+        other: "تمت مزامنة %{count} قوالب معتمدة بنجاح من Meta."
+      templates_sync_empty: "لم يتم العثور على قوالب معتمدة في حساب WhatsApp Business الخاص بك. يرجى التحقق من Meta WhatsApp Manager."
       index:
         title: "WhatsApp"
         description: "قم بتوصيل WhatsApp Business API لإدارة محادثات العملاء."
@@ -1626,6 +1630,14 @@ ar:
           guide_5: "بعد الإنشاء، انسخ Webhook URL إلى تطبيق Meta الخاص بك."
       edit:
         title: "تحرير قناة WhatsApp"
+        whatsapp_templates_title: "قوالب رسائل WhatsApp (تجاوز نافذة 24 ساعة)"
+        whatsapp_templates_desc: "حدد قالب مرافق معتمد من Meta لإرسال الرسائل خارج نافذة خدمة العملاء البالغة 24 ساعة."
+        templates_count:
+          one: "تمت مزامنة قالب معتمد واحد من Meta."
+          other: "تمت مزامنة %{count} قوالب معتمدة من Meta."
+        last_synced_at: "(آخر مزامنة منذ %{time})"
+        no_templates_synced: "لم تتم مزامنة أي قوالب بعد. انقر فوق مزامنة لتحميل القوالب المعتمدة من Meta."
+        sync_templates_btn: "مزامنة القوالب من Meta"
         reauth_title: "إعادة التفويض مطلوبة"
         reauth_description: "انتهت صلاحية رمز الوصول أو تم إبطاله. الرجاء إعادة الاتصال لاستعادة الرسائل."
         danger_title: "منطقة الخطر"
@@ -1644,6 +1656,10 @@ ar:
         phone_code_label: "رمز البلد"
         phone_number_label: "رقم الهاتف"
         phone_id_label: "معرف رقم الهاتف"
+        template_name_label: "القالب الافتراضي خارج النافذة"
+        template_name_placeholder: "مثال: customer_support_update"
+        template_language_label: "رمز لغة القالب"
+        select_template: "حدد قالبًا معتمدًا"
         credential_id_placeholder: "على سبيل المثال 123456789012345"
         waba_id_label: "معرف حساب الأعمال WhatsApp"
         api_key_label: "رمز الوصول"

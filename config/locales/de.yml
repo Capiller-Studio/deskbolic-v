@@ -1551,6 +1551,10 @@ de:
         Bitte löschen Sie den Kanal und erstellen Sie ihn neu, wenn das Token abläuft.
       reconnected: Der Kanal wurde erfolgreich reaktiviert. Wenn Ihr Zugriffstoken
         tatsächlich abgelaufen ist, aktualisieren Sie es bitte.
+      templates_synced:
+        one: "1 genehmigte Vorlage erfolgreich von Meta synchronisiert."
+        other: "%{count} genehmigte Vorlagen erfolgreich von Meta synchronisiert."
+      templates_sync_empty: "Keine genehmigten Vorlagen in Ihrem WhatsApp-Geschäftskonto gefunden. Bitte prüfen Sie den Meta WhatsApp Manager."
       index:
         title: WhatsApp
         description: Verbinden Sie Ihre WhatsApp Business API, um Kundengespräche
@@ -1615,6 +1619,14 @@ de:
             Ihre Meta-App.
       edit:
         title: Bearbeiten Sie den WhatsApp-Kanal
+        whatsapp_templates_title: "WhatsApp-Nachrichtenvorlagen (24-Std.-Fenster umgehen)"
+        whatsapp_templates_desc: "Wählen Sie eine von Meta genehmigte Utility-Vorlage, um Nachrichten außerhalb des 24-Stunden-Servicefensters zu senden."
+        templates_count:
+          one: "1 genehmigte Vorlage von Meta synchronisiert."
+          other: "%{count} genehmigte Vorlagen von Meta synchronisiert."
+        last_synced_at: "(Zuletzt vor %{time} synchronisiert)"
+        no_templates_synced: "Noch keine Vorlagen synchronisiert. Klicken Sie auf Synchronisieren, um genehmigte Vorlagen von Meta zu laden."
+        sync_templates_btn: "Vorlagen von Meta synchronisieren"
         reauth_title: Erneute Autorisierung erforderlich
         reauth_description: Das Zugriffstoken ist abgelaufen oder wurde ungültig.
           Bitte stellen Sie die Verbindung wieder her, um die Nachrichtenübermittlung
@@ -1639,6 +1651,10 @@ de:
         phone_code_label: Ländercode
         phone_number_label: Telefonnummer
         phone_id_label: Telefonnummer-ID
+        template_name_label: Standardvorlage außerhalb des Fensters
+        template_name_placeholder: z. B. customer_support_update
+        template_language_label: Vorlagensprachencode
+        select_template: Genehmigte Vorlage auswählen
         waba_id_label: WhatsApp-Geschäftskonto-ID
         api_key_label: Zugriffstoken
         api_key_placeholder: Fügen Sie hier Ihr permanentes oder Systembenutzer-Zugriffstoken

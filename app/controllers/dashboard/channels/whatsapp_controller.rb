@@ -123,6 +123,7 @@ module Dashboard
 
         if creator.call
           @whatsapp_channel = creator.channel
+          ::Channels::Whatsapp::SyncTemplatesWorker.perform_async(current_account.id, @whatsapp_channel.id)
           redirect_to(edit_channels_whatsapp_path(@whatsapp_channel), notice: t("dashboard.whatsapp_channels.created"), status: :see_other)
         else
           redirect_to(new_channels_whatsapp_path, alert: t("dashboard.whatsapp_channels.create_failed"), status: :see_other)
@@ -151,6 +152,7 @@ module Dashboard
 
         if creator.call
           @whatsapp_channel = creator.channel
+          ::Channels::Whatsapp::SyncTemplatesWorker.perform_async(current_account.id, @whatsapp_channel.id)
           redirect_to(edit_channels_whatsapp_path(@whatsapp_channel), notice: t("dashboard.whatsapp_channels.created"), status: :see_other)
         else
           redirect_to(new_channels_whatsapp_path, alert: t("dashboard.whatsapp_channels.create_failed"), status: :see_other)
@@ -179,10 +181,25 @@ module Dashboard
         end
       end
 
+      # POST /whatsapp/:id/sync_templates
+      def sync_templates
+        current_account.with_shard do
+          templates = @whatsapp_channel.sync_templates
+          if templates.present?
+            redirect_to(edit_channels_whatsapp_path(@whatsapp_channel),
+                        notice: t("dashboard.whatsapp_channels.templates_synced", count: templates.size, default: "Successfully synced #{templates.size} approved template(s) from Meta."))
+          else
+            redirect_to(edit_channels_whatsapp_path(@whatsapp_channel),
+                        alert: t("dashboard.whatsapp_channels.templates_sync_empty", default: "No approved templates found in your WhatsApp Business Account. Please check Meta WhatsApp Manager."))
+          end
+        end
+      end
+
       # POST /whatsapp/:id/reconnect
       def reconnect
         current_account.with_shard do
           @whatsapp_channel.reauthorized!
+          ::Channels::Whatsapp::SyncTemplatesWorker.perform_async(current_account.id, @whatsapp_channel.id)
         end
 
         redirect_back(fallback_location: edit_channels_whatsapp_path(@whatsapp_channel),
@@ -249,11 +266,13 @@ module Dashboard
 
       def whatsapp_channel_update_params
         params.expect(
-          channel_whatsapp: [ :name, :api_key,
-          primary_inbox_attributes: [
-            :id, :reopen_window_seconds, :csat_survey_enabled, :csat_survey_id, :business_hour_group_id,
-            sla_policy_ids: []
-          ] ]
+          channel_whatsapp: [
+            :name, :api_key, :template_name, :template_language,
+            primary_inbox_attributes: [
+              :id, :reopen_window_seconds, :csat_survey_enabled, :csat_survey_id, :business_hour_group_id,
+              sla_policy_ids: []
+            ]
+          ]
         )
       end
     end

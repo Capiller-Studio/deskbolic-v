@@ -1429,6 +1429,10 @@ ko:
       callback_error: WhatsApp에 연결하는 중에 오류가 발생했습니다. 다시 시도해 주세요.
       reconnect_not_supported_yet: 재접속은 아직 지원되지 않습니다. 토큰이 만료되면 채널을 삭제하고 다시 생성하세요.
       reconnected: 채널이 성공적으로 다시 활성화되었습니다. 액세스 토큰이 실제로 만료된 경우 토큰을 업데이트하세요.
+      templates_synced:
+        one: "Meta에서 승인된 템플릿 1개를 성공적으로 동기화했습니다."
+        other: "Meta에서 승인된 템플릿 %{count}개를 성공적으로 동기화했습니다."
+      templates_sync_empty: "WhatsApp 비즈니스 계정에서 승인된 템플릿을 찾을 수 없습니다. Meta WhatsApp Manager를 확인하세요."
       index:
         title: WhatsApp
         description: WhatsApp Business API를 연결하여 고객 대화를 관리하세요.
@@ -1481,6 +1485,14 @@ ko:
           guide_5: 생성 후 생성된 Webhook URL을 Meta App에 복사하세요.
       edit:
         title: WhatsApp 채널 편집
+        whatsapp_templates_title: "WhatsApp 메시지 템플릿 (24시간 창 우회)"
+        whatsapp_templates_desc: "24시간 고객 서비스 창 외부에서 응답할 때 메시지를 전달하는 데 사용되는 승인된 Meta 유틸리티 템플릿을 선택합니다."
+        templates_count:
+          one: "Meta에서 승인된 템플릿 1개가 동기화되었습니다."
+          other: "Meta에서 승인된 템플릿 %{count}개가 동기화되었습니다."
+        last_synced_at: "(마지막 동기화: %{time} 전)"
+        no_templates_synced: "아직 동기화된 템플릿이 없습니다. Meta에서 승인된 템플릿을 로드하려면 동기화를 클릭하세요."
+        sync_templates_btn: "Meta에서 템플릿 동기화"
         reauth_title: 재승인 필요
         reauth_description: 액세스 토큰이 만료되었거나 무효화되었습니다. 메시지를 복원하려면 다시 연결하세요.
         danger_title: 위험지대
@@ -1499,6 +1511,10 @@ ko:
         phone_code_label: 국가 코드
         phone_number_label: 전화번호
         phone_id_label: 전화번호 아이디
+        template_name_label: "창 외 기본 템플릿"
+        template_name_placeholder: "예: customer_support_update"
+        template_language_label: "템플릿 언어 코드"
+        select_template: "승인된 템플릿 선택"
         waba_id_label: WhatsApp 비즈니스 계정 ID
         api_key_label: 액세스 토큰
         api_key_placeholder: 여기에 영구 또는 시스템 사용자 액세스 토큰을 붙여넣으세요.

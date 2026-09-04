@@ -102,6 +102,47 @@
                       = inline_svg_tag("password_show.svg", class: "ui-password-toggle__icon ui-password-toggle__icon--show", aria: { hidden: true })
                       = inline_svg_tag("password_hide.svg", class: "ui-password-toggle__icon ui-password-toggle__icon--hide", aria: { hidden: true })
 
+          section.channel-edit-section.channel-edit-card
+            .channel-edit-section__heading.channel-edit-section__heading--with-description
+              .channel-edit-section__icon
+                = inline_svg_tag("code_snipet.svg", aria: { hidden: true })
+              .channel-edit-section__heading-copy
+                h2 = t("dashboard.whatsapp_channels.edit.whatsapp_templates_title")
+                p = t("dashboard.whatsapp_channels.edit.whatsapp_templates_desc")
+            .channel-edit-section__body
+              .channel-edit-toggle-row style="justify-content: space-between; align-items: center; margin-bottom: 1.25rem;"
+                .channel-edit-toggle-row__copy
+                  - synced_count = @whatsapp_channel.approved_templates.size
+                  - if synced_count > 0
+                    p style="margin: 0; font-size: 0.875rem; color: #10b981; font-weight: 500;"
+                      = t("dashboard.whatsapp_channels.edit.templates_count", count: synced_count)
+                      - if @whatsapp_channel.templates_synced_at.present?
+                        span style="margin-left: 0.5rem; font-weight: 400; color: #6b7280;"
+                          = t("dashboard.whatsapp_channels.edit.last_synced_at", time: time_ago_in_words(@whatsapp_channel.templates_synced_at))
+                  - else
+                    p style="margin: 0; font-size: 0.875rem; color: #6b7280;"
+                      = t("dashboard.whatsapp_channels.edit.no_templates_synced")
+                = link_to sync_templates_channels_whatsapp_path(id: @whatsapp_channel.id), class: "channel-edit__button channel-edit__button--secondary", data: { turbo_method: :post } do
+                  = inline_svg_tag("refresh.svg", aria: { hidden: true })
+                  span = t("dashboard.whatsapp_channels.edit.sync_templates_btn")
+
+              .channel-edit-fields-grid
+                .channel-edit-field
+                  = f.label :template_name, t("dashboard.whatsapp_channels.form.template_name_label")
+                  - templates = @whatsapp_channel.approved_templates
+                  - if templates.present?
+                    - template_options = templates.map { |t| ["#{t['name']} (#{t['language']}) [#{t['category']}]", t['name']] }.uniq
+                    .channel-edit-select.ui-field-control.ui-field-control--no-icon
+                      = f.select :template_name, options_for_select(template_options, @whatsapp_channel.template_name), { include_blank: t("dashboard.whatsapp_channels.form.select_template") }, class: "ui-select ui-control", data: { controller: "select" }
+                  - else
+                    = f.text_field :template_name, placeholder: t("dashboard.whatsapp_channels.form.template_name_placeholder")
+
+                .channel-edit-field
+                  = f.label :template_language, t("dashboard.whatsapp_channels.form.template_language_label")
+                  - lang_options = [["English (US) - en_US", "en_US"], ["English (UK) - en_GB", "en_GB"], ["Spanish - es", "es"], ["Portuguese (Brazil) - pt_BR", "pt_BR"], ["Arabic - ar", "ar"], ["French - fr", "fr"], ["German - de", "de"], ["Urdu - ur", "ur"], ["Hindi - hi", "hi"], ["Korean - ko", "ko"]]
+                  .channel-edit-select.ui-field-control.ui-field-control--no-icon
+                    = f.select :template_language, options_for_select(lang_options, @whatsapp_channel.template_language), {}, class: "ui-select ui-control", data: { controller: "select" }
+
           - if @whatsapp_channel.primary_inbox
             = f.fields_for :primary_inbox, @whatsapp_channel.primary_inbox do |inbox|
               = inbox.hidden_field :id

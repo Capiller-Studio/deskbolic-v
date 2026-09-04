@@ -1716,6 +1716,10 @@ en:
         and recreate the channel if the token expires.
       reconnected: Channel re-activated successfully. If your access token is truly
         expired, please update it.
+      templates_synced:
+        one: "Successfully synced 1 approved template from Meta."
+        other: "Successfully synced %{count} approved templates from Meta."
+      templates_sync_empty: "No approved templates found in your WhatsApp Business Account. Please check Meta WhatsApp Manager."
       index:
         title: WhatsApp
         description: Connect your WhatsApp Business API to manage customer conversations.
@@ -1776,6 +1780,14 @@ en:
           guide_5: After creation, copy the generated Webhook URL into your Meta App.
       edit:
         title: Edit WhatsApp Channel
+        whatsapp_templates_title: WhatsApp Message Templates (24h Window Bypass)
+        whatsapp_templates_desc: Select an approved Meta Utility template used to deliver messages when replying outside Meta's 24-hour customer service window.
+        templates_count:
+          one: "1 approved template synced from Meta."
+          other: "%{count} approved templates synced from Meta."
+        last_synced_at: "(Last synced %{time} ago)"
+        no_templates_synced: "No templates synced yet. Click sync to load approved templates from Meta WhatsApp Manager."
+        sync_templates_btn: "Sync Templates from Meta"
         reauth_title: Re-authorization required
         reauth_description: The access token has expired or been invalidated. Please
           reconnect to restore messaging.
@@ -1798,6 +1810,10 @@ en:
         phone_number_label: Phone Number
         phone_id_label: Phone Number ID
         credential_id_placeholder: e.g. 123456789012345
+        template_name_label: Default Out-of-Window Template
+        template_name_placeholder: e.g. customer_support_update
+        template_language_label: Template Language Code
+        select_template: Select an approved template
         waba_id_label: WhatsApp Business Account ID
         api_key_label: Access Token
         api_key_placeholder: Paste your permanent or system user access token here

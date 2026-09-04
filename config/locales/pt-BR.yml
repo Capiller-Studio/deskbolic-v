@@ -1525,6 +1525,10 @@ pt-BR:
         o canal se o token expirar.
       reconnected: O canal foi reativado com sucesso. Se o seu token de acesso realmente
         expirou, atualize-o.
+      templates_synced:
+        one: "1 modelo aprovado sincronizado com sucesso da Meta."
+        other: "%{count} modelos aprovados sincronizados com sucesso da Meta."
+      templates_sync_empty: "Nenhum modelo aprovado encontrado na sua conta do WhatsApp Business. Verifique no Meta WhatsApp Manager."
       index:
         title: WhatsApp
         description: Conecte sua API do WhatsApp Business para gerenciar conversas
@@ -1587,6 +1591,14 @@ pt-BR:
           guide_5: Após a criação, copie o URL do Webhook gerado em seu Meta App.
       edit:
         title: Editar canal do WhatsApp
+        whatsapp_templates_title: "Modelos de mensagens do WhatsApp (Ignorar janela de 24h)"
+        whatsapp_templates_desc: "Selecione um modelo utilitário aprovado pela Meta para enviar mensagens fora da janela de 24 horas."
+        templates_count:
+          one: "1 modelo aprovado sincronizado da Meta."
+          other: "%{count} modelos aprovados sincronizados da Meta."
+        last_synced_at: "(Última sincronização há %{time})"
+        no_templates_synced: "Nenhum modelo sincronizado ainda. Clique em sincronizar para carregar modelos aprovados da Meta."
+        sync_templates_btn: "Sincronizar modelos da Meta"
         reauth_title: Reautorização necessária
         reauth_description: O token de acesso expirou ou foi invalidado. Reconecte-se
           para restaurar as mensagens.
@@ -1608,6 +1620,10 @@ pt-BR:
         phone_code_label: Código do país
         phone_number_label: Número de telefone
         phone_id_label: ID do número de telefone
+        template_name_label: Modelo padrão fora da janela
+        template_name_placeholder: "ex.: customer_support_update"
+        template_language_label: Código de idioma do modelo
+        select_template: Selecione um modelo aprovado
         waba_id_label: ID da conta comercial do WhatsApp
         api_key_label: Token de acesso
         api_key_placeholder: Cole seu token de acesso de usuário permanente ou do

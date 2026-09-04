@@ -152,6 +152,7 @@ Rails.application.routes.draw do
         resources :whatsapp, except: [ :show ] do
           member do
             post :reconnect
+            post :sync_templates
           end
           collection do
             get :oauth_authorize

@@ -35,20 +35,16 @@ module Dashboard
           @conversation.assign!(current_user)
         end
 
-        @message = @conversation.messages.create!(
+        @messages = Messages::MessageCreator.call(
+          conversation: @conversation,
           content: @response,
-          inbox: @conversation.inbox,
-          account: @conversation.account,
+          attachments: @attachments,
           sender: current_user,
-          source: @conversation.source,
           visibility: @visibility
         )
+        @message = @messages.first
 
-        create_attachments(@attachments) if @attachments.present?
-
-        if @message.global?
-          Messages::DeliveryWorker.perform_async(@message.account_id, @message.id)
-        elsif @message.personal? && @message.content.present?
+        if @message&.personal? && @message.content.present?
           parse_mentions(@message)
         end
 
@@ -118,25 +114,6 @@ module Dashboard
           resource: message,
           mentioned: user
         )
-      end
-    end
-
-    def create_attachments(attachments)
-      attachments.each do |file|
-        @message.attachments.create!(
-          account: @conversation.account,
-          file: file,
-          attachment_type: detect_attachment_type(file)
-        )
-      end
-    end
-
-    def detect_attachment_type(file)
-      case file.content_type
-      when %r{\Aimage/} then :image
-      when %r{\Avideo/} then :video
-      when %r{\Aaudio/} then :audio
-      else :file
       end
     end
   end

@@ -1,4 +1,9 @@
 ko:
+  errors:
+    messages:
+      already_confirmed: "이미 확인되었습니다. 로그인해 주세요"
+      blank: "항목을 비워 둘 수 없습니다"
+      not_found: "정보를 찾을 수 없습니다"
   languages:
     en: 영어
     fr: 프랑스어
@@ -2186,6 +2191,11 @@ ko:
         next_steps: 다음 단계
         go_to_dashboard: 대시보드로 이동
         marketing_text: 고객, 상담원, 리더를 위한 첫 번째 고객 서비스
+      chooser:
+        title: 워크스페이스 선택
+        subtitle: "%{email}(으)로 계속할 워크스페이스를 선택하세요."
+        create_new: 새 워크스페이스 만들기
+        signed_in_as: "%{email}(으)로 로그인됨"
     custom_channels:
       index:
         title: 사용자 정의 웹훅 채널
@@ -2600,6 +2610,9 @@ ko:
         thank_you_detection: "AI 감사 감지 활성화"
   activerecord:
     attributes:
+      user:
+        email: 이메일
+        confirmation_token: 확인 토큰
       ai/agent:
         agent_types:
           help_center_bot: 헬프 센터 봇
@@ -2638,6 +2651,8 @@ ko:
     email: 이메일
     password: 비밀번호
     password_confirmation: 비밀번호 확인
+    password_match: 비밀번호가 일치합니다
+    password_mismatch: 비밀번호가 일치하지 않습니다
     first_name: 이름
     last_name: 성
     country: 국가

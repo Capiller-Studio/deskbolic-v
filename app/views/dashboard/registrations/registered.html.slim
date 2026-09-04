@@ -1,7 +1,12 @@
-.user-signup-container
+- content_for :body_class, "auth-themed-body"
+- content_for :themed_auth_layout, "true"
+
+.auth-page.auth-page--success
   = render "dashboard/registrations/registered_success"
-  
-  .image-section
-    = image_tag "register.png", class: "register-img", alt: t("ui.dashboard.registrations.new.graphic")
-    = image_tag "register-back.png", class: "back-img", alt: t("ui.dashboard.registrations.new.background")
-    p = t("auth.registration.marketing_text")
+
+  aside.auth-visual aria-label=t("auth.registration.marketing_text")
+    .auth-visual-orb.auth-visual-orb--one
+    .auth-visual-orb.auth-visual-orb--two
+    .auth-visual-content
+      = image_tag "register.png", class: "auth-visual-image", alt: "", aria: { hidden: true }
+      h2 = t("auth.registration.marketing_text")

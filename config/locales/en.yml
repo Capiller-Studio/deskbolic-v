@@ -1,5 +1,10 @@
 ---
 en:
+  errors:
+    messages:
+      already_confirmed: "was already confirmed, please try signing in"
+      blank: "can't be blank"
+      not_found: "not found"
   languages:
     en: English
     fr: French
@@ -2582,6 +2587,11 @@ en:
         next_steps: Next Steps
         go_to_dashboard: Go to Dashboard
         marketing_text: First customer service for customers, agents, and leaders
+      chooser:
+        title: Select a Workspace
+        subtitle: "Choose a workspace to continue as %{email}"
+        create_new: Create New Workspace
+        signed_in_as: "Signed in as %{email}"
     custom_channels:
       index:
         title: Custom Webhook Channels
@@ -2885,6 +2895,9 @@ en:
         limit_reached: You have reached the maximum number of AI Agents for your plan.
   activerecord:
     attributes:
+      user:
+        email: Email
+        confirmation_token: Confirmation token
       ai/agent:
         agent_types:
           help_center_bot: Help Center Bot
@@ -2923,6 +2936,8 @@ en:
     email: Email
     password: Password
     password_confirmation: Confirm Password
+    password_match: Passwords match
+    password_mismatch: Passwords do not match
     first_name: First Name
     last_name: Last Name
     country: Country

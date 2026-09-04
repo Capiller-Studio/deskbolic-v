@@ -1,4 +1,9 @@
 de:
+  errors:
+    messages:
+      already_confirmed: "wurde bereits bestätigt. Bitte versuchen Sie, sich anzumelden"
+      blank: "darf nicht leer sein"
+      not_found: "wurde nicht gefunden"
   languages:
     en: Englisch
     fr: Französisch
@@ -2357,6 +2362,11 @@ de:
         next_steps: Nächste Schritte
         go_to_dashboard: Gehen Sie zum Dashboard
         marketing_text: Erster Kundenservice für Kunden, Agenten und Führungskräfte
+      chooser:
+        title: Arbeitsbereich auswählen
+        subtitle: "Wählen Sie einen Arbeitsbereich aus, um als %{email} fortzufahren."
+        create_new: Neuen Arbeitsbereich erstellen
+        signed_in_as: "Angemeldet als %{email}"
     custom_channels:
       index:
         title: Benutzerdefinierte Webhook-Kanäle
@@ -2797,6 +2807,9 @@ de:
         thank_you_detection: "Aktivieren Sie die KI-Dankeserkennung"
   activerecord:
     attributes:
+      user:
+        email: E-Mail-Adresse
+        confirmation_token: Bestätigungs-Token
       ai/agent:
         agent_types:
           help_center_bot: Help-Center-Bot
@@ -2837,6 +2850,8 @@ de:
     email: E-Mail
     password: Passwort
     password_confirmation: Passwort bestätigen
+    password_match: Die Passwörter stimmen überein
+    password_mismatch: Die Passwörter stimmen nicht überein
     first_name: Vorname
     last_name: Nachname
     country: Land

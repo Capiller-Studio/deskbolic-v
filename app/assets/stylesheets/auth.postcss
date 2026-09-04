@@ -6,9 +6,11 @@
 @import "dashboard/basic/base.postcss";
 @import "dashboard/components/form.postcss.css";
 @import "dashboard/components/form_wizard.postcss.css";
+@import "dashboard/components/choices.postcss.css";
 @import "dashboard/components/login.postcss.css";
 @import "dashboard/components/register.postcss.css";
 @import "dashboard/components/email_invitation.postcss.css";
+@import "dashboard/components/auth_shell.postcss.css";
 
 .locale-dropdown-container {
   position: absolute;
@@ -99,39 +101,4 @@
     opacity: 0;
     visibility: hidden;
   }
-}
-
-.auth-success-card {
-  background: white;
-  border-radius: 16px;
-  padding: 50px 40px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-  text-align: center;
-  max-width: 450px;
-  width: 100%;
-  margin: 20px;
-}
-
-.auth-success-icon {
-  margin-bottom: 20px;
-}
-
-.auth-success-title {
-  font-size: 24px;
-  font-weight: 700;
-  color: #111827;
-  margin-bottom: 15px;
-}
-
-.auth-success-message {
-  font-size: 15px;
-  color: #4B5563;
-  line-height: 1.6;
-  margin-bottom: 30px;
-}
-
-.auth-success-button {
-  display: inline-block;
-  width: 100%;
-  text-decoration: none;
 }

@@ -1,4 +1,9 @@
 fr:
+  errors:
+    messages:
+      already_confirmed: "a déjà été confirmée. Veuillez essayer de vous connecter"
+      blank: "ne peut pas être vide"
+      not_found: "est introuvable"
   languages:
     en: Anglais
     fr: Français
@@ -2347,6 +2352,11 @@ fr:
         go_to_dashboard: Aller au tableau de bord
         marketing_text: Premier service client pour les clients, les agents et les
           dirigeants
+      chooser:
+        title: Sélectionner un espace de travail
+        subtitle: "Choisissez un espace de travail pour continuer en tant que %{email}"
+        create_new: Créer un espace de travail
+        signed_in_as: "Connecté en tant que %{email}"
     custom_channels:
       index:
         title: Canaux de webhook personnalisés
@@ -2787,6 +2797,9 @@ fr:
         thank_you_detection: "Activer la détection de remerciement par IA"
   activerecord:
     attributes:
+      user:
+        email: Adresse e-mail
+        confirmation_token: Jeton de confirmation
       ai/agent:
         agent_types:
           help_center_bot: Bot du centre d’aide
@@ -2827,6 +2840,8 @@ fr:
     email: Courriel
     password: Mot de passe
     password_confirmation: Confirmer le mot de passe
+    password_match: Les mots de passe correspondent
+    password_mismatch: Les mots de passe ne correspondent pas
     first_name: Prénom
     last_name: Nom de famille
     country: Pays

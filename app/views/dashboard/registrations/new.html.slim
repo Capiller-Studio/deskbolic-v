@@ -1,9 +1,15 @@
-.user-signup-container
-  .form-section#registration-wizard
-    = link_to root_path do
-      = image_tag "logo.png", class: "img", alt: "Deskbolic"
+- content_for :body_class, "auth-themed-body auth-register-body"
+- content_for :themed_auth_layout, "true"
+- content_for :embedded_auth_locale_picker, "true"
 
-    = form_with url: registration_path(resource_name), method: :post, local: true, data: { controller: "registration-wizard", action: "submit->registration-wizard#submitForm turbo:submit-end->registration-wizard#handleSubmitEnd" }, style: "height: calc(100% - 40px);" do |f|
+.auth-page.auth-page--register
+  .form-section.auth-main#registration-wizard
+    header.auth-header
+      = link_to root_path, class: "auth-logo", aria: { label: "Deskbolic" } do
+        = image_tag "logo.png", alt: "Deskbolic"
+      = link_to t("auth.login.submit"), new_user_session_path, class: "auth-secondary-button"
+
+    = form_with url: registration_path(resource_name), method: :post, local: true, data: { controller: "registration-wizard", action: "submit->registration-wizard#submitForm turbo:submit-end->registration-wizard#handleSubmitEnd" }, class: "auth-register-form" do |f|
       = invisible_captcha :gift_vcode
       = hidden_field_tag :plan_id, params[:plan_id].presence || cookies[:selected_plan_id].presence
       = hidden_field_tag :billing_cycle, params[:billing_cycle].presence || cookies[:selected_billing_cycle].presence
@@ -28,24 +34,24 @@
 
           .form-wrapper
             = f.label :country, t("auth.country"), class: "form-label"
-            = f.select :country, Carmen::Country.all.sort_by(&:name).map { |c| [c.name, c.alpha_2_code] }, { prompt: t("auth.select_country") }, class: "form-control", data: { registration_wizard_target: "countryInput" }, required: true
+            = f.select :country, Carmen::Country.all.sort_by(&:name).map { |c| [c.name, c.alpha_2_code] }, { prompt: t("auth.select_country") }, class: "form-control", data: { controller: "select", registration_wizard_target: "countryInput" }, required: true
 
           .form-wrapper
             = f.label :email, t("auth.email"), class: "form-label"
             = f.email_field "user[email]", required: true, data: { registration_wizard_target: "emailInput" }, class: "form-control", placeholder: t("auth.placeholders.email")
             p.text-red-500.text-sm.mt-1.hidden data-registration-wizard-target="emailError" style="color: #ef4444; font-size: 12px; margin-top: 4px;"
 
-          div data-controller="password-strength"
+          div data-controller="password-strength" data-password-strength-match-message-value=t("auth.password_match") data-password-strength-mismatch-message-value=t("auth.password_mismatch")
             .password-section
               .form-wrapper
                 = f.label :password, t("auth.password"), class: "form-label"
                 = f.password_field "user[password]", required: true, data: { password_strength_target: "password", action: "input->password-strength#validatePassword input->password-strength#validateConfirmation" }, class: "form-control", placeholder: "••••••••"
-                div style="height: 4px; background: #eee; border-radius: 2px; margin-top: 8px;"
+                div style="height: 4px; background: #eee; border-radius: 2px; margin-top: 14px;"
                   div data-password-strength-target="strengthMeter" style="height: 100%; width: 0; border-radius: 2px; transition: width 0.3s;"
               .form-wrapper
                 = f.label :password_confirmation, t("auth.password_confirmation"), class: "form-label"
                 = f.password_field "user[password_confirmation]", required: true, data: { password_strength_target: "confirmation", action: "input->password-strength#validateConfirmation" }, class: "form-control", placeholder: "••••••••"
-                p data-password-strength-target="matchStatus" style="font-size: 12px; margin-top: 4px;"
+                p data-password-strength-target="matchStatus" style="font-size: 12px; margin-top: 10px;"
 
             .password-rules style="margin-top: 15px; margin-bottom: 20px; font-size: 13px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;"
               div data-password-strength-target="ruleLength" style="color: #9ca3af; display: flex; align-items: center; gap: 6px; transition: color 0.3s;"
@@ -66,10 +72,6 @@
                 span = t("auth.password_rules.special")
 
           button type="button" data-action="click->registration-wizard#nextStep" class="cont-btn" = t("auth.next")
-          
-          div style="text-align: center; margin-top: 20px;"
-            = link_to t("auth.login.existing_account"), new_user_session_path, style: "font-size: 14px; color: #4F46E5; text-decoration: none;"
-
       /! Step 2: Account Details
       fieldset.wizard-step.hidden data-registration-wizard-target="step"
         .set-header
@@ -106,14 +108,14 @@
 
           .form-wrapper
             = f.label :currency, t("auth.currency"), class: "form-label"
-            = f.select :currency, [["USD ($)", "USD"], ["EUR (€)", "EUR"], ["GBP (£)", "GBP"]], { selected: cookies[:selected_currency].presence || params[:currency] }, class: "form-control"
+            = f.select :currency, [["USD ($)", "USD"], ["EUR (€)", "EUR"], ["GBP (£)", "GBP"]], { selected: cookies[:selected_currency].presence || params[:currency] }, class: "form-control", data: { controller: "select" }
           p style="font-size: 12px; color: #565656; margin-top: -10px; margin-bottom: 15px;" = t("auth.currency_hint")
 
           .form-wrapper
             = f.label :account_locale, t("auth.default_language"), class: "form-label"
-            = f.select :account_locale, Core::SUPPORTED_LOCALES.map { |l| [I18n.t("languages.#{l.to_s.downcase}"), l] }, { selected: I18n.locale }, class: "form-control"
+            = f.select :account_locale, Core::SUPPORTED_LOCALES.map { |l| [I18n.t("languages.#{l.to_s.downcase}"), l] }, { selected: I18n.locale }, class: "form-control", data: { controller: "select" }
 
-          div style="display: flex; gap: 15px;"
+          .registration-actions style="display: flex; gap: 15px;"
             button type="button" data-action="click->registration-wizard#prevStep" class="cont-btn" style="background-color: #f3f4f6; color: #374151;" = t("auth.back")
             = f.submit t("auth.submit_registration"), class: "cont-btn", data: { disable_with: t("auth.submitting") }
 
@@ -123,7 +125,10 @@
         div style="width: 100%; height: 8px; background: #eee; border-radius: 4px; overflow: hidden;"
           div data-registration-wizard-target="progressFill" style="height: 100%; background: #4F46E5; width: 0%; transition: width 0.5s;"
 
-  .image-section
+    .auth-register-locale-row
+      = render("layouts/auth_locale_picker")
+
+  .image-section.auth-visual
     = image_tag "register.png", class: "register-img", alt: t("ui.dashboard.registrations.new.graphic")
     = image_tag "register-back.png", class: "back-img", alt: t("ui.dashboard.registrations.new.background")
     p = t("auth.registration.marketing_text")

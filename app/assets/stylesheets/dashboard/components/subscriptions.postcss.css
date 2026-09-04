@@ -307,239 +307,306 @@ html[lang="ar"] .ap-subscription-page {
   }
 }
 
-@media (max-width: 991px) {
-}
-
-@media (max-width: 576px) {
+@media (max-width: 992px) {
   .ap-subscription-page {
-    @mixin padding-size 5, 10;
+    padding: 44px 28px 58px;
+
+    .ap-subscription-container {
+      max-width: 920px;
+    }
+
+    .ap-subscription-header {
+      margin-bottom: 32px;
+    }
 
     .ap-subscription-title {
-      @mixin font-size 6;
-      @mixin line-height 7;
+      font-size: 40px;
+      line-height: 1.18;
     }
 
     .ap-subscription-subtitle {
-      @mixin margin-top 3.5;
-      color: #404c76;
-      @mixin font-size 3.05;
+      margin-top: 14px;
+      font-size: 16px;
     }
 
     .ap-subscription-cycle-toggle {
-      @mixin margin-bottom 6.15;
+      margin-bottom: 52px;
+    }
+
+    .ap-subscription-grid {
+      grid-auto-rows: auto;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-rows: none;
+      gap: 24px;
+    }
+
+    .ap-subscription-card {
+      min-height: 0;
+      border-radius: 20px;
+
+      .ap-subscription-card-body {
+        padding: 28px 26px 20px;
+      }
+
+      .ap-subscription-icon-wrap {
+        width: 52px;
+        height: 52px;
+        margin-bottom: 17px;
+      }
+
+      .ap-subscription-plan-icon {
+        width: 24px;
+        height: 24px;
+      }
+
+      .ap-subscription-plan-name {
+        font-size: 22px;
+      }
+
+      .ap-subscription-desc {
+        min-height: 0;
+        font-size: 14px;
+      }
+
+      .ap-subscription-price {
+        font-size: 42px;
+      }
+
+      .ap-subscription-period {
+        font-size: 13px;
+      }
+
+      .ap-subscription-feature-item {
+        font-size: 14px;
+      }
+
+      .ap-subscription-footer {
+        padding: 0 26px 28px;
+      }
+
+      .ap-subscription-submit {
+        min-height: 48px;
+        border-radius: 11px;
+        font-size: 14px;
+      }
+    }
+
+    .ap-subscription-card.ap-subscription-card--hyperbolic {
+      margin-top: 20px;
+      transform: none;
+    }
+  }
+}
+
+/* Responsive phone layout. */
+@media (max-width: 640px) {
+  .ap-subscription-page {
+    min-height: 100svh;
+    padding: 28px 16px 44px;
+
+    .ap-subscription-container {
+      max-width: 520px;
+    }
+
+    .ap-subscription-header {
+      margin-bottom: 24px;
+    }
+
+    .ap-subscription-title {
+      font-size: clamp(28px, 8vw, 34px);
+      line-height: 1.18;
+    }
+
+    .ap-subscription-subtitle {
+      max-width: 500px;
+      margin: 12px auto 0;
+      font-size: 14px;
+      line-height: 1.55;
+      text-wrap: balance;
+    }
+
+    .ap-subscription-subtitle-break {
+      display: none;
+    }
+
+    .ap-subscription-cycle-toggle {
+      width: 100%;
+      max-width: 360px;
+      margin-bottom: 36px;
       padding: 4px;
-      background: #fafafd;
-      border: 1px solid #e7e8ef;
-      border-radius: 999px;
-      box-shadow: 0 2px 3px rgb(17 24 45 / 5%);
 
       .ap-billing-cycle-label {
-        position: relative;
-        z-index: 1;
-        @mixin padding-size .73, 1.1;
-        color: #6b7896;
-        background: transparent;
-        border: 0;
-        @mixin font-size 2;
-        font-weight: 600;
-        white-space: nowrap;
-
-        &.ap-billing-cycle-active {
-          color: #252977;
-          background: #fff;
-          border: 1px solid #6366f1;
-          border-radius: 999px;
-          box-shadow: 0 1px 2px rgb(36 40 105 / 12%);
-        }
-      }
-
-      .ap-billing-toggle-switch {
-        position: absolute;
-        z-index: 2;
-        inset: 0;
-        display: block;
-        width: 100%;
-        height: 100%;
-        cursor: pointer;
-
-        input {
-          width: 100%;
-          height: 100%;
-          opacity: 0;
-          cursor: pointer;
-        }
-      }
-
-      .ap-billing-toggle-slider {
-        display: none;
+        flex: 1 1 50%;
+        padding: 10px 8px;
+        font-size: 12px;
+        line-height: 16px;
+        text-align: center;
       }
 
       .ap-billing-save-badge {
-        @mixin font-size 2;
+        margin-left: 4px;
+        font-size: 11px;
       }
     }
 
     .ap-subscription-grid {
-      @mixin grid-container $col1, $row1;
-      @mixin gap-size 5, 5;
-      align-items: stretch;
+      max-width: 480px;
+      grid-auto-rows: auto;
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: none;
+      gap: 24px;
+      margin: 0 auto;
     }
 
     .ap-subscription-card {
-      --plan-color: #5d5bf5;
-      --plan-tint: #f0f1ff;
-
-      position: relative;
-      @mixin flex-column $justify-between, $align-normal;
-      @mixin min-height 46;
-      background: #fff;
-      border: 1px solid #edf0f7;
-      @mixin border-radius 5;
-      box-shadow: 0 14px 28px rgb(22 30 62 / 5%);
+      min-height: 0;
+      border-radius: 18px;
 
       .ap-subscription-card-body {
-        flex: 1;
-        @mixin padding-size 5, 5;
-        padding-bottom: 20px;
+        padding: 24px 22px 18px;
       }
 
       .ap-subscription-icon-wrap {
-        display: grid;
-        place-items: center;
-        @mixin width-size 6.2;
-        @mixin height-size 6.2;
-        @mixin margin-bottom 1.5;
-        border-radius: 50%;
-        background: var(--plan-tint);
+        width: 50px;
+        height: 50px;
+        margin-bottom: 16px;
       }
 
       .ap-subscription-plan-icon {
-        @mixin width-size 3;
-        @mixin height-size 3;
-        object-fit: contain;
+        width: 23px;
+        height: 23px;
       }
 
       .ap-subscription-plan-name {
-        margin: 0 0 8px;
-        color: #131a32;
-        @mixin font-size 3.5;
-        font-weight: 700;
-        letter-spacing: -0.04em;
+        margin-bottom: 7px;
+        font-size: 22px;
       }
 
       .ap-subscription-desc {
-        @mixin min-height 2.25;
-        margin: 0;
-        color: #3f4b74;
-        @mixin font-size 2;
-        line-height: 1.4;
+        min-height: 0;
+        font-size: 14px;
+        line-height: 1.5;
       }
 
       .ap-subscription-price-row {
-        @mixin flex-row $justify-left, $align-base;
-        @mixin margin-top 3;
+        flex-wrap: wrap;
+        margin-top: 18px;
       }
 
       .ap-subscription-price {
-        color: var(--plan-color);
-        @mixin font-size 6.2;
-        font-weight: 700;
-        letter-spacing: -0.06em;
-        line-height: 1;
+        font-size: 38px;
       }
 
       .ap-subscription-period {
-        @mixin margin-left .42;
-        color: #8b99b5;
-        @mixin font-size 3;
+        margin-left: 6px;
+        font-size: 13px;
       }
 
       .ap-subscription-annual-note {
-        @mixin min-height 1;
-        /* margin: 7px 0 21px; */
-        color: var(--plan-color);
-        @mixin font-size 3;
+        min-height: 0;
+        margin: 7px 0 0;
+        font-size: 12px;
+        line-height: 18px;
       }
 
       .ap-subscription-trial-badge {
-        display: inline-flex;
-        @mixin padding-size 2, 3;
-        color: var(--plan-color);
-        background: var(--plan-tint);
-        border-radius: 999px;
-        @mixin font-size 3;
-        font-weight: 600;
+        margin-top: 12px;
+        padding: 6px 10px;
+        font-size: 12px;
       }
 
       .ap-subscription-features {
-        display: grid;
-        @mixin gap-size 1.1, 0;
-        @mixin margin-top 1.8;
-        padding: 0;
-        list-style: none;
+        gap: 12px;
+        margin-top: 22px;
       }
 
       .ap-subscription-feature-item {
-        @mixin flex-row $justify-left, $align-start;
-        @mixin gap-size 0, .78;
-        color: #3f4b74;
-        @mixin font-size 2;
-        line-height: 1.45;
+        gap: 10px;
+        font-size: 14px;
+        line-height: 1.5;
       }
 
       .ap-subscription-feature-check {
-        display: grid;
-        place-items: center;
-        flex: 0 0 auto;
-        @mixin width-size 2.15;
-        @mixin height-size 2.15;
-        margin-top: 1px;
-        border-radius: 50%;
-        background: var(--plan-color);
+        width: 18px;
+        height: 18px;
 
         img {
-          @mixin width-size 1.63;
-          @mixin height-size 1.63;
-          filter: brightness(0) invert(1);
+          width: 10px;
+          height: 10px;
         }
       }
 
       .ap-subscription-footer {
-        @mixin padding-size 3.25, 2.1;
-        padding-bottom: 40px;
+        padding: 0 22px 24px;
       }
 
       .ap-subscription-submit {
-        width: 100%;
-        @mixin min-height 3.25;
-        color: var(--plan-color);
-        background: #fff;
-        border: 1.5px solid var(--plan-color);
-        @mixin border-radius 3;
-        @mixin padding-size 3.25, 2.1;
-        @mixin font-size 3;
-        font-weight: 700;
-        cursor: pointer;
+        min-height: 48px;
+        border-radius: 10px;
+        padding: 12px 16px;
+        font-size: 14px;
       }
 
       .ap-subscription-popular-badge {
-        @mixin padding-size 2, 3.5;
-        @mixin font-size 2;
-        font-weight: 700;
-        letter-spacing: .04em;
-        white-space: nowrap;
-        transform: translateX(-50%);
-
-        .ap-subscription-popular-icon {
-          width: 15px;
-          height: 15px;
-          filter: brightness(0) invert(1);
-        }
+        top: -16px;
+        padding: 8px 14px;
+        font-size: 10px;
       }
     }
+
     .ap-subscription-card.ap-subscription-card--hyperbolic {
-      transform: translateY(0px);
-      margin-top: 15px;
+      margin-top: 16px;
+      border-width: 2px;
+      border-radius: 20px;
+      transform: none;
+    }
+  }
+
+  html[dir="rtl"] .ap-subscription-page {
+    .ap-subscription-period {
+      margin-right: 6px;
+      margin-left: 0;
+    }
+
+    .ap-billing-save-badge {
+      margin-right: 4px;
+      margin-left: 0;
+    }
+  }
+}
+
+@media (max-width: 380px) {
+  .ap-subscription-page {
+    padding: 24px 12px 36px;
+
+    .ap-subscription-title {
+      font-size: 26px;
+    }
+
+    .ap-subscription-cycle-toggle {
+      .ap-billing-cycle-label {
+        padding: 9px 5px;
+        font-size: 11px;
+      }
+
+      .ap-billing-save-badge {
+        display: block;
+        margin: 2px 0 0;
+      }
+    }
+
+    .ap-subscription-card {
+      .ap-subscription-card-body {
+        padding: 22px 18px 17px;
+      }
+
+      .ap-subscription-price {
+        font-size: 34px;
+      }
+
+      .ap-subscription-footer {
+        padding: 0 18px 22px;
+      }
     }
   }
 }

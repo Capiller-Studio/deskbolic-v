@@ -1,35 +1,49 @@
-.user-login-container.center-wrapper
-  .form-section
-    .form-header
-      .logo
-        = link_to root_path do
-          = image_tag "logo.png", alt: "Deskbolic"
-      = link_to t("auth.login.create_account"), new_user_registration_path, class: "join-btn"
+- content_for :body_class, "auth-themed-body"
+- content_for :themed_auth_layout, "true"
 
-  .login-container
-    .login-card
-      h2 style="font-size: 24px; font-weight: 600; margin-bottom: 10px;" = t("auth.login.title")
-      p = t("auth.login.subtitle")
+.auth-page.auth-page--login
+  main.auth-main
+    header.auth-header
+      = link_to root_path, class: "auth-logo", aria: { label: "Deskbolic" } do
+        = image_tag "logo.png", alt: "Deskbolic"
 
-      .form-fields
-        = form_with url: user_session_path, method: :post, local: true, data: { turbo: false } do |f|
-          .form-floating
-            = f.label :email, t("auth.email"), class: "form-label"
-            = f.email_field "user[email]", autofocus: true, autocomplete: "email", required: true, class: "form-control", placeholder: t("auth.placeholders.email")
+      .auth-header-action
+        = link_to t("auth.login.create_account"), new_user_registration_path, class: "auth-secondary-button"
 
-          .form-floating style="margin-top: 20px;"
-            = f.label :password, t("auth.password"), class: "form-label"
-            = f.password_field "user[password]", autocomplete: "current-password", required: true, class: "form-control", placeholder: "••••••••"
+    .auth-form-wrap
+      .auth-card
+        .auth-card-header
+          .auth-eyebrow = t("auth.login.submit")
+          h1 = t("auth.login.title")
+          p = t("auth.login.subtitle")
 
-          div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px; text-align: left;"
-            div style="display: flex; align-items: center;"
-              = f.check_box "user[remember_me]", style: "margin-right: 8px; width: 16px; height: 16px; cursor: pointer;"
-              = f.label t("ui.dashboard.sessions.new.user_remember_me"), t("auth.login.remember_me"), style: "font-size: 14px; color: #565656; cursor: pointer;"
-            
-            = link_to t("auth.login.forgot_password"), new_user_password_path, style: "font-size: 14px; color: #4F46E5; text-decoration: none;"
+        = form_with url: user_session_path, method: :post, local: true, data: { turbo: false }, class: "auth-form" do |f|
+          .auth-field
+            = f.label :email, t("auth.email"), class: "auth-label", for: "user_email"
+            = f.email_field "user[email]", id: "user_email", autofocus: true, autocomplete: "email", required: true, class: "auth-input", placeholder: t("auth.placeholders.email")
 
-          .actions
-            = f.submit t("auth.login.submit"), class: "button"
-          
-          div style="text-align: center; margin-top: 20px;"
-            = link_to t("auth.login.resend_confirmation"), new_user_confirmation_path, style: "font-size: 14px; color: #4F46E5; text-decoration: none;"
+          .auth-field
+            = f.label :password, t("auth.password"), class: "auth-label", for: "user_password"
+            = f.password_field "user[password]", id: "user_password", autocomplete: "current-password", required: true, class: "auth-input", placeholder: "••••••••"
+
+          .auth-form-options
+            .auth-checkbox
+              = f.check_box "user[remember_me]", id: "user_remember_me"
+              = f.label "user[remember_me]", t("auth.login.remember_me"), for: "user_remember_me"
+
+            = link_to t("auth.login.forgot_password"), new_user_password_path, class: "auth-text-link"
+
+          = f.submit t("auth.login.submit"), class: "auth-primary-button"
+
+        .auth-card-footer
+          = link_to t("auth.login.resend_confirmation"), new_user_confirmation_path, class: "auth-muted-link"
+
+  aside.auth-visual aria-label=t("auth.registration.marketing_text")
+    .auth-visual-orb.auth-visual-orb--one
+    .auth-visual-orb.auth-visual-orb--two
+    .auth-visual-content
+      .auth-visual-badge
+        span.auth-visual-badge-dot
+        = t("auth.login.subtitle")
+      = image_tag "register.png", class: "auth-visual-image", alt: "", aria: { hidden: true }
+      h2 = t("auth.registration.marketing_text")

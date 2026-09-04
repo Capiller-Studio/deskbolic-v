@@ -1,4 +1,9 @@
 ar:
+  errors:
+    messages:
+      already_confirmed: "مؤكد بالفعل، يرجى محاولة تسجيل الدخول"
+      blank: "لا يمكن أن يكون فارغًا"
+      not_found: "غير موجود"
   languages:
     en: "الإنجليزية"
     fr: "الفرنسية"
@@ -2331,6 +2336,11 @@ ar:
         next_steps: "الخطوات التالية"
         go_to_dashboard: "انتقل إلى لوحة المعلومات"
         marketing_text: "خدمة العملاء الأولى للعملاء والوكلاء والقادة"
+      chooser:
+        title: "اختيار مساحة عمل"
+        subtitle: "اختر مساحة عمل للمتابعة باستخدام %{email}"
+        create_new: "إنشاء مساحة عمل جديدة"
+        signed_in_as: "تم تسجيل الدخول باسم %{email}"
     custom_channels:
       index:
         title: "قنوات Webhook المخصصة"
@@ -2592,6 +2602,9 @@ ar:
         limit_reached: "لقد وصلت إلى الحد الأقصى لعدد وكلاء AI لخطتك."
   activerecord:
     attributes:
+      user:
+        email: "البريد الإلكتروني"
+        confirmation_token: "رمز التأكيد"
       ai/agent:
         agent_types:
           help_center_bot: "بوت مركز المساعدة"
@@ -2625,6 +2638,8 @@ ar:
     email: "البريد"
     password: "كلمة المرور"
     password_confirmation: "تأكيد كلمة المرور"
+    password_match: "كلمتا المرور متطابقتان"
+    password_mismatch: "كلمتا المرور غير متطابقتين"
     first_name: "الاسم الأول"
     last_name: "الاسم الأخير"
     country: "البلد"

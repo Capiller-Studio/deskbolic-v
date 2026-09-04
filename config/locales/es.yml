@@ -1,4 +1,9 @@
 es:
+  errors:
+    messages:
+      already_confirmed: "ya fue confirmado. Intenta iniciar sesión"
+      blank: "no puede estar en blanco"
+      not_found: "no se encontró"
   languages:
     en: ingles
     fr: francés
@@ -2340,6 +2345,11 @@ es:
         go_to_dashboard: Ir al panel
         marketing_text: Primer servicio de atención al cliente para clientes, agentes
           y líderes.
+      chooser:
+        title: Seleccionar un espacio de trabajo
+        subtitle: "Elige un espacio de trabajo para continuar como %{email}"
+        create_new: Crear un nuevo espacio de trabajo
+        signed_in_as: "Sesión iniciada como %{email}"
     custom_channels:
       index:
         title: Canales de webhook personalizados
@@ -2777,6 +2787,9 @@ es:
         thank_you_detection: "Habilite la detección de agradecimiento de IA"
   activerecord:
     attributes:
+      user:
+        email: Correo electrónico
+        confirmation_token: Token de confirmación
       ai/agent:
         agent_types:
           help_center_bot: Bot del centro de ayuda
@@ -2817,6 +2830,8 @@ es:
     email: Correo electrónico
     password: Contraseña
     password_confirmation: Confirmar contraseña
+    password_match: Las contraseñas coinciden
+    password_mismatch: Las contraseñas no coinciden
     first_name: Nombre
     last_name: Apellido
     country: País

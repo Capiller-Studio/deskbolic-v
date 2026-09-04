@@ -1,4 +1,9 @@
 pt-BR:
+  errors:
+    messages:
+      already_confirmed: "já foi confirmado. Tente entrar"
+      blank: "não pode ficar em branco"
+      not_found: "não foi encontrado"
   languages:
     en: Inglês
     fr: Francês
@@ -2316,6 +2321,11 @@ pt-BR:
         next_steps: Próximas etapas
         go_to_dashboard: Vá para o painel
         marketing_text: Primeiro atendimento ao cliente para clientes, agentes e líderes
+      chooser:
+        title: Selecionar um espaço de trabalho
+        subtitle: "Escolha um espaço de trabalho para continuar como %{email}"
+        create_new: Criar novo espaço de trabalho
+        signed_in_as: "Conectado como %{email}"
     custom_channels:
       index:
         title: Canais de webhook personalizados
@@ -2750,6 +2760,9 @@ pt-BR:
         thank_you_detection: "Ativar detecção de agradecimento por IA"
   activerecord:
     attributes:
+      user:
+        email: E-mail
+        confirmation_token: Token de confirmação
       ai/agent:
         agent_types:
           help_center_bot: Bot da Central de Ajuda
@@ -2790,6 +2803,8 @@ pt-BR:
     email: E-mail
     password: Senha
     password_confirmation: Confirmar senha
+    password_match: As senhas correspondem
+    password_mismatch: As senhas não correspondem
     first_name: Primeiro nome
     last_name: Sobrenome
     country: País

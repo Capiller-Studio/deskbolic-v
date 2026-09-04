@@ -32,8 +32,24 @@
   div *editor_opts
 
     .hc-form-header-bar
-      = link_to help_center_article_path(id: @article.id), class: "hc-back-link" do
-        | Back
+      .hc-form-header-top
+        = link_to help_center_article_path(id: @article.id), class: "hc-form-back", aria: { label: I18n.t("shared.back", default: "Back") } do
+          = inline_svg_tag("back-arrow.svg", class: "hc-form-back-icon", aria: { hidden: true })
+        .hc-form-breadcrumb
+          span = I18n.t("dashboard.articles.knowledge_base", default: "Knowledge Base")
+          span.hc-breadcrumb-sep >
+          span = I18n.t("dashboard.articles.articles", default: "Articles")
+          span.hc-breadcrumb-sep >
+          span = I18n.t("dashboard.articles.edit_article", default: "Edit Article")
+        details.hc-form-menu
+          summary.hc-form-menu-trigger aria-label=I18n.t("dashboard.articles.more_options", default: "More options") title=I18n.t("dashboard.articles.more_options", default: "More options")
+            svg.hc-form-menu-icon xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"
+              path d="M12 8a2 2 0 100-4 2 2 0 000 4zm0 6a2 2 0 100-4 2 2 0 000 4zm0 6a2 2 0 100-4 2 2 0 000 4z"
+          .hc-form-menu-dropdown
+            = link_to help_center_article_path(id: @article.id), class: "hc-form-menu-item" do
+              = I18n.t("dashboard.articles.view_article", default: "View article")
+            = link_to help_center_article_path(id: @article.id), class: "hc-form-menu-item hc-form-menu-item--danger", data: { turbo_method: :delete, turbo_confirm: I18n.t("dashboard.articles.delete_confirm", default: "Are you sure you want to delete this article?") } do
+              = I18n.t("dashboard.articles.delete_article", default: "Delete article")
 
       .ae-locale-area style="margin-left: 16px; margin-right: auto; display: flex; align-items: center; gap: 8px;"
         /! Locale Switcher

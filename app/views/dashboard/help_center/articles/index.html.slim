@@ -1,5 +1,6 @@
 / = render("dashboard/shared/dashboard_container", current_page: "help_center") do
 = render("dashboard/help_center/help_center_sidebar", current_page: "articles") do
+  - page_title = @status.to_s == "published" ? I18n.t("ui.dashboard.help_center.help_center_sidebar.published_2") : (@status.to_s == "draft" ? I18n.t("dashboard.email_builder.draft") : I18n.t("dashboard.articles.all_articles", default: "All Articles"))
   .hc-articles
     .hc-search-row
       = form_with url: help_center_articles_path, method: :get, local: true, class: "hc-search-row-form" do
@@ -11,8 +12,21 @@
               = image_tag("cross_clear.svg", alt: "clear", class: "hc-search-clear-icon")
 
     .hc-index-header
-      .hc-title-area
-        h1.f-semi-32 = I18n.t("dashboard.articles.all_articles", default: "All Articles")
+      .hc-mobile-article-header-actions
+        = link_to new_help_center_article_path, class: "hc-mobile-new-article-btn", aria: { label: I18n.t("dashboard.articles.new_article", default: "+ New Article") } do
+          = inline_svg_tag("plus_white.svg", class: "hc-mobile-action-icon", aria: { hidden: true })
+          span = I18n.t("dashboard.articles.new_article", default: "+ New Article").to_s.sub(/\A\+\s*/, "")
+        = form_with url: help_center_articles_path, method: :get, local: true, class: "hc-search-row-form" do
+          .hc-search-input-wrap
+            span.hc-search-icon 🔍
+            = text_field_tag :q, @query, class: "hc-search-row-input", placeholder: I18n.t("dashboard.articles.search_placeholder", default: "Search..."), oninput: "clearTimeout(this._timer); this._timer=setTimeout(()=>Turbo.visit(this.form.action+'?'+new URLSearchParams(new FormData(this.form)).toString(),{action:'replace'}),300)"
+            - if @query.present?
+              = link_to help_center_articles_path, class: "hc-search-clear", title: I18n.t("dashboard.articles.clear_search", default: "Clear search") do
+                = image_tag("cross_clear.svg", alt: "clear", class: "hc-search-clear-icon")
+      .hc-mobile-title-action-row
+        .hc-title-area
+          h1.f-semi-32 = page_title
+          p = I18n.t("dashboard.articles.index_subtitle", default: "Create, organize, and publish Help Center content for your customers.")
       .hc-header-actions
 
         = link_to new_help_center_article_path, class: "hc-btn-primary"
@@ -28,6 +42,7 @@
           span.hc-table-count = I18n.t("dashboard.articles.count_articles", count: (@pagy.present? ? @pagy.count : @articles.size), default: "%{count} Articles")
           details.hc-columns-menu
             summary.hc-btn-secondary
+              = inline_svg_tag("setting_button.svg", class: "hc-control-icon", aria: { hidden: true })
               = I18n.t("dashboard.articles.display_columns", default: "Display Columns")
               span.hc-caret ▾
             = form_with url: help_center_articles_path, method: :get, local: true, class: "hc-columns-panel" do
@@ -40,7 +55,50 @@
                   = check_box_tag "columns[]", key, @columns.include?(key)
                   span.hc-checkbox-label = label
               = button_tag I18n.t("dashboard.articles.apply", default: "Apply"), type: :submit, class: "hc-btn-primary hc-columns-apply"
-        div data-controller="sortable" data-sortable-url-value="#{reorder_help_center_articles_path}"
+          button.hc-mobile-filter-btn type="button" aria-label=I18n.t("dashboard.articles.filters", default: "Filters")
+            = inline_svg_tag("filter_blue.svg", aria: { hidden: true })
+        .hc-mobile-article-list
+          - @articles.each do |article|
+            - collection = article.primary_category || article.categories.first
+            - article_title = article.title.presence || article.draft_title.presence || I18n.t("dashboard.articles.untitled", default: "Untitled article")
+            article.hc-mobile-article-card
+              - if @columns.include?("title")
+                .hc-mobile-article-card__top
+                  span.hc-mobile-article-card__drag aria-hidden="true"
+                    = inline_svg_tag("drag_handle.svg", aria: { hidden: true })
+                  = link_to article_title, help_center_article_path(id: article.id), class: "hc-mobile-article-card__title"
+                  details.hc-mobile-article-menu
+                    summary aria-label=I18n.t("dashboard.articles.article_actions", default: "Article actions")
+                      = inline_svg_tag("dots.svg", aria: { hidden: true })
+                    .hc-mobile-article-menu__panel
+                      = link_to I18n.t("dashboard.articles.view", default: "View"), help_center_article_path(id: article.id)
+                      = link_to I18n.t("dashboard.skills.index.edit", default: "Edit"), edit_help_center_article_path(id: article.id)
+              - else
+                .hc-mobile-article-card__actions-only
+                  details.hc-mobile-article-menu
+                    summary aria-label=I18n.t("dashboard.articles.article_actions", default: "Article actions")
+                      = inline_svg_tag("dots.svg", aria: { hidden: true })
+                    .hc-mobile-article-menu__panel
+                      = link_to I18n.t("dashboard.articles.view", default: "View"), help_center_article_path(id: article.id)
+                      = link_to I18n.t("dashboard.skills.index.edit", default: "Edit"), edit_help_center_article_path(id: article.id)
+              - if @columns.include?("last_edit")
+                .hc-mobile-article-card__meta
+                  = inline_svg_tag("clock-blue.svg", class: "hc-mobile-meta-icon", aria: { hidden: true })
+                  span = I18n.t("dashboard.articles.last_edit_label", default: "Last edit: %{time}", time: time_ago_in_words(article.updated_at) + " ago")
+              - if @columns.include?("status") || @columns.include?("collection")
+                .hc-mobile-article-card__footer
+                  - if @columns.include?("status")
+                    span.hc-status-badge class="hc-status-#{article.status}"
+                      span.hc-status-dot class="hc-dot-#{article.status}"
+                      = article.status.humanize
+                  - if @columns.include?("collection")
+                    span.hc-collection-tag title=collection&.name
+                      = inline_svg_tag("tag.svg", class: "hc-mobile-tag-icon", aria: { hidden: true })
+                      - if collection&.name.present?
+                        = collection.name
+                      - else
+                        = I18n.t("dashboard.articles.uncategorized", default: "Uncategorized")
+        .hc-desktop-table-list data-controller="sortable" data-sortable-url-value="#{reorder_help_center_articles_path}"
           table.hc-articles-table
             thead
               tr
@@ -74,20 +132,20 @@
                     span.hc-drag-handle
                       | ⠿
                   - if @columns.include?("title")
-                    td.hc-title-cell
+                    td.hc-title-cell data-label=I18n.t("dashboard.articles.col_title", default: "Title")
                       .hc-title-wrapper
                         = link_to help_center_article_path(id: article.id), class: "hc-article-title"
                           = article.title.presence || article.draft_title.presence || I18n.t("dashboard.articles.untitled", default: "Untitled article")
                   - if @columns.include?("last_edit")
-                    td
+                    td data-label=I18n.t("dashboard.articles.col_last_edit", default: "Last Edit")
                       span.hc-date-text = time_ago_in_words(article.updated_at) + " ago"
                   - if @columns.include?("status")
-                    td
+                    td data-label=I18n.t("dashboard.articles.col_status", default: "Status")
                       span.hc-status-badge class="hc-status-#{article.status}"
                         span.hc-status-dot class="hc-dot-#{article.status}"
                         = article.status.humanize
                   - if @columns.include?("collection")
-                    td.hc-collection-cell
+                    td.hc-collection-cell data-label=I18n.t("dashboard.articles.col_collection", default: "Collection")
                       span.hc-collection-tag title=collection&.name
                         - if collection&.name.present?
                           - words = collection.name.split

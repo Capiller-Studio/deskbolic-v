@@ -2,6 +2,17 @@
 = render("dashboard/help_center/help_center_sidebar", current_page: "collections") do
   div data-controller="help-center--category"
     .hc-articles
+      .hc-collections-mobile-header
+        button.hc-collections-mobile-new type="button" data-action="click->help-center--category#open"
+          = t("dashboard.help_center.categories.index.new_collection")
+        = form_with url: help_center_categories_path, method: :get, local: true, class: "hc-search-row-form" do
+          .hc-search-input-wrap
+            span.hc-search-icon 🔍
+            = text_field_tag :q, @query, class: "hc-search-row-input", placeholder: t("dashboard.help_center.categories.index.search_placeholder"), oninput: "clearTimeout(this._timer); this._timer=setTimeout(()=>Turbo.visit(this.form.action+'?'+new URLSearchParams(new FormData(this.form)).toString(),{action:'replace'}),300)"
+            - if @query.present?
+              = link_to help_center_categories_path, class: "hc-search-clear", title: t("ui.dashboard.help_center.articles.index.clear_search") do
+                = image_tag("cross_clear.svg", alt: t("ui.dashboard.help_center.articles.index.clear"), class: "hc-search-clear-icon")
+
       .hc-search-row
         = form_with url: help_center_categories_path, method: :get, local: true, class: "hc-search-row-form" do
           .hc-search-input-wrap
@@ -14,6 +25,7 @@
       .hc-index-header
         .hc-title-area
           h1.f-semi-32 = t("dashboard.help_center.categories.index.title")
+          p = t("dashboard.help_center.categories.index.subtitle", default: "Group related articles so customers can find answers faster.")
         .hc-header-actions
           button.hc-btn-primary#new-collection-btn type="button" data-action="click->help-center--category#open"
             = t("dashboard.help_center.categories.index.new_collection")
@@ -25,6 +37,35 @@
         - if @categories.any?
           .hc-table-count-bar
             span.hc-table-count = t("dashboard.help_center.categories.index.collections_count", count: @pagy.present? ? @pagy.count : @categories.size)
+            details.hc-collection-sort
+              summary
+                span = "Sort by: #{t('dashboard.help_center.categories.index.name_header')}"
+                span.hc-caret aria-hidden="true" ▾
+              .hc-collection-sort-panel
+                = link_to t("dashboard.help_center.categories.index.name_header"), help_center_categories_path(q: @query, portal_id: @portal_id), class: "hc-collection-sort-option"
+          .hc-mobile-collection-list
+            - @categories.each do |category|
+              article.hc-mobile-collection-card
+                .hc-mobile-collection-card__main
+                  .hc-mobile-collection-card__copy
+                    h2 = category.name.presence || t("dashboard.help_center.categories.index.untitled_collection")
+                    p = category.slug.presence || "-"
+                  details.hc-mobile-collection-menu
+                    summary aria-label="Collection actions"
+                      span aria-hidden="true" ⋮
+                    .hc-mobile-collection-menu__panel
+                      button type="button" data={ action: "click->help-center--category#openEdit", id: category.id, path: help_center_category_path(category), name: category.name, description: category.description, parent_id: category.ancestry, visibility: category.visibility }
+                        | Edit
+                      = link_to "Delete", help_center_category_path(category), data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete this collection?" }
+                .hc-mobile-collection-card__footer
+                  span.hc-mobile-collection-count
+                    = inline_svg_tag("document.svg", aria: { hidden: true })
+                    span = t("dashboard.help_center.categories.index.articles_count", count: category.articles.count, default: "#{category.articles.count} Articles")
+                  .hc-mobile-collection-actions
+                    button.hc-mobile-collection-action type="button" data={ action: "click->help-center--category#openEdit", id: category.id, path: help_center_category_path(category), name: category.name, description: category.description, parent_id: category.ancestry, visibility: category.visibility } aria-label="Edit"
+                      = inline_svg_tag("edit.svg", aria: { hidden: true })
+                    = link_to help_center_category_path(category), data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete this collection?" }, class: "hc-mobile-collection-action hc-mobile-collection-action--delete", aria: { label: "Delete" } do
+                      = inline_svg_tag("delete_red.svg", aria: { hidden: true })
           table.hc-articles-table
             thead
               tr
@@ -43,16 +84,16 @@
             tbody
               - @categories.each do |category|
                 tr.hc-table-row
-                  td.hc-title-cell
+                  td.hc-title-cell data-label=t("dashboard.help_center.categories.index.name_header")
                     .hc-title-wrapper
                       span.hc-article-title
                         = category.name.presence || t("dashboard.help_center.categories.index.untitled_collection")
-                  td
+                  td data-label=t("dashboard.help_center.categories.index.slug_header")
                     span.hc-date-text = category.slug.presence || "-"
-                  td
+                  td data-label=t("dashboard.help_center.categories.index.articles_header")
                     span.hc-status-badge
                       = category.articles.count
-                  td.actions
+                  td.actions data-label="Actions"
                     div style="display: flex; gap: 8px; align-items: center;"
                       button.action-link type="button" data={ action: "click->help-center--category#openEdit", id: category.id, path: help_center_category_path(category), name: category.name, description: category.description, parent_id: category.ancestry, visibility: category.visibility } style="border: none; background: transparent; cursor: pointer; padding: 0;" title="Edit"
                         = inline_svg_tag("edit.svg", class: "link-icon", alt: "Edit", style: "color: #2563eb; width: 16px; height: 16px;")
@@ -89,6 +130,8 @@
             .hc-category-modal-header-text
               h3.f-semi-18 = t("dashboard.help_center.categories.form.modal_title")
               p.f-reg-14.hc-category-modal-subtitle = t("dashboard.help_center.categories.form.modal_subtitle")
+            button.hc-category-modal-close type="button" data-action="click->help-center--category#close" aria-label=t("general.cancel")
+              = inline_svg_tag("cross.svg", aria: { hidden: true })
           .hc-category-form-body
             = form_with url: help_center_categories_path, scope: :category, method: :post, local: true, html: { multipart: true, class: "hc-category-form", data: { collection_path: help_center_categories_path } } do |f|
               = f.hidden_field :portal_id, value: @selected_portal&.id
@@ -119,10 +162,10 @@
                 .hc-category-form-floating.hc-category-selects-row
                   .hc-category-form-group
                     = f.label :parent_id, t("dashboard.help_center.categories.form.parent_label"), class: "hc-category-form-label f-reg-14"
-                    = f.select :parent_id, @categories.map { |cat| [cat.name.presence || cat.id, cat.id] }, { include_blank: t("dashboard.help_center.categories.form.parent_none") }, class: "hc-category-form-select f-reg-14"
+                    = f.select :parent_id, @categories.map { |cat| [cat.name.presence || cat.id, cat.id] }, { include_blank: t("dashboard.help_center.categories.form.parent_none") }, class: "hc-category-form-select ui-select ui-control f-reg-14", data: { controller: "select" }
                   .hc-category-form-group
                     = f.label :visibility, t("dashboard.help_center.categories.form.visibility_label"), class: "hc-category-form-label f-reg-14"
-                    = f.select :visibility, ::HelpCenter::Category.visibilities.keys.map { |v| [t("enums.help_center.visibility.#{v}"), v] }, {}, class: "hc-category-form-select f-reg-14"
+                    = f.select :visibility, ::HelpCenter::Category.visibilities.keys.map { |v| [t("enums.help_center.visibility.#{v}"), v] }, {}, class: "hc-category-form-select ui-select ui-control f-reg-14", data: { controller: "select" }
 
               .hc-category-form-actions
                 button.hc-category-cancel-btn.f-med-14.close-modal-btn type="button" data-action="click->help-center--category#close" = t("dashboard.help_center.categories.form.cancel")

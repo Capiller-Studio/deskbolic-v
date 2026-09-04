@@ -25,13 +25,17 @@
               = tf.hidden_field :id if translation.persisted?
               = tf.hidden_field :locale, value: translation.locale.presence || locale
               / = tf.label :title, "Title", class: "hc-label"
-              = tf.text_field :title, class: "hc-title-input", placeholder: I18n.t("dashboard.articles.untitled_placeholder", default: "Untitled Article "), required: true, value: (defined?(draft_title) && draft_title.present? ? draft_title : translation.title), data: { help_center__article_editor_target: "titleInput" }
+              .hc-m-title-row
+                span.hc-m-title-icon aria-hidden="true"
+                  = inline_svg_tag("document.svg", class: "hc-m-title-icon-svg", aria: { hidden: true })
+                = tf.text_field :title, class: "hc-title-input", placeholder: I18n.t("dashboard.articles.untitled_placeholder", default: "Untitled Article "), required: true, value: (defined?(draft_title) && draft_title.present? ? draft_title : translation.title), data: { help_center__article_editor_target: "titleInput" }
+              p.hc-m-title-helper = I18n.t("dashboard.articles.title_helper", default: "Add a title to your article")
         .hc-form-card
           .hc-form-card-body
             .hc-form-row-4
               div
                 = f.label :article_type, "Article Type", class: "hc-label"
-                = f.select :article_type, ::HelpCenter::Article.article_types.keys.map { |at| [at.humanize, at] }, {}, class: "hc-select", data: { action: "change->help-center--article#toggleType" }
+                = f.select :article_type, ::HelpCenter::Article.article_types.keys.map { |at| [at.humanize, at] }, {}, class: "hc-select ui-select ui-control", data: { controller: "select", action: "change->help-center--article#toggleType" }
               div data-controller="help-center--category"
                 = f.label :primary_category_id, I18n.t("dashboard.articles.select_category_label", default: "Select Category"), class: "hc-label"
                 .hc-category-picker
@@ -53,18 +57,48 @@
                         | + Create new category
               div
                 = f.label :visibility, "Visibility", class: "hc-label"
-                = f.select :visibility, ::HelpCenter::Article.visibilities.keys.map { |v| [v.humanize, v] }, {}, class: "hc-select"
+                = f.select :visibility, ::HelpCenter::Article.visibilities.keys.map { |v| [v.humanize, v] }, {}, class: "hc-select ui-select ui-control", data: { controller: "select" }
               div
                 = f.label :portal_id, "Portal", class: "hc-label"
-                = f.select :portal_id, @portals.map { |portal| [portal.name.presence || portal.id, portal.id] }, {}, class: "hc-select", required: true, disabled: article.persisted?
+                = f.select :portal_id, @portals.map { |portal| [portal.name.presence || portal.id, portal.id] }, {}, class: "hc-select ui-select ui-control", data: { controller: "select" }, required: true, disabled: article.persisted?
 
         .hc-form-card
           .hc-form-card-header
             h3 Content
+            p.hc-m-helper = I18n.t("dashboard.articles.content_helper", default: "Write your article content here...")
           .hc-form-card-body
             = f.fields_for :translations, translation, child_index: 0 do |tf|
               .ae-editor-content data-help-center--article-editor-target="editorContainer" data-action="help-center--article-editor:open-youtube@window->help-center--article-editor#openYoutubePopover"
               = tf.text_area :content, class: "hc-richtext-source ae-hidden-input", rows: 18, value: (defined?(draft_content) && draft_content.present? ? draft_content : translation.content), data: { help_center__article_editor_target: "contentInput" }, style: "display:none;"
+
+            /! ─── Mobile Formatting Toolbar (visible below 600px) ───
+            .hc-m-editor-toolbar role="toolbar" aria-label=I18n.t("dashboard.articles.formatting_toolbar", default: "Formatting")
+              button.hc-m-tool-btn type="button" title=I18n.t("dashboard.articles.bold", default: "Bold") data-action="click->help-center--article-editor#toggleBold" data-help-center--article-editor-target="toolbar" data-format="bold"
+                span.hc-m-tool-b B
+              button.hc-m-tool-btn type="button" title=I18n.t("dashboard.articles.italic", default: "Italic") data-action="click->help-center--article-editor#toggleItalic" data-help-center--article-editor-target="toolbar" data-format="italic"
+                span.hc-m-tool-i I
+              button.hc-m-tool-btn type="button" title=I18n.t("dashboard.articles.underline", default: "Underline") data-action="click->help-center--article-editor#toggleUnderline" data-help-center--article-editor-target="toolbar" data-format="underline"
+                span.hc-m-tool-u U
+              button.hc-m-tool-btn type="button" title=I18n.t("dashboard.articles.link", default: "Link") data-action="click->help-center--article-editor#toggleLink" data-help-center--article-editor-target="toolbar" data-format="link"
+                svg.hc-m-tool-icon xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" aria-hidden="true"
+                  path d="M11.5644 8.43571C10.2627 7.13443 8.15271 7.13443 6.85104 8.43571L3.51771 11.769C2.65119 12.606 2.30367 13.8453 2.60872 15.0107C2.91377 16.1762 3.82392 17.0863 4.98935 17.3914C6.15478 17.6964 7.39413 17.3489 8.23104 16.4824L9.14938 15.5649M8.51771 11.4824C9.81938 12.7836 11.9294 12.7836 13.231 11.4824L16.5644 8.14904C17.8276 6.84111 17.8096 4.76209 16.5238 3.47631C15.238 2.19053 13.159 2.17247 11.851 3.43571L10.9344 4.35237" stroke="currentColor" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"
+              button.hc-m-tool-btn type="button" title=I18n.t("dashboard.articles.bulleted_list", default: "Bulleted list") data-action="click->help-center--article-editor#toggleBulletList" data-help-center--article-editor-target="toolbar" data-format="bulletList"
+                svg.hc-m-tool-icon xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 19" fill="currentColor" aria-hidden="true"
+                  path d="M7 2.5H23C23.5523 2.5 24 2.05228 24 1.5C24 0.947715 23.5523 0.5 23 0.5H7C6.44772 0.5 6 0.947715 6 1.5C6 2.05228 6.44772 2.5 7 2.5Z"
+                  path d="M7 10.5H23C23.5523 10.5 24 10.0523 24 9.5C24 8.94771 23.5523 8.5 23 8.5H7C6.44772 8.5 6 8.94771 6 9.5C6 10.0523 6.44772 10.5 7 10.5Z"
+                  path d="M7 18.5H23C23.5523 18.5 24 17.9477 24 17.5C24 16.9477 23.5523 16.5 23 16.5H7C6.44772 16.5 6 16.9477 6 17.5C6 18.0523 6.44772 18.5 7 18.5Z"
+                  path d="M3 1.5C3 2.32837 2.32837 3 1.5 3C0.671631 3 0 2.32837 0 1.5C0 0.671631 0.671631 0 1.5 0C2.32837 0 3 0.671631 3 1.5Z"
+                  path d="M3 9.5C3 10.3284 2.32837 11 1.5 11C0.671631 11 0 10.3284 0 9.5C0 8.67163 0.671631 8 1.5 8C2.32837 8 3 8.67163 3 9.5Z"
+                  path d="M3 17.5C3 18.3284 2.32837 19 1.5 19C0.671631 19 0 18.3284 0 17.5C0 16.6716 0.671631 16 1.5 16C2.32837 16 3 16.6716 3 17.5Z"
+              button.hc-m-tool-btn type="button" title=I18n.t("dashboard.articles.numbered_list", default: "Numbered list") data-action="click->help-center--article-editor#toggleOrderedList" data-help-center--article-editor-target="toolbar" data-format="orderedList"
+                svg.hc-m-tool-icon xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 21" fill="currentColor" aria-hidden="true"
+                  path d="M9 11.5H23C23.5523 11.5 24 11.0523 24 10.5C24 9.94771 23.5523 9.5 23 9.5H9C8.44771 9.5 8 9.94771 8 10.5C8 11.0523 8.44771 11.5 9 11.5Z"
+                  path d="M9 3.5H23C23.5523 3.5 24 3.05228 24 2.5C24 1.94772 23.5523 1.5 23 1.5H9C8.44771 1.5 8 1.94772 8 2.5C8 3.05228 8.44771 3.5 9 3.5Z"
+                  path d="M9 19.5H23C23.5523 19.5 24 19.0523 24 18.5C24 17.9477 23.5523 17.5 23 17.5H9C8.44771 17.5 8 17.9477 8 18.5C8 19.0523 8.44771 19.5 9 19.5Z"
+                  path d="M2 2.61803V8C2 8.55228 2.44772 9 3 9C3.55228 9 4 8.55228 4 8V1C4 0.447715 3.55228 0 3 0C2.84475 0 2.69164 0.0361451 2.55279 0.105573L0.552786 1.10557C0.214002 1.27496 0 1.62123 0 2C5.96046e-08 2.01227 0.000225723 2.02453 0.00067693 2.03679C0.00593102 2.17952 0.0416988 2.31947 0.105573 2.44721C0.224181 2.68443 0.432166 2.86481 0.683772 2.94868C0.785739 2.98267 0.892518 3 1 3L1.02123 2.99977C1.16927 2.99663 1.31477 2.96065 1.44721 2.89443L2 2.61803Z"
+                  path d="M1 20.4999H4.5C5.05228 20.4999 5.5 20.0522 5.5 19.4999C5.5 18.9476 5.05228 18.4999 4.5 18.4999H2.99766L5.00056 15.8241C5.00816 15.814 5.01556 15.8037 5.02276 15.7933C5.35615 15.3107 5.46362 14.7341 5.46362 14.7341C5.57108 14.1574 5.43392 13.5871 5.43392 13.5871C5.29676 13.0168 4.93883 12.5521 4.93883 12.5521C4.58091 12.0874 4.06453 11.8092 4.06453 11.8092C3.54815 11.531 2.9632 11.4877 2.9632 11.4877C2.37824 11.4444 1.82652 11.6436 1.82652 11.6436C1.27481 11.8427 0.852356 12.2496 0.852356 12.2496C0.429908 12.6565 0.21026 13.2004 0.21026 13.2004C0.162203 13.3194 0.1375 13.4466 0.1375 13.5749L0.137515 13.5805C0.139772 13.9861 0.386879 14.3502 0.763031 14.5021C0.882028 14.5502 1.00916 14.5749 1.1375 14.5749L1.14306 14.5749C1.54872 14.5726 1.91283 14.3255 2.06474 13.9494C2.12464 13.801 2.23986 13.6901 2.23986 13.6901C2.35507 13.5791 2.50554 13.5248 2.50554 13.5248C2.65601 13.4704 2.81554 13.4823 2.81554 13.4823C2.97507 13.4941 3.1159 13.5699 3.1159 13.5699C3.25674 13.6458 3.35435 13.7726 3.35435 13.7726C3.45197 13.8993 3.48937 14.0548 3.48937 14.0548C3.52678 14.2104 3.49747 14.3676 3.49747 14.3676C3.46955 14.5174 3.38573 14.644 3.38573 14.644L0.199439 18.9006C0.0699705 19.0736 5.96046e-08 19.2838 0 19.4999C0 20.0522 0.447715 20.4999 1 20.4999Z"
+              button.hc-m-tool-btn type="button" title=I18n.t("dashboard.articles.quote", default: "Quote") data-action="click->help-center--article-editor#toggleBlockquote" data-help-center--article-editor-target="toolbar" data-format="blockquote"
+                span.hc-m-tool-quote “
 
             /! ─── Bubble Menu ───
             .hc-bubble-menu data-help-center--article-editor-target="bubbleMenu"
@@ -139,29 +173,31 @@
               = text_field_tag "article[configurations][external_url]", article.configurations["external_url"], class: "hc-input", placeholder: "https://example.com/article"
 
       .hc-form-right
-        .hc-form-sidebar-card
-          .hc-form-sidebar-card-header
-            h3 Publishing
-          .hc-form-sidebar-card-body.hc-form-sidebar-card-body--row
-            = f.label :status, "Status", class: "hc-label"
-            span.hc-status-pill class="hc-status-pill--#{article.status || 'draft'}"
-              = (article.status || "draft").humanize
+        .hc-pub-group
+          .hc-form-sidebar-card
+            .hc-form-sidebar-card-header
+              h3 Publishing
+            .hc-form-sidebar-card-body.hc-form-sidebar-card-body--row
+              = f.label :status, "Status", class: "hc-label"
+              span.hc-status-pill class="hc-status-pill--#{article.status || 'draft'}"
+                = (article.status || "draft").humanize
+              = f.select :status, ::HelpCenter::Article.statuses.keys.map { |s| [s.humanize, s] }, {}, class: "hc-m-status-select ui-select ui-control", data: { controller: "select" }, aria: { label: "Status" }
 
-        .hc-form-sidebar-card
-          .hc-form-sidebar-card-body.hc-form-sidebar-card-body--row
-            strong.hc-form-sidebar-label table of contents
-            label.hc-toggle
-              = check_box_tag "article[configurations][show_table_of_contents]", "1", article.configurations.fetch("show_table_of_contents", true)
-              span.hc-toggle-slider
-        .hc-form-sidebar-card
-          .hc-form-sidebar-card-body.hc-form-sidebar-card-body--row
-            span.hc-form-sidebar-label Read Time
-            .hc-stepper-control data-controller="help-center--article"
-              button.hc-stepper-btn type="button" data-action="help-center--article#decrease" -
-              span.hc-stepper-value data-help-center--article-target="value"
-                = article.configurations["estimated_read_time"].presence || "5"
-              button.hc-stepper-btn type="button" data-action="help-center--article#increase" +
-              = number_field_tag "article[configurations][estimated_read_time]", (article.configurations["estimated_read_time"] || 5), class: "hc-stepper-input", min: 0, data: { help_center__article_target: "input" }
+          .hc-form-sidebar-card
+            .hc-form-sidebar-card-body.hc-form-sidebar-card-body--row
+              strong.hc-form-sidebar-label Table of contents
+              label.hc-toggle
+                = check_box_tag "article[configurations][show_table_of_contents]", "1", article.configurations.fetch("show_table_of_contents", true)
+                span.hc-toggle-slider
+          .hc-form-sidebar-card
+            .hc-form-sidebar-card-body.hc-form-sidebar-card-body--row
+              span.hc-form-sidebar-label Read Time
+              .hc-stepper-control data-controller="help-center--article"
+                button.hc-stepper-btn type="button" data-action="help-center--article#decrease" -
+                span.hc-stepper-value data-help-center--article-target="value"
+                  = article.configurations["estimated_read_time"].presence || "5"
+                button.hc-stepper-btn type="button" data-action="help-center--article#increase" +
+                = number_field_tag "article[configurations][estimated_read_time]", (article.configurations["estimated_read_time"] || 5), class: "hc-stepper-input", min: 0, data: { help_center__article_target: "input" }
 
         .hc-form-sidebar-card
           .hc-form-sidebar-card-header
@@ -184,9 +220,11 @@
             = f.label :position, "Sort Order", class: "hc-label"
             = f.number_field :position, class: "hc-input", min: 0, placeholder: "  1"
 
-        .hc-form-sidebar-card
-          .hc-form-sidebar-card-header
+        details.hc-form-sidebar-card.hc-seo-card open=true
+          summary.hc-form-sidebar-card-header aria-label=I18n.t("dashboard.articles.toggle_seo_settings", default: "Toggle SEO settings")
             h3 SEO Settings
+            svg.hc-seo-chevron xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
+              path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 011.06 0L10 11.94l3.72-3.72a.75.75 0 111.06 1.06l-4.25 4.25a.75.75 0 01-1.06 0L5.22 9.28a.75.75 0 010-1.06z" clip-rule="evenodd"
           .hc-form-sidebar-card-body
             = f.fields_for :translations, translation, child_index: 0 do |tf|
               .hc-seo-field
@@ -214,6 +252,8 @@
             .hc-category-modal-header-text
               h3.f-semi-18 Add New Category
               p.f-reg-14.hc-category-modal-subtitle Create a new category to organize your article
+            button.hc-category-modal-close type="button" data-action="click->help-center--category#close" aria-label="Cancel"
+              = inline_svg_tag("cross.svg", aria: { hidden: true })
           .hc-category-form-body
             = form_with url: help_center_categories_path, scope: :category, method: :post, html: { multipart: true, class: "hc-category-form", data: { action: "submit->help-center--category#submit" } } do |f|
               = f.hidden_field :portal_id, value: @selected_portal&.id
@@ -244,10 +284,10 @@
                 .hc-category-form-floating.hc-category-selects-row
                   .hc-category-form-group
                     = f.label :parent_id, "Parent category", class: "hc-category-form-label f-reg-14"
-                    = f.select :parent_id, @categories.map { |cat| [cat.name.presence || cat.id, cat.id] }, { include_blank: "None" }, class: "hc-category-form-select f-reg-14"
+                    = f.select :parent_id, @categories.map { |cat| [cat.name.presence || cat.id, cat.id] }, { include_blank: "None" }, class: "hc-category-form-select ui-select ui-control f-reg-14", data: { controller: "select" }
                   .hc-category-form-group
                     = f.label :visibility, "Visibility", class: "hc-category-form-label f-reg-14"
-                    = f.select :visibility, ::HelpCenter::Category.visibilities.keys.map { |v| [v.humanize, v] }, {}, class: "hc-category-form-select f-reg-14"
+                    = f.select :visibility, ::HelpCenter::Category.visibilities.keys.map { |v| [v.humanize, v] }, {}, class: "hc-category-form-select ui-select ui-control f-reg-14", data: { controller: "select" }
 
               .hc-category-form-actions
                 button.hc-category-cancel-btn.f-med-14.close-modal-btn type="button" data-action="click->help-center--category#close" Cancel

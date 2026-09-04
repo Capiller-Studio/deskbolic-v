@@ -19,12 +19,21 @@
 
   div *editor_opts
     .hc-form-header-bar
-      .hc-form-breadcrumb
-        span = I18n.t("dashboard.articles.knowledge_base", default: "Knowledge Base")
-        span.hc-breadcrumb-sep >
-        span = I18n.t("dashboard.articles.articles", default: "Articles")
-        span.hc-breadcrumb-sep |
-        span = I18n.t("dashboard.articles.create_article", default: "Create Article")
+      .hc-form-header-top
+        = link_to help_center_articles_path, class: "hc-form-back", aria: { label: I18n.t("shared.back", default: "Back") } do
+          = inline_svg_tag("back-arrow.svg", class: "hc-form-back-icon", aria: { hidden: true })
+        .hc-form-breadcrumb
+          span = I18n.t("dashboard.articles.knowledge_base", default: "Knowledge Base")
+          span.hc-breadcrumb-sep >
+          span = I18n.t("dashboard.articles.articles", default: "Articles")
+          span.hc-breadcrumb-sep >
+          span = I18n.t("dashboard.articles.create_article", default: "Create Article")
+        details.hc-form-menu
+          summary.hc-form-menu-trigger aria-label=I18n.t("dashboard.articles.more_options", default: "More options") title=I18n.t("dashboard.articles.more_options", default: "More options")
+            svg.hc-form-menu-icon xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"
+              path d="M12 8a2 2 0 100-4 2 2 0 000 4zm0 6a2 2 0 100-4 2 2 0 000 4zm0 6a2 2 0 100-4 2 2 0 000 4z"
+          .hc-form-menu-dropdown
+            = link_to I18n.t("dashboard.articles.view_all_articles", default: "View all articles"), help_center_articles_path, class: "hc-form-menu-item"
       .hc-form-header-actions
         = link_to I18n.t("dashboard.articles.cancel", default: "Cancel"), help_center_articles_path, class: "hc-btn-secondary hc-header-btn"
         button.hc-btn-primary.hc-header-btn type="submit" form="article-form" name="save_draft" value="1"

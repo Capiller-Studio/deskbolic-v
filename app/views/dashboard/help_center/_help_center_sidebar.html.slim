@@ -1,5 +1,18 @@
-.helpdesk-section.center-wrapper
+.helpdesk-section.center-wrapper.help-center-shell
   .helpdesk-container
+    - help_center_nav_items = [ \
+      { key: "all_articles", label: t("ui.dashboard.help_center.help_center_sidebar.all_articles_2"), path: help_center_articles_path, icon: "book.svg", active: current_page == "articles" && params[:status].blank? }, \
+      { key: "published", label: t("ui.dashboard.help_center.help_center_sidebar.published_2"), path: help_center_articles_path(status: :published), icon: "book.svg", active: current_page == "articles" && params[:status] == "published" }, \
+      { key: "draft", label: t("dashboard.email_builder.draft"), path: help_center_articles_path(status: :draft), icon: "pencil.svg", active: current_page == "articles" && params[:status] == "draft" }, \
+      { key: "collections", label: t("dashboard.help_center.categories.index.title"), path: help_center_categories_path, icon: "tag.svg", active: current_page == "collections" }, \
+      { key: "settings", label: t("dashboard.sidebar.settings.title"), path: settings_path, icon: "settings.svg", active: current_page == "settings" } \
+    ]
+    nav.hc-mobile-bottom-nav aria-label=t("dashboard.settings_index.help_center")
+      - help_center_nav_items.each do |item|
+        = link_to item[:path], class: "hc-mobile-bottom-nav__item #{item[:active] ? 'is-active' : ''}", aria: { current: (item[:active] ? "page" : nil) } do
+          span.hc-mobile-bottom-nav__icon
+            = inline_svg_tag(item[:icon], aria: { hidden: true })
+          span = item[:label]
     .helpdesk-nav
       .card
         .header data-controller="modal-toggler frame-toggler"

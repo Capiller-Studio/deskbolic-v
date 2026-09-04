@@ -92,10 +92,10 @@ export default class extends Controller {
         if (descInput) descInput.value = description || ''
         
         const parentSelect = form.querySelector('select[name="category[parent_id]"]')
-        if (parentSelect) parentSelect.value = parentId || ''
+        if (parentSelect) this._setSelectValue(parentSelect, parentId || '')
         
         const visibilitySelect = form.querySelector('select[name="category[visibility]"]')
-        if (visibilitySelect) visibilitySelect.value = visibility || 'everyone'
+        if (visibilitySelect) this._setSelectValue(visibilitySelect, visibility || 'everyone')
       }
 
       const modalTitle = this.modalTarget.querySelector('.hc-category-modal-header-text h3')
@@ -236,11 +236,15 @@ export default class extends Controller {
 
     const rect = trigger.getBoundingClientRect()
     const dropdown = this.dropdownTarget
+    const viewportPadding = 12
+    const availableWidth = Math.max(window.innerWidth - viewportPadding * 2, rect.width)
+    const dropdownWidth = Math.min(rect.width, availableWidth)
+    const left = Math.min(Math.max(rect.left, viewportPadding), window.innerWidth - dropdownWidth - viewportPadding)
 
     dropdown.style.position = "fixed"
-    dropdown.style.top = `${rect.bottom + 4}px`
-    dropdown.style.left = `${rect.left}px`
-    dropdown.style.width = `${Math.max(rect.width, 320)}px`
+    dropdown.style.top = `${rect.bottom + 6}px`
+    dropdown.style.left = `${left}px`
+    dropdown.style.width = `${dropdownWidth}px`
     dropdown.style.zIndex = "1000"
   }
 
@@ -327,5 +331,13 @@ export default class extends Controller {
     } else {
       button.textContent = text
     }
+  }
+
+  _setSelectValue(select, value) {
+    select.value = value
+    select.dispatchEvent(new CustomEvent("select:set-value", {
+      bubbles: true,
+      detail: { value }
+    }))
   }
 }

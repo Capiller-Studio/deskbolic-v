@@ -2094,6 +2094,128 @@ html[lang="ar"] .team-modal-content {
   }
 }
 
+@media (max-width: 600px) {
+  .modal-popper-container:has(.canned-response-modal) {
+    z-index: 1300;
+    box-sizing: border-box;
+    padding: max(16px, env(safe-area-inset-top)) 16px calc(88px + env(safe-area-inset-bottom));
+    overflow: hidden;
+    background: rgba(15, 23, 42, 0.38);
+    backdrop-filter: blur(2px);
+  }
+
+  .modal-popper-container:has(.canned-response-modal) .model-content-section {
+    height: 100%;
+    min-height: 0;
+  }
+
+  .modal-popper-container:has(.canned-response-modal) .model-content {
+    display: flex;
+    width: min(100%, 420px);
+    min-width: 0;
+    max-width: 100%;
+    max-height: min(560px, 100%);
+    flex-direction: column;
+    margin: auto;
+    padding: 0;
+    overflow: hidden;
+    border-radius: 16px;
+    filter: none;
+    box-shadow: 0 20px 48px rgba(15, 23, 42, 0.24);
+
+    .modal-header {
+      width: 100%;
+      min-width: 0;
+      flex: 0 0 auto;
+      box-sizing: border-box;
+      gap: 16px;
+      padding: 18px;
+      margin: 0;
+
+      h3 {
+        min-width: 0;
+        font-size: 18px;
+        line-height: 24px;
+      }
+
+      .conversation-icon.m-close {
+        width: 32px;
+        height: 32px;
+        flex: 0 0 32px;
+      }
+    }
+
+    .modal-body.canned-response-modal {
+      display: block;
+      width: 100%;
+      min-width: 0;
+      min-height: 0;
+      flex: 1 1 auto;
+      box-sizing: border-box;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .canned-response-modal > form {
+      display: flex;
+      width: 100%;
+      min-width: 0;
+      height: 100%;
+      flex-direction: column;
+    }
+
+    .canned-response-modal .form-fields {
+      min-height: 0;
+      flex: 1 1 auto;
+      padding: 16px;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    .canned-response-modal .form-floating {
+      margin: 0 0 16px !important;
+    }
+
+    .canned-response-modal .form-control,
+    .canned-response-modal .form-floating > textarea {
+      width: 100% !important;
+      min-width: 0 !important;
+      max-width: none !important;
+      box-sizing: border-box;
+    }
+
+    .canned-response-modal .tags-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 0 0 16px !important;
+
+      .tag {
+        margin: 0 !important;
+      }
+    }
+
+    .canned-response-modal .form-actions {
+      display: flex;
+      flex: 0 0 auto;
+      gap: 10px;
+      margin: 0 !important;
+      padding: 14px 16px;
+      border-top: 1px solid #e5e7eb;
+      background: #fff;
+
+      .button,
+      .submit-btn {
+        width: auto !important;
+        min-width: 0;
+        min-height: 42px;
+        flex: 1 1 0;
+        margin: 0 !important;
+      }
+    }
+  }
+}
+
 .new-canned-response {
   display: none;
   position: absolute;

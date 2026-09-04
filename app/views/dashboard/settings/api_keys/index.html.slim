@@ -1,6 +1,6 @@
 / = render("dashboard/shared/dashboard_container", current_page: "settings") do
 = render("dashboard/settings/settings_sidebar", current_page: "api-keys") do
-  .ui-settings-page
+  .ui-settings-page.ui-api-keys-page
     header.ui-settings-page__header
       .ui-settings-page__heading
         h1 = t("dashboard.settings.api_keys.index.title")
@@ -21,16 +21,23 @@
                   = inline_svg_tag("api_key.svg")
                 div
                   h3.f-semi-16 = t("dashboard.settings.api_keys.index.key_title")
-                  p.ui-subtitle style="user-select: all;" = t("ui.dashboard.settings.api_keys.index.text", token: api_key.token)
 
               .ui-card-actions
                 = button_to settings_api_key_path(api_key), method: :delete, class: "ui-icon-button", data: { turbo_confirm: t("dashboard.settings.api_keys.index.revoke_confirm") }, aria: { label: t("general.delete") }, title: t("general.delete") do
                   = image_tag("delete.svg", alt: "", aria: { hidden: true })
 
-            .ui-card-meta
-              .ui-meta-tag
-                = inline_svg_tag("timer.svg", class: "ui-meta-tag-icon", aria: { hidden: true })
-                span = t("dashboard.settings.api_keys.index.created_ago", date: time_ago_in_words(api_key.created_at))
+            .ui-stack
+              .channel-edit-copy data-controller="clipboard"
+                .channel-edit-copy__control
+                  input type="text" value=api_key.token readonly=true aria-label=t("dashboard.settings.api_keys.index.key_title") data-clipboard-target="source"
+                  button.channel-edit-copy__button type="button" data-action="click->clipboard#copy" data-clipboard-target="button" aria-label=t("general.copy")
+                    = inline_svg_tag("copy.svg", aria: { hidden: true })
+                    span = t("general.copy")
+
+              .ui-card-meta
+                .ui-meta-tag
+                  = inline_svg_tag("timer.svg", class: "ui-meta-tag-icon", aria: { hidden: true })
+                  span = t("dashboard.settings.api_keys.index.created_ago", date: time_ago_in_words(api_key.created_at))
 
       - else
         .ui-empty-state

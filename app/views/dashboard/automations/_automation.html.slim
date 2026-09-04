@@ -1,12 +1,12 @@
-div id="automation_#{automation.id}" class="auto-card #{automation.inactive? ? 'inactive' : ''}" data-sortable-target="item" data-id="#{automation.id}" draggable="true"
-  .auto-drag-handle data-action="dragstart->sortable#dragStart dragend->sortable#dragEnd" data-sortable-target="handle"
+div id="automation_#{automation.id}" class="auto-card ui-responsive-list-card #{automation.inactive? ? 'inactive' : ''}" data-sortable-target="item" data-id="#{automation.id}" draggable="true"
+  .auto-drag-handle.ui-responsive-list-card__handle data-action="dragstart->sortable#dragStart dragend->sortable#dragEnd" data-sortable-target="handle"
     = image_tag("drag_handle.svg", alt: "", aria: { hidden: true })
 
-  .auto-card-icon
+  .auto-card-icon.ui-responsive-list-card__icon
     = image_tag("automation.svg", alt: "", aria: { hidden: true })
 
-  .auto-card-info
-    .auto-card-name-row
+  .auto-card-info.ui-responsive-list-card__content
+    .auto-card-name-row.ui-responsive-wrap-mobile
       h3.auto-card-name = automation.name
       span.ui-status-badge class=(automation.active? ? "ui-status-badge--active" : "ui-status-badge--inactive")
         span.ui-status-badge__dot aria-hidden="true"
@@ -17,7 +17,7 @@ div id="automation_#{automation.id}" class="auto-card #{automation.inactive? ? '
       - if automation.description.present?
         span.auto-card-event — #{truncate(automation.description, length: 60)}
 
-  .auto-card-actions
+  .auto-card-actions.ui-responsive-list-card__actions
     = button_to duplicate_automation_path(automation), method: :post, class: "auto-action-btn", title: t("dashboard.automations.index.duplicate"), aria: { label: t("dashboard.automations.index.duplicate") } do
       = image_tag("copy-check.svg", alt: "", aria: { hidden: true })
 

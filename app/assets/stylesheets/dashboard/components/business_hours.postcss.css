@@ -869,24 +869,115 @@
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 600px) {
   .bh-page {
     padding: 16px;
   }
 
-  .bh-page-header {
-    margin: -16px -16px 24px;
-    padding: 16px;
+  .bh-page.settings-form-page {
+    display: flex;
+    height: 100%;
+    min-height: 0;
+    flex-direction: column;
+    padding: 0;
   }
 
-  .bh-page-actions,
-  .bh-page-actions .ui-btn-secondary,
-  .bh-page-actions .ap-btn-save-header {
-    width: 100%;
+  .settings-form-page .bh-page-header {
+    flex: 0 0 auto;
+  }
+
+  .settings-form-page .bh-form {
+    min-height: 0;
+    max-height: none;
+    flex: 1 1 auto;
+    padding-bottom: calc(104px + env(safe-area-inset-bottom));
+    scroll-padding-bottom: calc(72px + env(safe-area-inset-bottom));
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .bh-page-header {
+    min-height: 64px;
+    align-items: center;
+    flex-direction: row;
+    gap: 10px;
+    margin: -16px -16px 24px;
+    padding: 10px 16px;
+  }
+
+  .settings-form-page .bh-page-header {
+    margin: 0;
+    min-height: 68px;
+    padding: 12px 16px;
+    border-bottom-color: #e8ebf1;
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+  }
+
+  .bh-page-heading {
+    min-width: 0;
+    flex: 1 1 auto;
+    gap: 10px;
+
+    > div {
+      min-width: 0;
+    }
+
+    h2 {
+      overflow: hidden;
+      font-size: 17px;
+      line-height: 24px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    p {
+      display: none;
+    }
+  }
+
+  .bh-page-heading .ap-header-back-link {
+    width: 38px;
+    height: 38px;
+    flex: 0 0 38px;
+    border-color: #dfe4ec;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.07);
   }
 
   .bh-page-actions {
-    flex-direction: column;
+    width: auto;
+    max-width: 46%;
+    flex: 0 0 auto;
+    align-items: center;
+    flex-direction: row;
+    gap: 8px;
+
+    &:has(.ap-btn-save-header) > :not(.ap-btn-save-header) {
+      display: none;
+    }
+  }
+
+  .bh-page-actions .ui-btn-secondary,
+  .bh-page-actions .ap-btn-save-header {
+    width: auto;
+    min-width: 0;
+    min-height: 42px;
+    flex: 0 0 auto;
+    justify-content: center;
+  }
+
+  .bh-page-actions .ap-btn-save-header {
+    max-width: 100%;
+    padding: 8px 14px;
+    border-radius: 999px;
+    box-shadow: 0 3px 10px rgba(119, 141, 255, 0.22);
+    overflow: hidden;
+    white-space: nowrap;
+
+    span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
   }
 
   .bh-card .ui-section-body,

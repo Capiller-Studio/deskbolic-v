@@ -7,5 +7,10 @@
       .ui-settings-editor__heading
         h1 = t("dashboard.ai_agents.new.add_title", default: "Add New AI Agent")
         p = t("dashboard.ai_agents.new.description", default: "Create and configure your AI agent to provide better support to your customers.")
+      .ui-settings-editor__header-actions
+        = link_to t("general.cancel"), ai_agents_path, class: "ui-btn-secondary"
+        button.ui-btn-primary type="submit" form="ai-agent-form"
+          = image_tag("ai_agents/new_agent_check.svg", alt: "", width: 16, height: 16, aria: { hidden: true })
+          span = t("dashboard.ai_agents.new.submit", default: "Create Agent")
 
     = render "form", ai_agent: @ai_agent, editor_layout: true

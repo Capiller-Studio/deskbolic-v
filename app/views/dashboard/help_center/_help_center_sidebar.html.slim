@@ -22,19 +22,19 @@
           .help-nav-menu
             p.help-p.f-semi-12 = t("ui.dashboard.help_center.help_center_sidebar.articles")
             li.nav-item class="#{current_page == 'articles' && params[:status].blank? ? 'help-nav-active' : ''}"
-              = link_to(help_center_articles_path, class: "nav-link") do
+              = link_to(help_center_articles_path, class: "nav-link", style: "height: 34px;") do
                 .link-text
                   .conversation-name.inbox-conv
                     = inline_svg_tag("book.svg", class: "link-icon", alt: t("ui.dashboard.help_center.help_center_sidebar.all_articles"))
                     p.f-reg-14 = t("ui.dashboard.help_center.help_center_sidebar.all_articles_2")
             li.nav-item class="#{current_page == 'articles' && params[:status] == 'published' ? 'help-nav-active' : ''}"
-              = link_to(help_center_articles_path(status: :published), class: "nav-link") do
+              = link_to(help_center_articles_path(status: :published), class: "nav-link", style: "height: 34px;") do
                 .link-text
                   .conversation-name.inbox-conv
                     = inline_svg_tag("book.svg", class: "link-icon", alt: t("ui.dashboard.help_center.help_center_sidebar.published"))
                     p.f-reg-14 = t("ui.dashboard.help_center.help_center_sidebar.published_2")
             li.nav-item class="#{current_page == 'articles' && params[:status] == 'draft' ? 'help-nav-active' : ''}"
-              = link_to(help_center_articles_path(status: :draft), class: "nav-link") do
+              = link_to(help_center_articles_path(status: :draft), class: "nav-link", style: "height: 34px;") do
                 .link-text
                   .conversation-name.inbox-conv
                     = inline_svg_tag("pencil.svg", class: "link-icon", alt: t("ui.dashboard.help_center.help_center_sidebar.draft"))
@@ -42,13 +42,13 @@
 
             p.help-p.f-semi-12 = t("ui.dashboard.help_center.help_center_sidebar.collections")
             li.nav-item class="#{current_page == 'collections' ? 'help-nav-active' : ''}"
-              = link_to(help_center_categories_path, class: "nav-link") do
+              = link_to(help_center_categories_path, class: "nav-link", style: "height: 34px;") do
                 .link-text
                   .conversation-name.inbox-conv
                     = inline_svg_tag("tag.svg", class: "link-icon", alt: t("ui.dashboard.help_center.help_center_sidebar.collections_2"))
                     p.f-reg-14 = t("dashboard.help_center.categories.index.title")
             li.nav-item class="#{current_page == 'settings' ? 'help-nav-active' : ''}"
-              = link_to(settings_path, class: "nav-link") do
+              = link_to(settings_path, class: "nav-link", style: "height: 34px;") do
                 .link-text
                   .conversation-name.inbox-conv
                     = inline_svg_tag("settings.svg", class: "link-icon", alt: t("ui.dashboard.help_center.help_center_sidebar.settings"))

@@ -4,6 +4,24 @@
   }
 }
 
+html:not([lang="ar"]) .helpdesk-section.settings-shell {
+  .settings-sidebar-heading,
+  .settings-sidebar-search,
+  .settings-sidebar-search input,
+  ul.settings-sidebar-accordion .nav-link,
+  ul.settings-sidebar-accordion .link-text,
+  ul.settings-sidebar-accordion .conversation-name,
+  ul.settings-sidebar-accordion .conversation-name p {
+    text-align: left;
+  }
+
+  ul.settings-sidebar-accordion .link-text,
+  ul.settings-sidebar-accordion .conversation-name {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+
 html[lang="ar"] .helpdesk-section.settings-shell {
   .settings-sidebar-back-icon {
     transform: rotate(180deg);
@@ -147,6 +165,166 @@ html[lang="ar"] .helpdesk-section.settings-shell {
   padding: 16px 8px;
   color: $black-40;
   text-align: center;
+}
+
+.helpdesk-section.settings-shell ul.settings-sidebar-accordion {
+  .help-nav-menu li.nav-item > .nav-link {
+    box-sizing: border-box;
+    height: auto;
+    min-height: 34px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+
+  .conversation-name p {
+    display: flex;
+    width: 100%;
+    min-width: 0;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+  }
+
+  .plan-upgrade-lock {
+    display: inline-flex;
+    width: 16px;
+    height: 16px;
+    flex: 0 0 16px;
+    align-items: center;
+    justify-content: center;
+    margin-inline-start: auto;
+    margin-inline-end: 10px;
+
+    svg {
+      display: block;
+      width: 14px;
+      height: 14px;
+    }
+  }
+}
+
+.settings-sidebar-account-host.deskbolic-shell {
+  width: 100%;
+  height: 58px;
+  min-height: 58px;
+  flex: 0 0 58px;
+  overflow: visible;
+  background: transparent;
+
+  .sidebar-account-menu {
+    position: fixed;
+    inset-inline-start: 12px;
+    bottom: 50px;
+  }
+
+}
+
+html:not([lang="ar"]) .settings-sidebar-account-host.deskbolic-shell {
+  .sidebar-account-locale .choices__list--single,
+  .sidebar-account-locale .choices__list--single .choices__item,
+  .sidebar-account-locale .choices__list--dropdown,
+  .sidebar-account-locale .choices__list--dropdown .choices__item {
+    justify-content: flex-start;
+    text-align: left;
+  }
+}
+
+html[lang="ar"] .settings-sidebar-account-host.deskbolic-shell {
+  .sidebar-account-locale .choices__list--single,
+  .sidebar-account-locale .choices__list--single .choices__item,
+  .sidebar-account-locale .choices__list--dropdown,
+  .sidebar-account-locale .choices__list--dropdown .choices__item {
+    justify-content: flex-start;
+    text-align: right;
+  }
+}
+
+/* API keys index */
+@media screen and (max-width: 1023px) {
+  .ui-api-keys-page {
+    .ui-settings-page__content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+      align-content: start;
+      gap: 16px;
+    }
+
+    .ui-card {
+      min-width: 0;
+      margin-bottom: 0;
+    }
+
+    .ui-card-info > div {
+      min-width: 0;
+    }
+
+    .ui-empty-state {
+      grid-column: 1 / -1;
+    }
+  }
+}
+
+@media screen and (min-width: 600px) and (max-width: 1023px) {
+  .ui-api-keys-page .ui-settings-page__content {
+    padding: 24px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .ui-api-keys-page {
+    .ui-settings-page__header .tm-users-header-actions,
+    .ui-settings-page__header .tm-users-header-actions form,
+    .ui-settings-page__header .tm-users-invite {
+      width: 100%;
+    }
+
+    .ui-settings-page__header .tm-users-invite {
+      min-height: 40px;
+      justify-content: center;
+    }
+
+    .ui-settings-page__content {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 12px;
+      padding: 18px 16px calc(104px + env(safe-area-inset-bottom));
+    }
+
+    .ui-card {
+      padding: 16px;
+    }
+
+    .ui-card-top {
+      gap: 12px;
+    }
+
+    .ui-card-info {
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .ui-domain-section__icon {
+      width: 40px;
+      height: 40px;
+      flex-basis: 40px;
+    }
+
+    .ui-card-actions {
+      margin-left: 0;
+    }
+
+    .ui-empty-state {
+      padding: 48px 16px;
+
+      form,
+      form button {
+        width: 100%;
+      }
+
+      form {
+        max-width: 260px;
+      }
+    }
+  }
 }
 
 .helpdesk-section.settings-shell {
@@ -319,6 +497,10 @@ html[lang="ar"] .helpdesk-section.settings-shell .helpdesk-nav {
               color: $black-80;
             }
 
+            .plan-upgrade-lock {
+              display: none;
+            }
+
             p.f-reg-12 {
               color: $black-40;
             }
@@ -379,6 +561,9 @@ html[lang="ar"] .helpdesk-section.settings-shell .helpdesk-nav {
 
     .helpdesk-body {
       width: 100%;
+      height: auto;
+      min-height: 0;
+      align-self: stretch;
     }
 
     .settings-body .st-home-body {
@@ -403,6 +588,32 @@ html[lang="ar"] .helpdesk-section.settings-shell .helpdesk-nav {
             .card {
               min-height: 72px;
               padding: 14px;
+
+              .card-desc {
+                width: 100%;
+
+                h4.f-semi-14 {
+                  display: flex;
+                  align-items: center;
+                  gap: 8px;
+                }
+
+                .plan-upgrade-lock {
+                  display: inline-flex;
+                  width: 16px;
+                  height: 16px;
+                  flex: 0 0 16px;
+                  align-items: center;
+                  justify-content: center;
+                  margin-inline-start: auto;
+
+                  svg {
+                    display: block;
+                    width: 14px;
+                    height: 14px;
+                  }
+                }
+              }
             }
           }
         }

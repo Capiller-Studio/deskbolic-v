@@ -10,6 +10,10 @@
         - identity_source.errors.full_messages.each do |message|
           li = message
 
+  button.ui-btn-secondary.ui-mobile-body-action type="button" data-action="click->key-value-builder#testRun"
+    = image_tag(identity_source.persisted? ? "play_black.svg" : "test_connection.svg", class: "is-btn-test-icon", alt: "")
+    span = t("dashboard.identity_sources.form.test_run")
+
   .ap-section
     .ap-section-header
       span.ap-section-icon

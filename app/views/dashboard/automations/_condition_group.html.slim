@@ -1,5 +1,5 @@
 .autom-condition-group data-automation-builder-target="conditionGroup"
-  .autom-group-header
+  .autom-group-header.ui-responsive-wrap-mobile
     span.autom-group-label = t("ui.dashboard.automations.condition_group.group_match", value: group_index + 1, default: "Group: %{value} — Match")
     .autom-group-pills
       button.autom-pill.autom-pill--sm type="button" class=("autom-pill--active" if (group.dig("operator") || "AND") == "AND") data-action="click->automation-builder#setGroupOperator" data-operator="AND" data-group-index="#{group_index}"

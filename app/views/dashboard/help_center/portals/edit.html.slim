@@ -1,6 +1,6 @@
 / = render("dashboard/shared/dashboard_container", current_page: "help_desk") do
 = render("dashboard/settings/settings_sidebar", current_page: "help-center-portals") do
-  .body-section.help-center-portal-body.ui-settings-editor
+  .body-section.help-center-portal-body.ui-settings-editor.ui-settings-editor--help-center
     header.ui-settings-editor__header
       = link_to help_center_portals_path, class: "ui-settings-editor__back", aria: { label: t("shared.back", default: "Back") } do
         = inline_svg_tag("back-arrow.svg", aria: { hidden: true })

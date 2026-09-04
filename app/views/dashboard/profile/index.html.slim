@@ -1,10 +1,7 @@
 / = render("dashboard/shared/dashboard_container", current_page: "profile") do
 = render("dashboard/settings/settings_sidebar", current_page: "profile") do
-  .mobile-profile-home
-    header.mobile-profile-header
-      h1 = t("dashboard.mobile_navigation.you", default: "You")
-      span Deskbolic
-
+  - mobile_profile_editing = params[:edit].present? || request.patch?
+  .mobile-profile-home class=("is-hidden" if mobile_profile_editing)
     .mobile-profile-content
       section.mobile-profile-identity
         - if current_user.avatar&.attached?
@@ -15,6 +12,9 @@
         .mobile-profile-identity-copy
           strong = current_user.display_name
           span = current_user.email
+        = link_to profile_path(edit: true), class: "mobile-profile-edit-link", aria: { label: t("auth.edit_profile.title") } do
+          = inline_svg_tag("pencil.svg", aria: { hidden: true })
+          span = t("auth.edit_profile.title")
 
       .mobile-profile-status
         span.mobile-profile-status-dot aria-hidden="true"
@@ -54,10 +54,41 @@
               aria: { label: t("forms.options.select_language") },
               onchange: "window.location.href=this.value"
 
-  .ui-settings-page.profile-page
+      section.mobile-profile-account-actions
+        h2 = t("ui.dashboard.shared.dashboard_container.switch_account", default: "Switch Account")
+        .mobile-profile-account-panel
+          .mobile-profile-workspace-list
+            - current_user.accounts.sort_by { |account| account == current_account ? 0 : 1 }.each do |account|
+              - active_account = account == current_account
+              = link_to root_url(subdomain: account.identifier), class: "mobile-profile-workspace #{active_account ? 'is-active' : ''}", data: { turbo: false } do
+                .mobile-profile-workspace-avatar.avatar-fallback class=avatar_fallback_color_class(account.name)
+                  = initials(account, limit: 2)
+                .mobile-profile-workspace-details
+                  strong = account.name
+                  span title=(account.email.presence || current_user.email) = account.email.presence || current_user.email
+                - if active_account
+                  span.mobile-profile-workspace-check aria-hidden="true"
+                    svg viewBox="0 0 20 20" fill="none"
+                      path d="M4 10.5 8 14l8-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+
+          = link_to workspaces_url(subdomain: ""), class: "mobile-profile-account-link", data: { turbo: false } do
+            span = t("dashboard.sidebar.all_workspaces")
+
+          = link_to workspace_path(subdomain: ""), class: "mobile-profile-account-link", data: { turbo: false } do
+            span.mobile-profile-account-link-icon aria-hidden="true"
+              = inline_svg_tag("plus_black.svg")
+            span = t("auth.login.create_account", default: "Create Account")
+
+          = button_to destroy_user_session_path, method: :delete, class: "mobile-profile-account-link mobile-profile-account-link--logout" do
+            = inline_svg_tag("logout.svg", class: "mobile-profile-account-action-icon", aria: { hidden: true })
+            span = t("ui.dashboard.shared.dashboard_container.sign_out", default: "Sign Out")
+
+  .ui-settings-page.profile-page class=("is-mobile-edit" if mobile_profile_editing)
     header.ui-settings-page__header
+      = link_to profile_path, class: "profile-mobile-back", aria: { label: t("ui.common.back", default: "Back") } do
+        = inline_svg_tag("back_arrow.svg", aria: { hidden: true })
       .ui-settings-page__heading
-        h1 = t("dashboard.profile.index.title")
+        h1 = mobile_profile_editing ? t("auth.edit_profile.title") : t("dashboard.profile.index.title")
         p = t("dashboard.profile.index.description")
 
       button.ui-settings-page__action type="submit" form="profile-form"
@@ -86,17 +117,12 @@
                 - full = [@user.first_name.presence, @user.last_name.presence].compact.join(" ").presence
                 h2 = full || t("dashboard.profile.index.unnamed_user")
                 span.profile-badge = t("dashboard.profile.index.you")
+              p.profile-summary-email = @user.email
               .profile-meta
                 .profile-meta-item
                   = inline_svg_tag("location.svg", class: "profile-meta-icon", alt: "")
-                  = fields_for :address, @address || Address.new do |address_fields|
-                    .profile-meta-location-fields
-                      = address_fields.text_field :city, class: "profile-meta-input profile-meta-input--city", placeholder: t("dashboard.profile.index.city_placeholder")
-                      span.profile-meta-separator ,
-                      = address_fields.text_field :state_name, class: "profile-meta-input profile-meta-input--state", placeholder: t("dashboard.profile.index.state_placeholder")
-                .profile-meta-item
-                  = inline_svg_tag("clock.svg", class: "profile-meta-icon", alt: "")
-                  span = Time.current.strftime("%-I:%M %p")
+                  - location = [@address&.city.presence, @address&.state_name.presence].compact.join(", ")
+                  span = location.presence || t("dashboard.profile.index.location_not_set")
                 .profile-meta-item
                   = inline_svg_tag("calendar.svg", class: "profile-meta-icon", alt: "")
                   span
@@ -104,7 +130,7 @@
                     - last_seen = @user.current_sign_in_at || @user.last_sign_in_at
                     = last_seen ? time_ago_in_words(last_seen) : t("dashboard.profile.index.nil")
 
-          .profile-section-label = t("dashboard.profile.index.you")
+          / .profile-section-label = t("dashboard.profile.index.you")
 
           .profile-card
             .profile-card-header
@@ -115,18 +141,14 @@
                 .profile-row-icon-cell
                   = inline_svg_tag("user.svg", class: "profile-icon", alt: "")
                 .profile-row-content
+                  label.profile-field-label for="user_name" = t("dashboard.profile.index.name_label")
                   = f.text_field :name, class: "profile-input", placeholder: t("dashboard.profile.index.name_label")
-
-              .profile-row
-                .profile-row-icon-cell
-                  = inline_svg_tag("email.svg", class: "profile-icon", alt: "")
-                .profile-row-content
-                  = f.text_field :email, class: "profile-input", readonly: true
 
               .profile-row
                 .profile-row-icon-cell
                   = inline_svg_tag("user.svg", class: "profile-icon", alt: "")
                 .profile-row-content
+                  label.profile-field-label for="user_display_name" = t("dashboard.profile.index.display_name_label")
                   = f.text_field :display_name, class: "profile-input", placeholder: t("dashboard.profile.index.display_name_label")
 
               = fields_for :address, @address || Address.new do |address_fields|
@@ -134,6 +156,7 @@
                   .profile-row-icon-cell
                     = inline_svg_tag("calendar.svg", class: "profile-icon", alt: "")
                   .profile-row-content.profile-status-select
+                    label.profile-field-label for="user_status" = t("dashboard.profile.index.status_label")
                     = f.select :status,
                       options_for_select(User.statuses.keys.map { |status| [t("enums.user.status.#{status}"), status] }, @user.status),
                       {},
@@ -144,15 +167,33 @@
                   .profile-row-icon-cell
                     = inline_svg_tag("users.svg", class: "profile-icon", alt: "")
                   .profile-row-content
+                    label.profile-field-label for="address_organization_name" = t("dashboard.profile.index.organization_label")
                     = address_fields.text_field :organization_name, class: "profile-input", placeholder: t("dashboard.profile.index.no_organization")
 
                 .profile-row
                   .profile-row-icon-cell
                     = image_tag("phone_call.png", class: "profile-icon", alt: "")
                   .profile-row-content.profile-phone
+                    label.profile-field-label for="address_phone_number" = t("dashboard.profile.index.phone_label")
                     = address_fields.text_field :phone_number, class: "profile-input", placeholder: t("dashboard.profile.index.no_phone")
 
+                .profile-row
+                  .profile-row-icon-cell
+                    = inline_svg_tag("location.svg", class: "profile-icon", alt: "")
+                  .profile-row-content
+                    label.profile-field-label for="address_city" = t("dashboard.profile.index.city_placeholder")
+                    = address_fields.text_field :city, class: "profile-input", placeholder: t("dashboard.profile.index.city_placeholder")
+
+                .profile-row
+                  .profile-row-icon-cell
+                    = inline_svg_tag("location.svg", class: "profile-icon", alt: "")
+                  .profile-row-content
+                    label.profile-field-label for="address_state_name" = t("dashboard.profile.index.state_placeholder")
+                    = address_fields.text_field :state_name, class: "profile-input", placeholder: t("dashboard.profile.index.state_placeholder")
+
           .profile-card.profile-account-card
+            .profile-card-header
+              h3 = t("dashboard.profile.index.account_information")
             .profile-details
               .profile-row
                 .profile-row-icon-cell

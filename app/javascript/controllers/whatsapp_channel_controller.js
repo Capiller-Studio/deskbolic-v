@@ -9,12 +9,18 @@ export default class extends Controller {
   static targets = ["callbackForm", "code", "wabaId", "phoneNumberId", "connectButton", "buttonSpinner", "buttonText"]
 
   connect() {
+    this.authCode = null
+    this.sessionData = null
+    this.submissionTimeout = null
+    this.isSubmitted = false
+
     this.boundMessageHandler = this.handleEmbeddedMessage.bind(this)
     window.addEventListener("message", this.boundMessageHandler)
     this.loadFacebookSDK()
   }
 
   disconnect() {
+    this.clearSubmissionTimeout()
     if (this.boundMessageHandler) {
       window.removeEventListener("message", this.boundMessageHandler)
     }
@@ -52,13 +58,14 @@ export default class extends Controller {
       const data = typeof event.data === "string" ? JSON.parse(event.data) : event.data
       if (data && data.type === "WA_EMBEDDED_SIGNUP") {
         if (data.event === "FINISH") {
-          const sessionData = data.data || {}
-          if (sessionData.waba_id && this.hasWabaIdTarget) {
-            this.wabaIdTarget.value = sessionData.waba_id
+          this.sessionData = data.data || {}
+          if (this.sessionData.waba_id && this.hasWabaIdTarget) {
+            this.wabaIdTarget.value = this.sessionData.waba_id
           }
-          if (sessionData.phone_number_id && this.hasPhoneNumberIdTarget) {
-            this.phoneNumberIdTarget.value = sessionData.phone_number_id
+          if (this.sessionData.phone_number_id && this.hasPhoneNumberIdTarget) {
+            this.phoneNumberIdTarget.value = this.sessionData.phone_number_id
           }
+          this.attemptSubmit()
         } else if (data.event === "CANCEL") {
           this.resetButtonState()
         } else if (data.event === "ERROR") {
@@ -84,15 +91,27 @@ export default class extends Controller {
       return
     }
 
+    // Reset latch state for new connection attempt
+    this.clearSubmissionTimeout()
+    this.authCode = null
+    this.sessionData = null
+    this.isSubmitted = false
+
+    if (this.hasCodeTarget) this.codeTarget.value = ""
+    if (this.hasWabaIdTarget) this.wabaIdTarget.value = ""
+    if (this.hasPhoneNumberIdTarget) this.phoneNumberIdTarget.value = ""
+
     this.setLoadingState()
 
     // Launch WhatsApp Embedded Signup Flow
     window.FB.login(
       (response) => {
         if (response.authResponse && response.authResponse.code) {
-          // Send the authorization code to our backend callback
-          this.codeTarget.value = response.authResponse.code
-          this.callbackFormTarget.submit()
+          this.authCode = response.authResponse.code
+          if (this.hasCodeTarget) {
+            this.codeTarget.value = this.authCode
+          }
+          this.attemptSubmit()
         } else {
           this.resetButtonState()
           console.log("User cancelled login or did not fully authorize.")
@@ -111,6 +130,44 @@ export default class extends Controller {
     )
   }
 
+  attemptSubmit() {
+    if (this.isSubmitted) return
+
+    // Case 1: Both FB.login auth code and sessionInfo (waba_id / phone_number_id) received.
+    // Submit immediately!
+    if (this.authCode && this.sessionData) {
+      this.clearSubmissionTimeout()
+      this.isSubmitted = true
+      this.callbackFormTarget.submit()
+      return
+    }
+
+    // Case 2: FB.login returned auth code first, postMessage FINISH hasn't arrived yet.
+    // Wait up to 1200ms for postMessage to arrive. If it times out (e.g. browser blocked postMessage),
+    // submit with auth code alone and let the backend fallback discover the account details.
+    if (this.authCode && !this.sessionData) {
+      if (!this.submissionTimeout) {
+        this.submissionTimeout = setTimeout(() => {
+          if (!this.isSubmitted && this.authCode) {
+            this.isSubmitted = true
+            this.callbackFormTarget.submit()
+          }
+        }, 1200)
+      }
+      return
+    }
+
+    // Case 3: FINISH postMessage arrived first, waiting for FB.login popup to close and return auth code.
+    // Nothing to do here; FB.login callback will fire momentarily and enter Case 1.
+  }
+
+  clearSubmissionTimeout() {
+    if (this.submissionTimeout) {
+      clearTimeout(this.submissionTimeout)
+      this.submissionTimeout = null
+    }
+  }
+
   setLoadingState() {
     if (this.hasConnectButtonTarget) {
       this.connectButtonTarget.disabled = true
@@ -125,6 +182,11 @@ export default class extends Controller {
   }
 
   resetButtonState() {
+    this.clearSubmissionTimeout()
+    this.authCode = null
+    this.sessionData = null
+    this.isSubmitted = false
+
     if (this.hasConnectButtonTarget) {
       this.connectButtonTarget.disabled = false
       this.connectButtonTarget.classList.remove("is-loading")

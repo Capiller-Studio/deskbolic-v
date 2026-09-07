@@ -102,31 +102,31 @@
                       = inline_svg_tag("password_show.svg", class: "ui-password-toggle__icon ui-password-toggle__icon--show", aria: { hidden: true })
                       = inline_svg_tag("password_hide.svg", class: "ui-password-toggle__icon ui-password-toggle__icon--hide", aria: { hidden: true })
 
-          section.channel-edit-section.channel-edit-card
-            .channel-edit-section__heading.channel-edit-section__heading--with-description
+          section.channel-edit-section.channel-edit-card.whatsapp-template-section
+            .channel-edit-section__heading.channel-edit-section__heading--with-description.whatsapp-template-heading
               .channel-edit-section__icon
                 = inline_svg_tag("code_snipet.svg", aria: { hidden: true })
               .channel-edit-section__heading-copy
                 h2 = t("dashboard.whatsapp_channels.edit.whatsapp_templates_title")
                 p = t("dashboard.whatsapp_channels.edit.whatsapp_templates_desc")
-            .channel-edit-section__body
-              .channel-edit-toggle-row style="justify-content: space-between; align-items: center; margin-bottom: 1.25rem;"
-                .channel-edit-toggle-row__copy
+            .channel-edit-section__body.whatsapp-template-section__body
+              .whatsapp-template-toolbar
+                .whatsapp-template-status
                   - synced_count = @whatsapp_channel.approved_templates.size
                   - if synced_count > 0
-                    p style="margin: 0; font-size: 0.875rem; color: #10b981; font-weight: 500;"
+                    p.whatsapp-template-status__message.whatsapp-template-status__message--synced
                       = t("dashboard.whatsapp_channels.edit.templates_count", count: synced_count)
                       - if @whatsapp_channel.templates_synced_at.present?
-                        span style="margin-left: 0.5rem; font-weight: 400; color: #6b7280;"
+                        span.whatsapp-template-status__meta
                           = t("dashboard.whatsapp_channels.edit.last_synced_at", time: time_ago_in_words(@whatsapp_channel.templates_synced_at))
                   - else
-                    p style="margin: 0; font-size: 0.875rem; color: #6b7280;"
+                    p.whatsapp-template-status__message
                       = t("dashboard.whatsapp_channels.edit.no_templates_synced")
-                = link_to sync_templates_channels_whatsapp_path(id: @whatsapp_channel.id), class: "channel-edit__button channel-edit__button--secondary", data: { turbo_method: :post } do
+                = link_to sync_templates_channels_whatsapp_path(id: @whatsapp_channel.id), class: "channel-edit__button channel-edit__button--secondary whatsapp-template-sync-button", data: { turbo_method: :post } do
                   = inline_svg_tag("refresh.svg", aria: { hidden: true })
                   span = t("dashboard.whatsapp_channels.edit.sync_templates_btn")
 
-              .channel-edit-fields-grid
+              .channel-edit-fields-grid.whatsapp-template-fields
                 .channel-edit-field
                   = f.label :template_name, t("dashboard.whatsapp_channels.form.template_name_label")
                   - templates = @whatsapp_channel.approved_templates

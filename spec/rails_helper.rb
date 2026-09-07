@@ -57,6 +57,8 @@ RSpec.configure do |config|
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
     Searchkick.disable_callbacks if defined?(Searchkick)
+    InvisibleCaptcha.timestamp_threshold = 0 if defined?(InvisibleCaptcha)
+    InvisibleCaptcha.spinner_enabled = false if defined?(InvisibleCaptcha)
   end
 
   config.before do

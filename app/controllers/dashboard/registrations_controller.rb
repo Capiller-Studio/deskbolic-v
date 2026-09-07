@@ -44,7 +44,7 @@ module Dashboard
         @selected_plan_id = selected_plan_id
         @selected_billing_cycle = selected_billing_cycle
 
-        referral_code = params[:ref_code].presence || cookies[:ref_code]
+        referral_code = params[:ref].presence || cookies[:ref]
 
         if referral_code.present? && result.account.present?
           Affiliates::Referrals::Tracker.call(account: result.account, referral_code: referral_code)
@@ -134,10 +134,12 @@ module Dashboard
       end
     end
     def clear_onboarding_cookies
+      cookies.delete(:ref)
       cookies.delete(:ref_code)
       cookies.delete(:ref_sc)
       cookies.delete(:selected_plan_id)
       cookies.delete(:selected_billing_cycle)
+      cookies.delete(:currency)
       cookies.delete(:selected_currency)
       cookies.delete(:deskbolic_referral_code)
     end

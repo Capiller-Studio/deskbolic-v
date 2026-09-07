@@ -43,7 +43,7 @@
 
           .form-wrapper
             = f.label :currency, t("auth.currency"), class: "form-label"
-            = f.select :currency, [["USD ($)", "USD"], ["EUR (€)", "EUR"], ["GBP (£)", "GBP"]], { selected: cookies[:selected_currency].presence || params[:currency] }, class: "form-control", data: { controller: "select" }
+            = f.select :currency, [["USD ($)", "USD"], ["EUR (€)", "EUR"], ["GBP (£)", "GBP"]], { selected: cookies[:currency].presence || cookies[:selected_currency].presence || params[:currency] }, class: "form-control", data: { controller: "select" }
           p style="font-size: 12px; color: #565656; margin-top: -10px; margin-bottom: 15px;" = t("auth.currency_hint")
 
           .form-wrapper

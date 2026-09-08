@@ -25,6 +25,7 @@ module Dashboard
       # Generates the Instagram OAuth URL and redirects the user to Instagram
       def oauth_authorize
         callback_uri = instagram_callback_url
+        Rails.logger.info("[Instagram OAuth] Initiating OAuth for account #{current_account.id} with callback_uri: #{callback_uri}")
         state = generate_state_token(current_account.id, callback_uri)
 
         oauth_service = ::Channels::Instagram::OauthService.new(account: current_account)
@@ -40,6 +41,7 @@ module Dashboard
       # Instagram redirects here after the user authorizes (or denies) the app
       def callback
         if params[:error].present?
+          Rails.logger.warn("[Instagram OAuth] Callback received error: #{params[:error]} - #{params[:error_description]}")
           redirect_target = current_account ? new_channels_instagram_path : root_path
           redirect_to(redirect_target, alert: params[:error_description] || t("dashboard.instagram_channels.callback_error"))
           return
@@ -51,6 +53,7 @@ module Dashboard
         state_payload = verify_state_token(params[:state])
         account_id = state_payload.is_a?(Hash) ? state_payload["sub"] : state_payload
         if account_id.blank?
+          Rails.logger.error("[Instagram OAuth] State token verification returned blank account_id")
           redirect_target = current_account ? new_channels_instagram_path : root_path
           redirect_to(redirect_target, alert: t("dashboard.instagram_channels.invalid_state"))
           return
@@ -58,17 +61,20 @@ module Dashboard
 
         target_account = Account.find_by(id: account_id)
         if target_account.blank?
+          Rails.logger.error("[Instagram OAuth] Account #{account_id} from state token not found")
           redirect_to(root_path, alert: t("dashboard.instagram_channels.invalid_state"))
           return
         end
 
         # If accessed on apex domain (or wrong subdomain), redirect to the account's subdomain callback
         if request.subdomain.blank? || request.subdomain == "www" || current_account&.id != target_account.id
-          redirect_to(callback_channels_instagram_index_url(
+          target_url = callback_channels_instagram_index_url(
             subdomain: target_account.identifier,
             code: clean_code,
             state: params[:state]
-          ), allow_other_host: true)
+          )
+          Rails.logger.info("[Instagram OAuth] Apex callback received for account #{target_account.id} (#{target_account.identifier}). Redirecting to subdomain: #{target_url}")
+          redirect_to(target_url, allow_other_host: true)
           return
         end
 
@@ -80,11 +86,34 @@ module Dashboard
 
         # Use the exact redirect_uri stored in the verified JWT state payload to ensure 100% match with OAuth dialog
         token_redirect_uri = (state_payload.is_a?(Hash) && state_payload["redirect_uri"].presence) || instagram_callback_url
+        token_redirect_uri = token_redirect_uri.to_s.strip.chomp("/")
+
+        Rails.logger.info("[Instagram OAuth] Exchanging code on subdomain #{request.subdomain} for account #{current_account.id} with token_redirect_uri: #{token_redirect_uri}")
 
         result = oauth_service.exchange_code(
           code: clean_code,
           redirect_uri: token_redirect_uri
         )
+
+        # Check if channel already exists for this Instagram account (re-authorization / reconnect)
+        existing_channel = current_account.with_shard do
+          Channel::Instagram.find_by(instagram_id: result[:user][:id], account: current_account)
+        end
+
+        if existing_channel.present?
+          current_account.with_shard do
+            existing_channel.update!(
+              access_token: result[:access_token],
+              expires_at: result[:expires_at],
+              avatar_url: result[:user][:avatar_url],
+              username: result[:user][:username],
+              name: result[:user][:name].presence || result[:user][:username].presence || existing_channel.name,
+              status: :active
+            )
+          end
+          redirect_to(edit_channels_instagram_path(existing_channel), notice: t("dashboard.instagram_channels.updated", default: "Instagram channel updated successfully."))
+          return
+        end
 
         unless current_account.within_limit?(:channels)
           redirect_to(channels_instagram_index_path, alert: t("dashboard.instagram_channels.limit_reached"))
@@ -188,8 +217,10 @@ module Dashboard
       def instagram_callback_url
         # In production with DESKBOLIC_URL, use configured apex URL (matches Meta Console: https://deskbolic.app/channels/instagram/callback).
         # In local/ngrok environments, dynamically use the current request host (matches ngrok in Meta Console).
-        base = ENV["DESKBOLIC_URL"].presence || "#{request.protocol}#{request.host_with_port}"
-        URI.join(base, "/channels/instagram/callback").to_s
+        base = ENV["DESKBOLIC_URL"].presence
+        base ||= Rails.env.production? ? "https://deskbolic.app" : "#{request.protocol}#{request.host_with_port}"
+        base = base.to_s.strip.chomp("/")
+        "#{base}/channels/instagram/callback"
       end
     end
   end

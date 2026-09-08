@@ -222,6 +222,32 @@ es:
       available: Disponible
       all_workspaces: Todos los espacios de trabajo
       settings:
+        general:
+          title: Configuración general
+          description: Administre la identidad, la localización y el ciclo de vida de su espacio de trabajo.
+          workspace_details: Detalles del espacio de trabajo
+          name_label: Nombre del espacio de trabajo
+          subdomain_label: Subdominio del espacio de trabajo
+          timezone_label: Zona horaria
+          locale_label: Idioma
+          danger_zone: Zona de peligro
+          delete_workspace_title: Eliminar espacio de trabajo
+          delete_workspace_desc: Solicitar la eliminación de este espacio de trabajo. El espacio de trabajo se desactivará inmediatamente y las suscripciones de facturación se cancelarán. Tan pronto como se solicite la eliminación, los dispositivos activos, las sesiones y los tokens de API se perderán permanentemente. Los miembros del equipo revisarán y realizarán verificaciones manuales, y luego eliminarán permanentemente los canales y los datos del espacio de trabajo.
+          request_deletion_btn: Eliminar este espacio de trabajo
+          owner_only_notice: Solo el propietario del espacio de trabajo puede solicitar la eliminación del espacio de trabajo.
+          confirm_deletion_title: Confirmar eliminación del espacio de trabajo
+          modal_warning_title: "Advertencia: Desactivación inmediata y verificación manual"
+          modal_warning_desc: Al eliminar este espacio de trabajo, se desactivará de inmediato. Tan pronto como se solicite la eliminación, los dispositivos activos, las sesiones y los tokens de acceso a la API se perderán permanentemente. Las suscripciones activas se cancelarán y los dominios personalizados se deshabilitarán. Los miembros del equipo revisarán y realizarán verificaciones manuales, y luego eliminarán permanentemente los canales, bandejas de entrada y datos del espacio de trabajo.
+          confirm_subdomain_prompt_html: "Escriba el subdominio del espacio de trabajo %{identifier} para confirmar:"
+          confirm_delete_btn: Entiendo, eliminar este espacio de trabajo
+          notices:
+            updated: La configuración del espacio de trabajo se actualizó correctamente.
+            deletion_requested: Se solicitó la eliminación del espacio de trabajo. El espacio de trabajo ha sido desactivado.
+          alerts:
+            owner_only: Solo los propietarios pueden solicitar la eliminación del espacio de trabajo.
+            incorrect_password: Contraseña incorrecta. Eliminación del espacio de trabajo cancelada.
+            identifier_mismatch: La confirmación del identificador del espacio de trabajo no coincide.
+            unauthorized: No está autorizado para realizar esta acción.
         back_to_dashboard: Volver al panel
         title: Configuración
         home: Inicio
@@ -1684,6 +1710,25 @@ es:
         credential_id_placeholder: "por ej. 123456789012345"
     profile:
       index:
+        danger_zone: Zona de peligro
+        delete_account_title: Eliminar cuenta personal
+        delete_account_desc: Solicite la eliminación de su cuenta personal. Una vez enviada, su perfil se desactivará y se cerrará su sesión. Tan pronto como solicite la eliminación, parte de la información se perderá permanentemente de inmediato, incluidos los dispositivos activos, las sesiones activas y las suscripciones a notificaciones. Los miembros del equipo revisarán y realizarán verificaciones manuales, y luego eliminarán permanentemente sus datos.
+        delete_account_btn: Eliminar cuenta
+        sole_owner_warning: Usted es el propietario de un espacio de trabajo activo. Debe transferir la propiedad o eliminar el espacio de trabajo antes de eliminar su cuenta personal.
+        confirm_deletion_title: Confirmar eliminación de la cuenta
+        modal_review_title: "Importante: Proceso de verificación manual"
+        modal_review_desc: Los miembros del equipo revisarán y realizarán verificaciones manuales, y luego eliminarán permanentemente sus datos.
+        consequence_signout: Se cerrará su sesión de inmediato y no podrá iniciar sesión mientras esté pendiente de revisión.
+        consequence_permanent_loss: Tan pronto como solicite la eliminación, parte de la información se perderá permanentemente, incluidos los dispositivos activos, las sesiones activas y las suscripciones a notificaciones.
+        consequence_memberships: Sus membresías en otros espacios de trabajo se desactivarán inmediatamente.
+        confirm_delete_btn: Entiendo, eliminar mi cuenta
+        notices:
+          updated: Perfil actualizado correctamente.
+          deletion_requested: Se ha enviado su solicitud de eliminación de cuenta. Su perfil ha sido desactivado y se eliminará permanentemente tras la revisión.
+        alerts:
+          update_failed: No se pudo actualizar el perfil. Por favor, compruebe los campos e inténtelo de nuevo.
+          sole_owner: Usted es el propietario de un espacio de trabajo activo. Debe transferir la propiedad o eliminar el espacio de trabajo antes de eliminar su cuenta personal.
+          incorrect_password: Contraseña incorrecta. No se pudo procesar la eliminación de la cuenta.
         title: Detalles personales
         description: Administra tu información personal y tu perfil público.
         public_profile: Perfil público
@@ -2444,6 +2489,32 @@ es:
         test_mapping: Mapeo de prueba
         mapped_attributes: 'Atributos mapeados:'
     settings:
+      general:
+        title: Configuración general
+        description: Administre la identidad, la localización y el ciclo de vida de su espacio de trabajo.
+        workspace_details: Detalles del espacio de trabajo
+        name_label: Nombre del espacio de trabajo
+        subdomain_label: Subdominio del espacio de trabajo
+        timezone_label: Zona horaria
+        locale_label: Idioma
+        danger_zone: Zona de peligro
+        delete_workspace_title: Eliminar espacio de trabajo
+        delete_workspace_desc: Solicitar la eliminación de este espacio de trabajo. El espacio de trabajo se desactivará inmediatamente y las suscripciones de facturación se cancelarán. Tan pronto como se solicite la eliminación, los dispositivos activos, las sesiones y los tokens de API se perderán permanentemente. Los miembros del equipo revisarán y realizarán verificaciones manuales, y luego eliminarán permanentemente los canales y los datos del espacio de trabajo.
+        request_deletion_btn: Eliminar este espacio de trabajo
+        owner_only_notice: Solo el propietario del espacio de trabajo puede solicitar la eliminación del espacio de trabajo.
+        confirm_deletion_title: Confirmar eliminación del espacio de trabajo
+        modal_warning_title: "Advertencia: Desactivación inmediata y verificación manual"
+        modal_warning_desc: Al eliminar este espacio de trabajo, se desactivará de inmediato. Tan pronto como se solicite la eliminación, los dispositivos activos, las sesiones y los tokens de acceso a la API se perderán permanentemente. Las suscripciones activas se cancelarán y los dominios personalizados se deshabilitarán. Los miembros del equipo revisarán y realizarán verificaciones manuales, y luego eliminarán permanentemente los canales, bandejas de entrada y datos del espacio de trabajo.
+        confirm_subdomain_prompt_html: "Escriba el subdominio del espacio de trabajo %{identifier} para confirmar:"
+        confirm_delete_btn: Entiendo, eliminar este espacio de trabajo
+        notices:
+          updated: La configuración del espacio de trabajo se actualizó correctamente.
+          deletion_requested: Se solicitó la eliminación del espacio de trabajo. El espacio de trabajo ha sido desactivado.
+        alerts:
+          owner_only: Solo los propietarios pueden solicitar la eliminación del espacio de trabajo.
+          incorrect_password: Contraseña incorrecta. Eliminación del espacio de trabajo cancelada.
+          identifier_mismatch: La confirmación del identificador del espacio de trabajo no coincide.
+          unauthorized: No está autorizado para realizar esta acción.
       integrations:
         index:
           title: Integraciones
@@ -2910,6 +2981,14 @@ es:
       registered_message: Su cuenta ha sido creada exitosamente.
       back_to_login: Continuar para iniciar sesión
   activities:
+    account:
+      deletion_requested: Se solicitó la eliminación de la cuenta
+      deleted: La cuenta se marcó como eliminada
+      restored: La cuenta se restauró al estado activo
+    user:
+      deletion_requested: Se solicitó la eliminación de la cuenta de usuario
+      deleted: El usuario se marcó como eliminado
+      restored: El usuario se restauró al estado activo
     conversation:
       conversation_resolved: La conversación se resolvió.
       conversation_closed: La conversación fue cerrada.
@@ -3830,6 +3909,25 @@ es:
           widget_channel: Canal de widgets
       profile:
         index:
+          danger_zone: Zona de peligro
+          delete_account_title: Eliminar cuenta personal
+          delete_account_desc: Solicite la eliminación de su cuenta personal. Una vez enviada, su perfil se desactivará y se cerrará su sesión. Tan pronto como solicite la eliminación, parte de la información se perderá permanentemente de inmediato, incluidos los dispositivos activos, las sesiones activas y las suscripciones a notificaciones. Los miembros del equipo revisarán y realizarán verificaciones manuales, y luego eliminarán permanentemente sus datos.
+          delete_account_btn: Eliminar cuenta
+          sole_owner_warning: Usted es el propietario de un espacio de trabajo activo. Debe transferir la propiedad o eliminar el espacio de trabajo antes de eliminar su cuenta personal.
+          confirm_deletion_title: Confirmar eliminación de la cuenta
+          modal_review_title: "Importante: Proceso de verificación manual"
+          modal_review_desc: Los miembros del equipo revisarán y realizarán verificaciones manuales, y luego eliminarán permanentemente sus datos.
+          consequence_signout: Se cerrará su sesión de inmediato y no podrá iniciar sesión mientras esté pendiente de revisión.
+          consequence_permanent_loss: Tan pronto como solicite la eliminación, parte de la información se perderá permanentemente, incluidos los dispositivos activos, las sesiones activas y las suscripciones a notificaciones.
+          consequence_memberships: Sus membresías en otros espacios de trabajo se desactivarán inmediatamente.
+          confirm_delete_btn: Entiendo, eliminar mi cuenta
+          notices:
+            updated: Perfil actualizado correctamente.
+            deletion_requested: Se ha enviado su solicitud de eliminación de cuenta. Su perfil ha sido desactivado y se eliminará permanentemente tras la revisión.
+          alerts:
+            update_failed: No se pudo actualizar el perfil. Por favor, compruebe los campos e inténtelo de nuevo.
+            sole_owner: Usted es el propietario de un espacio de trabajo activo. Debe transferir la propiedad o eliminar el espacio de trabajo antes de eliminar su cuenta personal.
+            incorrect_password: Contraseña incorrecta. No se pudo procesar la eliminación de la cuenta.
           change_avatar: Cambiar avatar
           profile_avatar: avatar de perfil
       registrations:

@@ -154,17 +154,6 @@
               = fields_for :address, @address || Address.new do |address_fields|
                 .profile-row
                   .profile-row-icon-cell
-                    = inline_svg_tag("calendar.svg", class: "profile-icon", alt: "")
-                  .profile-row-content.profile-status-select
-                    label.profile-field-label for="user_status" = t("dashboard.profile.index.status_label")
-                    = f.select :status,
-                      options_for_select(User.statuses.keys.map { |status| [t("enums.user.status.#{status}"), status] }, @user.status),
-                      {},
-                      class: "ui-select ui-control",
-                      data: { controller: "select" }
-
-                .profile-row
-                  .profile-row-icon-cell
                     = inline_svg_tag("users.svg", class: "profile-icon", alt: "")
                   .profile-row-content
                     label.profile-field-label for="address_organization_name" = t("dashboard.profile.index.organization_label")
@@ -208,3 +197,54 @@
                 .profile-row-content.profile-readonly
                   span = t("dashboard.profile.index.email")
                   p = @user.email.presence || t("dashboard.profile.index.nil")
+
+          / Personal Account Danger Zone
+          .profile-card data-controller="modal" style="border: 1px solid #fee2e2; background-color: #fffaf0;"
+            .profile-card-header style="border-bottom: 1px solid #fee2e2;"
+              h3 style="color: #b91c1c;" = t("dashboard.profile.index.danger_zone", default: "Danger Zone")
+
+            .profile-details style="padding: 1.5rem;"
+              .danger-zone-content
+                h4 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: #111827; font-weight: 600;"
+                  = t("dashboard.profile.index.delete_account_title", default: "Delete Personal Account")
+                p style="margin: 0 0 1rem 0; font-size: 0.875rem; color: #6b7280; line-height: 1.4;"
+                  = t("dashboard.profile.index.delete_account_desc", default: "Request deletion of your personal account. Once submitted, your profile will be deactivated and you will be signed out. As soon as you request deletion, some information is permanently lost immediately, including active devices, active sessions, and notification subscriptions. Staff members will review and do manual verifications, then permanently delete your data.")
+
+                - if @user.can_be_deleted?
+                  button.btn.btn-danger type="button" data-action="click->modal#open" style="background-color: #dc2626; color: white; border: none; padding: 0.625rem 1.25rem; border-radius: 0.375rem; font-weight: 600; cursor: pointer;"
+                    = t("dashboard.profile.index.delete_account_btn", default: "Delete Account")
+                - else
+                  .alert.alert-warning style="padding: 0.75rem; border-radius: 0.375rem; background: #fffbeb; color: #92400e; font-size: 0.875rem;"
+                    = t("dashboard.profile.index.sole_owner_warning", default: "You are the owner of an active workspace. You must transfer ownership or delete the workspace before deleting your personal account.")
+
+            / Personal Account Deletion Modal
+            - if @user.can_be_deleted?
+              .modal-backdrop#delete-user-modal data-modal-target="dialog" data-action="click->modal#closeOnOutsideClick" style="display: none; position: fixed; inset: 0; background-color: rgba(0, 0, 0, 0.5); z-index: 9999; align-items: center; justify-content: center;"
+                .modal-dialog style="max-width: 480px; width: 90%; margin: auto; background: white; border-radius: 0.75rem; padding: 1.5rem; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);"
+                  .modal-header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;"
+                    h3 style="margin: 0; color: #b91c1c; font-size: 1.25rem; font-weight: 700;"
+                      = t("dashboard.profile.index.confirm_deletion_title", default: "Confirm Account Deletion")
+                    button.modal-close type="button" data-action="click->modal#close" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #6b7280; line-height: 1;" &times;
+
+                  = form_with(url: profile_path, method: :delete, local: true) do |f|
+                    .modal-body style="font-size: 0.875rem; color: #374151; margin-bottom: 1.5rem;"
+                      .alert.alert-warning style="padding: 0.875rem 1rem; border-radius: 0.5rem; background: #fffbeb; border: 1px solid #fef3c7; border-left: 4px solid #f59e0b; color: #92400e; margin-bottom: 1rem;"
+                        strong style="display: block; font-weight: 600; margin-bottom: 0.375rem;"
+                          = t("dashboard.profile.index.modal_review_title", default: "Important: Manual Verification Process")
+                        p style="margin: 0; font-size: 0.8125rem; line-height: 1.45;"
+                          = t("dashboard.profile.index.modal_review_desc", default: "Staff members will review and do manual verifications, then permanently delete your data.")
+
+                      ul style="padding-left: 1.25rem; margin: 0 0 1.25rem 0; font-size: 0.8125rem; color: #4b5563; line-height: 1.6;"
+                        li = t("dashboard.profile.index.consequence_signout", default: "You will be signed out immediately and cannot log in while pending review.")
+                        li = t("dashboard.profile.index.consequence_permanent_loss", default: "As soon as you request deletion, some information is permanently lost, including active devices, active sessions, and notification subscriptions.")
+                        li = t("dashboard.profile.index.consequence_memberships", default: "Your memberships in other workspaces will be deactivated immediately.")
+
+                      .form-group style="margin-bottom: 1rem;"
+                        label style="display: block; font-weight: 600; margin-bottom: 0.375rem; color: #374151;"
+                          = t("auth.password", default: "Confirm with your password")
+                        = password_field_tag :password, nil, required: true, class: "profile-input", placeholder: "••••••••", style: "width: 100%; border: 1px solid #d1d5db; padding: 0.5rem 0.75rem; border-radius: 0.375rem;"
+
+                    .modal-footer style="display: flex; justify-content: flex-end; gap: 0.75rem;"
+                      button.btn type="button" data-action="click->modal#close" style="padding: 0.5rem 1rem; border: 1px solid #d1d5db; border-radius: 0.375rem; background: white; cursor: pointer; font-weight: 500;"
+                        = t("general.cancel", default: "Cancel")
+                      = f.submit t("dashboard.profile.index.confirm_delete_btn", default: "I understand, delete my account"), class: "btn btn-danger", style: "background: #dc2626; color: white; border: none; padding: 0.5rem 1rem; border-radius: 0.375rem; font-weight: 600; cursor: pointer;"

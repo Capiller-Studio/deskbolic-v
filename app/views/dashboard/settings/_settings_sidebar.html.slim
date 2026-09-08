@@ -34,6 +34,11 @@
                 .link-text
                   .conversation-name.inbox-conv
                     p.f-reg-14 = t('dashboard.sidebar.settings.home')
+            li.nav-item class="#{current_page == 'general' ? 'st-list-active' : ''}" data-action="click->accordion#toggle" data-filterable-collection-target="item" data-searchable=t('dashboard.sidebar.settings.general', default: 'General')
+              = link_to(settings_general_path, class: "nav-link") do
+                .link-text
+                  .conversation-name.inbox-conv
+                    p.f-reg-14 = t('dashboard.sidebar.settings.general', default: 'General')
             li.nav-item class="#{current_page == 'reports' ? 'st-list-active' : ''}" data-action="click->accordion#toggle" data-filterable-collection-target="item" data-searchable=t('dashboard.sidebar.reports')
               = link_to(reports_path, class: "nav-link", data: { turbo: false }) do
                 .link-text
@@ -68,7 +73,7 @@
                     p.f-reg-14 = t('dashboard.sidebar.settings.billing')
 
             li.nav-item class="#{current_page == 'notification-settings' ? 'st-list-active' : ''}" data-action="click->accordion#toggle" data-filterable-collection-target="item" data-searchable=t('dashboard.sidebar.settings.notifications')
-              = link_to(edit_settings_notification_settings_path, class: "nav-link") do
+              = link_to(edit_settings_notifications_path, class: "nav-link") do
                 .link-text
                   .conversation-name.inbox-conv
                     p.f-reg-14 = t('dashboard.sidebar.settings.notifications')

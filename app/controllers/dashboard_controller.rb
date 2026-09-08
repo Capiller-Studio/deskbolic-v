@@ -10,13 +10,14 @@ class DashboardController < ApplicationController
 
   include Pundit::Authorization
   include CurrentAttributesAccessible
+  include AccountStatusGuarded
   include Pagy::Backend
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   layout "dashboard"
 
-  helper_method :current_account
+  helper_method :current_account, :current_account_user
 
   private
 
@@ -47,6 +48,14 @@ class DashboardController < ApplicationController
       @current_account = Account.find_by(identifier: request.subdomain)
     else
       @current_account = nil
+    end
+  end
+
+  def current_account_user
+    return @current_account_user if defined?(@current_account_user)
+
+    @current_account_user = if current_user && current_account
+                              current_account.account_users.find_by(user_id: current_user.id)
     end
   end
 

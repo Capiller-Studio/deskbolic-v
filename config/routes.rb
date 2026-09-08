@@ -82,6 +82,7 @@ Rails.application.routes.draw do
     post "email-invitation", to: "account_invitations#accept_invitation"
     get "profile", to: "profile#index"
     patch "profile", to: "profile#update"
+    delete "profile", to: "profile#destroy"
     namespace :channels do
       get "instagram/callback", to: "instagram#callback"
       get "whatsapp/callback", to: "whatsapp#callback"
@@ -292,7 +293,8 @@ Rails.application.routes.draw do
       end
 
       namespace :settings do
-        resource :notification_settings, only: [ :edit, :update ]
+        resource :general, only: [ :show, :update, :destroy ], controller: "general"
+        resource :notifications, only: [ :edit, :update ], controller: "notification_settings"
         resources :notification_subscriptions, only: [ :create, :destroy ]
         resources :audit_logs, only: [ :index ] do
           member do

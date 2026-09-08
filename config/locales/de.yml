@@ -226,6 +226,32 @@ de:
       available: Verfügbar
       all_workspaces: Alle Arbeitsbereiche
       settings:
+        general:
+          title: Allgemeine Einstellungen
+          description: Verwalten Sie Identität, Lokalisierung und Lebenszyklus-Einstellungen Ihres Arbeitsbereichs.
+          workspace_details: Details zum Arbeitsbereich
+          name_label: Name des Arbeitsbereichs
+          subdomain_label: Subdomain des Arbeitsbereichs
+          timezone_label: Zeitzone
+          locale_label: Sprache
+          danger_zone: Gefahrenbereich
+          delete_workspace_title: Arbeitsbereich löschen
+          delete_workspace_desc: Löschung dieses Arbeitsbereichs anfordern. Der Arbeitsbereich wird sofort deaktiviert und Abrechnungsabonnements werden gekündigt. Sobald die Löschung angefordert wird, gehen aktive Geräte, Sitzungen und API-Tokens dauerhaft verloren. Teammitglieder prüfen und führen manuelle Überprüfungen durch und löschen anschließend Kanäle und Arbeitsbereichsdaten dauerhaft.
+          request_deletion_btn: Diesen Arbeitsbereich löschen
+          owner_only_notice: Nur der Eigentümer des Arbeitsbereichs kann die Löschung des Arbeitsbereichs anfordern.
+          confirm_deletion_title: Löschung des Arbeitsbereichs bestätigen
+          modal_warning_title: "Warnung: Sofortige Deaktivierung & manuelle Überprüfung"
+          modal_warning_desc: Das Löschen dieses Arbeitsbereichs deaktiviert ihn sofort. Sobald die Löschung angefordert wird, gehen aktive Geräte, Sitzungen und API-Zugriffstokens dauerhaft verloren. Aktive Abonnements werden gekündigt und benutzerdefinierte Domains deaktiviert. Teammitglieder prüfen und führen manuelle Überprüfungen durch und löschen anschließend Kanäle, Posteingänge und Arbeitsbereichsdaten dauerhaft.
+          confirm_subdomain_prompt_html: "Geben Sie die Arbeitsbereich-Subdomain %{identifier} zur Bestätigung ein:"
+          confirm_delete_btn: Ich verstehe, diesen Arbeitsbereich löschen
+          notices:
+            updated: Einstellungen des Arbeitsbereichs erfolgreich aktualisiert.
+            deletion_requested: Löschung des Arbeitsbereichs angefordert. Der Arbeitsbereich wurde deaktiviert.
+          alerts:
+            owner_only: Nur Arbeitsbereich-Eigentümer können die Löschung anfordern.
+            incorrect_password: Falsches Passwort. Löschung des Arbeitsbereichs abgebrochen.
+            identifier_mismatch: Bestätigung der Arbeitsbereich-Subdomain stimmt nicht überein.
+            unauthorized: Sie sind nicht berechtigt, diese Aktion auszuführen.
         back_to_dashboard: Zurück zum Dashboard
         title: Einstellungen
         home: Zuhause
@@ -1698,6 +1724,25 @@ de:
         credential_id_placeholder: "z.B. 123456789012345"
     profile:
       index:
+        danger_zone: Gefahrenbereich
+        delete_account_title: Persönliches Konto löschen
+        delete_account_desc: Löschung Ihres persönlichen Kontos anfordern. Nach dem Absenden wird Ihr Profil deaktiviert und Sie werden abgemeldet. Sobald Sie die Löschung anfordern, gehen einige Informationen sofort dauerhaft verloren, einschließlich aktiver Geräte, aktiver Sitzungen und Benachrichtigungsabonnements. Teammitglieder prüfen und führen manuelle Überprüfungen durch und löschen anschließend Ihre Daten dauerhaft.
+        delete_account_btn: Konto löschen
+        sole_owner_warning: Sie sind Eigentümer eines aktiven Arbeitsbereichs. Sie müssen die Eigentümerschaft übertragen oder den Arbeitsbereich löschen, bevor Sie Ihr persönliches Konto löschen können.
+        confirm_deletion_title: Kontolöschung bestätigen
+        modal_review_title: "Wichtig: Manueller Überprüfungsprozess"
+        modal_review_desc: Teammitglieder prüfen und führen manuelle Überprüfungen durch und löschen anschließend Ihre Daten dauerhaft.
+        consequence_signout: Sie werden sofort abgemeldet und können sich während der ausstehenden Überprüfung nicht anmelden.
+        consequence_permanent_loss: Sobald Sie die Löschung anfordern, gehen einige Informationen dauerhaft verloren, einschließlich aktiver Geräte, aktiver Sitzungen und Benachrichtigungsabonnements.
+        consequence_memberships: Ihre Mitgliedschaften in anderen Arbeitsbereichen werden sofort deaktiviert.
+        confirm_delete_btn: Ich verstehe, mein Konto löschen
+        notices:
+          updated: Profil erfolgreich aktualisiert.
+          deletion_requested: Ihre Anfrage zur Kontolöschung wurde übermittelt. Ihr Profil wurde deaktiviert und wird nach der Überprüfung endgültig gelöscht.
+        alerts:
+          update_failed: Profil konnte nicht aktualisiert werden. Bitte überprüfen Sie die Angaben und versuchen Sie es erneut.
+          sole_owner: Sie sind Eigentümer eines aktiven Arbeitsbereichs. Sie müssen die Eigentümerschaft übertragen oder den Arbeitsbereich löschen, bevor Sie Ihr persönliches Konto löschen können.
+          incorrect_password: Falsches Passwort. Kontolöschung konnte nicht verarbeitet werden.
         title: Persönliche Daten
         description: Verwalten Sie Ihre persönlichen Informationen und Ihr öffentliches Profil.
         public_profile: Öffentliches Profil
@@ -2463,6 +2508,32 @@ de:
         test_mapping: Testzuordnung
         mapped_attributes: 'Zugeordnete Attribute:'
     settings:
+      general:
+        title: Allgemeine Einstellungen
+        description: Verwalten Sie Identität, Lokalisierung und Lebenszyklus-Einstellungen Ihres Arbeitsbereichs.
+        workspace_details: Details zum Arbeitsbereich
+        name_label: Name des Arbeitsbereichs
+        subdomain_label: Subdomain des Arbeitsbereichs
+        timezone_label: Zeitzone
+        locale_label: Sprache
+        danger_zone: Gefahrenbereich
+        delete_workspace_title: Arbeitsbereich löschen
+        delete_workspace_desc: Löschung dieses Arbeitsbereichs anfordern. Der Arbeitsbereich wird sofort deaktiviert und Abrechnungsabonnements werden gekündigt. Sobald die Löschung angefordert wird, gehen aktive Geräte, Sitzungen und API-Tokens dauerhaft verloren. Teammitglieder prüfen und führen manuelle Überprüfungen durch und löschen anschließend Kanäle und Arbeitsbereichsdaten dauerhaft.
+        request_deletion_btn: Diesen Arbeitsbereich löschen
+        owner_only_notice: Nur der Eigentümer des Arbeitsbereichs kann die Löschung des Arbeitsbereichs anfordern.
+        confirm_deletion_title: Löschung des Arbeitsbereichs bestätigen
+        modal_warning_title: "Warnung: Sofortige Deaktivierung & manuelle Überprüfung"
+        modal_warning_desc: Das Löschen dieses Arbeitsbereichs deaktiviert ihn sofort. Sobald die Löschung angefordert wird, gehen aktive Geräte, Sitzungen und API-Zugriffstokens dauerhaft verloren. Aktive Abonnements werden gekündigt und benutzerdefinierte Domains deaktiviert. Teammitglieder prüfen und führen manuelle Überprüfungen durch und löschen anschließend Kanäle, Posteingänge und Arbeitsbereichsdaten dauerhaft.
+        confirm_subdomain_prompt_html: "Geben Sie die Arbeitsbereich-Subdomain %{identifier} zur Bestätigung ein:"
+        confirm_delete_btn: Ich verstehe, diesen Arbeitsbereich löschen
+        notices:
+          updated: Einstellungen des Arbeitsbereichs erfolgreich aktualisiert.
+          deletion_requested: Löschung des Arbeitsbereichs angefordert. Der Arbeitsbereich wurde deaktiviert.
+        alerts:
+          owner_only: Nur Arbeitsbereich-Eigentümer können die Löschung anfordern.
+          incorrect_password: Falsches Passwort. Löschung des Arbeitsbereichs abgebrochen.
+          identifier_mismatch: Bestätigung der Arbeitsbereich-Subdomain stimmt nicht überein.
+          unauthorized: Sie sind nicht berechtigt, diese Aktion auszuführen.
       integrations:
         index:
           title: Integrationen
@@ -2930,6 +3001,14 @@ de:
       registered_message: Ihr Konto wurde erfolgreich erstellt.
       back_to_login: Weiter zum Anmelden
   activities:
+    account:
+      deletion_requested: Kontolöschung wurde angefordert
+      deleted: Konto wurde als gelöscht markiert
+      restored: Konto wurde wieder aktiviert
+    user:
+      deletion_requested: Benutzerkontolöschung wurde angefordert
+      deleted: Benutzer wurde als gelöscht markiert
+      restored: Benutzer wurde wieder aktiviert
     conversation:
       conversation_resolved: Das Gespräch wurde gelöst
       conversation_closed: Das Gespräch wurde geschlossen
@@ -3853,6 +3932,25 @@ de:
           widget_channel: Widget-Kanal
       profile:
         index:
+          danger_zone: Gefahrenbereich
+          delete_account_title: Persönliches Konto löschen
+          delete_account_desc: Löschung Ihres persönlichen Kontos anfordern. Nach dem Absenden wird Ihr Profil deaktiviert und Sie werden abgemeldet. Sobald Sie die Löschung anfordern, gehen einige Informationen sofort dauerhaft verloren, einschließlich aktiver Geräte, aktiver Sitzungen und Benachrichtigungsabonnements. Teammitglieder prüfen und führen manuelle Überprüfungen durch und löschen anschließend Ihre Daten dauerhaft.
+          delete_account_btn: Konto löschen
+          sole_owner_warning: Sie sind Eigentümer eines aktiven Arbeitsbereichs. Sie müssen die Eigentümerschaft übertragen oder den Arbeitsbereich löschen, bevor Sie Ihr persönliches Konto löschen können.
+          confirm_deletion_title: Kontolöschung bestätigen
+          modal_review_title: "Wichtig: Manueller Überprüfungsprozess"
+          modal_review_desc: Teammitglieder prüfen und führen manuelle Überprüfungen durch und löschen anschließend Ihre Daten dauerhaft.
+          consequence_signout: Sie werden sofort abgemeldet und können sich während der ausstehenden Überprüfung nicht anmelden.
+          consequence_permanent_loss: Sobald Sie die Löschung anfordern, gehen einige Informationen dauerhaft verloren, einschließlich aktiver Geräte, aktiver Sitzungen und Benachrichtigungsabonnements.
+          consequence_memberships: Ihre Mitgliedschaften in anderen Arbeitsbereichen werden sofort deaktiviert.
+          confirm_delete_btn: Ich verstehe, mein Konto löschen
+          notices:
+            updated: Profil erfolgreich aktualisiert.
+            deletion_requested: Ihre Anfrage zur Kontolöschung wurde übermittelt. Ihr Profil wurde deaktiviert und wird nach der Überprüfung endgültig gelöscht.
+          alerts:
+            update_failed: Profil konnte nicht aktualisiert werden. Bitte überprüfen Sie die Angaben und versuchen Sie es erneut.
+            sole_owner: Sie sind Eigentümer eines aktiven Arbeitsbereichs. Sie müssen die Eigentümerschaft übertragen oder den Arbeitsbereich löschen, bevor Sie Ihr persönliches Konto löschen können.
+            incorrect_password: Falsches Passwort. Kontolöschung konnte nicht verarbeitet werden.
           change_avatar: Avatar ändern
           profile_avatar: Profil-Avatar
       registrations:

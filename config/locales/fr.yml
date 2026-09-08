@@ -225,6 +225,32 @@ fr:
       available: Disponible
       all_workspaces: Tous les espaces de travail
       settings:
+        general:
+          title: Paramètres généraux
+          description: "Gérez l'identité, la localisation et le cycle de vie de votre espace de travail."
+          workspace_details: "Détails de l'espace de travail"
+          name_label: "Nom de l'espace de travail"
+          subdomain_label: "Sous-domaine de l'espace de travail"
+          timezone_label: Fuseau horaire
+          locale_label: Langue
+          danger_zone: Zone de danger
+          delete_workspace_title: "Supprimer l'espace de travail"
+          delete_workspace_desc: "Demander la suppression de cet espace de travail. L'espace de travail sera immédiatement désactivé et les abonnements de facturation seront résiliés. Dès que la suppression est demandée, les appareils actifs, les sessions et les jetons API sont définitivement perdus. Les membres de l'équipe examineront et effectueront des vérifications manuelles, puis supprimeront définitivement les canaux et les données de l'espace de travail."
+          request_deletion_btn: Supprimer cet espace de travail
+          owner_only_notice: "Seul le propriétaire de l'espace de travail peut demander sa suppression."
+          confirm_deletion_title: "Confirmer la suppression de l'espace de travail"
+          modal_warning_title: "Avertissement : Désactivation immédiate et vérification manuelle"
+          modal_warning_desc: "La suppression de cet espace de travail le désactive immédiatement. Dès que la suppression est demandée, les appareils actifs, les sessions et les jetons d'accès API sont définitivement perdus. Les abonnements actifs seront résiliés et les domaines personnalisés désactivés. Les membres de l'équipe examineront et effectueront des vérifications manuelles, puis supprimeront définitivement les canaux, boîtes de réception et données de l'espace de travail."
+          confirm_subdomain_prompt_html: "Saisissez le sous-domaine de l'espace de travail %{identifier} pour confirmer :"
+          confirm_delete_btn: Je comprends, supprimer cet espace de travail
+          notices:
+            updated: "Paramètres de l'espace de travail mis à jour avec succès."
+            deletion_requested: "Suppression de l'espace de travail demandée. L'espace de travail a été désactivé."
+          alerts:
+            owner_only: "Seul le propriétaire de l'espace de travail peut en demander la suppression."
+            incorrect_password: "Mot de passe incorrect. Suppression de l'espace de travail annulée."
+            identifier_mismatch: "La confirmation de l'identifiant de l'espace de travail ne correspond pas."
+            unauthorized: "Vous n'êtes pas autorisé à effectuer cette action."
         back_to_dashboard: Retour au tableau de bord
         title: Paramètres
         home: Accueil
@@ -1686,6 +1712,25 @@ fr:
         credential_id_placeholder: "par ex. 123456789012345"
     profile:
       index:
+        danger_zone: Zone de danger
+        delete_account_title: Supprimer le compte personnel
+        delete_account_desc: "Demandez la suppression de votre compte personnel. Une fois soumise, votre profil sera désactivé et vous serez déconnecté. Dès que vous demandez la suppression, certaines informations sont immédiatement et définitivement perdues, notamment les appareils actifs, les sessions actives et les abonnements aux notifications. Les membres de l'équipe examineront et effectueront des vérifications manuelles, puis supprimeront définitivement vos données."
+        delete_account_btn: Supprimer le compte
+        sole_owner_warning: "Vous êtes le propriétaire d'un espace de travail actif. Vous devez transférer la propriété ou supprimer l'espace de travail avant de supprimer votre compte personnel."
+        confirm_deletion_title: Confirmer la suppression du compte
+        modal_review_title: "Important : Processus de vérification manuelle"
+        modal_review_desc: "Les membres de l'équipe examineront et effectueront des vérifications manuelles, puis supprimeront définitivement vos données."
+        consequence_signout: "Vous serez immédiatement déconnecté et ne pourrez pas vous connecter pendant l'examen."
+        consequence_permanent_loss: Dès que vous demandez la suppression, certaines informations sont définitivement perdues, notamment les appareils actifs, les sessions actives et les abonnements aux notifications.
+        consequence_memberships: "Vos adhésions à d'autres espaces de travail seront immédiatement désactivées."
+        confirm_delete_btn: Je comprends, supprimer mon compte
+        notices:
+          updated: Profil mis à jour avec succès.
+          deletion_requested: Votre demande de suppression de compte a été soumise. Votre profil a été désactivé et sera définitivement supprimé après examen.
+        alerts:
+          update_failed: Impossible de mettre à jour le profil. Veuillez vérifier les informations et réessayer.
+          sole_owner: "Vous êtes le propriétaire d'un espace de travail actif. Vous devez transférer la propriété ou supprimer l'espace de travail avant de supprimer votre compte personnel."
+          incorrect_password: Mot de passe incorrect. Impossible de traiter la suppression du compte.
         title: Détails personnels
         description: Gérez vos informations personnelles et votre profil public.
         public_profile: Profil public
@@ -2454,6 +2499,32 @@ fr:
         test_mapping: Cartographie des tests
         mapped_attributes: 'Attributs mappés :'
     settings:
+      general:
+        title: Paramètres généraux
+        description: "Gérez l'identité, la localisation et le cycle de vie de votre espace de travail."
+        workspace_details: "Détails de l'espace de travail"
+        name_label: "Nom de l'espace de travail"
+        subdomain_label: "Sous-domaine de l'espace de travail"
+        timezone_label: Fuseau horaire
+        locale_label: Langue
+        danger_zone: Zone de danger
+        delete_workspace_title: "Supprimer l'espace de travail"
+        delete_workspace_desc: "Demander la suppression de cet espace de travail. L'espace de travail sera immédiatement désactivé et les abonnements de facturation seront résiliés. Dès que la suppression est demandée, les appareils actifs, les sessions et les jetons API sont définitivement perdus. Les membres de l'équipe examineront et effectueront des vérifications manuelles, puis supprimeront définitivement les canaux et les données de l'espace de travail."
+        request_deletion_btn: Supprimer cet espace de travail
+        owner_only_notice: "Seul le propriétaire de l'espace de travail peut demander sa suppression."
+        confirm_deletion_title: "Confirmer la suppression de l'espace de travail"
+        modal_warning_title: "Avertissement : Désactivation immédiate et vérification manuelle"
+        modal_warning_desc: "La suppression de cet espace de travail le désactive immédiatement. Dès que la suppression est demandée, les appareils actifs, les sessions et les jetons d'accès API sont définitivement perdus. Les abonnements actifs seront résiliés et les domaines personnalisés désactivés. Les membres de l'équipe examineront et effectueront des vérifications manuelles, puis supprimeront définitivement les canaux, boîtes de réception et données de l'espace de travail."
+        confirm_subdomain_prompt_html: "Saisissez le sous-domaine de l'espace de travail %{identifier} pour confirmer :"
+        confirm_delete_btn: Je comprends, supprimer cet espace de travail
+        notices:
+          updated: "Paramètres de l'espace de travail mis à jour avec succès."
+          deletion_requested: "Suppression de l'espace de travail demandée. L'espace de travail a été désactivé."
+        alerts:
+          owner_only: "Seul le propriétaire de l'espace de travail peut en demander la suppression."
+          incorrect_password: "Mot de passe incorrect. Suppression de l'espace de travail annulée."
+          identifier_mismatch: "La confirmation de l'identifiant de l'espace de travail ne correspond pas."
+          unauthorized: "Vous n'êtes pas autorisé à effectuer cette action."
       integrations:
         index:
           title: Intégrations
@@ -2918,6 +2989,14 @@ fr:
       registered_message: Votre compte a été créé avec succès.
       back_to_login: Continuer à vous connecter
   activities:
+    account:
+      deletion_requested: La suppression du compte a été demandée
+      deleted: Le compte a été marqué comme supprimé
+      restored: Le compte a été restauré au statut actif
+    user:
+      deletion_requested: La suppression du compte utilisateur a été demandée
+      deleted: "L'utilisateur a été marqué comme supprimé"
+      restored: "L'utilisateur a été restauré au statut actif"
     conversation:
       conversation_resolved: La conversation a été résolue
       conversation_closed: La conversation était fermée
@@ -3848,6 +3927,25 @@ fr:
           widget_channel: Chaîne de widgets
       profile:
         index:
+          danger_zone: Zone de danger
+          delete_account_title: Supprimer le compte personnel
+          delete_account_desc: "Demandez la suppression de votre compte personnel. Une fois soumise, votre profil sera désactivé et vous serez déconnecté. Dès que vous demandez la suppression, certaines informations sont immédiatement et définitivement perdues, notamment les appareils actifs, les sessions actives et les abonnements aux notifications. Les membres de l'équipe examineront et effectueront des vérifications manuelles, puis supprimeront définitivement vos données."
+          delete_account_btn: Supprimer le compte
+          sole_owner_warning: "Vous êtes le propriétaire d'un espace de travail actif. Vous devez transférer la propriété ou supprimer l'espace de travail avant de supprimer votre compte personnel."
+          confirm_deletion_title: Confirmer la suppression du compte
+          modal_review_title: "Important : Processus de vérification manuelle"
+          modal_review_desc: "Les membres de l'équipe examineront et effectueront des vérifications manuelles, puis supprimeront définitivement vos données."
+          consequence_signout: "Vous serez immédiatement déconnecté et ne pourrez pas vous connecter pendant l'examen."
+          consequence_permanent_loss: Dès que vous demandez la suppression, certaines informations sont définitivement perdues, notamment les appareils actifs, les sessions actives et les abonnements aux notifications.
+          consequence_memberships: "Vos adhésions à d'autres espaces de travail seront immédiatement désactivées."
+          confirm_delete_btn: Je comprends, supprimer mon compte
+          notices:
+            updated: Profil mis à jour avec succès.
+            deletion_requested: Votre demande de suppression de compte a été soumise. Votre profil a été désactivé et sera définitivement supprimé après examen.
+          alerts:
+            update_failed: Impossible de mettre à jour le profil. Veuillez vérifier les informations et réessayer.
+            sole_owner: "Vous êtes le propriétaire d'un espace de travail actif. Vous devez transférer la propriété ou supprimer l'espace de travail avant de supprimer votre compte personnel."
+            incorrect_password: Mot de passe incorrect. Impossible de traiter la suppression du compte.
           change_avatar: Changer d'avatar
           profile_avatar: avatar de profil
       registrations:

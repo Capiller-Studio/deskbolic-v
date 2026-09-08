@@ -8,6 +8,11 @@
         / workspace
         h3 = t('dashboard.settings_index.workspace')
         .cards.workspace-cards
+          = link_to(settings_general_path, class:"card") do
+            = inline_svg_tag("settings.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
+            .card-desc
+              h4.f-semi-14 = t('dashboard.settings_index.general', default: 'General Settings')
+              p.f-reg-12 = t('dashboard.settings_index.general_desc', default: 'Workspace details, timezone, and lifecycle')
           = link_to(dashboard_billing_path, class:"card") do
             = inline_svg_tag("billing.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
             .card-desc
@@ -47,7 +52,7 @@
             .card-desc
               h4.f-semi-14 = t('dashboard.settings_index.reports')
               p.f-reg-12 = t('dashboard.settings_index.reports_desc')
-          = link_to(edit_settings_notification_settings_path, class:"card") do
+          = link_to(edit_settings_notifications_path, class:"card") do
             = inline_svg_tag("notifications.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
             .card-desc
               h4.f-semi-14 = t('dashboard.settings_index.notification_settings')

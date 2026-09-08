@@ -223,6 +223,32 @@ pt-BR:
       available: Disponível
       all_workspaces: Todos os espaços de trabalho
       settings:
+        general:
+          title: Configurações gerais
+          description: Gerencie a identidade, localização e configurações de ciclo de vida do seu espaço de trabalho.
+          workspace_details: Detalhes do espaço de trabalho
+          name_label: Nome do espaço de trabalho
+          subdomain_label: Subdomínio do espaço de trabalho
+          timezone_label: Fuso horário
+          locale_label: Idioma
+          danger_zone: Zona de perigo
+          delete_workspace_title: Excluir espaço de trabalho
+          delete_workspace_desc: Solicitar a exclusão deste espaço de trabalho. O espaço de trabalho será desativado imediatamente e as assinaturas de cobrança serão canceladas. Assim que a exclusão for solicitada, dispositivos ativos, sessões e tokens de API serão perdidos permanentemente. Os membros da equipe analisarão e farão verificações manuais e, em seguida, excluirão permanentemente os canais e dados do espaço de trabalho.
+          request_deletion_btn: Excluir este espaço de trabalho
+          owner_only_notice: Apenas o proprietário do espaço de trabalho pode solicitar a exclusão do espaço de trabalho.
+          confirm_deletion_title: Confirmar exclusão do espaço de trabalho
+          modal_warning_title: "Aviso: Desativação imediata e verificação manual"
+          modal_warning_desc: A exclusão deste espaço de trabalho o desativa imediatamente. Assim que a exclusão for solicitada, dispositivos ativos, sessões e tokens de acesso à API serão perdidos permanentemente. As assinaturas ativas serão canceladas e os domínios personalizados desativados. Os membros da equipe analisarão e farão verificações manuais e, em seguida, excluirão permanentemente canais, caixas de entrada e dados do espaço de trabalho.
+          confirm_subdomain_prompt_html: "Digite o subdomínio do espaço de trabalho %{identifier} para confirmar:"
+          confirm_delete_btn: Entendi, excluir este espaço de trabalho
+          notices:
+            updated: Configurações do espaço de trabalho atualizadas com sucesso.
+            deletion_requested: Exclusão do espaço de trabalho solicitada. O espaço de trabalho foi desativado.
+          alerts:
+            owner_only: Apenas os proprietários do espaço de trabalho podem solicitar a exclusão.
+            incorrect_password: Senha incorreta. Exclusão do espaço de trabalho cancelada.
+            identifier_mismatch: A confirmação do identificador do espaço de trabalho não corresponde.
+            unauthorized: Você não tem autorização para realizar esta ação.
         back_to_dashboard: Voltar ao painel
         title: Configurações
         home: Página inicial
@@ -1667,6 +1693,25 @@ pt-BR:
         credential_id_placeholder: "por exemplo 123456789012345"
     profile:
       index:
+        danger_zone: Zona de perigo
+        delete_account_title: Excluir conta pessoal
+        delete_account_desc: Solicite a exclusão da sua conta pessoal. Após o envio, seu perfil será desativado e você será desconectado. Assim que você solicitar a exclusão, algumas informações serão perdidas permanentemente de forma imediata, incluindo dispositivos ativos, sessões ativas e assinaturas de notificações. Os membros da equipe analisarão e farão verificações manuais e, em seguida, excluirão permanentemente seus dados.
+        delete_account_btn: Excluir conta
+        sole_owner_warning: Você é o proprietário de um espaço de trabalho ativo. Você deve transferir a propriedade ou excluir o espaço de trabalho antes de excluir sua conta pessoal.
+        confirm_deletion_title: Confirmar exclusão da conta
+        modal_review_title: "Importante: Processo de verificação manual"
+        modal_review_desc: Os membros da equipe analisarão e farão verificações manuais e, em seguida, excluirão permanentemente seus dados.
+        consequence_signout: Você será desconectado imediatamente e não poderá fazer login enquanto a análise estiver pendente.
+        consequence_permanent_loss: Assim que você solicitar a exclusão, algumas informações serão perdidas permanentemente, incluindo dispositivos ativos, sessões ativas e assinaturas de notificações.
+        consequence_memberships: Suas participações em outros espaços de trabalho serão desativadas imediatamente.
+        confirm_delete_btn: Entendi, excluir minha conta
+        notices:
+          updated: Perfil atualizado com sucesso.
+          deletion_requested: Sua solicitação de exclusão de conta foi enviada. Seu perfil foi desativado e será removido permanentemente após a análise.
+        alerts:
+          update_failed: Não foi possível atualizar o perfil. Por favor, verifique os campos e tente novamente.
+          sole_owner: Você é o proprietário de um espaço de trabalho ativo. Você deve transferir a propriedade ou excluir o espaço de trabalho antes de excluir sua conta pessoal.
+          incorrect_password: Senha incorreta. Não foi possível processar a exclusão da conta.
         title: Detalhes pessoais
         description: Gerencie suas informações pessoais e seu perfil público.
         public_profile: Perfil Público
@@ -2419,6 +2464,32 @@ pt-BR:
         test_mapping: Mapeamento de teste
         mapped_attributes: 'Atributos mapeados:'
     settings:
+      general:
+        title: Configurações gerais
+        description: Gerencie a identidade, localização e configurações de ciclo de vida do seu espaço de trabalho.
+        workspace_details: Detalhes do espaço de trabalho
+        name_label: Nome do espaço de trabalho
+        subdomain_label: Subdomínio do espaço de trabalho
+        timezone_label: Fuso horário
+        locale_label: Idioma
+        danger_zone: Zona de perigo
+        delete_workspace_title: Excluir espaço de trabalho
+        delete_workspace_desc: Solicitar a exclusão deste espaço de trabalho. O espaço de trabalho será desativado imediatamente e as assinaturas de cobrança serão canceladas. Assim que a exclusão for solicitada, dispositivos ativos, sessões e tokens de API serão perdidos permanentemente. Os membros da equipe analisarão e farão verificações manuais e, em seguida, excluirão permanentemente os canais e dados do espaço de trabalho.
+        request_deletion_btn: Excluir este espaço de trabalho
+        owner_only_notice: Apenas o proprietário do espaço de trabalho pode solicitar a exclusão do espaço de trabalho.
+        confirm_deletion_title: Confirmar exclusão do espaço de trabalho
+        modal_warning_title: "Aviso: Desativação imediata e verificação manual"
+        modal_warning_desc: A exclusão deste espaço de trabalho o desativa imediatamente. Assim que a exclusão for solicitada, dispositivos ativos, sessões e tokens de acesso à API serão perdidos permanentemente. As assinaturas ativas serão canceladas e os domínios personalizados desativados. Os membros da equipe analisarão e farão verificações manuais e, em seguida, excluirão permanentemente canais, caixas de entrada e dados do espaço de trabalho.
+        confirm_subdomain_prompt_html: "Digite o subdomínio do espaço de trabalho %{identifier} para confirmar:"
+        confirm_delete_btn: Entendi, excluir este espaço de trabalho
+        notices:
+          updated: Configurações do espaço de trabalho atualizadas com sucesso.
+          deletion_requested: Exclusão do espaço de trabalho solicitada. O espaço de trabalho foi desativado.
+        alerts:
+          owner_only: Apenas os proprietários do espaço de trabalho podem solicitar a exclusão.
+          incorrect_password: Senha incorreta. Exclusão do espaço de trabalho cancelada.
+          identifier_mismatch: A confirmação do identificador do espaço de trabalho não corresponde.
+          unauthorized: Você não tem autorização para realizar esta ação.
       integrations:
         index:
           title: Integrações
@@ -2880,6 +2951,14 @@ pt-BR:
       registered_message: Sua conta foi criada com sucesso.
       back_to_login: Continuar para fazer login
   activities:
+    account:
+      deletion_requested: A exclusão da conta foi solicitada
+      deleted: A conta foi marcada como excluída
+      restored: A conta foi restaurada para o status ativo
+    user:
+      deletion_requested: A exclusão da conta de usuário foi solicitada
+      deleted: O usuário foi marcado como excluído
+      restored: O usuário foi restaurado para o status ativo
     conversation:
       conversation_resolved: A conversa foi resolvida
       conversation_closed: A conversa foi encerrada
@@ -3792,6 +3871,25 @@ pt-BR:
           widget_channel: Canal de widgets
       profile:
         index:
+          danger_zone: Zona de perigo
+          delete_account_title: Excluir conta pessoal
+          delete_account_desc: Solicite a exclusão da sua conta pessoal. Após o envio, seu perfil será desativado e você será desconectado. Assim que você solicitar a exclusão, algumas informações serão perdidas permanentemente de forma imediata, incluindo dispositivos ativos, sessões ativas e assinaturas de notificações. Os membros da equipe analisarão e farão verificações manuais e, em seguida, excluirão permanentemente seus dados.
+          delete_account_btn: Excluir conta
+          sole_owner_warning: Você é o proprietário de um espaço de trabalho ativo. Você deve transferir a propriedade ou excluir o espaço de trabalho antes de excluir sua conta pessoal.
+          confirm_deletion_title: Confirmar exclusão da conta
+          modal_review_title: "Importante: Processo de verificação manual"
+          modal_review_desc: Os membros da equipe analisarão e farão verificações manuais e, em seguida, excluirão permanentemente seus dados.
+          consequence_signout: Você será desconectado imediatamente e não poderá fazer login enquanto a análise estiver pendente.
+          consequence_permanent_loss: Assim que você solicitar a exclusão, algumas informações serão perdidas permanentemente, incluindo dispositivos ativos, sessões ativas e assinaturas de notificações.
+          consequence_memberships: Suas participações em outros espaços de trabalho serão desativadas imediatamente.
+          confirm_delete_btn: Entendi, excluir minha conta
+          notices:
+            updated: Perfil atualizado com sucesso.
+            deletion_requested: Sua solicitação de exclusão de conta foi enviada. Seu perfil foi desativado e será removido permanentemente após a análise.
+          alerts:
+            update_failed: Não foi possível atualizar o perfil. Por favor, verifique os campos e tente novamente.
+            sole_owner: Você é o proprietário de um espaço de trabalho ativo. Você deve transferir a propriedade ou excluir o espaço de trabalho antes de excluir sua conta pessoal.
+            incorrect_password: Senha incorreta. Não foi possível processar a exclusão da conta.
           change_avatar: Alterar avatar
           profile_avatar: avatar do perfil
       registrations:

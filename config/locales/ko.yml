@@ -215,6 +215,32 @@ ko:
       available: 사용 가능
       all_workspaces: 모든 작업공간
       settings:
+        general:
+          title: 일반 설정
+          description: 워크스페이스 정보, 지역화 및 수명 주기 설정을 관리합니다.
+          workspace_details: 워크스페이스 상세 정보
+          name_label: 워크스페이스 이름
+          subdomain_label: 워크스페이스 서브도메인
+          timezone_label: 시간대
+          locale_label: 언어
+          danger_zone: 위험 구역
+          delete_workspace_title: 워크스페이스 삭제
+          delete_workspace_desc: 이 워크스페이스의 삭제를 요청합니다. 워크스페이스는 즉시 비활성화되며 결제 구독이 취소됩니다. 삭제를 요청하는 즉시 활성 기기, 세션 및 API 토큰이 영구적으로 손실됩니다. 운영팀 직원이 검토 및 수동 확인을 진행한 후 채널과 워크스페이스 데이터를 영구적으로 삭제합니다.
+          request_deletion_btn: 이 워크스페이스 삭제
+          owner_only_notice: 워크스페이스 소유자만 워크스페이스 삭제를 요청할 수 있습니다.
+          confirm_deletion_title: 워크스페이스 삭제 확인
+          modal_warning_title: "경고: 즉시 비활성화 및 수동 확인 절차"
+          modal_warning_desc: 이 워크스페이스를 삭제하면 즉시 비활성화됩니다. 삭제를 요청하는 즉시 활성 기기, 세션 및 API 액세스 토큰이 영구적으로 손실됩니다. 활성 구독이 취소되고 맞춤 도메인이 비활성화됩니다. 운영팀 직원이 검토 및 수동 확인을 진행한 후 채널, 수신함 및 워크스페이스 데이터를 영구적으로 삭제합니다.
+          confirm_subdomain_prompt_html: "확인을 위해 워크스페이스 서브도메인 %{identifier}을(를) 입력하세요:"
+          confirm_delete_btn: 동의합니다, 이 워크스페이스를 삭제합니다
+          notices:
+            updated: 워크스페이스 설정이 성공적으로 업데이트되었습니다.
+            deletion_requested: 워크스페이스 삭제가 요청되었습니다. 워크스페이스가 비활성화되었습니다.
+          alerts:
+            owner_only: 워크스페이스 소유자만 삭제를 요청할 수 있습니다.
+            incorrect_password: 비밀번호가 올바르지 않습니다. 워크스페이스 삭제가 취소되었습니다.
+            identifier_mismatch: 워크스페이스 식별자 확인이 일치하지 않습니다.
+            unauthorized: 이 작업을 수행할 권한이 없습니다.
         back_to_dashboard: 대시보드로 돌아가기
         title: 설정
         home: 홈
@@ -1557,6 +1583,25 @@ ko:
         credential_id_placeholder: "예를 들어 123456789012345"
     profile:
       index:
+        danger_zone: 위험 구역
+        delete_account_title: 개인 계정 삭제
+        delete_account_desc: 개인 계정 삭제를 요청합니다. 요청이 제출되면 프로필이 비활성화되고 즉시 로그아웃됩니다. 삭제를 요청하는 즉시 활성 기기, 활성 세션, 알림 구독을 포함한 일부 정보가 영구적으로 손실됩니다. 운영팀 직원이 검토 및 수동 확인을 진행한 후 데이터를 영구적으로 삭제합니다.
+        delete_account_btn: 계정 삭제
+        sole_owner_warning: 활성 워크스페이스의 소유자입니다. 개인 계정을 삭제하기 전에 소유권을 이전하거나 워크스페이스를 삭제해야 합니다.
+        confirm_deletion_title: 계정 삭제 확인
+        modal_review_title: "중요: 수동 확인 절차 안내"
+        modal_review_desc: 운영팀 직원이 검토 및 수동 확인을 진행한 후 데이터를 영구적으로 삭제합니다.
+        consequence_signout: 즉시 로그아웃되며 검토 대기 중에는 로그인할 수 없습니다.
+        consequence_permanent_loss: 삭제를 요청하는 즉시 활성 기기, 활성 세션, 알림 구독을 포함한 일부 정보가 영구적으로 손실됩니다.
+        consequence_memberships: 다른 워크스페이스의 멤버십이 즉시 비활성화됩니다.
+        confirm_delete_btn: 동의합니다, 내 계정을 삭제합니다
+        notices:
+          updated: 프로필이 성공적으로 업데이트되었습니다.
+          deletion_requested: 계정 삭제 요청이 접수되었습니다. 프로필이 비활성화되었으며 검토 후 영구적으로 삭제됩니다.
+        alerts:
+          update_failed: 프로필을 업데이트할 수 없습니다. 입력값을 확인한 후 다시 시도해 주세요.
+          sole_owner: 활성 워크스페이스의 소유자입니다. 개인 계정을 삭제하기 전에 소유권을 이전하거나 워크스페이스를 삭제해야 합니다.
+          incorrect_password: 비밀번호가 올바르지 않습니다. 계정 삭제를 처리할 수 없습니다.
         title: 개인정보
         description: 개인 정보와 공개 프로필을 관리하세요.
         public_profile: 공개 프로필
@@ -2278,6 +2323,32 @@ ko:
         test_mapping: 테스트 매핑
         mapped_attributes: '매핑된 속성:'
     settings:
+      general:
+        title: 일반 설정
+        description: 워크스페이스 정보, 지역화 및 수명 주기 설정을 관리합니다.
+        workspace_details: 워크스페이스 상세 정보
+        name_label: 워크스페이스 이름
+        subdomain_label: 워크스페이스 서브도메인
+        timezone_label: 시간대
+        locale_label: 언어
+        danger_zone: 위험 구역
+        delete_workspace_title: 워크스페이스 삭제
+        delete_workspace_desc: 이 워크스페이스의 삭제를 요청합니다. 워크스페이스는 즉시 비활성화되며 결제 구독이 취소됩니다. 삭제를 요청하는 즉시 활성 기기, 세션 및 API 토큰이 영구적으로 손실됩니다. 운영팀 직원이 검토 및 수동 확인을 진행한 후 채널과 워크스페이스 데이터를 영구적으로 삭제합니다.
+        request_deletion_btn: 이 워크스페이스 삭제
+        owner_only_notice: 워크스페이스 소유자만 워크스페이스 삭제를 요청할 수 있습니다.
+        confirm_deletion_title: 워크스페이스 삭제 확인
+        modal_warning_title: "경고: 즉시 비활성화 및 수동 확인 절차"
+        modal_warning_desc: 이 워크스페이스를 삭제하면 즉시 비활성화됩니다. 삭제를 요청하는 즉시 활성 기기, 세션 및 API 액세스 토큰이 영구적으로 손실됩니다. 활성 구독이 취소되고 맞춤 도메인이 비활성화됩니다. 운영팀 직원이 검토 및 수동 확인을 진행한 후 채널, 수신함 및 워크스페이스 데이터를 영구적으로 삭제합니다.
+        confirm_subdomain_prompt_html: "확인을 위해 워크스페이스 서브도메인 %{identifier}을(를) 입력하세요:"
+        confirm_delete_btn: 동의합니다, 이 워크스페이스를 삭제합니다
+        notices:
+          updated: 워크스페이스 설정이 성공적으로 업데이트되었습니다.
+          deletion_requested: 워크스페이스 삭제가 요청되었습니다. 워크스페이스가 비활성화되었습니다.
+        alerts:
+          owner_only: 워크스페이스 소유자만 삭제를 요청할 수 있습니다.
+          incorrect_password: 비밀번호가 올바르지 않습니다. 워크스페이스 삭제가 취소되었습니다.
+          identifier_mismatch: 워크스페이스 식별자 확인이 일치하지 않습니다.
+          unauthorized: 이 작업을 수행할 권한이 없습니다.
       integrations:
         index:
           title: 통합
@@ -2724,6 +2795,14 @@ ko:
       registered_message: 귀하의 계정이 성공적으로 생성되었습니다.
       back_to_login: 계속 로그인
   activities:
+    account:
+      deletion_requested: 계정 삭제가 요청되었습니다
+      deleted: 계정이 삭제된 상태로 표시되었습니다
+      restored: 계정이 활성 상태로 복원되었습니다
+    user:
+      deletion_requested: 사용자 계정 삭제가 요청되었습니다
+      deleted: 사용자가 삭제된 상태로 표시되었습니다
+      restored: 사용자가 활성 상태로 복원되었습니다
     conversation:
       conversation_resolved: 대화가 해결되었습니다.
       conversation_closed: 대화가 종료되었습니다.
@@ -3593,6 +3672,25 @@ ko:
           widget_channel: 위젯 채널
       profile:
         index:
+          danger_zone: 위험 구역
+          delete_account_title: 개인 계정 삭제
+          delete_account_desc: 개인 계정 삭제를 요청합니다. 요청이 제출되면 프로필이 비활성화되고 즉시 로그아웃됩니다. 삭제를 요청하는 즉시 활성 기기, 활성 세션, 알림 구독을 포함한 일부 정보가 영구적으로 손실됩니다. 운영팀 직원이 검토 및 수동 확인을 진행한 후 데이터를 영구적으로 삭제합니다.
+          delete_account_btn: 계정 삭제
+          sole_owner_warning: 활성 워크스페이스의 소유자입니다. 개인 계정을 삭제하기 전에 소유권을 이전하거나 워크스페이스를 삭제해야 합니다.
+          confirm_deletion_title: 계정 삭제 확인
+          modal_review_title: "중요: 수동 확인 절차 안내"
+          modal_review_desc: 운영팀 직원이 검토 및 수동 확인을 진행한 후 데이터를 영구적으로 삭제합니다.
+          consequence_signout: 즉시 로그아웃되며 검토 대기 중에는 로그인할 수 없습니다.
+          consequence_permanent_loss: 삭제를 요청하는 즉시 활성 기기, 활성 세션, 알림 구독을 포함한 일부 정보가 영구적으로 손실됩니다.
+          consequence_memberships: 다른 워크스페이스의 멤버십이 즉시 비활성화됩니다.
+          confirm_delete_btn: 동의합니다, 내 계정을 삭제합니다
+          notices:
+            updated: 프로필이 성공적으로 업데이트되었습니다.
+            deletion_requested: 계정 삭제 요청이 접수되었습니다. 프로필이 비활성화되었으며 검토 후 영구적으로 삭제됩니다.
+          alerts:
+            update_failed: 프로필을 업데이트할 수 없습니다. 입력값을 확인한 후 다시 시도해 주세요.
+            sole_owner: 활성 워크스페이스의 소유자입니다. 개인 계정을 삭제하기 전에 소유권을 이전하거나 워크스페이스를 삭제해야 합니다.
+            incorrect_password: 비밀번호가 올바르지 않습니다. 계정 삭제를 처리할 수 없습니다.
           change_avatar: 아바타 변경
           profile_avatar: 프로필 아바타
       registrations:

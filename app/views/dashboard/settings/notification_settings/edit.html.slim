@@ -19,7 +19,7 @@
         button.ns-push-button#enable-push-btn type="button" data-controller="push-notifications" data-action="click->push-notifications#toggle" data-push-notifications-vapid-public-key-value=vapid_key data-vapid-public-key=vapid_key
           = t("notification_settings.enable_browser_push")
 
-      = form_with(model: @notification_setting, url: settings_notification_settings_path, method: :put, class: "ns-preferences-form") do |f|
+      = form_with(model: @notification_setting, url: settings_notifications_path, method: :put, class: "ns-preferences-form") do |f|
         section.ns-preferences-card
           .ns-preferences-header
             div

@@ -9,11 +9,11 @@ module Dashboard
       end
 
       def update
-        @notification_setting = current_user.notification_settings.find_by!(account: current_account)
+        @notification_setting = current_user.notification_settings.find_or_create_by!(account: current_account)
         authorize(@notification_setting)
 
         if @notification_setting.update(notification_setting_params)
-          redirect_to(edit_settings_notification_settings_path, notice: t("notification_settings.updated", default: "Notification settings updated successfully."))
+          redirect_to(edit_settings_notifications_path, notice: t("notification_settings.updated", default: "Notification settings updated successfully."))
         else
           render(:edit, status: :unprocessable_entity)
         end

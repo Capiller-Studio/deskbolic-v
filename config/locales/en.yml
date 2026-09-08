@@ -1855,6 +1855,25 @@ en:
         inbox_settings_title: Inbox Settings
     profile:
       index:
+        danger_zone: Danger Zone
+        delete_account_title: Delete Personal Account
+        delete_account_desc: Request deletion of your personal account. Once submitted, your profile will be deactivated and you will be signed out. As soon as you request deletion, some information is permanently lost immediately, including active devices, active sessions, and notification subscriptions. Staff members will review and do manual verifications, then permanently delete your data.
+        delete_account_btn: Delete Account
+        sole_owner_warning: You are the owner of an active workspace. You must transfer ownership or delete the workspace before deleting your personal account.
+        confirm_deletion_title: Confirm Account Deletion
+        modal_review_title: "Important: Manual Verification Process"
+        modal_review_desc: Staff members will review and do manual verifications, then permanently delete your data.
+        consequence_signout: You will be signed out immediately and cannot log in while pending review.
+        consequence_permanent_loss: As soon as you request deletion, some information is permanently lost, including active devices, active sessions, and notification subscriptions.
+        consequence_memberships: Your memberships in other workspaces will be deactivated immediately.
+        confirm_delete_btn: I understand, delete my account
+        notices:
+          updated: Profile updated successfully.
+          deletion_requested: Your account deletion request has been submitted. Your profile has been deactivated and will be permanently removed after review.
+        alerts:
+          update_failed: Unable to update profile. Please check the fields and try again.
+          sole_owner: You are the owner of an active workspace. You must transfer ownership or delete the workspace before deleting your personal account.
+          incorrect_password: Incorrect password. Account deletion could not be processed.
         title: Personal Details
         description: Manage your personal information and public profile.
         public_profile: Public Profile
@@ -2686,6 +2705,32 @@ en:
         test_mapping: Test Mapping
         mapped_attributes: 'Mapped Attributes:'
     settings:
+      general:
+        title: General Settings
+        description: Manage your workspace identity, localization, and lifecycle settings.
+        workspace_details: Workspace Details
+        name_label: Workspace Name
+        subdomain_label: Workspace Subdomain
+        timezone_label: Timezone
+        locale_label: Locale
+        danger_zone: Danger Zone
+        delete_workspace_title: Delete Workspace
+        delete_workspace_desc: Request deletion of this workspace. The workspace will be deactivated immediately and billing subscriptions will be cancelled. As soon as deletion is requested, active devices, sessions, and API tokens are permanently lost. Staff members will review and do manual verifications, then permanently delete channels and workspace data.
+        request_deletion_btn: Delete this Workspace
+        owner_only_notice: Only the workspace owner can request workspace deletion.
+        confirm_deletion_title: Confirm Workspace Deletion
+        modal_warning_title: "Warning: Immediate Deactivation & Manual Verification"
+        modal_warning_desc: Deleting this workspace deactivates it immediately. As soon as deletion is requested, active devices, sessions, and API access tokens are permanently lost. Active subscriptions will be cancelled and custom domains disabled. Staff members will review and do manual verifications, then permanently delete channels, inboxes, and workspace data.
+        confirm_subdomain_prompt_html: "Type workspace subdomain %{identifier} to confirm:"
+        confirm_delete_btn: I understand, delete this workspace
+        notices:
+          updated: Workspace settings updated successfully.
+          deletion_requested: Workspace deletion requested. The workspace has been deactivated.
+        alerts:
+          owner_only: Only workspace owners can request workspace deletion.
+          incorrect_password: Incorrect password. Workspace deletion cancelled.
+          identifier_mismatch: Workspace identifier confirmation does not match.
+          unauthorized: You are not authorized to perform this action.
       integrations:
         index:
           title: Integrations
@@ -3013,6 +3058,14 @@ en:
       registered_message: Your account has been successfully created.
       back_to_login: Continue to Login
   activities:
+    account:
+      deletion_requested: Account deletion was requested
+      deleted: Account was marked as deleted
+      restored: Account was restored to active status
+    user:
+      deletion_requested: User account deletion was requested
+      deleted: User was marked as deleted
+      restored: User was restored to active status
     conversation:
       conversation_resolved: Conversation was resolved
       conversation_closed: Conversation was closed
@@ -3968,8 +4021,38 @@ en:
           widget_channel: Widget Channel
       profile:
         index:
+          danger_zone: Danger Zone
+          delete_account_title: Delete Personal Account
+          delete_account_desc: Request deletion of your personal account. Once submitted, your profile will be deactivated and you will be signed out. As soon as you request deletion, some information is permanently lost immediately, including active devices, active sessions, and notification subscriptions. Staff members will review and do manual verifications, then permanently delete your data.
+          delete_account_btn: Delete Account
+          sole_owner_warning: You are the owner of an active workspace. You must transfer ownership or delete the workspace before deleting your personal account.
+          confirm_deletion_title: Confirm Account Deletion
+          modal_review_title: "Important: Manual Verification Process"
+          modal_review_desc: Staff members will review and do manual verifications, then permanently delete your data.
+          consequence_signout: You will be signed out immediately and cannot log in while pending review.
+          consequence_permanent_loss: As soon as you request deletion, some information is permanently lost, including active devices, active sessions, and notification subscriptions.
+          consequence_memberships: Your memberships in other workspaces will be deactivated immediately.
+          confirm_delete_btn: I understand, delete my account
+          notices:
+            updated: Profile updated successfully.
+            deletion_requested: Your account deletion request has been submitted. Your profile has been deactivated and will be permanently removed after review.
+          alerts:
+            update_failed: Unable to update profile. Please check the fields and try again.
+            sole_owner: You are the owner of an active workspace. You must transfer ownership or delete the workspace before deleting your personal account.
+            incorrect_password: Incorrect password. Account deletion could not be processed.
           change_avatar: Change avatar
           profile_avatar: profile avatar
+          delete_account_title: Delete Personal Account
+          delete_account_desc: "Request deletion of your personal account. Once submitted, your profile will be deactivated and you will be signed out. As soon as you request deletion, some information is permanently lost immediately, including active devices, active sessions, and notification subscriptions. Staff members will review and do manual verifications, then permanently delete your data."
+          delete_account_btn: Delete Account
+          sole_owner_warning: You are the owner of an active workspace. You must transfer ownership or delete the workspace before deleting your personal account.
+          confirm_deletion_title: Confirm Account Deletion
+          modal_review_title: "Important: Manual Verification Process"
+          modal_review_desc: "Staff members will review and do manual verifications, then permanently delete your data."
+          consequence_signout: You will be signed out immediately and cannot log in while pending review.
+          consequence_permanent_loss: "As soon as you request deletion, some information is permanently lost, including active devices, active sessions, and notification subscriptions."
+          consequence_memberships: Your memberships in other workspaces will be deactivated immediately.
+          confirm_delete_btn: I understand, delete my account
       registrations:
         new:
           background: Background
@@ -3988,6 +4071,15 @@ en:
         new:
           user_remember_me: user[remember_me]
       settings:
+        general:
+          delete_workspace_title: Delete Workspace
+          delete_workspace_desc: "Request deletion of this workspace. The workspace will be deactivated immediately and billing subscriptions will be cancelled. As soon as deletion is requested, active devices, sessions, and API tokens are permanently lost. Staff members will review and do manual verifications, then permanently delete channels and workspace data."
+          request_deletion_btn: Delete this Workspace
+          owner_only_notice: Only the workspace owner can request workspace deletion.
+          confirm_deletion_title: Confirm Workspace Deletion
+          modal_warning_title: "Warning: Immediate Deactivation & Manual Verification"
+          modal_warning_desc: "Deleting this workspace deactivates it immediately. As soon as deletion is requested, active devices, sessions, and API access tokens are permanently lost. Active subscriptions will be cancelled and custom domains disabled. Staff members will review and do manual verifications, then permanently delete channels, inboxes, and workspace data."
+          confirm_delete_btn: I understand, delete this workspace
         api_keys:
           index:
             text: "%{token}"

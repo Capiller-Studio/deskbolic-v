@@ -353,14 +353,15 @@ RSpec.describe 'Dashboard::Channels', type: :request do
         end
 
         it 'updates and reactivates existing channel if already connected' do
+          reconnect_ig_id = "reconnect_ig_#{SecureRandom.hex(4)}"
           existing = account.with_shard do
-            create(:channel_instagram, account: account, instagram_id: 'reconnect_ig_123', status: :disconnected)
+            create(:channel_instagram, account: account, instagram_id: reconnect_ig_id, status: :disconnected)
           end
 
           allow(oauth_service).to receive(:exchange_code).and_return({
             access_token: 'ig_reconnected_token',
             expires_at: 60.days.from_now,
-            user: { id: 'reconnect_ig_123', username: 'acme_ig', name: 'Acme IG', avatar_url: 'https://example.com/avatar.jpg' }
+            user: { id: reconnect_ig_id, username: 'acme_ig', name: 'Acme IG', avatar_url: 'https://example.com/avatar.jpg' }
           })
 
           get callback_channels_instagram_index_path(code: 'test_code', state: state_token, locale: :en)

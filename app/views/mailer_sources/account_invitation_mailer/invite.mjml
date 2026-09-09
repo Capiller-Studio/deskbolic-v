@@ -101,7 +101,7 @@
 
       <mj-section background-color="#ffffff" padding="0 40px 36px">
         <mj-column>
-          <mj-button align="left" href="[[ERB= email_invitation_url(invitation_token: @invitation.token) ]]" background-color="#4f46e5" border-radius="8px" padding="0 0 20px" inner-padding="14px 24px" font-size="15px">
+          <mj-button align="left" href="[[ERB= invite_url(token: @invitation.token) ]]" background-color="#4f46e5" border-radius="8px" padding="0 0 20px" inner-padding="14px 24px" font-size="15px">
             [[ERB= t("mailers.account_invitation.invite.cta") ]] &nbsp;&rarr;
           </mj-button>
           <mj-text padding="0" font-size="13px" line-height="21px" color="#64748b">

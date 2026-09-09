@@ -80,16 +80,17 @@ class DashboardController < ApplicationController
     apex_allowed_paths = [ workspaces_path, workspace_path, profile_path ]
     return if apex_allowed_paths.any? { |p| request.path == p || request.path.start_with?("#{p}/") }
 
-    if current_user.accounts.any?
+    active_accounts = current_user.accounts.active
+    if active_accounts.any?
       if request.subdomain.blank? || request.subdomain == "www"
-        if current_user.accounts.count == 1
-          redirect_to(root_url(subdomain: current_user.accounts.first.identifier), allow_other_host: true)
+        if active_accounts.count == 1
+          redirect_to(root_url(subdomain: active_accounts.first.identifier), allow_other_host: true)
         else
           redirect_to(workspaces_url(subdomain: ""), allow_other_host: true)
         end
-      elsif current_account.nil? || !current_user.accounts.exists?(id: current_account.id)
-        if current_user.accounts.count == 1
-          redirect_to(root_url(subdomain: current_user.accounts.first.identifier), allow_other_host: true, alert: I18n.t("dashboard.workspace.not_authorized", default: "You do not have access to that workspace."))
+      elsif current_account.nil? || !active_accounts.exists?(id: current_account.id)
+        if active_accounts.count == 1
+          redirect_to(root_url(subdomain: active_accounts.first.identifier), allow_other_host: true, alert: I18n.t("dashboard.workspace.not_authorized", default: "You do not have access to that workspace."))
         else
           redirect_to(workspaces_url(subdomain: ""), allow_other_host: true, alert: I18n.t("dashboard.workspace.not_authorized", default: "You do not have access to that workspace."))
         end
@@ -98,7 +99,7 @@ class DashboardController < ApplicationController
   end
 
   def redirect_if_no_accounts
-    if user_signed_in? && current_user.accounts.empty?
+    if user_signed_in? && current_user.accounts.active.empty?
       allowed_paths = [ workspace_path, submitted_path(current_user.id), profile_path ]
       redirect_to(workspace_url(subdomain: ""), allow_other_host: true) unless allowed_paths.any? { |p| request.path == p || request.path.start_with?("#{p}/") }
     end

@@ -40,16 +40,17 @@ module Dashboard
       # 1. If signing in on a specific account subdomain
       if request.subdomain.present? && request.subdomain != "www"
         subdomain_account = Account.find_by(identifier: request.subdomain)
-        if subdomain_account && resource.accounts.exists?(id: subdomain_account.id)
+        if subdomain_account && resource.accounts.active.exists?(id: subdomain_account.id)
           return root_url(subdomain: subdomain_account.identifier)
         end
       end
 
       # 2. Apex domain login routing
-      if resource.accounts.empty?
+      active_accounts = resource.accounts.active
+      if active_accounts.empty?
         workspace_url(subdomain: "")
-      elsif resource.accounts.count == 1
-        root_url(subdomain: resource.accounts.first.identifier)
+      elsif active_accounts.count == 1
+        root_url(subdomain: active_accounts.first.identifier)
       else
         workspaces_url(subdomain: "")
       end

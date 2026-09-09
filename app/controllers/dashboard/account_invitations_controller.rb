@@ -2,6 +2,15 @@
 
 module Dashboard
   class AccountInvitationsController < DashboardController
+    skip_before_action :authenticate_user!, only: %i[email_invitation accept_invitation]
+    skip_before_action :ensure_subdomain_for_account, only: %i[email_invitation accept_invitation]
+    skip_before_action :redirect_if_no_accounts, only: %i[email_invitation accept_invitation]
+    skip_before_action :enforce_active_subscription, only: %i[email_invitation accept_invitation]
+    skip_before_action :set_unread_counts, only: %i[email_invitation accept_invitation]
+    skip_around_action :set_sharding_context, only: %i[email_invitation accept_invitation]
+
+    layout "auth", only: %i[email_invitation accept_invitation]
+
     def index
       @invitations = current_account.account_invitations.pending.includes(:invited_by)
       role_ids = @invitations.flat_map(&:role_ids).uniq
@@ -43,6 +52,7 @@ module Dashboard
       @role_names = @account.with_shard do
         ::Access::Role.where(id: @invitation.role_ids).pluck(:name)
       end
+      @existing_user = User.find_by(email: @invitation.email)
     end
 
     def accept_invitation
@@ -59,7 +69,7 @@ module Dashboard
           return
         end
 
-        user = User.create!(
+        user = User.new(
           email: @invitation.email,
           password: user_params[:password],
           first_name: user_params[:first_name],
@@ -67,6 +77,8 @@ module Dashboard
           locale: I18n.locale,
           address: Address.create!
         )
+        user.skip_confirmation! if user.respond_to?(:skip_confirmation!)
+        user.save!
       end
 
       Accounts::Invitations::Accept.call(token: @invitation.token, user: user)
@@ -80,22 +92,31 @@ module Dashboard
     private
 
     def find_invitation
-      @invitation = AccountInvitation.find_by(token: params[:invitation_token])
-      return if @invitation && !@invitation.expired?
+      token = params[:token].presence || params[:invitation_token]
+      @invitation = AccountInvitation.find_by(token: token)
 
-      redirect_to(new_user_session_path, alert: t("accounts.invitations.errors.expired", default: "This invitation is invalid or has expired."))
+      if @invitation.blank? || @invitation.expired? || @invitation.revoked?
+        redirect_to(new_user_session_path, alert: t("accounts.invitations.errors.expired", default: "This invitation is invalid or has expired."))
+        return
+      end
+
+      if @invitation.accepted?
+        redirect_to(new_user_session_path, alert: t("accounts.invitations.errors.already_accepted", default: "This invitation has already been accepted. Please sign in."))
+      end
     end
 
     def set_session_and_redirect(user, account)
+      sign_out(current_user) if user_signed_in? && current_user != user
       sign_in(user)
       session[:current_account_id] = account.id
       cookies.signed[:current_account_id] = { value: account.id, expires: 1.year.from_now }
-      redirect_to(root_path, notice: "You've successfully joined the team!")
+      redirect_to(root_url(subdomain: account.identifier), allow_other_host: true, status: :see_other, notice: "You've successfully joined the team!")
     end
 
     def render_invitation_error(message)
       @account = @invitation.account
       @role_names = @account.with_shard { ::Access::Role.where(id: @invitation.role_ids).pluck(:name) }
+      @existing_user = User.find_by(email: @invitation.email)
       flash.now[:alert] = message
       render(:email_invitation, status: :unprocessable_entity)
     end

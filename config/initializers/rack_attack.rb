@@ -62,7 +62,7 @@ class Rack::Attack
 
   # Team invitations spam protection
   throttle("team/invitations", limit: 10, period: 1.minute) do |req|
-    if req.post? && req.path.include?("/email-invitation")
+    if req.post? && req.path.include?("/invite/")
       req.session["warden.user.user.key"] || req.ip
     end
   end

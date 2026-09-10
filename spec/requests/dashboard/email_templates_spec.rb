@@ -60,6 +60,8 @@ RSpec.describe 'Dashboard::EmailTemplates', type: :request do
 
         get edit_email_template_path(id: template.id, template_locale: 'en')
         expect(response).to have_http_status(:ok)
+        expect(response.body).to include('email_builder')
+        expect(response.body).not_to include('stylesheet_link_tag "dashboard"')
       end
     end
   end

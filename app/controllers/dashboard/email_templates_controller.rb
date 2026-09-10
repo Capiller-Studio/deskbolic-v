@@ -2,6 +2,7 @@
 
 module Dashboard
   class EmailTemplatesController < DashboardController
+    layout "email_builder", only: :edit
     before_action :set_email_template, only: %i[edit update publish discard_draft preview send_test variables copy_locale destroy]
 
     def index

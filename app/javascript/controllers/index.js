@@ -70,9 +70,6 @@ application.register("dispatcher", DispatcherController)
 import DropzoneController from "./dropzone_controller"
 application.register("dropzone", DropzoneController)
 
-import EmailBuilderController from "./email_builder_controller"
-application.register("email-builder", EmailBuilderController)
-
 import EmailChannelController from "./email_channel_controller"
 application.register("email-channel", EmailChannelController)
 

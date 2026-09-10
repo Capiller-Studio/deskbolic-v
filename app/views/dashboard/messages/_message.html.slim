@@ -81,7 +81,7 @@
   - single_emoji = message.content.present? && single_emoji_message?(ActionView::Base.full_sanitizer.sanitize(message.content.to_s).strip)
   .agent-response.response id=dom_id(message) data-controller="translator" data-translator-translate-url-value=translate_message_path(message) data-translator-target="response"
     .agent-text
-      .agent-message-sender = message.sender.try(:display_name).presence || message.sender_type.humanize
+      .agent-message-sender = message.sender.try(:display_name).presence || message.sender.try(:name).presence || message.sender_type.humanize
       - if message.deleted?
         .original.message-deleted-content
           span.f-light-italic-14 = t('dashboard.messages.message_unsent')

@@ -6,6 +6,8 @@ require_relative '../config/environment'
 # Prevent database truncation if the environment is production
 abort('The Rails environment is running in production mode!') if Rails.env.production?
 require 'rspec/rails'
+require 'capybara/rspec'
+require 'capybara/rails'
 require 'shoulda/matchers'
 require 'database_cleaner/active_record'
 require 'factory_bot_rails'
@@ -32,6 +34,11 @@ Shoulda::Matchers.configure do |config|
   end
 end
 
+Capybara.default_driver = :rack_test
+Capybara.javascript_driver = :selenium_chrome_headless
+Capybara.default_host = 'http://lvh.me'
+Capybara.app_host = 'http://lvh.me'
+
 module SubdomainHelpers
   def set_subdomain(subdomain)
     host! "#{subdomain}.example.com"
@@ -39,6 +46,22 @@ module SubdomainHelpers
 
   def host_for_account(account)
     set_subdomain(account.identifier)
+  end
+end
+
+module FeatureSubdomainHelpers
+  def set_subdomain(subdomain)
+    Capybara.app_host = "http://#{subdomain}.lvh.me"
+    Capybara.default_host = "http://#{subdomain}.lvh.me"
+  end
+
+  def host_for_account(account)
+    set_subdomain(account.identifier)
+  end
+
+  def reset_subdomain
+    Capybara.app_host = 'http://lvh.me'
+    Capybara.default_host = 'http://lvh.me'
   end
 end
 
@@ -53,6 +76,8 @@ RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::IntegrationHelpers, type: :request
   config.include SubdomainHelpers, type: :request
+  config.include Warden::Test::Helpers, type: :feature
+  config.include FeatureSubdomainHelpers, type: :feature
 
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
@@ -67,6 +92,12 @@ RSpec.configure do |config|
 
   config.before(:each, type: :feature) do
     DatabaseCleaner.strategy = :truncation
+    reset_subdomain
+  end
+
+  config.after(:each, type: :feature) do
+    Warden.test_reset!
+    reset_subdomain
   end
 
   config.before do

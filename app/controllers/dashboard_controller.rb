@@ -1,17 +1,17 @@
 # frozen_string_literal: true
 
 class DashboardController < ApplicationController
+  include Pundit::Authorization
+  include CurrentAttributesAccessible
+  include AccountStatusGuarded
+  include Pagy::Backend
+
   before_action :authenticate_user!
   before_action :ensure_subdomain_for_account
   before_action :redirect_if_no_accounts
   before_action :enforce_active_subscription
   before_action :set_unread_counts
   around_action :set_sharding_context
-
-  include Pundit::Authorization
-  include CurrentAttributesAccessible
-  include AccountStatusGuarded
-  include Pagy::Backend
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 

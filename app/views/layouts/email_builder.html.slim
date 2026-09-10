@@ -1,0 +1,18 @@
+doctype html
+html lang=I18n.locale dir=(I18n.locale.to_s.match?(/^(ar|he|fa|ur)/i) ? "rtl" : "ltr")
+  head
+    title = meta_title
+    meta content="text/html; charset=UTF-8" http-equiv="Content-Type"
+    meta[name="viewport" content="width=device-width,initial-scale=1"]
+    script[type="text/plain" data-cookiecategory="analytics"]
+    = csrf_meta_tags
+    = csp_meta_tag
+    = render("layouts/dashboard/meta_tags")
+    - if respond_to?(:current_account) && current_account&.current_plan
+      meta[name="deskbolic-features" content=current_account.current_plan.features.to_json]
+    = favicon_link_tag(image_path("fav_icon.png"))
+    = stylesheet_link_tag "email_builder", "data-turbo-track": "reload"
+    = javascript_include_tag "email_builder", "data-turbo-track": "reload", defer: true
+  body
+    = render("layouts/dashboard/flash_message")
+    == yield

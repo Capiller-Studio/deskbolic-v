@@ -47,7 +47,7 @@
     "postcss-simple-vars": "^7.0.1"
   },
   "scripts": {
-    "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds --public-path=assets",
+    "build": "esbuild app/javascript/*.* --bundle --minify --sourcemap --outdir=app/assets/builds --public-path=assets",
     "build:css": "postcss ./app/assets/stylesheets/*.postcss -d ./app/assets/builds/ --ext css --minify"
   },
   "devDependencies": {

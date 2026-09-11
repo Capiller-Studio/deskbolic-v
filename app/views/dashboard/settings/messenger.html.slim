@@ -1,5 +1,5 @@
 / = render("dashboard/shared/dashboard_container", current_page: "") do
-= render("dashboard/settings/settings_sidebar", current_page: "") do
+= render("dashboard/settings/settings_sidebar", current_page: "", page_stylesheet: "settings_legacy") do
   .body-section.st-messenger-body
     .st-header.st-messenger-header
       h2.f-semi-18 = t("ui.dashboard.popup.suggested_ticket_modal.messenger")

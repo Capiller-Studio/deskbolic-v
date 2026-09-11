@@ -1,0 +1,863 @@
+/* Assignment policy component. */
+/* =========================================================================
+  Assignment Policies — PostCSS Component
+  ========================================================================= */
+
+.ap-card {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+  overflow: hidden;
+
+  &:hover {
+    border-color: #c7d2fe;
+    box-shadow: 0 2px 12px rgba(79, 70, 229, 0.06);
+  }
+}
+
+.ap-card-body {
+  flex: 1;
+  padding: 18px 24px;
+  min-width: 0;
+}
+
+.ap-show-strategy-icon {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+/* --- Meta Tags --- */
+.ap-meta-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  background: #f8fafc;
+  border: 1px solid #f1f5f9;
+  border-radius: 6px;
+  font-size: 11px;
+  color: #64748b;
+}
+
+.ap-meta-icon {
+  font-size: 11px;
+  line-height: 1;
+}
+
+/* --- Action Buttons --- */
+.ap-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+  color: #64748b;
+  transition: all 0.15s ease;
+  text-decoration: none;
+  font-size: 14px;
+
+  &:hover {
+    border-color: #c7d2fe;
+    color: #4f46e5;
+    background: #f5f3ff;
+  }
+
+}
+
+/* --- Buttons --- */
+.ap-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 28px;
+  background: $black;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  box-shadow: 0 1px 3px $black-20;
+
+  &:hover {
+    box-shadow: 0 4px 12px $black-30;
+  }
+}
+
+.ap-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  padding: 11px 18px;
+  background: #fff;
+  color: #64748b;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.15s ease;
+
+  &:hover {
+    border-color: #cbd5e1;
+    color: #334155;
+  }
+}
+
+/* =========================================================================
+   Form Layout
+   ========================================================================= */
+
+.ap-form-container {
+  max-height: calc(100vh - 90px);
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.ap-form-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-left: -20px;
+  margin-right: -20px;
+  margin-bottom: 28px;
+  background: $white;
+  z-index: 10;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid $black-5;
+}
+
+.ap-header-back-link {
+  width: 40px;
+  height: 40px;
+  border: 1px solid $black-10;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: $black-70;
+  text-decoration: none;
+  flex: 0 0 auto;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+
+  &:hover {
+    border-color: rgba(119, 141, 255, 0.35);
+    color: $secondary-purple;
+    background: rgba(119, 141, 255, 0.08);
+  }
+}
+
+.ap-document-icon {
+  width: 18px;
+  height: 18px;
+  display: block;
+  object-fit: contain;
+}
+
+.ap-form-header p {
+  margin-top: 6px;
+  color: $black-40;
+  line-height: 20px;
+}
+
+.ap-form-header h2 {
+  font-family: $font-family-inter-semibold;
+  font-size: 20px;
+  line-height: 28px;
+}
+
+.ap-btn-save-header {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 8px;
+  border: none;
+  border-radius: 10px;
+  background: #778DFF;
+  color: $white;
+  font-family: $font-family-inter-semibold;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.ap-btn-save-header:hover {
+  box-shadow: 0 8px 18px rgba(119, 141, 255, 0.28);
+  transform: translateY(-1px);
+}
+
+.ap-btn-save-header .ap-icon-svg {
+  width: 14px;
+  height: 14px;
+}
+
+.ap-save-mark-icon {
+  width: 14px;
+  height: 14px;
+  display: block;
+  object-fit: contain;
+}
+
+.ap-back-arrow-icon {
+  width: 14px;
+  height: 14px;
+  display: block;
+  object-fit: contain;
+}
+
+.ap-settings-editor .ui-settings-editor__header-actions .ui-btn-secondary {
+  padding: 10px 20px;
+  border-radius: 10px;
+}
+
+.ap-back-link {
+  display: inline-block;
+  color: #64748b;
+  font-size: 13px;
+  text-decoration: none;
+  margin-bottom: 12px;
+  transition: color 0.15s ease;
+
+  &:hover {
+    color: #4f46e5;
+  }
+}
+
+/* --- Form Sections --- */
+.ap-section {
+  background: $white;
+  border: 1px solid $black-10;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  overflow: hidden;
+  transition: box-shadow 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+  }
+}
+
+.ap-section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 24px 24px 0px;
+  font-weight: 600;
+  font-size: 14px;
+  color: $black-80;
+}
+
+.ap-policy-details-body {
+  padding-top: 20px;
+}
+
+.ap-section-icon {
+  width: 38px;
+  height: 38px;
+  background: rgba(119, 141, 255, 0.1);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex: 0 0 auto;
+  color: $secondary-purple;
+}
+
+.ap-icon-svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+.ap-section-body {
+  padding: 24px;
+}
+
+/* --- Form Fields --- */
+.ap-form-row {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.ap-label {
+  display: block;
+  margin-bottom: 6px;
+  color: $black-70;
+}
+
+.ap-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid $black-10;
+  border-radius: 8px;
+  font-size: 13px;
+  color: $black-80;
+  background: $white;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  outline: none;
+
+  &:focus {
+    border-color: $secondary-purple;
+    box-shadow: 0 0 0 3px rgba(119, 141, 255, 0.12);
+  }
+
+  &::placeholder {
+    color: #94a3b8;
+  }
+}
+
+.ap-textarea {
+  resize: vertical;
+  min-height: 96px;
+}
+
+.ap-input-sm {
+  max-width: 200px;
+}
+
+.ap-select {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid $black-10;
+  border-radius: 8px;
+  font-size: 13px;
+  color: $black-80;
+  background: $white;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748b' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 32px;
+  outline: none;
+  transition: border-color 0.15s ease;
+
+  &:focus {
+    border-color: $secondary-purple;
+    box-shadow: 0 0 0 3px rgba(119, 141, 255, 0.12);
+  }
+}
+
+.ap-hint {
+  font-size: 12px;
+  color: $black-40;
+  margin-top: 6px;
+}
+
+.ap-card-hint {
+  margin-bottom: 12px;
+}
+
+.ap-field-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ap-policy-details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  align-items: start;
+}
+
+.ap-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.ap-label-row .ap-label {
+  margin-bottom: 0;
+}
+
+.ap-optional-label {
+  margin-left: 4px;
+  color: $black-40;
+  font-family: $font-family-inter-regular;
+}
+
+.ap-character-counter {
+  color: $black-40;
+  font-size: 12px;
+  line-height: 16px;
+  white-space: nowrap;
+}
+
+/* --- Strategy Grid --- */
+.ap-strategy-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.ap-strategy-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  min-height: 180px;
+  padding: 24px 24px 24px 24px;
+  border: 1px solid $black-10;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: $white;
+  position: relative;
+  text-align: center;
+
+  &:hover {
+    border-color: rgba(119, 141, 255, 0.45);
+    background: $light;
+  }
+
+  &.selected {
+    border-color: $secondary-purple;
+    background: rgba(119, 141, 255, 0.08);
+    box-shadow: 0 0 0 3px rgba(119, 141, 255, 0.1);
+  }
+
+}
+
+.ap-radio-hidden {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.ap-strategy-card-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  background: rgba(119, 141, 255, 0.1);
+  color: $secondary-purple;
+}
+
+.ap-strategy-card.blue .ap-strategy-card-icon {
+  background: $blue-50;
+}
+
+.ap-strategy-card.purple .ap-strategy-card-icon {
+  background: rgba(119, 141, 255, 0.1);
+}
+
+.ap-strategy-card.green .ap-strategy-card-icon {
+  background: $green-20;
+}
+
+.ap-strategy-card.gray .ap-strategy-card-icon {
+  background: $black-5;
+}
+
+.ap-strategy-card-icon .ap-icon-svg {
+  width: 22px;
+  height: 22px;
+}
+
+.ap-strategy-selected-icon {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 24px;
+  height: 24px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.ap-strategy-card.selected .ap-strategy-selected-icon {
+  display: flex;
+}
+
+.ap-strategy-selected-icon .ap-icon-svg {
+  width: 12px;
+  height: 12px;
+}
+
+.ap-strategy-selected-image {
+  width: 24px;
+  height: 24px;
+  display: block;
+  object-fit: contain;
+}
+
+.ap-strategy-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+}
+
+.ap-strategy-card-content strong {
+  color: $black-80;
+  font-family: $font-family-inter-semibold;
+  font-size: 18px;
+  line-height: 24px;
+}
+
+.ap-strategy-card-content span {
+  color: $black-50;
+  font-family: $font-family-inter-regular;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+/* --- Checkboxes --- */
+.ap-checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+}
+
+.ap-checkbox {
+  width: 16px;
+  height: 16px;
+  accent-color: #4f46e5;
+  cursor: pointer;
+}
+
+/* --- Toggle Row --- */
+.ap-toggle-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+
+  & label {
+    cursor: pointer;
+  }
+}
+
+/* --- Options Grid --- */
+.ap-options-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+/* --- Conditional Field --- */
+.ap-conditional-field {
+  padding: 16px 24px 24px;
+  margin-top: 0;
+  border-top: 1px solid $black-5;
+}
+
+/* --- Detail Rows (show view) --- */
+.ap-detail-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid #f8fafc;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.ap-detail-label {
+  min-width: 160px;
+  color: #64748b;
+  flex-shrink: 0;
+}
+
+/* --- Form Footer --- */
+.ap-form-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.ap-form-two-column {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  align-items: stretch;
+}
+
+.ap-form-two-column .ap-section {
+  margin-bottom: 20px;
+}
+
+.ap-inboxes-card,
+.ap-business-hours-card {
+  overflow: visible;
+  position: relative;
+  z-index: 2;
+}
+
+.ap-inboxes-card:has(.choices.is-open),
+.ap-business-hours-card:has(.choices.is-open) {
+  z-index: 30;
+}
+
+.ap-section .choices {
+  width: 100%;
+  border: 1px solid $black-10;
+  border-radius: 8px;
+  background: $white;
+}
+
+.ap-section .choices.is-open,
+.ap-section .choices[data-type*=select-multiple],
+.ap-section .choices[data-type*=select-one] {
+  border: 1px solid $black-10;
+  border-radius: 8px;
+}
+
+.ap-section .choices.is-focused,
+.ap-section .choices.is-open {
+  border-color: $secondary-purple;
+  box-shadow: 0 0 0 3px rgba(119, 141, 255, 0.12);
+}
+
+.ap-section .choices__inner {
+  min-height: 44px;
+  padding: 7px 34px 4px 10px;
+  border: 0;
+  background: transparent;
+}
+
+.ap-section .choices__list--multiple .choices__item {
+  border-color: rgba(119, 141, 255, 0.2);
+  background: rgba(119, 141, 255, 0.1);
+  color: $secondary-purple;
+  border-radius: 999px;
+}
+
+.ap-section .choices[data-type*=select-multiple]::after {
+  content: "";
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  border-right: 1.5px solid $black-50;
+  border-bottom: 1.5px solid $black-50;
+  transform: translateY(-65%) rotate(45deg);
+  pointer-events: none;
+}
+
+.ap-section .choices.is-open[data-type*=select-multiple]::after {
+  transform: translateY(-25%) rotate(225deg);
+}
+
+.ap-section .choices__list--dropdown,
+.ap-section .choices__list[aria-expanded] {
+  z-index: 50;
+  border: 1px solid $black-10;
+  border-radius: 8px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+}
+
+.ap-toggle-card-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.ap-business-hours-body {
+  padding: 24px;
+}
+
+.ap-options-section-body {
+  padding: 10px;
+}
+
+.ap-toggle-copy,
+.ap-option-copy {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.ap-toggle-text,
+.ap-option-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.ap-toggle-text {
+  flex-direction: row;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.ap-toggle-text strong,
+.ap-option-text strong {
+  color: $black-80;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.ap-toggle-text small,
+.ap-toggle-text span,
+.ap-option-text small {
+  color: $black-40;
+  line-height: 19.5px;
+}
+
+.ap-switch {
+  flex: 0 0 auto;
+}
+
+.ap-option-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 14px;
+  border-radius: 10px;
+  background: $white;
+}
+
+.ap-option-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  background: $light;
+  color: $black-60;
+}
+
+.ap-toggle-card-row .ap-section-icon,
+.ap-section-header .ap-section-icon,
+.ap-options-grid .ap-option-icon {
+  background: rgba(119, 141, 255, 0.1);
+  color: $secondary-purple;
+}
+
+.ap-section-header .ap-section-icon .ap-icon-svg [fill]:not([fill="none"]),
+.ap-toggle-card-row .ap-section-icon .ap-icon-svg [fill]:not([fill="none"]),
+.ap-options-grid .ap-option-icon .ap-icon-svg [fill]:not([fill="none"]) {
+  fill: $secondary-purple;
+}
+
+.ap-section-header .ap-section-icon .ap-icon-svg [stroke]:not([stroke="none"]),
+.ap-toggle-card-row .ap-section-icon .ap-icon-svg [stroke]:not([stroke="none"]),
+.ap-options-grid .ap-option-icon .ap-icon-svg [stroke]:not([stroke="none"]) {
+  stroke: $secondary-purple;
+}
+
+.ap-options-grid .ap-option-icon--no-fill-bg .ap-icon-svg > rect:first-child {
+  fill: none;
+}
+
+@media (max-width: 1180px) {
+  .ap-strategy-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 840px) {
+  .ap-form-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .ap-form-two-column,
+  .ap-policy-details-grid,
+  .ap-options-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .ap-form-container {
+    padding: 16px;
+  }
+
+  .ap-section-header,
+  .ap-section-body,
+  .ap-business-hours-body,
+  .ap-options-section-body {
+    padding: 16px;
+  }
+
+  .ap-strategy-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ap-toggle-card-row,
+  .ap-option-row {
+    align-items: flex-start;
+  }
+}
+
+.ap-policy-strategy-round-robin {
+  background: $primary-pluto;
+}
+
+.ap-policy-strategy-load-balanced {
+  background: $blue-50;
+}
+
+.ap-policy-strategy-skills-based {
+  background: $green-20;
+}
+
+.ap-policy-strategy-manual {
+  background: rgba(119, 141, 255, 0.1);
+}
+
+/* --- Animations --- */
+.ap-card {
+  animation: apCardFadeIn 0.2s ease;
+}
+
+@keyframes apCardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  .ap-strategy-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ap-checkbox-grid {
+    grid-template-columns: 1fr;
+  }
+
+}

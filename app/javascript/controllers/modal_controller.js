@@ -5,12 +5,22 @@ export default class extends Controller {
 
   open(event) {
     event.preventDefault()
-    this.dialogTarget.style.display = "flex"
+
+    if (typeof this.dialogTarget.showModal === "function") {
+      this.dialogTarget.showModal()
+    } else {
+      this.dialogTarget.style.display = "flex"
+    }
   }
 
   close(event) {
     if (event) event.preventDefault()
-    this.dialogTarget.style.display = "none"
+
+    if (typeof this.dialogTarget.close === "function" && this.dialogTarget.open) {
+      this.dialogTarget.close()
+    } else {
+      this.dialogTarget.style.display = "none"
+    }
   }
 
   closeOnOutsideClick(event) {

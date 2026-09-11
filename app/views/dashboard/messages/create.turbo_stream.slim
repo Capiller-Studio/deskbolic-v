@@ -1,3 +1,4 @@
-/ Empty turbo stream to satisfy Turbo.
-/ The message is rendered to the DOM via the AnyCable WebSocket broadcast.
-/ The message-form Stimulus controller clears the input on turbo:submit-end.
+/ The message is rendered via AnyCable; refresh the assignment control because
+/ the first agent reply may have assigned the conversation to the sender.
+= turbo_stream.replace("conversation-agent-#{@conversation.id}") do
+  = render("dashboard/conversations/agent_info", conversation: @conversation)

@@ -8,7 +8,7 @@ module Dashboard
       skip_before_action :authenticate_user!, only: [ :callback ]
       skip_before_action :ensure_subdomain_for_account, only: [ :callback ]
       skip_before_action :enforce_active_subscription, only: [ :callback ]
-      before_action :set_instagram_channel, only: %i[edit update destroy]
+      before_action :set_instagram_channel, only: %i[show edit update destroy]
       before_action :authorize_instagram_channel, except: [ :callback ]
 
       def index
@@ -16,6 +16,8 @@ module Dashboard
           Channel::Instagram.where(account: current_account).includes(:inboxes).order(created_at: :desc)
         end
       end
+
+      def show; end
 
       def new
         @instagram_channel = Channel::Instagram.new

@@ -1,5 +1,5 @@
 / = render("dashboard/shared/dashboard_container", current_page: "help_desk") do
-= render("dashboard/settings/settings_sidebar", current_page: "") do
+= render("dashboard/settings/settings_sidebar", current_page: "", page_stylesheet: "settings_home") do
   .body-section.st-home-body
     h2.f-semi-18 = t('dashboard.sidebar.settings.home')
     .st-home-container data-controller="modal-toggler frame-toggler"
@@ -9,10 +9,10 @@
         h3 = t('dashboard.settings_index.workspace')
         .cards.workspace-cards
           = link_to(settings_general_path, class:"card") do
-            = inline_svg_tag("settings.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
+            = inline_svg_tag("settings_icon.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
             .card-desc
-              h4.f-semi-14 = t('dashboard.settings_index.general', default: 'General Settings')
-              p.f-reg-12 = t('dashboard.settings_index.general_desc', default: 'Workspace details, timezone, and lifecycle')
+              h4.f-semi-14 = t('dashboard.settings_index.general')
+              p.f-reg-12 = t('dashboard.settings_index.general_desc')
           = link_to(dashboard_billing_path, class:"card") do
             = inline_svg_tag("billing.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
             .card-desc
@@ -40,6 +40,13 @@
                 = t('dashboard.settings_index.roles')
                 = plan_upgrade_bubble(:roles, compact: true)
               p.f-reg-12 = t('dashboard.settings_index.roles_desc')
+          = link_to(customers_path, class:"card") do
+            = inline_svg_tag("customers.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
+            .card-desc
+              h4.f-semi-14
+                = t('dashboard.settings_index.customers')
+                = plan_upgrade_bubble(:identity_sources, compact: true)
+              p.f-reg-12 = t('dashboard.settings_index.customers_desc')
           = link_to(identity_sources_path, class:"card") do
             = inline_svg_tag("identity.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
             .card-desc

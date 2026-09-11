@@ -1,0 +1,219 @@
+/* Settings home component. */
+html[lang="ar"] .helpdesk-section.settings-shell {
+  .settings-body .st-home-body .st-home-container .st-home-section .cards .card {
+    column-gap: 10px;
+
+    .card-icon {
+      flex-shrink: 0;
+      margin-right: 0;
+      margin-left: 0;
+    }
+
+    .card-desc {
+      min-width: 0;
+      text-align: right;
+    }
+  }
+}
+
+/* Responsive settings home layout.
+ * Breakpoints: mobile < 600px, tablet 600px-1023px, web >= 1024px.
+ */
+.helpdesk-section.settings-shell .settings-body .st-home-body {
+  display: flex;
+  min-height: 0;
+  height: 100%;
+  flex-direction: column;
+
+  > h2.f-semi-18 {
+    flex: 0 0 auto;
+    padding: 20px 32px;
+  }
+
+  .st-home-container {
+    min-height: 0;
+    flex: 1 1 auto;
+    height: auto;
+    padding: 30px 32px 48px;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    .st-home-section {
+      width: 100%;
+      /* max-width: 1200px; */
+      margin: 0 auto;
+
+      h3 {
+        margin-bottom: 15px;
+        font-family: $font-family-inter-regular;
+        font-size: 18px;
+        line-height: 28px;
+      }
+
+      .cards {
+        display: grid;
+        grid-auto-rows: auto;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 15px;
+        width: 100%;
+        margin-bottom: 24px;
+
+        .card {
+          display: flex;
+          min-width: 0;
+          min-height: 76px;
+          align-items: center;
+          gap: 12px;
+          padding: 15px;
+          border: 1px solid $black-10;
+          border-radius: 12px;
+          cursor: pointer;
+
+          &:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+          }
+
+          &:focus-visible {
+            outline: 2px solid $primary-purple-50;
+            outline-offset: 2px;
+          }
+
+          .card-icon {
+            width: 40px;
+            height: 40px;
+            flex: 0 0 40px;
+            margin: 0;
+          }
+
+          .card-desc {
+            min-width: 0;
+
+            h4.f-semi-14 {
+              margin-bottom: 5px;
+              color: $black-80;
+            }
+
+            .plan-upgrade-lock {
+              display: none;
+            }
+
+            p.f-reg-12 {
+              color: $black-40;
+            }
+
+            h4,
+            p {
+              overflow-wrap: anywhere;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Tablet */
+@media screen and (min-width: 600px) and (max-width: 1023px) {
+  .helpdesk-section.settings-shell {
+    > .helpdesk-container {
+      padding-bottom: 0;
+    }
+
+    .helpdesk-nav {
+      display: block;
+    }
+
+    .mobile-dashboard-nav {
+      display: none;
+    }
+
+    .settings-body .st-home-body {
+      > h2.f-semi-18 {
+        padding-right: 24px;
+        padding-left: 24px;
+      }
+
+      .st-home-container {
+        padding: 24px 24px 40px;
+
+        .st-home-section .cards {
+          grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+        }
+      }
+    }
+  }
+}
+
+/* Mobile */
+@media screen and (max-width: 600px) {
+  .helpdesk-section.settings-shell {
+    > .helpdesk-container {
+      padding-bottom: calc(72px + env(safe-area-inset-bottom));
+    }
+
+    .helpdesk-nav {
+      display: none;
+    }
+
+    .helpdesk-body {
+      width: 100%;
+      height: auto;
+      min-height: 0;
+      align-self: stretch;
+    }
+
+    .settings-body .st-home-body {
+      > h2.f-semi-18 {
+        padding: 16px;
+      }
+
+      .st-home-container {
+        padding: 20px 16px calc(104px + env(safe-area-inset-bottom));
+        scroll-padding-bottom: calc(72px + env(safe-area-inset-bottom));
+
+        .st-home-section {
+          h3 {
+            font-size: 16px;
+            line-height: 24px;
+          }
+
+          .cards {
+            grid-template-columns: minmax(0, 1fr);
+            gap: 12px;
+
+            .card {
+              min-height: 72px;
+              padding: 14px;
+
+              .card-desc {
+                width: 100%;
+
+                h4.f-semi-14 {
+                  display: flex;
+                  align-items: center;
+                  gap: 8px;
+                }
+
+                .plan-upgrade-lock {
+                  display: inline-flex;
+                  width: 16px;
+                  height: 16px;
+                  flex: 0 0 16px;
+                  align-items: center;
+                  justify-content: center;
+                  margin-inline-start: auto;
+
+                  svg {
+                    display: block;
+                    width: 14px;
+                    height: 14px;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

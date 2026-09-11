@@ -223,32 +223,6 @@ pt-BR:
       available: Disponível
       all_workspaces: Todos os espaços de trabalho
       settings:
-        general:
-          title: Configurações gerais
-          description: Gerencie a identidade, localização e configurações de ciclo de vida do seu espaço de trabalho.
-          workspace_details: Detalhes do espaço de trabalho
-          name_label: Nome do espaço de trabalho
-          subdomain_label: Subdomínio do espaço de trabalho
-          timezone_label: Fuso horário
-          locale_label: Idioma
-          danger_zone: Zona de perigo
-          delete_workspace_title: Excluir espaço de trabalho
-          delete_workspace_desc: Solicitar a exclusão deste espaço de trabalho. O espaço de trabalho será desativado imediatamente e as assinaturas de cobrança serão canceladas. Assim que a exclusão for solicitada, dispositivos ativos, sessões e tokens de API serão perdidos permanentemente. Os membros da equipe analisarão e farão verificações manuais e, em seguida, excluirão permanentemente os canais e dados do espaço de trabalho.
-          request_deletion_btn: Excluir este espaço de trabalho
-          owner_only_notice: Apenas o proprietário do espaço de trabalho pode solicitar a exclusão do espaço de trabalho.
-          confirm_deletion_title: Confirmar exclusão do espaço de trabalho
-          modal_warning_title: "Aviso: Desativação imediata e verificação manual"
-          modal_warning_desc: A exclusão deste espaço de trabalho o desativa imediatamente. Assim que a exclusão for solicitada, dispositivos ativos, sessões e tokens de acesso à API serão perdidos permanentemente. As assinaturas ativas serão canceladas e os domínios personalizados desativados. Os membros da equipe analisarão e farão verificações manuais e, em seguida, excluirão permanentemente canais, caixas de entrada e dados do espaço de trabalho.
-          confirm_subdomain_prompt_html: "Digite o subdomínio do espaço de trabalho %{identifier} para confirmar:"
-          confirm_delete_btn: Entendi, excluir este espaço de trabalho
-          notices:
-            updated: Configurações do espaço de trabalho atualizadas com sucesso.
-            deletion_requested: Exclusão do espaço de trabalho solicitada. O espaço de trabalho foi desativado.
-          alerts:
-            owner_only: Apenas os proprietários do espaço de trabalho podem solicitar a exclusão.
-            incorrect_password: Senha incorreta. Exclusão do espaço de trabalho cancelada.
-            identifier_mismatch: A confirmação do identificador do espaço de trabalho não corresponde.
-            unauthorized: Você não tem autorização para realizar esta ação.
         back_to_dashboard: Voltar ao painel
         title: Configurações
         home: Página inicial
@@ -280,6 +254,10 @@ pt-BR:
     settings_index:
       all: Todos os canais
       all_desc: Gerencie todos os seus canais aqui.
+      general: Configurações gerais
+      general_desc: Detalhes do espaço de trabalho, fuso horário e ciclo de vida.
+      customers: Clientes
+      customers_desc: Gerencie todos os clientes.
       title: Página inicial
       workspace: Espaço de trabalho
       billing: Faturamento
@@ -353,6 +331,15 @@ pt-BR:
       email_templates_desc: Edite, crie, exporte ou exclua seus modelos de e-mail.
       help_center_portals: "Portais da Central de Ajuda"
     channels_overview:
+      types:
+        email: E-mail
+        web_widget: Widget da web
+        contact_form: Formulário de contato
+        facebook: Facebook
+        instagram: Instagram
+        whatsapp: WhatsApp
+        custom: Personalizado
+      view_details: Ver
       title: Canais
       description: Gerencie todos os seus canais de comunicação conectados.
       add_channel: Adicionar novo canal
@@ -2021,6 +2008,73 @@ pt-BR:
         delete: Excluir
         delete_confirm: Você tem certeza?
     channels:
+      show:
+        allowed_domains: Domínios permitidos
+        anonymous_visitors: Visitantes anônimos
+        appearance_description: Aparência atual do inicializador e recursos de marca personalizados.
+        approved_templates: Modelos aprovados
+        attachments: Anexos
+        auto_assignment: Atribuição automática
+        awaiting_verification: Aguardando verificação
+        back: Voltar aos canais de %{type}
+        business_account_id: ID da conta comercial
+        channel_type: Tipo de canal
+        configuration: Configuração do canal
+        confirmation_email: E-mail de confirmação
+        connection_method: Método de conexão
+        contact_form_installation_description: Adicione este script onde o formulário de solicitação de suporte deve aparecer.
+        contact_form_preview: Prévia do formulário de contato
+        contact_form_preview_description: Veja como este formulário aparece para os clientes.
+        csat_status: Pesquisa CSAT
+        custom_branding: Marca personalizada
+        custom_integration_description: Endpoints públicos usados para trocar mensagens com sua integração.
+        default_locale: Idioma padrão
+        description: Revise esta conexão de %{type} e a configuração da caixa de entrada.
+        description_label: Descrição
+        disconnect_description: Desconectar este canal de %{type} removerá sua caixa de entrada e interromperá novas mensagens. As conversas existentes serão preservadas.
+        edit: Editar canal
+        email_address: Endereço de e-mail
+        email_forwarding: Encaminhamento de e-mail
+        email_forwarding_description: Encaminhe os e-mails de suporte recebidos para este endereço do Deskbolic.
+        embed_code: Código de incorporação
+        embedded_contact_form: Formulário de contato incorporado
+        embedded_signup: Cadastro incorporado da Meta
+        forwarding_address: Endereço de encaminhamento
+        forwarding_status: Status do encaminhamento
+        help_center_enabled: Central de Ajuda
+        identifier: Identificador
+        inbox_name: Nome da caixa de entrada
+        incoming_webhook: Endpoint do webhook de entrada
+        installation: Instalação e incorporação
+        instagram_id: ID da conta do Instagram
+        last_synced: Última sincronização
+        live_preview: Prévia ao vivo
+        login_required: Login obrigatório
+        mail_servers: Detalhes dos servidores de e-mail
+        manual_setup: Configuração manual
+        no_custom_fields: Nenhum campo personalizado foi adicionado.
+        no_translations: Nenhuma tradução adicional configurada.
+        optional: Opcional
+        outbound_channel: Canal de saída
+        phone_number: Número de telefone
+        phone_number_id: ID do número de telefone
+        positions:
+          left: Esquerda
+          center: Centro
+          right: Direita
+        pre_chat_form: Formulário pré-chat
+        reauthorization_description: Reconecte este canal para restaurar as mensagens recebidas e enviadas.
+        reauthorization_required: Nova autorização necessária
+        receiving_address: Endereço de recebimento
+        reconnect: Reconectar
+        redirect_url: URL de redirecionamento após o envio
+        reopen_window: Período para reabrir a conversa
+        routing_and_service: Roteamento e serviço
+        routing_description: Horário comercial e metas de resposta para esta caixa de entrada.
+        secure_identity: Identidade segura
+        spam_protection: Proteção contra spam
+        verified: Verificado
+        whatsapp_webhook_description: Use este endpoint público ao revisar o canal na Meta.
       edit:
         active: Ativo
         always_available: Sua equipe está disponível 24 horas por dia
@@ -2095,6 +2149,86 @@ pt-BR:
           edit: Editar
           delete: Excluir
           confirm_delete: Você tem certeza?
+    customers:
+      unknown: Cliente desconhecido
+      types:
+        guest: Visitante
+        customer: Cliente
+      genders:
+        male: Masculino
+        female: Feminino
+      identity_types:
+        custom_api: API personalizada
+        facebook: Facebook
+        instagram: Instagram
+        whatsapp: WhatsApp
+        web_widget: Widget da web
+      fields:
+        name: Nome
+        first_name: Nome
+        middle_name: Nome do meio
+        last_name: Sobrenome
+        display_name: Nome de exibição
+        email: E-mail
+        phone: Telefone
+        username: Nome de usuário
+        locale: Idioma
+        type: Tipo de cliente
+        gender: Gênero
+        date_of_birth: Data de nascimento
+        identifier: Identificador
+        external_id: ID externo
+        source: Origem
+        verified_on: Adicionada
+        created: Criado
+        last_activity: Última atividade
+      index:
+        title: Clientes
+        description: Veja e gerencie todos os clientes que entraram em contato com seu espaço de trabalho.
+        search_placeholder: Pesquisar clientes...
+        filter_by_channel: Filtrar por canal
+        all_channels: Todos os canais
+        sort_customers: Ordenar clientes
+        sort_newest: Mais recentes primeiro
+        sort_oldest: Mais antigos primeiro
+        sort_name: Nome A–Z
+        customer: Cliente
+        contact: Contato
+        channels: Canais
+        last_activity: Última atividade
+        joined: Ingressou
+        actions: Ações
+        no_channels: Nenhum canal
+        ago: Há %{time}
+        show: Ver
+        edit: Editar
+        no_matching: Nenhum cliente correspondente
+        try_another_filter: Tente outra pesquisa ou filtro de canal.
+        empty_title: Ainda não há clientes
+        empty_description: Os clientes aparecerão aqui após entrarem em contato com seu espaço de trabalho.
+      show:
+        back: Voltar aos clientes
+        description: Perfil, atividade e canais conectados do cliente.
+        edit: Editar cliente
+        details: Detalhes do cliente
+        identities: Identidades
+        no_identities: Nenhuma identidade verificada está conectada a este cliente.
+        channels: Canais conectados
+        no_channels: Este cliente não está vinculado a nenhum canal.
+        activity: Atividade
+        conversations: Conversas
+        last_activity: Última atividade
+      edit:
+        back: Voltar ao cliente
+        title: Editar cliente
+        description: Atualize as informações de identidade de %{name}.
+        save: Salvar alterações
+        errors: Revise os campos destacados.
+        identity: Identidade
+        identity_hint: Use os campos de nome que melhor correspondam às informações fornecidas pelo cliente.
+        channel_count: "%{count} canais"
+      flash:
+        updated: Cliente atualizado com sucesso.
     articles:
       search_placeholder: Pesquisar...
       clear_search: Limpar pesquisa
@@ -2465,6 +2599,7 @@ pt-BR:
         mapped_attributes: 'Atributos mapeados:'
     settings:
       general:
+        name_placeholder: Suporte Acme
         title: Configurações gerais
         description: Gerencie a identidade, localização e configurações de ciclo de vida do seu espaço de trabalho.
         workspace_details: Detalhes do espaço de trabalho
@@ -2481,7 +2616,7 @@ pt-BR:
         modal_warning_title: "Aviso: Desativação imediata e verificação manual"
         modal_warning_desc: A exclusão deste espaço de trabalho o desativa imediatamente. Assim que a exclusão for solicitada, dispositivos ativos, sessões e tokens de acesso à API serão perdidos permanentemente. As assinaturas ativas serão canceladas e os domínios personalizados desativados. Os membros da equipe analisarão e farão verificações manuais e, em seguida, excluirão permanentemente canais, caixas de entrada e dados do espaço de trabalho.
         confirm_subdomain_prompt_html: "Digite o subdomínio do espaço de trabalho %{identifier} para confirmar:"
-        confirm_delete_btn: Entendi, excluir este espaço de trabalho
+        confirm_delete_btn: Entendido, excluir.
         notices:
           updated: Configurações do espaço de trabalho atualizadas com sucesso.
           deletion_requested: Exclusão do espaço de trabalho solicitada. O espaço de trabalho foi desativado.
@@ -3121,6 +3256,13 @@ pt-BR:
       use_system_default_design: Usar design padrão do sistema
       no_ai_agent_linked: "Nenhum agente de IA vinculado"
   general:
+    configured: Configurado
+    disabled: Desativado
+    enabled: Ativado
+    never: Nunca
+    not_available: Não disponível
+    not_configured: Não configurado
+    validation_errors: Revise os detalhes do espaço de trabalho
     activate: Ativar
     add: Adicionar
     ago: "%{time} atrás"

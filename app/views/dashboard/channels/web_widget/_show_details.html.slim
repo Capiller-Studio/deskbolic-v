@@ -1,0 +1,91 @@
+section.channel-edit-section.channel-edit-card
+  .channel-edit-section__heading.channel-edit-section__heading--with-description
+    .channel-edit-section__icon
+      = inline_svg_tag("setting.svg", aria: { hidden: true })
+    .channel-edit-section__heading-copy
+      h2 = t("dashboard.web_widget_channels.form.appearance_section", default: "Appearance & Branding")
+      p = t("dashboard.channels.show.appearance_description", default: "Current launcher appearance and custom branding assets.")
+  .channel-edit-section__body
+    dl.channel-show-details
+      .channel-show-details__item
+        dt = t("dashboard.web_widget_channels.form.theme_color_label", default: "Theme Color")
+        dd.channel-show-color
+          span style="background-color: #{channel_show_theme_color(channel)}" aria-hidden="true"
+          = channel_show_theme_color(channel)
+      .channel-show-details__item
+        dt = t("dashboard.web_widget_channels.form.position_label", default: "Launcher Position")
+        dd = channel_show_position_label(channel)
+      .channel-show-details__item.channel-show-details__item--wide
+        dt = t("dashboard.popup.ticket.form.custom_footer_label", default: "Footer Text")
+        dd = channel.footer_text.presence || t("general.not_configured", default: "Not configured")
+
+    .channel-show-assets
+      .channel-show-asset
+        span = t("ui.dashboard.channels.web_widget.form.widget_header_logo", default: "Widget header logo")
+        - if channel.logo.attached?
+          = image_tag channel.scaled_logo, alt: t("ui.dashboard.channels.web_widget.form.widget_header_logo", default: "Widget header logo")
+        - else
+          em = t("general.not_configured", default: "Not configured")
+      .channel-show-asset
+        span = t("ui.dashboard.channels.web_widget.form.chat_bubble_icon_launcher", default: "Launcher icon")
+        - if channel.launcher_icon.attached?
+          = image_tag channel.scaled_launcher_icon, alt: t("ui.dashboard.channels.web_widget.form.chat_bubble_icon_launcher", default: "Launcher icon")
+        - else
+          em = t("general.not_configured", default: "Not configured")
+
+section.channel-edit-section.channel-edit-card
+  .channel-edit-section__heading
+    .channel-edit-section__icon
+      = inline_svg_tag("automation.svg", aria: { hidden: true })
+    h2 = t("dashboard.web_widget_channels.form.integrations_section", default: "Module Integrations")
+  .channel-edit-section__body
+    dl.channel-show-details
+      .channel-show-details__item
+        dt = t("dashboard.web_widget_channels.form.portal_label", default: "Help Center")
+        dd = channel.portal&.name || t("forms.options.no_help_center_linked", default: "No Help Center linked")
+      .channel-show-details__item
+        dt = t("ui.dashboard.channels.web_widget.form.pre_chat_form", default: "Pre-chat Form")
+        dd = channel.pre_chat_form&.name || t("forms.options.no_pre_chat_form_linked", default: "No pre-chat form linked")
+      .channel-show-details__item
+        dt = t("dashboard.ai_agents.index.title", default: "AI Agent")
+        dd = channel.primary_inbox&.ai_agent&.name || t("forms.options.no_ai_agent_linked", default: "No AI Agent linked")
+      .channel-show-details__item
+        dt = t("ui.dashboard.channels.web_widget.form.offline_email_channel", default: "Offline Email Channel")
+        dd = channel.fallback_channel&.name || t("forms.options.no_email_channel_linked", default: "No email channel linked")
+
+section.channel-edit-section.channel-edit-card
+  .channel-edit-section__heading.channel-edit-section__heading--with-description
+    .channel-edit-section__icon
+      = inline_svg_tag("code_snipet.svg", aria: { hidden: true })
+    .channel-edit-section__heading-copy
+      h2 = t("dashboard.web_widget_channels.form.installation_section", default: "Installation & Setup")
+      p = t("ui.dashboard.channels.web_widget.installation.embed_the_deskbolic_widget_into_your_website_or_web_app", default: "Embed the Deskbolic widget into your website or web app.")
+  .channel-edit-section__body
+    .channel-edit-copy data-controller="clipboard"
+      label = t("ui.dashboard.channels.web_widget.installation.standard_html", default: "Standard HTML")
+      .channel-edit-copy__control
+        input type="text" value=channel_overview_embed_code(channel, current_account) readonly=true data-clipboard-target="source"
+        button.channel-edit-copy__button type="button" data-action="click->clipboard#copy" data-clipboard-target="button"
+          = inline_svg_tag("copy.svg", aria: { hidden: true })
+          span = t("general.copy")
+
+    .channel-show-parameters
+      strong = t("dashboard.web_widget_channels.form.supported_parameters", default: "Supported Parameters")
+      .channel-show-tags
+        - %w[data-identifier data-signature data-email data-name data-locale data-position].each do |parameter|
+          code = parameter
+
+section.channel-edit-section.channel-edit-card
+  .channel-edit-section__heading
+    .channel-edit-section__icon
+      = inline_svg_tag("t_users.svg", aria: { hidden: true })
+    h2 = t("ui.dashboard.channels.contact_form.form.translations", default: "Translations")
+  .channel-edit-section__body
+    - if channel.translations.any?
+      dl.channel-show-details
+        - channel.translations.each do |translation|
+          .channel-show-details__item
+            dt = I18n.t("languages.#{translation.locale.to_s.downcase}", default: translation.locale.to_s.upcase)
+            dd = translation.welcome_title.presence || translation.launcher_text.presence || t("general.configured", default: "Configured")
+    - else
+      p.channel-show-empty = t("dashboard.channels.show.no_translations", default: "No additional translations configured.")

@@ -1,13 +1,20 @@
-- help_center_open = %w[help-center-articles help-center-portals new-help-center].include?(current_page)
-- channels_open = %w[all-channels email-channels web-widget-channels contact-form-channels facebook-channels instagram-channels whatsapp-channels custom-channels].include?(current_page)
+- help_center_open = settings_sidebar_group_open?(:help_center, current_page)
+- channels_open = settings_sidebar_group_open?(:channels, current_page)
+- data_open = settings_sidebar_group_open?(:data, current_page)
+- page_stylesheet = local_assigns[:page_stylesheet] || settings_stylesheet_for(current_page)
+- if page_stylesheet.present?
+  - content_for :head do
+    = stylesheet_link_tag page_stylesheet
+- Array(local_assigns[:page_javascripts]).each do |javascript|
+  - content_for :head do
+    = javascript_include_tag javascript, defer: true
 - selected_channel_type = current_page == "all-channels" ? (@selected_type || "all") : nil
-- data_open = %w[assignment-policies sla-policies business-hours skills custom-fields csat-surveys identity-sources canned-responses labels macros automations ai_agents email_templates].include?(current_page)
 
 .helpdesk-section.center-wrapper.settings-shell
   .helpdesk-container
     .helpdesk-nav
       .card data-controller="filterable-collection"
-        .header data-controller="modal-toggler frame-toggler"
+        .header style="margin-top: 3px;" data-controller="modal-toggler frame-toggler"
           .settings-sidebar-heading
             = link_to conversations_path, class: "settings-sidebar-back", data: { turbo: false }, aria: { label: t("dashboard.sidebar.settings.back_to_dashboard") } do
               = image_tag("dashboard_collapse.svg", class: "settings-sidebar-back-icon", alt: "", aria: { hidden: true })
@@ -34,11 +41,11 @@
                 .link-text
                   .conversation-name.inbox-conv
                     p.f-reg-14 = t('dashboard.sidebar.settings.home')
-            li.nav-item class="#{current_page == 'general' ? 'st-list-active' : ''}" data-action="click->accordion#toggle" data-filterable-collection-target="item" data-searchable=t('dashboard.sidebar.settings.general', default: 'General')
+            li.nav-item class="#{current_page == 'general' ? 'st-list-active' : ''}" data-action="click->accordion#toggle" data-filterable-collection-target="item" data-searchable=t('dashboard.settings.general.title', default: 'General Settings')
               = link_to(settings_general_path, class: "nav-link") do
                 .link-text
                   .conversation-name.inbox-conv
-                    p.f-reg-14 = t('dashboard.sidebar.settings.general', default: 'General')
+                    p.f-reg-14 = t('dashboard.settings.general.title', default: 'General Settings')
             li.nav-item class="#{current_page == 'reports' ? 'st-list-active' : ''}" data-action="click->accordion#toggle" data-filterable-collection-target="item" data-searchable=t('dashboard.sidebar.reports')
               = link_to(reports_path, class: "nav-link", data: { turbo: false }) do
                 .link-text
@@ -59,6 +66,11 @@
                 .link-text
                   .conversation-name.inbox-conv
                     p.f-reg-14 = t('dashboard.sidebar.settings.users')
+            li.nav-item class="#{current_page == 'customers' ? 'st-list-active' : ''}" data-action="click->accordion#toggle" data-filterable-collection-target="item" data-searchable=t('dashboard.customers.index.title', default: 'Customers')
+              = link_to(customers_path, class: "nav-link") do
+                .link-text
+                  .conversation-name.inbox-conv
+                    p.f-reg-14 = t('dashboard.customers.index.title', default: 'Customers')
             li.nav-item class="#{current_page == 'roles' ? 'st-list-active' : ''}" data-action="click->accordion#toggle" data-filterable-collection-target="item" data-searchable=t('dashboard.sidebar.settings.roles')
               = link_to(roles_path, class: "nav-link") do
                 .link-text
@@ -323,7 +335,7 @@
         .settings-sidebar-account-host.deskbolic-shell
           = render "dashboard/shared/sidebar_account_menu", show_settings: false, locale_field: :settings_dashboard_locale, locale_id: "settings-sidebar-locale-select"
 
-    .helpdesk-body.settings-body class=("settings-body--#{current_page}" if %w[billing users].include?(current_page))
+    .helpdesk-body.settings-body class=("settings-body--#{current_page}" if %w[billing users customers].include?(current_page))
       == yield
 
     = render 'dashboard/shared/mobile_navigation', active: (current_page == 'profile' ? 'profile' : 'settings')

@@ -1,5 +1,5 @@
 / = render("dashboard/shared/dashboard_container", current_page: "help_desk") do
-= render("dashboard/settings/settings_sidebar", current_page: "new-help-center") do
+= render("dashboard/settings/settings_sidebar", current_page: "new-help-center", page_javascripts: "dropzone") do
   - custom_domain_supported = current_account.feature_enabled?(:custom_domains)
   - preselected_domain_type = params.dig(:help_center_portal, :domain_type) || "subdomain"
 

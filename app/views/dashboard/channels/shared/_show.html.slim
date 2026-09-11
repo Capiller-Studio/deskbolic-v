@@ -1,0 +1,94 @@
+= render("dashboard/settings/settings_sidebar", current_page: channel_show_sidebar_page(channel)) do
+  .channel-edit.channel-show class="channel-theme-#{channel_overview_type(channel).dasherize}"
+    header.channel-edit__header
+      .channel-edit__header-main
+        = link_to channel_overview_index_path(channel), class: "channel-edit__back", aria: { label: t("dashboard.channels.show.back", type: channel_overview_type_label(channel), default: "Back to %{type} channels") } do
+          = inline_svg_tag("back_arrow.svg", aria: { hidden: true })
+        .channel-edit__heading
+          h1 = channel_overview_name(channel)
+          p = channel_show_description(channel)
+
+      - if channel_overview_policy(channel).edit?
+        .channel-edit__header-actions
+          = link_to channel_overview_edit_path(channel), class: "channel-edit__button channel-edit__button--primary" do
+            = inline_svg_tag("edit.svg", class: "channel-show__edit-icon", aria: { hidden: true })
+            span = t("dashboard.channels.show.edit", default: "Edit Channel")
+
+    .channel-edit__viewport
+      .channel-edit__layout
+        main.channel-edit__form
+          section.channel-edit-profile.channel-edit-card
+            .channel-edit-profile__body
+              .channel-edit-profile__identity
+                - if channel_overview_logo(channel).present?
+                  = image_tag(channel_overview_logo(channel), class: "channel-edit-profile__avatar", alt: channel_overview_name(channel))
+                - else
+                  .channel-edit-profile__avatar.channel-edit-profile__avatar--fallback
+                    = inline_svg_tag(channel_overview_icon(channel), aria: { hidden: true })
+                .channel-edit-profile__copy
+                  .channel-edit-profile__title
+                    h2 = channel_overview_name(channel)
+                    span.channel-edit-profile__type = channel_overview_type_label(channel)
+                  - if channel_overview_identifier(channel).present?
+                    p = channel_overview_identifier(channel)
+                  - if channel_overview_token_message(channel).present?
+                    p.channel-edit-profile__token
+                      = inline_svg_tag("timer.svg", aria: { hidden: true })
+                      span = channel_overview_token_message(channel)
+
+            .channel-edit-profile__footer
+              .channel-edit-profile__created
+                = inline_svg_tag("clock.svg", aria: { hidden: true })
+                span = t("dashboard.channels_overview.created_ago", time: time_ago_in_words(channel.created_at), default: "Created %{time} ago")
+              .channel-edit-profile__status class=(channel_overview_connected?(channel) ? "channel-edit-profile__status--connected" : "channel-edit-profile__status--disconnected")
+                span aria-hidden="true"
+                = channel_show_status_label(channel)
+
+            - if !channel_overview_connected?(channel) && channel_show_reconnect_path(channel).present?
+              .channel-edit-profile__reauth
+                .channel-edit-profile__reauth-copy
+                  strong = t("dashboard.channels.show.reauthorization_required", default: "Re-authorization required")
+                  span = t("dashboard.channels.show.reauthorization_description", default: "Reconnect this channel to restore incoming and outgoing messages.")
+                - if channel_overview_policy(channel).edit?
+                  = link_to t("dashboard.channels.show.reconnect", default: "Reconnect"), channel_show_reconnect_path(channel), class: "channel-edit-profile__reconnect", data: channel_show_reconnect_data(channel)
+
+          - channel_show_sections(channel, current_account).each do |section|
+            section.channel-edit-section.channel-edit-card
+              .channel-edit-section__heading class=(section[:description].present? ? "channel-edit-section__heading--with-description" : nil)
+                .channel-edit-section__icon
+                  = inline_svg_tag(section[:icon], aria: { hidden: true })
+                - if section[:description].present?
+                  .channel-edit-section__heading-copy
+                    h2 = section[:title]
+                    p = section[:description]
+                - else
+                  h2 = section[:title]
+              .channel-edit-section__body
+                dl.channel-show-details
+                  - section[:items].each do |item|
+                    .channel-show-details__item class=(item[:wide] ? "channel-show-details__item--wide" : nil)
+                      dt = item[:label]
+                      dd
+                        - if item.key?(:enabled)
+                          span.channel-show-status class=(item[:enabled] ? "channel-show-status--enabled" : nil)
+                            span aria-hidden="true"
+                            = item[:value]
+                        - else
+                          = item[:value]
+
+          - if channel_show_details_partial(channel).present?
+            = render channel_show_details_partial(channel), channel: channel
+
+        aside.channel-edit__aside
+          = render "dashboard/channels/shared/edit_overview", channel_show_overview_locals(channel)
+
+          - if channel_show_aside_partial(channel).present?
+            = render channel_show_aside_partial(channel), channel: channel
+
+          - if channel_overview_policy(channel).destroy?
+            section.channel-edit-danger.channel-edit-card
+              h2 = t("dashboard.channels.edit.danger_zone", default: "Danger Zone")
+              p = channel_show_danger_description(channel)
+              = link_to channel_overview_destroy_path(channel), class: "channel-edit-danger__button", data: { turbo_method: :delete, turbo_confirm: channel_show_delete_confirmation(channel) } do
+                = inline_svg_tag("delete_red.svg", aria: { hidden: true })
+                span = t("dashboard.channels.edit.disconnect_channel", default: "Disconnect Channel")

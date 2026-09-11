@@ -3,7 +3,7 @@
 module Dashboard
   module Channels
     class WebWidgetController < DashboardController
-    before_action :set_web_widget_channel, only: %i[edit update destroy]
+    before_action :set_web_widget_channel, only: %i[show edit update destroy]
     before_action :authorize_web_widget_channel
 
     def index
@@ -11,6 +11,8 @@ module Dashboard
         Channel::WebWidget.where(account: current_account).includes(:inboxes).order(created_at: :desc)
       end
     end
+
+    def show; end
 
     def new
       @web_widget_channel = Channel::WebWidget.new

@@ -1,5 +1,5 @@
 / = render("dashboard/shared/dashboard_container", current_page: "team-inboxes") do
-= render("dashboard/settings/settings_sidebar", current_page: "team-inboxes") do
+= render("dashboard/settings/settings_sidebar", current_page: "team-inboxes", page_javascripts: "dropzone") do
   .body-section.team-inboxes-body data-controller="modal-toggler frame-toggler"
     .team-inboxes-header
       h2.f-semi-18 = t("ui.dashboard.settings.team_inboxes.team_inboxes")

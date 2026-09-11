@@ -1,0 +1,83 @@
+/* Clipboard control shared by channel editors and API-key settings. */
+.channel-edit-copy-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.channel-edit-copy {
+  min-width: 0;
+
+  > label {
+    display: block;
+    margin-bottom: 9px;
+    color: #1f2937;
+    font-family: $font-family-inter-medium;
+    font-size: 14px;
+    line-height: 20px;
+  }
+}
+
+.channel-edit-copy__control {
+  display: flex;
+  min-width: 0;
+
+  input {
+    width: 100%;
+    min-width: 0;
+    height: 48px;
+    box-sizing: border-box;
+    padding: 12px 16px;
+    overflow: hidden;
+    border: 1px solid #e1e7ef;
+    border-radius: 10px 0 0 10px;
+    outline: none;
+    background: $white;
+    color: #64748b;
+    font-family: $font-family-inter-regular;
+    font-size: 14px;
+    line-height: 20px;
+    text-overflow: ellipsis;
+  }
+}
+
+.channel-edit-copy__button {
+  display: inline-flex;
+  min-width: 96px;
+  height: 48px;
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-left: -1px;
+  padding: 12px 15px;
+  border: 1px solid #e1e7ef;
+  border-radius: 0 10px 10px 0;
+  background: $white;
+  color: #475569;
+  font-family: $font-family-inter-medium;
+  font-size: 14px;
+  line-height: 20px;
+  cursor: pointer;
+
+  svg {
+    width: 17px;
+    height: 17px;
+    opacity: 0.55;
+  }
+
+  &:hover {
+    background: #f8fafc;
+  }
+}
+
+.channel-edit-copy__button--compact {
+  min-width: 78px;
+  color: var(--channel-edit-accent);
+
+  svg {
+    filter: var(--channel-edit-icon-filter);
+    opacity: 1;
+  }
+}

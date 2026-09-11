@@ -3,7 +3,7 @@
 module Dashboard
   module Channels
     class CustomController < DashboardController
-      before_action :set_custom_channel, only: %i[edit update destroy test_outgoing_webhook test_incoming_webhook]
+      before_action :set_custom_channel, only: %i[show edit update destroy test_outgoing_webhook test_incoming_webhook]
       before_action :authorize_custom_channel
 
       helper Dashboard::Channels::CustomHelper
@@ -13,6 +13,8 @@ module Dashboard
           Channel::Custom.where(account: current_account).includes(:inboxes).order(created_at: :desc)
         end
       end
+
+      def show; end
 
       def new
         @custom_channel = Channel::Custom.new

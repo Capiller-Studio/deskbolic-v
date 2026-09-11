@@ -1,5 +1,5 @@
 / = render("dashboard/shared/dashboard_container", current_page: "settings") do
-= render("dashboard/settings/settings_sidebar", current_page: "web-widget-channels") do
+= render("dashboard/settings/settings_sidebar", current_page: "web-widget-channels", page_javascripts: "dropzone") do
   .channel-edit.channel-theme-web-widget
     header.channel-edit__header
       .channel-edit__header-main

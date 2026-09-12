@@ -277,10 +277,6 @@ en:
     settings_index:
       all: All Channels
       all_desc: Manage all channels here.
-      general: General Settings
-      general_desc: Workspace details, timezone, and lifecycle.
-      customers: Customers
-      customers_desc: Manage all customers.
       title: Home
       workspace: Workspace
       billing: Billing
@@ -354,17 +350,8 @@ en:
       add_channel: Add new channel
       all: All
       all_channels: All Channels
-      types:
-        email: Email
-        web_widget: Web Widget
-        contact_form: Contact Form
-        facebook: Facebook
-        instagram: Instagram
-        whatsapp: WhatsApp
-        custom: Custom
       filter_label: Filter channels by type
       actions: Channel actions
-      view_details: Show
       embedded_form: Embedded form
       created_ago: Created %{time} ago
       token_expired: Token expired %{time} ago
@@ -672,8 +659,6 @@ en:
         empty_description: Create your first automation to start handling conversations
           automatically.
         tab_all: All Automations
-        tab_event_triggers: Event Triggers
-        tab_time_triggers: Time Triggers
         tab_active: Active
         tab_inactive: Inactive
         edit: Edit
@@ -2273,73 +2258,6 @@ en:
         date: Date
         url: URL
     channels:
-      show:
-        allowed_domains: Allowed Domains
-        anonymous_visitors: Anonymous Visitors
-        appearance_description: Current launcher appearance and custom branding assets.
-        approved_templates: Approved Templates
-        attachments: Attachments
-        auto_assignment: Automatic Assignment
-        awaiting_verification: Awaiting verification
-        back: Back to %{type} channels
-        business_account_id: Business Account ID
-        channel_type: Channel Type
-        configuration: Channel Configuration
-        confirmation_email: Confirmation Email
-        connection_method: Connection Method
-        contact_form_installation_description: Add this script where the support request form should appear.
-        contact_form_preview: Contact form preview
-        contact_form_preview_description: See how this form appears to customers.
-        csat_status: CSAT Survey
-        custom_branding: Custom Branding
-        custom_integration_description: Public endpoints used to exchange messages with your integration.
-        default_locale: Default Locale
-        description: Review this %{type} connection and its inbox configuration.
-        description_label: Description
-        disconnect_description: Disconnecting this %{type} channel will remove its inbox and stop new messages. Existing conversations will be preserved.
-        edit: Edit Channel
-        email_address: Email Address
-        email_forwarding: Email Forwarding
-        email_forwarding_description: Forward incoming support email to this Deskbolic address.
-        embed_code: Embed Code
-        embedded_contact_form: Embedded contact form
-        embedded_signup: Meta Embedded Signup
-        forwarding_address: Forwarding Address
-        forwarding_status: Forwarding Status
-        help_center_enabled: Help Center
-        identifier: Identifier
-        inbox_name: Inbox Name
-        incoming_webhook: Incoming Webhook Endpoint
-        installation: Installation & Embed
-        instagram_id: Instagram Account ID
-        last_synced: Last Synced
-        live_preview: Live Preview
-        login_required: Login Required
-        mail_servers: Mail Server Details
-        manual_setup: Manual setup
-        no_custom_fields: No custom fields have been added.
-        no_translations: No additional translations configured.
-        optional: Optional
-        outbound_channel: Outbound Channel
-        phone_number: Phone Number
-        phone_number_id: Phone Number ID
-        positions:
-          left: Left
-          center: Center
-          right: Right
-        pre_chat_form: Pre-chat Form
-        reauthorization_description: Reconnect this channel to restore incoming and outgoing messages.
-        reauthorization_required: Re-authorization required
-        receiving_address: Receiving Address
-        reconnect: Reconnect
-        redirect_url: Success Redirect URL
-        reopen_window: Conversation Reopen Window
-        routing_and_service: Routing & Service
-        routing_description: Business hours and response targets for this inbox.
-        secure_identity: Secure Identity
-        spam_protection: Spam Protection
-        verified: Verified
-        whatsapp_webhook_description: Use this public endpoint when reviewing the channel in Meta.
       edit:
         active: Active
         add_header: Add Header
@@ -2416,86 +2334,6 @@ en:
           edit: Edit
           delete: Delete
           confirm_delete: Are you sure?
-    customers:
-      unknown: Unknown customer
-      types:
-        guest: Guest
-        customer: Customer
-      genders:
-        male: Male
-        female: Female
-      identity_types:
-        custom_api: Custom API
-        facebook: Facebook
-        instagram: Instagram
-        whatsapp: WhatsApp
-        web_widget: Web Widget
-      fields:
-        name: Name
-        first_name: First Name
-        middle_name: Middle Name
-        last_name: Last Name
-        display_name: Display Name
-        email: Email
-        phone: Phone
-        username: Username
-        locale: Language
-        type: Customer Type
-        gender: Gender
-        date_of_birth: Date of Birth
-        identifier: Identifier
-        external_id: External ID
-        source: Source
-        verified_on: Added
-        created: Created
-        last_activity: Last Activity
-      index:
-        title: Customers
-        description: View and manage every customer who has contacted your workspace.
-        search_placeholder: Search customers...
-        filter_by_channel: Filter by channel
-        all_channels: All channels
-        sort_customers: Sort customers
-        sort_newest: Newest first
-        sort_oldest: Oldest first
-        sort_name: Name A–Z
-        customer: Customer
-        contact: Contact
-        channels: Channels
-        last_activity: Last activity
-        joined: Joined
-        actions: Actions
-        no_channels: No channels
-        ago: "%{time} ago"
-        show: Show
-        edit: Edit
-        no_matching: No matching customers
-        try_another_filter: Try a different search or channel filter.
-        empty_title: No customers yet
-        empty_description: Customers will appear here after they contact your workspace.
-      show:
-        back: Back to customers
-        description: Customer profile, activity, and connected channels.
-        edit: Edit Customer
-        details: Customer Details
-        identities: Identities
-        no_identities: No verified identities are connected to this customer.
-        channels: Connected Channels
-        no_channels: This customer is not linked to a channel.
-        activity: Activity
-        conversations: Conversations
-        last_activity: Last activity
-      edit:
-        back: Back to customer
-        title: Edit Customer
-        description: Update %{name}'s identity information.
-        save: Save Changes
-        errors: Please review the highlighted fields.
-        identity: Identity
-        identity_hint: Use the name fields that best match the information supplied by the customer.
-        channel_count: "%{count} channels"
-      flash:
-        updated: Customer updated successfully.
     articles:
       search_placeholder: Search...
       clear_search: Clear search
@@ -2872,7 +2710,6 @@ en:
         description: Manage your workspace identity, localization, and lifecycle settings.
         workspace_details: Workspace Details
         name_label: Workspace Name
-        name_placeholder: Acme Support
         subdomain_label: Workspace Subdomain
         timezone_label: Timezone
         locale_label: Locale
@@ -2895,6 +2732,15 @@ en:
           identifier_mismatch: Workspace identifier confirmation does not match.
           unauthorized: You are not authorized to perform this action.
       integrations:
+        index:
+          title: Integrations
+          description: Connect Deskbolic with your favorite tools.
+        new:
+          title: Configure %{provider}
+          description: Set up your integration settings.
+        edit:
+          title: Edit %{provider} Integration
+          description: Update your integration settings.
         not_connected: Not Connected
         connected: Connected
         disconnect: Disconnect
@@ -2916,14 +2762,23 @@ en:
           not_configured: Slack credentials are not configured on this server.
           exchange_failed: "Failed to exchange Slack token: %{error}"
           unexpected_error: An unexpected error occurred during Slack authentication.
+        webhooks:
+          description: Push real-time event notifications from Deskbolic to your own servers and external services.
+          configured_count: "%{count} configured"
+          connect: Configure Webhooks
+          url_label: Webhook URL
+          url_hint: The endpoint where Deskbolic will send POST requests for events.
+          secret_label: Webhook Secret
+          secret_hint: Use this secret to verify the HMAC signature of incoming requests.
+          events_label: Subscribed Events
+        google_translate:
+          description: Automatically translate incoming messages and outgoing replies in real-time.
         form:
           back: "← Back to Integrations"
         new:
           title: Configure %{provider}
-          description: Set up your integration settings.
         edit:
           title: Edit %{provider} Integration
-          description: Update your integration settings.
         webhooks:
           description: Push real-time event notifications from Deskbolic to your own
             servers and external services.
@@ -3436,24 +3291,18 @@ en:
     cancel_upload: Cancel upload
     coming_soon: Coming Soon
     copy: Copy
-    configured: Configured
     created_ago: Created %{time} ago
     deactivate: Deactivate
     delete: Delete
-    disabled: Disabled
     devices:
       desktop: Desktop
       mobile: Mobile
       tablet: Tablet
     edit: Edit
-    enabled: Enabled
     minutes_short:
       one: "%{count} min"
       other: "%{count} min"
     none: None
-    never: Never
-    not_available: Not available
-    not_configured: Not configured
     remove: Remove
     remove_language: Remove language
     remove_option: Remove option
@@ -3461,7 +3310,6 @@ en:
     revoke: Revoke
     save_changes: Save Changes
     unassign: Unassign
-    validation_errors: Please review the workspace details
   global:
     buttons:
       done: Done
@@ -4174,6 +4022,17 @@ en:
       profile:
         index:
           danger_zone: Danger Zone
+          delete_account_title: Delete Personal Account
+          delete_account_desc: Request deletion of your personal account. Once submitted, your profile will be deactivated and you will be signed out. As soon as you request deletion, some information is permanently lost immediately, including active devices, active sessions, and notification subscriptions. Staff members will review and do manual verifications, then permanently delete your data.
+          delete_account_btn: Delete Account
+          sole_owner_warning: You are the owner of an active workspace. You must transfer ownership or delete the workspace before deleting your personal account.
+          confirm_deletion_title: Confirm Account Deletion
+          modal_review_title: "Important: Manual Verification Process"
+          modal_review_desc: Staff members will review and do manual verifications, then permanently delete your data.
+          consequence_signout: You will be signed out immediately and cannot log in while pending review.
+          consequence_permanent_loss: As soon as you request deletion, some information is permanently lost, including active devices, active sessions, and notification subscriptions.
+          consequence_memberships: Your memberships in other workspaces will be deactivated immediately.
+          confirm_delete_btn: I understand, delete my account
           notices:
             updated: Profile updated successfully.
             deletion_requested: Your account deletion request has been submitted. Your profile has been deactivated and will be permanently removed after review.

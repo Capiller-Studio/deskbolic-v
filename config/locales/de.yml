@@ -226,6 +226,32 @@ de:
       available: Verfügbar
       all_workspaces: Alle Arbeitsbereiche
       settings:
+        general:
+          title: Allgemeine Einstellungen
+          description: Verwalten Sie Identität, Lokalisierung und Lebenszyklus-Einstellungen Ihres Arbeitsbereichs.
+          workspace_details: Details zum Arbeitsbereich
+          name_label: Name des Arbeitsbereichs
+          subdomain_label: Subdomain des Arbeitsbereichs
+          timezone_label: Zeitzone
+          locale_label: Sprache
+          danger_zone: Gefahrenbereich
+          delete_workspace_title: Arbeitsbereich löschen
+          delete_workspace_desc: Löschung dieses Arbeitsbereichs anfordern. Der Arbeitsbereich wird sofort deaktiviert und Abrechnungsabonnements werden gekündigt. Sobald die Löschung angefordert wird, gehen aktive Geräte, Sitzungen und API-Tokens dauerhaft verloren. Teammitglieder prüfen und führen manuelle Überprüfungen durch und löschen anschließend Kanäle und Arbeitsbereichsdaten dauerhaft.
+          request_deletion_btn: Diesen Arbeitsbereich löschen
+          owner_only_notice: Nur der Eigentümer des Arbeitsbereichs kann die Löschung des Arbeitsbereichs anfordern.
+          confirm_deletion_title: Löschung des Arbeitsbereichs bestätigen
+          modal_warning_title: "Warnung: Sofortige Deaktivierung & manuelle Überprüfung"
+          modal_warning_desc: Das Löschen dieses Arbeitsbereichs deaktiviert ihn sofort. Sobald die Löschung angefordert wird, gehen aktive Geräte, Sitzungen und API-Zugriffstokens dauerhaft verloren. Aktive Abonnements werden gekündigt und benutzerdefinierte Domains deaktiviert. Teammitglieder prüfen und führen manuelle Überprüfungen durch und löschen anschließend Kanäle, Posteingänge und Arbeitsbereichsdaten dauerhaft.
+          confirm_subdomain_prompt_html: "Geben Sie die Arbeitsbereich-Subdomain %{identifier} zur Bestätigung ein:"
+          confirm_delete_btn: Ich verstehe, diesen Arbeitsbereich löschen
+          notices:
+            updated: Einstellungen des Arbeitsbereichs erfolgreich aktualisiert.
+            deletion_requested: Löschung des Arbeitsbereichs angefordert. Der Arbeitsbereich wurde deaktiviert.
+          alerts:
+            owner_only: Nur Arbeitsbereich-Eigentümer können die Löschung anfordern.
+            incorrect_password: Falsches Passwort. Löschung des Arbeitsbereichs abgebrochen.
+            identifier_mismatch: Bestätigung der Arbeitsbereich-Subdomain stimmt nicht überein.
+            unauthorized: Sie sind nicht berechtigt, diese Aktion auszuführen.
         back_to_dashboard: Zurück zum Dashboard
         title: Einstellungen
         home: Zuhause
@@ -257,10 +283,6 @@ de:
     settings_index:
       all: Alle Kanäle
       all_desc: Verwalten Sie hier alle Kanäle.
-      general: Allgemeine Einstellungen
-      general_desc: Details zum Arbeitsbereich, zur Zeitzone und zum Lebenszyklus.
-      customers: Kunden
-      customers_desc: Verwalten Sie alle Kunden.
       title: Zuhause
       workspace: Arbeitsbereich
       billing: Abrechnung
@@ -338,15 +360,6 @@ de:
         E-Mail-Vorlagen.
       help_center_portals: "Help-Center-Portale"
     channels_overview:
-      types:
-        email: E-Mail
-        web_widget: Web-Widget
-        contact_form: Kontaktformular
-        facebook: Facebook
-        instagram: Instagram
-        whatsapp: WhatsApp
-        custom: Benutzerdefiniert
-      view_details: Anzeigen
       title: Kanäle
       description: Verwalten Sie alle verbundenen Kommunikationskanäle.
       add_channel: Neuen Kanal hinzufügen
@@ -2044,73 +2057,6 @@ de:
         delete: Löschen
         delete_confirm: Bist du sicher?
     channels:
-      show:
-        allowed_domains: Erlaubte Domains
-        anonymous_visitors: Anonyme Besucher
-        appearance_description: Aktuelles Erscheinungsbild des Launchers und benutzerdefinierte Markenelemente.
-        approved_templates: Genehmigte Vorlagen
-        attachments: Anhänge
-        auto_assignment: Automatische Zuweisung
-        awaiting_verification: Bestätigung ausstehend
-        back: Zurück zu %{type}-Kanälen
-        business_account_id: Unternehmenskonto-ID
-        channel_type: Kanaltyp
-        configuration: Kanalkonfiguration
-        confirmation_email: Bestätigungs-E-Mail
-        connection_method: Verbindungsmethode
-        contact_form_installation_description: Fügen Sie dieses Skript dort ein, wo das Supportanfrageformular erscheinen soll.
-        contact_form_preview: Vorschau des Kontaktformulars
-        contact_form_preview_description: Sehen Sie, wie dieses Formular für Kunden angezeigt wird.
-        csat_status: CSAT-Umfrage
-        custom_branding: Benutzerdefiniertes Branding
-        custom_integration_description: Öffentliche Endpunkte für den Nachrichtenaustausch mit Ihrer Integration.
-        default_locale: Standardsprache
-        description: Überprüfen Sie diese %{type}-Verbindung und ihre Posteingangskonfiguration.
-        description_label: Beschreibung
-        disconnect_description: Wenn Sie diesen %{type}-Kanal trennen, wird sein Posteingang entfernt und es werden keine neuen Nachrichten mehr empfangen. Bestehende Unterhaltungen bleiben erhalten.
-        edit: Kanal bearbeiten
-        email_address: E-Mail-Adresse
-        email_forwarding: E-Mail-Weiterleitung
-        email_forwarding_description: Leiten Sie eingehende Support-E-Mails an diese Deskbolic-Adresse weiter.
-        embed_code: Einbettungscode
-        embedded_contact_form: Eingebettetes Kontaktformular
-        embedded_signup: Eingebettete Meta-Registrierung
-        forwarding_address: Weiterleitungsadresse
-        forwarding_status: Weiterleitungsstatus
-        help_center_enabled: Help Center
-        identifier: Kennung
-        inbox_name: Name des Posteingangs
-        incoming_webhook: Endpunkt für eingehenden Webhook
-        installation: Installation und Einbettung
-        instagram_id: Instagram-Konto-ID
-        last_synced: Zuletzt synchronisiert
-        live_preview: Live-Vorschau
-        login_required: Anmeldung erforderlich
-        mail_servers: Mailserver-Details
-        manual_setup: Manuelle Einrichtung
-        no_custom_fields: Es wurden keine benutzerdefinierten Felder hinzugefügt.
-        no_translations: Keine zusätzlichen Übersetzungen konfiguriert.
-        optional: Optional
-        outbound_channel: Ausgehender Kanal
-        phone_number: Telefonnummer
-        phone_number_id: Telefonnummer-ID
-        positions:
-          left: Links
-          center: Mitte
-          right: Rechts
-        pre_chat_form: Formular vor dem Chat
-        reauthorization_description: Verbinden Sie diesen Kanal erneut, um ein- und ausgehende Nachrichten wiederherzustellen.
-        reauthorization_required: Erneute Autorisierung erforderlich
-        receiving_address: Empfangsadresse
-        reconnect: Erneut verbinden
-        redirect_url: Weiterleitungs-URL bei Erfolg
-        reopen_window: Zeitfenster zum Wiederöffnen von Unterhaltungen
-        routing_and_service: Routing und Service
-        routing_description: Geschäftszeiten und Antwortziele für diesen Posteingang.
-        secure_identity: Sichere Identität
-        spam_protection: Spamschutz
-        verified: Bestätigt
-        whatsapp_webhook_description: Verwenden Sie diesen öffentlichen Endpunkt bei der Überprüfung des Kanals in Meta.
       edit:
         active: Aktiv
         always_available: Ihr Team ist rund um die Uhr verfügbar
@@ -2185,86 +2131,6 @@ de:
           edit: Bearbeiten
           delete: Löschen
           confirm_delete: Bist du sicher?
-    customers:
-      unknown: Unbekannter Kunde
-      types:
-        guest: Gast
-        customer: Kunde
-      genders:
-        male: Männlich
-        female: Weiblich
-      identity_types:
-        custom_api: Benutzerdefinierte API
-        facebook: Facebook
-        instagram: Instagram
-        whatsapp: WhatsApp
-        web_widget: Web-Widget
-      fields:
-        name: Name
-        first_name: Vorname
-        middle_name: Zweiter Vorname
-        last_name: Nachname
-        display_name: Anzeigename
-        email: E-Mail
-        phone: Telefon
-        username: Benutzername
-        locale: Sprache
-        type: Kundentyp
-        gender: Geschlecht
-        date_of_birth: Geburtsdatum
-        identifier: Kennung
-        external_id: Externe ID
-        source: Quelle
-        verified_on: Hinzugefügt
-        created: Erstellt
-        last_activity: Letzte Aktivität
-      index:
-        title: Kunden
-        description: Zeigen und verwalten Sie alle Kunden, die Ihren Arbeitsbereich kontaktiert haben.
-        search_placeholder: Kunden suchen...
-        filter_by_channel: Nach Kanal filtern
-        all_channels: Alle Kanäle
-        sort_customers: Kunden sortieren
-        sort_newest: Neueste zuerst
-        sort_oldest: Älteste zuerst
-        sort_name: Name A–Z
-        customer: Kunde
-        contact: Kontakt
-        channels: Kanäle
-        last_activity: Letzte Aktivität
-        joined: Beigetreten
-        actions: Aktionen
-        no_channels: Keine Kanäle
-        ago: vor %{time}
-        show: Anzeigen
-        edit: Bearbeiten
-        no_matching: Keine passenden Kunden
-        try_another_filter: Versuchen Sie eine andere Suche oder einen anderen Kanalfilter.
-        empty_title: Noch keine Kunden
-        empty_description: Kunden werden hier angezeigt, nachdem sie Ihren Arbeitsbereich kontaktiert haben.
-      show:
-        back: Zurück zu Kunden
-        description: Kundenprofil, Aktivität und verbundene Kanäle.
-        edit: Kunden bearbeiten
-        details: Kundendetails
-        identities: Identitäten
-        no_identities: Mit diesem Kunden sind keine bestätigten Identitäten verbunden.
-        channels: Verbundene Kanäle
-        no_channels: Dieser Kunde ist mit keinem Kanal verknüpft.
-        activity: Aktivität
-        conversations: Unterhaltungen
-        last_activity: Letzte Aktivität
-      edit:
-        back: Zurück zum Kunden
-        title: Kunden bearbeiten
-        description: Aktualisieren Sie die Identitätsinformationen von %{name}.
-        save: Änderungen speichern
-        errors: Bitte überprüfen Sie die hervorgehobenen Felder.
-        identity: Identität
-        identity_hint: Verwenden Sie die Namensfelder, die am besten zu den vom Kunden bereitgestellten Informationen passen.
-        channel_count: "%{count} Kanäle"
-      flash:
-        updated: Kunde wurde erfolgreich aktualisiert.
     articles:
       search_placeholder: Suchen...
       clear_search: Suche löschen
@@ -2643,7 +2509,6 @@ de:
         mapped_attributes: 'Zugeordnete Attribute:'
     settings:
       general:
-        name_placeholder: Acme Support
         title: Allgemeine Einstellungen
         description: Verwalten Sie Identität, Lokalisierung und Lebenszyklus-Einstellungen Ihres Arbeitsbereichs.
         workspace_details: Details zum Arbeitsbereich
@@ -2660,7 +2525,7 @@ de:
         modal_warning_title: "Warnung: Sofortige Deaktivierung & manuelle Überprüfung"
         modal_warning_desc: Das Löschen dieses Arbeitsbereichs deaktiviert ihn sofort. Sobald die Löschung angefordert wird, gehen aktive Geräte, Sitzungen und API-Zugriffstokens dauerhaft verloren. Aktive Abonnements werden gekündigt und benutzerdefinierte Domains deaktiviert. Teammitglieder prüfen und führen manuelle Überprüfungen durch und löschen anschließend Kanäle, Posteingänge und Arbeitsbereichsdaten dauerhaft.
         confirm_subdomain_prompt_html: "Geben Sie die Arbeitsbereich-Subdomain %{identifier} zur Bestätigung ein:"
-        confirm_delete_btn: Verstanden, löschen.
+        confirm_delete_btn: Ich verstehe, diesen Arbeitsbereich löschen
         notices:
           updated: Einstellungen des Arbeitsbereichs erfolgreich aktualisiert.
           deletion_requested: Löschung des Arbeitsbereichs angefordert. Der Arbeitsbereich wurde deaktiviert.
@@ -3308,13 +3173,6 @@ de:
       use_system_default_design: Verwenden Sie das Standarddesign des Systems
       no_ai_agent_linked: "Kein AI-Agent verknüpft"
   general:
-    configured: Konfiguriert
-    disabled: Deaktiviert
-    enabled: Aktiviert
-    never: Nie
-    not_available: Nicht verfügbar
-    not_configured: Nicht konfiguriert
-    validation_errors: Bitte überprüfen Sie die Details des Arbeitsbereichs
     activate: Aktivieren
     add: Hinzufügen
     ago: Vor %{time}

@@ -1010,6 +1010,246 @@
   opacity: 0.45;
 }
 
+/* Warning Banner */
+.ap-billing-warning-banner {
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  z-index: 100;
+  box-sizing: border-box;
+  width: 65%;
+  margin: 0;
+  transform: translateX(-50%);
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 72px;
+  padding: 10px 20px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  color: #fff;
+  background: #172b69;
+  /* background:
+    radial-gradient(circle at 84% -120%, rgba(147, 197, 253, 0.42), transparent 38%),
+    linear-gradient(105deg, #172b69 0%, #2451be 52%, #3578e5 100%); */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 5px 18px rgba(15, 37, 91, 0.2);
+  font-family: $font-family-inter-regular;
+}
+
+.ap-billing-warning-banner::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.045), transparent 30%, rgba(255, 255, 255, 0.04));
+}
+
+.ap-billing-warning-content {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.ap-billing-warning-icon {
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  display: grid;
+  place-items: center;
+  color: #fbbf24;
+  border: 1px solid rgba(251, 191, 36, 0.28);
+  border-radius: 12px;
+  background: rgba(251, 191, 36, 0.14);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.ap-billing-warning-icon svg {
+  width: 23px;
+  height: 23px;
+}
+
+.ap-billing-warning-copy {
+  min-width: 0;
+}
+
+.ap-billing-warning-title {
+  margin: 0;
+  color: #fff;
+  font-family: $font-family-inter-semibold;
+  font-size: 13px;
+  line-height: 18px;
+  letter-spacing: 0.01em;
+}
+
+.ap-billing-warning-text {
+  margin: 1px 0 0;
+  color: rgba(239, 246, 255, 0.88);
+  font-size: 13px;
+  line-height: 18px;
+}
+
+.ap-billing-warning-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
+}
+
+.ap-billing-warning-btn {
+  min-height: 38px;
+  padding: 8px 14px 8px 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  color: #183875;
+  background: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.74);
+  border-radius: 10px;
+  box-shadow: 0 2px 7px rgba(15, 37, 91, 0.2);
+  font-family: $font-family-inter-semibold;
+  font-size: 13px;
+  line-height: 18px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.ap-billing-warning-btn svg {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.15s ease;
+}
+
+.ap-billing-warning-btn:hover {
+  color: #183875;
+  background: #f8fbff;
+  box-shadow: 0 4px 12px rgba(15, 37, 91, 0.26);
+  transform: translateY(-1px);
+}
+
+.ap-billing-warning-btn:hover svg {
+  transform: translateX(2px);
+}
+
+.ap-billing-warning-dismiss {
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  color: rgba(239, 246, 255, 0.82);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.ap-billing-warning-dismiss svg {
+  width: 18px;
+  height: 18px;
+}
+
+.ap-billing-warning-dismiss:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.34);
+}
+
+.ap-billing-warning-btn:focus-visible,
+.ap-billing-warning-dismiss:focus-visible {
+  outline: 3px solid rgba(255, 255, 255, 0.48);
+  outline-offset: 2px;
+}
+
+@media (max-width: 991px) {
+  .ap-billing-warning-banner {
+    width: 90%;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 12px 14px;
+  }
+
+  .ap-billing-warning-content {
+    align-items: flex-start;
+  }
+
+  .ap-billing-warning-actions {
+    align-self: center;
+  }
+}
+
+@media (max-width: 576px) {
+  .ap-billing-warning-banner {
+    display: block;
+  }
+
+  .ap-billing-warning-content {
+    padding-right: 38px;
+  }
+
+  .ap-billing-warning-actions {
+    margin-top: 10px;
+    padding-left: 54px;
+  }
+
+  .ap-billing-warning-dismiss {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+  }
+}
+
+@media (max-width: 520px) {
+  .ap-billing-warning-banner {
+    gap: 10px;
+  }
+
+  .ap-billing-warning-icon {
+    width: 36px;
+    height: 36px;
+    flex-basis: 36px;
+    border-radius: 10px;
+  }
+
+  .ap-billing-warning-icon svg {
+    width: 21px;
+    height: 21px;
+  }
+
+  .ap-billing-warning-actions {
+    padding-left: 46px;
+    gap: 6px;
+  }
+
+  .ap-billing-warning-dismiss {
+    width: 32px;
+    height: 32px;
+    min-height: 32px;
+    flex-basis: 32px;
+  }
+
+  .ap-billing-warning-btn {
+    min-height: 36px;
+    padding: 8px 12px 8px 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ap-billing-warning-btn,
+  .ap-billing-warning-btn svg,
+  .ap-billing-warning-dismiss {
+    transition: none;
+  }
+}
+
 /* Billing Cycle Toggle */
 .ap-billing-cycle-toggle {
   display: flex;

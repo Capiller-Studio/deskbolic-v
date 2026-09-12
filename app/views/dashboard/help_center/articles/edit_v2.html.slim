@@ -1,6 +1,3 @@
-- content_for :head do
-  = javascript_include_tag "help_center_article_editor", defer: true
-
 - locale = @locale || @article.portal&.default_locale.presence || I18n.locale.to_s
 - translation = @article.translations.find { |t| t.locale.to_s == locale.to_s } || @article.translations.first || @article.translations.build(locale: locale)
 - portal = @article.portal || @selected_portal

@@ -6,10 +6,6 @@ module Dashboard
       authorized?("inboxes.read", feature: "channels.instagram")
     end
 
-    def show?
-      index?
-    end
-
     def new?
       create?
     end

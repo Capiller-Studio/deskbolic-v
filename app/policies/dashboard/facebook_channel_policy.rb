@@ -6,10 +6,6 @@ module Dashboard
       authorized?("inboxes.read", feature: "channels.facebook")
     end
 
-    def show?
-      index?
-    end
-
     def new?
       create?
     end

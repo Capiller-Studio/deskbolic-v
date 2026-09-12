@@ -3,7 +3,7 @@
 module Dashboard
   module Channels
     class EmailController < DashboardController
-    before_action :set_email_channel, only: %i[show edit update destroy test_smtp test_imap verify_forwarding]
+    before_action :set_email_channel, only: %i[edit update destroy test_smtp test_imap verify_forwarding]
     before_action :authorize_email_channel
 
     rate_limit to: 5, within: 1.minute, only: %i[test_smtp test_imap verify_forwarding],
@@ -15,8 +15,6 @@ module Dashboard
         Channel::Email.where(account: current_account).includes(:inboxes).order(created_at: :desc)
       end
     end
-
-    def show; end
 
     def new
       @email_channel = Channel::Email.new

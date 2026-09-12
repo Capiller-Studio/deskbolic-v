@@ -67,6 +67,9 @@ application.register("custom-field-validations", CustomFieldValidationsControlle
 import DispatcherController from "./dispatcher_controller"
 application.register("dispatcher", DispatcherController)
 
+import DropzoneController from "./dropzone_controller"
+application.register("dropzone", DropzoneController)
+
 import EmailChannelController from "./email_channel_controller"
 application.register("email-channel", EmailChannelController)
 
@@ -91,6 +94,9 @@ application.register("hello", HelloController)
 import HelpCenter__ArticleController from "./help_center/article_controller"
 application.register("help-center--article", HelpCenter__ArticleController)
 
+import HelpCenter__ArticleEditorController from "./help_center/article_editor_controller"
+application.register("help-center--article-editor", HelpCenter__ArticleEditorController)
+
 import HelpCenter__CategoryController from "./help_center/category_controller"
 application.register("help-center--category", HelpCenter__CategoryController)
 
@@ -102,6 +108,9 @@ application.register("key-value-builder", KeyValueBuilderController)
 
 import LabelFormController from "./label_form_controller"
 application.register("label-form", LabelFormController)
+
+import LexicalController from "./lexical_controller"
+application.register("lexical", LexicalController)
 
 import LocaleTabsController from "./locale_tabs_controller"
 application.register("locale-tabs", LocaleTabsController)
@@ -141,6 +150,9 @@ application.register("registration-wizard", RegistrationWizardController)
 
 import RendererController from "./renderer_controller"
 application.register("renderer", RendererController)
+
+import RichtextEditorController from "./richtext_editor_controller"
+application.register("richtext-editor", RichtextEditorController)
 
 import RolePermissionsController from "./role_permissions_controller"
 application.register("role-permissions", RolePermissionsController)

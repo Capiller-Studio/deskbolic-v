@@ -4,14 +4,13 @@
 @import "dashboard/helpers/mixins.postcss";
 @import "dashboard/helpers/utilities.postcss";
 @import "dashboard/basic/base.postcss";
-@import "dashboard/components/form.postcss";
-@import "dashboard/components/form_wizard.postcss";
-@import "dashboard/components/choices.postcss";
-@import "dashboard/components/login.postcss";
-@import "dashboard/components/register.postcss";
-@import "dashboard/components/email_invitation.postcss";
-@import "dashboard/components/auth_shell.postcss";
-@import "dashboard/components/flash_message.postcss";
+@import "dashboard/components/form.postcss.css";
+@import "dashboard/components/form_wizard.postcss.css";
+@import "dashboard/components/choices.postcss.css";
+@import "dashboard/components/login.postcss.css";
+@import "dashboard/components/register.postcss.css";
+@import "dashboard/components/email_invitation.postcss.css";
+@import "dashboard/components/auth_shell.postcss.css";
 
 .locale-dropdown-container {
   position: absolute;
@@ -45,4 +44,61 @@
 
 .hidden {
   display: none !important;
+}
+
+.admin-flash-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 2rem;
+  position: fixed;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  border-radius: 8px;
+  animation: fadeOut 0.5s 4s forwards;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.admin-flash-container.alert-red {
+  background-color: #fee2e2;
+}
+.admin-flash-container.alert-red .message {
+  color: #991b1b;
+}
+
+.admin-flash-container.alert-green {
+  background-color: #d1fae5;
+}
+.admin-flash-container.alert-green .message {
+  color: #065f46;
+}
+
+.admin-flash-container.alert-blue {
+  background-color: #dbeafe;
+}
+.admin-flash-container.alert-blue .message {
+  color: #1e40af;
+}
+
+.admin-flash-container.alert-yellow {
+  background-color: #fef3c7;
+}
+.admin-flash-container.alert-yellow .message {
+  color: #92400e;
+}
+
+.admin-flash-container .message {
+  font-size: 0.9rem;
+  font-family: 'Inter', sans-serif;
+  text-align: center;
+  font-weight: 500;
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
 }

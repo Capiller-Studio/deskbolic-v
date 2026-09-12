@@ -1,5 +1,5 @@
 / = render("dashboard/shared/dashboard_container", current_page: "profile") do
-= render("dashboard/settings/settings_sidebar", current_page: "profile", page_javascripts: "dropzone") do
+= render("dashboard/settings/settings_sidebar", current_page: "profile") do
   - mobile_profile_editing = params[:edit].present? || request.patch?
   .mobile-profile-home class=("is-hidden" if mobile_profile_editing)
     .mobile-profile-content

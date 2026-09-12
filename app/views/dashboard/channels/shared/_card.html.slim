@@ -1,12 +1,11 @@
 - type = channel_overview_type(channel)
 - status = channel_overview_status(channel)
 - channel_policy = channel_overview_policy(channel)
-- details_path = channel_overview_show_path(channel)
 - confirmation = local_assigns[:delete_confirmation] || t("dashboard.channels_overview.delete_confirm", name: channel_overview_name(channel), default: "Delete %{name}?")
 
 article.channel-card id=dom_id(channel) class="channel-card--#{type.dasherize}"
   .channel-card__body
-    = content_tag(details_path.present? ? :a : :div, class: "channel-card__identity", href: details_path) do
+    .channel-card__identity
       .channel-card__avatar
         - if (logo = channel_overview_logo(channel))
           = image_tag logo, alt: channel_overview_name(channel)
@@ -24,18 +23,12 @@ article.channel-card id=dom_id(channel) class="channel-card--#{type.dasherize}"
         - if (token_message = channel_overview_token_message(channel))
           p.channel-card__token-warning = token_message
 
-    - if details_path.present? || channel_policy.edit? || channel_policy.destroy?
+    - if channel_policy.edit? || channel_policy.destroy?
       - menu_id = dom_id(channel, :actions)
       .channel-card__actions
         button type="button" aria-label=t("dashboard.channels_overview.actions", default: "Channel actions") popovertarget=menu_id
           = inline_svg_tag("dots.svg", aria: { hidden: true })
         .channel-card__menu id=menu_id popover="auto" role="menu"
-          - if details_path.present?
-            = link_to details_path, role: "menuitem" do
-              = inline_svg_tag("read.svg", aria: { hidden: true })
-              span = t("dashboard.channels_overview.view_details", default: "Show")
-          - if details_path.present? && (channel_policy.edit? || channel_policy.destroy?)
-            .channel-card__menu-divider
           - if channel_policy.edit?
             = link_to channel_overview_edit_path(channel), role: "menuitem" do
               = inline_svg_tag("edit.svg", aria: { hidden: true })

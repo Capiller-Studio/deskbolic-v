@@ -1,6 +1,6 @@
 import "@hotwired/turbo-rails"
 import { Application } from "@hotwired/stimulus"
-import EmailBuilderController from "./page_controllers/email_builder_controller"
+import EmailBuilderController from "./controllers/email_builder_controller"
 import SelectController from "./controllers/select_controller"
 import ChoicesController from "./controllers/choices_controller"
 

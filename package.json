@@ -48,7 +48,7 @@
   },
   "scripts": {
     "build": "esbuild app/javascript/*.* --bundle --minify --sourcemap --outdir=app/assets/builds --public-path=assets",
-    "build:css": "postcss ./app/assets/stylesheets/*.postcss ./app/assets/stylesheets/pages/*.postcss -d ./app/assets/builds/ --ext css --verbose --env production --map --minify"
+    "build:css": "postcss ./app/assets/stylesheets/*.postcss -d ./app/assets/builds/ --ext css --minify"
   },
   "devDependencies": {
     "prettier": "^3.8.3"

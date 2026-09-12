@@ -7,7 +7,7 @@
       / Chat Iframe
       .ww-iframe-wrapper
         - if web_widget_channel.persisted?
-          iframe src=channel_show_preview_url(web_widget_channel, current_account) data-web-widget-preview-target="iframe"
+          iframe src="#{ENV['WIDGET_APP_URL']}/w/#{current_account.id}/#{web_widget_channel.id}?preview=true" data-web-widget-preview-target="iframe"
         - else
           .ww-empty-preview
             svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
@@ -15,7 +15,7 @@
             p = t("ui.dashboard.channels.web_widget.preview.save_to_preview")
 
       / Launcher Button
-      .ww-preview-launcher data-web-widget-preview-target="launcher" style="--ww-theme-color: #{channel_show_theme_color(web_widget_channel)}; #{channel_show_position(web_widget_channel) == 'left' ? 'right: auto; left: 20px;' : ''}"
+      .ww-preview-launcher data-web-widget-preview-target="launcher"
         .ww-preview-launcher-icon
           - if web_widget_channel.launcher_icon.attached?
             = image_tag web_widget_channel.scaled_launcher_icon, class: "ww-custom-logo", data: { "web-widget-preview-target" => "logoImg" }

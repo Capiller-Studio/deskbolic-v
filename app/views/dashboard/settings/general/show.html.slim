@@ -10,91 +10,95 @@
           = t("general.save_changes", default: "Save Changes")
 
     main.ui-settings-page__content
-      .profile-layout
-        .profile-card
-          .profile-card-header
-            h3 = t("dashboard.settings.general.workspace_details", default: "Workspace Details")
+      = form_with(model: @account, url: settings_general_path, method: :patch, id: "workspace-general-form", class: "ui-settings-form") do |f|
+        section.ui-form-card.ui-form-card--roomy
+          .ui-form-card__header.ui-form-card__header--identity
+            .ui-form-card__icon aria-hidden="true"
+              = inline_svg_tag("settings.svg")
+            div
+              h2 = t("dashboard.settings.general.workspace_details", default: "Workspace Details")
+              p = t("dashboard.settings.general.description", default: "Manage your workspace identity and localization settings.")
 
-          = form_with(model: @account, url: settings_general_path, method: :patch, id: "workspace-general-form", class: "profile-form") do |f|
-            .profile-details
-              .profile-row
-                .profile-row-icon-cell
-                  = inline_svg_tag("settings.svg", class: "profile-icon", alt: "")
-                .profile-row-content
-                  label.profile-field-label for="account_name" = t("dashboard.settings.general.name_label", default: "Workspace Name")
-                  = f.text_field :name, class: "profile-input", placeholder: "Acme Support", disabled: !@is_owner
+          - if @account.errors.any?
+            .ui-form-notice
+              = inline_svg_tag("info.svg", aria: { hidden: true })
+              div
+                h3 = t("general.validation_errors", default: "Please review the workspace details")
+                p = @account.errors.full_messages.to_sentence
 
-              .profile-row
-                .profile-row-icon-cell
-                  = inline_svg_tag("world.svg", class: "profile-icon", alt: "")
-                .profile-row-content.profile-readonly
-                  span = t("dashboard.settings.general.subdomain_label", default: "Workspace Subdomain")
-                  p = "#{@account.identifier}.deskbolic.com"
+          .ui-form-grid.ui-form-grid--two
+            .ui-field-group
+              = f.label :name, t("dashboard.settings.general.name_label", default: "Workspace Name"), class: "ui-label"
+              .ui-field-control
+                span.ui-field-control__icon aria-hidden="true"
+                  = inline_svg_tag("settings.svg")
+                = f.text_field :name, class: "ui-input ui-control", placeholder: t("dashboard.settings.general.name_placeholder", default: "Acme Support"), disabled: !@is_owner, autocomplete: "organization"
 
-              .profile-row
-                .profile-row-icon-cell
-                  = inline_svg_tag("calendar.svg", class: "profile-icon", alt: "")
-                .profile-row-content
-                  label.profile-field-label for="account_timezone" = t("dashboard.settings.general.timezone_label", default: "Timezone")
-                  = f.time_zone_select :timezone, nil, {}, { class: "ui-select ui-control", disabled: !@is_owner }
+            .ui-field-group
+              = label_tag :workspace_subdomain, t("dashboard.settings.general.subdomain_label", default: "Workspace Subdomain"), class: "ui-label"
+              .ui-field-control
+                span.ui-field-control__icon aria-hidden="true"
+                  = inline_svg_tag("world.svg")
+                = text_field_tag :workspace_subdomain, "#{@account.identifier}.deskbolic.com", readonly: true, class: "ui-input ui-control"
 
-              .profile-row
-                .profile-row-icon-cell
-                  = inline_svg_tag("world.svg", class: "profile-icon", alt: "")
-                .profile-row-content
-                  label.profile-field-label for="account_locale" = t("dashboard.settings.general.locale_label", default: "Locale")
-                  = f.select :locale,
-                    Core::SUPPORTED_LOCALES.map { |l| [l.to_s.upcase, l] },
-                    {},
-                    { class: "ui-select ui-control", disabled: !@is_owner }
+            .ui-field-group
+              = f.label :timezone, t("dashboard.settings.general.timezone_label", default: "Timezone"), class: "ui-label"
+              .ui-field-control
+                span.ui-field-control__icon aria-hidden="true"
+                  = inline_svg_tag("calendar.svg")
+                = f.time_zone_select :timezone,
+                  nil,
+                  {},
+                  { class: "ui-select ui-control", disabled: !@is_owner, data: { controller: "select" } }
 
-        / Danger Zone
-        .profile-card data-controller="modal" style="border: 1px solid #fee2e2; background-color: #fffaf0;"
-          .profile-card-header style="border-bottom: 1px solid #fee2e2;"
-            h3 style="color: #b91c1c;" = t("dashboard.settings.general.danger_zone", default: "Danger Zone")
+            .ui-field-group
+              = f.label :locale, t("dashboard.settings.general.locale_label", default: "Locale"), class: "ui-label"
+              .ui-field-control
+                span.ui-field-control__icon aria-hidden="true"
+                  = inline_svg_tag("world.svg")
+                = f.select :locale,
+                  Core::SUPPORTED_LOCALES.map { |locale| [I18n.t("languages.#{locale.to_s.downcase}"), locale] },
+                  {},
+                  { class: "ui-select ui-control", disabled: !@is_owner, data: { controller: "select" } }
 
-          .profile-details style="padding: 1.5rem;"
-            .danger-zone-content
-              h4 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: #111827; font-weight: 600;"
-                = t("dashboard.settings.general.delete_workspace_title", default: "Delete Workspace")
-              p style="margin: 0 0 1rem 0; font-size: 0.875rem; color: #6b7280; line-height: 1.4;"
-                = t("dashboard.settings.general.delete_workspace_desc", default: "Request deletion of this workspace. The workspace will be deactivated immediately and billing subscriptions will be cancelled. As soon as deletion is requested, active devices, sessions, and API tokens are permanently lost. Staff members will review and do manual verifications, then permanently delete channels and workspace data.")
+      section.ui-settings-form data-controller="modal"
+        .ui-form-notice.ui-form-notice--danger
+          = inline_svg_tag("delete_red.svg", aria: { hidden: true })
+          div
+            h3 = t("dashboard.settings.general.delete_workspace_title", default: "Delete Workspace")
+            p = t("dashboard.settings.general.delete_workspace_desc", default: "Request deletion of this workspace. The workspace will be deactivated immediately and billing subscriptions will be cancelled.")
 
-              - if @is_owner
-                button.btn.btn-danger type="button" data-action="click->modal#open" style="background-color: #dc2626; color: white; border: none; padding: 0.625rem 1.25rem; border-radius: 0.375rem; font-weight: 600; cursor: pointer;"
-                  = t("dashboard.settings.general.request_deletion_btn", default: "Delete this Workspace")
-              - else
-                .alert.alert-warning style="padding: 0.75rem; border-radius: 0.375rem; background: #fffbeb; color: #92400e; font-size: 0.875rem;"
-                  = t("dashboard.settings.general.owner_only_notice", default: "Only the workspace owner can request workspace deletion.")
-
-          / Deletion Confirmation Modal
           - if @is_owner
-            .modal-backdrop#delete-workspace-modal data-modal-target="dialog" data-action="click->modal#closeOnOutsideClick" style="display: none; position: fixed; inset: 0; background-color: rgba(0, 0, 0, 0.5); z-index: 9999; align-items: center; justify-content: center;"
-              .modal-dialog style="max-width: 480px; width: 90%; margin: auto; background: white; border-radius: 0.75rem; padding: 1.5rem; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);"
-                .modal-header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;"
-                  h3 style="margin: 0; color: #b91c1c; font-size: 1.25rem; font-weight: 700;"
-                    = t("dashboard.settings.general.confirm_deletion_title", default: "Confirm Workspace Deletion")
-                  button.modal-close type="button" data-action="click->modal#close" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #6b7280; line-height: 1;" &times;
+            button.ui-btn-primary.ui-form-notice__action type="button" data-action="click->modal#open"
+              = t("dashboard.settings.general.request_deletion_btn", default: "Delete this Workspace")
+          - else
+            span.ui-field-hint
+              = t("dashboard.settings.general.owner_only_notice", default: "Only the workspace owner can request workspace deletion.")
 
-                = form_with(url: settings_general_path, method: :delete, local: true) do |f|
-                  .modal-body style="font-size: 0.875rem; color: #374151; margin-bottom: 1.5rem;"
-                    .alert.alert-warning style="padding: 0.875rem 1rem; border-radius: 0.5rem; background: #fffbeb; border: 1px solid #fef3c7; border-left: 4px solid #f59e0b; color: #92400e; margin-bottom: 1rem;"
-                      strong style="display: block; font-weight: 600; margin-bottom: 0.375rem;"
-                        = t("dashboard.settings.general.modal_warning_title", default: "Warning: Immediate Deactivation & Manual Verification")
-                      p style="margin: 0; font-size: 0.8125rem; line-height: 1.45;"
-                        = t("dashboard.settings.general.modal_warning_desc", default: "Deleting this workspace deactivates it immediately. As soon as deletion is requested, active devices, sessions, and API access tokens are permanently lost. Active subscriptions will be cancelled and custom domains disabled. Staff members will review and do manual verifications, then permanently delete channels, inboxes, and workspace data.")
-                    
-                    .form-group style="margin-bottom: 1rem;"
-                      label style="display: block; font-weight: 600; margin-bottom: 0.375rem;"
-                        = t("dashboard.settings.general.confirm_subdomain_prompt_html", identifier: tag.code(@account.identifier, style: "background: #f3f4f6; padding: 0.125rem 0.375rem; border-radius: 0.25rem; color: #b91c1c;"), default: ("Type workspace subdomain %{identifier} to confirm:").html_safe)
-                      = text_field_tag :identifier_confirmation, nil, required: true, class: "profile-input", placeholder: @account.identifier, style: "width: 100%; border: 1px solid #d1d5db; padding: 0.5rem 0.75rem; border-radius: 0.375rem;"
+        - if @is_owner
+          dialog.confirmation-dialog.confirmation-dialog--danger data-modal-target="dialog" data-action="cancel->modal#close click->modal#closeOnOutsideClick" aria-labelledby="delete-workspace-title" aria-describedby="delete-workspace-description"
+            .confirmation-dialog__content
+              .confirmation-dialog__icon aria-hidden="true"
+                = inline_svg_tag("delete_red.svg")
+              h2#delete-workspace-title.confirmation-dialog__title
+                = t("dashboard.settings.general.confirm_deletion_title", default: "Confirm Workspace Deletion")
+              p#delete-workspace-description.confirmation-dialog__message
+                = t("dashboard.settings.general.modal_warning_desc", default: "Deleting this workspace deactivates it immediately and permanently removes active sessions and API access.")
 
-                    .form-group style="margin-bottom: 1rem;"
-                      label style="display: block; font-weight: 600; margin-bottom: 0.375rem;"
-                        = t("auth.password", default: "Your Password")
-                      = password_field_tag :password, nil, required: true, class: "profile-input", placeholder: "••••••••", style: "width: 100%; border: 1px solid #d1d5db; padding: 0.5rem 0.75rem; border-radius: 0.375rem;"
+              = form_with(url: settings_general_path, method: :delete, local: true, class: "ui-settings-form") do |delete_form|
+                .ui-form-stack
+                  .ui-field-group
+                    = label_tag :identifier_confirmation, class: "ui-label" do
+                      = t("dashboard.settings.general.confirm_subdomain_prompt_html", identifier: tag.code(@account.identifier), default: ("Type workspace subdomain %{identifier} to confirm:").html_safe)
+                    .ui-field-control.ui-field-control--plain
+                      = text_field_tag :identifier_confirmation, nil, required: true, class: "ui-input ui-control", placeholder: @account.identifier, autocomplete: "off"
 
-                  .modal-footer style="display: flex; justify-content: flex-end; gap: 0.75rem;"
-                    button.btn type="button" data-action="click->modal#close" style="padding: 0.5rem 1rem; border: 1px solid #d1d5db; border-radius: 0.375rem; background: white; cursor: pointer; font-weight: 500;"
-                      = t("general.cancel", default: "Cancel")
-                    = f.submit t("dashboard.settings.general.confirm_delete_btn", default: "I understand, delete this workspace"), class: "btn btn-danger", style: "background: #dc2626; color: white; border: none; padding: 0.5rem 1rem; border-radius: 0.375rem; font-weight: 600; cursor: pointer;"
+                  .ui-field-group
+                    = label_tag :password, t("auth.password", default: "Your Password"), class: "ui-label"
+                    .ui-field-control.ui-field-control--plain
+                      = password_field_tag :password, nil, required: true, class: "ui-input ui-control", placeholder: "••••••••", autocomplete: "current-password"
+
+                .confirmation-dialog__actions
+                  button.confirmation-dialog__button.confirmation-dialog__button--cancel type="button" data-action="click->modal#close"
+                    = t("general.cancel", default: "Cancel")
+                  = delete_form.submit t("dashboard.settings.general.confirm_delete_btn", default: "I understand, delete this workspace"), class: "confirmation-dialog__button confirmation-dialog__button--confirm"

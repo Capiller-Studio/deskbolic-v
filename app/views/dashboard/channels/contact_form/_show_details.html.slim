@@ -1,0 +1,68 @@
+section.channel-edit-section.channel-edit-card
+  .channel-edit-section__heading
+    .channel-edit-section__icon
+      = inline_svg_tag("setting.svg", aria: { hidden: true })
+    h2 = t("dashboard.contact_form_channels.form.appearance_section", default: "Appearance & Branding")
+  .channel-edit-section__body
+    dl.channel-show-details
+      .channel-show-details__item
+        dt = t("dashboard.contact_form_channels.form.theme_color_label", default: "Theme Color")
+        dd.channel-show-color
+          span style="background-color: #{channel_show_theme_color(channel)}" aria-hidden="true"
+          = channel_show_theme_color(channel)
+      .channel-show-details__item
+        dt = t("dashboard.contact_form_channels.form.position_label", default: "Form Alignment")
+        dd = channel_show_position_label(channel, default: "left")
+
+section.channel-edit-section.channel-edit-card
+  .channel-edit-section__heading.channel-edit-section__heading--with-description
+    .channel-edit-section__icon
+      = inline_svg_tag("fields.svg", aria: { hidden: true })
+    .channel-edit-section__heading-copy
+      h2 = t("dashboard.contact_form_channels.form.fields_section", default: "Form Fields")
+      p = t("dashboard.contact_form_channels.form.fields_desc", default: "Fields currently displayed on this contact form.")
+  .channel-edit-section__body
+    - if channel.custom_field_resources.any?
+      dl.channel-show-details
+        - channel.custom_field_resources.includes(:custom_field).order(:position).each do |resource|
+          .channel-show-details__item
+            dt = resource.custom_field.key.titleize
+            dd
+              = t("dashboard.contact_form_channels.form.#{resource.custom_field.entity_type}_field", default: resource.custom_field.entity_type.titleize)
+              |  ·
+              = resource.required_override? ? t("dashboard.contact_form_channels.form.required_label", default: "Required") : t("dashboard.channels.show.optional", default: "Optional")
+              - field_width = resource.configurations["width"].to_s
+              |  · #{t("dashboard.contact_form_channels.form.#{field_width}_width", default: field_width.humanize)}
+    - else
+      p.channel-show-empty = t("dashboard.channels.show.no_custom_fields", default: "No custom fields have been added.")
+
+section.channel-edit-section.channel-edit-card
+  .channel-edit-section__heading.channel-edit-section__heading--with-description
+    .channel-edit-section__icon
+      = inline_svg_tag("code_snipet.svg", aria: { hidden: true })
+    .channel-edit-section__heading-copy
+      h2 = t("dashboard.channels.show.installation", default: "Installation & Embed")
+      p = t("dashboard.channels.show.contact_form_installation_description", default: "Add this script where the support request form should appear.")
+  .channel-edit-section__body
+    .channel-edit-copy data-controller="clipboard"
+      label = t("dashboard.channels.show.embed_code", default: "Embed Code")
+      .channel-edit-copy__control
+        input type="text" value=channel_overview_embed_code(channel, current_account) readonly=true data-clipboard-target="source"
+        button.channel-edit-copy__button type="button" data-action="click->clipboard#copy" data-clipboard-target="button"
+          = inline_svg_tag("copy.svg", aria: { hidden: true })
+          span = t("general.copy")
+
+section.channel-edit-section.channel-edit-card
+  .channel-edit-section__heading
+    .channel-edit-section__icon
+      = inline_svg_tag("t_users.svg", aria: { hidden: true })
+    h2 = t("ui.dashboard.channels.contact_form.form.translations", default: "Translations")
+  .channel-edit-section__body
+    - if channel.translations.any?
+      dl.channel-show-details
+        - channel.translations.each do |translation|
+          .channel-show-details__item
+            dt = I18n.t("languages.#{translation.locale.to_s.downcase}", default: translation.locale.to_s.upcase)
+            dd = translation.title.presence || translation.subtitle.presence || t("general.configured", default: "Configured")
+    - else
+      p.channel-show-empty = t("dashboard.channels.show.no_translations", default: "No additional translations configured.")

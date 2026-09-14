@@ -6,6 +6,10 @@ module Dashboard
       authorized?("inboxes.read", feature: "channels.web_widget")
     end
 
+    def show?
+      index?
+    end
+
     def new?
       create?
     end

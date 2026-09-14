@@ -3,7 +3,7 @@
 module Dashboard
   module Channels
     class ContactFormController < DashboardController
-    before_action :set_contact_form_channel, only: %i[edit update destroy]
+    before_action :set_contact_form_channel, only: %i[show edit update destroy]
     before_action :authorize_contact_form_channel
 
     def index
@@ -11,6 +11,8 @@ module Dashboard
         Channel::ContactForm.where(account: current_account).includes(:inboxes).order(created_at: :desc)
       end
     end
+
+    def show; end
 
     def new
       @contact_form_channel = Channel::ContactForm.new

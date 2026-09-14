@@ -8,7 +8,7 @@ module Dashboard
       skip_before_action :authenticate_user!, only: [ :callback ]
       skip_before_action :ensure_subdomain_for_account, only: [ :callback ]
       skip_before_action :enforce_active_subscription, only: [ :callback ]
-      before_action :set_facebook_channel, only: %i[edit update destroy reconnect]
+      before_action :set_facebook_channel, only: %i[show edit update destroy reconnect]
       before_action :authorize_facebook_channel, except: [ :callback ]
 
       def index
@@ -16,6 +16,8 @@ module Dashboard
           Channel::FacebookPage.where(account: current_account).includes(:inboxes).order(created_at: :desc)
         end
       end
+
+      def show; end
 
       def new
         @facebook_channel = Channel::FacebookPage.new

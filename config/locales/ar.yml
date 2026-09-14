@@ -232,32 +232,6 @@ ar:
       available: "متاح"
       all_workspaces: "جميع مساحات العمل"
       settings:
-        general:
-          title: الإعدادات العامة
-          description: إدارة هوية مساحة العمل والموقع الجغرافي وإعدادات دورة الحياة.
-          workspace_details: تفاصيل مساحة العمل
-          name_label: اسم مساحة العمل
-          subdomain_label: النطاق الفرعي لمساحة العمل
-          timezone_label: المنطقة الزمنية
-          locale_label: اللغة
-          danger_zone: منطقة الخطر
-          delete_workspace_title: حذف مساحة العمل
-          delete_workspace_desc: طلب حذف مساحة العمل هذه. سيتم إلغاء تنشيط مساحة العمل فوراً وإلغاء اشتراكات الفوترة. بمجرد طلب الحذف، ستفقد الأجهزة النشطة والجلسات ورموز API بشكل دائم. سيقوم أعضاء الفريق بمراجعة الحساب وإجراء عمليات تحقق يدوية، ثم حذف القنوات وبيانات مساحة العمل نهائياً.
-          request_deletion_btn: حذف مساحة العمل هذه
-          owner_only_notice: يمكن لمالك مساحة العمل فقط طلب حذف مساحة العمل.
-          confirm_deletion_title: تأكيد حذف مساحة العمل
-          modal_warning_title: "تحذير: إلغاء تنشيط فوري وتحقق يدوي"
-          modal_warning_desc: يؤدي حذف مساحة العمل هذه إلى إلغاء تنشيطها فوراً. بمجرد طلب الحذف، ستفقد الأجهزة النشطة والجلسات ورموز الوصول إلى API نهائياً. سيتم إلغاء الاشتراكات النشطة وتعطيل النطاقات المخصصة. سيقوم أعضاء الفريق بمراجعة الحساب وإجراء عمليات تحقق يدوية، ثم حذف القنوات وصناديق الوارد وبيانات مساحة العمل نهائياً.
-          confirm_subdomain_prompt_html: "اكتب النطاق الفرعي لمساحة العمل %{identifier} للتأكيد:"
-          confirm_delete_btn: أفهم ذلك، احذف مساحة العمل هذه
-          notices:
-            updated: تم تحديث إعدادات مساحة العمل بنجاح.
-            deletion_requested: تم طلب حذف مساحة العمل. تم إلغاء تنشيط مساحة العمل.
-          alerts:
-            owner_only: يمكن لمالك مساحة العمل فقط طلب الحذف.
-            incorrect_password: كلمة المرور غير صحيحة. تم إلغاء حذف مساحة العمل.
-            identifier_mismatch: تأكيد معرف مساحة العمل غير متطابق.
-            unauthorized: ليس لديك الصلاحية لتنفيذ هذا الإجراء.
         back_to_dashboard: العودة إلى لوحة التحكم
         title: "الإعدادات"
         home: "الرئيسية"
@@ -289,6 +263,10 @@ ar:
     settings_index:
       all: "جميع القنوات"
       all_desc: "إدارة جميع القنوات هنا."
+      general: "الإعدادات العامة"
+      general_desc: "تفاصيل مساحة العمل والمنطقة الزمنية ودورة الحياة."
+      customers: "العملاء"
+      customers_desc: "إدارة جميع العملاء."
       title: "الرئيسية"
       workspace: "مساحة العمل"
       billing: "الفواتير"
@@ -357,6 +335,15 @@ ar:
       email_templates: "قوالب البريد الإلكتروني"
       email_templates_desc: "تحرير أو إنشاء أو تصدير أو حذف قوالب البريد الإلكتروني الخاصة بك."
     channels_overview:
+      types:
+        email: "البريد الإلكتروني"
+        web_widget: "أداة الويب"
+        contact_form: "نموذج الاتصال"
+        facebook: "فيسبوك"
+        instagram: "إنستغرام"
+        whatsapp: "واتساب"
+        custom: "مخصص"
+      view_details: "عرض"
       title: "القنوات"
       description: "إدارة جميع قنوات الاتصال المتصلة الخاصة بك."
       add_channel: "إضافة قناة جديدة"
@@ -2045,6 +2032,73 @@ ar:
         delete: "حذف"
         delete_confirm: "هل أنت متأكد؟"
     channels:
+      show:
+        allowed_domains: "النطاقات المسموح بها"
+        anonymous_visitors: "الزوار المجهولون"
+        appearance_description: "المظهر الحالي لمشغّل الدردشة وأصول العلامة التجارية المخصصة."
+        approved_templates: "القوالب المعتمدة"
+        attachments: "المرفقات"
+        auto_assignment: "التعيين التلقائي"
+        awaiting_verification: "بانتظار التحقق"
+        back: "العودة إلى قنوات %{type}"
+        business_account_id: "معرف حساب الأعمال"
+        channel_type: "نوع القناة"
+        configuration: "إعدادات القناة"
+        confirmation_email: "رسالة التأكيد الإلكترونية"
+        connection_method: "طريقة الاتصال"
+        contact_form_installation_description: "أضف هذا البرنامج النصي في المكان الذي يجب أن يظهر فيه نموذج طلب الدعم."
+        contact_form_preview: "معاينة نموذج الاتصال"
+        contact_form_preview_description: "شاهد كيف يظهر هذا النموذج للعملاء."
+        csat_status: "استبيان رضا العملاء"
+        custom_branding: "علامة تجارية مخصصة"
+        custom_integration_description: "نقاط النهاية العامة المستخدمة لتبادل الرسائل مع تكاملك."
+        default_locale: "اللغة الافتراضية"
+        description: "راجع اتصال %{type} هذا وإعدادات صندوق الوارد الخاص به."
+        description_label: "الوصف"
+        disconnect_description: "سيؤدي قطع اتصال قناة %{type} هذه إلى إزالة صندوق الوارد وإيقاف الرسائل الجديدة. سيتم الاحتفاظ بالمحادثات الحالية."
+        edit: "تحرير القناة"
+        email_address: "عنوان البريد الإلكتروني"
+        email_forwarding: "إعادة توجيه البريد الإلكتروني"
+        email_forwarding_description: "أعد توجيه رسائل الدعم الواردة إلى عنوان Deskbolic هذا."
+        embed_code: "رمز التضمين"
+        embedded_contact_form: "نموذج اتصال مضمن"
+        embedded_signup: "التسجيل المضمن من Meta"
+        forwarding_address: "عنوان إعادة التوجيه"
+        forwarding_status: "حالة إعادة التوجيه"
+        help_center_enabled: "مركز المساعدة"
+        identifier: "المعرّف"
+        inbox_name: "اسم صندوق الوارد"
+        incoming_webhook: "نقطة نهاية Webhook الواردة"
+        installation: "التثبيت والتضمين"
+        instagram_id: "معرف حساب إنستغرام"
+        last_synced: "آخر مزامنة"
+        live_preview: "معاينة مباشرة"
+        login_required: "تسجيل الدخول مطلوب"
+        mail_servers: "تفاصيل خوادم البريد"
+        manual_setup: "إعداد يدوي"
+        no_custom_fields: "لم تتم إضافة أي حقول مخصصة."
+        no_translations: "لم تتم تهيئة ترجمات إضافية."
+        optional: "اختياري"
+        outbound_channel: "القناة الصادرة"
+        phone_number: "رقم الهاتف"
+        phone_number_id: "معرف رقم الهاتف"
+        positions:
+          left: "يسار"
+          center: "وسط"
+          right: "يمين"
+        pre_chat_form: "نموذج ما قبل المحادثة"
+        reauthorization_description: "أعد توصيل هذه القناة لاستعادة الرسائل الواردة والصادرة."
+        reauthorization_required: "إعادة التفويض مطلوبة"
+        receiving_address: "عنوان الاستلام"
+        reconnect: "إعادة الاتصال"
+        redirect_url: "رابط إعادة التوجيه بعد النجاح"
+        reopen_window: "مهلة إعادة فتح المحادثة"
+        routing_and_service: "التوجيه والخدمة"
+        routing_description: "ساعات العمل وأهداف الاستجابة لصندوق الوارد هذا."
+        secure_identity: "هوية آمنة"
+        spam_protection: "الحماية من الرسائل المزعجة"
+        verified: "تم التحقق"
+        whatsapp_webhook_description: "استخدم نقطة النهاية العامة هذه عند مراجعة القناة في Meta."
       edit:
         active: "نشط"
         add_header: "إضافة رأس"
@@ -2115,6 +2169,86 @@ ar:
           edit: "تعديل"
           delete: "حذف"
           confirm_delete: "هل أنت متأكد؟"
+    customers:
+      unknown: "عميل غير معروف"
+      types:
+        guest: "زائر"
+        customer: "عميل"
+      genders:
+        male: "ذكر"
+        female: "أنثى"
+      identity_types:
+        custom_api: "واجهة API مخصصة"
+        facebook: "فيسبوك"
+        instagram: "إنستغرام"
+        whatsapp: "واتساب"
+        web_widget: "أداة الويب"
+      fields:
+        name: "الاسم"
+        first_name: "الاسم الأول"
+        middle_name: "الاسم الأوسط"
+        last_name: "اسم العائلة"
+        display_name: "اسم العرض"
+        email: "البريد الإلكتروني"
+        phone: "الهاتف"
+        username: "اسم المستخدم"
+        locale: "اللغة"
+        type: "نوع العميل"
+        gender: "الجنس"
+        date_of_birth: "تاريخ الميلاد"
+        identifier: "المعرّف"
+        external_id: "المعرف الخارجي"
+        source: "المصدر"
+        verified_on: "تاريخ الإضافة"
+        created: "تاريخ الإنشاء"
+        last_activity: "آخر نشاط"
+      index:
+        title: "العملاء"
+        description: "اعرض وأدر كل عميل تواصل مع مساحة عملك."
+        search_placeholder: "البحث عن العملاء..."
+        filter_by_channel: "التصفية حسب القناة"
+        all_channels: "كل القنوات"
+        sort_customers: "ترتيب العملاء"
+        sort_newest: "الأحدث أولاً"
+        sort_oldest: "الأقدم أولاً"
+        sort_name: "الاسم أ–ي"
+        customer: "العميل"
+        contact: "معلومات الاتصال"
+        channels: "القنوات"
+        last_activity: "آخر نشاط"
+        joined: "تاريخ الانضمام"
+        actions: "الإجراءات"
+        no_channels: "لا توجد قنوات"
+        ago: "منذ %{time}"
+        show: "عرض"
+        edit: "تحرير"
+        no_matching: "لا يوجد عملاء مطابقون"
+        try_another_filter: "جرّب بحثاً أو عامل تصفية قناة مختلفاً."
+        empty_title: "لا يوجد عملاء بعد"
+        empty_description: "سيظهر العملاء هنا بعد تواصلهم مع مساحة عملك."
+      show:
+        back: "العودة إلى العملاء"
+        description: "ملف العميل ونشاطه والقنوات المتصلة به."
+        edit: "تحرير العميل"
+        details: "تفاصيل العميل"
+        identities: "الهويات"
+        no_identities: "لا توجد هويات موثقة مرتبطة بهذا العميل."
+        channels: "القنوات المتصلة"
+        no_channels: "هذا العميل غير مرتبط بأي قناة."
+        activity: "النشاط"
+        conversations: "المحادثات"
+        last_activity: "آخر نشاط"
+      edit:
+        back: "العودة إلى العميل"
+        title: "تحرير العميل"
+        description: "حدّث معلومات هوية %{name}."
+        save: "حفظ التغييرات"
+        errors: "يرجى مراجعة الحقول المميزة."
+        identity: "الهوية"
+        identity_hint: "استخدم حقول الاسم التي تتطابق بشكل أفضل مع المعلومات التي قدمها العميل."
+        channel_count: "%{count} قناة"
+      flash:
+        updated: "تم تحديث العميل بنجاح."
     articles:
       search_placeholder: "بحث..."
       clear_search: "مسح البحث"
@@ -2469,6 +2603,7 @@ ar:
         mapped_attributes: "السمات المعينة:"
     settings:
       general:
+        name_placeholder: "دعم Acme"
         title: الإعدادات العامة
         description: إدارة هوية مساحة العمل والموقع الجغرافي وإعدادات دورة الحياة.
         workspace_details: تفاصيل مساحة العمل
@@ -2485,7 +2620,7 @@ ar:
         modal_warning_title: "تحذير: إلغاء تنشيط فوري وتحقق يدوي"
         modal_warning_desc: يؤدي حذف مساحة العمل هذه إلى إلغاء تنشيطها فوراً. بمجرد طلب الحذف، ستفقد الأجهزة النشطة والجلسات ورموز الوصول إلى API نهائياً. سيتم إلغاء الاشتراكات النشطة وتعطيل النطاقات المخصصة. سيقوم أعضاء الفريق بمراجعة الحساب وإجراء عمليات تحقق يدوية، ثم حذف القنوات وصناديق الوارد وبيانات مساحة العمل نهائياً.
         confirm_subdomain_prompt_html: "اكتب النطاق الفرعي لمساحة العمل %{identifier} للتأكيد:"
-        confirm_delete_btn: أفهم ذلك، احذف مساحة العمل هذه
+        confirm_delete_btn: حسناً، احذف.
         notices:
           updated: تم تحديث إعدادات مساحة العمل بنجاح.
           deletion_requested: تم طلب حذف مساحة العمل. تم إلغاء تنشيط مساحة العمل.
@@ -2950,6 +3085,13 @@ ar:
       urgent: "عاجل"
       use_system_default_design: "استخدم التصميم الافتراضي للنظام"
   general:
+    configured: "تمت التهيئة"
+    disabled: "معطّل"
+    enabled: "مفعّل"
+    never: "أبداً"
+    not_available: "غير متاح"
+    not_configured: "غير مهيأ"
+    validation_errors: "يرجى مراجعة تفاصيل مساحة العمل"
     activate: "تفعيل"
     add: "إضافة"
     ago: "منذ %{time}"

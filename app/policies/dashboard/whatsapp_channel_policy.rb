@@ -6,6 +6,10 @@ module Dashboard
       authorized?("inboxes.read", feature: "channels.whatsapp")
     end
 
+    def show?
+      index?
+    end
+
     def new?
       create?
     end

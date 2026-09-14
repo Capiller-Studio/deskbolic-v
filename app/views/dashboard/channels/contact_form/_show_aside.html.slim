@@ -1,0 +1,5 @@
+section.channel-show-preview.channel-edit-card
+  .channel-show-preview__heading
+    h2 = t("dashboard.channels.show.live_preview", default: "Live Preview")
+    p = t("dashboard.channels.show.contact_form_preview_description", default: "See how this form appears to customers.")
+  iframe src=channel_show_preview_url(channel, current_account) title=t("dashboard.channels.show.contact_form_preview", default: "Contact form preview") loading="lazy"

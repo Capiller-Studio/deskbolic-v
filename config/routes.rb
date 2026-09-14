@@ -120,7 +120,7 @@ Rails.application.routes.draw do
         end
       end
       namespace :channels do
-        resources :email, except: [ :show ] do
+        resources :email do
           member do
             post :test_smtp
             post :test_imap
@@ -128,10 +128,10 @@ Rails.application.routes.draw do
           end
         end
 
-        resources :web_widget, except: [ :show ]
-        resources :contact_form, except: [ :show ]
+        resources :web_widget
+        resources :contact_form
 
-        resources :facebook, except: [ :show ] do
+        resources :facebook do
           member do
             post :reconnect
           end
@@ -142,14 +142,14 @@ Rails.application.routes.draw do
           end
         end
 
-        resources :instagram, except: [ :show ] do
+        resources :instagram do
           collection do
             get :oauth_authorize
             get :callback
           end
         end
 
-        resources :whatsapp, except: [ :show ] do
+        resources :whatsapp do
           member do
             post :reconnect
             post :sync_templates
@@ -161,7 +161,7 @@ Rails.application.routes.draw do
           end
         end
 
-        resources :custom, except: [ :show ] do
+        resources :custom do
           member do
             post :test_outgoing_webhook
             post :test_incoming_webhook
@@ -195,6 +195,7 @@ Rails.application.routes.draw do
       resources :users, controller: "account_users", except: [ :show ] do
         get :search, on: :collection
       end
+      resources :customers, only: [ :index, :show, :edit, :update ]
       resources :invitations, controller: "account_invitations", except: [ :show ]
       resources :teams
       resources :custom_fields

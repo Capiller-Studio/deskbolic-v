@@ -37,17 +37,12 @@ export default class extends Controller {
   }
 
   nextEmailStep(event) {
-    
     event.preventDefault();
     const currentFs = event.currentTarget.closest("fieldset");
-    
-    let nextFs = currentFs.nextElementSibling;
-    while (nextFs && nextFs.style.display === 'none') {
-      nextFs = nextFs.nextElementSibling;
-    }
-    
+    const nextFs = currentFs.nextElementSibling;
+    if (!nextFs) return;
+
     nextFs.querySelectorAll("input").forEach(input => input.disabled = false);
-    // this.roleRadioTargets.forEach(radio => radio.dispatchEvent(new Event("change")));
     this.animateFieldset(currentFs, nextFs);
   }
 

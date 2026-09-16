@@ -1,79 +1,102 @@
-.email-joining-container.center-wrapper
-  .header
-    .logo
-      = image_tag("logo.png", alt: t("ui.dashboard.account_invitations.email_invitation.deskbolic_logo"))
-  = form_for(:user, url: accept_invite_path(token: @invitation.token), html: { method: :post, class: "js-form-wizard form-wizard needs-validation", novalidate: true, data: { turbo: false } }) do |f|
-    = hidden_field_tag :token, @invitation.token
+- content_for :body_class, "auth-themed-body auth-register-body auth-invitation-body"
+- content_for :themed_auth_layout, "true"
+- content_for :embedded_auth_locale_picker, "true"
 
-    fieldset style=(@existing_user.blank? && params[:user].present? ? "display: none;" : "")
-      .view-workspace-container
-        .joining-card
-          .logo
-            = image_tag("deskbolic_icon_v.png", alt: t("ui.dashboard.account_invitations.email_invitation.deskbolic_logo"))
+.auth-page.auth-page--register.auth-page--invitation
+  .form-section.auth-main
+    header.auth-header
+      = link_to root_path, class: "auth-logo", aria: { label: "Deskbolic" } do
+        = image_tag "logo.png", alt: "Deskbolic"
+      - if @existing_user.blank?
+        = link_to t("auth.login.submit"), new_user_session_path, class: "auth-secondary-button"
+
+    = form_for(:user, url: accept_invite_path(token: @invitation.token), html: { method: :post, class: "auth-register-form auth-invitation-form", novalidate: true, data: { turbo: false, controller: "form-wizard" } }) do |f|
+      = hidden_field_tag :token, @invitation.token
+
+      fieldset.auth-invitation-step--overview style=(@existing_user.blank? && params[:user].present? ? "display: none;" : "")
+        .set-header
+          h2 = t("auth.workspace.email_invitation.title")
           p = t("auth.workspace.email_invitation.description")
-          .joining-sub-container
-            .joining-sub-card
-              .joining-header
-                = image_tag("email_join_icon.png", class: "community-logo", alt: t("ui.dashboard.account_invitations.email_invitation.email_joining_icon"))
-                .community-details
-                  p.workspace-name = @account.name
-                  - if @role_names.any?
-                    p.members = t("auth.workspace.email_invitation.members", count: @role_names.length)
-              p.description = t("auth.workspace.email_invitation.description")
-              - if @existing_user.present?
-                button.join-btn type="submit"
-                  = t("auth.workspace.email_invitation.join_button")
-              - else
-                button.join-btn type="button" onclick="this.closest('form').querySelectorAll('fieldset').forEach(function(fs, i){ if(i===1) fs.style.display='block'; else fs.style.display='none'; });"
-                  = t("auth.workspace.email_invitation.join_button")
 
-    - if @existing_user.blank?
-      fieldset style=(params[:user].present? ? "" : "display: none;")
-        .join-workspace-container
-          .joining-card
-            = image_tag("email_join_icon.png", alt: t("ui.dashboard.account_invitations.email_invitation.community_icon"), class: "community-logo")
-            p.title = @account.name
-            - if @role_names.any?
-              p.members = t("auth.workspace.email_invitation.members", count: @role_names.length)
-            .header-line
-              p = t("auth.workspace.email_invitation.joining_header")
-              p.workspace = t("auth.workspace.email_invitation.workspace_name")
-            .form-fields
-              .name
-                .form-floating
-                  = f.label :first_name, t("auth.workspace.email_invitation.form.first_name"), class: "f-semi-14 form-label"
-                  = f.text_field :first_name, autofocus: true, class: "f-reg-14 form-control", placeholder: t("auth.workspace.email_invitation.form.first_name"), required: true
-                .form-floating
-                  = f.label :last_name, t("auth.workspace.email_invitation.form.last_name"), class: "f-semi-14 form-label"
-                  = f.text_field :last_name, class: "f-reg-14 form-control", placeholder: t("auth.workspace.email_invitation.form.last_name"), required: true
-              .form-floating
-                = f.label :email, t("auth.workspace.email_invitation.form.email"), class: "f-semi-14 form-label"
-                = f.email_field :email, class: "f-reg-14 form-control", placeholder: t("auth.workspace.email_invitation.form.email"), readonly: true, value: @invitation.email
-              div data-controller="password-strength" data-password-strength-match-message-value=t("auth.password_match") data-password-strength-mismatch-message-value=t("auth.password_mismatch")
-                .password-section.name
-                  .form-floating
-                    = f.label :password, t("auth.workspace.email_invitation.form.password"), class: "f-semi-14 form-label"
-                    = f.password_field :password, class: "f-reg-14 form-control", required: true, data: { password_strength_target: "password", action: "input->password-strength#validatePassword input->password-strength#validateConfirmation" }, placeholder: "••••••••"
-                  .form-floating
-                    = label_tag :confirm_password, t("auth.workspace.email_invitation.form.confirm_password"), class: "f-semi-14 form-label"
-                    = password_field_tag :confirm_password, "", class: "f-reg-14 form-control", required: true, data: { password_strength_target: "confirmation", action: "input->password-strength#validateConfirmation" }, placeholder: "••••••••"
-                    p data-password-strength-target="matchStatus" style="font-size: 12px; margin-top: 4px;"
-                .password-rules style="margin-top: 15px; margin-bottom: 20px; font-size: 13px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;"
-                  div data-password-strength-target="ruleLength" style="color: #9ca3af; display: flex; align-items: center; gap: 6px; transition: color 0.3s;"
-                    svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"
-                      path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"
-                    span = t("auth.password_rules.length")
-                  div data-password-strength-target="ruleUpper" style="color: #9ca3af; display: flex; align-items: center; gap: 6px; transition: color 0.3s;"
-                    svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"
-                      path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"
-                    span = t("auth.password_rules.uppercase")
-                  div data-password-strength-target="ruleNumber" style="color: #9ca3af; display: flex; align-items: center; gap: 6px; transition: color 0.3s;"
-                    svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"
-                      path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"
-                    span = t("auth.password_rules.number")
-                  div data-password-strength-target="ruleSpecial" style="color: #9ca3af; display: flex; align-items: center; gap: 6px; transition: color 0.3s;"
-                    svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"
-                      path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"
-                    span = t("auth.password_rules.special")
-              .actions
-                = f.submit t("auth.workspace.email_invitation.form.submit"), class: "f-semi-15 button", data: { password_strength_target: "submitButton" }
+        .auth-invitation-summary
+          .auth-invitation-workspace-identity
+            .auth-workspace-avatar aria-hidden="true"
+              = @account.name.first(2).upcase
+            .auth-invitation-workspace-copy
+              h3 = @account.name
+              - if @role_names.any?
+                p = t("auth.workspace.email_invitation.members", count: @role_names.length)
+
+          - if @existing_user.present?
+            button.cont-btn type="submit"
+              = t("auth.workspace.email_invitation.join_button")
+          - else
+            button.cont-btn type="button" data-action="click->form-wizard#nextEmailStep"
+              = t("auth.workspace.email_invitation.join_button")
+
+      - if @existing_user.blank?
+        fieldset.auth-invitation-step--details style=(params[:user].present? ? "" : "display: none;") data-controller="password-strength" data-password-strength-match-message-value=t("auth.password_match") data-password-strength-mismatch-message-value=t("auth.password_mismatch")
+          .set-header
+            h2 = t("auth.workspace.email_invitation.joining_header")
+            p = @account.name
+
+          .auth-invitation-workspace-banner
+            .auth-workspace-avatar aria-hidden="true"
+              = @account.name.first(2).upcase
+            .auth-invitation-workspace-copy
+              h3 = @account.name
+              - if @role_names.any?
+                p = t("auth.workspace.email_invitation.members", count: @role_names.length)
+
+          .form-fields
+            .name-section
+              .form-wrapper
+                = f.label :first_name, t("auth.workspace.email_invitation.form.first_name"), class: "form-label"
+                = f.text_field :first_name, autofocus: true, class: "form-control", placeholder: t("auth.workspace.email_invitation.form.first_name"), required: true
+              .form-wrapper
+                = f.label :last_name, t("auth.workspace.email_invitation.form.last_name"), class: "form-label"
+                = f.text_field :last_name, class: "form-control", placeholder: t("auth.workspace.email_invitation.form.last_name"), required: true
+
+            .form-wrapper
+              = f.label :email, t("auth.workspace.email_invitation.form.email"), class: "form-label"
+              = f.email_field :email, class: "form-control", placeholder: t("auth.workspace.email_invitation.form.email"), readonly: true, value: @invitation.email
+
+            .password-section
+              .form-wrapper
+                = f.label :password, t("auth.workspace.email_invitation.form.password"), class: "form-label"
+                = f.password_field :password, class: "form-control", required: true, data: { password_strength_target: "password", action: "input->password-strength#validatePassword input->password-strength#validateConfirmation" }, placeholder: "••••••••"
+                .auth-password-meter
+                  .auth-password-meter__fill data-password-strength-target="strengthMeter"
+              .form-wrapper
+                = label_tag :confirm_password, t("auth.workspace.email_invitation.form.confirm_password"), class: "form-label"
+                = password_field_tag :confirm_password, "", class: "form-control", required: true, data: { password_strength_target: "confirmation", action: "input->password-strength#validateConfirmation" }, placeholder: "••••••••"
+                p.auth-password-match data-password-strength-target="matchStatus"
+
+            .password-rules
+              div data-password-strength-target="ruleLength"
+                svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"
+                  path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"
+                span = t("auth.password_rules.length")
+              div data-password-strength-target="ruleUpper"
+                svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"
+                  path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"
+                span = t("auth.password_rules.uppercase")
+              div data-password-strength-target="ruleNumber"
+                svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"
+                  path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"
+                span = t("auth.password_rules.number")
+              div data-password-strength-target="ruleSpecial"
+                svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"
+                  path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"
+                span = t("auth.password_rules.special")
+
+            .registration-actions
+              = f.submit t("auth.workspace.email_invitation.form.submit"), class: "cont-btn", data: { password_strength_target: "submitButton" }
+
+    .auth-register-locale-row
+      = render("layouts/auth_locale_picker")
+
+  .image-section.auth-visual
+    = image_tag "register.png", class: "register-img", alt: t("ui.dashboard.registrations.new.graphic")
+    = image_tag "register-back.png", class: "back-img", alt: t("ui.dashboard.registrations.new.background")
+    p = t("auth.registration.marketing_text")

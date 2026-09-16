@@ -980,6 +980,8 @@ body.auth-themed-body {
 }
 
 .auth-page--register .password-rules {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   margin-top: 12px !important;
   margin-bottom: 2px !important;
   gap: 8px 16px !important;
@@ -987,9 +989,17 @@ body.auth-themed-body {
 }
 
 .auth-page--register .password-rules > div {
+  display: flex;
+  align-items: center;
   gap: 7px !important;
+  color: #9ca3af;
   font-size: 11px;
   line-height: 16px;
+  transition: color 300ms ease;
+}
+
+.auth-page--register .password-rules svg {
+  flex: 0 0 auto;
 }
 
 .auth-page--register .cont-btn {
@@ -1179,6 +1189,98 @@ body.auth-themed-body {
   padding-right: 14px;
   padding-left: 42px;
   background-position: left 14px center;
+}
+
+.auth-page--invitation .auth-invitation-form {
+  width: min(100%, 620px);
+}
+
+.auth-page--invitation .set-header h2 {
+  font-size: clamp(24px, 1.9vw, 29px);
+}
+
+.auth-page--invitation .auth-invitation-summary {
+  overflow: hidden;
+  border: 1px solid var(--auth-border);
+  border-radius: 16px;
+  background: linear-gradient(145deg, #ffffff 0%, #f8f9ff 100%);
+  padding: 22px;
+  box-shadow: 0 14px 34px rgba(35, 43, 78, 0.07);
+}
+
+.auth-page--invitation .auth-invitation-workspace-identity,
+.auth-page--invitation .auth-invitation-workspace-banner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.auth-page--invitation .auth-invitation-workspace-banner {
+  margin-bottom: 24px;
+  border: 1px solid var(--auth-border);
+  border-radius: 14px;
+  background: var(--auth-brand-soft);
+  padding: 15px;
+}
+
+.auth-page--invitation .auth-invitation-workspace-copy {
+  min-width: 0;
+}
+
+.auth-page--invitation .auth-invitation-workspace-copy h3 {
+  overflow: hidden;
+  margin: 0 0 3px;
+  color: var(--auth-ink);
+  font-family: $font-family-inter-semibold;
+  font-size: 16px;
+  line-height: 22px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.auth-page--invitation .auth-invitation-workspace-copy p {
+  margin: 0;
+  color: var(--auth-muted);
+  font-family: $font-family-inter-regular;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.auth-page--invitation .auth-invitation-summary .cont-btn {
+  margin-top: 20px;
+}
+
+.auth-page--invitation .form-control[readonly] {
+  background: #f1f4fb;
+  color: #555f74;
+}
+
+.auth-page--invitation .auth-password-meter {
+  height: 4px;
+  overflow: hidden;
+  margin-top: 10px;
+  border-radius: 999px;
+  background: #e9ebf1;
+}
+
+.auth-page--invitation .auth-password-meter__fill {
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  transition: width 300ms ease, background-color 300ms ease;
+}
+
+.auth-page--invitation .auth-password-match {
+  min-height: 16px;
+  margin-top: 8px;
+  font-family: $font-family-inter-regular;
+  font-size: 11px;
+  line-height: 16px;
+}
+
+[dir="rtl"] .auth-page--invitation .auth-invitation-workspace-identity,
+[dir="rtl"] .auth-page--invitation .auth-invitation-workspace-banner {
+  text-align: right;
 }
 
 body.auth-themed-body .auth-locale-picker {
@@ -1409,6 +1511,15 @@ body.auth-themed-body .auth-locale-picker {
     box-shadow: 0 18px 55px rgba(35, 43, 78, 0.08);
   }
 
+  .auth-page--invitation .auth-invitation-form {
+    width: min(100%, 620px);
+  }
+
+  .auth-page--invitation .auth-invitation-form:has(> .auth-invitation-step--overview:not([style*="display: none"])) {
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+
   .auth-page--register .auth-main,
   .auth-page--workspaces .auth-main {
     padding-bottom: 28px;
@@ -1439,6 +1550,10 @@ body.auth-themed-body .auth-locale-picker {
 
   .auth-page--register .auth-register-locale-row {
     width: min(100%, 650px);
+  }
+
+  .auth-page--invitation .auth-register-locale-row {
+    width: min(100%, 620px);
   }
 
   .auth-page--workspaces .auth-workspace-locale-row {
@@ -1493,10 +1608,18 @@ body.auth-themed-body .auth-locale-picker {
     font-size: 25px;
   }
 
+  .auth-page--invitation .set-header h2 {
+    font-size: 23px;
+  }
+
   .auth-page--register .name-section,
   .auth-page--register .password-section {
     grid-template-columns: 1fr;
     gap: 16px;
+  }
+
+  .auth-page--invitation .auth-invitation-summary {
+    padding: 20px;
   }
 
   .auth-page .auth-card-header {

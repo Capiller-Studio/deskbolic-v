@@ -4,6 +4,7 @@ fr:
       already_confirmed: "a déjà été confirmée. Veuillez essayer de vous connecter"
       blank: "ne peut pas être vide"
       not_found: "est introuvable"
+      invalid_url: "n'est pas une URL valide (doit commencer par http:// ou https://)"
   languages:
     en: Anglais
     fr: Français
@@ -234,6 +235,7 @@ fr:
         billing: Facturation et abonnement
         notifications: Notifications
         audit_logs: Journaux d'audit
+        sso: Authentification unique (SSO)
         help_center: Centre d'aide
         help_center_articles: Centre d'aide
         all_help_centers: Tous les centres d'aide
@@ -920,6 +922,7 @@ fr:
         imap_configured: IMAP actif
         imap_not_configured: IMAP désactivé
         forwarding_verified: Vérifié
+        verified_notice: "Domaine \x27%{domain}\x27 vérifié avec succès ! Il est désormais actif pour le SSO."
         forwarding_pending: En attente
         inboxes_count:
           one: Boîte de réception %{count}
@@ -2660,6 +2663,90 @@ fr:
           incorrect_password: "Mot de passe incorrect. Suppression de l'espace de travail annulée."
           identifier_mismatch: "La confirmation de l'identifiant de l'espace de travail ne correspond pas."
           unauthorized: "Vous n'êtes pas autorisé à effectuer cette action."
+      sso:
+        title: Authentification unique (SSO) & Synchronisation d'annuaire
+        description: Configurez l'authentification d'entreprise SAML 2.0 ou OIDC, vérifiez la propriété du domaine et gérez le provisionnement automatisé des utilisateurs.
+        sp_endpoints_title: Métadonnées du fournisseur de services (SP) Deskbolic
+        sp_endpoints_desc: Utilisez ces valeurs lors de la configuration de Deskbolic dans Okta, Azure AD, Google Workspace ou Ping Identity.
+        acs_url_label: URL du service consommateur d'assertions (ACS) / URL SSO
+        entity_id_label: ID d'entité SP / URI d'audience
+        metadata_url_label: URL XML des métadonnées SP
+        config_title: Configuration du fournisseur d'identité (IdP)
+        config_desc: Saisissez les identifiants et paramètres fournis par votre fournisseur d'identité d'entreprise.
+        status_active: Actif
+        status_test_mode: Mode test
+        status_inactive: Inactif
+        protocol_label: Protocole d'authentification
+        provider_label: Type de fournisseur d'identité
+        status_label: État de fonctionnement SSO
+        default_role_label: Rôle par défaut pour les nouveaux utilisateurs (JIT)
+        select_role: Sélectionner un rôle par défaut...
+        saml_settings_heading: Identifiants du fournisseur d'identité SAML 2.0
+        oidc_settings_heading: Identifiants OpenID Connect (OIDC)
+        oidc_issuer_label: Émetteur OIDC / URL de découverte
+        oidc_client_id_label: ID client OIDC
+        oidc_client_secret_label: Secret client OIDC
+        oidc_client_secret_help: Laisser vide pour conserver le secret existant.
+        idp_entity_id_label: ID d'entité IdP / URL de l'émetteur
+        idp_sso_url_label: URL d'authentification unique (SSO)
+        idp_slo_url_label: URL de déconnexion unique (SLO) (Optionnel)
+        certificates_label: Certificat(s) de signature publique X.509 (format PEM)
+        certificates_help: Collez votre certificat X.509 au format PEM. Pour une rotation sans interruption, collez plusieurs certificats séparés par des lignes vides.
+        cert_expires_warning: Le certificat expire le %{date}
+        cert_expires_ok: Valide jusqu'au %{date}
+        security_policies_heading: Politiques de sécurité & de provisionnement
+        allowed_domains_label: Domaines de messagerie autorisés (domaines d'entreprise)
+        allowed_domains_help: Liste séparée par des virgules des domaines déclenchant le SSO d'entreprise. Les domaines doivent être vérifiés.
+        session_timeout_label: Délai d'expiration de session (heures)
+        session_timeout_help: Imposer une réauthentification périodique. Laissez vide pour la politique standard.
+        enforce_sso_label: Imposer le SSO pour tous les membres de l'espace
+        enforce_sso_desc: Lorsque activé, la connexion par mot de passe sera totalement désactivée pour les utilisateurs des domaines d'entreprise autorisés.
+        jit_provisioning_label: Provisionnement d'utilisateurs Just-In-Time (JIT)
+        jit_provisioning_desc: Créer automatiquement un compte agent lorsqu'un employé autorisé se connecte via SSO pour la première fois.
+        break_glass_label: Contournement d'urgence pour le propriétaire
+        break_glass_desc: Permet au propriétaire de se connecter par mot de passe via '?bypass_sso=true' si votre IdP ou certificat est mal configuré.
+        audit_log_title: Journaux d'audit d'authentification récents
+        audit_log_desc: Journal de sécurité en temps réel des connexions, créations JIT, changements de politique et contournements.
+        log_event: Événement
+        log_method: Méthode
+        log_user: Utilisateur / E-mail
+        log_status: Statut
+        log_ip: Adresse IP
+        log_timestamp: Horodatage
+        no_logs: Aucun journal d'audit d'authentification enregistré pour le moment.
+        updated: Paramètres d'authentification unique mis à jour avec succès.
+        plan_required: Enterprise SSO est disponible sur le forfait Parabolic. Veuillez mettre à niveau votre abonnement.
+      domains:
+        verification_title: Vérification de propriété du domaine (DNS TXT)
+        verification_desc: Prouvez la propriété de vos domaines de messagerie d'entreprise avant de router les connexions via SSO.
+        add_domain_btn: Ajouter un domaine
+        domain: Domaine
+        status: Statut
+        dns_record: Enregistrement DNS TXT requis
+        verified: Vérifié
+        failed: Échec de la vérification
+        pending: En attente de vérification
+        verify_now: Vérifier maintenant
+        delete_confirm: Êtes-vous sûr de vouloir supprimer ce domaine ?
+        no_domains: Aucun domaine ajouté. Ajoutez votre domaine d'entreprise ci-dessus pour vérifier la propriété.
+        added: Domaine ajouté. Veuillez configurer l'enregistrement DNS TXT pour vérifier la propriété.
+        removed: Domaine supprimé avec succès.
+        verification_failed: "La vérification a échoué : %{reason}"
+      scim:
+        title: Synchronisation d'annuaire SCIM 2.0
+        desc: Provisionnez, mettez à jour et déprovisionnez automatiquement des utilisateurs depuis Okta ou Azure AD via le standard RFC 7644 SCIM.
+        generate_token_btn: Générer un jeton SCIM
+        base_url_label: URL de base SCIM 2.0
+        token_name: Nom de l'intégration
+        last_used: Dernière utilisation
+        created_at: Créé le
+        revoke: Révoquer
+        revoke_confirm: Révoquer ce jeton SCIM ? Okta/Azure AD perdra immédiatement l'accès de synchronisation.
+        no_tokens: Aucun jeton SCIM actif. Générez un jeton pour connecter le provisionnement Okta ou Azure AD.
+        new_token_created: Jeton d'API SCIM généré avec succès
+        copy_warning: Copiez votre jeton dès maintenant. Pour des raisons de sécurité, ce jeton ne sera plus affiché.
+        created: Jeton SCIM créé ! Copiez votre jeton secret maintenant — il ne sera plus affiché.
+        revoked: Jeton SCIM révoqué.
       integrations:
         index:
           title: Intégrations
@@ -3024,6 +3111,7 @@ fr:
           Veuillez mettre à niveau votre abonnement.
         limit_reached: Limite de %{resource} atteinte pour votre forfait. Veuillez
           mettre à niveau votre abonnement.
+        invalid_url: "n'est pas une URL valide (doit commencer par http:// ou https://)"
       models: {}
   auth:
     workspace:
@@ -3074,6 +3162,11 @@ fr:
       submit: Connectez-vous
       remember_me: Souviens-toi de moi
       forgot_password: Mot de passe oublié ?
+      continue_with_google: Continuer avec Google
+      continue_with_facebook: Continuer avec Facebook
+      or_email: ou continuer avec l'e-mail
+      continue_with_sso: Authentification unique (SSO)
+      sign_in_with_sso: Se connecter avec SSO
       create_account: Créer un compte
       resend_confirmation: Vous n'avez pas reçu d'instructions de confirmation ?
       existing_account: Vous avez déjà un compte ? Se connecter
@@ -3123,6 +3216,19 @@ fr:
       registered_title: Bienvenue !
       registered_message: Votre compte a été créé avec succès.
       back_to_login: Continuer à vous connecter
+    sso:
+      not_configured: L'authentification unique n'est pas configurée ou active pour cette organisation.
+      missing_response: Réponse SSO non valide reçue du fournisseur d'identité.
+      inactive: Le SSO est inactif ou non configuré pour ce compte.
+      verification_failed: "L'authentification SSO a échoué : %{reason}"
+      provisioning_failed: "Impossible de provisionner le compte : %{reason}"
+      success: Connexion réussie via authentification unique.
+      enforced_notice: "L'authentification unique est requise pour %{account}. Veuillez vous connecter avec SSO."
+      bypass_denied: Le contournement d'urgence par mot de passe est réservé aux propriétaires du compte.
+    social:
+      missing_auth: Données d'authentification non reçues du fournisseur.
+      failure: "Impossible de s'authentifier via connexion sociale : %{message}"
+      error: "L'authentification a échoué : %{message}"
   activities:
     account:
       deletion_requested: La suppression du compte a été demandée

@@ -1,0 +1,413 @@
+= render("dashboard/settings/settings_sidebar", current_page: "sso") do
+  .ui-settings-page.ui-sso-page
+    header.ui-settings-page__header
+      .ui-settings-page__heading
+        h1 = t("dashboard.settings.sso.title", default: "Single Sign-On (SSO) & Directory Sync")
+        p = t("dashboard.settings.sso.description", default: "Configure enterprise SAML 2.0 or OIDC authentication, verify domain ownership, and manage automated user provisioning.")
+
+      .ui-settings-page__actions
+        button.ui-settings-page__action type="submit" form="sso-config-form"
+          = t("general.save_changes", default: "Save Configuration")
+
+    main.ui-settings-page__content
+      / New SCIM Token Alert Flash
+      - if flash[:new_scim_token].present?
+        .ui-alert.ui-alert--success style="background-color: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 8px; padding: 16px; margin-bottom: 24px;"
+          .ui-alert__header style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;"
+            strong style="color: #065f46; font-size: 15px;"
+              | 🎉 #{t("dashboard.settings.scim.new_token_created", default: "SCIM API Token Generated Successfully")}
+          p style="color: #047857; font-size: 13px; margin-bottom: 12px;"
+            = t("dashboard.settings.scim.copy_warning", default: "Copy your bearer token now. For security reasons, this token will not be shown again.")
+          .channel-edit-copy data-controller="clipboard"
+            .channel-edit-copy__control
+              input type="text" value=flash[:new_scim_token] readonly=true aria-label="SCIM Token" data-clipboard-target="source" style="font-family: monospace; font-size: 13px; background: white;"
+              button.channel-edit-copy__button type="button" data-action="click->clipboard#copy" data-clipboard-target="button" aria-label=t("general.copy")
+                = inline_svg_tag("copy.svg", aria: { hidden: true })
+                span = t("general.copy", default: "Copy Token")
+
+      / Service Provider Details for IdP Setup
+      article.ui-card style="margin-bottom: 24px;"
+        .ui-card-top
+          .ui-card-info
+            .ui-domain-section__icon aria-hidden="true"
+              = inline_svg_tag("world.svg")
+            div
+              h3.f-semi-16 = t("dashboard.settings.sso.sp_endpoints_title", default: "Deskbolic Service Provider (SP) Metadata")
+              p.f-reg-13 style="color: #6b7280; margin-top: 2px;"
+                = t("dashboard.settings.sso.sp_endpoints_desc", default: "Use these values when configuring Deskbolic in Okta, Azure AD, Google Workspace, or Ping Identity.")
+
+        .ui-stack style="margin-top: 16px; display: flex; flex-direction: column; gap: 14px;"
+          div
+            label.profile-field-label style="font-weight: 600; font-size: 12px; color: #374151; margin-bottom: 4px; display: block;"
+              = t("dashboard.settings.sso.acs_url_label", default: "Assertion Consumer Service (ACS) URL / Single Sign-On URL")
+            .channel-edit-copy data-controller="clipboard"
+              .channel-edit-copy__control
+                input type="text" value=@sp_acs_url readonly=true data-clipboard-target="source" style="font-family: monospace; font-size: 13px; background: #f9fafb;"
+                button.channel-edit-copy__button type="button" data-action="click->clipboard#copy" data-clipboard-target="button"
+                  = inline_svg_tag("copy.svg", aria: { hidden: true })
+                  span = t("general.copy", default: "Copy")
+
+          div
+            label.profile-field-label style="font-weight: 600; font-size: 12px; color: #374151; margin-bottom: 4px; display: block;"
+              = t("dashboard.settings.sso.entity_id_label", default: "SP Entity ID / Audience URI")
+            .channel-edit-copy data-controller="clipboard"
+              .channel-edit-copy__control
+                input type="text" value=@sp_entity_id readonly=true data-clipboard-target="source" style="font-family: monospace; font-size: 13px; background: #f9fafb;"
+                button.channel-edit-copy__button type="button" data-action="click->clipboard#copy" data-clipboard-target="button"
+                  = inline_svg_tag("copy.svg", aria: { hidden: true })
+                  span = t("general.copy", default: "Copy")
+
+          div
+            label.profile-field-label style="font-weight: 600; font-size: 12px; color: #374151; margin-bottom: 4px; display: block;"
+              = t("dashboard.settings.sso.metadata_url_label", default: "SP Metadata XML URL")
+            .channel-edit-copy data-controller="clipboard"
+              .channel-edit-copy__control
+                input type="text" value=@sp_metadata_url readonly=true data-clipboard-target="source" style="font-family: monospace; font-size: 13px; background: #f9fafb;"
+                button.channel-edit-copy__button type="button" data-action="click->clipboard#copy" data-clipboard-target="button"
+                  = inline_svg_tag("copy.svg", aria: { hidden: true })
+                  span = t("general.copy", default: "Copy")
+
+      / Main SSO Configuration Form
+      article.ui-card style="margin-bottom: 24px;"
+        .ui-card-top
+          .ui-card-info
+            .ui-domain-section__icon aria-hidden="true"
+              = inline_svg_tag("settings.svg")
+            div
+              h3.f-semi-16 = t("dashboard.settings.sso.config_title", default: "Identity Provider (IdP) Configuration")
+              p.f-reg-13 style="color: #6b7280; margin-top: 2px;"
+                = t("dashboard.settings.sso.config_desc", default: "Enter credentials and settings provided by your enterprise identity provider.")
+
+          .ui-card-actions
+            - case @sso_config.status
+            - when "active"
+              span.ui-badge style="background: #dcfce7; color: #15803d; padding: 4px 10px; border-radius: 9999px; font-weight: 600; font-size: 12px;"
+                = t("dashboard.settings.sso.status_active", default: "Active")
+            - when "test_mode"
+              span.ui-badge style="background: #fef9c3; color: #854d0e; padding: 4px 10px; border-radius: 9999px; font-weight: 600; font-size: 12px;"
+                = t("dashboard.settings.sso.status_test_mode", default: "Test Mode")
+            - else
+              span.ui-badge style="background: #f3f4f6; color: #4b5563; padding: 4px 10px; border-radius: 9999px; font-weight: 600; font-size: 12px;"
+                = t("dashboard.settings.sso.status_inactive", default: "Inactive")
+
+        = form_with(model: @sso_config, url: settings_sso_path, method: :patch, id: "sso-config-form", class: "profile-form", data: { controller: "sso", action: "submit->sso#validate", sso_has_cert_value: @sso_config.idp_certificates.any?.to_s, sso_has_secret_value: @sso_config.oidc_client_secret.present?.to_s }, style: "margin-top: 20px;") do |f|
+          .profile-details style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;"
+            div
+              label.profile-field-label style="font-weight: 600; font-size: 13px; margin-bottom: 6px; display: block;"
+                = t("dashboard.settings.sso.protocol_label", default: "Authentication Protocol")
+              = f.select :protocol,
+                [["SAML 2.0 (Recommended)", "saml"], ["OpenID Connect (OIDC)", "oidc"]],
+                {},
+                { class: "ui-select ui-control", style: "width: 100%;", data: { sso_target: "protocolSelect", action: "change->sso#toggleProtocol" } }
+
+            div
+              label.profile-field-label style="font-weight: 600; font-size: 13px; margin-bottom: 6px; display: block;"
+                = t("dashboard.settings.sso.provider_label", default: "Identity Provider Type")
+              = f.select :provider_type,
+                [["Okta", "okta"], ["Microsoft Entra ID / Azure AD", "azure_ad"], ["Google Workspace", "google_workspace"], ["OneLogin", "onelogin"], ["PingIdentity", "ping_identity"], ["Custom SAML / OIDC", "custom"]],
+                {},
+                { class: "ui-select ui-control", style: "width: 100%;" }
+
+            div
+              label.profile-field-label style="font-weight: 600; font-size: 13px; margin-bottom: 6px; display: block;"
+                = t("dashboard.settings.sso.status_label", default: "SSO Operating Status")
+              = f.select :status,
+                [["Inactive (Disabled)", "inactive"], ["Active (Production)", "active"], ["Test Mode (SSO allowed, password fallback for all)", "test_mode"]],
+                {},
+                { class: "ui-select ui-control", style: "width: 100%;", data: { sso_target: "statusSelect" } }
+
+            div
+              label.profile-field-label style="font-weight: 600; font-size: 13px; margin-bottom: 6px; display: block;"
+                = t("dashboard.settings.sso.default_role_label", default: "Default Role for New Users (JIT)")
+              = f.select :default_role_id,
+                options_for_select(@roles.map { |r| [r.name, r.id] }, @sso_config.default_role_id),
+                { include_blank: t("dashboard.settings.sso.select_role", default: "Select Default Role...") },
+                { class: "ui-select ui-control", style: "width: 100%;" }
+
+          #sso-form-errors.ui-alert.ui-alert--danger data-sso-target="errorBox" style="display: none; background: #fee2e2; border: 1px solid #fca5a5; color: #b91c1c; padding: 12px 16px; border-radius: 8px; margin-top: 16px; margin-bottom: 8px; font-size: 13px; font-weight: 500;"
+
+          hr style="border: 0; border-top: 1px solid #e5e7eb; margin: 20px 0;"
+
+          #saml-settings-group data-sso-target="samlGroup" style=(@sso_config.saml? ? "" : "display: none;")
+            h4.f-semi-14 style="margin-bottom: 12px; color: #111827;"
+              = t("dashboard.settings.sso.saml_settings_heading", default: "SAML 2.0 Identity Provider Credentials")
+
+            .profile-details style="display: flex; flex-direction: column; gap: 14px;"
+              div
+                label.profile-field-label style="font-weight: 600; font-size: 13px; margin-bottom: 6px; display: block;"
+                  = t("dashboard.settings.sso.idp_entity_id_label", default: "Identity Provider Entity ID / Issuer URL")
+                = f.text_field :idp_entity_id, id: "auth_sso_configuration_idp_entity_id", class: "profile-input", placeholder: "http://www.okta.com/exk123456789", style: "width: 100%;", data: { sso_target: "entityIdInput" }
+
+              div
+                label.profile-field-label style="font-weight: 600; font-size: 13px; margin-bottom: 6px; display: block;"
+                  = t("dashboard.settings.sso.idp_sso_url_label", default: "Single Sign-On (SSO) URL")
+                = f.text_field :idp_sso_url, id: "auth_sso_configuration_idp_sso_url", class: "profile-input", placeholder: "https://example.okta.com/app/example/sso/saml", style: "width: 100%;", data: { sso_target: "ssoUrlInput" }
+
+              div
+                label.profile-field-label style="font-weight: 600; font-size: 13px; margin-bottom: 6px; display: block;"
+                  = t("dashboard.settings.sso.idp_slo_url_label", default: "Single Logout (SLO) URL (Optional)")
+                = f.text_field :idp_slo_url, id: "auth_sso_configuration_idp_slo_url", class: "profile-input", placeholder: "https://example.okta.com/app/example/slo/saml", style: "width: 100%;"
+
+              div
+                .cert-label-row style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;"
+                  label.profile-field-label style="font-weight: 600; font-size: 13px;"
+                    = t("dashboard.settings.sso.certificates_label", default: "X.509 Public Signing Certificate(s) (PEM Format)")
+                  - if @sso_config.certificate_expires_at.present?
+                    - if @sso_config.certificate_expiring_soon?
+                      span style="color: #b91c1c; font-size: 12px; font-weight: 600;"
+                        | ⚠️ #{t("dashboard.settings.sso.cert_expires_warning", date: @sso_config.certificate_expires_at.strftime('%Y-%m-%d'), default: "Certificate expires on %{date}")}
+                    - else
+                      span style="color: #15803d; font-size: 12px;"
+                        | ✓ #{t("dashboard.settings.sso.cert_expires_ok", date: @sso_config.certificate_expires_at.strftime('%Y-%m-%d'), default: "Valid until %{date}")}
+
+                = f.text_area :idp_certificate_raw,
+                  id: "auth_sso_configuration_idp_certificate_raw",
+                  value: @sso_config.idp_certificates.join("\n\n"),
+                  rows: 6,
+                  class: "profile-input",
+                  placeholder: "-----BEGIN CERTIFICATE-----\nMIIDpDCCAoygAwIBAgIGAXv4J... \n-----END CERTIFICATE-----",
+                  style: "width: 100%; font-family: monospace; font-size: 12px;",
+                  data: { sso_target: "certInput" }
+                p.f-reg-12 style="color: #6b7280; margin-top: 4px;"
+                  = t("dashboard.settings.sso.certificates_help", default: "Paste your IdP X.509 certificate in PEM format. For zero-downtime certificate rotation, paste multiple certificates separated by empty lines.")
+
+          #oidc-settings-group data-sso-target="oidcGroup" style=(@sso_config.oidc? ? "" : "display: none;")
+            h4.f-semi-14 style="margin-bottom: 12px; color: #111827;"
+              = t("dashboard.settings.sso.oidc_settings_heading", default: "OpenID Connect (OIDC) Credentials")
+
+            .profile-details style="display: flex; flex-direction: column; gap: 14px;"
+              div
+                label.profile-field-label style="font-weight: 600; font-size: 13px; margin-bottom: 6px; display: block;"
+                  = t("dashboard.settings.sso.oidc_issuer_label", default: "OIDC Issuer / Discovery URL")
+                = f.text_field :oidc_issuer, id: "auth_sso_configuration_oidc_issuer", class: "profile-input", placeholder: "https://accounts.google.com or https://login.microsoftonline.com/{tenant}/v2.0", style: "width: 100%;", data: { sso_target: "issuerInput" }
+
+              div
+                label.profile-field-label style="font-weight: 600; font-size: 13px; margin-bottom: 6px; display: block;"
+                  = t("dashboard.settings.sso.oidc_client_id_label", default: "OIDC Client ID / Application ID")
+                = f.text_field :oidc_client_id, id: "auth_sso_configuration_oidc_client_id", class: "profile-input", placeholder: "enterprise-client-id-12345", style: "width: 100%;", data: { sso_target: "clientIdInput" }
+
+              div
+                label.profile-field-label style="font-weight: 600; font-size: 13px; margin-bottom: 6px; display: block;"
+                  = t("dashboard.settings.sso.oidc_client_secret_label", default: "OIDC Client Secret")
+                = f.password_field :oidc_client_secret, id: "auth_sso_configuration_oidc_client_secret", class: "profile-input", placeholder: @sso_config.oidc_client_secret.present? ? "••••••••••••••••" : "Client Secret", style: "width: 100%;", data: { sso_target: "clientSecretInput" }
+                p.f-reg-12 style="color: #6b7280; margin-top: 4px;"
+                  = t("dashboard.settings.sso.oidc_client_secret_help", default: "Leave blank to retain existing client secret.")
+
+          hr style="border: 0; border-top: 1px solid #e5e7eb; margin: 20px 0;"
+
+          h4.f-semi-14 style="margin-bottom: 12px; color: #111827;"
+            = t("dashboard.settings.sso.security_policies_heading", default: "Security & Provisioning Policies")
+
+          .profile-details style="display: flex; flex-direction: column; gap: 14px;"
+            div
+              label.profile-field-label style="font-weight: 600; font-size: 13px; margin-bottom: 6px; display: block;"
+                = t("dashboard.settings.sso.allowed_domains_label", default: "Allowed Email Domains (Corporate Domains)")
+              = f.text_field :allowed_email_domains_raw,
+                id: "auth_sso_configuration_allowed_email_domains_raw",
+                value: @sso_config.allowed_email_domains.join(", "),
+                class: "profile-input",
+                placeholder: "example.com, mycompany.org",
+                style: "width: 100%;",
+                data: { sso_target: "domainsInput" }
+              p.f-reg-12 style="color: #6b7280; margin-top: 4px;"
+                = t("dashboard.settings.sso.allowed_domains_help", default: "Comma-separated list of domains that trigger enterprise SSO. Users must have verified domains.")
+
+            div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;"
+              div
+                label.profile-field-label style="font-weight: 600; font-size: 13px; margin-bottom: 6px; display: block;"
+                  = t("dashboard.settings.sso.session_timeout_label", default: "Session Timeout (Hours)")
+                = f.number_field :session_timeout_hours, class: "profile-input", placeholder: "12", min: 1, max: 720, style: "width: 100%;"
+                p.f-reg-12 style="color: #6b7280; margin-top: 4px;"
+                  = t("dashboard.settings.sso.session_timeout_help", default: "Enforce periodic re-authentication. Leave blank for standard session policy.")
+
+            .checkbox-group style="margin-top: 8px; display: flex; flex-direction: column; gap: 12px;"
+              label style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer;"
+                = f.check_box :enforce_sso, id: "auth_sso_configuration_enforce_sso", style: "margin-top: 3px;", data: { sso_target: "enforceSsoCheckbox" }
+                div
+                  strong style="font-size: 13px; color: #111827; display: block;"
+                    = t("dashboard.settings.sso.enforce_sso_label", default: "Enforce SSO for all workspace members")
+                  span.f-reg-12 style="color: #6b7280;"
+                    = t("dashboard.settings.sso.enforce_sso_desc", default: "When enabled, password sign-in will be completely disabled for users on allowed email domains.")
+
+              label style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer;"
+                = f.check_box :jit_provisioning_enabled, style: "margin-top: 3px;"
+                div
+                  strong style="font-size: 13px; color: #111827; display: block;"
+                    = t("dashboard.settings.sso.jit_provisioning_label", default: "Just-In-Time (JIT) User Provisioning")
+                  span.f-reg-12 style="color: #6b7280;"
+                    = t("dashboard.settings.sso.jit_provisioning_desc", default: "Automatically create an agent account when an authorized employee signs in via SSO for the first time.")
+
+              label style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer;"
+                = f.check_box :allow_owner_password_fallback, style: "margin-top: 3px;"
+                div
+                  strong style="font-size: 13px; color: #111827; display: block;"
+                    = t("dashboard.settings.sso.break_glass_label", default: "Emergency Owner Break-Glass Bypass")
+                  span.f-reg-12 style="color: #6b7280;"
+                    = t("dashboard.settings.sso.break_glass_desc", default: "Allows the workspace owner to sign in with password using '?bypass_sso=true' if your IdP or certificate is misconfigured.")
+
+      / Domain Verification Card
+      article.ui-card style="margin-bottom: 24px;"
+        .ui-card-top
+          .ui-card-info
+            .ui-domain-section__icon aria-hidden="true"
+              = inline_svg_tag("world.svg")
+            div
+              h3.f-semi-16 = t("dashboard.settings.domains.verification_title", default: "Domain Ownership Verification (DNS TXT)")
+              p.f-reg-13 style="color: #6b7280; margin-top: 2px;"
+                = t("dashboard.settings.domains.verification_desc", default: "Prove ownership of corporate email domains before routing agent logins through Single Sign-On.")
+
+        / Add Domain Form
+        = form_with(model: Auth::DomainVerification.new, url: settings_domain_verifications_path, method: :post, style: "margin: 16px 0; display: flex; gap: 10px;") do |f|
+          = f.text_field :domain, placeholder: "corp.example.com", class: "profile-input", style: "flex: 1; max-width: 320px;"
+          button.ui-btn-primary.ui-btn-sm type="submit"
+            | + #{t("dashboard.settings.domains.add_domain_btn", default: "Add Domain")}
+
+        / List of Verified & Pending Domains
+        - if @domain_verifications.any?
+          .ui-table-wrap style="margin-top: 16px; border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden;"
+            table style="width: 100%; border-collapse: collapse; font-size: 13px;"
+              thead style="background: #f9fafb; border-bottom: 1px solid #e5e7eb;"
+                tr
+                  th style="text-align: left; padding: 10px 14px; font-weight: 600; color: #374151;" = t("dashboard.settings.domains.domain", default: "Domain")
+                  th style="text-align: left; padding: 10px 14px; font-weight: 600; color: #374151;" = t("dashboard.settings.domains.status", default: "Status")
+                  th style="text-align: left; padding: 10px 14px; font-weight: 600; color: #374151;" = t("dashboard.settings.domains.dns_record", default: "Required DNS TXT Record")
+                  th style="text-align: right; padding: 10px 14px; font-weight: 600; color: #374151;" = t("general.actions", default: "Actions")
+              tbody
+                - @domain_verifications.each do |v|
+                  tr style="border-bottom: 1px solid #f3f4f6;"
+                    td style="padding: 12px 14px; font-weight: 600;"
+                      = v.domain
+                    td style="padding: 12px 14px;"
+                      - if v.verified?
+                        span style="background: #dcfce7; color: #15803d; padding: 3px 8px; border-radius: 9999px; font-size: 11px; font-weight: 600;"
+                          | ✓ #{t("dashboard.settings.domains.verified", default: "Verified")}
+                      - elsif v.failed?
+                        span style="background: #fee2e2; color: #b91c1c; padding: 3px 8px; border-radius: 9999px; font-size: 11px; font-weight: 600;"
+                          | ✕ #{t("dashboard.settings.domains.failed", default: "Check Failed")}
+                      - else
+                        span style="background: #fef9c3; color: #854d0e; padding: 3px 8px; border-radius: 9999px; font-size: 11px; font-weight: 600;"
+                          | ⏳ #{t("dashboard.settings.domains.pending", default: "Pending Verification")}
+                    td style="padding: 12px 14px;"
+                      .channel-edit-copy data-controller="clipboard" style="max-width: 280px;"
+                        .channel-edit-copy__control
+                          input type="text" value=v.dns_txt_instruction readonly=true data-clipboard-target="source" style="font-family: monospace; font-size: 11px; background: #f9fafb;"
+                          button.channel-edit-copy__button type="button" data-action="click->clipboard#copy" data-clipboard-target="button" style="padding: 4px 8px;"
+                            = inline_svg_tag("copy.svg", aria: { hidden: true })
+                    td style="padding: 12px 14px; text-align: right;"
+                      .ui-actions-group style="display: inline-flex; gap: 8px; align-items: center;"
+                        - unless v.verified?
+                          = button_to verify_settings_domain_verification_path(v), method: :post, class: "ui-btn-primary ui-btn-sm", style: "font-size: 12px; padding: 4px 10px;" do
+                            = t("dashboard.settings.domains.verify_now", default: "Verify Now")
+                        = button_to settings_domain_verification_path(v), method: :delete, class: "ui-icon-button", data: { turbo_confirm: t("dashboard.settings.domains.delete_confirm", default: "Are you sure you want to remove this domain?") }, aria: { label: t("general.delete") } do
+                          = image_tag("delete.svg", alt: "", aria: { hidden: true })
+        - else
+          .ui-empty-state style="padding: 24px; text-align: center; color: #6b7280;"
+            p.f-reg-13 = t("dashboard.settings.domains.no_domains", default: "No domains added yet. Add your corporate domain above to verify ownership.")
+
+      / SCIM 2.0 Directory Sync Card
+      article.ui-card style="margin-bottom: 24px;"
+        .ui-card-top
+          .ui-card-info
+            .ui-domain-section__icon aria-hidden="true"
+              = inline_svg_tag("api_key.svg")
+            div
+              h3.f-semi-16 = t("dashboard.settings.scim.title", default: "SCIM 2.0 Directory Synchronization")
+              p.f-reg-13 style="color: #6b7280; margin-top: 2px;"
+                = t("dashboard.settings.scim.desc", default: "Provision, update, and deprovision users automatically from Okta or Azure AD using RFC 7644 SCIM standard.")
+
+          .ui-card-actions
+            = button_to settings_scim_tokens_path, method: :post, class: "ui-btn-primary ui-btn-sm" do
+              | + #{t("dashboard.settings.scim.generate_token_btn", default: "Generate SCIM Token")}
+
+        .ui-stack style="margin-top: 16px; display: flex; flex-direction: column; gap: 14px;"
+          div
+            label.profile-field-label style="font-weight: 600; font-size: 12px; color: #374151; margin-bottom: 4px; display: block;"
+              = t("dashboard.settings.scim.base_url_label", default: "SCIM 2.0 Base URL")
+            .channel-edit-copy data-controller="clipboard"
+              .channel-edit-copy__control
+                input type="text" value="#{request.base_url}/api/scim/v2" readonly=true data-clipboard-target="source" style="font-family: monospace; font-size: 13px; background: #f9fafb;"
+                button.channel-edit-copy__button type="button" data-action="click->clipboard#copy" data-clipboard-target="button"
+                  = inline_svg_tag("copy.svg", aria: { hidden: true })
+                  span = t("general.copy", default: "Copy")
+
+        - if @scim_tokens.any?
+          .ui-table-wrap style="margin-top: 16px; border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden;"
+            table style="width: 100%; border-collapse: collapse; font-size: 13px;"
+              thead style="background: #f9fafb; border-bottom: 1px solid #e5e7eb;"
+                tr
+                  th style="text-align: left; padding: 10px 14px; font-weight: 600; color: #374151;" = t("dashboard.settings.scim.token_name", default: "Integration Name")
+                  th style="text-align: left; padding: 10px 14px; font-weight: 600; color: #374151;" = t("dashboard.settings.scim.last_used", default: "Last Used")
+                  th style="text-align: left; padding: 10px 14px; font-weight: 600; color: #374151;" = t("dashboard.settings.scim.created_at", default: "Created")
+                  th style="text-align: right; padding: 10px 14px; font-weight: 600; color: #374151;" = t("general.actions", default: "Actions")
+              tbody
+                - @scim_tokens.each do |token|
+                  tr style="border-bottom: 1px solid #f3f4f6;"
+                    td style="padding: 12px 14px; font-weight: 600;"
+                      = token.name
+                    td style="padding: 12px 14px; color: #6b7280;"
+                      = token.last_used_at.present? ? time_ago_in_words(token.last_used_at) + " ago" : t("general.never", default: "Never")
+                    td style="padding: 12px 14px; color: #6b7280;"
+                      = token.created_at.strftime("%b %d, %Y")
+                    td style="padding: 12px 14px; text-align: right;"
+                      = button_to settings_scim_token_path(token), method: :delete, class: "ui-icon-button", data: { turbo_confirm: t("dashboard.settings.scim.revoke_confirm", default: "Revoke this SCIM token? Okta/Azure AD will lose sync access immediately.") }, aria: { label: t("dashboard.settings.scim.revoke", default: "Revoke") } do
+                        = image_tag("delete.svg", alt: "", aria: { hidden: true })
+        - else
+          .ui-empty-state style="padding: 24px; text-align: center; color: #6b7280;"
+            p.f-reg-13 = t("dashboard.settings.scim.no_tokens", default: "No SCIM tokens active. Generate a token to connect Okta or Azure AD provisioning.")
+
+      / Auth Audit Log Card
+      article.ui-card
+        .ui-card-top
+          .ui-card-info
+            .ui-domain-section__icon aria-hidden="true"
+              = inline_svg_tag("timer.svg")
+            div
+              h3.f-semi-16 = t("dashboard.settings.sso.audit_log_title", default: "Recent Authentication Audit Logs")
+              p.f-reg-13 style="color: #6b7280; margin-top: 2px;"
+                = t("dashboard.settings.sso.audit_log_desc", default: "Real-time security log of logins, JIT user creation, policy changes, and bypass events.")
+
+        - if @audit_logs.any?
+          .ui-table-wrap style="margin-top: 16px; border: 1px solid #e5e7eb; border-radius: 8px; overflow-x: auto;"
+            table style="width: 100%; border-collapse: collapse; font-size: 13px;"
+              thead style="background: #f9fafb; border-bottom: 1px solid #e5e7eb;"
+                tr
+                  th style="text-align: left; padding: 10px 14px; font-weight: 600; color: #374151;" = t("dashboard.settings.sso.log_event", default: "Event")
+                  th style="text-align: left; padding: 10px 14px; font-weight: 600; color: #374151;" = t("dashboard.settings.sso.log_method", default: "Method")
+                  th style="text-align: left; padding: 10px 14px; font-weight: 600; color: #374151;" = t("dashboard.settings.sso.log_user", default: "User / Email")
+                  th style="text-align: left; padding: 10px 14px; font-weight: 600; color: #374151;" = t("dashboard.settings.sso.log_status", default: "Status")
+                  th style="text-align: left; padding: 10px 14px; font-weight: 600; color: #374151;" = t("dashboard.settings.sso.log_ip", default: "IP Address")
+                  th style="text-align: right; padding: 10px 14px; font-weight: 600; color: #374151;" = t("dashboard.settings.sso.log_timestamp", default: "Timestamp")
+              tbody
+                - @audit_logs.each do |log|
+                  tr style="border-bottom: 1px solid #f3f4f6;"
+                    td style="padding: 12px 14px; font-weight: 500;"
+                      - case log.event_type
+                      - when "login_success"
+                        span style="color: #15803d;" = log.event_type.humanize
+                      - when "login_failure", "replay_attack_blocked"
+                        span style="color: #b91c1c; font-weight: 600;" = log.event_type.humanize
+                      - when "bypass_login"
+                        span style="color: #d97706; font-weight: 600;" ⚠️ Break-Glass Bypass
+                      - when "jit_user_created", "scim_user_created"
+                        span style="color: #2563eb;" = log.event_type.humanize
+                      - else
+                        = log.event_type.humanize
+                    td style="padding: 12px 14px; text-transform: uppercase; font-size: 11px; font-weight: 600; color: #4b5563;"
+                      = log.auth_method
+                    td style="padding: 12px 14px;"
+                      = log.email.presence || log.user&.email || "—"
+                    td style="padding: 12px 14px;"
+                      - if log.success?
+                        span style="background: #dcfce7; color: #15803d; padding: 2px 7px; border-radius: 9999px; font-size: 11px; font-weight: 600;"
+                          | Success
+                      - else
+                        span style="background: #fee2e2; color: #b91c1c; padding: 2px 7px; border-radius: 9999px; font-size: 11px; font-weight: 600;"
+                          | Failed (#{log.error_code || "error"})
+                    td style="padding: 12px 14px; color: #6b7280; font-family: monospace; font-size: 12px;"
+                      = log.ip_address.presence || "—"
+                    td style="padding: 12px 14px; text-align: right; color: #6b7280; font-size: 12px;"
+                      = time_ago_in_words(log.created_at) + " ago"
+        - else
+          .ui-empty-state style="padding: 24px; text-align: center; color: #6b7280;"
+            p.f-reg-13 = t("dashboard.settings.sso.no_logs", default: "No authentication audit logs recorded yet.")
+

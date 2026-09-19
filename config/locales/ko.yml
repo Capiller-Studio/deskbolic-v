@@ -4,6 +4,7 @@ ko:
       already_confirmed: "이미 확인되었습니다. 로그인해 주세요"
       blank: "항목을 비워 둘 수 없습니다"
       not_found: "정보를 찾을 수 없습니다"
+      invalid_url: "유효한 URL이 아닙니다 (http:// 또는 https://로 시작해야 합니다)"
   languages:
     en: 영어
     fr: 프랑스어
@@ -224,6 +225,7 @@ ko:
         billing: 청구 및 구독
         notifications: 알림
         audit_logs: 감사 로그
+        sso: 싱글 사인온 (SSO)
         help_center: 도움말 센터
         help_center_articles: 도움말 센터
         all_help_centers: 모든 도움말 센터
@@ -880,6 +882,7 @@ ko:
         imap_configured: IMAP 활성
         imap_not_configured: IMAP 꺼짐
         forwarding_verified: 확인됨
+        verified_notice: "도메인 \x27%{domain}\x27이(가) 성공적으로 확인되었습니다! 이제 SSO에 활성화되었습니다."
         forwarding_pending: 보류 중
         inboxes_count:
           one: "%{count} 받은 편지함"
@@ -2484,6 +2487,90 @@ ko:
           incorrect_password: 비밀번호가 올바르지 않습니다. 워크스페이스 삭제가 취소되었습니다.
           identifier_mismatch: 워크스페이스 식별자 확인이 일치하지 않습니다.
           unauthorized: 이 작업을 수행할 권한이 없습니다.
+      sso:
+        title: 싱글 사인온 (SSO) 및 디렉터리 동기화
+        description: 엔터프라이즈 SAML 2.0 또는 OIDC 인증을 구성하고, 도메인 소유권을 확인하며, 자동 사용자 프로비저닝을 관리합니다.
+        sp_endpoints_title: Deskbolic 서비스 공급자 (SP) 메타데이터
+        sp_endpoints_desc: Okta, Azure AD, Google Workspace 또는 Ping Identity에서 Deskbolic을 구성할 때 이 값을 사용하세요.
+        acs_url_label: 어설션 소비자 서비스 (ACS) URL / SSO URL
+        entity_id_label: SP 엔티티 ID / 대상 URI
+        metadata_url_label: SP 메타데이터 XML URL
+        config_title: ID 공급자 (IdP) 구성
+        config_desc: 엔터프라이즈 ID 공급자로부터 제공받은 자격 증명 및 설정을 입력하세요.
+        status_active: 활성
+        status_test_mode: 테스트 모드
+        status_inactive: 비활성
+        protocol_label: 인증 프로토콜
+        provider_label: ID 공급자 유형
+        status_label: SSO 운영 상태
+        default_role_label: 신규 사용자 기본 역할 (JIT)
+        select_role: 기본 역할 선택...
+        saml_settings_heading: SAML 2.0 ID 공급자 자격 증명
+        oidc_settings_heading: OpenID Connect (OIDC) 자격 증명
+        oidc_issuer_label: OIDC 발급자 / 검색 URL
+        oidc_client_id_label: OIDC 클라이언트 ID
+        oidc_client_secret_label: OIDC 클라이언트 보안 비밀
+        oidc_client_secret_help: 기존 보안 비밀을 유지하려면 비워 두세요.
+        idp_entity_id_label: IdP 엔티티 ID / 발급자 URL
+        idp_sso_url_label: 싱글 사인온 (SSO) URL
+        idp_slo_url_label: 단일 로그아웃 (SLO) URL (선택 사항)
+        certificates_label: X.509 공용 서명 인증서 (PEM 형식)
+        certificates_help: IdP X.509 인증서를 PEM 형식으로 붙여넣으세요. 무중단 인증서 교체를 위해 빈 줄로 구분하여 여러 인증서를 입력할 수 있습니다.
+        cert_expires_warning: "인증서 만료일: %{date}"
+        cert_expires_ok: "유효 기간: %{date}"
+        security_policies_heading: 보안 및 프로비저닝 정책
+        allowed_domains_label: 허용된 이메일 도메인 (회사 도메인)
+        allowed_domains_help: 엔터프라이즈 SSO를 트리거하는 쉼표로 구분된 도메인 목록입니다. 소유권이 확인된 도메인이어야 합니다.
+        session_timeout_label: 세션 타임아웃 (시간)
+        session_timeout_help: 주기적인 재인증을 강제합니다. 표준 세션 정책을 사용하려면 비워 두세요.
+        enforce_sso_label: 모든 워크스페이스 구성원에게 SSO 강제 적용
+        enforce_sso_desc: 활성화하면 허용된 회사 도메인의 사용자에 대해 비밀번호 로그인이 완전히 비활성화됩니다.
+        jit_provisioning_label: JIT(Just-In-Time) 사용자 프로비저닝
+        jit_provisioning_desc: 승인된 직원이 SSO를 통해 처음 로그인할 때 자동으로 상담원 계정을 생성합니다.
+        break_glass_label: 소유자 비상 우회 (Break-Glass)
+        break_glass_desc: IdP 또는 인증서가 잘못 구성된 경우 워크스페이스 소유자가 '?bypass_sso=true'를 사용하여 비밀번호로 로그인할 수 있도록 허용합니다.
+        audit_log_title: 최근 인증 감사 로그
+        audit_log_desc: 로그인, JIT 사용자 생성, 정책 변경 및 우회 이벤트의 실시간 보안 로그입니다.
+        log_event: 이벤트
+        log_method: 방법
+        log_user: 사용자 / 이메일
+        log_status: 상태
+        log_ip: IP 주소
+        log_timestamp: 타임스탬프
+        no_logs: 기록된 인증 감사 로그가 없습니다.
+        updated: 싱글 사인온 설정이 성공적으로 업데이트되었습니다.
+        plan_required: 엔터프라이즈 SSO는 Parabolic 플랜에서 사용할 수 있습니다. 구독을 업그레이드해 주세요.
+      domains:
+        verification_title: 도메인 소유권 확인 (DNS TXT)
+        verification_desc: SSO를 통해 상담원 로그인을 라우팅하기 전에 회사 이메일 도메인의 소유권을 확인하세요.
+        add_domain_btn: 도메인 추가
+        domain: 도메인
+        status: 상태
+        dns_record: 필수 DNS TXT 레코드
+        verified: 확인됨
+        failed: 확인 실패
+        pending: 확인 대기 중
+        verify_now: 지금 확인
+        delete_confirm: 이 도메인을 제거하시겠습니까?
+        no_domains: 아직 추가된 도메인이 없습니다. 위에서 회사 도메인을 추가하여 소유권을 확인하세요.
+        added: 도메인이 추가되었습니다. 소유권을 확인하려면 DNS TXT 레코드를 구성하세요.
+        removed: 도메인이 성공적으로 제거되었습니다.
+        verification_failed: "확인 실패: %{reason}"
+      scim:
+        title: SCIM 2.0 디렉터리 동기화
+        desc: RFC 7644 SCIM 표준을 사용하여 Okta 또는 Azure AD에서 사용자를 자동으로 프로비저닝, 업데이트 및 프로비저닝 해제합니다.
+        generate_token_btn: SCIM 토큰 생성
+        base_url_label: SCIM 2.0 기본 URL
+        token_name: 통합 이름
+        last_used: 마지막 사용
+        created_at: 생성일
+        revoke: 취소
+        revoke_confirm: 이 SCIM 토큰을 취소하시겠습니까? Okta/Azure AD의 동기화 액세스가 즉시 중단됩니다.
+        no_tokens: 활성화된 SCIM 토큰이 없습니다. Okta 또는 Azure AD 프로비저닝을 연결하려면 토큰을 생성하세요.
+        new_token_created: SCIM API 토큰이 성공적으로 생성되었습니다
+        copy_warning: 지금 토큰을 복사하세요. 보안상의 이유로 이 토큰은 다시 표시되지 않습니다.
+        created: SCIM 토큰이 생성되었습니다! 지금 비밀 토큰을 복사하세요. 다시 표시되지 않습니다.
+        revoked: SCIM 토큰이 취소되었습니다.
       integrations:
         index:
           title: 통합
@@ -2835,6 +2922,7 @@ ko:
       messages:
         resource_limit_reached: 현재 요금제의 %{resource} 한도에 도달했습니다. 업그레이드해 주세요.
         limit_reached: 현재 요금제의 %{resource} 한도에 도달했습니다. 업그레이드해 주세요.
+        invalid_url: "유효한 URL이 아닙니다 (http:// 또는 https://로 시작해야 합니다)"
       models: {}
   auth:
     workspace:
@@ -2882,6 +2970,11 @@ ko:
       submit: 로그인
       remember_me: 나를 기억해
       forgot_password: 비밀번호를 잊으셨나요?
+      continue_with_google: Google로 계속하기
+      continue_with_facebook: Facebook으로 계속하기
+      or_email: 또는 이메일로 계속하기
+      continue_with_sso: 싱글 사인온 (SSO)
+      sign_in_with_sso: SSO로 로그인
       create_account: 계정 만들기
       resend_confirmation: 확인 지침을 받지 못하셨나요?
       existing_account: 이미 계정이 있나요? 로그인
@@ -2929,6 +3022,19 @@ ko:
       registered_title: 환영합니다!
       registered_message: 귀하의 계정이 성공적으로 생성되었습니다.
       back_to_login: 계속 로그인
+    sso:
+      not_configured: 이 조직에 싱글 사인온이 구성되지 않았거나 비활성 상태입니다.
+      missing_response: ID 공급자로부터 유효하지 않은 SSO 응답을 받았습니다.
+      inactive: 이 계정에 SSO가 비활성화되어 있거나 구성되지 않았습니다.
+      verification_failed: "SSO 인증 실패: %{reason}"
+      provisioning_failed: "계정을 프로비저닝할 수 없습니다: %{reason}"
+      success: 싱글 사인온을 통해 성공적으로 로그인했습니다.
+      enforced_notice: "%{account} 계정은 싱글 사인온이 필수입니다. SSO로 로그인해 주세요."
+      bypass_denied: 비상 비밀번호 우회는 계정 소유자만 가능합니다.
+    social:
+      missing_auth: 공급자로부터 인증 데이터를 받지 못했습니다.
+      failure: "소셜 로그인을 통한 인증에 실패했습니다: %{message}"
+      error: "인증 실패: %{message}"
   activities:
     account:
       deletion_requested: 계정 삭제가 요청되었습니다

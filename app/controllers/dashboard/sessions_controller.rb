@@ -7,27 +7,24 @@
 module Dashboard
   class SessionsController < Devise::SessionsController
     layout "auth"
-    # before_action :configure_sign_in_params, only: [:create]
 
-    # GET /resource/sign_in
-    # def new
-    #   # if flash[:alert] == I18n.t("devise.failure.unconfirmed")
-    #   #   @unconfirmed_email = true
-    #   #   # flash[:alert] = nil
-    #   # end
-    #   # @warden_options = request.env["warden.options"] || {}
-    #   # super
-    # end
+    before_action :check_sso_enforcement, only: [:create]
 
-    # POST /resource/sign_in
-    # def create
-    #   super
-    # end
-
-    # DELETE /resource/sign_out
-    # def destroy
-    #   super
-    # end
+    def create
+      super do |resource|
+        if @owner_bypass_authorized && resource.persisted?
+          Auth::AuditLog.log(
+            event_type:    :bypass_login,
+            auth_method:   :password,
+            status:        :success,
+            account:       @bypass_account,
+            user:          resource,
+            email:         resource.email,
+            metadata:      { reason: "owner_break_glass" }
+          )
+        end
+      end
+    end
 
     def redirect_to(options = {}, response_options = {})
       response_options[:allow_other_host] = true if options.is_a?(String) && options.match?(/\Ahttps?:\/\//)
@@ -56,16 +53,64 @@ module Dashboard
       end
     end
 
-    # If you have extra params to permit, append them to the sanitizer.
-    # def configure_sign_in_params
-    #   devise_parameter_sanitizer.permit(:sign_in, keys: [:email, :password])
-    # end
-
     private
 
-    # def sign_in_params
-    #   # params.require(:user).permit(:email, :password, :remember_me, :account_id)
-    #   params.permit(:email, :password, :remember_me, :account_id)
-    # end
+    def check_sso_enforcement
+      email = params.dig(:user, :email)&.downcase&.strip
+      return if email.blank?
+
+      lookup = Auth::DomainLookupService.call(email)
+      return unless lookup[:sso_required] && lookup[:enforce_sso]
+
+      account = Account.find_by(id: lookup[:account_id])
+      sso_config = account&.sso_configuration
+      return unless sso_config&.enforce_sso?
+
+      bypass_requested = params[:bypass_sso] == "true" || params.dig(:user, :bypass_sso) == "true"
+
+      if bypass_requested
+        user = User.find_by(email: email)
+        is_owner = user.present? && user.account_users.exists?(account_id: account.id, owner: true)
+
+        if is_owner && sso_config.allow_owner_password_fallback?
+          @owner_bypass_authorized = true
+          @bypass_account = account
+          return
+        else
+          Auth::AuditLog.log(
+            event_type:    :login_failure,
+            auth_method:   :password,
+            status:        :failure,
+            account:       account,
+            email:         email,
+            error_code:    "bypass_denied",
+            error_message: "SSO break-glass bypass denied for non-owner"
+          )
+
+          redirect_to new_user_session_path, alert: I18n.t(
+            "auth.sso.bypass_denied",
+            default: "Emergency password bypass is restricted to Account Owners."
+          )
+          return
+        end
+      end
+
+      # SSO is enforced and no valid bypass requested -> block password login
+      Auth::AuditLog.log(
+        event_type:    :login_failure,
+        auth_method:   :password,
+        status:        :failure,
+        account:       account,
+        email:         email,
+        error_code:    "sso_enforced",
+        error_message: "Password authentication blocked because SSO is enforced"
+      )
+
+      redirect_to new_user_session_path(email: email), alert: I18n.t(
+        "auth.sso.enforced_notice",
+        account: lookup[:account_name],
+        default: "Single Sign-On is required for #{lookup[:account_name]}. Please sign in with SSO."
+      )
+    end
   end
 end

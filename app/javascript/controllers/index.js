@@ -219,3 +219,6 @@ application.register("filterable-collection", FilterableCollectionController)
 
 import TagsInputController from "./tags_input_controller"
 application.register("tags-input", TagsInputController)
+
+import SsoController from "./sso_controller"
+application.register("sso", SsoController)

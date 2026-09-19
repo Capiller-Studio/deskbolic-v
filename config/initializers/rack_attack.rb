@@ -95,6 +95,34 @@ class Rack::Attack
     end
   end
 
+  # SAML ACS endpoint — prevent assertion replay flooding
+  throttle("auth/saml/consume", limit: 10, period: 1.minute) do |req|
+    if req.post? && req.path.include?("/auth/saml/consume")
+      req.ip
+    end
+  end
+
+  # Domain lookup — prevent email domain enumeration
+  throttle("auth/domain_lookup", limit: 30, period: 1.minute) do |req|
+    if req.get? && req.path.include?("/auth/domain_lookup")
+      req.ip
+    end
+  end
+
+  # SSO initiate — prevent redirect loop abuse
+  throttle("auth/saml/initiate", limit: 15, period: 1.minute) do |req|
+    if req.get? && req.path.include?("/auth/saml/initiate")
+      req.ip
+    end
+  end
+
+  # SCIM 2.0 API — directory sync rate limiting
+  throttle("scim/api", limit: 120, period: 1.minute) do |req|
+    if req.path.start_with?("/api/scim/v2")
+      req.ip
+    end
+  end
+
   # Send a 429 response when throttled
   self.throttled_responder = lambda do |request|
     match_data = request.env["rack.attack.match_data"]

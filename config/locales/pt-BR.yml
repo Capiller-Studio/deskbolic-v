@@ -4,6 +4,7 @@ pt-BR:
       already_confirmed: "já foi confirmado. Tente entrar"
       blank: "não pode ficar em branco"
       not_found: "não foi encontrado"
+      invalid_url: "não é uma URL válida (deve começar com http:// ou https://)"
   languages:
     en: Inglês
     fr: Francês
@@ -232,6 +233,7 @@ pt-BR:
         billing: Faturamento e assinatura
         notifications: Notificações
         audit_logs: Registros de auditoria
+        sso: Login único (SSO)
         help_center: Central de Ajuda
         help_center_articles: Central de Ajuda
         all_help_centers: Todos os centros de ajuda
@@ -913,6 +915,7 @@ pt-BR:
         imap_configured: IMAP ativo
         imap_not_configured: IMAP desativado
         forwarding_verified: Verificado
+        verified_notice: "Domínio \x27%{domain}\x27 verificado com sucesso! Agora está ativo para SSO."
         forwarding_pending: Pendente
         inboxes_count:
           one: Caixa de entrada %{count}
@@ -2625,6 +2628,90 @@ pt-BR:
           incorrect_password: Senha incorreta. Exclusão do espaço de trabalho cancelada.
           identifier_mismatch: A confirmação do identificador do espaço de trabalho não corresponde.
           unauthorized: Você não tem autorização para realizar esta ação.
+      sso:
+        title: Login único (SSO) e sincronização de diretórios
+        description: Configure a autenticação corporativa SAML 2.0 ou OIDC, verifique a propriedade do domínio e gerencie o provisionamento automatizado de usuários.
+        sp_endpoints_title: Metadados do provedor de serviços (SP) do Deskbolic
+        sp_endpoints_desc: Use estes valores ao configurar o Deskbolic no Okta, Azure AD, Google Workspace ou Ping Identity.
+        acs_url_label: URL do serviço de consumidor de asserções (ACS) / URL de SSO
+        entity_id_label: ID de entidade do SP / URI de público
+        metadata_url_label: URL XML de metadados do SP
+        config_title: Configuração do Provedor de Identidade (IdP)
+        config_desc: Insira as credenciais e configurações fornecidas pelo seu provedor de identidade corporativo.
+        status_active: Ativo
+        status_test_mode: Modo de teste
+        status_inactive: Inativo
+        protocol_label: Protocolo de autenticação
+        provider_label: Tipo de provedor de identidade
+        status_label: Status operacional do SSO
+        default_role_label: Função padrão para novos usuários (JIT)
+        select_role: Selecionar função padrão...
+        saml_settings_heading: Credenciais do provedor de identidade SAML 2.0
+        oidc_settings_heading: Credenciais OpenID Connect (OIDC)
+        oidc_issuer_label: Emissor OIDC / URL de descoberta
+        oidc_client_id_label: ID do cliente OIDC
+        oidc_client_secret_label: Segredo do cliente OIDC
+        oidc_client_secret_help: Deixe em branco para manter o segredo existente.
+        idp_entity_id_label: ID de entidade do IdP / URL do emissor
+        idp_sso_url_label: URL de login único (SSO)
+        idp_slo_url_label: URL de logout único (SLO) (Opcional)
+        certificates_label: Certificado(s) de assinatura pública X.509 (formato PEM)
+        certificates_help: Cole o certificado X.509 do seu IdP no formato PEM. Para rotação sem tempo de inatividade, cole múltiplos certificados separados por linhas em branco.
+        cert_expires_warning: O certificado expira em %{date}
+        cert_expires_ok: Válido até %{date}
+        security_policies_heading: Políticas de segurança e provisionamento
+        allowed_domains_label: Domínios de e-mail permitidos (domínios corporativos)
+        allowed_domains_help: Lista separada por vírgulas de domínios que ativam o SSO corporativo. Usuários devem ter domínios verificados.
+        session_timeout_label: Tempo limite da sessão (horas)
+        session_timeout_help: Exigir reautenticação periódica. Deixe em branco para a política padrão.
+        enforce_sso_label: Impor SSO para todos os membros do workspace
+        enforce_sso_desc: Quando habilitado, o login por senha será totalmente desativado para usuários nos domínios corporativos permitidos.
+        jit_provisioning_label: Provisionamento de usuários Just-In-Time (JIT)
+        jit_provisioning_desc: Crie automaticamente uma conta de agente quando um funcionário autorizado fizer login via SSO pela primeira vez.
+        break_glass_label: Desvio de emergência para o proprietário
+        break_glass_desc: Permite que o proprietário faça login com senha usando '?bypass_sso=true' caso o IdP ou certificado esteja desconfigurado.
+        audit_log_title: Registros recentes de auditoria de autenticação
+        audit_log_desc: Registro de segurança em tempo real de logins, criação de usuários JIT, alterações de política e desvios.
+        log_event: Evento
+        log_method: Método
+        log_user: Usuário / E-mail
+        log_status: Status
+        log_ip: Endereço IP
+        log_timestamp: Data e hora
+        no_logs: Nenhum registro de auditoria de autenticação gravado ainda.
+        updated: Configurações de login único atualizadas com sucesso.
+        plan_required: O Enterprise SSO está disponível no plano Parabolic. Atualize sua assinatura.
+      domains:
+        verification_title: Verificação de propriedade do domínio (DNS TXT)
+        verification_desc: Comprove a propriedade dos domínios corporativos de e-mail antes de rotear logins via SSO.
+        add_domain_btn: Adicionar domínio
+        domain: Domínio
+        status: Status
+        dns_record: Registro DNS TXT obrigatório
+        verified: Verificado
+        failed: Falha na verificação
+        pending: Pendente de verificação
+        verify_now: Verificar agora
+        delete_confirm: Tem certeza de que deseja remover este domínio?
+        no_domains: Nenhum domínio adicionado. Adicione seu domínio corporativo acima para verificar a propriedade.
+        added: Domínio adicionado. Configure o registro DNS TXT para verificar a propriedade.
+        removed: Domínio removido com sucesso.
+        verification_failed: "Falha na verificação: %{reason}"
+      scim:
+        title: Sincronização de diretório SCIM 2.0
+        desc: Provisione, atualize e desprovisione usuários automaticamente a partir do Okta ou Azure AD usando o padrão RFC 7644 SCIM.
+        generate_token_btn: Gerar token SCIM
+        base_url_label: URL base do SCIM 2.0
+        token_name: Nome da integração
+        last_used: Último uso
+        created_at: Criado em
+        revoke: Revogar
+        revoke_confirm: Revogar este token SCIM? O Okta/Azure AD perderá o acesso de sincronização imediatamente.
+        no_tokens: Nenhum token SCIM ativo. Gere um token para conectar o provisionamento do Okta ou Azure AD.
+        new_token_created: Token de API SCIM gerado com sucesso
+        copy_warning: Copie seu token agora. Por razões de segurança, este token não será exibido novamente.
+        created: Token SCIM criado! Copie seu token secreto agora — ele não será mostrado novamente.
+        revoked: Token SCIM revogado.
       integrations:
         index:
           title: Integrações
@@ -2987,6 +3074,7 @@ pt-BR:
           para continuar.
         limit_reached: Limite de %{resource} atingido para o seu plano. Atualize para
           continuar.
+        invalid_url: "não é uma URL válida (deve começar com http:// ou https://)"
       models: {}
   auth:
     workspace:
@@ -3036,6 +3124,11 @@ pt-BR:
       submit: Faça login
       remember_me: Lembre-se de mim
       forgot_password: Esqueceu a senha?
+      continue_with_google: Continuar com o Google
+      continue_with_facebook: Continuar com o Facebook
+      or_email: ou continuar com e-mail
+      continue_with_sso: Login único (SSO)
+      sign_in_with_sso: Entrar com SSO
       create_account: Criar conta
       resend_confirmation: Não recebeu instruções de confirmação?
       existing_account: Já tem uma conta? Entrar
@@ -3085,6 +3178,19 @@ pt-BR:
       registered_title: Bem-vindo!
       registered_message: Sua conta foi criada com sucesso.
       back_to_login: Continuar para fazer login
+    sso:
+      not_configured: O login único não está configurado ou ativo para esta organização.
+      missing_response: Resposta de SSO inválida recebida do Provedor de Identidade.
+      inactive: O SSO está inativo ou não configurado para esta conta.
+      verification_failed: "Falha na autenticação SSO: %{reason}"
+      provisioning_failed: "Não foi possível provisionar a conta: %{reason}"
+      success: Sessão iniciada com sucesso via login único.
+      enforced_notice: "O login único é obrigatório para %{account}. Faça login com SSO."
+      bypass_denied: O desvio de emergência com senha é restrito aos proprietários da conta.
+    social:
+      missing_auth: Dados de autenticação não recebidos do provedor.
+      failure: "Não foi possível autenticar via login social: %{message}"
+      error: "Falha na autenticação: %{message}"
   activities:
     account:
       deletion_requested: A exclusão da conta foi solicitada

@@ -50,9 +50,22 @@ Rails.application.routes.draw do
     post "stripe", to: "stripe#create"
   end
 
+  # NOTE on Devise Route Architecture:
+  # Devise is declared twice using :only and :skip options:
+  # 1. External OAuth Providers (Google, Facebook) require static, deterministic callback URIs
+  #    (e.g., /users/auth/google_oauth2/callback) without variable locale segments (/en/, /es/).
+  #    Therefore, omniauth_callbacks is mounted at the root level outside any locale scope.
+  # 2. User-facing sessions, registrations, confirmations, and password screens live inside
+  #    scope "(:locale)" to support internationalization, with omniauth_callbacks explicitly skipped.
+  # This pattern generates zero route collisions and avoids invalid locale redirect loops.
+  devise_for :users, only: :omniauth_callbacks, controllers: {
+    omniauth_callbacks: "dashboard/omniauth_callbacks"
+  }
+
   scope "(:locale)", locale: /#{Core::SUPPORTED_LOCALES.join('|')}/ do
     devise_for :users, path: "",
     path_names: { sign_in: "login", sign_out: "logout", sign_up: "register" },
+    skip: :omniauth_callbacks,
     controllers: {
       registrations: "dashboard/registrations",
       sessions: "dashboard/sessions",
@@ -64,6 +77,17 @@ Rails.application.routes.draw do
     devise_scope :user do
       get "users/check_email", to: "dashboard/registrations#check_email"
       get "registered", to: "dashboard/registrations#registered", as: :registered
+    end
+
+    # Unified Authentication & SSO Endpoints
+    namespace :auth do
+      get "domain_lookup", to: "domain_lookups#show"
+
+      namespace :saml do
+        get  "metadata", to: "sessions#metadata"
+        get  "initiate", to: "sessions#initiate"
+        post "consume",  to: "sessions#consume"
+      end
     end
 
     scope module: "dashboard" do
@@ -302,6 +326,13 @@ Rails.application.routes.draw do
           end
         end
         resources :api_keys, only: [ :index, :create, :destroy ]
+        resource :sso, only: [ :show, :update ], controller: "sso"
+        resources :domain_verifications, only: [ :index, :create, :destroy ] do
+          member do
+            post :verify
+          end
+        end
+        resources :scim_tokens, only: [ :index, :create, :destroy ]
       end
 
       resources :notifications, only: [ :index ] do
@@ -367,6 +398,22 @@ Rails.application.routes.draw do
       end
 
         get "popup/:step", to: "popup#modal_popup"
+      end
+    end
+  end
+
+  # SCIM 2.0 Directory Sync API (RFC 7643 / 7644)
+  namespace :api do
+    namespace :scim do
+      namespace :v2 do
+        # RFC 7643 Discovery Endpoints (public — no auth required)
+        resource :service_provider_config, only: [ :show ], controller: "service_provider_config"
+        resources :resource_types, only: [ :index, :show ]
+        resources :schemas, only: [ :index, :show ], constraints: { id: /[^\/]+/ }
+
+        # RFC 7644 Resource Endpoints (Bearer token auth required)
+        resources :users, only: [ :index, :show, :create, :update, :destroy ]
+        resources :groups, only: [ :index, :show, :create, :update, :destroy ]
       end
     end
   end

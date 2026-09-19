@@ -4,6 +4,7 @@ de:
       already_confirmed: "wurde bereits bestätigt. Bitte versuchen Sie, sich anzumelden"
       blank: "darf nicht leer sein"
       not_found: "wurde nicht gefunden"
+      invalid_url: "ist keine gültige URL (muss mit http:// oder https:// beginnen)"
   languages:
     en: Englisch
     fr: Französisch
@@ -235,6 +236,7 @@ de:
         billing: Abrechnung und Abonnement
         notifications: Benachrichtigungen
         audit_logs: Audit-Protokolle
+        sso: Single Sign-On (SSO)
         help_center: Hilfecenter
         help_center_articles: Hilfecenter
         all_help_centers: Alle Hilfezentren
@@ -926,6 +928,7 @@ de:
         imap_configured: IMAP aktiv
         imap_not_configured: IMAP aus
         forwarding_verified: Verifiziert
+        verified_notice: "Domain \x27%{domain}\x27 erfolgreich verifiziert! Sie ist jetzt für SSO aktiv."
         forwarding_pending: Ausstehend
         inboxes_count:
           one: "%{count} Posteingang"
@@ -2669,6 +2672,90 @@ de:
           incorrect_password: Falsches Passwort. Löschung des Arbeitsbereichs abgebrochen.
           identifier_mismatch: Bestätigung der Arbeitsbereich-Subdomain stimmt nicht überein.
           unauthorized: Sie sind nicht berechtigt, diese Aktion auszuführen.
+      sso:
+        title: Single Sign-On (SSO) & Verzeichnissynchronisierung
+        description: Konfigurieren Sie SAML 2.0- oder OIDC-Unternehmensauthentifizierung, überprüfen Sie den Domainbesitz und verwalten Sie die automatische Benutzerbereitstellung.
+        sp_endpoints_title: Deskbolic Service Provider (SP) Metadaten
+        sp_endpoints_desc: Verwenden Sie diese Werte bei der Konfiguration von Deskbolic in Okta, Azure AD, Google Workspace oder Ping Identity.
+        acs_url_label: Assertion Consumer Service (ACS) URL / Single Sign-On URL
+        entity_id_label: SP-Entitäts-ID / Zielgruppen-URI
+        metadata_url_label: SP-Metadaten-XML-URL
+        config_title: Identitätsanbieter-Konfiguration (IdP)
+        config_desc: Geben Sie die von Ihrem Unternehmens-Identitätsanbieter bereitgestellten Anmeldeinformationen und Einstellungen ein.
+        status_active: Aktiv
+        status_test_mode: Testmodus
+        status_inactive: Inaktiv
+        protocol_label: Authentifizierungsprotokoll
+        provider_label: Identitätsanbieter-Typ
+        status_label: SSO-Betriebsstatus
+        default_role_label: Standardrolle für neue Benutzer (JIT)
+        select_role: Standardrolle auswählen...
+        saml_settings_heading: SAML 2.0 Identitätsanbieter-Anmeldeinformationen
+        oidc_settings_heading: OpenID Connect (OIDC) Anmeldeinformationen
+        oidc_issuer_label: OIDC-Aussteller / Discovery-URL
+        oidc_client_id_label: OIDC-Client-ID
+        oidc_client_secret_label: OIDC-Client-Geheimnis
+        oidc_client_secret_help: Leer lassen, um bestehendes Geheimnis beizubehalten.
+        idp_entity_id_label: IdP-Entitäts-ID / Aussteller-URL
+        idp_sso_url_label: Single Sign-On (SSO) URL
+        idp_slo_url_label: Single Logout (SLO) URL (Optional)
+        certificates_label: X.509 Öffentliche Signaturzertifikate (PEM-Format)
+        certificates_help: Fügen Sie Ihr IdP-X.509-Zertifikat im PEM-Format ein. Für eine unterbrechungsfreie Zertifikatsrotation mehrere Zertifikate durch Leerzeilen getrennt einfügen.
+        cert_expires_warning: Zertifikat läuft ab am %{date}
+        cert_expires_ok: Gültig bis %{date}
+        security_policies_heading: Sicherheits- & Bereitstellungsrichtlinien
+        allowed_domains_label: Zulässige E-Mail-Domains (Unternehmensdomains)
+        allowed_domains_help: Kommagetrennte Liste von Domains, die Unternehmens-SSO auslösen. Benutzer müssen verifizierte Domains haben.
+        session_timeout_label: Sitzungs-Timeout (Stunden)
+        session_timeout_help: Periodische Neu-Authentifizierung erzwingen. Leer lassen für Standardrichtlinie.
+        enforce_sso_label: SSO für alle Workspace-Mitglieder erzwingen
+        enforce_sso_desc: Wenn aktiviert, wird die Kennwortanmeldung für Benutzer auf zulässigen Unternehmensdomains vollständig deaktiviert.
+        jit_provisioning_label: Just-In-Time (JIT) Benutzerbereitstellung
+        jit_provisioning_desc: Erstellen Sie automatisch ein Agentenkonto, wenn sich ein autorisierter Mitarbeiter zum ersten Mal über SSO anmeldet.
+        break_glass_label: Notfall-Bypass für Inhaber (Break-Glass)
+        break_glass_desc: Ermöglicht dem Workspace-Inhaber die Kennwortanmeldung über '?bypass_sso=true', falls IdP oder Zertifikat falsch konfiguriert sind.
+        audit_log_title: Aktuelle Authentifizierungs-Überwachungsprotokolle
+        audit_log_desc: Echtzeit-Sicherheitsprotokoll von Anmeldungen, JIT-Benutzererstellung, Richtlinienänderungen und Bypass-Ereignissen.
+        log_event: Ereignis
+        log_method: Methode
+        log_user: Benutzer / E-Mail
+        log_status: Status
+        log_ip: IP-Adresse
+        log_timestamp: Zeitstempel
+        no_logs: Noch keine Authentifizierungs-Überwachungsprotokolle erfasst.
+        updated: Single Sign-On-Einstellungen erfolgreich aktualisiert.
+        plan_required: Enterprise SSO ist im Parabolic-Plan verfügbar. Bitte aktualisieren Sie Ihr Abonnement.
+      domains:
+        verification_title: Domainbesitz-Überprüfung (DNS TXT)
+        verification_desc: Nachweis des Eigentums an Unternehmens-E-Mail-Domains vor dem Weiterleiten von Anmeldungen über Single Sign-On.
+        add_domain_btn: Domain hinzufügen
+        domain: Domain
+        status: Status
+        dns_record: Erforderlicher DNS TXT-Eintrag
+        verified: Verifiziert
+        failed: Prüfung fehlgeschlagen
+        pending: Ausstehende Verifizierung
+        verify_now: Jetzt prüfen
+        delete_confirm: Sind Sie sicher, dass Sie diese Domain entfernen möchten?
+        no_domains: Noch keine Domains hinzugefügt. Fügen Sie Ihre Unternehmensdomain hinzu, um den Besitz zu bestätigen.
+        added: Domain hinzugefügt. Bitte konfigurieren Sie den DNS-TXT-Eintrag zur Verifizierung.
+        removed: Domain erfolgreich entfernt.
+        verification_failed: "Verifizierung fehlgeschlagen: %{reason}"
+      scim:
+        title: SCIM 2.0 Verzeichnissynchronisierung
+        desc: Benutzer automatisch über den RFC 7644 SCIM-Standard aus Okta oder Azure AD bereitstellen, aktualisieren und entfernen.
+        generate_token_btn: SCIM-Token generieren
+        base_url_label: SCIM 2.0 Basis-URL
+        token_name: Integrationsname
+        last_used: Zuletzt verwendet
+        created_at: Erstellt
+        revoke: Widerrufen
+        revoke_confirm: Diesen SCIM-Token widerrufen? Okta/Azure AD verliert sofort den Synchronisierungszugriff.
+        no_tokens: Keine SCIM-Token aktiv. Generieren Sie einen Token, um Okta oder Azure AD zu verbinden.
+        new_token_created: SCIM API-Token erfolgreich generiert
+        copy_warning: Kopieren Sie Ihren Token jetzt. Aus Sicherheitsgründen wird dieser Token nicht mehr angezeigt.
+        created: SCIM-Token erstellt! Kopieren Sie Ihr Token jetzt — es wird nicht erneut angezeigt.
+        revoked: SCIM-Token widerrufen.
       integrations:
         index:
           title: Integrationen
@@ -3034,6 +3121,7 @@ de:
           führen Sie ein Upgrade durch."
         limit_reached: "%{resource}-Limit für Ihren Tarif erreicht. Bitte führen Sie
           ein Upgrade durch."
+        invalid_url: "ist keine gültige URL (muss mit http:// oder https:// beginnen)"
       models: {}
   auth:
     workspace:
@@ -3084,6 +3172,11 @@ de:
       submit: Melden Sie sich an
       remember_me: Erinnere dich an mich
       forgot_password: Passwort vergessen?
+      continue_with_google: Mit Google fortfahren
+      continue_with_facebook: Mit Facebook fortfahren
+      or_email: oder mit E-Mail fortfahren
+      continue_with_sso: Single Sign-On (SSO)
+      sign_in_with_sso: Mit SSO anmelden
       create_account: Konto erstellen
       resend_confirmation: Keine Bestätigungsanweisungen erhalten?
       existing_account: Sie haben bereits ein Konto? anmelden
@@ -3135,6 +3228,19 @@ de:
       registered_title: Willkommen!
       registered_message: Ihr Konto wurde erfolgreich erstellt.
       back_to_login: Weiter zum Anmelden
+    sso:
+      not_configured: Single Sign-On ist für diese Organisation nicht konfiguriert oder aktiv.
+      missing_response: Ungültige SSO-Antwort vom Identitätsanbieter erhalten.
+      inactive: SSO ist für dieses Konto inaktiv oder nicht konfiguriert.
+      verification_failed: "SSO-Authentifizierung fehlgeschlagen: %{reason}"
+      provisioning_failed: "Konto konnte nicht bereitgestellt werden: %{reason}"
+      success: Erfolgreich über Single Sign-On angemeldet.
+      enforced_notice: "Single Sign-On ist für %{account} erforderlich. Bitte melden Sie sich mit SSO an."
+      bypass_denied: Der Notfall-Passwort-Bypass ist auf Kontoinhaber beschränkt.
+    social:
+      missing_auth: Authentifizierungsdaten wurden nicht vom Anbieter empfangen.
+      failure: "Authentifizierung über Social Login fehlgeschlagen: %{message}"
+      error: "Authentifizierung fehlgeschlagen: %{message}"
   activities:
     account:
       deletion_requested: Kontolöschung wurde angefordert

@@ -4,6 +4,7 @@ class DashboardController < ApplicationController
   include Pundit::Authorization
   include CurrentAttributesAccessible
   include AccountStatusGuarded
+  include SsoSessionGovernable
   include Pagy::Backend
 
   before_action :authenticate_user!
@@ -59,8 +60,8 @@ class DashboardController < ApplicationController
     end
   end
 
-  def authorize(record, query = nil)
-    super([ :dashboard, record ], query)
+  def authorize(record, query = nil, **kwargs)
+    super([ :dashboard, record ], query, **kwargs)
   end
 
   def policy(record)

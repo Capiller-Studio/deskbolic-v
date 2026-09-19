@@ -90,6 +90,14 @@
                     p.f-reg-14
                       = t('dashboard.sidebar.settings.audit_logs')
                       = plan_upgrade_bubble(:audit_logs, compact: true)
+
+            li.nav-item class="#{current_page == 'sso' ? 'st-list-active' : ''}" data-action="click->accordion#toggle" data-filterable-collection-target="item" data-searchable=t('dashboard.sidebar.settings.sso', default: 'Single Sign-On (SSO)')
+              = link_to(settings_sso_path, class: "nav-link") do
+                .link-text
+                  .conversation-name.inbox-conv
+                    p.f-reg-14
+                      = t('dashboard.sidebar.settings.sso', default: 'Single Sign-On (SSO)')
+                      = plan_upgrade_bubble(:sso, compact: true)
             
             / Help Center
             li.nav-item(

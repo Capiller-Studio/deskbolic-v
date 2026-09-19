@@ -45,6 +45,68 @@ RSpec.describe 'Dashboard::Sessions', type: :request do
       post user_session_path, params: { user: { email: user.email, password: 'WrongPassword!' } }
       expect(response).to have_http_status(:unprocessable_content).or have_http_status(:ok)
     end
+
+    context 'when SSO is enforced for user domain' do
+      let!(:sso_config) do
+        create(
+          :auth_sso_configuration,
+          account:                       account,
+          allowed_email_domains:         ['example.com'],
+          enforce_sso:                   true,
+          allow_owner_password_fallback: true
+        )
+      end
+
+      after do
+        Auth::DomainLookupService.clear_cache('example.com')
+      end
+
+      it 'blocks password login when bypass is not requested' do
+        post user_session_path, params: { user: { email: user.email, password: 'password123' } }
+
+        expect(response).to redirect_to(new_user_session_path(email: user.email))
+        follow_redirect!
+        expect(flash[:alert]).to include('Single Sign-On is required')
+
+        audit_log = Auth::AuditLog.recent.first
+        expect(audit_log.event_type).to eq('login_failure')
+        expect(audit_log.error_code).to eq('sso_enforced')
+      end
+
+      it 'blocks break-glass bypass for non-owner members' do
+        account_user.update!(owner: false)
+
+        post user_session_path, params: {
+          user:       { email: user.email, password: 'password123' },
+          bypass_sso: 'true'
+        }
+
+        expect(response).to redirect_to(new_user_session_path)
+        follow_redirect!
+        expect(flash[:alert]).to include('restricted to Account Owners')
+
+        audit_log = Auth::AuditLog.recent.first
+        expect(audit_log.event_type).to eq('login_failure')
+        expect(audit_log.error_code).to eq('bypass_denied')
+      end
+
+      it 'permits break-glass bypass for account owners and logs bypass event' do
+        account_user.update!(owner: true)
+
+        post user_session_path, params: {
+          user:       { email: user.email, password: 'password123' },
+          bypass_sso: 'true'
+        }
+
+        expect(response).to have_http_status(:redirect).or have_http_status(:see_other)
+        expect(controller.current_user).to eq(user)
+
+        audit_log = Auth::AuditLog.recent.first
+        expect(audit_log.event_type).to eq('bypass_login')
+        expect(audit_log.auth_method).to eq('password')
+        expect(audit_log.status).to eq('success')
+      end
+    end
   end
 
   describe 'DELETE /users/sign_out' do

@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe Dashboard::PlansHelper, type: :helper do
-  let(:plan) { create(:plan, limits: { 'customers' => 1000, 'conversations_monthly' => 500, 'messages_monthly' => -1, 'data_retention_months' => 12 }, features: { 'sla' => true, 'api_access' => true }) }
+  let(:plan) { create(:plan, limits: { 'customers' => 1000, 'conversations_monthly' => 500, 'messages_monthly' => -1, 'data_retention_months' => 12 }, features: { 'sla' => true, 'api_access' => true, 'sso' => true, 'scim' => true }) }
 
   describe '#plan_features' do
     it 'returns list of limit strings and enabled features' do
@@ -14,6 +14,8 @@ RSpec.describe Dashboard::PlansHelper, type: :helper do
       expect(features).to include('12 months data retention')
       expect(features).to include('SLA management')
       expect(features).to include('API access')
+      expect(features).to include('Single sign-on (SSO)')
+      expect(features).to include('SCIM directory sync')
     end
   end
 

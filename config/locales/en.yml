@@ -5,6 +5,7 @@ en:
       already_confirmed: "was already confirmed, please try signing in"
       blank: "can't be blank"
       not_found: "not found"
+      invalid_url: "is not a valid URL (must start with http:// or https://)"
   languages:
     en: English
     fr: French
@@ -255,6 +256,7 @@ en:
         billing: Billing & Subscription
         notifications: Notifications
         audit_logs: Audit Logs
+        sso: Single Sign-On (SSO)
         help_center: Help Center
         help_center_articles: Help Center
         all_help_centers: All Help Centers
@@ -1102,6 +1104,7 @@ en:
         imap_configured: IMAP Active
         imap_not_configured: IMAP Off
         forwarding_verified: Verified
+        verified_notice: "Domain \x27%{domain}\x27 verified successfully! It is now active for SSO."
         forwarding_pending: Pending
         inboxes_count:
           one: "%{count} Inbox"
@@ -2894,6 +2897,90 @@ en:
           incorrect_password: Incorrect password. Workspace deletion cancelled.
           identifier_mismatch: Workspace identifier confirmation does not match.
           unauthorized: You are not authorized to perform this action.
+      sso:
+        title: Single Sign-On (SSO) & Directory Sync
+        description: Configure enterprise SAML 2.0 or OIDC authentication, verify domain ownership, and manage automated user provisioning.
+        sp_endpoints_title: Deskbolic Service Provider (SP) Metadata
+        sp_endpoints_desc: Use these values when configuring Deskbolic in Okta, Azure AD, Google Workspace, or Ping Identity.
+        acs_url_label: Assertion Consumer Service (ACS) URL / Single Sign-On URL
+        entity_id_label: SP Entity ID / Audience URI
+        metadata_url_label: SP Metadata XML URL
+        config_title: Identity Provider (IdP) Configuration
+        config_desc: Enter credentials and settings provided by your enterprise identity provider.
+        status_active: Active
+        status_test_mode: Test Mode
+        status_inactive: Inactive
+        protocol_label: Authentication Protocol
+        provider_label: Identity Provider Type
+        status_label: SSO Operating Status
+        default_role_label: Default Role for New Users (JIT)
+        select_role: Select Default Role...
+        saml_settings_heading: SAML 2.0 Identity Provider Credentials
+        oidc_settings_heading: OpenID Connect (OIDC) Credentials
+        oidc_issuer_label: OIDC Issuer / Discovery URL
+        oidc_client_id_label: OIDC Client ID / Application ID
+        oidc_client_secret_label: OIDC Client Secret
+        oidc_client_secret_help: Leave blank to retain existing client secret.
+        idp_entity_id_label: Identity Provider Entity ID / Issuer URL
+        idp_sso_url_label: Single Sign-On (SSO) URL
+        idp_slo_url_label: Single Logout (SLO) URL (Optional)
+        certificates_label: X.509 Public Signing Certificate(s) (PEM Format)
+        certificates_help: Paste your IdP X.509 certificate in PEM format. For zero-downtime certificate rotation, paste multiple certificates separated by empty lines.
+        cert_expires_warning: Certificate expires on %{date}
+        cert_expires_ok: Valid until %{date}
+        security_policies_heading: Security & Provisioning Policies
+        allowed_domains_label: Allowed Email Domains (Corporate Domains)
+        allowed_domains_help: Comma-separated list of domains that trigger enterprise SSO. Users must have verified domains.
+        session_timeout_label: Session Timeout (Hours)
+        session_timeout_help: Enforce periodic re-authentication. Leave blank for standard session policy.
+        enforce_sso_label: Enforce SSO for all workspace members
+        enforce_sso_desc: When enabled, password sign-in will be completely disabled for users on allowed email domains.
+        jit_provisioning_label: Just-In-Time (JIT) User Provisioning
+        jit_provisioning_desc: Automatically create an agent account when an authorized employee signs in via SSO for the first time.
+        break_glass_label: Emergency Owner Break-Glass Bypass
+        break_glass_desc: Allows the workspace owner to sign in with password using '?bypass_sso=true' if your IdP or certificate is misconfigured.
+        audit_log_title: Recent Authentication Audit Logs
+        audit_log_desc: Real-time security log of logins, JIT user creation, policy changes, and bypass events.
+        log_event: Event
+        log_method: Method
+        log_user: User / Email
+        log_status: Status
+        log_ip: IP Address
+        log_timestamp: Timestamp
+        no_logs: No authentication audit logs recorded yet.
+        updated: Single Sign-On settings updated successfully.
+        plan_required: Enterprise SSO is available on the Parabolic plan. Please upgrade your subscription.
+      domains:
+        verification_title: Domain Ownership Verification (DNS TXT)
+        verification_desc: Prove ownership of corporate email domains before routing agent logins through Single Sign-On.
+        add_domain_btn: Add Domain
+        domain: Domain
+        status: Status
+        dns_record: Required DNS TXT Record
+        verified: Verified
+        failed: Check Failed
+        pending: Pending Verification
+        verify_now: Verify Now
+        delete_confirm: Are you sure you want to remove this domain?
+        no_domains: No domains added yet. Add your corporate domain above to verify ownership.
+        added: Domain added. Please configure DNS TXT record to verify ownership.
+        removed: Domain removed successfully.
+        verification_failed: "Verification failed: %{reason}"
+      scim:
+        title: SCIM 2.0 Directory Synchronization
+        desc: Provision, update, and deprovision users automatically from Okta or Azure AD using RFC 7644 SCIM standard.
+        generate_token_btn: Generate SCIM Token
+        base_url_label: SCIM 2.0 Base URL
+        token_name: Integration Name
+        last_used: Last Used
+        created_at: Created
+        revoke: Revoke
+        revoke_confirm: Revoke this SCIM token? Okta/Azure AD will lose sync access immediately.
+        no_tokens: No SCIM tokens active. Generate a token to connect Okta or Azure AD provisioning.
+        new_token_created: SCIM API Token Generated Successfully
+        copy_warning: Copy your bearer token now. For security reasons, this token will not be shown again.
+        created: SCIM Token created! Copy your secret token now — it will not be shown again.
+        revoked: SCIM Token revoked.
       integrations:
         not_connected: Not Connected
         connected: Connected
@@ -3104,6 +3191,7 @@ en:
       messages:
         resource_limit_reached: "%{resource} limit reached for your plan. Please upgrade."
         limit_reached: "%{resource} limit reached for your plan. Please upgrade."
+        invalid_url: "is not a valid URL (must start with http:// or https://)"
       models: {}
   auth:
     workspace:
@@ -3153,6 +3241,11 @@ en:
       submit: Sign in
       remember_me: Remember me
       forgot_password: Forgot password?
+      continue_with_google: Continue with Google
+      continue_with_facebook: Continue with Facebook
+      or_email: or continue with email
+      continue_with_sso: Single Sign-On (SSO)
+      sign_in_with_sso: Sign in with SSO
       create_account: Create Account
       resend_confirmation: Didn't receive confirmation instructions?
       existing_account: Already have an account? Sign in
@@ -3202,6 +3295,19 @@ en:
       registered_title: Welcome!
       registered_message: Your account has been successfully created.
       back_to_login: Continue to Login
+    sso:
+      not_configured: Single Sign-On is not configured or active for this organization.
+      missing_response: Invalid SSO response received from Identity Provider.
+      inactive: SSO is inactive or not configured for this account.
+      verification_failed: "SSO Authentication failed: %{reason}"
+      provisioning_failed: "Could not provision account: %{reason}"
+      success: Signed in successfully via Single Sign-On.
+      enforced_notice: "Single Sign-On is required for %{account}. Please sign in with SSO."
+      bypass_denied: Emergency password bypass is restricted to Account Owners.
+    social:
+      missing_auth: Authentication data not received from provider.
+      failure: "Could not authenticate via social login: %{message}"
+      error: "Authentication failed: %{message}"
   activities:
     account:
       deletion_requested: Account deletion was requested

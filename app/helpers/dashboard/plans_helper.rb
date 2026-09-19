@@ -19,7 +19,8 @@ module Dashboard
         "automations" => "Automations", "audit_logs" => "Audit logs",
         "teams" => "Teams", "roles" => "Roles",
         "custom_roles" => "Custom roles", "custom_branding" => "Custom branding",
-        "assignment_policies" => "Assignment policies", "identity_sources" => "Identity sources"
+        "assignment_policies" => "Assignment policies", "identity_sources" => "Identity sources",
+        "sso" => "Single sign-on (SSO)", "scim" => "SCIM directory sync"
       }
 
       limits + feature_labels.filter_map { |key, label| label if plan.feature_enabled?(key) }

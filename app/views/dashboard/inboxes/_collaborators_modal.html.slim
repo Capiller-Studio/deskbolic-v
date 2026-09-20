@@ -1,0 +1,125 @@
+- assigned_uids = inbox.assigned_user_ids
+- assigned_tids = inbox.assigned_team_ids
+
+.model-content-section
+  .model-content.inbox-collaborators-modal
+    .modal-header
+      .modal-header-text
+        .inbox-modal-title-row
+          .inbox-modal-icon
+            = image_tag inbox_channel_icon(inbox), width: "22", height: "22", alt: "", aria: { hidden: true }
+          h3.f-semi-18 = "#{inbox.name} — #{t('dashboard.inboxes.collaborators_modal.title', default: 'Collaborators & Access')}"
+        p.f-reg-14.modal-subtitle = t("dashboard.inboxes.collaborators_modal.subtitle", default: "Assign teammates and teams who can view conversations in this inbox and receive auto-assigned tickets.")
+      = inline_svg_tag("cross_button.svg", alt: t("general.close", default: "Close"), class: "conversation-icon m-close", data: { action: "click->modal-toggler#hideModal" })
+
+    .inbox-modal-body
+      = form_with url: update_members_inbox_path(inbox), method: :patch, data: { controller: "inbox-collaborators", action: "turbo:submit-end->inbox-collaborators#handleSubmitEnd" }, html: { class: "inbox-collaborators-form" } do |f|
+        = hidden_field_tag :auto_assign, "0"
+        = hidden_field_tag "user_ids[]", ""
+        - if teams.any?
+          = hidden_field_tag "team_ids[]", ""
+        
+        / Auto-Assignment Toggle Card
+        .inbox-modal-section.inbox-auto-assign-card
+          .inbox-auto-assign-info
+            .inbox-auto-assign-icon
+              svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"
+                polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"
+            div
+              h4.f-semi-14 = t("dashboard.inboxes.collaborators_modal.auto_assign_title", default: "Auto-Assignment")
+              p.f-reg-12.text-muted = t("dashboard.inboxes.collaborators_modal.auto_assign_desc", default: "Automatically route and assign incoming conversations to assigned collaborators.")
+          label.ui-toggle
+            = check_box_tag :auto_assign, "1", inbox.auto_assign
+            span.ui-toggle-slider
+
+        / Collaborator Agents Section
+        .inbox-modal-section
+          .inbox-section-header
+            div
+              h4.f-semi-14 = t("dashboard.inboxes.collaborators_modal.agents_section", default: "Assign Teammates")
+              p.f-reg-12.text-muted = t("dashboard.inboxes.collaborators_modal.agents_section_desc", default: "Selected agents will have visibility and assignment access to this inbox.")
+            .inbox-selection-tools
+              span.inbox-selection-count.f-reg-12
+                span data-inbox-collaborators-target="count" = assigned_uids.size
+                |  #{t("dashboard.inboxes.collaborators_modal.selected", default: "selected")}
+              button.inbox-tool-btn type="button" data-action="click->inbox-collaborators#selectAll"
+                = t("dashboard.inboxes.collaborators_modal.select_all", default: "Select All")
+              button.inbox-tool-btn.inbox-tool-btn--clear type="button" data-action="click->inbox-collaborators#clearAll"
+                = t("dashboard.inboxes.collaborators_modal.clear", default: "Clear")
+
+          .inbox-search-bar
+            svg viewBox="0 0 24 24" aria-hidden="true" width="16" height="16" class="inbox-search-icon"
+              circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"
+              path d="m20 20-4-4" fill="none" stroke="currentColor" stroke-width="2"
+            input.inbox-search-input.f-reg-14(
+              type="search"
+              placeholder=t("dashboard.inboxes.collaborators_modal.search_agents", default: "Search agents by name or email...")
+              aria-label=t("dashboard.inboxes.collaborators_modal.search_agents", default: "Search agents")
+              data-inbox-collaborators-target="query"
+              data-action="input->inbox-collaborators#filter"
+            )
+
+          .inbox-members-list
+            - if account_users.any?
+              - account_users.each do |au|
+                - user = au.user
+                - u_name = full_name(user).presence || user.email
+                - role_tag = au.owner? ? "Owner" : (au.roles.first&.name || "Agent")
+                - is_checked = assigned_uids.include?(user.id.to_s)
+                .inbox-member-row(
+                  data-inbox-collaborators-target="item"
+                  data-searchable="#{u_name.downcase} #{user.email.downcase} #{role_tag.downcase}"
+                  data-action="click->inbox-collaborators#toggleRow"
+                )
+                  .inbox-member-identity
+                    - if user.avatar.attached?
+                      = image_tag user.avatar, class: "inbox-member-avatar", alt: u_name
+                    - else
+                      .inbox-member-avatar.avatar-fallback class=avatar_fallback_color_class(u_name)
+                        = initials(user)
+                    .inbox-member-details
+                      .inbox-member-name-row
+                        span.inbox-member-name = u_name
+                        - if user == current_user
+                          span.inbox-you-tag = t("dashboard.users.index.you", default: "You")
+                        span.inbox-role-tag class="inbox-role-tag--#{role_tag.parameterize}" = role_tag
+                      span.inbox-member-email = user.email
+
+                  label.custom-checkbox.inbox-member-checkbox
+                    = check_box_tag "user_ids[]", user.id, is_checked, data: { "inbox-collaborators-target" => "checkbox", action: "change->inbox-collaborators#updateCount" }
+                    .checkmark
+
+              .inbox-empty-search data-inbox-collaborators-target="empty" style="display: none;"
+                p.f-reg-13.text-muted = t("dashboard.inboxes.collaborators_modal.no_matches", default: "No teammates match your search.")
+            - else
+              .inbox-empty-search
+                p.f-reg-13.text-muted = t("dashboard.inboxes.collaborators_modal.no_members", default: "No teammates found in this workspace.")
+
+        / Teams Section (if teams exist)
+        - if teams.any?
+          .inbox-modal-section
+            .inbox-section-header
+              div
+                h4.f-semi-14 = t("dashboard.inboxes.collaborators_modal.teams_section", default: "Assign Teams")
+                p.f-reg-12.text-muted = t("dashboard.inboxes.collaborators_modal.teams_section_desc", default: "All members of assigned teams automatically gain access to this inbox.")
+            
+            .inbox-teams-grid
+              - teams.each do |team|
+                - is_team_checked = assigned_tids.include?(team.id.to_s)
+                label.inbox-team-card
+                  = check_box_tag "team_ids[]", team.id, is_team_checked, class: "inbox-team-checkbox"
+                  .inbox-team-card-inner
+                    .inbox-team-icon-box
+                      svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"
+                        path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"
+                        circle cx="9" cy="7" r="4"
+                        path d="M23 21v-2a4 4 0 0 0-3-3.87"
+                        path d="M16 3.13a4 4 0 0 1 0 7.75"
+                    .inbox-team-card-text
+                      span.f-semi-13 = team.name
+                      span.f-reg-11.text-muted = t("dashboard.teams.members_count", count: team.team_users.size, default: "%{count} members")
+
+        .inbox-modal-footer
+          button.btn-modal-secondary type="button" data-action="click->modal-toggler#hideModal"
+            = t("general.cancel", default: "Cancel")
+          = f.submit t("dashboard.inboxes.collaborators_modal.save_changes", default: "Save Collaborators"), class: "btn-modal-primary", data: { action: "click->modal-toggler#hideModal" }

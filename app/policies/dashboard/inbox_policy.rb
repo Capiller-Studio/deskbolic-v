@@ -7,7 +7,10 @@ module Dashboard
     end
 
     def show?
-      can?("inboxes.read")
+      return true if can?("inboxes.read")
+      return true if record.is_a?(Inbox) && record.accessible_by?(user)
+
+      false
     end
 
     def create?
@@ -20,6 +23,18 @@ module Dashboard
 
     def destroy?
       can?("inboxes.delete")
+    end
+
+    def update_members?
+      can?("inboxes.write")
+    end
+
+    def add_member?
+      can?("inboxes.write")
+    end
+
+    def remove_member?
+      can?("inboxes.write")
     end
   end
 end

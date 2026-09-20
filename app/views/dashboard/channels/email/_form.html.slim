@@ -55,6 +55,8 @@
                 .channel-edit-select.ui-field-control.ui-field-control--no-icon
                   = select_tag "#{inbox_f.object_name}[sla_policy_ids][]", options_from_collection_for_select(current_account.sla_policies, :id, :name, inbox_f.object.sla_policy_ids.first), include_blank: t("dashboard.channels.edit.none_selected", default: "None Selected"), class: "ui-select ui-control", data: { controller: "select" }
 
+            = render "dashboard/channels/shared/collaborators_fields", inbox_f: inbox_f
+
       .ui-form-row
         div
           = f.label :name, t("dashboard.email_channels.form.name_label"), class: "ui-label"

@@ -1,0 +1,37 @@
+= render("dashboard/settings/settings_sidebar", current_page: "inboxes") do
+  .ui-settings-page.inbox-index data-controller="modal-toggler frame-toggler filterable-collection"
+    = render("dashboard/shared/modal_popper")
+
+    header.ui-settings-page__header
+      .ui-settings-page__heading
+        h1 = t("dashboard.inboxes.title", default: "Inboxes")
+        p = t("dashboard.inboxes.description", default: "Manage communication inboxes, agent assignments, and conversation routing rules.")
+
+      .tm-users-header-actions
+        label.tm-users-search
+          svg viewBox="0 0 24 24" aria-hidden="true" width="16" height="16"
+            circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"
+            path d="m20 20-4-4" fill="none" stroke="currentColor" stroke-width="2"
+          input type="search" placeholder=t("dashboard.inboxes.search_placeholder", default: "Search inboxes...") aria-label=t("dashboard.inboxes.search_placeholder", default: "Search inboxes...") data-filterable-collection-target="query" data-action="input->filterable-collection#update"
+
+    main.ui-settings-page__content
+      - if @inboxes.any?
+        section.inboxes-grid data-filterable-collection-target="container"
+          - @inboxes.each do |inbox|
+            div data-filterable-collection-target="item" data-searchable="#{inbox.name.to_s.downcase} #{inbox_channel_identifier(inbox).to_s.downcase} #{inbox_channel_type_label(inbox).to_s.downcase}"
+              = render "dashboard/settings/inbox_card", inbox: inbox
+
+        .inbox-empty.ui-settings-empty data-filterable-collection-target="empty" style="display: none;"
+          .channel-empty__icon
+            = inline_svg_tag("search_gray.svg", width: "40", height: "40") rescue nil
+          h2 = t("dashboard.inboxes.no_search_results", default: "No matching inboxes")
+          p = t("dashboard.inboxes.no_search_results_desc", default: "Try adjusting your search query.")
+      - else
+        .channel-empty
+          .channel-empty__icon
+            = inline_svg_tag("inbox.svg", width: "48", height: "48") rescue nil
+          h2 = t("dashboard.inboxes.empty_title", default: "No inboxes configured yet")
+          p = t("dashboard.inboxes.empty_description", default: "Inboxes are automatically created when you connect channels like Email, Web Widget, Contact Form, or WhatsApp.")
+          = link_to channels_settings_path, class: "tm-users-invite", style: "margin-top: 16px;" do
+            span = t("dashboard.channels_overview.add_channel", default: "Connect a Channel")
+            = inline_svg_tag("plus_white.svg", class: "plus-icon") rescue nil

@@ -132,7 +132,8 @@ module Dashboard
             access_token: result[:access_token],
             expires_at: result[:expires_at]
           },
-          current_account: current_account
+          current_account: current_account,
+          current_user: current_user
         )
 
         if creator.call
@@ -187,8 +188,8 @@ module Dashboard
           instagram_channel: [
             :name,
             primary_inbox_attributes: [
-              :id, :reopen_window_seconds, :csat_survey_enabled, :csat_survey_id, :business_hour_group_id,
-              sla_policy_ids: []
+              :id, :reopen_window_seconds, :csat_survey_enabled, :auto_assign, :csat_survey_id, :business_hour_group_id,
+              sla_policy_ids: [], user_ids: [], team_ids: []
             ]
           ]
         )

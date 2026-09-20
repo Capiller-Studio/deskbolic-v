@@ -120,7 +120,8 @@ module Dashboard
             business_account_id: result[:waba_id],
             provider_embedded_signup: true
           },
-          current_account: current_account
+          current_account: current_account,
+          current_user: current_user
         )
 
         if creator.call
@@ -149,7 +150,8 @@ module Dashboard
         creator = ::Channels::ChannelCreator.new(
           channel_type: "whatsapp",
           channel_params: whatsapp_channel_create_params.merge(provider_embedded_signup: false),
-          current_account: current_account
+          current_account: current_account,
+          current_user: current_user
         )
 
         if creator.call
@@ -271,8 +273,8 @@ module Dashboard
           channel_whatsapp: [
             :name, :api_key, :template_name, :template_language,
             primary_inbox_attributes: [
-              :id, :reopen_window_seconds, :csat_survey_enabled, :csat_survey_id, :business_hour_group_id,
-              sla_policy_ids: []
+              :id, :reopen_window_seconds, :csat_survey_enabled, :auto_assign, :csat_survey_id, :business_hour_group_id,
+              sla_policy_ids: [], user_ids: [], team_ids: []
             ]
           ]
         )

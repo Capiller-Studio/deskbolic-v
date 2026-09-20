@@ -1,0 +1,86 @@
+- inbox = inbox_f.object || Inbox.new
+- assigned_uids = inbox.persisted? ? inbox.assigned_user_ids : [current_user.id.to_s]
+- assigned_tids = inbox.persisted? ? inbox.assigned_team_ids : []
+- account_users = current_account.account_users.includes(:roles, user: { avatar_attachment: :blob })
+- teams = current_account.teams.order(:name)
+
+.inbox-collaborators-section.channel-collaborators-field data-controller="inbox-collaborators" style="margin-top: 24px;"
+  .inbox-section-header
+    div
+      h4.f-semi-14 = t("dashboard.inboxes.collaborators_modal.agents_section", default: "Assigned Teammates & Collaborators")
+      p.f-reg-12.text-muted = t("dashboard.inboxes.collaborators_modal.agents_section_desc", default: "Designate teammates who have visibility and auto-assignment access to this channel.")
+    .inbox-selection-tools
+      span.inbox-selection-count.f-reg-12
+        span data-inbox-collaborators-target="count" = assigned_uids.size
+        |  #{t("dashboard.inboxes.collaborators_modal.selected", default: "selected")}
+      button.inbox-tool-btn type="button" data-action="click->inbox-collaborators#selectAll"
+        = t("dashboard.inboxes.collaborators_modal.select_all", default: "Select All")
+      button.inbox-tool-btn.inbox-tool-btn--clear type="button" data-action="click->inbox-collaborators#clearAll"
+        = t("dashboard.inboxes.collaborators_modal.clear", default: "Clear")
+
+  .inbox-search-bar
+    svg viewBox="0 0 24 24" aria-hidden="true" width="16" height="16" class="inbox-search-icon"
+      circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"
+      path d="m20 20-4-4" fill="none" stroke="currentColor" stroke-width="2"
+    input.inbox-search-input.f-reg-14(
+      type="search"
+      placeholder=t("dashboard.inboxes.collaborators_modal.search_agents", default: "Search agents by name or email...")
+      aria-label=t("dashboard.inboxes.collaborators_modal.search_agents", default: "Search agents")
+      data-inbox-collaborators-target="query"
+      data-action="input->inbox-collaborators#filter"
+    )
+
+  .inbox-members-list.inbox-members-list--inline
+    - if account_users.any?
+      - account_users.each do |au|
+        - user = au.user
+        - u_name = full_name(user).presence || user.email
+        - role_tag = au.owner? ? "Owner" : (au.roles.first&.name || "Agent")
+        - is_checked = assigned_uids.include?(user.id.to_s)
+        .inbox-member-row(
+          data-inbox-collaborators-target="item"
+          data-searchable="#{u_name.downcase} #{user.email.downcase} #{role_tag.downcase}"
+          data-action="click->inbox-collaborators#toggleRow"
+        )
+          .inbox-member-identity
+            - if user.avatar.attached?
+              = image_tag user.avatar, class: "inbox-member-avatar", alt: u_name
+            - else
+              .inbox-member-avatar.avatar-fallback class=avatar_fallback_color_class(u_name)
+                = initials(user)
+            .inbox-member-details
+              .inbox-member-name-row
+                span.inbox-member-name = u_name
+                - if user == current_user
+                  span.inbox-you-tag = t("dashboard.users.index.you", default: "You")
+                span.inbox-role-tag class="inbox-role-tag--#{role_tag.parameterize}" = role_tag
+              span.inbox-member-email = user.email
+
+          label.custom-checkbox.inbox-member-checkbox
+            = check_box_tag "#{inbox_f.object_name}[user_ids][]", user.id, is_checked, data: { "inbox-collaborators-target" => "checkbox", action: "change->inbox-collaborators#updateCount" }
+            .checkmark
+
+      .inbox-empty-search data-inbox-collaborators-target="empty" style="display: none;"
+        p.f-reg-13.text-muted = t("dashboard.inboxes.collaborators_modal.no_matches", default: "No teammates match your search.")
+    - else
+      .inbox-empty-search
+        p.f-reg-13.text-muted = t("dashboard.inboxes.collaborators_modal.no_members", default: "No teammates found in this workspace.")
+
+  - if teams.any?
+    .inbox-teams-section style="margin-top: 16px;"
+      h5.f-semi-13 style="margin-bottom: 8px;" = t("dashboard.inboxes.collaborators_modal.teams_section", default: "Assign Teams")
+      .inbox-teams-grid
+        - teams.each do |team|
+          - is_team_checked = assigned_tids.include?(team.id.to_s)
+          label.inbox-team-card
+            = check_box_tag "#{inbox_f.object_name}[team_ids][]", team.id, is_team_checked, class: "inbox-team-checkbox"
+            .inbox-team-card-inner
+              .inbox-team-icon-box
+                svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"
+                  path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"
+                  circle cx="9" cy="7" r="4"
+                  path d="M23 21v-2a4 4 0 0 0-3-3.87"
+                  path d="M16 3.13a4 4 0 0 1 0 7.75"
+              .inbox-team-card-text
+                span.f-semi-13 = team.name
+                span.f-reg-11.text-muted = t("dashboard.teams.members_count", count: team.team_users.size, default: "%{count} members")

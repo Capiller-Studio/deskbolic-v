@@ -195,7 +195,13 @@ Rails.application.routes.draw do
 
       resources :channels
       resources :reports, only: [ :index ]
-      resources :inboxes
+      resources :inboxes do
+        member do
+          post :add_member
+          delete :remove_member
+          patch :update_members
+        end
+      end
       resources :messages do
         get :append_message, on: :collection
         get :update_message, on: :collection
@@ -309,6 +315,7 @@ Rails.application.routes.draw do
           get :canned_responses
           get :office_timings
           get :team_inboxes
+          get :inboxes
           get :messenger
           get :teammates
           get :tickets

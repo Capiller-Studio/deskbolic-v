@@ -73,6 +73,8 @@
                 .channel-edit-select.ui-field-control.ui-field-control--no-icon
                   = inbox_f.collection_select :csat_survey_id, @csat_surveys, :id, :name, { include_blank: t("forms.options.default_survey") }, { class: "ui-select ui-control", data: { controller: "select" } }
 
+            = render "dashboard/channels/shared/collaborators_fields", inbox_f: inbox_f
+
   / ─── Appearance & Branding ───
   .ww-section.ui-section data-contact-form-channel-target="appearanceSection"
     .ww-section-header data-action="click->contact-form-channel#toggleSection"

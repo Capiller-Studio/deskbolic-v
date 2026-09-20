@@ -59,6 +59,11 @@
                 .link-text
                   .conversation-name.inbox-conv
                     p.f-reg-14 = t('dashboard.sidebar.settings.users')
+            li.nav-item class="#{current_page == 'inboxes' ? 'st-list-active' : ''}" data-action="click->accordion#toggle" data-filterable-collection-target="item" data-searchable=t('dashboard.sidebar.settings.inboxes', default: 'Inboxes')
+              = link_to(inboxes_settings_path, class: "nav-link") do
+                .link-text
+                  .conversation-name.inbox-conv
+                    p.f-reg-14 = t('dashboard.sidebar.settings.inboxes', default: 'Inboxes')
             li.nav-item class="#{current_page == 'customers' ? 'st-list-active' : ''}" data-action="click->accordion#toggle" data-filterable-collection-target="item" data-searchable=t('dashboard.customers.index.title', default: 'Customers')
               = link_to(customers_path, class: "nav-link") do
                 .link-text
@@ -336,7 +341,7 @@
         .settings-sidebar-account-host.deskbolic-shell
           = render "dashboard/shared/sidebar_account_menu", show_settings: false, locale_field: :settings_dashboard_locale, locale_id: "settings-sidebar-locale-select"
 
-    .helpdesk-body.settings-body class=("settings-body--#{current_page}" if %w[billing users customers].include?(current_page))
+    .helpdesk-body.settings-body class=("settings-body--#{current_page}" if %w[billing users customers inboxes].include?(current_page))
       == yield
 
     = render 'dashboard/shared/mobile_navigation', active: (current_page == 'profile' ? 'profile' : 'settings')

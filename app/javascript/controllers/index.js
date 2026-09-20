@@ -222,3 +222,7 @@ application.register("tags-input", TagsInputController)
 
 import SsoController from "./sso_controller"
 application.register("sso", SsoController)
+
+import InboxCollaboratorsController from "./inbox_collaborators_controller"
+application.register("inbox-collaborators", InboxCollaboratorsController)
+

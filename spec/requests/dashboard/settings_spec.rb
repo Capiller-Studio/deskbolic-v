@@ -34,4 +34,12 @@ RSpec.describe 'Dashboard::Settings', type: :request do
       expect(response).to have_http_status(:ok)
     end
   end
+
+  describe 'GET /settings/inboxes' do
+    it 'renders inboxes settings page' do
+      get inboxes_settings_path(locale: :en)
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include('Inboxes')
+    end
+  end
 end

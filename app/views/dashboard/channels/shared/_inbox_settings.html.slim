@@ -37,6 +37,9 @@
           = select_tag "#{inbox_f.object_name}[sla_policy_ids][]", options_from_collection_for_select(current_account.sla_policies, :id, :name, inbox_f.object.sla_policy_ids.first), include_blank: t("dashboard.channels.edit.none_selected", default: "None Selected"), class: "ui-select ui-control", data: { controller: "select" }
 
     hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 24px 0;"
+    = render "dashboard/channels/shared/collaborators_fields", inbox_f: inbox_f
+
+    hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 24px 0;"
     h4.f-semi-14 style="margin-bottom: 8px;" 
       = t("dashboard.inboxes.ai_features.title")
       = plan_upgrade_bubble(:ai_copilot)

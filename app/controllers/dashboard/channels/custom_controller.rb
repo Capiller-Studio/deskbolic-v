@@ -30,7 +30,8 @@ module Dashboard
         creator = ::Channels::ChannelCreator.new(
           channel_type: "custom",
           channel_params: custom_channel_create_params,
-          current_account: current_account
+          current_account: current_account,
+          current_user: current_user
         )
 
         if creator.call
@@ -188,9 +189,9 @@ module Dashboard
         params.expect(
           channel_custom: [ :name, :description, :webhook_url,
           primary_inbox_attributes: [
-            :id, :reopen_window_seconds, :csat_survey_enabled, :csat_survey_id,
+            :id, :reopen_window_seconds, :csat_survey_enabled, :auto_assign, :csat_survey_id,
             :conversation_reply_template_id, :business_hour_group_id,
-            sla_policy_ids: []
+            sla_policy_ids: [], user_ids: [], team_ids: []
           ] ]
         )
       end

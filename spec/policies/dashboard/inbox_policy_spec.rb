@@ -20,12 +20,15 @@ RSpec.describe Dashboard::InboxPolicy do
 
 
   describe 'permissions' do
-    it 'permits index, show, create, update, destroy' do
+    it 'permits index, show, create, update, destroy and member management' do
       expect(subject.index?).to be true
       expect(subject.show?).to be true
       expect(subject.create?).to be true
       expect(subject.update?).to be true
       expect(subject.destroy?).to be true
+      expect(subject.update_members?).to be true
+      expect(subject.add_member?).to be true
+      expect(subject.remove_member?).to be true
     end
   end
 end

@@ -329,8 +329,13 @@ module Dashboard
     end
 
     def find_conversations(resource_id)
-      @inbox = current_account.inboxes.find_by(id: resource_id) if resource_id.present?
-      @inbox ? @inbox.conversations.where(account: current_account) : current_account.conversations
+      if resource_id.present?
+        @inbox = current_account.inboxes.find_by(id: resource_id)
+        authorize(@inbox, :show?) if @inbox
+        @inbox ? @inbox.conversations.where(account: current_account) : current_account.conversations
+      else
+        current_account.conversations
+      end
     end
 
     def search_conversations(conversations, query)
@@ -349,7 +354,12 @@ module Dashboard
     private
 
     def load_navigation
-      @inboxes = current_account.inboxes.all
+      account_user = current_account.account_users.find_by(user_id: current_user.id)
+      @inboxes = if account_user&.owner? || account_user&.can?("inboxes.read")
+                   current_account.inboxes.all
+                 else
+                   current_account.inboxes.for_user(current_user)
+                 end
       @teams = current_account.teams.includes(:team_users).order(:name)
       @team_users = @teams.flat_map(&:team_users).reject { |team_user| team_user.user_id == current_user.id }.uniq(&:user_id)
       @team_id = params[:team_id].presence
@@ -359,7 +369,15 @@ module Dashboard
     end
 
     def visible_conversations(scope)
-      scope.current_conversations(current_user).or(scope.not_assigned_to_user).distinct
+      account_user = current_account.account_users.find_by(user_id: current_user.id)
+      if account_user&.owner? || account_user&.can?("conversations.read")
+        scope.current_conversations(current_user).or(scope.not_assigned_to_user).distinct
+      else
+        accessible_inbox_ids = current_account.inboxes.for_user(current_user).select(:id)
+        assigned_or_member = scope.current_conversations(current_user).or(scope.where(assignee_id: current_user.id))
+        unassigned_accessible = scope.not_assigned_to_user.where(inbox_id: accessible_inbox_ids)
+        assigned_or_member.or(unassigned_accessible).distinct
+      end
     end
 
     def apply_sidebar_scope

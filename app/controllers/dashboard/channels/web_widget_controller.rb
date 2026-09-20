@@ -31,7 +31,8 @@ module Dashboard
       creator = ::Channels::ChannelCreator.new(
         channel_type: "web_widget",
         channel_params: web_widget_channel_params,
-        current_account: current_account
+        current_account: current_account,
+        current_user: current_user
       )
 
       if creator.call
@@ -106,7 +107,7 @@ module Dashboard
         allowed_hosts: [],
         ui_configurations: [ :theme_color, :position, :footer_text ],
         configurations: [],
-        primary_inbox_attributes: [ :id, :reopen_window_seconds, :csat_survey_enabled, :auto_assign, :csat_survey_id, :conversation_reply_template_id, :business_hour_group_id, :ai_classification, :ai_auto_labelling, :ai_thank_you_detection, :ai_agent_id, sla_policy_ids: [] ],
+        primary_inbox_attributes: [ :id, :reopen_window_seconds, :csat_survey_enabled, :auto_assign, :csat_survey_id, :conversation_reply_template_id, :business_hour_group_id, :ai_classification, :ai_auto_labelling, :ai_thank_you_detection, :ai_agent_id, sla_policy_ids: [], user_ids: [], team_ids: [] ],
         translations_attributes: [ :id, :locale, :welcome_title, :welcome_tagline, :launcher_text, :reply_time_text, :pre_chat_title, :pre_chat_subtitle, :_destroy ] ]
       )
 

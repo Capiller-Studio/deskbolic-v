@@ -1,0 +1,77 @@
+- channel = inbox.channel
+- type = channel.present? ? channel_overview_type(channel) : "general"
+- channel_name = channel.present? ? channel_overview_name(channel) : inbox.name
+- identifier = channel.present? ? channel_overview_identifier(channel) : nil
+- edit_path = channel.present? ? channel_overview_edit_path(channel) : nil
+- collaborators = inbox.collaborator_users.to_a
+- teams = inbox.teams.to_a
+
+article.inbox-card id="inbox_card_#{inbox.id}" class="inbox-card--#{type.dasherize}"
+  .inbox-card__header
+    .inbox-card__identity
+      .inbox-card__avatar
+        - if channel.present? && channel_overview_logo(channel)
+          = image_tag channel_overview_logo(channel), alt: channel_name
+        - else
+          = image_tag inbox_channel_icon(inbox), class: "inbox-card__avatar-icon", alt: "", aria: { hidden: true }
+      .inbox-card__info
+        .inbox-card__title-row
+          h3.inbox-card__title = inbox.name
+          span.inbox-card__channel-tag class="inbox-card__channel-tag--#{type.dasherize}"
+            = inbox_channel_type_label(inbox)
+        - if identifier.present? && identifier != inbox.name
+          p.inbox-card__identifier = identifier
+
+    .inbox-card__badges
+      - if inbox.auto_assign
+        span.inbox-badge.inbox-badge--active title=t("dashboard.inboxes.auto_assign_active", default: "Auto-assignment is active")
+          span.inbox-badge__dot
+          span = t("dashboard.inboxes.auto_assign", default: "Auto-Assign")
+      - else
+        span.inbox-badge.inbox-badge--inactive title=t("dashboard.inboxes.auto_assign_inactive", default: "Auto-assignment disabled")
+          span = t("dashboard.inboxes.manual_assign", default: "Manual")
+
+  .inbox-card__body
+    .inbox-card__section
+      .inbox-card__section-label
+        span.f-semi-13 = t("dashboard.inboxes.collaborators", default: "Collaborators")
+        span.inbox-card__count = collaborators.size
+
+      - if collaborators.any?
+        .inbox-card__avatar-stack
+          - collaborators.first(5).each do |u|
+            - u_name = full_name(u).presence || u.email
+            .inbox-avatar-wrapper title=u_name
+              - if u.avatar.attached?
+                = image_tag u.avatar, class: "inbox-avatar", alt: u_name
+              - else
+                .inbox-avatar.avatar-fallback class=avatar_fallback_color_class(u_name)
+                  = initials(u)
+          - if collaborators.size > 5
+            .inbox-avatar.inbox-avatar--more title=t("dashboard.inboxes.more_collaborators", count: collaborators.size - 5, default: "+%{count} more")
+              | +#{collaborators.size - 5}
+      - else
+        p.inbox-card__empty-collaborators = t("dashboard.inboxes.no_collaborators_assigned", default: "No collaborators assigned")
+
+    - if teams.any?
+      .inbox-card__teams
+        - teams.each do |team|
+          span.inbox-team-badge
+            svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"
+              path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"
+              circle cx="9" cy="7" r="4"
+              path d="M23 21v-2a4 4 0 0 0-3-3.87"
+              path d="M16 3.13a4 4 0 0 1 0 7.75"
+            span = team.name
+
+  .inbox-card__footer
+    button.inbox-card__manage-btn type="button" data-action="click->modal-toggler#showModal click->frame-toggler#loadModal" data-url=inbox_path(inbox, modal: true)
+      svg viewBox="0 0 20 20" fill="currentColor" width="15" height="15" aria-hidden="true"
+        path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"
+      span = t("dashboard.inboxes.manage_collaborators", default: "Manage Collaborators")
+
+    - if edit_path.present?
+      = link_to edit_path, class: "inbox-card__settings-link", title: t("dashboard.inboxes.channel_settings", default: "Channel Settings") do
+        svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"
+          circle cx="12" cy="12" r="3"
+          path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"

@@ -10,7 +10,8 @@ module Dashboard
       creator = Channels::ChannelCreator.new(
         channel_type: params[:channel_type],
         channel_params: params,
-        current_account: current_account
+        current_account: current_account,
+        current_user: current_user
       )
 
       if creator.call

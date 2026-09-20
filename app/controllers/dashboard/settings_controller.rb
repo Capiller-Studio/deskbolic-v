@@ -43,6 +43,12 @@ module Dashboard
       @teams = current_account.teams.all
     end
 
+    def inboxes
+      @inboxes = current_account.inboxes.includes(:channel, :inbox_users, :inbox_teams, :teams).order(:name)
+      @account_users = current_account.account_users.includes(:roles, user: { avatar_attachment: :blob })
+      @teams = current_account.teams.order(:name)
+    end
+
 
     def messenger; end
 

@@ -62,6 +62,19 @@ RSpec.describe 'Dashboard Channel Specific Policies' do
         expect(subject.destroy?).to be true
       end
     end
+
+    context 'when feature is disabled' do
+      before { allow(account).to receive(:feature_enabled?).with('channels.contact_form').and_return(false) }
+
+      it 'denies all actions' do
+        expect(subject.index?).to be false
+        expect(subject.new?).to be false
+        expect(subject.create?).to be false
+        expect(subject.edit?).to be false
+        expect(subject.update?).to be false
+        expect(subject.destroy?).to be false
+      end
+    end
   end
 
   describe Dashboard::CustomChannelPolicy do

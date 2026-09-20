@@ -7,7 +7,7 @@ RSpec.describe 'Dashboard::Channels', type: :request do
   let(:user) { create(:user, confirmed_at: Time.current) }
   let!(:account_user) { create(:account_user, account: account, user: user, owner: true) }
   let(:plan) do
-    create(:plan, features: { 'channels' => { 'email' => true, 'instagram' => true, 'whatsapp' => true, 'facebook' => true } }, limits: { 'channels' => 100, 'users' => 100 })
+    create(:plan, features: { 'channels' => { 'email' => true, 'instagram' => true, 'whatsapp' => true, 'facebook' => true, 'contact_form' => true } }, limits: { 'channels' => 100, 'users' => 100 })
   end
   let!(:subscription) { create(:subscription, account: account, plan: plan, status: :active) }
   let(:email_channel) { account.with_shard { create(:channel_email, account: account, email: "test_#{SecureRandom.hex(4)}@acme.com") } }
@@ -390,4 +390,99 @@ RSpec.describe 'Dashboard::Channels', type: :request do
       end
     end
   end
+
+  describe 'Contact Form Channels' do
+    let(:contact_form_channel) do
+      account.with_shard do
+        channel = create(:channel_contact_form, account: account, name: 'Main Contact Form')
+        create(:inbox, channel: channel, account: account, primary_inbox: true)
+        channel
+      end
+    end
+
+    describe 'GET /channels/contact_form' do
+      it 'renders contact form channels index' do
+        get channels_contact_form_index_path(locale: :en)
+        expect(response).to have_http_status(:ok)
+      end
+    end
+
+    describe 'GET /channels/contact_form/new' do
+      it 'renders new contact form channel form' do
+        get new_channels_contact_form_path(locale: :en)
+        expect(response).to have_http_status(:ok)
+      end
+    end
+
+    describe 'POST /channels/contact_form' do
+      it 'creates a contact form channel and redirects to edit' do
+        expect {
+          post channels_contact_form_index_path(locale: :en), params: {
+            contact_form_channel: {
+              name: 'Support Request Form',
+              allow_attachments: '1',
+              send_confirmation_email: '1',
+              spam_protection_enabled: '1'
+            }
+          }
+          expect(response).to have_http_status(:redirect)
+        }.to change { account.with_shard { Channel::ContactForm.count } }.by(1)
+      end
+    end
+
+    describe 'GET /channels/contact_form/:id' do
+      it 'renders show details page with embed instructions' do
+        get channels_contact_form_path(id: contact_form_channel.id, locale: :en)
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include(contact_form_channel.name)
+      end
+    end
+
+    describe 'GET /channels/contact_form/:id/edit' do
+      it 'renders edit contact form channel page' do
+        get edit_channels_contact_form_path(id: contact_form_channel.id, locale: :en)
+        expect(response).to have_http_status(:ok)
+      end
+    end
+
+    describe 'PATCH /channels/contact_form/:id' do
+      it 'updates contact form channel name, flags, and custom CSS in ui_configurations' do
+        patch channels_contact_form_path(id: contact_form_channel.id, locale: :en), params: {
+          contact_form_channel: {
+            name: 'Updated Contact Form Name',
+            require_login: '1',
+            allow_attachments: '0',
+            send_confirmation_email: '1',
+            spam_protection_enabled: '1',
+            ui_configurations: {
+              theme_color: '#3b82f6',
+              position: 'center',
+              custom_css: '.contact-form-title { color: #1e293b; }'
+            }
+          }
+        }
+        expect(response).to have_http_status(:redirect)
+
+        account.with_shard do
+          contact_form_channel.reload
+          expect(contact_form_channel.name).to eq('Updated Contact Form Name')
+          expect(contact_form_channel.require_login?).to be true
+          expect(contact_form_channel.allow_attachments?).to be false
+          expect(contact_form_channel.send_confirmation_email?).to be true
+          expect(contact_form_channel.spam_protection_enabled?).to be true
+          expect(contact_form_channel.custom_css).to eq('.contact-form-title { color: #1e293b; }')
+          expect(contact_form_channel.ui_configurations['theme_color']).to eq('#3b82f6')
+        end
+      end
+    end
+
+    describe 'DELETE /channels/contact_form/:id' do
+      it 'destroys contact form channel' do
+        delete channels_contact_form_path(id: contact_form_channel.id, locale: :en)
+        expect(response).to have_http_status(:redirect)
+        expect(account.with_shard { Channel::ContactForm.where(id: contact_form_channel.id) }).not_to exist
+      end
+    end
+  end
 end
+

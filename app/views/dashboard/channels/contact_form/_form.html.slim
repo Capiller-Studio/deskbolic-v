@@ -92,6 +92,12 @@
           .channel-edit-select.ui-field-control.ui-field-control--no-icon
             = select_tag "contact_form_channel[ui_configurations][position]", options_for_select([[t("forms.options.left_aligned"), "left"], [t("forms.options.center_aligned"), "center"], [t("forms.options.right_aligned"), "right"]], contact_form_channel.ui_configurations&.dig("position") || "left"), class: "ui-select ui-control", data: { controller: "select" }
 
+      .ww-form-row style="margin-top: 16px;"
+        div style="width: 100%;"
+          label.ww-label = t("dashboard.contact_form_channels.form.custom_css_label", default: "Custom CSS")
+          p.ww-section-desc = t("dashboard.contact_form_channels.form.custom_css_desc", default: "Add custom CSS rules to override form styles when embedded on your website.")
+          = text_area_tag "contact_form_channel[ui_configurations][custom_css]", contact_form_channel.ui_configurations&.dig("custom_css"), class: "ww-input channel-textarea", rows: 4, placeholder: "/* e.g. .contact-form-title { color: #1e293b; } */", style: "font-family: monospace; font-size: 13px;"
+
   / ─── Custom Fields Builder ───
   .ww-section.ui-section data-contact-form-channel-target="integrationsSection"
     .ww-section-header data-action="click->contact-form-channel#toggleSection"

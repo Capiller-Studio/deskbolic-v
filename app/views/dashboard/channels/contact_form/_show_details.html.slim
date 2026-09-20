@@ -13,6 +13,10 @@ section.channel-edit-section.channel-edit-card
       .channel-show-details__item
         dt = t("dashboard.contact_form_channels.form.position_label", default: "Form Alignment")
         dd = channel_show_position_label(channel, default: "left")
+      - if channel.ui_configurations&.dig("custom_css").present?
+        .channel-show-details__item
+          dt = t("dashboard.contact_form_channels.form.custom_css_label", default: "Custom CSS")
+          dd = t("general.configured", default: "Configured")
 
 section.channel-edit-section.channel-edit-card
   .channel-edit-section__heading.channel-edit-section__heading--with-description

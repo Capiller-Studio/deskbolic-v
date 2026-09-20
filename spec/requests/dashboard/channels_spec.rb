@@ -474,6 +474,34 @@ RSpec.describe 'Dashboard::Channels', type: :request do
           expect(contact_form_channel.ui_configurations['theme_color']).to eq('#3b82f6')
         end
       end
+
+      it 'handles ordered_fields and primary_inbox collaborator params without error' do
+        inbox = account.with_shard { contact_form_channel.primary_inbox }
+        other_user = create(:user)
+        account.with_shard { create(:account_user, account: account, user: other_user) }
+
+        patch channels_contact_form_path(id: contact_form_channel.id, locale: :en), params: {
+          contact_form_channel: {
+            name: 'Form with Collaborators',
+            ordered_fields: ['non-existent-field-id'],
+            primary_inbox_attributes: {
+              id: inbox.id,
+              user_ids: [user.id.to_s, other_user.id.to_s]
+            },
+            ui_configurations: {
+              theme_color: '#7C3AED'
+            }
+          }
+        }
+        expect(response).to have_http_status(:redirect)
+
+        account.with_shard do
+          contact_form_channel.reload
+          expect(contact_form_channel.name).to eq('Form with Collaborators')
+          expect(contact_form_channel.ui_configurations['theme_color']).to eq('#7C3AED')
+          expect(inbox.reload.assigned_user_ids).to match_array([user.id.to_s, other_user.id.to_s])
+        end
+      end
     end
 
     describe 'DELETE /channels/contact_form/:id' do

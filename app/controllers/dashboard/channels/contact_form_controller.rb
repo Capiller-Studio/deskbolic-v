@@ -51,12 +51,15 @@ module Dashboard
       current_account.with_shard do
         params_to_update = contact_form_channel_params
 
-        @contact_form_channel.require_login = params_to_update[:require_login] == "1" || params_to_update[:require_login] == true || params_to_update[:require_login] == "true"
-        @contact_form_channel.allow_attachments = params_to_update[:allow_attachments] == "1" || params_to_update[:allow_attachments] == true || params_to_update[:allow_attachments] == "true"
-        @contact_form_channel.send_confirmation_email = params_to_update[:send_confirmation_email] == "1" || params_to_update[:send_confirmation_email] == true || params_to_update[:send_confirmation_email] == "true"
-        @contact_form_channel.spam_protection_enabled = params_to_update[:spam_protection_enabled] == "1" || params_to_update[:spam_protection_enabled] == true || params_to_update[:spam_protection_enabled] == "true"
+        @contact_form_channel.require_login = truthy_param?(params_to_update[:require_login])
+        @contact_form_channel.allow_attachments = truthy_param?(params_to_update[:allow_attachments])
+        @contact_form_channel.send_confirmation_email = truthy_param?(params_to_update[:send_confirmation_email])
+        @contact_form_channel.spam_protection_enabled = truthy_param?(params_to_update[:spam_protection_enabled])
 
-        params_to_update = params_to_update.except(:require_login, :allow_attachments, :send_confirmation_email, :spam_protection_enabled, :custom_field_ids)
+        params_to_update = params_to_update.except(
+          :require_login, :allow_attachments, :send_confirmation_email, :spam_protection_enabled,
+          :custom_field_ids, :ordered_fields
+        )
 
         if @contact_form_channel.update(params_to_update)
           assign_custom_fields
@@ -134,19 +137,23 @@ module Dashboard
         ui_configurations: [ :theme_color, :position, :custom_css ],
         primary_inbox_attributes: [ :id, :reopen_window_seconds, :csat_survey_enabled, :auto_assign, :csat_survey_id, :conversation_reply_template_id, :business_hour_group_id, sla_policy_ids: [], user_ids: [], team_ids: [] ],
         translations_attributes: [ :id, :locale, :title, :subtitle, :success_message, :submit_button_text, :_destroy ] ]
-      ).to_h
-
-      result = permitted.slice(
-        "name", "require_login", "allow_attachments", "send_confirmation_email", "spam_protection_enabled",
-        "primary_inbox_attributes", "translations_attributes", "custom_field_ids", "ordered_fields",
-        "submit_redirect_url", "outbound_channel_id", "outbound_channel_type"
       )
 
-      if permitted["ui_configurations"].present?
-        result["ui_configurations"] = permitted["ui_configurations"].compact_blank
+      result = permitted.slice(
+        :name, :require_login, :allow_attachments, :send_confirmation_email, :spam_protection_enabled,
+        :primary_inbox_attributes, :translations_attributes, :custom_field_ids, :ordered_fields,
+        :submit_redirect_url, :outbound_channel_id, :outbound_channel_type
+      ).to_h.with_indifferent_access
+
+      if permitted[:ui_configurations].present?
+        result[:ui_configurations] = permitted[:ui_configurations].to_h.compact_blank
       end
 
       result
+    end
+
+    def truthy_param?(value)
+      value == "1" || value == true || value == "true"
     end
     end
   end

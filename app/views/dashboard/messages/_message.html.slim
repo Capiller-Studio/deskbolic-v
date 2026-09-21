@@ -95,7 +95,22 @@
           .reply-to-context
             .reply-to-sender = message.reply_to_message.sender.try(:name) || message.reply_to_message.sender.try(:display_name) || message.reply_to_message.sender_type
             .reply-to-content = ActionView::Base.full_sanitizer.sanitize(message.reply_to_message.content.to_s).strip.truncate(80)
-        - if message.content.present?
+        - if message.csat?
+          .csat-survey-card
+            .csat-survey-header
+              .csat-survey-badge
+                span.csat-survey-icon ⭐
+                span.csat-survey-badge-title = t('dashboard.csat.survey_badge', default: 'Customer Satisfaction Survey')
+            .csat-survey-body
+              p.csat-survey-title = t('dashboard.csat.survey_sent_to_customer', default: 'Customer satisfaction survey was sent to the customer.')
+            - if message.csat_survey_response&.submitted?
+              .csat-survey-rating
+                span.csat-rating-stars = "★" * message.csat_survey_response.rating.to_i
+                span.csat-rating-score = "#{message.csat_survey_response.rating} / 5"
+            - else
+              .csat-survey-pending
+                span = t('dashboard.csat.awaiting_rating', default: 'Awaiting customer response')
+        - elsif message.content.present?
           .original data-translator-target="original" class=[(single_emoji ? 'single-emoji-message' : 'f-reg-14'), (is_private ? 'private-note-bg' : nil)]
             - if single_emoji
               == message.content

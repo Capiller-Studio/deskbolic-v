@@ -173,8 +173,8 @@ class ConversationReplyMailer < ApplicationMailer
     protocol = Rails.env.local? ? "http" : "https"
     host = ENV.fetch("MARKETING_HOST", "deskbolic.com")
     locale = @conversation.locale || @conversation.customers.first&.locale || I18n.default_locale
-    csat_id = @message.csat_response_id || @message.data["csat_response_id"]
-    "#{protocol}://csat.#{host}/#{locale}/#{csat_id}"
+    routing_id = @message.csat_survey_response&.global_routing_id || @message.csat_survey_response&.id
+    "#{protocol}://csat.#{host}/#{locale}/#{routing_id}"
   end
 
   # If the inbox channel is a ContactForm with a configured outbound email channel,

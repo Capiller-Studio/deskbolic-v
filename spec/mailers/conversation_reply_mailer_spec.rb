@@ -53,5 +53,19 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
         end
       end
     end
+
+    context 'when message is a CSAT survey' do
+      let(:csat_message) { create(:message, account: account, conversation: conversation, sender: account, content_type: :csat, content: 'Please rate our service') }
+      let!(:csat_response) { create(:csat_survey_response, account: account, conversation: conversation, customer: customer, message: csat_message) }
+
+      it 'renders CSAT survey email without error using dedicated association' do
+        mail = described_class.reply(conversation, csat_message, channel)
+        expect(mail.to).to eq([ 'customer@example.com' ])
+        expect(mail.subject).to include('Help with Order')
+        survey_token = csat_response.global_routing_id
+        expect(mail.html_part.body.encoded).to include(survey_token)
+        expect(mail.text_part.body.encoded).to include(survey_token)
+      end
+    end
   end
 end

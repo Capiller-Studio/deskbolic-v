@@ -371,6 +371,72 @@
         color: #715b1d !important;
         background: #fff7d6 !important;
       }
+
+      .csat-survey-card {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        width: 100%;
+        padding: 13px 15px;
+        border: 1px solid #dbeafe;
+        border-radius: 12px;
+        background: #f0f7ff;
+        color: #1e293b;
+        text-align: left;
+
+        .csat-survey-header {
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+        }
+
+        .csat-survey-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          padding: 3px 8px;
+          border-radius: 6px;
+          background: #e0e7ff;
+          color: #3730a3;
+          font-family: $font-family-inter-semibold;
+          font-size: 11px;
+          font-weight: 600;
+
+          .csat-survey-icon {
+            font-size: 12px;
+          }
+        }
+
+        .csat-survey-prompt {
+          color: #1e293b;
+          font-family: $font-family-inter-medium;
+          font-size: 13px;
+          line-height: 19px;
+        }
+
+        .csat-survey-rating {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          color: #92400e;
+          font-family: $font-family-inter-semibold;
+          font-size: 12px;
+          font-weight: 600;
+
+          .csat-rating-stars {
+            color: #f59e0b;
+            font-size: 14px;
+            letter-spacing: 2px;
+          }
+        }
+
+        .csat-survey-pending {
+          color: #64748b;
+          font-family: $font-family-inter-regular;
+          font-size: 11.5px;
+          font-style: italic;
+        }
+      }
     }
   }
 
@@ -867,6 +933,19 @@
     font-family: $font-family-inter-regular;
     font-size: 13px;
     line-height: 18px;
+
+    strong,
+    b,
+    .lexical-bold {
+      font-family: $font-family-inter-semibold !important;
+      font-weight: 600 !important;
+    }
+
+    em,
+    i,
+    .lexical-italic {
+      font-style: italic !important;
+    }
   }
 
   .footer .lexical-editor-root:empty::before {
@@ -2721,7 +2800,7 @@
       /* font-weight: bold; */
     }
 
-    &[data-lexical-target="boldBtn"] { font-weight: 700; font-family: $font-family-inter-regular; }
+    &[data-lexical-target="boldBtn"] { font-weight: 700; font-family: $font-family-inter-semibold; }
     &[data-lexical-target="italicBtn"] { font-style: italic; font-family: $font-family-inter-regular; }
     &[data-lexical-target="strikeBtn"] { text-decoration: line-through; }
     &[data-lexical-target="codeBtn"] { font-family: monospace; font-weight: 600; }
@@ -2790,8 +2869,24 @@
   }
 }
 
-.lexical-bold { font-weight: bold; }
-.lexical-italic { font-style: italic; }
+.lexical-bold,
+.lexical-editor-root strong,
+.lexical-editor-root b,
+.conversation strong,
+.conversation b,
+.conversation .lexical-bold {
+  font-family: $font-family-inter-semibold !important;
+  font-weight: 600 !important;
+}
+
+.lexical-italic,
+.lexical-editor-root em,
+.lexical-editor-root i,
+.conversation em,
+.conversation i,
+.conversation .lexical-italic {
+  font-style: italic !important;
+}
 .lexical-strikethrough { text-decoration: line-through; }
 .lexical-code {
   background-color: #f1f5f9;

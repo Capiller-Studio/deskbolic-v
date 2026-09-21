@@ -29,5 +29,9 @@ module Dashboard
     def destroy?
       authorized?("inboxes.delete", feature: "channels.web_widget")
     end
+
+    def purge_cache?
+      update?
+    end
   end
 end

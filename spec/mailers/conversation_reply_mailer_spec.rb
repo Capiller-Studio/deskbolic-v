@@ -26,5 +26,31 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
       mail = described_class.reply(conversation, message, channel)
       expect(mail.from).to include(channel.email)
     end
+
+    context 'when replying to contact form conversation' do
+      let(:contact_form) { create(:channel_contact_form, account: account, outbound_channel: outbound_email) }
+      let(:inbox) { create(:inbox, account: account, channel: contact_form, name: 'Contact Form Inbox') }
+
+      context 'with outbound email channel configured' do
+        let(:outbound_email) { create(:channel_email, account: account, email: "custom-#{SecureRandom.hex(4)}@acme.com") }
+
+        it 'uses outbound email channel' do
+          mail = described_class.reply(conversation, message)
+          expect(mail.to).to eq([ 'customer@example.com' ])
+          expect(mail.reply_to.first).to match(/reply\+#{conversation.identifier}@/)
+        end
+      end
+
+      context 'without outbound email channel configured' do
+        let(:outbound_email) { nil }
+
+        it 'defaults to system relay and account helpbolic reply-to domain' do
+          mail = described_class.reply(conversation, message)
+          expect(mail.to).to eq([ 'customer@example.com' ])
+          expect(mail.from).to include('support@helpbolic.com')
+          expect(mail.reply_to).to eq([ "reply+#{conversation.identifier}@acme.helpbolic.com" ])
+        end
+      end
+    end
   end
 end

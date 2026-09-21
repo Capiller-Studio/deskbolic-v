@@ -96,7 +96,7 @@
             .reply-to-sender = message.reply_to_message.sender.try(:name) || message.reply_to_message.sender.try(:display_name) || message.reply_to_message.sender_type
             .reply-to-content = ActionView::Base.full_sanitizer.sanitize(message.reply_to_message.content.to_s).strip.truncate(80)
         - if message.csat?
-          .csat-survey-card
+          .conversation-csat-card
             .csat-survey-header
               .csat-survey-badge
                 span.csat-survey-icon ⭐
@@ -107,6 +107,10 @@
               .csat-survey-rating
                 span.csat-rating-stars = "★" * message.csat_survey_response.rating.to_i
                 span.csat-rating-score = "#{message.csat_survey_response.rating} / 5"
+              - if message.csat_survey_response.content.present?
+                .csat-feedback-quote
+                  .csat-feedback-label = t('dashboard.csat.customer_feedback', default: 'Customer Feedback:')
+                  p.csat-feedback-text = message.csat_survey_response.content
             - else
               .csat-survey-pending
                 span = t('dashboard.csat.awaiting_rating', default: 'Awaiting customer response')

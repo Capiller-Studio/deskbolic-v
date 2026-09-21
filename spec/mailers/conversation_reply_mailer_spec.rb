@@ -18,6 +18,7 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
       expect(mail.to).to eq([ 'customer@example.com' ])
       expect(mail.subject).to include('Help with Order')
       expect(mail.from).to include('support@helpbolic.com')
+      expect(mail[:from].display_names).to eq([ "Agent Smith from #{account.name}" ])
       expect(mail.reply_to.first).to match(/reply\+#{conversation.identifier}@/)
     end
 

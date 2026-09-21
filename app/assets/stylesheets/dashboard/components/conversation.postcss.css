@@ -267,7 +267,7 @@
   .conversation .msg-attachments {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 5px;
     margin-top: 6px;
   }
 
@@ -923,6 +923,52 @@
     }
   }
 
+  .footer .lexical-toolbar {
+    display: flex;
+    width: fit-content;
+    flex: 0 0 auto;
+    align-self: flex-start;
+    gap: 6px;
+    margin: 8px 12px 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+  }
+
+  .footer .lexical-toolbar .format-btn {
+    min-width: 21px;
+    height: 21px;
+    padding: 0 4px;
+    border: 1px solid #dfe3ea;
+    border-radius: 6px;
+    color: #6f7686;
+    background: #f7f8fa;
+    font-size: 9px;
+    line-height: 1;
+
+    svg {
+      width: 10px !important;
+      height: 10px !important;
+    }
+
+    &:hover {
+      border-color: #cbd1dc;
+      color: #14171f;
+      background: #fff;
+    }
+
+    &:focus-visible {
+      outline: 2px solid #7c6df2;
+      outline-offset: 1px;
+    }
+
+    &.active {
+      border-color: #c8c2ff;
+      color: #4f46d8 !important;
+      background: #efedff !important;
+      box-shadow: none;
+    }
+  }
 
   .footer .lexical-editor-root.form-control {
     min-height: 76px;

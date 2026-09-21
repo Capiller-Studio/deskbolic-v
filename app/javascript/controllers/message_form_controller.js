@@ -34,26 +34,31 @@ export default class extends Controller {
 
   setReply(event) {
     if(this.hasVisibilityTarget) this.visibilityTarget.value = "global"
-    const editorRoot = document.querySelector(".lexical-editor-root")
+    const noteArea = this.element.querySelector(".note-area")
+    const editorRoot = this.element.querySelector(".lexical-editor-root")
+    if(noteArea) noteArea.style.backgroundColor = ""
     if (editorRoot) {
       editorRoot.style.backgroundColor = ""
       editorRoot.style.border = "none"
     }
-    const noteBtn = document.querySelector(".response-type .note")
-    const replyBtn = document.querySelector(".response-type .reply")
+    if(this.hasPreviewTarget) this.previewTarget.style.backgroundColor = ""
+    const noteBtn = this.element.querySelector(".response-type .note")
+    const replyBtn = this.element.querySelector(".response-type .reply")
     if(replyBtn) replyBtn.classList.add("active")
     if(noteBtn) noteBtn.classList.remove("active")
   }
 
   setNote(event) {
     if(this.hasVisibilityTarget) this.visibilityTarget.value = "personal"
-    const editorRoot = document.querySelector(".lexical-editor-root")
+    const noteArea = this.element.querySelector(".note-area")
+    const editorRoot = this.element.querySelector(".lexical-editor-root")
+    if(noteArea) noteArea.style.backgroundColor = "#fefce8"
     if (editorRoot) {
       editorRoot.style.backgroundColor = "#fefce8"
-      editorRoot.style.border = "1px solid #fef08a"
     }
-    const noteBtn = document.querySelector(".response-type .note")
-    const replyBtn = document.querySelector(".response-type .reply")
+    if(this.hasPreviewTarget) this.previewTarget.style.backgroundColor = "#fefce8"
+    const noteBtn = this.element.querySelector(".response-type .note")
+    const replyBtn = this.element.querySelector(".response-type .reply")
     if(noteBtn) noteBtn.classList.add("active")
     if(replyBtn) replyBtn.classList.remove("active")
   }

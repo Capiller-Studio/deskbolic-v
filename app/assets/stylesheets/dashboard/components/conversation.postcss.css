@@ -183,6 +183,16 @@
     white-space: pre-wrap;
     word-break: break-word;
 
+    div,
+    p,
+    ol,
+    ul,
+    li,
+    blockquote,
+    table {
+      white-space: normal;
+    }
+
     img,
     table {
       max-width: 100%;
@@ -190,7 +200,58 @@
     }
 
     p {
+      margin: 0 0 6px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    div {
       margin: 0;
+    }
+
+    ol {
+      list-style-type: decimal !important;
+      padding-left: 20px;
+      margin: 6px 0;
+
+      li {
+        list-style-type: decimal !important;
+        margin-bottom: 4px;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+
+    ul {
+      list-style-type: disc !important;
+      padding-left: 20px;
+      margin: 6px 0;
+
+      li {
+        list-style-type: disc !important;
+        margin-bottom: 4px;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+
+    strong,
+    b,
+    .lexical-bold {
+      font-family: $font-family-inter-semibold !important;
+      font-weight: 600;
+    }
+
+    em,
+    i,
+    .lexical-italic {
+      font-style: italic;
     }
   }
 
@@ -796,9 +857,6 @@
     }
   }
 
-  .footer .lexical-toolbar {
-    display: none;
-  }
 
   .footer .lexical-editor-root.form-control {
     min-height: 76px;

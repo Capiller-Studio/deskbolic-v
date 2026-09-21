@@ -19,8 +19,8 @@ class ConversationReplyMailer < ApplicationMailer
     @message = message
     @account = conversation.account
     @inbox = conversation.inbox
-    # Priority: Fallback param > Conversation outbound_channel > Inbox channel
-    @channel = fallback_channel || conversation.outbound_channel || @inbox.channel
+    # Priority: Fallback param > Conversation outbound_channel > Contact form outbound > Inbox channel
+    @channel = fallback_channel || conversation.outbound_channel || resolve_contact_form_outbound || @inbox.channel
 
     # Set view variables for the compiled MJML ERB template
     @agent_name = @message.sender.try(:display_name).presence || @message.sender.try(:name).presence || "Agent"
@@ -165,5 +165,14 @@ class ConversationReplyMailer < ApplicationMailer
     locale = @conversation.locale || @conversation.customers.first&.locale || I18n.default_locale
     csat_id = @message.csat_response_id || @message.data["csat_response_id"]
     "#{protocol}://csat.#{host}/#{locale}/#{csat_id}"
+  end
+
+  # If the inbox channel is a ContactForm with a configured outbound email channel,
+  # return that channel for sending replies.
+  def resolve_contact_form_outbound
+    channel = @inbox&.channel
+    return unless channel.is_a?(Channel::ContactForm)
+
+    channel.outbound_channel
   end
 end

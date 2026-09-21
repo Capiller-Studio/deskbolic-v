@@ -3,7 +3,7 @@
 module Dashboard
   module Channels
     class ContactFormController < DashboardController
-    before_action :set_contact_form_channel, only: %i[show edit update destroy]
+    before_action :set_contact_form_channel, only: %i[show edit update destroy purge_cache]
     before_action :authorize_contact_form_channel
 
     def index
@@ -13,6 +13,32 @@ module Dashboard
     end
 
     def show; end
+
+    def purge_cache
+      throttle_key = "cdn_purge_throttle:contact_form:#{@contact_form_channel.id}"
+      if Rails.cache.exist?(throttle_key)
+        redirect_back(
+          fallback_location: channels_contact_form_path(@contact_form_channel),
+          alert: t("dashboard.channels.purge_cache.rate_limited", default: "Please wait a moment before purging the cache again (cooldown: 30 seconds).")
+        )
+        return
+      end
+
+      Rails.cache.write(throttle_key, true, expires_in: 30.seconds)
+      result = Cloudflare::PurgeService.purge_contact_form(@contact_form_channel)
+
+      if result[:success]
+        redirect_back(
+          fallback_location: channels_contact_form_path(@contact_form_channel),
+          notice: t("dashboard.channels.purge_cache.success", default: "CDN cache purged successfully. Your website will now load the latest updates.")
+        )
+      else
+        redirect_back(
+          fallback_location: channels_contact_form_path(@contact_form_channel),
+          alert: t("dashboard.channels.purge_cache.failed", default: "Could not purge CDN cache. Please try again later.")
+        )
+      end
+    end
 
     def new
       @contact_form_channel = Channel::ContactForm.new

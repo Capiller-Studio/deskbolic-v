@@ -7,7 +7,7 @@ RSpec.describe 'Dashboard::Channels', type: :request do
   let(:user) { create(:user, confirmed_at: Time.current) }
   let!(:account_user) { create(:account_user, account: account, user: user, owner: true) }
   let(:plan) do
-    create(:plan, features: { 'channels' => { 'email' => true, 'instagram' => true, 'whatsapp' => true, 'facebook' => true, 'contact_form' => true } }, limits: { 'channels' => 100, 'users' => 100 })
+    create(:plan, features: { 'channels' => { 'email' => true, 'instagram' => true, 'whatsapp' => true, 'facebook' => true, 'contact_form' => true, 'web_widget' => true } }, limits: { 'channels' => 100, 'users' => 100 })
   end
   let!(:subscription) { create(:subscription, account: account, plan: plan, status: :active) }
   let(:email_channel) { account.with_shard { create(:channel_email, account: account, email: "test_#{SecureRandom.hex(4)}@acme.com") } }
@@ -509,6 +509,51 @@ RSpec.describe 'Dashboard::Channels', type: :request do
         delete channels_contact_form_path(id: contact_form_channel.id, locale: :en)
         expect(response).to have_http_status(:redirect)
         expect(account.with_shard { Channel::ContactForm.where(id: contact_form_channel.id) }).not_to exist
+      end
+    end
+
+    describe 'POST /channels/contact_form/:id/purge_cache' do
+      let(:memory_store) { ActiveSupport::Cache.lookup_store(:memory_store) }
+
+      before do
+        allow(Rails).to receive(:cache).and_return(memory_store)
+        memory_store.clear
+      end
+
+      it 'purges CDN cache and throttles spamming attempts' do
+        allow(Cloudflare::PurgeService).to receive(:purge_contact_form).with(contact_form_channel).and_return({ success: true, purged: 9 })
+
+        post purge_cache_channels_contact_form_path(id: contact_form_channel.id, locale: :en)
+        expect(response).to have_http_status(:redirect)
+        expect(flash[:notice]).to be_present
+
+        # Second attempt within cooldown window is throttled
+        post purge_cache_channels_contact_form_path(id: contact_form_channel.id, locale: :en)
+        expect(response).to have_http_status(:redirect)
+        expect(flash[:alert]).to include('Please wait a moment before purging the cache again')
+      end
+    end
+
+    describe 'POST /channels/web_widget/:id/purge_cache' do
+      let(:web_widget_channel) { account.with_shard { create(:channel_web_widget, account: account) } }
+      let(:memory_store) { ActiveSupport::Cache.lookup_store(:memory_store) }
+
+      before do
+        allow(Rails).to receive(:cache).and_return(memory_store)
+        memory_store.clear
+      end
+
+      it 'purges WebWidget CDN cache and throttles spamming attempts' do
+        allow(Cloudflare::PurgeService).to receive(:purge_web_widget).with(web_widget_channel).and_return({ success: true, purged: 9 })
+
+        post purge_cache_channels_web_widget_path(id: web_widget_channel.id, locale: :en)
+        expect(response).to have_http_status(:redirect)
+        expect(flash[:notice]).to be_present
+
+        # Second attempt within cooldown window is throttled
+        post purge_cache_channels_web_widget_path(id: web_widget_channel.id, locale: :en)
+        expect(response).to have_http_status(:redirect)
+        expect(flash[:alert]).to include('Please wait a moment before purging the cache again')
       end
     end
   end

@@ -152,8 +152,16 @@ Rails.application.routes.draw do
           end
         end
 
-        resources :web_widget
-        resources :contact_form
+        resources :web_widget do
+          member do
+            post :purge_cache
+          end
+        end
+        resources :contact_form do
+          member do
+            post :purge_cache
+          end
+        end
 
         resources :facebook do
           member do

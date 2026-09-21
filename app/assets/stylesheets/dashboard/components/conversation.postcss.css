@@ -372,17 +372,21 @@
         background: #fff7d6 !important;
       }
 
-      .csat-survey-card {
+      .conversation-csat-card {
         display: flex;
         flex-direction: column;
         gap: 8px;
-        width: 100%;
-        padding: 13px 15px;
+        width: fit-content;
+        max-width: 480px;
+        height: auto !important;
+        min-height: auto !important;
+        padding: 12px 15px;
         border: 1px solid #dbeafe;
         border-radius: 12px;
         background: #f0f7ff;
         color: #1e293b;
         text-align: left;
+        align-self: flex-end;
 
         .csat-survey-header {
           display: flex;
@@ -407,11 +411,12 @@
           }
         }
 
-        .csat-survey-prompt {
+        .csat-survey-title {
+          margin: 0;
           color: #1e293b;
           font-family: $font-family-inter-medium;
           font-size: 13px;
-          line-height: 19px;
+          line-height: 18px;
         }
 
         .csat-survey-rating {
@@ -427,6 +432,36 @@
             color: #f59e0b;
             font-size: 14px;
             letter-spacing: 2px;
+          }
+        }
+
+        .csat-feedback-quote {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          margin-top: 2px;
+          padding: 8px 10px;
+          border-radius: 8px;
+          background: #ffffff;
+          border: 1px solid #d0e1fd;
+
+          .csat-feedback-label {
+            color: #64748b;
+            font-family: $font-family-inter-semibold;
+            font-size: 10.5px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+          }
+
+          .csat-feedback-text {
+            margin: 0;
+            color: #334155;
+            font-family: $font-family-inter-regular;
+            font-size: 12px;
+            line-height: 17px;
+            white-space: pre-wrap;
+            word-break: break-word;
           }
         }
 

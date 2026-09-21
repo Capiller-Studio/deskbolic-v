@@ -86,14 +86,14 @@
       <mj-section background-color="#ffffff" padding="0 40px 36px">
         <mj-column>
           <mj-text padding="0 0 18px" font-size="13px" line-height="21px" color="#64748b">Reply directly to this email to continue the conversation. Your response will be delivered to [[ERB= @agent_name ]] and the rest of the [[ERB= @account&.name.presence || 'support' ]] team.</mj-text>
-          <mj-text padding="0" font-size="13px" line-height="21px" color="#94a3b8">If your issue has been resolved, no further action is needed — thank you for choosing Deskbolic.</mj-text>
+          <mj-text padding="0" font-size="13px" line-height="21px" color="#94a3b8">If your issue has been resolved, no further action is needed — thank you for choosing [[ERB= @account&.name.presence || 'Deskbolic' ]].</mj-text>
         </mj-column>
       </mj-section>
 
       <mj-section background-color="#f8fafc" padding="22px 40px" border-top="1px solid #e5e7eb">
         <mj-column>
           <mj-text align="center" padding="0 0 7px" font-size="12px" line-height="19px" color="#64748b">This email was sent to [[ERB= @conversation.customers.first&.email || @recipient&.email || @user&.email ]] regarding conversation #[[ERB= @conversation.identifier ]].</mj-text>
-          <mj-text align="center" padding="0" font-size="12px" line-height="19px" color="#94a3b8">&copy; [[ERB= Time.current.year ]] Deskbolic &nbsp;&bull;&nbsp; <a href="[[ERB= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') ]]" class="brand-link">Open workspace</a></mj-text>
+          <mj-text align="center" padding="0" font-size="12px" line-height="19px" color="#94a3b8">&copy; [[ERB= Time.current.year ]] [[ERB= @account&.name.presence || 'Deskbolic' ]] &nbsp;&bull;&nbsp; <a href="[[ERB= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') ]]" class="brand-link">Open workspace</a></mj-text>
         </mj-column>
       </mj-section>
     </mj-wrapper>

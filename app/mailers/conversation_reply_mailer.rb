@@ -52,6 +52,7 @@ class ConversationReplyMailer < ApplicationMailer
         in_reply_to: in_reply_to_header,
         references: references_header
       ) do |format|
+        format.text { render(plain: ActionController::Base.helpers.strip_tags(rendered_body)) }
         format.html { render(html: rendered_body.html_safe) }
       end
     else
@@ -69,6 +70,7 @@ class ConversationReplyMailer < ApplicationMailer
         in_reply_to: in_reply_to_header,
         references: references_header
       ) do |format|
+        format.text { render("conversation_reply_mailer/#{view_name}") }
         format.html { render("conversation_reply_mailer/#{view_name}") }
       end
     end
@@ -100,11 +102,19 @@ class ConversationReplyMailer < ApplicationMailer
     @conversation.data.dig("email", "from") || customer&.email
   end
 
-  # From address with display name: "Agent Name via InboxName" <email>
+  # From address with display name: "Agent Name from Company" <email>
+  #   - If agent present: "Agent Name from Company Name"
+  #   - Fallback: "Company Name Support"
   #   - With custom SMTP: uses channel email
   #   - Without custom SMTP: uses helpbolic system address
   def reply_from_address
-    display_name = "#{@agent_name} via #{@inbox_name}"
+    company_name = @account&.name.presence || "Deskbolic"
+    display_name = if @agent_name.present? && @agent_name != "Agent"
+      "#{@agent_name} from #{company_name}"
+    else
+      "#{company_name} Support"
+    end
+
     sender_email = if @channel.respond_to?(:smtp_enabled?) && @channel.smtp_enabled?
       @channel.email
     else

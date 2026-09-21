@@ -1,0 +1,7 @@
+<%= @agent_name %> from <%= @account&.name.presence || 'our team' %> has responded to your request:
+
+<%= ActionController::Base.helpers.strip_tags(@content.to_s).strip %>
+
+---
+Reply directly to this email to continue the conversation.
+Conversation #<%= @conversation.identifier %>

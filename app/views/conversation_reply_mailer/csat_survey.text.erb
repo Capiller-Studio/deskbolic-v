@@ -1,0 +1,8 @@
+<%= @agent_name %> from <%= @account&.name.presence || 'our team' %> has responded to your request.
+
+How would you rate your support experience?
+Share feedback: <%= @csat_survey_url %>
+
+---
+Reply directly to this email to continue the conversation.
+Conversation #<%= @conversation.identifier %>

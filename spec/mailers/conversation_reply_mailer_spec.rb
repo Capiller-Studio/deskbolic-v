@@ -58,13 +58,42 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
       let(:csat_message) { create(:message, account: account, conversation: conversation, sender: account, content_type: :csat, content: 'Please rate our service') }
       let!(:csat_response) { create(:csat_survey_response, account: account, conversation: conversation, customer: customer, message: csat_message) }
 
-      it 'renders CSAT survey email without error using dedicated association' do
-        mail = described_class.reply(conversation, csat_message, channel)
-        expect(mail.to).to eq([ 'customer@example.com' ])
-        expect(mail.subject).to include('Help with Order')
-        survey_token = csat_response.global_routing_id
-        expect(mail.html_part.body.encoded).to include(survey_token)
-        expect(mail.text_part.body.encoded).to include(survey_token)
+      context 'when conversation has an assigned or responding agent' do
+        before do
+          conversation.update!(assignee: user)
+        end
+
+        it 'renders CSAT survey email with handling agent name' do
+          mail = described_class.reply(conversation, csat_message, channel)
+          expect(mail.to).to eq([ 'customer@example.com' ])
+          expect(mail.subject).to include('Help with Order')
+          survey_token = csat_response.global_routing_id
+          expect(mail.html_part.body.encoded).to include(survey_token)
+          expect(mail.html_part.body.encoded).to include('handled by <strong>Agent Smith</strong>')
+          expect(mail.text_part.body.encoded).to include('Agent Smith from')
+          expect(mail[:from].display_names).to eq([ "Agent Smith from #{account.name}" ])
+        end
+      end
+
+      context 'when conversation has no assigned agent' do
+        before do
+          conversation.update!(assignee: nil)
+        end
+
+        it 'falls back to team name without repeating company name' do
+          mail = described_class.reply(conversation, csat_message, channel)
+          expect(mail.html_part.body.encoded).to include("handled by <strong>our team at #{account.name}</strong>")
+          expect(mail.text_part.body.encoded).to include("Our team at #{account.name}")
+          expect(mail[:from].display_names).to eq([ "#{account.name} Support" ])
+        end
+      end
+
+      context 'when sender is account itself' do
+        it 'avoids duplicate company name in from header' do
+          system_msg = create(:message, account: account, conversation: conversation, sender: account, content: 'Notice')
+          mail = described_class.reply(conversation, system_msg, channel)
+          expect(mail[:from].display_names).to eq([ "#{account.name} Support" ])
+        end
       end
     end
   end

@@ -3249,6 +3249,13 @@ ko:
     buttons:
       done: 완료
   mailers:
+    conversation_reply:
+      csat:
+        our_team_at: "%{account_name} 팀"
+        our_team: "저희 팀"
+        handled_by_html: "고객지원에 문의해 주셔서 감사합니다. 이 대화는 <strong>%{handled_by}</strong>에서 담당했습니다. 잠시 시간을 내어 만족도를 평가해 주세요."
+        team_responded: "%{account_name} 팀에서 고객님의 요청에 답변했습니다."
+        share_feedback: "피드백 공유"
     system_mailer:
       forward_email_verification:
         almost_complete: 설정이 거의 완료되었습니다!

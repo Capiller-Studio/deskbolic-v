@@ -23,7 +23,24 @@ class ConversationReplyMailer < ApplicationMailer
     @channel = fallback_channel || conversation.outbound_channel || resolve_contact_form_outbound || @inbox.channel
 
     # Set view variables for the compiled MJML ERB template
-    @agent_name = @message.sender.try(:display_name).presence || @message.sender.try(:name).presence || "Agent"
+    if @message.csat?
+      handling_agent = conversation.assignee ||
+        conversation.messages.where(sender_type: "User").order(:created_at).last&.sender
+
+      @agent_name = handling_agent.try(:display_name).presence || handling_agent.try(:name).presence
+      locale = conversation.locale || conversation.customers.first&.locale || I18n.default_locale
+      @handled_by_text = if @agent_name.present?
+        @agent_name
+      elsif @account&.name.present?
+        I18n.t("mailers.conversation_reply.csat.our_team_at", account_name: @account.name, default: "our team at %{account_name}", locale: locale)
+      else
+        I18n.t("mailers.conversation_reply.csat.our_team", default: "our team", locale: locale)
+      end
+    else
+      @agent_name = @message.sender.try(:display_name).presence || @message.sender.try(:name).presence || "Agent"
+      @handled_by_text = @agent_name
+    end
+
     @inbox_name = @inbox.name
     @content = @message.content
 
@@ -109,7 +126,7 @@ class ConversationReplyMailer < ApplicationMailer
   #   - Without custom SMTP: uses helpbolic system address
   def reply_from_address
     company_name = @account&.name.presence || "Deskbolic"
-    display_name = if @agent_name.present? && @agent_name != "Agent"
+    display_name = if @agent_name.present? && @agent_name != "Agent" && @agent_name.to_s.strip.casecmp(company_name.to_s.strip) != 0
       "#{@agent_name} from #{company_name}"
     else
       "#{company_name} Support"

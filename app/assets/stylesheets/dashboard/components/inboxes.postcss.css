@@ -584,6 +584,9 @@
 }
 
 .inbox-member-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
   min-width: 0;
 }
 
@@ -591,11 +594,13 @@
   display: flex;
   align-items: center;
   gap: 6px;
+  min-height: 18px;
 }
 
 .inbox-member-name {
   font-size: 13px;
   font-weight: 600;
+  line-height: 18px;
   color: #0f172a;
   white-space: nowrap;
   overflow: hidden;
@@ -605,6 +610,7 @@
 .inbox-you-tag {
   font-size: 10px;
   font-weight: 600;
+  line-height: 14px;
   background: #f1f5f9;
   color: #475569;
   padding: 1px 5px;
@@ -614,6 +620,7 @@
 .inbox-role-tag {
   font-size: 10px;
   font-weight: 500;
+  line-height: 14px;
   padding: 1px 6px;
   border-radius: 4px;
   background: #f1f5f9;
@@ -632,6 +639,7 @@
 
 .inbox-member-email {
   font-size: 12px;
+  line-height: 16px;
   color: #64748b;
   display: block;
   white-space: nowrap;
@@ -760,6 +768,7 @@
 .inbox-team-card-text {
   display: flex;
   flex-direction: column;
+  gap: 2px;
   min-width: 0;
 }
 
@@ -767,6 +776,16 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.inbox-team-card-text .f-semi-13 {
+  font-size: 13px;
+  line-height: 18px;
+}
+
+.inbox-team-card-text .f-reg-11 {
+  font-size: 11px;
+  line-height: 15px;
 }
 
 .inbox-modal-footer {
@@ -816,8 +835,47 @@
 
 /* Channel Inline Fields */
 .channel-collaborators-field {
-  padding: 16px;
+  padding: 20px;
   background: #f8fafc;
   border-radius: 12px;
   border: 1px solid #e2e8f0;
+}
+
+.channel-collaborators-field .inbox-section-header {
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.channel-collaborators-field .inbox-section-header h4,
+.channel-collaborators-field .inbox-section-header p {
+  margin: 0;
+}
+
+.channel-collaborators-field .inbox-section-header p {
+  margin-top: 4px;
+  line-height: 18px;
+}
+
+.channel-collaborators-field .inbox-selection-tools {
+  flex-shrink: 0;
+}
+
+.channel-collaborators-field .inbox-search-input {
+  height: 42px;
+  background: #ffffff;
+}
+
+.channel-collaborators-field .inbox-member-row {
+  padding: 12px 16px;
+}
+
+.channel-collaborators-field .inbox-teams-section {
+  margin-top: 20px;
+}
+
+.channel-collaborators-field .inbox-teams-section h5 {
+  margin: 0 0 10px;
+  color: #334155;
+  line-height: 18px;
 }

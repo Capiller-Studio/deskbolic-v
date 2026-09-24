@@ -5261,6 +5261,30 @@ html[lang="ar"] .ui-settings-editor {
       }
     }
 
+    > .choices[data-type*="select-multiple"] {
+      height: auto;
+
+      .choices__inner {
+        height: auto;
+        min-height: 42px;
+        padding-top: 7px;
+        padding-bottom: 7px;
+      }
+
+      .choices__list--multiple .choices__item,
+      .choices__input {
+        margin-bottom: 0;
+      }
+
+      .choices__input {
+        background: transparent;
+      }
+    }
+
+    &:not(.ui-field-control--no-icon) > .choices[data-type*="select-multiple"] .choices__inner {
+      padding-left: 36px;
+    }
+
     &.ui-field-control--rows > .choices {
       .choices__list--single {
         justify-content: center;

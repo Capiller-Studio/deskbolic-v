@@ -180,8 +180,8 @@ module Dashboard
         current_account.decrement_usage!(:channels)
 
         respond_to do |format|
-          format.html { redirect_to(channels_whatsapp_index_path, notice: t("dashboard.whatsapp_channels.destroyed")) }
-          format.turbo_stream { render(turbo_stream: turbo_stream.remove(@whatsapp_channel)) }
+          format.html { redirect_to(channels_whatsapp_index_path, notice: t("dashboard.whatsapp_channels.destroyed"), status: :see_other) }
+          format.turbo_stream { redirect_to(channels_whatsapp_index_path, notice: t("dashboard.whatsapp_channels.destroyed"), status: :see_other) }
         end
       end
 

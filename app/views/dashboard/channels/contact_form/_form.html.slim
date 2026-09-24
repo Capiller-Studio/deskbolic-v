@@ -124,16 +124,21 @@
                   - else
                     = t("dashboard.contact_form_channels.form.entity_field", entity_type: field.entity_type.titleize)
 
+              span.ww-badge.ww-badge-active.cf-item-badge = field.entity_type.titleize
+
               .cf-resource-config
                 label.cf-resource-checkbox
                   = check_box_tag "contact_form_channel[field_settings][#{field.id}][required_override]", "1", resource.required_override, class: "cf-resource-checkbox-input"
                   = t("dashboard.contact_form_channels.form.required_label")
-                = select_tag "contact_form_channel[field_settings][#{field.id}][width]", options_for_select([[t("dashboard.contact_form_channels.form.full_width"), "full"], [t("dashboard.contact_form_channels.form.half_width"), "half"]], resource.configurations["width"]), class: "ww-select cf-resource-select"
+                .channel-edit-select.ui-field-control.ui-field-control--no-icon.cf-resource-select
+                  = select_tag "contact_form_channel[field_settings][#{field.id}][width]", options_for_select([[t("dashboard.contact_form_channels.form.full_width"), "full"], [t("dashboard.contact_form_channels.form.half_width"), "half"]], resource.configurations["width"]), class: "ui-select ui-control", data: { controller: "select" }
 
-              span.ww-badge.ww-badge-active.cf-item-badge = field.entity_type.titleize
-              button.ww-action-delete type="button" data-action="click->custom-field-builder#removeField"
+              button.ww-action-delete type="button" data-action="click->custom-field-builder#removeField" aria-label=t("dashboard.contact_form_channels.form.remove_field", default: "Remove field") title=t("dashboard.contact_form_channels.form.remove_field", default: "Remove field")
                 svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
                   path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"
+              button.cf-action-add type="button" data-action="click->custom-field-builder#addFieldFromModal" aria-label=t("ui.dashboard.channels.contact_form.form.add_field") title=t("ui.dashboard.channels.contact_form.form.add_field")
+                svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
+                  path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M5 12h14"
               = hidden_field_tag "contact_form_channel[ordered_fields][]", field.id, data: { custom_field_builder_target: "hiddenInput" }
 
       .cf-add-field-row data-custom-field-builder-target="addButtonRow"
@@ -147,7 +152,9 @@
         .cf-modal-content
           .cf-modal-header
             h3 = t("ui.dashboard.channels.contact_form.form.add_custom_field")
-            button.cf-modal-close type="button" data-action="click->custom-field-builder#closeModal" &times;
+            button.cf-modal-close type="button" data-action="click->custom-field-builder#closeModal" aria-label=t("general.close", default: "Close")
+              svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
+                path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"
           .cf-modal-search
             input.ww-input type="text" placeholder=t("dashboard.contact_form_channels.form.search_fields") data-custom-field-builder-target="searchInput" data-action="input->custom-field-builder#filterFields"
           .cf-modal-body data-custom-field-builder-target="pool"
@@ -163,16 +170,21 @@
                     - else
                       = t("dashboard.contact_form_channels.form.#{field.entity_type}_field")
 
+                span.ww-badge.ww-badge-active.cf-item-badge = field.entity_type.titleize
+
                 .cf-resource-config
                   label.cf-resource-checkbox
                     = check_box_tag "contact_form_channel[field_settings][#{field.id}][required_override]", "1", false, class: "cf-resource-checkbox-input"
                     = t("dashboard.contact_form_channels.form.required_label")
-                  = select_tag "contact_form_channel[field_settings][#{field.id}][width]", options_for_select([[t("dashboard.contact_form_channels.form.full_width"), "full"], [t("dashboard.contact_form_channels.form.half_width"), "half"]], "full"), class: "ww-select cf-resource-select"
+                  .channel-edit-select.ui-field-control.ui-field-control--no-icon.cf-resource-select
+                    = select_tag "contact_form_channel[field_settings][#{field.id}][width]", options_for_select([[t("dashboard.contact_form_channels.form.full_width"), "full"], [t("dashboard.contact_form_channels.form.half_width"), "half"]], "full"), class: "ui-select ui-control", data: { controller: "select" }
 
-                span.ww-badge.ww-badge-active.cf-item-badge = field.entity_type.titleize
-                button.ww-action-delete type="button" data-action="click->custom-field-builder#removeField"
+                button.ww-action-delete type="button" data-action="click->custom-field-builder#removeField" aria-label=t("dashboard.contact_form_channels.form.remove_field", default: "Remove field") title=t("dashboard.contact_form_channels.form.remove_field", default: "Remove field")
                   svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
                     path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"
+                button.cf-action-add type="button" data-action="click->custom-field-builder#addFieldFromModal" aria-label=t("ui.dashboard.channels.contact_form.form.add_field") title=t("ui.dashboard.channels.contact_form.form.add_field")
+                  svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
+                    path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M5 12h14"
                 = hidden_field_tag "contact_form_channel[ordered_fields][]", field.id, disabled: true, data: { custom_field_builder_target: "hiddenInput" }
 
   / ─── Behaviors & Spam Protection ───

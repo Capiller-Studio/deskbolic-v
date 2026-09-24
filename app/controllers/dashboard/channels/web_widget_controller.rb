@@ -100,8 +100,8 @@ module Dashboard
       current_account.decrement_usage!(:channels)
 
       respond_to do |format|
-        format.html { redirect_to(channels_web_widget_index_path, notice: t("dashboard.web_widget_channels.destroyed")) }
-        format.turbo_stream { render(turbo_stream: turbo_stream.remove(@web_widget_channel)) }
+        format.html { redirect_to(channels_web_widget_index_path, notice: t("dashboard.web_widget_channels.destroyed"), status: :see_other) }
+        format.turbo_stream { redirect_to(channels_web_widget_index_path, notice: t("dashboard.web_widget_channels.destroyed"), status: :see_other) }
       end
     end
 

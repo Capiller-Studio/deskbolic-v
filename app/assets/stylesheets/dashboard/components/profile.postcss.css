@@ -28,8 +28,7 @@
 
 .profile-form {
   width: 100%;
-  max-width: 1080px;
-  margin: 0 auto;
+  max-width: none;
 }
 
 .profile-layout {
@@ -250,6 +249,11 @@
 
 .profile-account-card .profile-details {
   padding: 20px;
+}
+
+.danger-zone-content {
+  grid-column: 1 / -1;
+  min-width: 0;
 }
 
 .profile-row {

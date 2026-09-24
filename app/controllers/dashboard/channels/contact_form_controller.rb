@@ -104,8 +104,8 @@ module Dashboard
       current_account.decrement_usage!(:channels)
 
       respond_to do |format|
-        format.html { redirect_to(channels_contact_form_index_path, notice: t("dashboard.contact_form_channels.destroyed", default: "Contact Form Channel deleted.")) }
-        format.turbo_stream { render(turbo_stream: turbo_stream.remove(@contact_form_channel)) }
+        format.html { redirect_to(channels_contact_form_index_path, notice: t("dashboard.contact_form_channels.destroyed", default: "Contact Form Channel deleted."), status: :see_other) }
+        format.turbo_stream { redirect_to(channels_contact_form_index_path, notice: t("dashboard.contact_form_channels.destroyed", default: "Contact Form Channel deleted."), status: :see_other) }
       end
     end
 

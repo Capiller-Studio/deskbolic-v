@@ -4,7 +4,7 @@
 - account_users = current_account.account_users.includes(:roles, user: { avatar_attachment: :blob })
 - teams = current_account.teams.order(:name)
 
-.inbox-collaborators-section.channel-collaborators-field data-controller="inbox-collaborators" style="margin-top: 24px;"
+.inbox-collaborators-section.channel-collaborators-field data-controller="inbox-collaborators"
   .inbox-section-header
     div
       h4.f-semi-14 = t("dashboard.inboxes.collaborators_modal.agents_section", default: "Assigned Teammates & Collaborators")
@@ -67,8 +67,8 @@
         p.f-reg-13.text-muted = t("dashboard.inboxes.collaborators_modal.no_members", default: "No teammates found in this workspace.")
 
   - if teams.any?
-    .inbox-teams-section style="margin-top: 16px;"
-      h5.f-semi-13 style="margin-bottom: 8px;" = t("dashboard.inboxes.collaborators_modal.teams_section", default: "Assign Teams")
+    .inbox-teams-section
+      h5.f-semi-13 = t("dashboard.inboxes.collaborators_modal.teams_section", default: "Assign Teams")
       .inbox-teams-grid
         - teams.each do |team|
           - is_team_checked = assigned_tids.include?(team.id.to_s)

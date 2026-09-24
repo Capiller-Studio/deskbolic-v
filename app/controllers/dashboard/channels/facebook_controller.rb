@@ -172,8 +172,8 @@ module Dashboard
         current_account.decrement_usage!(:channels)
 
         respond_to do |format|
-          format.html { redirect_to(channels_facebook_index_path, notice: t("dashboard.facebook_channels.destroyed")) }
-          format.turbo_stream { render(turbo_stream: turbo_stream.remove(@facebook_channel)) }
+          format.html { redirect_to(channels_facebook_index_path, notice: t("dashboard.facebook_channels.destroyed"), status: :see_other) }
+          format.turbo_stream { redirect_to(channels_facebook_index_path, notice: t("dashboard.facebook_channels.destroyed"), status: :see_other) }
         end
       end
 

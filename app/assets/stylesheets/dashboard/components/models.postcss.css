@@ -912,9 +912,14 @@
 }
 
 .modal-popper-container:has(.notifications-slide-over) {
+  z-index: 9999;
   overflow: hidden;
   background: rgba(20, 23, 31, 0.18);
   backdrop-filter: blur(2px);
+}
+
+.deskbolic-sidebar:has(.sidebar-notifications .notifications-slide-over) {
+  z-index: 9998;
 }
 
 .modal-popper-container .model-content-section .notifications-slide-over {

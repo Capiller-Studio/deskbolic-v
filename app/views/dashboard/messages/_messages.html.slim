@@ -172,9 +172,9 @@
                     p.ai-assistant-section-title = t('dashboard.messages.ai_assist.change_tone', default: 'Change Tone')
                     .ai-assistant-tone-grid
                       - %w[professional friendly concise formal empathetic].each do |tone|
-                        button.ai-assistant-tone type="button" data-action="click->ai-assist#rewriteTone click->accordion#toggleMenu" data-ai-assist-tone-param=tone
+                        button.ai-assistant-tone class="ai-assistant-tone--#{tone}" type="button" data-action="click->ai-assist#rewriteTone click->accordion#toggleMenu" data-ai-assist-tone-param=tone
                           .ai-assistant-tone-icon
-                            = inline_svg_tag("ai-assistant-#{tone}.svg")
+                            = inline_svg_tag("ai-assistant-#{tone}.svg", aria: { hidden: true })
                           span = t("dashboard.messages.ai_assist.tones.#{tone}")
 
                   .ai-assistant-disclaimer

@@ -37,8 +37,7 @@ export default class extends Controller {
   }
 
   addFieldFromModal(event) {
-    // Only trigger if they click the card itself, not if they somehow clicked inside it (though we disabled pointer events on children via css)
-    const item = event.currentTarget
+    const item = event.currentTarget.closest(".cf-sortable-item")
     if (!item) return
 
     // Only proceed if the item is currently in the modal pool (prevents issues if clicked while in the active list)

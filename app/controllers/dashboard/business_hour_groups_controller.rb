@@ -72,9 +72,9 @@ module Dashboard
         business_hour_group: [ :name,
         :description,
         :timezone,
-        business_hours_attributes: [
+        business_hours_attributes: [ [
           :id, :day_of_week, :opening_time, :closing_time, :close_from, :close_till, :_destroy
-        ] ]
+        ] ] ]
       )
     end
   end

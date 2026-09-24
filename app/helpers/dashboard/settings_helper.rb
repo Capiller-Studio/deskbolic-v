@@ -192,7 +192,7 @@ module Dashboard
     end
 
     def channel_show_aside_partial(channel)
-      return unless %w[web_widget contact_form].include?(channel_overview_type(channel))
+      return unless channel_overview_type(channel) == "web_widget"
 
       "dashboard/channels/#{channel_overview_type(channel)}/show_aside"
     end

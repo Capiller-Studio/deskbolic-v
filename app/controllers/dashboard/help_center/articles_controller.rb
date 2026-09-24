@@ -84,7 +84,7 @@ module Dashboard
         @article.author = current_user
         @article.status = status_value
 
-        ActiveRecord::Base.transaction do
+        @article.class.transaction do
           @article.save!
           sync_article_relationships(@article)
         end
@@ -146,13 +146,13 @@ module Dashboard
 
           format.html do
             if params[:publish].present?
-              ActiveRecord::Base.transaction do
+              @article.class.transaction do
                 @article.update!(normalized_article_params.merge(status: :published))
                 sync_article_relationships(@article)
               end
               redirect_to(help_center_article_path(id: @article.id), notice: "Article was published successfully.")
             else
-              ActiveRecord::Base.transaction do
+              @article.class.transaction do
                 @article.update!(normalized_article_params.merge(status: :draft))
                 sync_article_relationships(@article)
               end
@@ -172,7 +172,10 @@ module Dashboard
         authorize(@article)
         locale = params[:article_locale] || I18n.locale.to_s
 
-        @article.publish!(locale: locale)
+        @article.class.transaction do
+          @article.publish!(locale: locale)
+          @article.update!(status: :published) unless @article.published?
+        end
 
         render(json: { success: true, message: I18n.t("dashboard.articles.published", default: "Article published successfully.") })
       rescue StandardError => e
@@ -241,7 +244,7 @@ module Dashboard
         @article = ::HelpCenter::Article
           .where(account: current_account)
           .includes(:translations, :portal, :primary_category, :categories, :related_articles)
-          .joins(:translations)
+          .left_joins(:translations)
           .find_by("help_center_articles.id::text = ? OR help_center_article_translations.slug = ?", params[:id], params[:id])
 
         raise(ActiveRecord::RecordNotFound) unless @article
@@ -279,9 +282,9 @@ module Dashboard
           :banner_image,
           { images: [], category_ids: [], related_article_ids: [] },
           configurations: %i[external_url show_table_of_contents estimated_read_time],
-          translations_attributes: %i[
-            id locale title slug content meta_title meta_description meta_keywords
-            search_excerpt draft_title draft_content _destroy
+          translations_attributes: [
+            %i[id locale title slug content meta_title meta_description meta_keywords
+               search_excerpt draft_title draft_content _destroy]
           ]
         ]
         permitted << :portal_id unless @article&.persisted?

@@ -230,22 +230,48 @@ export default class extends Controller {
 
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
-      this.mediaRecorder = new MediaRecorder(stream)
+      const supportedMime = MediaRecorder.isTypeSupported("audio/mp4") ? "audio/mp4" : ""
+      this.mediaRecorder = supportedMime ? new MediaRecorder(stream, { mimeType: supportedMime }) : new MediaRecorder(stream)
       this.audioChunks = []
 
       this.mediaRecorder.ondataavailable = (event) => {
         if (event.data && event.data.size > 0) this.audioChunks.push(event.data)
       }
 
-      this.mediaRecorder.onstop = () => {
+      this.mediaRecorder.onstop = async () => {
         if (!this.audioChunks.length) return
 
-        const type = this.mediaRecorder.mimeType || "audio/webm"
-        const extension = type.includes("mp4") ? "m4a" : "webm"
-        const audioBlob = new Blob(this.audioChunks, { type })
-        const file = new File([audioBlob], `voice-message-${Date.now()}.${extension}`, { type })
-        this.addFile(file)
-        
+        const rawType = this.mediaRecorder.mimeType || "audio/webm"
+        const rawBlob = new Blob(this.audioChunks, { type: rawType })
+        const timestamp = Date.now()
+
+        // If natively recorded as MP4/AAC (e.g. Safari), keep m4a
+        if (rawType.includes("mp4") || rawType.includes("aac")) {
+          const file = new File([rawBlob], `voice-message-${timestamp}.m4a`, { type: "audio/mp4" })
+          this.addFile(file)
+        } else {
+          // Convert WebM to standard WAV for Meta (Instagram/Facebook/WhatsApp) compatibility
+          try {
+            const AudioContextClass = window.AudioContext || window.webkitAudioContext
+            if (AudioContextClass) {
+              const audioCtx = new AudioContextClass()
+              const arrayBuffer = await rawBlob.arrayBuffer()
+              const decodedBuffer = await audioCtx.decodeAudioData(arrayBuffer)
+              const wavBlob = this.encodeWav(decodedBuffer)
+              audioCtx.close()
+              const file = new File([wavBlob], `voice-message-${timestamp}.wav`, { type: "audio/wav" })
+              this.addFile(file)
+            } else {
+              const file = new File([rawBlob], `voice-message-${timestamp}.webm`, { type: rawType })
+              this.addFile(file)
+            }
+          } catch (e) {
+            console.warn("WAV conversion fallback:", e)
+            const file = new File([rawBlob], `voice-message-${timestamp}.webm`, { type: rawType })
+            this.addFile(file)
+          }
+        }
+
         // Stop all tracks
         stream.getTracks().forEach(track => track.stop())
       }
@@ -275,6 +301,53 @@ export default class extends Controller {
     if (this.hasRecordingIndicatorTarget) {
       this.recordingIndicatorTarget.style.display = recording ? "flex" : "none"
     }
+  }
+
+  encodeWav(audioBuffer) {
+    const numChannels = 1
+    const sampleRate = audioBuffer.sampleRate
+    let channelData = audioBuffer.getChannelData(0)
+
+    if (audioBuffer.numberOfChannels > 1) {
+      const ch1 = audioBuffer.getChannelData(1)
+      const mono = new Float32Array(channelData.length)
+      for (let i = 0; i < channelData.length; i++) {
+        mono[i] = (channelData[i] + ch1[i]) / 2
+      }
+      channelData = mono
+    }
+
+    const dataLength = channelData.length * 2
+    const buffer = new ArrayBuffer(44 + dataLength)
+    const view = new DataView(buffer)
+
+    const writeString = (offset, str) => {
+      for (let i = 0; i < str.length; i++) {
+        view.setUint8(offset + i, str.charCodeAt(i))
+      }
+    }
+
+    writeString(0, "RIFF")
+    view.setUint32(4, 36 + dataLength, true)
+    writeString(8, "WAVE")
+    writeString(12, "fmt ")
+    view.setUint32(16, 16, true)
+    view.setUint16(20, 1, true) // PCM
+    view.setUint16(22, numChannels, true)
+    view.setUint32(24, sampleRate, true)
+    view.setUint32(28, sampleRate * 2, true)
+    view.setUint16(32, 2, true) // Block align (1 channel * 2 bytes/sample)
+    view.setUint16(34, 16, true) // 16-bit
+    writeString(36, "data")
+    view.setUint32(40, dataLength, true)
+
+    let offset = 44
+    for (let i = 0; i < channelData.length; i++, offset += 2) {
+      const s = Math.max(-1, Math.min(1, channelData[i]))
+      view.setInt16(offset, s < 0 ? s * 0x8000 : s * 0x7fff, true)
+    }
+
+    return new Blob([view], { type: "audio/wav" })
   }
 
   // --- File Logic ---

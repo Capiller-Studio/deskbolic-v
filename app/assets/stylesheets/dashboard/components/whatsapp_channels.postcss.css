@@ -598,8 +598,13 @@
   cursor: pointer;
   font-family: $font-family-inter-semibold;
   font-size: 14px;
+  text-decoration: none;
   box-shadow: 0 4px 14px rgba(37, 211, 102, 0.3);
   transition: all 0.18s ease;
+}
+
+.whatsapp-connect-button:visited {
+  color: #fff;
 }
 
 .whatsapp-connect-button:hover {

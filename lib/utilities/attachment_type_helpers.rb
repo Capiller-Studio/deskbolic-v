@@ -32,14 +32,20 @@ module Utilities
     end
 
     def self.image?(type)
+      return true if type.to_s.start_with?("image/")
+
       IMAGE_MIME_TYPES.include?(type)
     end
 
     def self.video?(type)
+      return true if type.to_s.start_with?("video/")
+
       VIDEO_MIME_TYPES.include?(type)
     end
 
     def self.audio?(type)
+      return true if type.to_s.start_with?("audio/")
+
       AUDIO_MIME_TYPES.include?(type)
     end
   end

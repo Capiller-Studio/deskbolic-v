@@ -51,11 +51,30 @@ RSpec.describe 'Dashboard::Channels', type: :request do
 
   describe 'Facebook Pages Channels' do
     describe 'GET /channels/facebook/oauth_authorize' do
-      it 'redirects to Meta dialog oauth URL' do
+      it 'redirects to Meta dialog oauth URL with only approved scopes' do
         get oauth_authorize_channels_facebook_index_path(locale: :en)
         expect(response).to have_http_status(:redirect)
         expect(response.location).to include('https://www.facebook.com')
         expect(response.location).to include('dialog/oauth')
+        expect(response.location).not_to include('pages_read_engagement')
+        expect(response.location).to include('pages_show_list')
+        expect(response.location).to include('pages_manage_metadata')
+        expect(response.location).to include('pages_messaging')
+      end
+
+      context 'in production environment' do
+        before do
+          allow(ENV).to receive(:[]).and_call_original
+          allow(ENV).to receive(:[]).with('DESKBOLIC_URL').and_return(nil)
+          allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new('production'))
+        end
+
+        it 'uses the apex domain for redirect_uri' do
+          get oauth_authorize_channels_facebook_index_path(locale: :en)
+          expect(response).to have_http_status(:redirect)
+          encoded_redirect = CGI.escape('https://deskbolic.app/channels/facebook/callback')
+          expect(response.location).to include(encoded_redirect)
+        end
       end
     end
 
@@ -129,6 +148,21 @@ RSpec.describe 'Dashboard::Channels', type: :request do
         expect(response).to have_http_status(:redirect)
         expect(response.location).to include('https://www.facebook.com')
         expect(response.location).to include('dialog/oauth')
+      end
+
+      context 'in production environment' do
+        before do
+          allow(ENV).to receive(:[]).and_call_original
+          allow(ENV).to receive(:[]).with('DESKBOLIC_URL').and_return(nil)
+          allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new('production'))
+        end
+
+        it 'uses the apex domain for redirect_uri' do
+          get oauth_authorize_channels_whatsapp_index_path(locale: :en)
+          expect(response).to have_http_status(:redirect)
+          encoded_redirect = CGI.escape('https://deskbolic.app/channels/whatsapp/callback')
+          expect(response.location).to include(encoded_redirect)
+        end
       end
     end
 
@@ -483,13 +517,13 @@ RSpec.describe 'Dashboard::Channels', type: :request do
         patch channels_contact_form_path(id: contact_form_channel.id, locale: :en), params: {
           contact_form_channel: {
             name: 'Form with Collaborators',
-            ordered_fields: ['non-existent-field-id'],
+            ordered_fields: [ "non-existent-field-id" ],
             primary_inbox_attributes: {
               id: inbox.id,
-              user_ids: [user.id.to_s, other_user.id.to_s]
+              user_ids: [ user.id.to_s, other_user.id.to_s ]
             },
             ui_configurations: {
-              theme_color: '#7C3AED'
+              theme_color: "#7C3AED"
             }
           }
         }
@@ -497,9 +531,9 @@ RSpec.describe 'Dashboard::Channels', type: :request do
 
         account.with_shard do
           contact_form_channel.reload
-          expect(contact_form_channel.name).to eq('Form with Collaborators')
-          expect(contact_form_channel.ui_configurations['theme_color']).to eq('#7C3AED')
-          expect(inbox.reload.assigned_user_ids).to match_array([user.id.to_s, other_user.id.to_s])
+          expect(contact_form_channel.name).to eq("Form with Collaborators")
+          expect(contact_form_channel.ui_configurations["theme_color"]).to eq("#7C3AED")
+          expect(inbox.reload.assigned_user_ids).to contain_exactly(user.id.to_s, other_user.id.to_s)
         end
       end
     end
@@ -558,4 +592,3 @@ RSpec.describe 'Dashboard::Channels', type: :request do
     end
   end
 end
-

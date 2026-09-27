@@ -32,7 +32,6 @@ module Dashboard
 
         scopes = %w[
           pages_show_list
-          pages_read_engagement
           pages_manage_metadata
           pages_messaging
         ].join(",")
@@ -248,8 +247,10 @@ module Dashboard
       end
 
       def facebook_callback_url
-        base = ENV["DESKBOLIC_URL"].presence || "#{request.protocol}#{request.host_with_port}"
-        URI.join(base, "/channels/facebook/callback").to_s
+        base = ENV["DESKBOLIC_URL"].presence
+        base ||= Rails.env.production? ? "https://deskbolic.app" : "#{request.protocol}#{request.host_with_port}"
+        base = base.to_s.strip.chomp("/")
+        "#{base}/channels/facebook/callback"
       end
 
       def facebook_channel_create_params

@@ -36,4 +36,58 @@ RSpec.describe Dashboard::ConversationsHelper, type: :helper do
       expect(helper.assigned_team).to eq(team)
     end
   end
+
+  describe 'SLA Helpers' do
+    let(:sla_policy) { create(:sla_policy, account: account) }
+
+    describe '#conversation_sla_badge_text and #conversation_sla_badge_class' do
+      it 'returns N/A when there are no SLAs' do
+        expect(helper.conversation_sla_badge_text(conversation)).to eq('N/A')
+        expect(helper.conversation_sla_badge_class(conversation)).to eq('')
+      end
+
+      it 'returns Breached and text-danger when any SLA has failed' do
+        create(:conversation_sla, account: account, conversation: conversation, sla_policy: sla_policy, status: :failed)
+
+        expect(helper.conversation_sla_badge_text(conversation)).to eq('Breached')
+        expect(helper.conversation_sla_badge_class(conversation)).to eq('text-danger')
+      end
+
+      it 'returns Achieved and text-success when all SLAs are successful' do
+        create(:conversation_sla, account: account, conversation: conversation, sla_policy: sla_policy, status: :successful)
+
+        expect(helper.conversation_sla_badge_text(conversation)).to eq('Achieved')
+        expect(helper.conversation_sla_badge_class(conversation)).to eq('text-success')
+      end
+
+      it 'returns On track when SLAs are pending and not breached' do
+        create(:conversation_sla, account: account, conversation: conversation, sla_policy: sla_policy, status: :pending)
+
+        expect(helper.conversation_sla_badge_text(conversation)).to eq('On track')
+        expect(helper.conversation_sla_badge_class(conversation)).to eq('')
+      end
+    end
+
+    describe '#conversation_sla_status_text and #conversation_sla_status_class' do
+      let(:sla) { create(:conversation_sla, account: account, conversation: conversation, sla_policy: sla_policy) }
+
+      it 'returns Breached and text-danger for failed SLA' do
+        sla.update!(status: :failed)
+        expect(helper.conversation_sla_status_text(sla)).to eq('Breached')
+        expect(helper.conversation_sla_status_class(sla)).to eq('text-danger')
+      end
+
+      it 'returns Achieved and text-success for successful SLA' do
+        sla.update!(status: :successful)
+        expect(helper.conversation_sla_status_text(sla)).to eq('Achieved')
+        expect(helper.conversation_sla_status_class(sla)).to eq('text-success')
+      end
+
+      it 'returns On track for active pending SLA' do
+        sla.update!(status: :pending)
+        expect(helper.conversation_sla_status_text(sla)).to eq('On track')
+        expect(helper.conversation_sla_status_class(sla)).to eq('')
+      end
+    end
+  end
 end

@@ -635,6 +635,17 @@ en:
       assign: Assign
       unassign: Unassign
       sla_status: SLA Status
+      sla_policy: Policy
+      first_target: First Response Target
+      resolution_target: Resolution Target
+      no_sla_policy: No SLA policy applied
+      sla_breached: Breached
+      sla_achieved: Achieved
+      breached: Breached
+      achieved: Achieved
+      successful: Successful
+      cancelled: Cancelled
+      hide_details: Hide conversation details
       on_track: On track
       next_target: 'Next target:'
       not_applicable: N/A
@@ -4452,6 +4463,12 @@ en:
         closed: Closed
         snoozed: Snoozed
         resolved: Resolved
+    conversation_sla:
+      status:
+        active: Active
+        successful: Successful
+        failed: Failed
+        cancelled: Cancelled
     email_template:
       template_type:
         conversation_reply: Conversation reply

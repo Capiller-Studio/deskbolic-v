@@ -84,5 +84,51 @@ module Dashboard
 
       t("dashboard.messages.status.sent")
     end
+
+    def conversation_sla_badge_text(conversation)
+      slas = conversation.conversation_slas
+      return t("dashboard.conversation_details.not_applicable", default: "N/A") if slas.empty?
+
+      if slas.any? { |sla| sla.failed? || sla.sla_breached? }
+        t("dashboard.conversation_details.sla_breached", default: "Breached")
+      elsif slas.all?(&:successful?)
+        t("dashboard.conversation_details.sla_achieved", default: "Achieved")
+      else
+        t("dashboard.conversation_details.on_track", default: "On track")
+      end
+    end
+
+    def conversation_sla_badge_class(conversation)
+      slas = conversation.conversation_slas
+      return "" if slas.empty?
+
+      if slas.any? { |sla| sla.failed? || sla.sla_breached? }
+        "text-danger"
+      elsif slas.all?(&:successful?)
+        "text-success"
+      else
+        ""
+      end
+    end
+
+    def conversation_sla_status_text(sla)
+      if sla.failed? || sla.sla_breached?
+        t("dashboard.conversation_details.sla_breached", default: "Breached")
+      elsif sla.successful?
+        t("dashboard.conversation_details.sla_achieved", default: "Achieved")
+      else
+        t("dashboard.conversation_details.on_track", default: "On track")
+      end
+    end
+
+    def conversation_sla_status_class(sla)
+      if sla.failed? || sla.sla_breached?
+        "text-danger"
+      elsif sla.successful?
+        "text-success"
+      else
+        ""
+      end
+    end
   end
 end

@@ -29,4 +29,22 @@ RSpec.describe SubscriptionChannel, type: :channel do
     perform :ping
     expect(Utilities::ActivityHelpers).to have_received(:update_activity).at_least(:once)
   end
+
+  it 'enqueues QueueDrainWorker when agent subscribes if not throttled' do
+    allow(RedisUtilities::Helpers).to receive(:set).with("QUEUE_DRAIN_THROTTLE:#{account.id}", '1', overwrite: false, expiry: 60).and_return(true)
+    expect(AssignmentPolicies::QueueDrainWorker).to receive(:perform_async).with(account.id)
+    subscribe connection_token: 'test_token_123'
+  end
+
+  it 'throttles QueueDrainWorker enqueue on subsequent subscriptions within window' do
+    allow(RedisUtilities::Helpers).to receive(:set).with("QUEUE_DRAIN_THROTTLE:#{account.id}", '1', overwrite: false, expiry: 60).and_return(false)
+    expect(AssignmentPolicies::QueueDrainWorker).not_to receive(:perform_async)
+    subscribe connection_token: 'test_token_123'
+  end
+
+  it 'skips QueueDrainWorker completely if backlog is confirmed empty' do
+    allow(AssignmentPolicies::BacklogTracker).to receive(:backlog_pending?).with(account.id).and_return(false)
+    expect(AssignmentPolicies::QueueDrainWorker).not_to receive(:perform_async)
+    subscribe connection_token: 'test_token_123'
+  end
 end

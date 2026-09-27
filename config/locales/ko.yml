@@ -476,6 +476,18 @@ ko:
       assign: 할당
       unassign: 할당 취소
       sla_status: SLA 상태
+      sla_policy: 정책
+      first_target: 첫 번째 응답 목표
+      resolution_target: 해결 목표
+      no_sla_policy: 적용된 SLA 정책 없음
+      sla_breached: 위반됨
+      sla_achieved: 달성됨
+      breached: 위반됨
+      achieved: 달성됨
+      successful: 성공
+      cancelled: 취소됨
+      hide_details: 대화 세부정보 숨기기
+      show_details: 대화 세부정보 표시
       on_track: 정상 진행
       next_target: '다음 목표:'
       not_applicable: 해당 없음
@@ -4079,6 +4091,12 @@ ko:
         closed: 휴무
         snoozed: 일시 중지됨
         resolved: 해결됨
+    conversation_sla:
+      status:
+        active: 활성
+        successful: 성공
+        failed: 실패
+        cancelled: 취소됨
     email_template:
       template_type:
         conversation_reply: 대화 답장

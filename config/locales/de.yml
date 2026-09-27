@@ -500,6 +500,17 @@ de:
       assign: Zuweisen
       unassign: Zuweisung aufheben
       sla_status: SLA-Status
+      sla_policy: Richtlinie
+      first_target: Erste Antwort-Zielzeit
+      resolution_target: Lösungs-Zielzeit
+      no_sla_policy: Keine SLA-Richtlinie angewendet
+      sla_breached: Verletzt
+      sla_achieved: Erreicht
+      breached: Verletzt
+      achieved: Erreicht
+      successful: Erfolgreich
+      cancelled: Abgebrochen
+      hide_details: Konversationsdetails ausblenden
       on_track: Im Zeitplan
       next_target: 'Nächstes Ziel:'
       not_applicable: N/A
@@ -4347,6 +4358,12 @@ de:
         closed: Geschlossen
         snoozed: Geschlummert
         resolved: Gelöst
+    conversation_sla:
+      status:
+        active: Aktiv
+        successful: Erfolgreich
+        failed: Verletzt
+        cancelled: Abgebrochen
     email_template:
       template_type:
         conversation_reply: Gesprächsantwort

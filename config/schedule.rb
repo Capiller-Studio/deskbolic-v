@@ -12,6 +12,11 @@
 set :output, "log/cron.log"
 set :environment, "production"
 
+rbenv_shims = "/home/deploy/.rbenv/shims:/home/deploy/.rbenv/bin"
+current_path = ENV["PATH"].to_s
+full_path = current_path.include?("/.rbenv/") ? current_path : "#{rbenv_shims}:#{current_path}:/usr/local/bin:/usr/bin:/bin"
+env :PATH, full_path
+
 # --- SLA Management ---
 # Periodically check for breached SLAs and trigger notifications
 every 5.minutes do

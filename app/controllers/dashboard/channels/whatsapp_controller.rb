@@ -33,11 +33,16 @@ module Dashboard
 
         query_params = {
           client_id: whatsapp_app_id,
-          config_id: whatsapp_config_id,
           redirect_uri: callback_uri,
           response_type: "code",
           state: state
         }
+
+        if whatsapp_config_id.present?
+          query_params[:config_id] = whatsapp_config_id
+        else
+          query_params[:scope] = "whatsapp_business_management,whatsapp_business_messaging"
+        end
 
         redirect_url = "https://www.facebook.com/#{Channel::Whatsapp::GRAPH_API_VERSION}/dialog/oauth?#{query_params.to_query}"
         redirect_to(redirect_url, allow_other_host: true)
@@ -257,8 +262,10 @@ module Dashboard
       end
 
       def whatsapp_callback_url
-        base = ENV["DESKBOLIC_URL"].presence || "#{request.protocol}#{request.host_with_port}"
-        URI.join(base, "/channels/whatsapp/callback").to_s
+        base = ENV["DESKBOLIC_URL"].presence
+        base ||= Rails.env.production? ? "https://deskbolic.app" : "#{request.protocol}#{request.host_with_port}"
+        base = base.to_s.strip.chomp("/")
+        "#{base}/channels/whatsapp/callback"
       end
 
       def whatsapp_channel_create_params

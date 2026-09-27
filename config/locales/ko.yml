@@ -4137,4 +4137,13 @@ ko:
       ai_refund: "실패한 AI 작업에 대한 환불: %{action_type}"
   ai:
     widget_bot:
-      insufficient_credits_note: "AI 크레딧 부족으로 AI Bot이 자동으로 정지되었습니다. 인간 대리인을 기다리고 있습니다."
+      default_fallback: "죄송합니다. 해당 질문에 답변할 수 없습니다. 상담원에게 연결해 드리겠습니다..."
+      insufficient_credits_note: "AI 크레딧 부족으로 인해 AI 봇이 자동으로 중지되었습니다. 상담원을 기다리는 중입니다."
+    agent:
+      default_greeting: "안녕하세요! 오늘 어떤 도움이 필요하신가요?"
+      personalized_greeting: "안녕하세요, %{name}님! 오늘 어떤 도움이 필요하신가요?"
+      connecting_to_human: "상담원에게 연결해 드립니다. 잠시만 기다려 주시면 담당자가 안내해 드리겠습니다."
+      clarification_request: "'%{query}' 요청에 대해 조금 더 자세한 내용을 알려주시겠어요?"
+      media_handoff: "공유해 주셔서 감사합니다! 첨부 파일을 확인할 수 있도록 담당 상담원에게 연결해 드리겠습니다."
+      crash_note: "AI 에이전트가 고객의 요청을 처리하는 데 반복적으로 실패했습니다. 대화가 상담원 대기열로 인계되었습니다."
+      api_error_note: "AI 봇에 일시적인 API 오류가 발생했습니다. 상담원을 기다리는 중입니다."

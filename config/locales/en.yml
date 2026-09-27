@@ -4488,8 +4488,16 @@ en:
       ai_refund: 'Refund for failed AI Action: %{action_type}'
   ai:
     widget_bot:
-      insufficient_credits_note: AI Bot automatically halted due to insufficient AI
-        Credits. Awaiting human agent.
+      default_fallback: "Sorry, I am unable to answer this question. Connecting you to a human agent..."
+      insufficient_credits_note: "AI Bot automatically halted due to insufficient AI Credits. Awaiting human agent."
+    agent:
+      default_greeting: "Hello! How can I help you today?"
+      personalized_greeting: "Hello %{name}! How can I help you today?"
+      connecting_to_human: "I'm connecting you with a human agent now. Someone from our team will be with you shortly."
+      clarification_request: "Could you please provide a bit more detail about your request regarding '%{query}'?"
+      media_handoff: "Thanks for sharing that! Let me connect you with a team member who can review your attachment."
+      crash_note: "AI Agent repeatedly failed to process the customer's request. The conversation has been handed off to the human queue."
+      api_error_note: "AI Bot encountered a temporary API error. Awaiting human agent."
   resources:
     users: User
     channels: Channels

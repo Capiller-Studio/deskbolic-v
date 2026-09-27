@@ -4398,4 +4398,13 @@ fr:
       ai_refund: "Remboursement pour l'échec de l'action IA : %{action_type}"
   ai:
     widget_bot:
-      insufficient_credits_note: "AI Bot s'est automatiquement arrêté en raison de crédits AI insuffisants. En attente d'un agent humain."
+      default_fallback: "Désolé, je ne suis pas en mesure de répondre à cette question. Je vous mets en relation avec un conseiller..."
+      insufficient_credits_note: "Le bot IA a été automatiquement arrêté en raison de crédits IA insuffisants. En attente d'un conseiller humain."
+    agent:
+      default_greeting: "Bonjour ! Comment puis-je vous aider aujourd'hui ?"
+      personalized_greeting: "Bonjour %{name} ! Comment puis-je vous aider aujourd'hui ?"
+      connecting_to_human: "Je vous mets en relation avec un conseiller. Un membre de notre équipe sera avec vous sous peu."
+      clarification_request: "Pourriez-vous nous donner un peu plus de détails concernant votre demande relative à '%{query}' ?"
+      media_handoff: "Merci d'avoir partagé cela ! Je vous mets en relation avec un membre de notre équipe qui pourra examiner votre pièce jointe."
+      crash_note: "L'agent IA n'a pas réussi à traiter la demande du client de manière répétée. La conversation a été transférée à l'équipe humaine."
+      api_error_note: "Le bot IA a rencontré une erreur API temporaire. En attente d'un conseiller humain."

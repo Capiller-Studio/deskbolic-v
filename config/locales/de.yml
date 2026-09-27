@@ -4404,4 +4404,13 @@ de:
       ai_refund: "Rückerstattung für fehlgeschlagene AI-Aktion: %{action_type}"
   ai:
     widget_bot:
-      insufficient_credits_note: "AI Bot wurde aufgrund unzureichender AI Credits automatisch angehalten. Warten auf einen menschlichen Agenten."
+      default_fallback: "Entschuldigung, ich kann diese Frage leider nicht beantworten. Ich verbinde Sie mit einem Kundendienstmitarbeiter..."
+      insufficient_credits_note: "KI-Bot wurde aufgrund unzureichender KI-Guthaben automatisch angehalten. Warten auf einen Support-Mitarbeiter."
+    agent:
+      default_greeting: "Hallo! Wie kann ich Ihnen heute helfen?"
+      personalized_greeting: "Hallo %{name}! Wie kann ich Ihnen heute helfen?"
+      connecting_to_human: "Ich verbinde Sie jetzt mit einem Kundendienstmitarbeiter. Jemand aus unserem Team wird sich in Kürze bei Ihnen melden."
+      clarification_request: "Könnten Sie bitte weitere Details zu Ihrer Anfrage bezüglich '%{query}' angeben?"
+      media_handoff: "Vielen Dank für die Bereitstellung! Ich verbinde Sie mit einem Teammitglied, das Ihren Anhang überprüfen kann."
+      crash_note: "Der KI-Agent konnte die Anfrage des Kunden wiederholt nicht bearbeiten. Die Konversation wurde an das menschliche Team weitergeleitet."
+      api_error_note: "Beim KI-Bot ist ein vorübergehender API-Fehler aufgetreten. Warten auf einen Support-Mitarbeiter."

@@ -4319,4 +4319,13 @@ pt-BR:
       ai_refund: "Reembolso por falha na ação de IA: %{action_type}"
   ai:
     widget_bot:
-      insufficient_credits_note: "O AI Bot foi interrompido automaticamente devido à insuficiência de créditos de IA. Aguardando agente humano."
+      default_fallback: "Desculpe, não consigo responder a esta pergunta. Estou conectando você com um atendente humano..."
+      insufficient_credits_note: "O bot de IA foi pausado automaticamente devido a créditos de IA insuficientes. Aguardando um atendente humano."
+    agent:
+      default_greeting: "Olá! Como posso ajudar você hoje?"
+      personalized_greeting: "Olá, %{name}! Como posso ajudar você hoje?"
+      connecting_to_human: "Estou conectando você com um atendente humano agora. Um membro da nossa equipe responderá em breve."
+      clarification_request: "Você poderia fornecer mais detalhes sobre sua solicitação a respeito de '%{query}'?"
+      media_handoff: "Obrigado por compartilhar isso! Vou conectar você com um membro da equipe para que possa revisar seu anexo."
+      crash_note: "O agente de IA falhou repetidamente ao processar a solicitação do cliente. A conversa foi transferida para a fila humana."
+      api_error_note: "O bot de IA encontrou um erro temporário de API. Aguardando um atendente humano."

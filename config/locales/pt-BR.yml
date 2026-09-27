@@ -491,6 +491,17 @@ pt-BR:
       assign: Atribuir
       unassign: Cancelar atribuição
       sla_status: Status do SLA
+      sla_policy: Política
+      first_target: Meta de primeira resposta
+      resolution_target: Meta de resolução
+      no_sla_policy: Nenhuma política de SLA aplicada
+      sla_breached: Violado
+      sla_achieved: Atingido
+      breached: Violado
+      achieved: Atingido
+      successful: Bem-sucedido
+      cancelled: Cancelado
+      hide_details: Ocultar detalhes da conversa
       on_track: Dentro do prazo
       next_target: 'Próximo alvo:'
       not_applicable: N/A
@@ -4283,6 +4294,12 @@ pt-BR:
         closed: Fechado
         snoozed: Adiado
         resolved: Resolvido
+    conversation_sla:
+      status:
+        active: Ativo
+        successful: Bem-sucedido
+        failed: Violado
+        cancelled: Cancelado
     email_template:
       template_type:
         conversation_reply: Resposta à conversa

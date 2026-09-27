@@ -1,6 +1,5 @@
 - customer = @conversation.customers.first
 - csat_response = @conversation.csat_survey_responses.last
-- active_sla = @conversation.conversation_slas.active.first
 - recent_conversations = customer ? customer.conversations.where.not(id: @conversation.id).order(created_at: :desc).limit(5) : []
 - status_label = @conversation.active? ? t('dashboard.conversation_details.open', default: 'Open') : t("enums.conversation.status.#{@conversation.status}", default: @conversation.status.humanize)
 
@@ -58,13 +57,26 @@ aside.details-section.conversation-inspector id="conversation-details-#{@convers
 
     section.inspector-section
       button.inspector-accordion type="button" data-action="click->accordion#toggle"
-        span = t('dashboard.conversation_details.sla_status')
-        small = active_sla.present? ? t('dashboard.conversation_details.on_track', default: 'On track') : t('dashboard.conversation_details.not_applicable')
+        span = t('dashboard.conversation_details.sla_status', default: 'SLA Status')
+        small class=conversation_sla_badge_class(@conversation) = conversation_sla_badge_text(@conversation)
         = inline_svg_tag('arrow_down.svg', class: 'inspector-chevron', aria: { hidden: true })
       .panel.inspector-panel data-accordion-target="panel"
-        .inspector-data-row
-          span = t('dashboard.conversation_details.next_target')
-          strong = active_sla&.target_next_response_at&.strftime('%d %b %H:%M') || t('dashboard.conversation_details.not_applicable')
+        - if @conversation.conversation_slas.any?
+          - @conversation.conversation_slas.includes(:sla_policy).each do |sla|
+            .inspector-data-row
+              span = t('dashboard.conversation_details.sla_policy', default: 'Policy')
+              strong = sla.sla_policy&.name || 'Default'
+            .inspector-data-row
+              span = t('dashboard.conversation_details.status', default: 'Status')
+              strong class=conversation_sla_status_class(sla) = conversation_sla_status_text(sla)
+            .inspector-data-row
+              span = t('dashboard.conversation_details.first_target', default: 'First Response Target')
+              strong = sla.target_first_response_at&.strftime('%d %b %H:%M') || t('dashboard.conversation_details.not_applicable', default: 'N/A')
+            .inspector-data-row
+              span = t('dashboard.conversation_details.resolution_target', default: 'Resolution Target')
+              strong = sla.target_resolution_at&.strftime('%d %b %H:%M') || t('dashboard.conversation_details.not_applicable', default: 'N/A')
+        - else
+          p.inspector-empty = t('dashboard.conversation_details.no_sla_policy', default: 'No SLA policy applied')
 
     section.inspector-section
       button.inspector-accordion type="button" data-action="click->accordion#toggle"

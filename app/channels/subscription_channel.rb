@@ -11,6 +11,7 @@ class SubscriptionChannel < ApplicationCable::Channel
       stream_from(connection_token)
       track_activity
       broadcast_activity
+      drain_unassigned_queue if current_user
     end
   end
 
@@ -70,5 +71,18 @@ class SubscriptionChannel < ApplicationCable::Channel
         }
       }
     )
+  end
+
+  def drain_unassigned_queue
+    return unless AssignmentPolicies::BacklogTracker.backlog_pending?(current_account.id)
+
+    throttle_key = "QUEUE_DRAIN_THROTTLE:#{current_account.id}"
+    # Throttle: enqueue at most once every 60 seconds per account on agent connections
+    acquired = RedisUtilities::Helpers.set(throttle_key, "1", overwrite: false, expiry: 60)
+    return unless acquired
+
+    AssignmentPolicies::QueueDrainWorker.perform_async(current_account.id)
+  rescue StandardError => e
+    Rails.logger.warn("Failed to enqueue QueueDrainWorker: #{e.message}")
   end
 end

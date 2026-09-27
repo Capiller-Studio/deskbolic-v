@@ -619,6 +619,16 @@ ar:
       assign: "تعيين"
       unassign: "إلغاء الإسناد"
       sla_status: "حالة SLA"
+      sla_policy: "السياسة"
+      first_target: "الهدف من الاستجابة الأولى"
+      resolution_target: "الهدف من الحل"
+      no_sla_policy: "لم يتم تطبيق أي سياسة SLA"
+      sla_breached: "تم الاختراق"
+      sla_achieved: "تم تحقيقه"
+      breached: "تم الاختراق"
+      achieved: "تم تحقيقه"
+      successful: "ناجح"
+      cancelled: "ملغى"
       on_track: "ضمن الجدول"
       next_target: "الهدف التالي:"
       not_applicable: "لا يوجد"
@@ -4003,6 +4013,12 @@ ar:
         closed: "مغلق"
         snoozed: "تم التأجيل"
         resolved: "تم الحل"
+    conversation_sla:
+      status:
+        active: "نشط"
+        successful: "ناجح"
+        failed: "فاشل"
+        cancelled: "ملغى"
     email_template:
       template_type:
         conversation_reply: "رد المحادثة"

@@ -19,7 +19,7 @@ module Dashboard
       # SLA Breaches
       @sla_breaches_count = @recent_conversations
         .joins(:conversation_slas)
-        .where(conversation_slas: { status: :breached })
+        .merge(ConversationSla.breached)
         .count
 
       # CSAT Average (1-5 scale)

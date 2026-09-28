@@ -48,7 +48,7 @@
                   span.sidebar-link-badges
                     span.sidebar-unread-notification role="img" aria-label=t('dashboard.sidebar.channels.unread_messages', default: 'Unread messages') data-controller="unread-badge" data-action="deskbolic:unread-counts-updated@window->unread-badge#update" data-unread-badge-id-value=inbox.id data-unread-badge-type-value="inbox" style=(inbox_unread_count.positive? ? nil : 'display: none')
                       = inline_svg_tag('notification.svg', class: 'sidebar-unread-notification-icon', aria: { hidden: true })
-                    span.sidebar-link-count = inbox.conversations.count
+                    span.sidebar-link-count = @inbox_active_counts&.[](inbox.id).to_i
 
         - if @teams.present?
           section.sidebar-section
@@ -60,7 +60,7 @@
                   .sidebar-link class=(@team_id.to_s == team.id.to_s ? 'is-active' : '') data-controller="section" data-action="click->section#toggleSection" data-url=conversations_path(team_id: team.id)
                     = image_tag(team_icon, class: "sidebar-link-icon sidebar-link-icon--team", alt: "", aria: { hidden: true })
                     span.sidebar-link-label = team.name
-                    span.sidebar-link-count = team.conversations.active.count
+                    span.sidebar-link-count = @team_active_counts&.[](team.id).to_i
 
         - if @team_users.present?
           section.sidebar-section
@@ -76,7 +76,7 @@
                       .sidebar-avatar.avatar-fallback class=avatar_fallback_color_class(teammate.display_name)
                         = initials(teammate)
                     span.sidebar-link-label = teammate.display_name
-                    span.sidebar-link-count = current_account.conversations.where(assignee: teammate, status: :active).count
+                    span.sidebar-link-count = @teammate_active_counts&.[](teammate.id).to_i
 
       = render "dashboard/shared/sidebar_account_menu"
 

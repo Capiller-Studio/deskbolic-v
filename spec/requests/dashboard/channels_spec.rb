@@ -76,6 +76,43 @@ RSpec.describe 'Dashboard::Channels', type: :request do
       end
     end
 
+    describe 'POST /channels/email/:id/test_smtp' do
+      let(:mock_smtp) { instance_double(Net::SMTP) }
+
+      before do
+        allow(Net::SMTP).to receive(:new).and_return(mock_smtp)
+        allow(mock_smtp).to receive(:enable_starttls_auto)
+        allow(mock_smtp).to receive(:open_timeout=)
+        allow(mock_smtp).to receive(:read_timeout=)
+      end
+
+      it 'falls back to email domain when domain param is blank string' do
+        expect(mock_smtp).to receive(:start).with(
+          email_channel.email.split('@').last,
+          'smtp_user',
+          'secret',
+          :plain
+        ).and_yield(mock_smtp)
+
+        post test_smtp_channels_email_path(id: email_channel.id, locale: :en), params: {
+          email_channel: {
+            email: email_channel.email,
+            smtp_configurations: {
+              address: 'smtp.example.com',
+              port: 587,
+              username: 'smtp_user',
+              password: 'secret',
+              domain: '',
+              authentication: 'plain'
+            }
+          }
+        }
+
+        expect(response).to have_http_status(:ok)
+        expect(JSON.parse(response.body)['success']).to be true
+      end
+    end
+
   describe 'Facebook Pages Channels' do
     describe 'GET /channels/facebook/oauth_authorize' do
       it 'redirects to Meta dialog oauth URL with only approved scopes' do

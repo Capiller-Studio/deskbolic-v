@@ -354,8 +354,8 @@ module Dashboard
     private
 
     def load_navigation
-      account_user = current_account.account_users.find_by(user_id: current_user.id)
-      @inboxes = if account_user&.owner? || account_user&.can?("inboxes.read")
+      @account_user = current_account.account_users.find_by(user_id: current_user.id)
+      @inboxes = if @account_user&.can?("account.manage") || @account_user&.can?("inboxes.manage")
                    current_account.inboxes.all
                  else
                    current_account.inboxes.for_user(current_user)
@@ -366,12 +366,19 @@ module Dashboard
       @assignee_id = params[:assignee_id].presence
       @filter = params[:filter].presence
       @sidebar_counts = conversation_counts(visible_conversations(current_account.conversations))
+
+      inbox_ids = @inboxes.map(&:id)
+      @inbox_active_counts = inbox_ids.any? ? current_account.conversations.where(status: :active, inbox_id: inbox_ids).group(:inbox_id).count : {}
+      team_ids = @teams.map(&:id)
+      @team_active_counts = team_ids.any? ? current_account.conversations.where(status: :active, team_id: team_ids).group(:team_id).count : {}
+      teammate_ids = @team_users.map(&:user_id)
+      @teammate_active_counts = teammate_ids.any? ? current_account.conversations.where(status: :active, assignee_id: teammate_ids).group(:assignee_id).count : {}
     end
 
     def visible_conversations(scope)
-      account_user = current_account.account_users.find_by(user_id: current_user.id)
-      if account_user&.owner? || account_user&.can?("conversations.read")
-        scope.current_conversations(current_user).or(scope.not_assigned_to_user).distinct
+      @account_user ||= current_account.account_users.find_by(user_id: current_user.id)
+      if @account_user&.can?("account.manage")
+        scope
       else
         accessible_inbox_ids = current_account.inboxes.for_user(current_user).select(:id)
         assigned_or_member = scope.current_conversations(current_user).or(scope.where(assignee_id: current_user.id))

@@ -82,4 +82,27 @@ RSpec.describe 'Dashboard::Conversations', type: :request do
       expect(response).to have_http_status(:ok)
     end
   end
+
+  describe 'Owner conversation visibility and sidebar counts' do
+    let(:agent) { create(:user, confirmed_at: Time.current) }
+    let!(:agent_account_user) { create(:account_user, account: account, user: agent) }
+    let!(:assigned_to_agent_conv) do
+      create(:conversation, account: account, inbox: inbox, assignee: agent, status: :active)
+    end
+    let!(:assigned_member) do
+      create(:conversation_member, conversation: assigned_to_agent_conv, member: customer, account: account)
+    end
+
+    it 'allows account owner to view conversations assigned to other agents' do
+      get conversations_path(resource_id: inbox.id, locale: :en)
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("conversation_#{assigned_to_agent_conv.id}")
+    end
+
+    it 'accurately reflects active conversation counts in sidebar' do
+      get conversations_path(locale: :en)
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include('<span class="sidebar-link-count">2</span>')
+    end
+  end
 end

@@ -81,7 +81,13 @@ module Dashboard
         smtp.open_timeout = 10
         smtp.read_timeout = 10
 
-        smtp.start(config[:domain] || "localhost", config[:username], config[:password], (config[:authentication] || "plain").to_sym) do |s|
+        helo_domain = config[:domain].presence ||
+                      extract_email_domain(params.dig(:email_channel, :email)) ||
+                      extract_email_domain(@email_channel&.email) ||
+                      extract_email_domain(config[:username]) ||
+                      Socket.gethostname.presence ||
+                      "localhost"
+        smtp.start(helo_domain, config[:username], config[:password], (config[:authentication] || "plain").to_sym) do |s|
           # Connection successful — EHLO handshake passed
         end
 
@@ -177,7 +183,7 @@ module Dashboard
         port: raw[:port].presence&.to_i,
         username: raw[:username],
         password: raw[:password].presence || saved_password,
-        domain: raw[:domain],
+        domain: raw[:domain].presence,
         authentication: raw[:authentication],
         enable_starttls: raw[:enable_starttls]
       }
@@ -193,6 +199,12 @@ module Dashboard
         password: raw[:password].presence || saved_password,
         enable_ssl: raw[:enable_ssl]
       }
+    end
+
+    def extract_email_domain(email)
+      return nil unless email.to_s.include?("@")
+
+      email.to_s.split("@").last.presence
     end
     end
   end

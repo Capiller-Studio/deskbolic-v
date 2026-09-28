@@ -27,7 +27,7 @@
           = f.text_area :description, class: "ap-input ap-textarea", rows: 4, maxlength: 500, placeholder: t(".description_placeholder", default: "Describe when this SLA policy should apply."), id: "sla-policy-description", data: { "sla-policy-target": "descriptionInput", action: "input->sla-policy#updateDescriptionCounter" }
 
   .ap-form-two-column.sla-policy-targets-grid
-    .ap-section
+    .ap-section.sla-capacity-card
       .ap-section-header
         span.ap-section-icon
           = image_tag("agent_capacity.svg", class: "ap-icon-svg", alt: "")

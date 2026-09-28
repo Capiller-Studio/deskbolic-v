@@ -49,5 +49,11 @@ module Dashboard
 
       current_account.teams.pluck(:name, :id)
     end
+
+    def label_options_for_select
+      return [] unless current_account
+
+      current_account.labels.pluck(:title, :id)
+    end
   end
 end

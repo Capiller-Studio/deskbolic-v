@@ -72,7 +72,7 @@
                       - if bh_form.object.persisted?
                         = bh_form.hidden_field :_destroy, data: { business_hours_target: "destroyInput" }
                       button.bh-remove-button type="button" data-action="click->business-hours#removeSlot" title=t("dashboard.business_hour_groups.form.remove_hours") aria-label=t("dashboard.business_hour_groups.form.remove_hours")
-                        | ×
+                        = image_tag("delete_red.svg", alt: "", aria: { hidden: true })
 
       .bh-exception-panel
         .bh-exceptions data-business-hours-target="exceptionsContainer"
@@ -90,7 +90,7 @@
               - if bh_form.object.persisted?
                 = bh_form.hidden_field :_destroy, data: { business_hours_target: "destroyInput" }
               button.bh-remove-button type="button" data-action="click->business-hours#removeExceptionSlot" title=t("dashboard.business_hour_groups.form.remove_exception") aria-label=t("dashboard.business_hour_groups.form.remove_exception")
-                | ×
+                = image_tag("delete_red.svg", alt: "", aria: { hidden: true })
 
         .bh-exception-add-row
           .bh-exception-add-copy
@@ -114,7 +114,7 @@
           input type="time" name="business_hour_group[business_hours_attributes][NEW_RECORD][closing_time]" class="ui-input ui-input-time bh-time-input" required="required" data-action="input->business-hours#validateTime"
       .bh-row-action
         button.bh-remove-button type="button" data-action="click->business-hours#removeSlot" title=t("dashboard.business_hour_groups.form.remove_hours") aria-label=t("dashboard.business_hour_groups.form.remove_hours")
-          | ×
+          = image_tag("delete_red.svg", alt: "", aria: { hidden: true })
 
   template data-business-hours-target="exceptionTemplate"
     .bh-exception-row data-business-hours-target="exceptionSlot"
@@ -127,4 +127,4 @@
           = image_tag("calendar.svg", class: "bh-field-icon", alt: "")
           input type="datetime-local" name="business_hour_group[business_hours_attributes][NEW_RECORD][close_till]" class="ui-input ui-input-datetime bh-datetime-input" required="required" data-action="input->business-hours#validateTime change->business-hours#validateTime"
       button.bh-remove-button type="button" data-action="click->business-hours#removeExceptionSlot" title=t("dashboard.business_hour_groups.form.remove_exception") aria-label=t("dashboard.business_hour_groups.form.remove_exception")
-        | ×
+        = image_tag("delete_red.svg", alt: "", aria: { hidden: true })

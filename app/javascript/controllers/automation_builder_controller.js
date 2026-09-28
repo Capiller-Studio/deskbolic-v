@@ -261,9 +261,9 @@ export default class extends Controller {
     const attribute = event.target.value
 
     // Update operator dropdown to show only valid operators
-    const opSelect = row.querySelector("[data-condition-op]")
-    if (opSelect) {
-      opSelect.innerHTML = this._operatorsForAttribute(attribute)
+    const opContainer = row.querySelector("[data-condition-op-container]")
+    if (opContainer) {
+      opContainer.innerHTML = `<select data-controller="select" data-condition-op class="ui-select ui-control">${this._operatorsForAttribute(attribute)}</select>`
     }
 
     // Update value field to match attribute type
@@ -366,13 +366,14 @@ export default class extends Controller {
     if (!this.hasConditionGroupsTarget) return
 
     const attrs = this._attributesForCurrentEvent()
-    const optionsHtml = '<option value="">Select attribute...</option>' +
-      attrs.map(([label, val]) => `<option value="${val}">${label}</option>`).join("")
 
-    this.conditionGroupsTarget.querySelectorAll("[data-condition-attr]").forEach(select => {
+    this.conditionGroupsTarget.querySelectorAll("[data-condition-attr-container]").forEach(container => {
+      const select = container.querySelector("[data-condition-attr]")
       const current = select.value
-      select.innerHTML = optionsHtml
-      if (attrs.some(([, v]) => v === current)) select.value = current
+      const selectedOptions = attrs.map(([label, val]) =>
+        `<option value="${val}"${val === current ? " selected" : ""}>${label}</option>`
+      ).join("")
+      container.innerHTML = `<select data-controller="select" data-condition-attr data-action="change->automation-builder#attributeChanged" class="ui-select ui-control"><option value="">Select attribute...</option>${selectedOptions}</select>`
     })
   }
 
@@ -393,7 +394,7 @@ export default class extends Controller {
       const opts = fixedOptions[attribute].map(([label, val]) =>
         `<option value="${val}"${val === currentValue ? " selected" : ""}>${label}</option>`
       ).join("")
-      return `<select data-condition-val class="ap-input"><option value="">Select...</option>${opts}</select>`
+      return `<select data-controller="select" data-condition-val class="ui-select ui-control"><option value="">Select...</option>${opts}</select>`
     }
 
     const ajaxTypes = { "inbox.id": "inboxes", "assignee.id": "agents", "team.id": "teams", "labels": "labels" }
@@ -403,7 +404,7 @@ export default class extends Controller {
         `<option value="${item.id}"${String(item.id) === String(currentValue) ? " selected" : ""}>${this._escapeHtml(item.name)}</option>`
       ).join("")
       const hint = data.has_more ? ` <small style="color:#94a3b8;">(${data.total} total)</small>` : ""
-      return `<select data-condition-val class="ap-input"><option value="">Select...</option>${opts}</select>${hint}`
+      return `<select data-controller="select" data-condition-val class="ui-select ui-control"><option value="">Select...</option>${opts}</select>${hint}`
     }
 
     return `<input type="text" data-condition-val placeholder="Value..." value="${this._escapeHtml(currentValue)}" class="ap-input">`
@@ -429,7 +430,7 @@ export default class extends Controller {
       case "remove_label": {
         const d = await this._fetchLookup("labels")
         const o = d.results.map(l => `<option value="${l.id}">${this._escapeHtml(l.name)}</option>`).join("")
-        return `<select data-controller="select" data-action-param="label_ids" class="ui-select ui-control" multiple>${o}</select>`
+        return `<select data-controller="select" data-action-param="label_ids" class="ui-select ui-control autom-label-select"><option value="">Select label...</option>${o}</select>`
       }
       case "set_status":
         return `<select data-controller="select" data-action-param="status" class="ui-select ui-control">
@@ -441,7 +442,7 @@ export default class extends Controller {
           <option value="high">High</option><option value="urgent">Urgent</option></select>`
       case "send_message":
       case "add_note":
-        return `<textarea data-action-param="content" placeholder="Enter message..." rows="2" class="ap-input"></textarea>`
+        return `<textarea data-action-param="content" placeholder="Enter message..." rows="4" class="ap-input autom-action-textarea"></textarea>`
       case "snooze":
         return `<input type="number" data-action-param="duration_hours" placeholder="Hours" min="1" class="ap-input">`
       case "set_locale":
@@ -497,14 +498,18 @@ export default class extends Controller {
 
     return `
       <div class="autom-condition-row" data-condition-row>
-        <select data-condition-attr data-action="change->automation-builder#attributeChanged" class="ap-input">
-          <option value="">Select attribute...</option>
-          ${attrOptions}
-        </select>
-        <select data-condition-op class="ap-input">
-          <option value="">Select attribute first...</option>
-        </select>
-        <span data-condition-value-container style="display: contents;">
+        <div class="ui-field-control ui-field-control--plain ui-field-control--no-icon" data-condition-attr-container style="flex: 1; min-width: 0;">
+          <select data-controller="select" data-condition-attr data-action="change->automation-builder#attributeChanged" class="ui-select ui-control">
+            <option value="">Select attribute...</option>
+            ${attrOptions}
+          </select>
+        </div>
+        <div class="ui-field-control ui-field-control--plain ui-field-control--no-icon" data-condition-op-container style="flex: 1; min-width: 0;">
+          <select data-controller="select" data-condition-op class="ui-select ui-control">
+            <option value="">Select attribute first...</option>
+          </select>
+        </div>
+        <span class="ui-field-control ui-field-control--plain ui-field-control--no-icon" data-condition-value-container style="flex: 1; min-width: 0;">
           <input type="text" data-condition-val placeholder="Select attribute first..." class="ap-input" disabled>
         </span>
         <button type="button" class="autom-remove-condition-btn" data-action="click->automation-builder#removeCondition" aria-label="Remove condition">

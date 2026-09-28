@@ -303,7 +303,7 @@
           .ap-card-body.ap-billing-card-body
             .ap-billing-modal-header.ap-billing-inline-topup-header
               h2.f-semi-18 = I18n.t("dashboard.billing.topup_wallet", default: "Top-up Wallet")
-              button.ap-billing-panel-close type="reset" form="topup-wallet-form" aria-label=I18n.t("dashboard.billing.cancel", default: "Cancel") ×
+              / button.ap-billing-panel-close type="reset" form="topup-wallet-form" aria-label=I18n.t("dashboard.billing.cancel", default: "Cancel") ×
             .ap-billing-modal-body.ap-billing-inline-topup-body
               = form_with url: topup_wallet_path, method: :post, html: { id: "topup-wallet-form" } do |f|
                 .ap-billing-topup-presets

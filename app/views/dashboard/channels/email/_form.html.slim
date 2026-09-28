@@ -93,10 +93,12 @@
         div
           label.ui-label = t("dashboard.email_channels.form.smtp_password")
           .ui-password-wrapper
-            = f.password_field :smtp_password, name: "email_channel[smtp_configurations][password]", value: email_channel.smtp_configurations&.dig("password"), class: "ui-input", placeholder: t("dashboard.email_channels.form.smtp_password_placeholder"), data: { "email-channel-target": "passwordField" }
+            = f.password_field :smtp_password, name: "email_channel[smtp_configurations][password]", class: "ui-input", placeholder: email_channel.smtp_configurations&.dig("password").present? ? "••••••••" : t("dashboard.email_channels.form.smtp_password_placeholder"), autocomplete: "new-password", data: { "email-channel-target": "passwordField" }
             button.ui-password-toggle type="button" data-action="click->email-channel#togglePassword" aria-label=t("dashboard.channels.edit.toggle_token_visibility") aria-pressed="false"
               = inline_svg_tag("password_show.svg", class: "ui-password-toggle__icon ui-password-toggle__icon--show", aria: { hidden: true })
               = inline_svg_tag("password_hide.svg", class: "ui-password-toggle__icon ui-password-toggle__icon--hide", aria: { hidden: true })
+          - if email_channel.smtp_configurations&.dig("password").present?
+            p.ui-input-hint style="margin-top: 4px;" = t("dashboard.email_channels.form.password_keep_hint", default: "Leave blank to keep existing password.")
 
       .ui-form-row
         div
@@ -150,10 +152,12 @@
         div
           label.ui-label = t("dashboard.email_channels.form.imap_password")
           .ui-password-wrapper
-            = f.password_field :imap_password, name: "email_channel[imap_configurations][password]", value: email_channel.imap_configurations&.dig("password"), class: "ui-input", placeholder: t("dashboard.email_channels.form.imap_password_placeholder"), data: { "email-channel-target": "passwordField" }
+            = f.password_field :imap_password, name: "email_channel[imap_configurations][password]", class: "ui-input", placeholder: email_channel.imap_configurations&.dig("password").present? ? "••••••••" : t("dashboard.email_channels.form.imap_password_placeholder"), autocomplete: "new-password", data: { "email-channel-target": "passwordField" }
             button.ui-password-toggle type="button" data-action="click->email-channel#togglePassword" aria-label=t("dashboard.channels.edit.toggle_token_visibility") aria-pressed="false"
               = inline_svg_tag("password_show.svg", class: "ui-password-toggle__icon ui-password-toggle__icon--show", aria: { hidden: true })
               = inline_svg_tag("password_hide.svg", class: "ui-password-toggle__icon ui-password-toggle__icon--hide", aria: { hidden: true })
+          - if email_channel.imap_configurations&.dig("password").present?
+            p.ui-input-hint style="margin-top: 4px;" = t("dashboard.email_channels.form.password_keep_hint", default: "Leave blank to keep existing password.")
 
       .ui-toggle-row
         span.ui-toggle-label = t("dashboard.email_channels.form.imap_ssl")

@@ -276,7 +276,7 @@ module Dashboard
       end
 
       def whatsapp_channel_update_params
-        params.expect(
+        permitted = params.expect(
           channel_whatsapp: [
             :name, :api_key, :template_name, :template_language,
             primary_inbox_attributes: [
@@ -285,6 +285,8 @@ module Dashboard
             ]
           ]
         )
+        permitted.delete(:api_key) if permitted[:api_key].blank?
+        permitted
       end
     end
   end

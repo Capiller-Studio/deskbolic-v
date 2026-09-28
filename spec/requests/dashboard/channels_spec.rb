@@ -39,6 +39,33 @@ RSpec.describe 'Dashboard::Channels', type: :request do
       expect(response).to have_http_status(:redirect)
       expect(account.with_shard { email_channel.reload.name }).to eq('Support New Name')
     end
+
+    it 'retains existing smtp and imap passwords if submitted blank' do
+      account.with_shard do
+        email_channel.update!(
+          smtp_enabled: true,
+          imap_enabled: true,
+          smtp_configurations: { 'address' => 'smtp.example.com', 'port' => 587, 'username' => 'u1', 'password' => 'secret_smtp_123' },
+          imap_configurations: { 'address' => 'imap.example.com', 'port' => 993, 'username' => 'u1', 'password' => 'secret_imap_123' }
+        )
+      end
+
+      patch channels_email_path(id: email_channel.id, locale: :en), params: {
+        email_channel: {
+          name: 'Updated Name',
+          smtp_configurations: { address: 'smtp.new.com', port: '587', username: 'u1', password: '' },
+          imap_configurations: { address: 'imap.new.com', port: '993', username: 'u1', password: '' }
+        }
+      }
+      expect(response).to have_http_status(:redirect)
+      account.with_shard do
+        email_channel.reload
+        expect(email_channel.smtp_configurations['address']).to eq('smtp.new.com')
+        expect(email_channel.smtp_configurations['password']).to eq('secret_smtp_123')
+        expect(email_channel.imap_configurations['address']).to eq('imap.new.com')
+        expect(email_channel.imap_configurations['password']).to eq('secret_imap_123')
+      end
+    end
   end
 
     describe 'DELETE /channels/email/:id' do
@@ -303,6 +330,20 @@ RSpec.describe 'Dashboard::Channels', type: :request do
         }
         expect(response).to have_http_status(:see_other)
         expect(account.with_shard { whatsapp_channel.reload.name }).to eq('Updated Channel Name')
+      end
+
+      it 'retains existing api_key if submitted blank' do
+        account.with_shard { whatsapp_channel.update!(api_key: 'original_token_xyz') }
+
+        patch channels_whatsapp_path(id: whatsapp_channel.id, locale: :en), params: {
+          channel_whatsapp: { name: 'New Name', api_key: '' }
+        }
+        expect(response).to have_http_status(:see_other)
+        account.with_shard do
+          whatsapp_channel.reload
+          expect(whatsapp_channel.name).to eq('New Name')
+          expect(whatsapp_channel.api_key).to eq('original_token_xyz')
+        end
       end
     end
 

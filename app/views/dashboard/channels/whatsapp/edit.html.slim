@@ -97,10 +97,12 @@
                 .channel-edit-field.channel-edit-field--full
                   = f.label :api_key, t("dashboard.whatsapp_channels.form.api_key_label")
                   .channel-edit-password.ui-password-wrapper
-                    = f.password_field :api_key, value: @whatsapp_channel.api_key, placeholder: t("dashboard.whatsapp_channels.form.api_key_placeholder"), required: true
+                    = f.password_field :api_key, placeholder: @whatsapp_channel.api_key.present? ? "••••••••••••••••" : t("dashboard.whatsapp_channels.form.api_key_placeholder"), required: @whatsapp_channel.api_key.blank?, autocomplete: "new-password"
                     button.ui-password-toggle type="button" data-action="click->email-channel#togglePassword" aria-label=t("dashboard.channels.edit.toggle_token_visibility", default: "Toggle access token visibility") aria-pressed="false"
                       = inline_svg_tag("password_show.svg", class: "ui-password-toggle__icon ui-password-toggle__icon--show", aria: { hidden: true })
                       = inline_svg_tag("password_hide.svg", class: "ui-password-toggle__icon ui-password-toggle__icon--hide", aria: { hidden: true })
+                  - if @whatsapp_channel.api_key.present?
+                    p.channel-edit-field__hint = t("dashboard.whatsapp_channels.form.api_key_keep_hint", default: "Leave blank to retain existing access token.")
 
           section.channel-edit-section.channel-edit-card.whatsapp-template-section
             .channel-edit-section__heading.channel-edit-section__heading--with-description.whatsapp-template-heading

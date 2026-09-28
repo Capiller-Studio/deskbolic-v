@@ -150,11 +150,19 @@ module Dashboard
 
       if permitted[:smtp_configurations].present?
         smtp = permitted[:smtp_configurations].to_h
+        if smtp[:password].blank? && @email_channel&.persisted?
+          existing_password = @email_channel.smtp_configurations&.dig("password")
+          smtp[:password] = existing_password if existing_password.present?
+        end
         result[:smtp_configurations] = smtp.compact_blank
       end
 
       if permitted[:imap_configurations].present?
         imap = permitted[:imap_configurations].to_h
+        if imap[:password].blank? && @email_channel&.persisted?
+          existing_password = @email_channel.imap_configurations&.dig("password")
+          imap[:password] = existing_password if existing_password.present?
+        end
         result[:imap_configurations] = imap.compact_blank
       end
 
@@ -163,11 +171,12 @@ module Dashboard
 
     def smtp_params_from_form
       raw = params.dig(:email_channel, :smtp_configurations) || {}
+      saved_password = @email_channel&.smtp_configurations&.dig("password")
       {
         address: raw[:address],
         port: raw[:port].presence&.to_i,
         username: raw[:username],
-        password: raw[:password],
+        password: raw[:password].presence || saved_password,
         domain: raw[:domain],
         authentication: raw[:authentication],
         enable_starttls: raw[:enable_starttls]
@@ -176,11 +185,12 @@ module Dashboard
 
     def imap_params_from_form
       raw = params.dig(:email_channel, :imap_configurations) || {}
+      saved_password = @email_channel&.imap_configurations&.dig("password")
       {
         address: raw[:address],
         port: raw[:port].presence&.to_i,
         username: raw[:username],
-        password: raw[:password],
+        password: raw[:password].presence || saved_password,
         enable_ssl: raw[:enable_ssl]
       }
     end

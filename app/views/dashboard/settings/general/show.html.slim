@@ -86,7 +86,7 @@
                 = t("dashboard.settings.general.modal_warning_desc", default: "Deleting this workspace deactivates it immediately and permanently removes active sessions and API access.")
 
               = form_with(url: settings_general_path, method: :delete, local: true, class: "ui-settings-form") do |delete_form|
-                .ui-form-stack
+                .ui-form-stack style="margin-top: 16px;"
                   .ui-field-group
                     = label_tag :identifier_confirmation, class: "ui-label" do
                       = t("dashboard.settings.general.confirm_subdomain_prompt_html", identifier: tag.code(@account.identifier), default: ("Type workspace subdomain %{identifier} to confirm:").html_safe)

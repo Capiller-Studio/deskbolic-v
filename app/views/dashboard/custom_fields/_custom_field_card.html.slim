@@ -6,7 +6,7 @@
 - locales_count = field.translations.size
 - searchable_values = [field.key, entity_label, type_label, default_value].compact.join(" ").downcase
 
-article.ui-panel.ai-agent-card id="custom_field_#{field.id}" data-filterable-collection-target="item" data-filter-values=field.entity_type data-searchable=searchable_values
+article.ui-panel.ai-agent-card.custom-field-card id="custom_field_#{field.id}" data-filterable-collection-target="item" data-filter-values=field.entity_type data-searchable=searchable_values
   .ui-panel__header.ai-agent-card-header
     .ui-panel__identity.ai-agent-card-identity
       .ai-agent-card-avatar

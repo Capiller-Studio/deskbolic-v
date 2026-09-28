@@ -17,8 +17,11 @@
       = select_tag "action_param_#{action_index}", options_for_select([[t("forms.options.active"), "active"], [t("forms.options.closed"), "closed"], [t("forms.options.snoozed"), "snoozed"], [t("forms.options.resolved"), "resolved"]], action_params["status"] || action_params[:status] || action_value), class: "ui-select ui-control", data: { controller: "select", "action-param": "status" }
     - when "set_priority"
       = select_tag "action_param_#{action_index}", options_for_select([[t("forms.options.low"), "low"], [t("forms.options.medium"), "medium"], [t("forms.options.high"), "high"], [t("forms.options.urgent"), "urgent"]], action_params["priority"] || action_params[:priority] || action_value), class: "ui-select ui-control", data: { controller: "select", "action-param": "priority" }
+    - when "add_label", "remove_label"
+      - selected_label_id = Array(action_params["label_ids"] || action_params[:label_ids]).first
+      = select_tag "action_param_#{action_index}", options_for_select(label_options_for_select, selected_label_id), include_blank: t("forms.options.select_label", default: "Select label..."), class: "ui-select ui-control autom-label-select", data: { controller: "select", "action-param": "label_ids" }
     - when "send_message", "add_note"
-      = text_area_tag "action_param_#{action_index}", action_params["content"] || action_params[:content], placeholder: t("ui.dashboard.automations.action_row.enter_message", default: "Enter message..."), rows: 2, data: { "action-param": "content" }, class: "ap-input"
+      = text_area_tag "action_param_#{action_index}", action_params["content"] || action_params[:content], placeholder: t("ui.dashboard.automations.action_row.enter_message", default: "Enter message..."), rows: 4, data: { "action-param": "content" }, class: "ap-input autom-action-textarea"
     - when "snooze"
       = number_field_tag "action_param_#{action_index}", action_params["duration_hours"] || action_params[:duration_hours], placeholder: t("ui.dashboard.automations.action_row.hours", default: "Hours"), min: 1, data: { "action-param": "duration_hours" }, class: "ap-input"
     - when "set_locale"
@@ -28,4 +31,4 @@
       = select_tag "action_param_method_#{action_index}", options_for_select(%w[POST GET PUT PATCH], action_params["method"] || action_params[:method] || "POST"), class: "ui-select ui-control", data: { controller: "select", "action-param": "method" }
 
   button.autom-remove-action-btn.ui-macro-remove-action type="button" data-action="click->automation-builder#removeAction" aria-label=t("general.delete")
-    = image_tag("cross.svg", class: "autom-close-icon", alt: "", aria: { hidden: true })
+    = image_tag("delete_red.svg", class: "autom-delete-icon", alt: "", aria: { hidden: true })

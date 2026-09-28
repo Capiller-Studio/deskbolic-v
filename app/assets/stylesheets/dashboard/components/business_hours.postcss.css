@@ -136,7 +136,7 @@
 }
 
 .bh-weekly-header {
-  align-items: flex-start;
+  align-items: center;
 }
 
 .bh-timezone-control {
@@ -179,7 +179,8 @@
   z-index: 40;
 }
 
-.bh-timezone-field .choices__inner {
+.bh-timezone-field > .choices .choices__inner {
+  height: 38px;
   min-height: 38px;
   padding: 0;
   overflow: hidden;
@@ -189,11 +190,12 @@
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
 }
 
-.bh-timezone-field .choices__list--single {
+.bh-timezone-field > .choices .choices__list--single {
   display: flex;
+  box-sizing: border-box;
   height: 36px;
   align-items: center;
-  padding: 8px 34px 8px 13px;
+  padding: 0 34px 0 13px;
 }
 
 .bh-timezone-field .choices__item,
@@ -381,7 +383,7 @@
 }
 
 .bh-time-slot--additional .bh-row-action {
-  justify-content: flex-start;
+  justify-content: flex-end;
 }
 
 .bh-day-toggle {
@@ -412,26 +414,29 @@
 
 .bh-remove-button {
   display: inline-flex;
-  width: 28px;
-  height: 28px;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
   align-items: center;
   justify-content: center;
-  border: 0;
+  padding: 0;
+  border: 1px solid #fee2e2;
   border-radius: 8px;
-  background: transparent;
-  color: $red-70;
+  background: $white;
   cursor: pointer;
-  font-size: 22px;
-  line-height: 1;
-}
-
-.bh-time-slot--additional .bh-remove-button {
-  border-radius: 999px;
-  background: #fef2f2;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
 }
 
 .bh-remove-button:hover {
+  border-color: #fecaca;
   background: #fef2f2;
+}
+
+.bh-remove-button img {
+  display: block;
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
 }
 
 .bh-exception-panel {

@@ -14,9 +14,9 @@
     - conditions = group.dig("conditions") || [{}]
     - conditions.each_with_index do |cond, ci|
       .autom-condition-row data-condition-row=""
-        .ui-field-control.ui-field-control--plain.ui-field-control--no-icon style="flex: 1; min-width: 0;"
+        .ui-field-control.ui-field-control--plain.ui-field-control--no-icon data-condition-attr-container="" style="flex: 1; min-width: 0;"
           = select_tag "cond_attr_#{group_index}_#{ci}", options_for_select(condition_attribute_options, cond["attribute"]), include_blank: t("forms.options.select_attribute"), class: "ui-select ui-control", data: { controller: "select", action: "change->automation-builder#attributeChanged", "condition-attr": true }
-        .ui-field-control.ui-field-control--plain.ui-field-control--no-icon style="flex: 1; min-width: 0;"
+        .ui-field-control.ui-field-control--plain.ui-field-control--no-icon data-condition-op-container="" style="flex: 1; min-width: 0;"
           = select_tag "cond_op_#{group_index}_#{ci}", options_for_select(condition_operator_options, cond["operator"]), include_blank: t("forms.options.select_operator"), class: "ui-select ui-control", data: { controller: "select", "condition-op": true }
         span.ui-field-control.ui-field-control--plain.ui-field-control--no-icon data-condition-value-container="" style="flex: 1; min-width: 0;"
           = text_field_tag "cond_val_#{group_index}_#{ci}", cond["value"], placeholder: t("ui.dashboard.automations.condition_group.value", default: "Value..."), data: { "condition-val": true }, class: "ap-input"

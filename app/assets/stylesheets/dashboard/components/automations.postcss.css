@@ -508,6 +508,7 @@
   color: #4f46e5;
   font-size: 13px;
   font-weight: 500;
+  margin-top: 12px;
   transition: all 0.15s ease;
 
   &:hover {
@@ -520,12 +521,43 @@
 .autom-action-row {
   display: flex;
   gap: 8px;
-  align-items: center;
+  align-items: flex-start;
   margin-bottom: 8px;
 
   &:last-of-type {
     margin-bottom: 0;
   }
+}
+
+.autom-action-row > .ui-macro-action-select {
+  width: 240px;
+  min-width: 0;
+  flex: 0 0 240px;
+}
+
+.autom-action-row > [data-action-params] {
+  display: flex;
+  width: min(100%, 520px);
+  min-width: 0;
+  flex: 0 1 520px;
+  gap: 8px;
+}
+
+.autom-action-row > [data-action-params]:empty {
+  display: none;
+}
+
+.autom-action-row > [data-action-params] > * {
+  width: 100%;
+  min-width: 0;
+  flex: 1 1 0;
+}
+
+.autom-action-row .autom-action-textarea {
+  min-height: 96px;
+  padding: 12px 14px;
+  line-height: 20px;
+  resize: vertical;
 }
 
 .autom-remove-action-btn {
@@ -534,6 +566,7 @@
   justify-content: center;
   width: 32px;
   height: 32px;
+  margin-top: 5px;
   border: none;
   border-radius: 8px;
   background: none;
@@ -548,8 +581,15 @@
   }
 
   svg {
-    width: 14px;
-    height: 14px;
+    width: 16px;
+    height: 16px;
+  }
+
+  .autom-delete-icon {
+    display: block;
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
   }
 }
 

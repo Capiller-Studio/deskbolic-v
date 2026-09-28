@@ -8,6 +8,21 @@
   align-items: stretch;
 }
 
+.sla-capacity-card {
+  padding-top: 24px;
+  overflow: visible;
+  position: relative;
+  z-index: 2;
+}
+
+.sla-capacity-card:has(.choices.is-open) {
+  z-index: 30;
+}
+
+.sla-capacity-card .ap-section-header {
+  padding-top: 0;
+}
+
 .sla-target-stack {
   display: flex;
   flex-direction: column;
@@ -116,5 +131,11 @@
   .sla-target-controls,
   .ui-settings-page .ui-card-grid.sla-policy-card-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .sla-capacity-card {
+    padding-top: 16px;
   }
 }

@@ -38,19 +38,19 @@ class ApplicationController < ActionController::Base
   private
 
   def persist_onboarding_params
-    persist_cookie(REFERRAL_COOKIE, params[:ref])
+    persist_cookie(REFERRAL_COOKIE, params[:ref], expires: 14.days.from_now)
     persist_cookie(SELECTED_PLAN_COOKIE, params[:plan_id])
     persist_cookie(SELECTED_BILLING_CYCLE_COOKIE, params[:billing_cycle])
     persist_cookie(SELECTED_CURRENCY_COOKIE, params[:currency])
   end
 
-  def persist_cookie(key, value)
+  def persist_cookie(key, value, expires: 72.hours.from_now)
     value = value.to_s.strip
     return if value.blank?
 
     cookies[key] = {
       value: value,
-      expires: 72.hours.from_now,
+      expires: expires,
       same_site: :lax
     }
   end

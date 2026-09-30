@@ -50,7 +50,7 @@
               = hidden_field_tag :q, @query if @query.present?
               = hidden_field_tag :status, @status if @status.present?
               = hidden_field_tag :category_id, @category_id if @category_id.present?
-              - {"title" => I18n.t("dashboard.articles.col_title", default: "Title"), "last_edit" => I18n.t("dashboard.articles.col_last_edit", default: "Last Edit"), "status" => I18n.t("dashboard.articles.col_status", default: "Status"), "collection" => I18n.t("dashboard.articles.col_collection", default: "Collection")}.each do |key, label|
+              - {"title" => I18n.t("dashboard.articles.col_title", default: "Title"), "last_edit" => I18n.t("dashboard.articles.col_last_edit", default: "Last Edit"), "status" => I18n.t("dashboard.articles.col_status", default: "Status"), "category" => I18n.t("dashboard.articles.col_category", default: "Category")}.each do |key, label|
                 label.hc-checkbox-row
                   = check_box_tag "columns[]", key, @columns.include?(key)
                   span.hc-checkbox-label = label
@@ -59,7 +59,7 @@
             = inline_svg_tag("filter_blue.svg", aria: { hidden: true })
         .hc-mobile-article-list
           - @articles.each do |article|
-            - collection = article.primary_category || article.categories.first
+            - category = article.primary_category || article.categories.first
             - article_title = article.title.presence || article.draft_title.presence || I18n.t("dashboard.articles.untitled", default: "Untitled article")
             article.hc-mobile-article-card
               - if @columns.include?("title")
@@ -85,17 +85,17 @@
                 .hc-mobile-article-card__meta
                   = inline_svg_tag("clock-blue.svg", class: "hc-mobile-meta-icon", aria: { hidden: true })
                   span = I18n.t("dashboard.articles.last_edit_label", default: "Last edit: %{time}", time: time_ago_in_words(article.updated_at) + " ago")
-              - if @columns.include?("status") || @columns.include?("collection")
+              - if @columns.include?("status") || @columns.include?("category")
                 .hc-mobile-article-card__footer
                   - if @columns.include?("status")
                     span.hc-status-badge class="hc-status-#{article.status}"
                       span.hc-status-dot class="hc-dot-#{article.status}"
                       = article.status.humanize
-                  - if @columns.include?("collection")
-                    span.hc-collection-tag title=collection&.name
+                  - if @columns.include?("category")
+                    span.hc-collection-tag title=category&.name
                       = inline_svg_tag("tag.svg", class: "hc-mobile-tag-icon", aria: { hidden: true })
-                      - if collection&.name.present?
-                        = collection.name
+                      - if category&.name.present?
+                        = category.name
                       - else
                         = I18n.t("dashboard.articles.uncategorized", default: "Uncategorized")
         .hc-desktop-table-list data-controller="sortable" data-sortable-url-value="#{reorder_help_center_articles_path}"
@@ -119,14 +119,14 @@
                     span.hc-th-content
                       = I18n.t("dashboard.articles.col_status", default: "Status")
                       span.hc-sort-caret ↓
-                - if @columns.include?("collection")
+                - if @columns.include?("category")
                   th
                     span.hc-th-content
-                      = I18n.t("dashboard.articles.col_collection", default: "Collection")
+                      = I18n.t("dashboard.articles.col_category", default: "Category")
                       span.hc-sort-caret ↓
             tbody
               - @articles.each do |article|
-                - collection = article.primary_category || article.categories.first
+                - category = article.primary_category || article.categories.first
                 tr.hc-table-row id="article_#{article.id}" data-sortable-target="item" data-id="#{article.id}" draggable="true" data-action="dragstart->sortable#dragStart dragend->sortable#dragEnd"
                   td.hc-drag-cell
                     span.hc-drag-handle
@@ -144,11 +144,11 @@
                       span.hc-status-badge class="hc-status-#{article.status}"
                         span.hc-status-dot class="hc-dot-#{article.status}"
                         = article.status.humanize
-                  - if @columns.include?("collection")
-                    td.hc-collection-cell data-label=I18n.t("dashboard.articles.col_collection", default: "Collection")
-                      span.hc-collection-tag title=collection&.name
-                        - if collection&.name.present?
-                          - words = collection.name.split
+                  - if @columns.include?("category")
+                    td.hc-collection-cell data-label=I18n.t("dashboard.articles.col_category", default: "Category")
+                      span.hc-collection-tag title=category&.name
+                        - if category&.name.present?
+                          - words = category.name.split
                           = words.first(2).join(' ') + (words.length > 2 ? '...' : '')
                         - else
                           = I18n.t("dashboard.articles.uncategorized", default: "Uncategorized")

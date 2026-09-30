@@ -4,7 +4,7 @@
       { key: "all_articles", label: t("ui.dashboard.help_center.help_center_sidebar.all_articles_2"), path: help_center_articles_path, icon: "book.svg", active: current_page == "articles" && params[:status].blank? }, \
       { key: "published", label: t("ui.dashboard.help_center.help_center_sidebar.published_2"), path: help_center_articles_path(status: :published), icon: "book.svg", active: current_page == "articles" && params[:status] == "published" }, \
       { key: "draft", label: t("dashboard.email_builder.draft"), path: help_center_articles_path(status: :draft), icon: "pencil.svg", active: current_page == "articles" && params[:status] == "draft" }, \
-      { key: "collections", label: t("dashboard.help_center.categories.index.title"), path: help_center_categories_path, icon: "tag.svg", active: current_page == "collections" }, \
+      { key: "categories", label: t("dashboard.help_center.categories.index.title"), path: help_center_categories_path, icon: "tag.svg", active: current_page == "categories" }, \
       { key: "settings", label: t("dashboard.sidebar.settings.title"), path: settings_path, icon: "settings.svg", active: current_page == "settings" } \
     ]
     nav.hc-mobile-bottom-nav aria-label=t("dashboard.settings_index.help_center")
@@ -40,12 +40,12 @@
                     = inline_svg_tag("pencil.svg", class: "link-icon", alt: t("ui.dashboard.help_center.help_center_sidebar.draft"))
                     p.f-reg-14 = t("dashboard.email_builder.draft")
 
-            p.help-p.f-semi-12 = t("ui.dashboard.help_center.help_center_sidebar.collections")
-            li.nav-item class="#{current_page == 'collections' ? 'help-nav-active' : ''}"
+            p.help-p.f-semi-12 = t("ui.dashboard.help_center.help_center_sidebar.categories")
+            li.nav-item class="#{current_page == 'categories' ? 'help-nav-active' : ''}"
               = link_to(help_center_categories_path, class: "nav-link", style: "height: 34px;") do
                 .link-text
                   .conversation-name.inbox-conv
-                    = inline_svg_tag("tag.svg", class: "link-icon", alt: t("ui.dashboard.help_center.help_center_sidebar.collections_2"))
+                    = inline_svg_tag("tag.svg", class: "link-icon", alt: t("ui.dashboard.help_center.help_center_sidebar.categories"))
                     p.f-reg-14 = t("dashboard.help_center.categories.index.title")
             li.nav-item class="#{current_page == 'settings' ? 'help-nav-active' : ''}"
               = link_to(settings_path, class: "nav-link", style: "height: 34px;") do

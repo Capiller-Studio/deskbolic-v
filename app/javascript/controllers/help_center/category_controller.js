@@ -37,7 +37,7 @@ export default class extends Controller {
     if (this.hasModalTarget) {
       const form = this.modalTarget.querySelector('form.hc-category-form')
       if (form) {
-        form.action = form.dataset.collectionPath || form.action
+        form.action = form.dataset.categoryPath || form.action
         const methodInput = form.querySelector('input[name="_method"]')
         if (methodInput) methodInput.remove()
         form.reset()
@@ -74,7 +74,7 @@ export default class extends Controller {
     if (this.hasModalTarget) {
       const form = this.modalTarget.querySelector('form.hc-category-form')
       if (form) {
-        form.action = path || `${form.dataset.collectionPath || "/help-center/categories"}/${id}`
+        form.action = path || `${form.dataset.categoryPath || "/help-center/categories"}/${id}`
         
         let methodInput = form.querySelector('input[name="_method"]')
         if (!methodInput) {
@@ -99,9 +99,9 @@ export default class extends Controller {
       }
 
       const modalTitle = this.modalTarget.querySelector('.hc-category-modal-header-text h3')
-      if (modalTitle) modalTitle.textContent = "Edit Collection"
+      if (modalTitle) modalTitle.textContent = "Edit Category"
       const modalSubtitle = this.modalTarget.querySelector('.hc-category-modal-header-text p')
-      if (modalSubtitle) modalSubtitle.textContent = "Update your collection details"
+      if (modalSubtitle) modalSubtitle.textContent = "Update your category details"
       const submitBtn = this.modalTarget.querySelector('.hc-category-submit-btn')
       if (submitBtn) this._setSubmitButtonText(submitBtn, "Update Category")
     }

@@ -41,16 +41,16 @@ module Dashboard
 
         unless portal
           respond_to do |format|
-            format.html { redirect_to(help_center_categories_path, alert: "Unable to create collection: no help center portal was found.") }
-            format.json { render(json: { error: "Unable to create collection: no help center portal was found." }, status: :unprocessable_entity) }
+            format.html { redirect_to(help_center_categories_path, alert: "Unable to create category: no help center portal was found.") }
+            format.json { render(json: { error: "Unable to create category: no help center portal was found." }, status: :unprocessable_entity) }
           end
           return
         end
 
         if name.blank?
           respond_to do |format|
-            format.html { redirect_to(help_center_categories_path, alert: "Unable to create collection: name can't be blank.") }
-            format.json { render(json: { error: "Unable to create collection: name can't be blank." }, status: :unprocessable_entity) }
+            format.html { redirect_to(help_center_categories_path, alert: "Unable to create category: name can't be blank.") }
+            format.json { render(json: { error: "Unable to create category: name can't be blank." }, status: :unprocessable_entity) }
           end
           return
         end
@@ -76,23 +76,23 @@ module Dashboard
         end
 
         respond_to do |format|
-          format.html { redirect_to(help_center_categories_path, notice: "Collection was successfully created.") }
+          format.html { redirect_to(help_center_categories_path, notice: "Category was successfully created.") }
           format.json { render(json: { id: @category.id, name: @category.name.presence || "Untitled" }) }
         end
       rescue ActiveRecord::RecordInvalid => e
-        error_msg = "Unable to create collection: #{e.record.errors.full_messages.join(', ')}"
+        error_msg = "Unable to create category: #{e.record.errors.full_messages.join(', ')}"
         respond_to do |format|
           format.html { redirect_to(help_center_categories_path, alert: error_msg) }
           format.json { render(json: { error: error_msg }, status: :unprocessable_entity) }
         end
       rescue ActionController::ParameterMissing => e
-        error_msg = "Unable to create collection: missing parameter - #{e.message}"
+        error_msg = "Unable to create category: missing parameter - #{e.message}"
         respond_to do |format|
           format.html { redirect_to(help_center_categories_path, alert: error_msg) }
           format.json { render(json: { error: error_msg }, status: :unprocessable_entity) }
         end
       rescue StandardError => e
-        error_msg = "Unable to create collection: #{e.class} - #{e.message}"
+        error_msg = "Unable to create category: #{e.class} - #{e.message}"
         respond_to do |format|
           format.html { redirect_to(help_center_categories_path, alert: error_msg) }
           format.json { render(json: { error: error_msg }, status: :unprocessable_entity) }
@@ -106,8 +106,8 @@ module Dashboard
 
         if name.blank?
           respond_to do |format|
-            format.html { redirect_to(help_center_categories_path, alert: "Unable to update collection: name can't be blank.") }
-            format.json { render(json: { error: "Unable to update collection: name can't be blank." }, status: :unprocessable_entity) }
+            format.html { redirect_to(help_center_categories_path, alert: "Unable to update category: name can't be blank.") }
+            format.json { render(json: { error: "Unable to update category: name can't be blank." }, status: :unprocessable_entity) }
           end
           return
         end
@@ -131,17 +131,17 @@ module Dashboard
         end
 
         respond_to do |format|
-          format.html { redirect_to(help_center_categories_path, notice: "Collection was successfully updated.", status: :see_other) }
+          format.html { redirect_to(help_center_categories_path, notice: "Category was successfully updated.", status: :see_other) }
           format.json { render(json: { id: @category.id, name: @category.name.presence || "Untitled" }) }
         end
       rescue ActiveRecord::RecordInvalid => e
-        error_msg = "Unable to update collection: #{e.record.errors.full_messages.join(', ')}"
+        error_msg = "Unable to update category: #{e.record.errors.full_messages.join(', ')}"
         respond_to do |format|
           format.html { redirect_to(help_center_categories_path, alert: error_msg, status: :see_other) }
           format.json { render(json: { error: error_msg }, status: :unprocessable_entity) }
         end
       rescue StandardError => e
-        error_msg = "Unable to update collection: #{e.class} - #{e.message}"
+        error_msg = "Unable to update category: #{e.class} - #{e.message}"
         respond_to do |format|
           format.html { redirect_to(help_center_categories_path, alert: error_msg, status: :see_other) }
           format.json { render(json: { error: error_msg }, status: :unprocessable_entity) }
@@ -152,11 +152,11 @@ module Dashboard
         authorize(@category)
         @category.destroy!
         respond_to do |format|
-          format.html { redirect_to(help_center_categories_path, notice: "Collection was successfully deleted.", status: :see_other) }
+          format.html { redirect_to(help_center_categories_path, notice: "Category was successfully deleted.", status: :see_other) }
           format.json { head(:no_content) }
         end
       rescue StandardError => e
-        error_msg = "Unable to delete collection: #{e.message}"
+        error_msg = "Unable to delete category: #{e.message}"
         respond_to do |format|
           format.html { redirect_to(help_center_categories_path, alert: error_msg, status: :see_other) }
           format.json { render(json: { error: error_msg }, status: :unprocessable_entity) }

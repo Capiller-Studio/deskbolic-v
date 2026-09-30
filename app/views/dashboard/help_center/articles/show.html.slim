@@ -1,6 +1,6 @@
 / = render("dashboard/shared/dashboard_container", current_page: "help_center") do
 = render("dashboard/help_center/help_center_sidebar", current_page: "articles") do
-  - collection = @article.primary_category || @article.categories.first
+  - category = @article.primary_category || @article.categories.first
   - translation = @article.translations.find { |item| item.locale.to_s == @locale.to_s } || @article.translations.first
   - display_title = translation&.title.presence || translation&.draft_title.presence || @article.title.presence || @article.draft_title.presence || "Untitled article"
   .hc-article-show
@@ -38,8 +38,8 @@
               .hc-overview-row-icon-cell
                 | 📁
               .hc-overview-row-content
-                span Collection
-                p = collection&.name.presence || "Uncategorized"
+                span Category
+                p = category&.name.presence || "Uncategorized"
             .hc-overview-row
               .hc-overview-row-icon-cell
                 | 🌐

@@ -391,10 +391,11 @@ module Dashboard
         }
       end
 
+      ALLOWED_COLUMNS = %w[title last_edit status category].freeze
+
       def selected_columns
-        allowed = %w[title last_edit status collection]
-        selected = Array(params[:columns]).presence || allowed
-        selected & allowed
+        columns = Array(params[:columns]).presence || ALLOWED_COLUMNS
+        columns & ALLOWED_COLUMNS
       end
 
       def unsupported_banner_image?

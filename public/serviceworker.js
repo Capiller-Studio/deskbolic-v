@@ -3,8 +3,8 @@ self.addEventListener("push", function(event) {
     const data = event.data.json()
     const options = {
       body: data.body,
-      icon: self.location.origin + "/icon.png", // Use absolute URL for desktop push support
-      badge: self.location.origin + "/icon.png",
+      icon: data.icon || (self.location.origin + "/icon.png"), // Use absolute URL for desktop push support
+      badge: data.badge || (self.location.origin + "/icon.png"),
       data: data.data
     }
     

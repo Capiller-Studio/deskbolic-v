@@ -272,6 +272,7 @@ GEM
       websocket-driver (>= 0.8.0)
     ffaker (2.25.0)
     ffi (1.17.4-arm64-darwin)
+    ffi (1.17.4-x86_64-linux-gnu)
     ffi-compiler (1.4.2)
       ffi (>= 1.15.5)
       rake
@@ -284,6 +285,9 @@ GEM
     google-protobuf (4.34.1-arm64-darwin)
       bigdecimal
       rake (~> 13.3)
+    google-protobuf (4.34.1-x86_64-linux-gnu)
+      bigdecimal
+      rake (~> 13.3)
     googleapis-common-protos-types (1.22.0)
       google-protobuf (~> 4.26)
     groupdate (6.8.0)
@@ -292,6 +296,9 @@ GEM
       google-protobuf (>= 3.25, < 5.0)
       googleapis-common-protos-types (~> 1.0)
     grpc (1.80.0-arm64-darwin)
+      google-protobuf (>= 3.25, < 5.0)
+      googleapis-common-protos-types (~> 1.0)
+    grpc (1.80.0-x86_64-linux-gnu)
       google-protobuf (>= 3.25, < 5.0)
       googleapis-common-protos-types (~> 1.0)
     has-guarded-handlers (1.6.3)
@@ -391,6 +398,7 @@ GEM
       bigdecimal
       i18n (~> 1.9)
     mrml (1.10.0-arm64-darwin)
+    mrml (1.10.0-x86_64-linux)
     msgpack (1.8.0)
     multi_json (1.21.1)
     multi_xml (0.9.1)
@@ -409,6 +417,8 @@ GEM
       net-protocol
     nio4r (2.7.5)
     nokogiri (1.19.4-arm64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.19.4-x86_64-linux-gnu)
       racc (~> 1.4)
     oauth2 (2.0.18)
       faraday (>= 0.17.3, < 4.0)
@@ -451,6 +461,7 @@ GEM
     pdf-core (0.10.0)
     pg (1.6.3)
     pg (1.6.3-arm64-darwin)
+    pg (1.6.3-x86_64-linux)
     pp (0.6.4)
       prettyprint
     prawn (2.5.0)
@@ -715,6 +726,7 @@ GEM
 
 PLATFORMS
   arm64-darwin
+  x86_64-linux
 
 DEPENDENCIES
   actionpack-page_caching

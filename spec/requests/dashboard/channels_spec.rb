@@ -668,5 +668,49 @@ RSpec.describe 'Dashboard::Channels', type: :request do
         expect(flash[:alert]).to include('Please wait a moment before purging the cache again')
       end
     end
+
+    describe 'GET /channels/web_widget/new' do
+      it 'renders new web widget form with tabbed translations UI and proper icons' do
+        get new_channels_web_widget_path(locale: :en)
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include('ui-locale-editor')
+        expect(response.body).to include('ui-locale-tabs')
+        expect(response.body).to include('ui-locale-panels')
+        # Does not leak raw languages hash into header
+        expect(response.body).not_to include('{:en=&gt;&quot;English&quot;')
+        expect(response.body).not_to include('{en: &quot;English&quot;')
+        # Inlined translation icon path (M12.87 15.07 from translate.svg)
+        expect(response.body).to include('M12.87 15.07')
+        # Inlined dropdown chevron path (M12.6673 6L8.00065 from dropdown.svg)
+        expect(response.body).to include('M12.6673 6')
+      end
+    end
+
+    describe 'GET /channels/web_widget/:id/edit' do
+      let(:web_widget_channel) { account.with_shard { create(:channel_web_widget, account: account) } }
+
+      it 'renders edit web widget form with tabbed translations and dropdown chevron in installation section' do
+        get edit_channels_web_widget_path(id: web_widget_channel.id, locale: :en)
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include('ui-locale-editor')
+        expect(response.body).to include('data-web-widget-channel-target="installationSection"')
+        expect(response.body).not_to include('▼')
+      end
+    end
+
+    describe 'GET /channels/contact_form/new' do
+      it 'renders contact form with clean form_fields.svg, translate.svg and dropdown chevrons' do
+        get new_channels_contact_form_path(locale: :en)
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include('ui-locale-editor')
+        # Inlined form_fields.svg (rect and field lines)
+        expect(response.body).to include('x="2.5" y="2.5" width="15" height="15"')
+        # Inlined translate.svg path
+        expect(response.body).to include('M12.87 15.07')
+        # Inlined dropdown chevron and no unicode ▼
+        expect(response.body).to include('M12.6673 6')
+        expect(response.body).not_to include('span class="ww-section-chevron">▼')
+      end
+    end
   end
 end

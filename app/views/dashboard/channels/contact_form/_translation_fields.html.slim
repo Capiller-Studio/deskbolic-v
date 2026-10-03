@@ -7,7 +7,7 @@
 
   - unless locale == I18n.default_locale.to_s
     .ui-locale-panel__header
-      strong.translation-language-name = I18n.t("languages.#{locale.downcase}", default: locale.upcase)
+      strong.translation-language-name = locale.present? ? I18n.t("languages.#{locale.downcase}", default: locale.upcase) : ""
       button.ui-action-delete type="button" data-action="click->nested-translations#removeTranslation" title=t("general.remove_translation")
         = inline_svg_tag("cross_clear.svg", aria: { hidden: true })
 

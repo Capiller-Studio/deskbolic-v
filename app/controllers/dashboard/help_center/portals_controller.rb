@@ -158,7 +158,7 @@ module Dashboard
         @selected_secondary = @selected_ui["secondary_color"].presence || "#FCA5A5"
         @selected_theme = @selected_ui["theme_preference"].presence || "light"
         @selected_hero = @selected_ui["hero_style"].presence || "image"
-        @selected_layout = @selected_ui["category_layout"].presence || "grid"
+        @selected_layout = (@selected_ui["category_layout"].presence == "list") ? "grid" : (@selected_ui["category_layout"].presence || "grid")
         @selected_locales = Array(@portal.locales.presence || [ I18n.default_locale.to_s ])
         @primary_colors = PRIMARY_COLORS
         @secondary_colors = SECONDARY_COLORS

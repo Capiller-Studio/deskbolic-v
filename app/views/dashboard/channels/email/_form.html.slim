@@ -13,7 +13,7 @@
   .ui-section.ui-section--always-open
     .ui-section-header
       .ui-section-title
-        span.ui-section-icon 📝
+        = inline_svg_tag("mail.svg", class: "ww-section-icon", alt: t("dashboard.email_channels.form.basic_section"))
         span.ui-section-label = t("dashboard.email_channels.form.basic_section")
     .ui-section-body.channel-edit-select-surface
       .ui-form-row
@@ -66,9 +66,10 @@
   .ui-section data-email-channel-target="smtpSection"
     .ui-section-header data-action="click->email-channel#toggleSection"
       .ui-section-title
-        span.ui-section-icon 📤
+        = inline_svg_tag("export.svg", class: "ww-section-icon", alt: t("dashboard.email_channels.form.smtp_section"))
         span.ui-section-label = t("dashboard.email_channels.form.smtp_section")
-      span.ui-section-chevron ▼
+      span.ui-section-chevron
+        = inline_svg_tag("dropdown.svg", aria: { hidden: true })
     .ui-section-body.channel-edit-select-surface
       p.ui-input-hint style="margin-bottom: 16px;" = t("dashboard.email_channels.form.smtp_section_desc")
 
@@ -125,9 +126,10 @@
   .ui-section data-email-channel-target="imapSection"
     .ui-section-header data-action="click->email-channel#toggleSection"
       .ui-section-title
-        span.ui-section-icon 📥
+        = inline_svg_tag("inbox.svg", class: "ww-section-icon", alt: t("dashboard.email_channels.form.imap_section"))
         span.ui-section-label = t("dashboard.email_channels.form.imap_section")
-      span.ui-section-chevron ▼
+      span.ui-section-chevron
+        = inline_svg_tag("dropdown.svg", aria: { hidden: true })
     .ui-section-body
       p.ui-input-hint style="margin-bottom: 16px;" = t("dashboard.email_channels.form.imap_section_desc")
 

@@ -21,7 +21,7 @@ section.channel-edit-section.channel-edit-card
 section.channel-edit-section.channel-edit-card
   .channel-edit-section__heading.channel-edit-section__heading--with-description
     .channel-edit-section__icon
-      = inline_svg_tag("fields.svg", aria: { hidden: true })
+      = inline_svg_tag("form_fields.svg", aria: { hidden: true })
     .channel-edit-section__heading-copy
       h2 = t("dashboard.contact_form_channels.form.fields_section", default: "Form Fields")
       p = t("dashboard.contact_form_channels.form.fields_desc", default: "Fields currently displayed on this contact form.")
@@ -59,7 +59,7 @@ section.channel-edit-section.channel-edit-card
 section.channel-edit-section.channel-edit-card
   .channel-edit-section__heading
     .channel-edit-section__icon
-      = inline_svg_tag("t_users.svg", aria: { hidden: true })
+      = inline_svg_tag("translate.svg", aria: { hidden: true })
     h2 = t("ui.dashboard.channels.contact_form.form.translations", default: "Translations")
   .channel-edit-section__body
     - if channel.translations.any?

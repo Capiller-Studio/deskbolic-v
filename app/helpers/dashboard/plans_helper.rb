@@ -7,6 +7,26 @@
 module Dashboard
   module PlansHelper
     def plan_features(plan)
+      plan_key = plan.name.to_s.downcase.tr(" ", "_")
+      features = I18n.t("dashboard.billing.subscription_page.card_features.#{plan_key}", default: nil)
+      if features.is_a?(Array)
+        previous_plan = case plan_key
+                        when "anabolic" then "Symbolic"
+                        when "hyperbolic" then "Anabolic"
+                        when "parabolic" then "Hyperbolic"
+                        end
+        if previous_plan
+          everything_in = I18n.t("dashboard.billing.subscription_page.card_features.everything_in", plan: previous_plan, default: "Everything in %{plan}, plus:")
+          [everything_in] + features
+        else
+          features
+        end
+      else
+        fallback_plan_features(plan)
+      end
+    end
+
+    def fallback_plan_features(plan)
       limits = [
         limit_feature("Customers", plan.limit_for("customers")),
         limit_feature("Conversations/month", plan.limit_for("conversations_monthly")),

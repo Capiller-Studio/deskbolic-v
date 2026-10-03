@@ -75,12 +75,13 @@ Rails.application.routes.draw do
     }
 
     devise_scope :user do
-      get "users/check_email", to: "dashboard/registrations#check_email"
       get "registered", to: "dashboard/registrations#registered", as: :registered
     end
 
     # Unified Authentication & SSO Endpoints
     namespace :auth do
+      get "check_email", to: "validations#check_email"
+      get "check_identifier", to: "validations#check_identifier"
       get "domain_lookup", to: "domain_lookups#show"
 
       namespace :saml do

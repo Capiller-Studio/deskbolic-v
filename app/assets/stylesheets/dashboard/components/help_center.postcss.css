@@ -85,21 +85,33 @@ html[lang="ar"] .settings-body .help-center-portal-body .hero-option > .option-c
 
 .settings-body {
   .help-center-portal-body {
-    height: calc(100vh - 70px);
+    height: 100%;
+    min-height: 0;
     overflow-y: auto;
 
     &.ui-settings-editor {
-      overflow-y: hidden;
-
-      > .create-portal-shell {
-        min-height: 0;
-        flex: 1;
-        overflow-y: auto;
-      }
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      min-height: 0;
+      overflow: hidden;
+      background: $white;
     }
 
     .help-center-portal-editor-body {
-      padding: 0;
+      display: flex;
+      flex-direction: column;
+      flex: 1 1 auto;
+      min-height: 0;
+      height: 100%;
+      overflow-x: hidden;
+      overflow-y: auto;
+      overscroll-behavior-y: contain;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-gutter: stable;
+      padding: 32px 32px 64px;
+      background: $white;
+      box-sizing: border-box;
     }
 
     .alert {
@@ -247,9 +259,13 @@ html[lang="ar"] .settings-body .help-center-portal-body .hero-option > .option-c
     }
 
     .create-portal-shell {
-      max-width: 760px;
-      min-height: 100%;
-      background-color: $white;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      max-width: 1080px;
+      margin: 0 auto;
+      min-height: 0;
+      background-color: transparent;
     }
 
     .create-portal-form {
@@ -257,10 +273,10 @@ html[lang="ar"] .settings-body .help-center-portal-body .hero-option > .option-c
     }
 
     .portal-form-section {
-      /* border: 1px solid $black-10; */
       border-radius: 16px;
-      padding: 24px;
-      margin-bottom: 18px;
+      padding: 20px 24px 28px;
+      margin-bottom: 8px;
+      box-sizing: border-box;
 
       h3.f-semi-12 {
         margin-bottom: 18px;
@@ -307,7 +323,7 @@ html[lang="ar"] .settings-body .help-center-portal-body .hero-option > .option-c
     .brand-assets-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
+      gap: 16px;
     }
 
     .brand-asset-card {
@@ -519,6 +535,20 @@ html[lang="ar"] .settings-body .help-center-portal-body .hero-option > .option-c
         opacity: 0;
         pointer-events: none;
       }
+
+      &.is-disabled,
+      &:has(input:disabled) {
+        opacity: 0.55;
+        cursor: not-allowed;
+        background-color: #F3F4F6 !important;
+        border-color: $black-5 !important;
+        color: $black-40 !important;
+        pointer-events: none;
+
+        .option-check {
+          display: none !important;
+        }
+      }
     }
 
     .option-pill,
@@ -646,13 +676,16 @@ html[lang="ar"] .settings-body .help-center-portal-body .hero-option > .option-c
     }
 
     .hero-options {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
       align-items: stretch;
     }
 
     .hero-option {
       position: relative;
-      width: 31%;
-      min-width: 150px;
+      width: 100%;
+      min-width: 0;
       border: 1px solid $black-5;
       border-radius: 12px;
       background-color: #F6F7FA;
@@ -846,6 +879,18 @@ html[lang="ar"] .settings-body .help-center-portal-body .hero-option > .option-c
           linear-gradient(currentColor, currentColor) 0 3px / 24px 2px no-repeat,
           linear-gradient(currentColor, currentColor) 0 11px / 24px 2px no-repeat,
           linear-gradient(currentColor, currentColor) 0 19px / 24px 2px no-repeat;
+      }
+
+      .layout-badge {
+        margin-left: auto;
+        padding: 2px 8px;
+        border-radius: 999px;
+        background-color: #E5E7EB;
+        color: #4B5563;
+        font-size: 11px;
+        font-family: $font-family-inter-medium;
+        line-height: 16px;
+        white-space: nowrap;
       }
     }
 
@@ -1541,7 +1586,13 @@ html[lang="ar"] .settings-body .help-center-portal-body .hero-option > .option-c
       }
 
       .create-portal-shell {
-        max-width: none;
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+      }
+
+      .help-center-portal-editor-body {
+        padding: 24px 20px 48px;
       }
 
       .create-portal-form {
@@ -1549,15 +1600,21 @@ html[lang="ar"] .settings-body .help-center-portal-body .hero-option > .option-c
       }
 
       .portal-form-section {
-        padding: 20px;
+        padding: 20px 16px;
       }
 
       .brand-assets-grid {
         grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+        gap: 12px;
+      }
+
+      .hero-options {
+        grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
+        gap: 12px;
       }
 
       .hero-option {
-        width: calc(50% - 6px);
+        width: 100%;
       }
     }
   }
@@ -1696,17 +1753,22 @@ html[lang="ar"] .settings-body .help-center-portal-body .hero-option > .option-c
       background: #F6F7FA;
 
       &.ui-settings-editor {
-        overflow-y: hidden;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        min-height: 0;
+        overflow: hidden;
       }
 
       &.ui-settings-editor > .ui-settings-editor__header {
-        position: fixed;
-        top: 0;
-        right: 0;
-        left: 0;
-        z-index: 60;
-        display: grid;
+        position: relative;
+        top: auto;
+        right: auto;
+        left: auto;
+        flex: 0 0 auto;
         min-height: 64px;
+        z-index: 20;
+        display: grid;
         grid-template-columns: 44px minmax(0, 1fr) auto;
         align-items: center;
         gap: 8px;
@@ -1816,11 +1878,8 @@ html[lang="ar"] .settings-body .help-center-portal-body .hero-option > .option-c
         max-width: none;
         width: 100%;
         min-height: 0;
+        margin: 0;
         background: transparent;
-      }
-
-      &.ui-settings-editor > .create-portal-shell {
-        margin-top: 64px;
       }
 
       .create-portal-form {
@@ -1828,9 +1887,18 @@ html[lang="ar"] .settings-body .help-center-portal-body .hero-option > .option-c
       }
 
       .help-center-portal-editor-body {
-        margin-top: 64px;
+        margin-top: 0;
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 auto;
+        min-height: 0;
+        height: 100%;
         padding: 16px 16px calc(104px + env(safe-area-inset-bottom));
         scroll-padding-bottom: calc(104px + env(safe-area-inset-bottom));
+        overflow-y: auto;
+        overflow-x: hidden;
+        overscroll-behavior-y: contain;
+        -webkit-overflow-scrolling: touch;
         background: #F6F7FA;
       }
 

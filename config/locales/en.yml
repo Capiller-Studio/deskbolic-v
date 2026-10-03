@@ -68,6 +68,56 @@ en:
         no_free_trial: No free trial
         start_free_trial: Start Free Trial
         get_started: Get Started
+        seats: "Seats"
+        seats_range: "%{min}–%{max} seats"
+        seats_min_plus: "%{min}+ seats"
+        seats_exact: "%{count} seats"
+        total: "Total:"
+        card_features:
+          everything_in: 'Everything in %{plan}, plus:'
+          symbolic:
+          - 1–2 users, 1 channel
+          - 500 customers
+          - 100 conversations/mo
+          - 3 months data retention
+          - Web widget channel
+          - Canned responses
+          - Roles & permissions
+          - Reporting & analytics
+          - Real-time notifications
+          anabolic:
+          - 100 free AI credits/mo
+          - AI Copilot (Boli)
+          - Up to 10 users, 5 channels
+          - Unlimited conversations & messages*
+          - All messaging channels
+          - Teams & labels
+          - Automations & macros
+          - CSAT surveys & email templates
+          - 1 Help Center portal
+          - Slack & webhook integrations
+          hyperbolic:
+          - 250 free AI credits/mo
+          - AI Agents (up to 3)
+          - Up to 30 users, 15 channels
+          - SLA management & API access
+          - Custom CSAT & custom fields
+          - Custom roles & custom domains
+          - Business hours
+          - 3 Help Center portals
+          - Audit logs
+          - Assignment policies
+          parabolic:
+          - 500 free AI credits/mo
+          - Up to 15 AI Agents
+          - 10+ users, 50 channels
+          - Custom branding
+          - 10 Help Center portals
+          - 10 custom domains
+          - Identity sources & customer identity
+          - Custom channels
+          - 100 custom fields
+          - 5 years data retention
       yearly: Yearly
       action_required: Action Required
       active_subscription: Active Subscription
@@ -3239,6 +3289,14 @@ en:
     last_name: Last Name
     country: Country
     workspace_name: Workspace / Company Name
+    workspace_identifier: Workspace URL Identifier
+    workspace_identifier_hint: Leave empty to auto-generate. Used for your workspace URL.
+    identifier_required: Workspace identifier is required
+    identifier_too_short: Workspace identifier must be at least 3 characters
+    identifier_too_long: Workspace identifier cannot exceed 63 characters
+    identifier_reserved: Workspace identifier '%{slug}' is a reserved word and cannot be used
+    identifier_taken: Workspace identifier '%{slug}' is already taken
+    identifier_invalid_format: Workspace identifier can only contain lowercase letters, numbers, and hyphens
     currency: Currency
     currency_hint: Cannot be changed after registration.
     default_language: Default Workspace Language
@@ -3298,6 +3356,7 @@ en:
       last_name: Doe
       email: john@company.com
       workspace: Acme Corp
+      workspace_identifier: e.g. acme-support
     select_country: Select Country
     password_rules:
       length: At least 8 characters

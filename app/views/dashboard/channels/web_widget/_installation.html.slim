@@ -3,7 +3,8 @@
     .ww-section-title
       = inline_svg_tag("code_snipet.svg", class: "ww-section-icon", alt: t("dashboard.web_widget_channels.form.installation_section"))
       span.ww-section-label = t("dashboard.web_widget_channels.form.installation_section")
-    span.ww-section-chevron ▼
+    span.ww-section-chevron
+      = inline_svg_tag("dropdown.svg", aria: { hidden: true })
   .ww-section-body
     .ww-credentials-grid
       .ww-credential-box

@@ -25,7 +25,7 @@ section#integration-details.channel-edit-section.channel-edit-card
 section.channel-edit-section.channel-edit-card
   .channel-edit-section__heading
     .channel-edit-section__icon
-      = inline_svg_tag("fields.svg", aria: { hidden: true })
+      = inline_svg_tag("form_fields.svg", aria: { hidden: true })
     h2 = t("dashboard.channels.edit.response_mapping", default: "Response Mapping")
   .channel-edit-section__body
     - if channel.response_mapping.present?

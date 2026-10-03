@@ -11,11 +11,6 @@ module Dashboard
 
     before_action :check_registration_enabled, only: [ :new, :create ]
 
-    def check_email
-      exists = User.exists?(email: params[:email])
-      render(json: { exists: exists })
-    end
-
     def registered
       render("dashboard/registrations/registered")
     end
@@ -29,6 +24,7 @@ module Dashboard
         last_name: params[:user][:last_name],
         country: params[:country],
         account_name: params[:account_name],
+        identifier: params[:account_identifier].presence || params[:identifier].presence,
         currency: params[:currency],
         shard_key: params[:shard_key],
         locale: params[:account_locale],

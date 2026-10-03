@@ -26,7 +26,7 @@ export default class extends Controller {
     event.preventDefault()
 
     const input = this.getInput(event.currentTarget)
-    if (!input) return
+    if (!input || input.disabled) return
 
     input.checked = input.type === "checkbox" ? !input.checked : true
     input.dispatchEvent(new Event("change", { bubbles: true }))

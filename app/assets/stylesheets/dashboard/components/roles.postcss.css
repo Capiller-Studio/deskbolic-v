@@ -1,10 +1,21 @@
 /* Roles and permissions component. */
 
-.roles-page,
+.roles-page {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  flex: 1;
+  overflow-y: auto;
+  background: #fff;
+  color: #141b2d;
+  font-family: $font-family-inter-regular;
+}
+
 .roles-editor-page {
   width: 100%;
-  height: 100vh;
-  overflow-y: auto;
+  height: 100%;
+  min-height: 0;
+  flex: 1;
   background: #fff;
   color: #141b2d;
   font-family: $font-family-inter-regular;

@@ -16,20 +16,11 @@ module Dashboard
     end
 
     def update
-      if @account_user.owner?
-        redirect_to(users_path, alert: I18n.t("dashboard.users.update.owner_error", default: "You cannot modify the account owner's roles."))
-        return
-      end
-
-      # Only process role assignment if role_ids are present
       if params[:account_user] && params[:account_user][:role_ids]
-        @account_user.role_ids = params[:account_user][:role_ids].compact_blank
-      end
-
-      if @account_user.save
+        @account_user.assign_roles(params[:account_user][:role_ids])
         redirect_to(users_path, notice: I18n.t("dashboard.users.update.success", default: "User roles updated successfully."))
       else
-        render(:edit, status: :unprocessable_entity)
+        redirect_to(users_path, alert: I18n.t("dashboard.users.update.no_roles", default: "Please select at least one role."))
       end
     end
 

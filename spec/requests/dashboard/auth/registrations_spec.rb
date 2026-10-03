@@ -25,7 +25,7 @@ RSpec.describe 'Dashboard::Registrations', type: :request do
       get new_user_registration_path
     end
 
-    it 'creates new user account' do
+    it 'creates new user account and auto-generates identifier when omitted' do
       post user_registration_path, params: {
         user: {
           first_name: 'Jane',
@@ -40,6 +40,32 @@ RSpec.describe 'Dashboard::Registrations', type: :request do
         account_locale: 'en'
       }
       expect(response).to have_http_status(:redirect).or have_http_status(:see_other)
+      account = Account.find_by(name: 'Jane Support Org')
+      expect(account).to be_present
+      expect(account.identifier).to eq('jane-support-org')
+    end
+
+    it 'creates new user account with explicit custom account_identifier' do
+      custom_slug = "custom-slug-#{SecureRandom.hex(3)}"
+      post user_registration_path, params: {
+        user: {
+          first_name: 'John',
+          last_name: 'Custom',
+          email: "custom_#{SecureRandom.hex(4)}@example.com",
+          password: 'password123'
+        },
+        account_name: 'Common Company Name',
+        account_identifier: custom_slug,
+        country: 'US',
+        currency: 'USD',
+        shard_key: 'de',
+        account_locale: 'en'
+      }
+      expect(response).to have_http_status(:redirect).or have_http_status(:see_other)
+      account = Account.find_by(identifier: custom_slug)
+      expect(account).to be_present
+      expect(account.name).to eq('Common Company Name')
+      expect(account.identifier).to eq(custom_slug)
     end
 
     it 'creates affiliate referral when ref param is present' do
@@ -114,6 +140,48 @@ RSpec.describe 'Dashboard::Registrations', type: :request do
           ref: profile.referral_code
         }
       end.not_to change(Affiliate::Referral, :count)
+    end
+
+    context 'with invalid identifier' do
+      it 'fails registration when custom identifier is already taken' do
+        create(:account, identifier: 'taken-identifier')
+
+        post user_registration_path, params: {
+          user: {
+            first_name: 'John',
+            last_name: 'Custom',
+            email: "new_#{SecureRandom.hex(4)}@example.com",
+            password: 'password123'
+          },
+          account_name: 'Custom Org',
+          account_identifier: 'taken-identifier',
+          country: 'US',
+          currency: 'USD',
+          shard_key: 'de',
+          account_locale: 'en'
+        }
+
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'fails registration when custom identifier is reserved' do
+        post user_registration_path, params: {
+          user: {
+            first_name: 'John',
+            last_name: 'Custom',
+            email: "new_#{SecureRandom.hex(4)}@example.com",
+            password: 'password123'
+          },
+          account_name: 'Admin Org',
+          account_identifier: 'admin',
+          country: 'US',
+          currency: 'USD',
+          shard_key: 'de',
+          account_locale: 'en'
+        }
+
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
     end
   end
 end

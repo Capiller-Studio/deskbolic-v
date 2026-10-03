@@ -188,8 +188,13 @@
             label.f-reg-14 = t("ui.dashboard.help_center.portals.edit.category_layout")
             .layout-options data-controller="portal-option-group"
               - @layout_options.each do |value, label_text|
-                label.layout-option class=("is-selected" if @selected_layout == value) data-portal-option-group-target="option" data-action="click->portal-option-group#select"
-                  = radio_button_tag "help_center_portal[ui_configurations][category_layout]", value, @selected_layout == value
+                - is_disabled = (value == "list")
+                - is_selected = (@selected_layout == value && !is_disabled) || (value == "grid" && (@selected_layout == "list" || @selected_layout.blank?))
+                label.layout-option class=[("is-selected" if is_selected), ("is-disabled" if is_disabled)].compact.join(' ') data-portal-option-group-target="option" data-action=("click->portal-option-group#select" unless is_disabled)
+                  = radio_button_tag "help_center_portal[ui_configurations][category_layout]", value, is_selected, disabled: is_disabled
                   span.layout-icon class="layout-icon-#{value}"
                   span.f-reg-14 = t("dashboard.help_center.portals.form.layouts.#{value}", default: label_text)
-                  span.option-check aria-hidden="true"
+                  - if is_disabled
+                    span.layout-badge = t("general.coming_soon", default: "Coming Soon")
+                  - else
+                    span.option-check aria-hidden="true"

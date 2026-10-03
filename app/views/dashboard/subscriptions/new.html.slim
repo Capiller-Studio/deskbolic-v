@@ -24,6 +24,10 @@
     .ap-subscription-grid
       - @available_plans.each_with_index do |plan, index|
         - theme = plan_themes[index] || plan_themes.last
+        - min_seats = [plan.min_users, 1].max
+        - max_seats = plan.unlimited?(:users_max) ? nil : plan.max_users
+        - initial_seats = [min_seats, current_account&.users_count.to_i].max
+        - initial_seats = max_seats if max_seats && initial_seats > max_seats
         article.ap-subscription-card class="ap-subscription-card--#{theme} #{'ap-subscription-card--popular' if theme == 'hyperbolic'}"
           - if theme == "hyperbolic"
             .ap-subscription-popular-badge
@@ -50,8 +54,9 @@
               = plan.trial_days.positive? ? I18n.t("dashboard.billing.subscription_page.trial_badge", days: plan.trial_days) : I18n.t("dashboard.billing.subscription_page.no_free_trial")
 
             ul.ap-subscription-features
-              - plan_features(plan).each do |feature|
-                li.ap-subscription-feature-item
+              - plan_features(plan).each_with_index do |feature, idx|
+                - is_inherit = idx.zero? && plan.name.to_s != Plan::SYMBOLIC && !feature.to_s.include?("channel")
+                li.ap-subscription-feature-item class=("ap-subscription-feature-item--inherit" if is_inherit)
                   span.ap-subscription-feature-check
                     = image_tag "tick.svg", alt: ""
                   span.ap-subscription-feature-text = feature
@@ -60,5 +65,52 @@
             = form_with url: subscriptions_path, method: :post, data: { turbo: false } do |f|
               = f.hidden_field :plan_id, value: plan.id
               = f.hidden_field :billing_cycle, value: "monthly", class: "billing-cycle-field", data: { billing_toggle_target: "cycleField" }
-              = f.hidden_field :quantity, value: [plan.min_users, 1].max
+
+              .ap-subscription-seats-block(
+                data-billing-toggle-target="seatBlock"
+                data-monthly-price=plan.base_price
+                data-annual-price=plan.annual_price
+                data-currency=plan.currency.upcase
+                data-min-seats=min_seats
+                data-max-seats=(max_seats || "")
+              )
+                .ap-subscription-seats-header
+                  label.ap-subscription-seats-label for="seats_#{plan.id}"
+                    = I18n.t("dashboard.billing.subscription_page.seats", default: "Seats")
+                  span.ap-subscription-seats-limits
+                    - if plan.unlimited?(:users_max)
+                      = I18n.t("dashboard.billing.subscription_page.seats_min_plus", min: min_seats, default: "#{min_seats}+ seats")
+                    - elsif min_seats == max_seats
+                      = I18n.t("dashboard.billing.subscription_page.seats_exact", count: min_seats, default: "#{min_seats} seats")
+                    - else
+                      = I18n.t("dashboard.billing.subscription_page.seats_range", min: min_seats, max: max_seats, default: "#{min_seats}–#{max_seats} seats")
+
+                .ap-subscription-seats-control
+                  button.ap-subscription-seats-btn.ap-subscription-seats-btn--decrement(
+                    type="button"
+                    data-action="click->billing-toggle#decrementSeats"
+                    disabled=(initial_seats <= min_seats)
+                    aria-label="Decrease seats"
+                  ) −
+                  = f.number_field :quantity,
+                    id: "seats_#{plan.id}",
+                    value: initial_seats,
+                    min: min_seats,
+                    max: max_seats,
+                    class: "ap-subscription-seats-input",
+                    data: { billing_toggle_target: "seatInput", action: "input->billing-toggle#changeSeats change->billing-toggle#clampSeats" },
+                    readonly: (min_seats == max_seats)
+                  button.ap-subscription-seats-btn.ap-subscription-seats-btn--increment(
+                    type="button"
+                    data-action="click->billing-toggle#incrementSeats"
+                    disabled=(max_seats.present? && initial_seats >= max_seats)
+                    aria-label="Increase seats"
+                  ) +
+
+                .ap-subscription-seats-total
+                  span.ap-subscription-seats-total-label = I18n.t("dashboard.billing.subscription_page.total", default: "Total:")
+                  span.ap-subscription-seats-total-value data-billing-toggle-target="seatTotal"
+                    - total_price = plan.base_price * initial_seats
+                    = "#{plan.currency.upcase} #{number_to_currency(total_price, unit: '', precision: 0).strip} /mo"
+
               = f.submit(plan.trial_days.positive? ? I18n.t("dashboard.billing.subscription_page.start_free_trial") : I18n.t("dashboard.billing.subscription_page.get_started"), class: "ap-subscription-submit")

@@ -1,5 +1,7 @@
 - url = web_widget_channel.persisted? ? channels_web_widget_path(web_widget_channel) : channels_web_widget_index_path
 - method = web_widget_channel.persisted? ? :patch : :post
+- translations = web_widget_channel.translations.reject(&:marked_for_destruction?).select { |translation| translation.locale.present? }
+- translations = [web_widget_channel.translations.build(locale: I18n.default_locale)] if translations.empty?
 
 = form_with(model: web_widget_channel, scope: :web_widget_channel, url: url, method: method, id: "web-widget-channel-form", class: "ui-settings-form", data: { controller: "web-widget-channel" }) do |f|
   - if web_widget_channel.errors.any?
@@ -42,7 +44,8 @@
       .ww-section-title
         = inline_svg_tag("setting.svg", class: "ww-section-icon", alt: t("dashboard.web_widget_channels.form.appearance_section"))
         span.ww-section-label = t("dashboard.web_widget_channels.form.appearance_section")
-      span.ww-section-chevron ▼
+      span.ww-section-chevron
+        = inline_svg_tag("dropdown.svg", aria: { hidden: true })
     .ww-section-body.channel-edit-select-surface
       .ww-form-row
         div
@@ -101,7 +104,8 @@
       .ww-section-title
         = inline_svg_tag("automation.svg", class: "ww-section-icon", alt: t("dashboard.web_widget_channels.form.integrations_section"))
         span.ww-section-label = t("dashboard.web_widget_channels.form.integrations_section")
-      span.ww-section-chevron ▼
+      span.ww-section-chevron
+        = inline_svg_tag("dropdown.svg", aria: { hidden: true })
     .ww-section-body.channel-edit-select-surface
       .ww-form-row
         div
@@ -135,9 +139,10 @@
   .ww-section.ui-section data-web-widget-channel-target="behaviorsSection"
     .ww-section-header data-action="click->web-widget-channel#toggleSection"
       .ww-section-title
-        = inline_svg_tag("fields.svg", class: "ww-section-icon", alt: t("dashboard.web_widget_channels.form.behaviors_section"))
+        = inline_svg_tag("sliders.svg", class: "ww-section-icon", alt: t("dashboard.web_widget_channels.form.behaviors_section"))
         span.ww-section-label = t("dashboard.web_widget_channels.form.behaviors_section")
-      span.ww-section-chevron ▼
+      span.ww-section-chevron
+        = inline_svg_tag("dropdown.svg", aria: { hidden: true })
     .ww-section-body
       .ww-toggle-row
         span.ww-toggle-label = t("dashboard.web_widget_channels.form.anonymous_allowed_label")
@@ -155,30 +160,48 @@
   .ww-section.ui-section data-web-widget-channel-target="translationsSection"
     .ww-section-header data-action="click->web-widget-channel#toggleSection"
       .ww-section-title
-        = inline_svg_tag("t_users.svg", class: "ww-section-icon", alt: t("ui.dashboard.channels.contact_form.form.translations"))
+        = inline_svg_tag("translate.svg", class: "ww-section-icon", alt: t("ui.dashboard.channels.contact_form.form.translations"))
         span.ww-section-label = t("ui.dashboard.channels.contact_form.form.translations")
-      span.ww-section-chevron ▼
-    .ww-section-body data-controller="nested-translations"
+      span.ww-section-chevron
+        = inline_svg_tag("dropdown.svg", aria: { hidden: true })
+    .ww-section-body.channel-edit-select-surface
       p.ww-section-desc = t("dashboard.web_widget_channels.form.translations_desc", default: "Provide localized strings for your web widget. These will automatically override the default locale based on the customer's browser.")
 
-      .ww-translations-container data-nested-translations-target="container"
-        = f.fields_for :translations do |tf|
-          = render "dashboard/channels/web_widget/translation_fields", f: tf
-
-      template data-nested-translations-target="template"
-        = f.fields_for :translations, Channel::WebWidgetTranslation.new, child_index: 'NEW_RECORD' do |tf|
-          = render "dashboard/channels/web_widget/translation_fields", f: tf
-
-      - current_locales = web_widget_channel.translations.reject(&:marked_for_destruction?).map(&:locale).map(&:to_s)
+      - current_locales = translations.map(&:locale).map(&:to_s)
       - available_locales = Core::SUPPORTED_LOCALES.map(&:to_s) - current_locales
-      - available_locales_options = available_locales.map { |l| [I18n.t("languages.#{l.downcase}"), l] }
+      - available_locales_options = available_locales.map { |locale| [I18n.t("languages.#{locale.downcase}", default: locale.upcase), locale] }
 
-      .ww-add-locale-wrapper
-        .channel-edit-select.channel-edit-select--compact.ui-field-control.ui-field-control--no-icon
-          = select_tag "new_locale", options_for_select(available_locales_options), include_blank: t("forms.options.select_language"), class: "ui-select ui-control", data: { "nested-translations-target": "localeSelect" }
-        button.ww-btn-secondary type="button" data-action="click->nested-translations#addTranslation"
-          span +
-          | #{t("ui.dashboard.channels.contact_form.form.add_language")}
+      .ui-locale-editor data-controller="nested-translations locale-tabs"
+        .ui-locale-tabs data-nested-translations-target="tabContainer"
+          - translations.each_with_index do |translation, index|
+            - locale = translation.locale.to_s
+            - language_name = I18n.t("languages.#{locale.downcase}", default: locale.upcase)
+            button.ui-locale-tab class=(index.zero? ? "active" : nil) type="button" data-locale=locale data-locale-tabs-target="tab" data-action="click->locale-tabs#switch"
+              span.ui-locale-tab__code = locale.first(2).upcase
+              span.translation-language-name = language_name
+              - if locale == I18n.default_locale.to_s
+                span.ui-locale-tab__meta = t("dashboard.ai_agents.form.default_language", default: "(Default)")
+
+          .ui-locale-picker.ui-field-control
+            = select_tag "new_translation_locale", options_for_select(available_locales_options), include_blank: t("forms.options.select_language", default: "Select Language"), class: "ui-select ui-control", data: { controller: "select", "nested-translations-target": "localeSelect", action: "change->nested-translations#addTranslation" }
+            span.ui-locale-picker__icon aria-hidden="true"
+              = image_tag("ai_agents/new_agent_add_language.svg", alt: "", width: 10.4896, height: 10.4896)
+
+        .ui-locale-panels data-nested-translations-target="panelContainer"
+          - translation_index = 0
+          = f.fields_for :translations do |translation_form|
+            - if translation_form.object.locale.present?
+              = render "dashboard/channels/web_widget/translation_fields", f: translation_form, active: translation_index.zero?
+              - translation_index += 1
+
+        template data-nested-translations-target="tabTemplate"
+          button.ui-locale-tab type="button" data-locale="NEW_LOCALE" data-locale-tabs-target="tab" data-action="click->locale-tabs#switch"
+            span.ui-locale-tab__code NEW_CODE
+            span.translation-language-name NEW_LANGUAGE
+
+        template data-nested-translations-target="panelTemplate"
+          = f.fields_for :translations, Channel::WebWidgetTranslation.new, child_index: "NEW_RECORD" do |translation_form|
+            = render "dashboard/channels/web_widget/translation_fields", f: translation_form, active: false
   / ─── Installation & Setup ───
   - if web_widget_channel.persisted?
     = render "dashboard/channels/web_widget/installation", web_widget_channel: web_widget_channel

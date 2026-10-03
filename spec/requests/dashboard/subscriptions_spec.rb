@@ -15,10 +15,13 @@ RSpec.describe 'Dashboard::Subscriptions', type: :request do
 
   describe 'GET /subscriptions/new' do
     context 'when account has no active subscription' do
-      it 'renders plan selection successfully' do
+      it 'renders plan selection successfully with feature highlights and seat selector' do
         get new_subscription_path(locale: :en)
         expect(response).to have_http_status(:ok)
         expect(response.body).to include(plan.display_name)
+        expect(response.body).to include('100 free AI credits/mo')
+        expect(response.body).to include("seats_#{plan.id}")
+        expect(response.body).to include('Seats')
       end
     end
 
@@ -47,6 +50,22 @@ RSpec.describe 'Dashboard::Subscriptions', type: :request do
       expect(response).to have_http_status(:see_other)
       expect(response).to redirect_to(root_path)
       expect(flash[:notice]).to eq(I18n.t('dashboard.billing.subscription_created', default: 'Subscription successfully created!'))
+    end
+
+    it 'creates a subscription with custom selected seats quantity' do
+      multi_seat_plan = create(:plan, name: 'hyperbolic', currency: account.currency, status: :active, limits: { 'users_min' => 2, 'users_max' => 10 })
+
+      expect {
+        post subscriptions_path(locale: :en), params: {
+          plan_id: multi_seat_plan.id,
+          billing_cycle: 'monthly',
+          quantity: 5
+        }
+      }.to change(Subscription, :count).by(1)
+
+      sub = Subscription.last
+      expect(sub.quantity).to eq(5)
+      expect(sub.plan).to eq(multi_seat_plan)
     end
   end
 end

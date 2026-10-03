@@ -209,6 +209,45 @@
   border: 1px solid $black-10;
   border-radius: 12px;
   background: $white;
+
+  .ui-locale-panel__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid $black-5;
+
+    .translation-language-name {
+      color: $black;
+      font-size: 14px;
+    }
+
+    .ui-action-delete {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      padding: 0;
+      border: 1px solid #fee2e2;
+      border-radius: 6px;
+      background: #fef2f2;
+      color: #ef4444;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+
+      &:hover {
+        background: #fee2e2;
+        border-color: #fca5a5;
+      }
+
+      svg {
+        width: 14px;
+        height: 14px;
+      }
+    }
+  }
 }
 
 .csat-translation-panel + .csat-translation-panel {

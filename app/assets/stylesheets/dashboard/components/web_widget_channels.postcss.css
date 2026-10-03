@@ -161,9 +161,19 @@ html[lang="ar"] .channel-theme-web-widget .ww-iframe-wrapper {
 }
 
 .channel-theme-web-widget .ww-section-chevron {
-  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
   color: var(--ww-text-light);
   transition: transform 0.3s ease;
+
+  svg {
+    width: 16px;
+    height: 16px;
+    display: block;
+  }
 }
 
 .channel-theme-web-widget .ui-section--open .ww-section-chevron {

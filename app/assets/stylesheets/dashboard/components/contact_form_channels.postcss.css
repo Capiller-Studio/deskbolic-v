@@ -145,9 +145,20 @@
 }
 
 .channel-theme-contact-form .ww-section-chevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
   font-size: 12px;
   color: var(--ww-text-light);
   transition: transform 0.3s ease;
+
+  svg {
+    width: 16px;
+    height: 16px;
+    display: block;
+  }
 }
 
 .channel-theme-contact-form .ui-section--open .ww-section-chevron {

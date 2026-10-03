@@ -9,7 +9,7 @@
   .ui-section.ui-section--always-open
     .ui-section-header
       .ui-section-title
-        span.ui-section-icon 📝
+        = inline_svg_tag("message.svg", class: "ww-section-icon", alt: t("dashboard.custom_channels.form.details_section"))
         span.ui-section-label = t("dashboard.custom_channels.form.details_section")
     .ui-section-body
       .ui-form-row-col
@@ -55,8 +55,10 @@
   .ui-section data-controller="ui-section"
     .ui-section-header data-action="click->ui-section#toggle"
       .ui-section-title
-        span.ui-section-icon 🚀
+        = inline_svg_tag("automation.svg", class: "ww-section-icon", alt: t("dashboard.custom_channels.form.outbound_section"))
         span.ui-section-label = t("dashboard.custom_channels.form.outbound_section")
+      span.ui-section-chevron
+        = inline_svg_tag("dropdown.svg", aria: { hidden: true })
     .ui-section-body
       p.f-reg-14 style="color: #64748b; margin-bottom: 16px;" = t("dashboard.custom_channels.form.outbound_desc")
       
@@ -87,8 +89,10 @@
   .ui-section data-controller="ui-section"
     .ui-section-header data-action="click->ui-section#toggle"
       .ui-section-title
-        span.ui-section-icon 📥
+        = inline_svg_tag("inbox.svg", class: "ww-section-icon", alt: t("dashboard.custom_channels.form.inbound_section"))
         span.ui-section-label = t("dashboard.custom_channels.form.inbound_section")
+      span.ui-section-chevron
+        = inline_svg_tag("dropdown.svg", aria: { hidden: true })
     .ui-section-body
       p.f-reg-14 style="color: #64748b; margin-bottom: 16px;" = t("dashboard.custom_channels.form.inbound_desc")
       

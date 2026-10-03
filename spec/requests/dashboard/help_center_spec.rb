@@ -26,9 +26,26 @@ RSpec.describe 'Dashboard::HelpCenter::Portals', type: :request do
   end
 
   describe 'GET /help_center/portals/new' do
-    it 'renders new portal form' do
+    it 'renders new portal form with editor body, shell, and disabled list layout' do
       get new_help_center_portal_path(locale: :en)
       expect(response).to have_http_status(:ok)
+      expect(response.body).to include('help-center-portal-editor-body')
+      expect(response.body).to include('create-portal-shell')
+      expect(response.body).to include('brand-assets-grid')
+      expect(response.body).to include('is-disabled')
+      expect(response.body).to include('Coming Soon')
+    end
+  end
+
+  describe 'GET /help_center/portals/:id/edit' do
+    it 'renders edit portal form with editor body, shell, and disabled list layout' do
+      get edit_help_center_portal_path(id: portal.id, locale: :en)
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include('help-center-portal-editor-body')
+      expect(response.body).to include('create-portal-shell')
+      expect(response.body).to include('brand-assets-grid')
+      expect(response.body).to include('is-disabled')
+      expect(response.body).to include('Coming Soon')
     end
   end
 

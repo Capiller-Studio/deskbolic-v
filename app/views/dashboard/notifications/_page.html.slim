@@ -1,0 +1,7 @@
+= turbo_frame_tag turbo_frame_request_id do
+  - notifications.each do |notification|
+    = render partial: "dashboard/notifications/notification", locals: { notification: notification }
+  - if @pagy && @pagy.next
+    turbo-frame id="notifications-page-#{@pagy.next}" src=notifications_path(page: @pagy.next) loading="lazy"
+      .notifications-loading
+        p.f-reg-14 = t("ui.dashboard.notifications.list.loading_more_notifications")

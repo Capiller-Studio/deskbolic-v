@@ -105,6 +105,8 @@ jobs:
           ELASTICSEARCH_URL: http://localhost:9200
           ELASTICSEARCH_USER: elastic
           ELASTICSEARCH_PASSWORD: changeme
+          SLACK_CLIENT_ID: test_slack_client_id
+          SLACK_CLIENT_SECRET: test_slack_client_secret
         run: |
           bundle exec rails db:drop db:create db:migrate db:migrate:de
           bundle exec rspec

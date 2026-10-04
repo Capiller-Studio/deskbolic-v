@@ -8,7 +8,7 @@ module Dashboard
   class SessionsController < Devise::SessionsController
     layout "auth"
 
-    before_action :check_sso_enforcement, only: [:create]
+    before_action :check_sso_enforcement, only: [ :create ]
 
     def create
       super do |resource|
@@ -38,6 +38,10 @@ module Dashboard
       if request.subdomain.present? && request.subdomain != "www"
         subdomain_account = Account.find_by(identifier: request.subdomain)
         if subdomain_account && resource.accounts.active.exists?(id: subdomain_account.id)
+          if subdomain_account.subscriptions.empty?
+            return new_subscription_url(subdomain: subdomain_account.identifier)
+          end
+
           return root_url(subdomain: subdomain_account.identifier)
         end
       end
@@ -47,7 +51,12 @@ module Dashboard
       if active_accounts.empty?
         workspace_url(subdomain: "")
       elsif active_accounts.count == 1
-        root_url(subdomain: active_accounts.first.identifier)
+        account = active_accounts.first
+        if account.subscriptions.empty?
+          new_subscription_url(subdomain: account.identifier)
+        else
+          root_url(subdomain: account.identifier)
+        end
       else
         workspaces_url(subdomain: "")
       end
@@ -87,10 +96,10 @@ module Dashboard
             error_message: "SSO break-glass bypass denied for non-owner"
           )
 
-          redirect_to new_user_session_path, alert: I18n.t(
+          redirect_to(new_user_session_path, alert: I18n.t(
             "auth.sso.bypass_denied",
             default: "Emergency password bypass is restricted to Account Owners."
-          )
+          ))
           return
         end
       end
@@ -106,11 +115,11 @@ module Dashboard
         error_message: "Password authentication blocked because SSO is enforced"
       )
 
-      redirect_to new_user_session_path(email: email), alert: I18n.t(
+      redirect_to(new_user_session_path(email: email), alert: I18n.t(
         "auth.sso.enforced_notice",
         account: lookup[:account_name],
         default: "Single Sign-On is required for #{lookup[:account_name]}. Please sign in with SSO."
-      )
+      ))
     end
   end
 end

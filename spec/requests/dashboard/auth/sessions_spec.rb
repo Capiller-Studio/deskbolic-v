@@ -51,7 +51,7 @@ RSpec.describe 'Dashboard::Sessions', type: :request do
         create(
           :auth_sso_configuration,
           account:                       account,
-          allowed_email_domains:         ['example.com'],
+          allowed_email_domains:         [ 'example.com' ],
           enforce_sso:                   true,
           allow_owner_password_fallback: true
         )

@@ -14,10 +14,10 @@ module Dashboard
                         when "anabolic" then "Symbolic"
                         when "hyperbolic" then "Anabolic"
                         when "parabolic" then "Hyperbolic"
-                        end
+        end
         if previous_plan
           everything_in = I18n.t("dashboard.billing.subscription_page.card_features.everything_in", plan: previous_plan, default: "Everything in %{plan}, plus:")
-          [everything_in] + features
+          [ everything_in ] + features
         else
           features
         end

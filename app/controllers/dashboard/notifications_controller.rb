@@ -14,7 +14,9 @@ module Dashboard
 
       respond_to do |format|
         format.html do
-          if params[:mobile_view] == "notifications"
+          if turbo_frame_request? && turbo_frame_request_id&.start_with?("notifications-page-")
+            render(partial: "dashboard/notifications/page", locals: { notifications: @notifications })
+          elsif params[:mobile_view] == "notifications"
             render(:mobile)
           else
             render(layout: false)

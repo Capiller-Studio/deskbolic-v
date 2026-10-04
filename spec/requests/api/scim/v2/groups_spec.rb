@@ -77,7 +77,7 @@ RSpec.describe "Api::Scim::V2::GroupsController", type: :request do
   describe "POST /api/scim/v2/groups" do
     let(:create_payload) do
       {
-        schemas: ["urn:ietf:params:scim:schemas:core:2.0:Group"],
+        schemas: [ "urn:ietf:params:scim:schemas:core:2.0:Group" ],
         displayName: "Support",
         members: [
           { value: member_user.id }
@@ -100,7 +100,7 @@ RSpec.describe "Api::Scim::V2::GroupsController", type: :request do
 
     it "returns 409 Conflict if group already exists" do
       duplicate_payload = {
-        schemas: ["urn:ietf:params:scim:schemas:core:2.0:Group"],
+        schemas: [ "urn:ietf:params:scim:schemas:core:2.0:Group" ],
         displayName: "Engineering"
       }.to_json
 
@@ -113,7 +113,7 @@ RSpec.describe "Api::Scim::V2::GroupsController", type: :request do
 
     it "returns 400 when displayName is missing" do
       invalid_payload = {
-        schemas: ["urn:ietf:params:scim:schemas:core:2.0:Group"]
+        schemas: [ "urn:ietf:params:scim:schemas:core:2.0:Group" ]
       }.to_json
 
       post "/api/scim/v2/groups", params: invalid_payload, headers: auth_headers
@@ -125,9 +125,9 @@ RSpec.describe "Api::Scim::V2::GroupsController", type: :request do
   describe "PUT /api/scim/v2/groups/:id" do
     it "replaces the group name and members" do
       put_payload = {
-        schemas: ["urn:ietf:params:scim:schemas:core:2.0:Group"],
+        schemas: [ "urn:ietf:params:scim:schemas:core:2.0:Group" ],
         displayName: "Platform Team",
-        members: [{ value: member_user.id }]
+        members: [ { value: member_user.id } ]
       }.to_json
 
       put "/api/scim/v2/groups/#{team.id}", params: put_payload, headers: auth_headers
@@ -142,7 +142,7 @@ RSpec.describe "Api::Scim::V2::GroupsController", type: :request do
   describe "PATCH /api/scim/v2/groups/:id" do
     it "renames a group via replace operation" do
       patch_payload = {
-        schemas: ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+        schemas: [ "urn:ietf:params:scim:api:messages:2.0:PatchOp" ],
         Operations: [
           { op: "replace", path: "displayName", value: "Backend" }
         ]
@@ -157,9 +157,9 @@ RSpec.describe "Api::Scim::V2::GroupsController", type: :request do
 
     it "adds members via add operation" do
       patch_payload = {
-        schemas: ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+        schemas: [ "urn:ietf:params:scim:api:messages:2.0:PatchOp" ],
         Operations: [
-          { op: "add", path: "members", value: [{ value: member_user.id }] }
+          { op: "add", path: "members", value: [ { value: member_user.id } ] }
         ]
       }.to_json
 
@@ -176,7 +176,7 @@ RSpec.describe "Api::Scim::V2::GroupsController", type: :request do
       end
 
       patch_payload = {
-        schemas: ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+        schemas: [ "urn:ietf:params:scim:api:messages:2.0:PatchOp" ],
         Operations: [
           { op: "remove", path: "members[value eq \"#{member_user.id}\"]" }
         ]

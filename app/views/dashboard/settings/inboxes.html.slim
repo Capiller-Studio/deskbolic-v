@@ -32,6 +32,6 @@
             = inline_svg_tag("inbox.svg", width: "48", height: "48") rescue nil
           h2 = t("dashboard.inboxes.empty_title", default: "No inboxes configured yet")
           p = t("dashboard.inboxes.empty_description", default: "Inboxes are automatically created when you connect channels like Email, Web Widget, Contact Form, or WhatsApp.")
-          = link_to channels_settings_path, class: "tm-users-invite", style: "margin-top: 16px;" do
+          = link_to channels_path, class: "tm-users-invite", style: "margin-top: 16px;" do
             span = t("dashboard.channels_overview.add_channel", default: "Connect a Channel")
             = inline_svg_tag("plus_white.svg", class: "plus-icon") rescue nil

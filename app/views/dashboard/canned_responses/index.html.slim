@@ -1,0 +1,39 @@
+/ = render("dashboard/shared/dashboard_container", current_page: "macros") do
+= render("dashboard/settings/settings_sidebar", current_page: "canned-responses") do
+  .ui-settings-page.ui-canned-responses-page(
+    data-controller="modal-toggler frame-toggler"
+  )
+    = render("dashboard/shared/modal_popper")
+
+    header.ui-settings-page__header
+      .ui-settings-page__heading
+        h1 = t("dashboard.settings_index.canned_responses")
+        p = "#{t('dashboard.canned_responses.index.replies_for')} #{current_account.name}"
+
+      button.ui-settings-page__action(
+        type="button"
+        data-action="click->modal-toggler#showModal click->frame-toggler#loadModal"
+        data-popup-view="_canned_response_modal"
+      )
+        span = t("dashboard.canned_responses.index.add_new_reply")
+        = inline_svg_tag("plus_white.svg", class: "ui-settings-page__action-icon", aria: { hidden: true })
+
+    main.ui-settings-page__content
+      = form_tag(canned_responses_path, method: :get, class: "canned-responses-toolbar") do
+        label.ui-search-field
+          = inline_svg_tag("search_gray.svg", class: "ui-search-field__icon", aria: { hidden: true })
+          = search_field_tag :search,
+            params[:search],
+            placeholder: t("dashboard.canned_responses.index.search_placeholder"),
+            aria: { label: t("dashboard.canned_responses.index.search_placeholder") }
+
+      - if @canned_responses.any?
+        section.ui-card-grid.canned-response-grid aria-live="polite"
+          - @canned_responses.each do |response|
+            = render "dashboard/canned_responses/canned_response", response: response
+      - else
+        .ui-empty-state.ui-empty-state--bordered
+          .ui-empty-state__graphic
+            = inline_svg_tag("canned_response.svg", aria: { hidden: true })
+          h2 = t("dashboard.canned_responses.index.empty_title", default: "No canned responses found")
+          p = t("dashboard.canned_responses.index.empty_description", default: "Create a saved reply or try another search term.")

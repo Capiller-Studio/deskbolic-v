@@ -23,8 +23,8 @@ RSpec.describe 'Dashboard::Settings::AuditLogs', type: :request do
           actor: user,
           event_key: 'channel/whatsapp.update',
           object_changes: {
-            'api_key' => ['EAABwz_old_secret_123', 'EAABwz_new_secret_456'],
-            'name' => ['Old Support', 'New Support']
+            'api_key' => [ 'EAABwz_old_secret_123', 'EAABwz_new_secret_456' ],
+            'name' => [ 'Old Support', 'New Support' ]
           },
           object_snapshot: { 'name' => 'New Support', 'api_key' => 'EAABwz_new_secret_456' }
         )
@@ -64,7 +64,7 @@ RSpec.describe 'Dashboard::Settings::AuditLogs', type: :request do
           actor: user,
           trackable: label,
           event_key: 'label.update',
-          object_changes: { 'title' => ['Original Title', 'Changed Title'] },
+          object_changes: { 'title' => [ 'Original Title', 'Changed Title' ] },
           object_snapshot: { 'title' => 'Original Title', 'color' => '#112233' }
         )
       end

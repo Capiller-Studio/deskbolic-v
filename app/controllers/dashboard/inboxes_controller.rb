@@ -8,8 +8,10 @@ module Dashboard
     def index
       authorize(Inbox)
       @inboxes = current_account.inboxes.includes(:channel, :inbox_users, :inbox_teams, :teams).order(:name)
+      @account_users = current_account.account_users.includes(:roles, user: { avatar_attachment: :blob })
+      @teams = current_account.teams.order(:name)
       respond_to do |format|
-        format.html { redirect_to(inboxes_settings_path) }
+        format.html
         format.json { render(json: @inboxes) }
       end
     end
@@ -38,9 +40,9 @@ module Dashboard
 
     def update
       if @inbox.update(inbox_params)
-        redirect_back(fallback_location: inboxes_settings_path, notice: t("dashboard.inboxes.updated", default: "Inbox updated successfully."))
+        redirect_back(fallback_location: inboxes_path, notice: t("dashboard.inboxes.updated", default: "Inbox updated successfully."))
       else
-        redirect_back(fallback_location: inboxes_settings_path, alert: @inbox.errors.full_messages.to_sentence)
+        redirect_back(fallback_location: inboxes_path, alert: @inbox.errors.full_messages.to_sentence)
       end
     end
 
@@ -68,7 +70,7 @@ module Dashboard
             )
           ])
         end
-        format.html { redirect_back(fallback_location: inboxes_settings_path, notice: t("dashboard.inboxes.members_updated", default: "Inbox collaborators updated successfully.")) }
+        format.html { redirect_back(fallback_location: inboxes_path, notice: t("dashboard.inboxes.members_updated", default: "Inbox collaborators updated successfully.")) }
       end
     end
 
@@ -84,7 +86,7 @@ module Dashboard
             locals: { inbox: @inbox }
           ))
         end
-        format.html { redirect_back(fallback_location: inboxes_settings_path, notice: t("dashboard.inboxes.member_added", default: "Member added to inbox.")) }
+        format.html { redirect_back(fallback_location: inboxes_path, notice: t("dashboard.inboxes.member_added", default: "Member added to inbox.")) }
       end
     end
 
@@ -99,7 +101,7 @@ module Dashboard
             locals: { inbox: @inbox }
           ))
         end
-        format.html { redirect_back(fallback_location: inboxes_settings_path, notice: t("dashboard.inboxes.member_removed", default: "Member removed from inbox.")) }
+        format.html { redirect_back(fallback_location: inboxes_path, notice: t("dashboard.inboxes.member_removed", default: "Member removed from inbox.")) }
       end
     end
 
@@ -114,7 +116,7 @@ module Dashboard
     end
 
     def inbox_params
-      params.require(:inbox).permit(:name, :auto_assign, :reopen_window_seconds, :csat_survey_enabled, user_ids: [], team_ids: [])
+      params.expect(inbox: [ :name, :auto_assign, :reopen_window_seconds, :csat_survey_enabled, user_ids: [], team_ids: [] ])
     end
   end
 end

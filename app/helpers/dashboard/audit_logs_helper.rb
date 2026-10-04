@@ -51,11 +51,11 @@ module Dashboard
       hash.each_with_object({}) do |(k, v), sanitized|
         sanitized[k.to_s] = if audit_log_sensitive_field?(k) || v.to_s == "[FILTERED]"
                               "••••••••"
-                            elsif v.is_a?(Hash)
+        elsif v.is_a?(Hash)
                               sanitize_audit_hash(v)
-                            else
+        else
                               v
-                            end
+        end
       end
     end
   end

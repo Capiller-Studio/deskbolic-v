@@ -86,7 +86,7 @@ RSpec.describe 'Conversations Feature', type: :feature do
       login_as(agent, scope: :user)
 
       account.with_shard do
-        inbox.assign_users([agent.id])
+        inbox.assign_users([ agent.id ])
       end
 
       visit conversations_path

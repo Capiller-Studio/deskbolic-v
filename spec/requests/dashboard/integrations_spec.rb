@@ -12,6 +12,17 @@ RSpec.describe 'Dashboard::Integrations', type: :request do
   end
   let!(:subscription) { create(:subscription, account: account, plan: plan, status: :active) }
 
+  around do |example|
+    original_client_id = ENV['SLACK_CLIENT_ID']
+    original_client_secret = ENV['SLACK_CLIENT_SECRET']
+    ENV['SLACK_CLIENT_ID'] = 'test_slack_client_id' if ENV['SLACK_CLIENT_ID'].blank?
+    ENV['SLACK_CLIENT_SECRET'] = 'test_slack_client_secret' if ENV['SLACK_CLIENT_SECRET'].blank?
+    example.run
+  ensure
+    ENV['SLACK_CLIENT_ID'] = original_client_id
+    ENV['SLACK_CLIENT_SECRET'] = original_client_secret
+  end
+
   before do
     set_subdomain(account.identifier)
     sign_in user

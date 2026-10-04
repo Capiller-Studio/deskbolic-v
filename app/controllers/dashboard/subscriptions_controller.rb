@@ -11,7 +11,7 @@ module Dashboard
 
     def create
       plan = Plan.available.find(params[:plan_id])
-      min_qty = [plan.min_users, 1].max
+      min_qty = [ plan.min_users, 1 ].max
       quantity = params[:quantity].present? && params[:quantity].to_i.positive? ? params[:quantity].to_i : min_qty
       billing_cycle = params[:billing_cycle].presence || "monthly"
 

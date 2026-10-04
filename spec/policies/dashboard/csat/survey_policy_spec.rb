@@ -12,6 +12,7 @@ RSpec.describe Dashboard::Csat::SurveyPolicy do
 
   before do
     Current.account = account
+    allow(account).to receive(:feature_enabled?).with(:csat).and_return(true)
   end
 
   after do

@@ -5,37 +5,42 @@ module Dashboard
     before_action :set_team, only: %i[show update destroy add_member remove_member]
 
     def index
+      authorize(Team)
       @teams = current_account.teams.includes(:team_users).order(:name)
     end
 
     def show
+      authorize(@team)
       @members = @team.team_users.includes(:user).order(:role, :created_at)
       @inboxes = @team.inboxes
     end
 
     def create
+      authorize(Team)
       @team = Teams::CreateService.call(
         account: current_account,
         params: team_create_params
       )
 
-      redirect_to(teams_path, notice: t("dashboard.teams.create.created"))
+      redirect_to(teams_path, notice: t(".created"))
     rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved => e
       redirect_back(fallback_location: teams_path, alert: e.message)
     end
 
     def update
+      authorize(@team)
       Teams::UpdateService.call(
         team: @team,
         params: team_update_params
       )
 
-      redirect_to(teams_path, notice: t("dashboard.teams.update.updated"))
+      redirect_to(teams_path, notice: t(".updated"))
     rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved => e
       redirect_back(fallback_location: teams_path, alert: e.message)
     end
 
     def destroy
+      authorize(@team)
       Teams::DestroyService.call(team: @team)
 
       redirect_to(teams_path, notice: "Team deleted successfully")
@@ -44,6 +49,7 @@ module Dashboard
     end
 
     def add_member
+      authorize(@team, :update?)
       Teams::MemberService.call(
         team: @team,
         params: { action: :add, user_id: params[:user_id], role: params[:role] }
@@ -55,6 +61,7 @@ module Dashboard
     end
 
     def remove_member
+      authorize(@team, :update?)
       Teams::MemberService.call(
         team: @team,
         params: { action: :remove, user_id: params[:user_id] }

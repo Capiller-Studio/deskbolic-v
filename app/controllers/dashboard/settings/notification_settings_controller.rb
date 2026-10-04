@@ -3,6 +3,11 @@
 module Dashboard
   module Settings
     class NotificationSettingsController < DashboardController
+      def show
+        edit
+        render(:edit)
+      end
+
       def edit
         @notification_setting = current_user.notification_settings.find_or_create_by!(account: current_account)
         authorize(@notification_setting)

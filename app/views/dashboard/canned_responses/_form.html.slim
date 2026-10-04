@@ -15,7 +15,7 @@
             = f.label :description, t("dashboard.canned_responses.form.description_placeholder"), class: "ui-label"
             = f.text_area :description, class: "ui-input canned-response-textarea", rows: 4, placeholder: t("dashboard.canned_responses.form.description_placeholder"), data: { accordion_target: "response" }, required: true
         .form-actions
-          = link_to t("general.cancel"), canned_responses_settings_path, class: "ui-button", data: { turbo_frame: "_top" }
+          = link_to t("general.cancel"), canned_responses_path, class: "ui-button", data: { turbo_frame: "_top" }
           = link_to canned_response_path(response.id), class: "ui-button canned-response-delete", data: { turbo_method: :delete, turbo_confirm: t("shared.confirm_delete") } do
             = inline_svg_tag("delete_red.svg", aria: { hidden: true })
             span = t("dashboard.canned_responses.form.delete")

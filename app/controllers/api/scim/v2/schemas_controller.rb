@@ -7,7 +7,7 @@ module Api
       # Returns the SCIM schemas supported by this server.
       # Identity providers use this to discover available attributes.
       class SchemasController < BaseController
-        skip_before_action :authenticate_scim_token!, only: [:index, :show]
+        skip_before_action :authenticate_scim_token!, only: [ :index, :show ]
 
         USER_SCHEMA = {
           id: "urn:ietf:params:scim:schemas:core:2.0:User",
@@ -98,7 +98,7 @@ module Api
               subAttributes: [
                 { name: "value",   type: "string", multiValued: false, required: true,  mutability: "immutable", returned: "default" },
                 { name: "display", type: "string", multiValued: false, required: false, mutability: "readOnly",  returned: "default" },
-                { name: "$ref",    type: "reference", multiValued: false, required: false, mutability: "immutable", returned: "default", referenceTypes: ["User"] }
+                { name: "$ref",    type: "reference", multiValued: false, required: false, mutability: "immutable", returned: "default", referenceTypes: [ "User" ] }
               ]
             }
           ],
@@ -107,18 +107,18 @@ module Api
           }
         }.freeze
 
-        SCHEMAS = [USER_SCHEMA, GROUP_SCHEMA].freeze
+        SCHEMAS = [ USER_SCHEMA, GROUP_SCHEMA ].freeze
 
         def index
           schemas_with_locations = SCHEMAS.map do |schema|
             schema.merge(meta: schema[:meta].merge(location: api_scim_v2_schema_url(schema[:id])))
           end
 
-          render json: {
-            schemas: ["urn:ietf:params:scim:api:messages:2.0:ListResponse"],
+          render(json: {
+            schemas: [ "urn:ietf:params:scim:api:messages:2.0:ListResponse" ],
             totalResults: schemas_with_locations.size,
             Resources: schemas_with_locations
-          }, status: :ok
+          }, status: :ok)
         end
 
         def show
@@ -128,9 +128,9 @@ module Api
             return render_scim_error(status: :not_found, detail: "Schema '#{params[:id]}' not found.")
           end
 
-          render json: schema.merge(
+          render(json: schema.merge(
             meta: schema[:meta].merge(location: api_scim_v2_schema_url(params[:id]))
-          ), status: :ok
+          ), status: :ok)
         end
       end
     end

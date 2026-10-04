@@ -68,7 +68,9 @@ export default class extends Controller {
     event.preventDefault()
     if (!this.hasTestUrlValue) return
 
-    const form = this.element.closest('form')
+    const form = this.element.matches('form') ? this.element : (this.element.querySelector('form') || this.element.closest('form'))
+    if (!form) return
+
     const formData = new FormData(form)
     formData.delete('_method')
 
@@ -78,7 +80,7 @@ export default class extends Controller {
         body: formData,
         headers: {
           "Accept": "application/json",
-          "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content
+          "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]')?.content || ""
         }
       })
       

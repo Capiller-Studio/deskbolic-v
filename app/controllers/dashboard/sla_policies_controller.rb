@@ -5,27 +5,27 @@ module Dashboard
     before_action :set_policy, only: [ :show, :edit, :update, :destroy ]
 
     def index
-      # authorize(SlaPolicy)
+      authorize(SlaPolicy)
       @policies = current_account.sla_policies.includes(:inboxes).order(created_at: :desc)
     end
 
     def show
-      # authorize(@policy)
+      authorize(@policy)
     end
 
     def new
       @policy = current_account.sla_policies.new
-      # authorize(@policy)
+      authorize(@policy)
       load_form_data
     end
 
     def edit
-      # authorize(@policy)
+      authorize(@policy)
       load_form_data
     end
     def create
       @policy = current_account.sla_policies.new(policy_params)
-      # authorize(@policy)
+      authorize(@policy)
 
       if @policy.save
         sync_inboxes
@@ -38,7 +38,7 @@ module Dashboard
 
 
     def update
-      # authorize(@policy)
+      authorize(@policy)
 
       if @policy.update(policy_params)
         sync_inboxes
@@ -50,7 +50,7 @@ module Dashboard
     end
 
     def destroy
-      # authorize(@policy)
+      authorize(@policy)
       @policy.destroy!
 
       respond_to do |format|

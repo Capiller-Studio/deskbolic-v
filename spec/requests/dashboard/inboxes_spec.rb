@@ -19,9 +19,9 @@ RSpec.describe 'Dashboard::Inboxes', type: :request do
   end
 
   describe 'GET /inboxes' do
-    it 'redirects to inboxes settings page' do
+    it 'renders inboxes index page' do
       get inboxes_path
-      expect(response).to redirect_to(inboxes_settings_path)
+      expect(response).to have_http_status(:ok)
     end
   end
 
@@ -37,12 +37,12 @@ RSpec.describe 'Dashboard::Inboxes', type: :request do
   describe 'PATCH /inboxes/:id/update_members' do
     it 'updates assigned users, teams, and auto_assign flag via HTML' do
       patch update_members_inbox_path(id: inbox.id), params: {
-        user_ids: [agent_user.id],
-        team_ids: [team.id],
+        user_ids: [ agent_user.id ],
+        team_ids: [ team.id ],
         auto_assign: '1'
       }
 
-      expect(response).to redirect_to(inboxes_settings_path)
+      expect(response).to redirect_to(inboxes_path)
       account.with_shard do
         inbox.reload
         expect(inbox.assigned_user_ids).to contain_exactly(agent_user.id.to_s)
@@ -53,7 +53,7 @@ RSpec.describe 'Dashboard::Inboxes', type: :request do
 
     it 'updates assigned members via Turbo Stream' do
       patch update_members_inbox_path(id: inbox.id), params: {
-        user_ids: [agent_user.id],
+        user_ids: [ agent_user.id ],
         team_ids: [],
         auto_assign: '0'
       }, as: :turbo_stream
@@ -77,7 +77,7 @@ RSpec.describe 'Dashboard::Inboxes', type: :request do
         user_id: agent_user.id
       }
 
-      expect(response).to redirect_to(inboxes_settings_path)
+      expect(response).to redirect_to(inboxes_path)
       account.with_shard do
         expect(inbox.inbox_users.where(user_id: agent_user.id)).to exist
       end
@@ -96,7 +96,7 @@ RSpec.describe 'Dashboard::Inboxes', type: :request do
         user_id: agent_user.id
       }
 
-      expect(response).to redirect_to(inboxes_settings_path)
+      expect(response).to redirect_to(inboxes_path)
       account.with_shard do
         expect(inbox.inbox_users.where(user_id: agent_user.id)).not_to exist
       end

@@ -12,9 +12,6 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
 
-  # TOOD: Not needed here, it's part of marketing app
-  get "r/:referral_code", to: "affiliates#track", as: :referral
-
   # TODO: remove later, this route is just for testing indentity sources module in development.
   if Rails.env.development?
     match "test_api/identity_endpoint", to: "test_api#identity_endpoint", via: [ :get, :post ]
@@ -62,7 +59,7 @@ Rails.application.routes.draw do
     omniauth_callbacks: "dashboard/omniauth_callbacks"
   }
 
-  scope "(:locale)", locale: /#{Core::SUPPORTED_LOCALES.join('|')}/ do
+  scope "(:locale)", locale: /#{Core::SUPPORTED_LOCALES.join('|')}|[a-z]{2}(?:-[A-Za-z]{2,4})?|invalid_[a-zA-Z0-9_]+/ do
     devise_for :users, path: "",
     path_names: { sign_in: "login", sign_out: "logout", sign_up: "register" },
     skip: :omniauth_callbacks,
@@ -92,7 +89,7 @@ Rails.application.routes.draw do
     end
 
     scope module: "dashboard" do
-      root "channels#index"
+      root "conversations#index"
 
       get "workspaces", to: "workspace#index", as: :workspaces
       get "workspace", to: "workspace#new", as: :workspace
@@ -223,7 +220,6 @@ Rails.application.routes.draw do
       resources :labels
       resources :ai_agents
       resources :notes
-      resources :sla_policies
       resources :teams do
         member do
           post :add_member
@@ -236,7 +232,6 @@ Rails.application.routes.draw do
       end
       resources :customers, only: [ :index, :show, :edit, :update ]
       resources :invitations, controller: "account_invitations", except: [ :show ]
-      resources :teams
       resources :custom_fields
       resources :assignment_policies do
         member do
@@ -318,23 +313,11 @@ Rails.application.routes.draw do
       end
       resources :ai_credits, only: [ :create ]
 
-      resources :settings, only: [ :index ] do
-        collection do
-          get :channels
-          get :canned_responses
-          get :office_timings
-          get :team_inboxes
-          get :inboxes
-          get :messenger
-          get :teammates
-          get :tickets
-          get :people
-        end
-      end
+      resources :settings, only: [ :index ]
 
       namespace :settings do
         resource :general, only: [ :show, :update, :destroy ], controller: "general"
-        resource :notifications, only: [ :edit, :update ], controller: "notification_settings"
+        resource :notifications, only: [ :show, :edit, :update ], controller: "notification_settings"
         resources :notification_subscriptions, only: [ :create, :destroy ]
         resources :audit_logs, only: [ :index ] do
           member do
@@ -366,10 +349,6 @@ Rails.application.routes.draw do
           match :test_connection, via: [ :post, :patch ]
         end
       end
-
-
-
-      resources :custom_fields
 
       resources :integrations, except: [ :show ] do
         collection do

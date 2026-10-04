@@ -17,24 +17,24 @@ module Api
           end
 
           total_results = scope.count
-          start_index = [params[:startIndex].to_i, 1].max
-          count = params[:count].present? ? [params[:count].to_i, 1].max : 100
+          start_index = [ params[:startIndex].to_i, 1 ].max
+          count = params[:count].present? ? [ params[:count].to_i, 1 ].max : 100
 
           account_users = scope.offset(start_index - 1).limit(count)
 
           resources = account_users.map { |au| serialize_scim_user(au) }
 
-          render json: {
-            schemas: [SCIM_LIST_SCHEMA],
+          render(json: {
+            schemas: [ SCIM_LIST_SCHEMA ],
             totalResults: total_results,
             startIndex: start_index,
             itemsPerPage: resources.size,
             Resources: resources
-          }, status: :ok
+          }, status: :ok)
         end
 
         def show
-          render json: serialize_scim_user(@account_user), status: :ok
+          render(json: serialize_scim_user(@account_user), status: :ok)
         end
 
         def create
@@ -102,7 +102,7 @@ module Api
 
           location = api_scim_v2_user_url(account_user.user.id)
           response.headers["Location"] = location
-          render json: serialize_scim_user(account_user), status: :created
+          render(json: serialize_scim_user(account_user), status: :created)
         end
 
         def update
@@ -113,7 +113,7 @@ module Api
           end
 
           @account_user.reload
-          render json: serialize_scim_user(@account_user), status: :ok
+          render(json: serialize_scim_user(@account_user), status: :ok)
         end
 
         def destroy
@@ -129,7 +129,7 @@ module Api
             metadata:    { scim_token_id: current_scim_token.id }
           )
 
-          head :no_content
+          head(:no_content)
         end
 
         private
@@ -170,7 +170,7 @@ module Api
         def extract_name
           given_name  = scim_payload.dig(:name, :givenName) || scim_payload.dig(:name, "givenName") || scim_payload.dig("name", "givenName")
           family_name = scim_payload.dig(:name, :familyName) || scim_payload.dig(:name, "familyName") || scim_payload.dig("name", "familyName")
-          [given_name, family_name]
+          [ given_name, family_name ]
         end
 
         def patch_request?
@@ -191,7 +191,7 @@ module Api
             when "replace", "add"
               if path == "active" || (path.blank? && value.respond_to?(:key?) && (value.key?("active") || value.key?(:active)))
                 active_val = (path == "active") ? value : (value["active"].nil? ? value[:active] : value["active"])
-                new_status = [true, "true", 1, "1"].include?(active_val) ? :active : :deleted
+                new_status = [ true, "true", 1, "1" ].include?(active_val) ? :active : :deleted
                 @account_user.update!(status: new_status)
                 log_status_change(new_status)
                 status_changed = true
@@ -231,7 +231,7 @@ module Api
           user.save! if user.changed?
 
           if scim_payload.key?(:active) || scim_payload.key?("active")
-            is_active = [true, "true", 1, "1"].include?(scim_payload[:active] || scim_payload["active"])
+            is_active = [ true, "true", 1, "1" ].include?(scim_payload[:active] || scim_payload["active"])
             new_status = is_active ? :active : :deleted
             @account_user.update!(status: new_status)
             log_status_change(new_status)
@@ -274,10 +274,10 @@ module Api
 
         def serialize_scim_user(account_user)
           user = account_user.user
-          display_name = [user.first_name, user.last_name].compact.join(" ").presence || user.email
+          display_name = [ user.first_name, user.last_name ].compact.join(" ").presence || user.email
 
           {
-            schemas: [SCIM_USER_SCHEMA],
+            schemas: [ SCIM_USER_SCHEMA ],
             id: user.id,
             userName: user.email,
             name: {

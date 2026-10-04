@@ -14,6 +14,8 @@ require 'factory_bot_rails'
 require 'ffaker'
 require 'timecop'
 require 'pundit/matchers'
+require 'sidekiq/testing'
+Sidekiq::Testing.inline!
 
 FactoryBot.definition_file_paths = [
   Core::Engine.root.join('spec/factories'),
@@ -34,8 +36,29 @@ Shoulda::Matchers.configure do |config|
   end
 end
 
+Capybara.register_driver :selenium_chrome do |app|
+  options = Selenium::WebDriver::Chrome::Options.new
+  options.add_argument('--window-size=1400,1000')
+  options.add_argument('--no-sandbox')
+  options.add_argument('--disable-dev-shm-usage')
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+end
+
+Capybara.register_driver :selenium_chrome_headless do |app|
+  options = Selenium::WebDriver::Chrome::Options.new
+  options.add_argument('--headless=new')
+  options.add_argument('--window-size=1400,1000')
+  options.add_argument('--no-sandbox')
+  options.add_argument('--disable-dev-shm-usage')
+  options.add_argument('--disable-gpu')
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+end
+
 Capybara.default_driver = :rack_test
-Capybara.javascript_driver = :selenium_chrome_headless
+Capybara.javascript_driver = ENV['HEADLESS'] == 'false' ? :selenium_chrome : :selenium_chrome_headless
+Capybara.default_max_wait_time = 5
+Capybara.server = :puma, { Silent: true }
+Capybara.always_include_port = true
 Capybara.default_host = 'http://lvh.me'
 Capybara.app_host = 'http://lvh.me'
 
@@ -50,9 +73,21 @@ module SubdomainHelpers
 end
 
 module FeatureSubdomainHelpers
+  def current_server_port
+    server = Capybara.current_session.server
+    return server.port if server
+
+    if Capybara.current_driver != :rack_test
+      Capybara.current_session.server
+      Capybara.current_session.server&.port
+    end
+  end
+
   def set_subdomain(subdomain)
-    Capybara.app_host = "http://#{subdomain}.lvh.me"
-    Capybara.default_host = "http://#{subdomain}.lvh.me"
+    port = current_server_port
+    port_str = port ? ":#{port}" : ""
+    Capybara.app_host = "http://#{subdomain}.lvh.me#{port_str}"
+    Capybara.default_host = "http://#{subdomain}.lvh.me#{port_str}"
   end
 
   def host_for_account(account)
@@ -60,8 +95,10 @@ module FeatureSubdomainHelpers
   end
 
   def reset_subdomain
-    Capybara.app_host = 'http://lvh.me'
-    Capybara.default_host = 'http://lvh.me'
+    port = current_server_port
+    port_str = port ? ":#{port}" : ""
+    Capybara.app_host = "http://lvh.me#{port_str}"
+    Capybara.default_host = "http://lvh.me#{port_str}"
   end
 end
 

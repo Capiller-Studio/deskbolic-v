@@ -9,7 +9,9 @@ RSpec.describe 'Dashboard::Messages', type: :request do
   let(:plan) { create(:plan, :free) }
   let!(:subscription) { create(:subscription, account: account, plan: plan, status: :active) }
   let(:inbox) { create(:inbox, account: account) }
+  let(:customer) { create(:customer, account: account, email: 'customer@example.com') }
   let(:conversation) { create(:conversation, account: account, inbox: inbox) }
+  let!(:member) { create(:conversation_member, conversation: conversation, member: customer, account: account) }
 
   before do
     set_subdomain(account.identifier)

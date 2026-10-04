@@ -698,7 +698,7 @@ RSpec.describe 'Dashboard::Channels', type: :request do
       end
     end
 
-    describe 'GET /channels/contact_form/new' do
+    describe 'GET /channels/contact_form/new (asset rendering)' do
       it 'renders contact form with clean form_fields.svg, translate.svg and dropdown chevrons' do
         get new_channels_contact_form_path(locale: :en)
         expect(response).to have_http_status(:ok)

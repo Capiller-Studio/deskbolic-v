@@ -23,7 +23,7 @@ RSpec.describe 'Subscription Selection Feature', type: :feature do
     fill_in "seats_#{plan.id}", with: '4'
     click_button I18n.t('dashboard.billing.subscription_page.start_free_trial')
 
-    expect(page).to have_current_path(conversations_path)
+    expect(page).to have_current_path(root_path)
     expect(page).to have_text(I18n.t('dashboard.billing.subscription_created', default: 'Subscription successfully created!'))
 
     sub = Subscription.last

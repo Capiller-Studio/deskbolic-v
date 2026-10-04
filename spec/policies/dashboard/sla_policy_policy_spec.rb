@@ -12,6 +12,7 @@ RSpec.describe Dashboard::SlaPolicyPolicy do
 
   before do
     Current.account = account
+    allow(account).to receive(:feature_enabled?).with(:sla).and_return(true)
   end
 
   after do

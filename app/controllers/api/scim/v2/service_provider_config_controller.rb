@@ -7,11 +7,11 @@ module Api
       # Identity providers (Okta, Azure AD) query this during SCIM app setup
       # to discover which SCIM features our implementation supports.
       class ServiceProviderConfigController < BaseController
-        skip_before_action :authenticate_scim_token!, only: [:show]
+        skip_before_action :authenticate_scim_token!, only: [ :show ]
 
         def show
-          render json: {
-            schemas: ["urn:ietf:params:scim:schemas:core:2.0:ServiceProviderConfig"],
+          render(json: {
+            schemas: [ "urn:ietf:params:scim:schemas:core:2.0:ServiceProviderConfig" ],
             documentationUri: "https://docs.deskbolic.com/scim",
             patch: { supported: true },
             bulk: { supported: false, maxOperations: 0, maxPayloadSize: 0 },
@@ -32,7 +32,7 @@ module Api
               resourceType: "ServiceProviderConfig",
               location: api_scim_v2_service_provider_config_url
             }
-          }, status: :ok
+          }, status: :ok)
         end
       end
     end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class AdminNotificationMailer < ApplicationMailer
-  default from: Rails.application.credentials.emails_from_address
+  default from: -> { Rails.application.credentials.emails_from_address.presence || default_from_address }
   layout "admin_notification_mailer"
 
   def workspace_request(account, user)

@@ -19,7 +19,7 @@ export default class extends Controller {
     this.outboundBtnTarget.disabled = true
     
     // Get CSRF token
-    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content || ""
 
     fetch(this.outgoingUrlValue, {
       method: "POST",
@@ -81,7 +81,7 @@ export default class extends Controller {
     const formData = new FormData()
     formData.append("payload", payloadText)
     
-    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content || ""
 
     fetch(this.incomingUrlValue, {
       method: "POST",

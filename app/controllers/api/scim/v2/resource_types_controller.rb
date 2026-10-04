@@ -6,11 +6,11 @@ module Api
       # RFC 7643 Section 6 — ResourceTypes endpoint
       # Returns the list of SCIM resource types this server supports.
       class ResourceTypesController < BaseController
-        skip_before_action :authenticate_scim_token!, only: [:index, :show]
+        skip_before_action :authenticate_scim_token!, only: [ :index, :show ]
 
         RESOURCE_TYPES = [
           {
-            schemas: ["urn:ietf:params:scim:schemas:core:2.0:ResourceType"],
+            schemas: [ "urn:ietf:params:scim:schemas:core:2.0:ResourceType" ],
             id: "User",
             name: "User",
             description: "User Account",
@@ -21,7 +21,7 @@ module Api
             }
           },
           {
-            schemas: ["urn:ietf:params:scim:schemas:core:2.0:ResourceType"],
+            schemas: [ "urn:ietf:params:scim:schemas:core:2.0:ResourceType" ],
             id: "Group",
             name: "Group",
             description: "Group (Team)",
@@ -38,11 +38,11 @@ module Api
             rt.merge(meta: rt[:meta].merge(location: api_scim_v2_resource_type_url(rt[:id])))
           end
 
-          render json: {
-            schemas: ["urn:ietf:params:scim:api:messages:2.0:ListResponse"],
+          render(json: {
+            schemas: [ "urn:ietf:params:scim:api:messages:2.0:ListResponse" ],
             totalResults: types.size,
             Resources: types
-          }, status: :ok
+          }, status: :ok)
         end
 
         def show
@@ -52,9 +52,9 @@ module Api
             return render_scim_error(status: :not_found, detail: "ResourceType '#{params[:id]}' not found.")
           end
 
-          render json: resource_type.merge(
+          render(json: resource_type.merge(
             meta: resource_type[:meta].merge(location: api_scim_v2_resource_type_url(params[:id]))
-          ), status: :ok
+          ), status: :ok)
         end
       end
     end

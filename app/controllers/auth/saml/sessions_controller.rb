@@ -5,22 +5,22 @@ require "onelogin/ruby-saml"
 module Auth
   module Saml
     class SessionsController < ApplicationController
-      skip_before_action :verify_authenticity_token, only: [:consume]
+      skip_before_action :verify_authenticity_token, only: [ :consume ]
 
       def metadata
         sso_config = resolve_sso_config
-        return head :not_found unless sso_config&.saml?
+        return head(:not_found) unless sso_config&.saml?
 
         settings = Auth::Saml::SettingsBuilder.call(sso_config, request.base_url)
         meta = OneLogin::RubySaml::Metadata.new
 
-        render xml: meta.generate(settings, true), content_type: "application/samlmetadata+xml"
+        render(xml: meta.generate(settings, true), content_type: "application/samlmetadata+xml")
       end
 
       def initiate
         sso_config = resolve_sso_config
         unless sso_config&.active? && sso_config.saml?
-          redirect_to new_user_session_path, alert: I18n.t("auth.sso.not_configured", default: "Single Sign-On is not configured or active for this organization.")
+          redirect_to(new_user_session_path, alert: I18n.t("auth.sso.not_configured", default: "Single Sign-On is not configured or active for this organization."))
           return
         end
 
@@ -30,13 +30,13 @@ module Auth
         # Encode return destination and account id into RelayState
         relay_state = build_relay_state(sso_config)
 
-        redirect_to saml_request.create(settings, RelayState: relay_state), allow_other_host: true
+        redirect_to(saml_request.create(settings, RelayState: relay_state), allow_other_host: true)
       end
 
       def consume
         raw_response = params[:SAMLResponse]
         if raw_response.blank?
-          redirect_to new_user_session_path, alert: I18n.t("auth.sso.missing_response", default: "Invalid SSO response received from Identity Provider.")
+          redirect_to(new_user_session_path, alert: I18n.t("auth.sso.missing_response", default: "Invalid SSO response received from Identity Provider."))
           return
         end
 
@@ -49,7 +49,7 @@ module Auth
             error_code:    "sso_config_not_found",
             error_message: "SSO configuration not found or inactive for SAML response"
           )
-          redirect_to new_user_session_path, alert: I18n.t("auth.sso.inactive", default: "SSO is inactive or not configured for this account.")
+          redirect_to(new_user_session_path, alert: I18n.t("auth.sso.inactive", default: "SSO is inactive or not configured for this account."))
           return
         end
 
@@ -65,7 +65,7 @@ module Auth
             error_code:    validation.error_code,
             error_message: validation.error_message
           )
-          redirect_to new_user_session_path, alert: I18n.t("auth.sso.verification_failed", reason: validation.error_message, default: "SSO Authentication failed: #{validation.error_message}")
+          redirect_to(new_user_session_path, alert: I18n.t("auth.sso.verification_failed", reason: validation.error_message, default: "SSO Authentication failed: #{validation.error_message}"))
           return
         end
 
@@ -90,7 +90,7 @@ module Auth
             error_code:    resolution.error_code,
             error_message: resolution.error_message
           )
-          redirect_to new_user_session_path, alert: I18n.t("auth.sso.provisioning_failed", reason: resolution.error_message, default: "Could not provision account: #{resolution.error_message}")
+          redirect_to(new_user_session_path, alert: I18n.t("auth.sso.provisioning_failed", reason: resolution.error_message, default: "Could not provision account: #{resolution.error_message}"))
           return
         end
 
@@ -121,7 +121,7 @@ module Auth
 
         # Determine target redirect path
         target_url = resolve_redirect_destination(sso_config)
-        redirect_to target_url, allow_other_host: true, notice: I18n.t("auth.sso.success", default: "Signed in successfully via Single Sign-On.")
+        redirect_to(target_url, allow_other_host: true, notice: I18n.t("auth.sso.success", default: "Signed in successfully via Single Sign-On."))
       end
 
       private

@@ -97,7 +97,7 @@
                   .menu-buttons
                     .menu-options
                       = inline_svg_tag("star_plus.svg", class:"m-btn", alt:t("ui.dashboard.agent.agent_sidebar.menu"),  data: { action: "click->modal-toggler#showModal click->frame-toggler#loadModal", popup_view:"_canned_response_modal" })
-                      = link_to(canned_responses_settings_path, class: "", data: { turbo: false}) do
+                      = link_to(canned_responses_path, class: "", data: { turbo: false}) do
                         = inline_svg_tag("setting_button.svg", class:"m-btn", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
                     = image_tag("cross_btn.png", class:"m-btn", alt:t("ui.dashboard.agent.agent_sidebar.menu"), data: { action: "click->canned-responses#toggleMenu" })
                   .panels

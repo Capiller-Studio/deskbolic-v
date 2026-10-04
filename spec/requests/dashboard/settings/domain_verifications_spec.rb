@@ -67,7 +67,7 @@ RSpec.describe "Dashboard::Settings::DomainVerificationsController", type: :requ
 
   describe "DELETE /settings/domain_verifications/:id" do
     let!(:verification) { create(:auth_domain_verification, account: account, domain: "corp.acme.com") }
-    let!(:sso_config) { create(:auth_sso_configuration, account: account, allowed_email_domains: ["corp.acme.com", "other.com"]) }
+    let!(:sso_config) { create(:auth_sso_configuration, account: account, allowed_email_domains: [ "corp.acme.com", "other.com" ]) }
 
     it "destroys verification record and removes domain from sso_configuration" do
       expect {

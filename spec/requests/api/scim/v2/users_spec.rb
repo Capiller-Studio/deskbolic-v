@@ -132,7 +132,7 @@ RSpec.describe "Api::Scim::V2::UsersController", type: :request do
   describe "POST /api/scim/v2/users" do
     let(:create_payload) do
       {
-        schemas: ["urn:ietf:params:scim:schemas:core:2.0:User"],
+        schemas: [ "urn:ietf:params:scim:schemas:core:2.0:User" ],
         userName: "new.hire@acme.com",
         name: {
           givenName: "Alice",
@@ -173,7 +173,7 @@ RSpec.describe "Api::Scim::V2::UsersController", type: :request do
 
     it "returns 409 Conflict if user is already an active member of this workspace" do
       duplicate_payload = {
-        schemas: ["urn:ietf:params:scim:schemas:core:2.0:User"],
+        schemas: [ "urn:ietf:params:scim:schemas:core:2.0:User" ],
         userName: "agent@acme.com",
         active: true
       }.to_json
@@ -190,7 +190,7 @@ RSpec.describe "Api::Scim::V2::UsersController", type: :request do
       member_account_user.update!(status: :deleted)
 
       reactivate_payload = {
-        schemas: ["urn:ietf:params:scim:schemas:core:2.0:User"],
+        schemas: [ "urn:ietf:params:scim:schemas:core:2.0:User" ],
         userName: "agent@acme.com",
         name: { givenName: "Jane Updated", familyName: "Doe" },
         active: true
@@ -207,7 +207,7 @@ RSpec.describe "Api::Scim::V2::UsersController", type: :request do
 
     it "returns 400 Bad Request when email is missing" do
       invalid_payload = {
-        schemas: ["urn:ietf:params:scim:schemas:core:2.0:User"],
+        schemas: [ "urn:ietf:params:scim:schemas:core:2.0:User" ],
         name: { givenName: "NoEmail" }
       }.to_json
 
@@ -223,7 +223,7 @@ RSpec.describe "Api::Scim::V2::UsersController", type: :request do
   describe "PUT /api/scim/v2/users/:id" do
     let(:put_payload) do
       {
-        schemas: ["urn:ietf:params:scim:schemas:core:2.0:User"],
+        schemas: [ "urn:ietf:params:scim:schemas:core:2.0:User" ],
         userName: "agent@acme.com",
         name: {
           givenName: "Janet",
@@ -246,7 +246,7 @@ RSpec.describe "Api::Scim::V2::UsersController", type: :request do
   describe "PATCH /api/scim/v2/users/:id" do
     it "deactivates the user via Okta-style path replace operation" do
       patch_payload = {
-        schemas: ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+        schemas: [ "urn:ietf:params:scim:api:messages:2.0:PatchOp" ],
         Operations: [
           {
             op: "replace",
@@ -269,7 +269,7 @@ RSpec.describe "Api::Scim::V2::UsersController", type: :request do
 
     it "deactivates the user via Azure AD-style value hash replace operation" do
       azure_payload = {
-        schemas: ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+        schemas: [ "urn:ietf:params:scim:api:messages:2.0:PatchOp" ],
         Operations: [
           {
             op: "Replace",
@@ -290,7 +290,7 @@ RSpec.describe "Api::Scim::V2::UsersController", type: :request do
 
     it "updates user names via path replace operation" do
       patch_payload = {
-        schemas: ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+        schemas: [ "urn:ietf:params:scim:api:messages:2.0:PatchOp" ],
         Operations: [
           {
             op: "replace",

@@ -22,6 +22,8 @@ class ConversationReplyMailer < ApplicationMailer
     # Priority: Fallback param > Conversation outbound_channel > Contact form outbound > Inbox channel
     @channel = fallback_channel || conversation.outbound_channel || resolve_contact_form_outbound || @inbox.channel
 
+    return ActionMailer::Base::NullMail.new if customer_email.blank?
+
     # Set view variables for the compiled MJML ERB template
     if @message.csat?
       handling_agent = conversation.assignee ||

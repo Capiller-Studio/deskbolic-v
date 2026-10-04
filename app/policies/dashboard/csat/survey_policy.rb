@@ -4,23 +4,23 @@ module Dashboard
   module Csat
     class SurveyPolicy < ApplicationPolicy
       def index?
-        can?("csat_surveys.read")
+        authorized?("csat_surveys.read", feature: :csat)
       end
 
       def show?
-        can?("csat_surveys.read")
+        authorized?("csat_surveys.read", feature: :csat)
       end
 
       def create?
-        authorized?("csat_surveys.manage", limit: :csat_surveys)
+        authorized?("csat_surveys.manage", feature: :csat, limit: :csat_surveys)
       end
 
       def update?
-        can?("csat_surveys.manage")
+        authorized?("csat_surveys.manage", feature: :csat)
       end
 
       def destroy?
-        can?("csat_surveys.manage")
+        authorized?("csat_surveys.manage", feature: :csat)
       end
     end
   end

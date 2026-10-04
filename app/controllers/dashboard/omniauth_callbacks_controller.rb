@@ -25,11 +25,11 @@ module Dashboard
         error_message: "Social login failed: #{failure_message}"
       ) rescue nil
 
-      redirect_to new_user_session_path, alert: I18n.t(
+      redirect_to(new_user_session_path, alert: I18n.t(
         "auth.social.failure",
         default: "Could not authenticate via social login: %{message}",
         message: failure_message
-      )
+      ))
     end
 
     private
@@ -37,7 +37,7 @@ module Dashboard
     def handle_social_login(provider)
       auth_hash = request.env["omniauth.auth"]
       if auth_hash.blank?
-        redirect_to new_user_session_path, alert: I18n.t("auth.social.missing_auth", default: "Authentication data not received from provider.")
+        redirect_to(new_user_session_path, alert: I18n.t("auth.social.missing_auth", default: "Authentication data not received from provider."))
         return
       end
 
@@ -78,7 +78,7 @@ module Dashboard
           }
         )
 
-        sign_in_and_redirect user, event: :authentication
+        sign_in_and_redirect(user, event: :authentication)
         set_flash_message(:notice, :success, kind: provider.to_s.titleize) if is_navigational_format?
       else
         Auth::AuditLog.log(
@@ -91,11 +91,11 @@ module Dashboard
           error_message: resolution.error_message
         )
 
-        redirect_to new_user_session_path, alert: I18n.t(
+        redirect_to(new_user_session_path, alert: I18n.t(
           "auth.social.error",
           default: "Authentication failed: %{message}",
           message: resolution.error_message
-        )
+        ))
       end
     end
   end

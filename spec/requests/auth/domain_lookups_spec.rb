@@ -8,7 +8,7 @@ RSpec.describe "Auth::DomainLookups", type: :request do
     create(
       :auth_sso_configuration,
       account:               account,
-      allowed_email_domains: ["acmecorp.com"],
+      allowed_email_domains: [ "acmecorp.com" ],
       protocol:              :saml,
       provider_type:         :okta,
       status:                :active,

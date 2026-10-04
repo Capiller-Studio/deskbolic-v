@@ -25,7 +25,13 @@ module Dashboard
             locals: { conversations: @conversations }
           ))
         end
-        format.html
+        format.html do
+          if turbo_frame_request? && turbo_frame_request_id&.start_with?("conversations-page-")
+            render(partial: "dashboard/conversations/page", locals: { conversations: @conversations })
+          else
+            render
+          end
+        end
       end
     end
 
@@ -357,11 +363,26 @@ module Dashboard
       @account_user = current_account.account_users.find_by(user_id: current_user.id)
       @inboxes = if @account_user&.can?("account.manage") || @account_user&.can?("inboxes.manage")
                    current_account.inboxes.all
-                 else
+      else
                    current_account.inboxes.for_user(current_user)
-                 end
+      end
       @teams = current_account.teams.includes(:team_users).order(:name)
-      @team_users = @teams.flat_map(&:team_users).reject { |team_user| team_user.user_id == current_user.id }.uniq(&:user_id)
+      account_user_ids = current_account.account_users.active.pluck(:user_id)
+      @team_users = @teams.flat_map(&:team_users)
+                          .select { |team_user| account_user_ids.include?(team_user.user_id) }
+                          .reject { |team_user| team_user.user_id == current_user.id }
+                          .uniq(&:user_id)
+
+      # Self-heal orphaned shard team_users and unassign conversations for removed users
+      orphaned_user_ids = @teams.flat_map(&:team_users).map(&:user_id).uniq - account_user_ids
+      if orphaned_user_ids.any?
+        current_account.with_shard do
+          team_ids = @teams.map(&:id)
+          TeamUser.where(team_id: team_ids, user_id: orphaned_user_ids).destroy_all if team_ids.any?
+          Conversation.where(account_id: current_account.id, assignee_id: orphaned_user_ids).update_all(assignee_id: nil)
+        end
+      end
+
       @team_id = params[:team_id].presence
       @assignee_id = params[:assignee_id].presence
       @filter = params[:filter].presence
@@ -390,11 +411,15 @@ module Dashboard
     def apply_sidebar_scope
       @conversations = @conversations.where(team_id: @team_id) if @team_id.present?
 
-      return unless @assignee_id.present?
+      return if @assignee_id.blank?
 
-      assignee = current_account.users.find(@assignee_id)
-      @conversations = current_account.conversations.where(assignee: assignee)
-      @inbox = nil
+      assignee = current_account.users.find_by(id: @assignee_id)
+      if assignee
+        @conversations = current_account.conversations.where(assignee: assignee)
+        @inbox = nil
+      else
+        @assignee_id = nil
+      end
     end
 
     def conversation_counts(scope)

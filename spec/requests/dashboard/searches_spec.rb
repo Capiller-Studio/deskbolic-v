@@ -18,6 +18,9 @@ RSpec.describe 'Dashboard::Searches', type: :request do
 
   describe 'GET /search' do
     it 'renders the search results page' do
+      search_service = instance_double(Search::SearchService, call: { conversations: [], messages: [] })
+      allow(Search::SearchService).to receive(:new).and_return(search_service)
+
       get search_index_path(locale: :en, q: 'hello')
       expect(response).to have_http_status(:ok)
     end
@@ -29,15 +32,16 @@ RSpec.describe 'Dashboard::Searches', type: :request do
       conversation = account.with_shard { create(:conversation, account: account, inbox: inbox, title: 'Important question') }
       message = account.with_shard { create(:message, conversation: conversation, account: account, sender: user, content: 'Hello there!') }
 
-      allow_any_instance_of(Search::SearchService).to receive(:suggestions).and_return({
-        conversations: [conversation],
-        messages: [message]
-      })
+      search_service = instance_double(
+        Search::SearchService,
+        suggestions: { conversations: [ conversation ], messages: [ message ] }
+      )
+      allow(Search::SearchService).to receive(:new).and_return(search_service)
 
       get suggestions_search_index_path(locale: :en, q: 'Hello')
       expect(response).to have_http_status(:ok)
 
-      json = JSON.parse(response.body)
+      json = response.parsed_body
       expect(json['conversations']).to be_an(Array)
       expect(json['conversations'].first['url']).to include(conversation.id)
 

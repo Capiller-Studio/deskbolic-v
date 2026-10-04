@@ -53,6 +53,11 @@ module Dashboard
       template = Liquid::Template.parse(@identity_source.source_url)
       parsed_url = template.render("customer" => { "email" => "test@example.com", "name" => "Test User", "phone_number" => "+1234567890" })
 
+      validation = Security::UrlValidator.validate(parsed_url)
+      unless validation[:valid]
+        return render(json: { success: false, error: I18n.t("dashboard.identity_sources.insecure_url", error: validation[:error], default: "Insecure or invalid URL: %{error}") }, status: :unprocessable_entity)
+      end
+
       parsed_headers = {}
       @identity_source.headers.each do |k, v|
         parsed_headers[k] = Liquid::Template.parse(v).render("customer" => { "email" => "test@example.com", "name" => "Test User", "phone_number" => "+1234567890" })

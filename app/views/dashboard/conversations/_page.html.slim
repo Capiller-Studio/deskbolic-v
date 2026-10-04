@@ -1,0 +1,6 @@
+= turbo_frame_tag turbo_frame_request_id do
+  - conversations.each do |conversation|
+    = render 'dashboard/conversations/conversation', conversation: conversation
+  - if @pagy_conversations&.next
+    turbo-frame id="conversations-page-#{@pagy_conversations.next}" src=conversations_path(page: @pagy_conversations.next, resource_id: @inbox&.id, team_id: @team_id, assignee_id: @assignee_id, filter: @filter, q: @query.presence) loading="lazy"
+      .conversation-list-loading = t('dashboard.conversations.loading_more', default: 'Loading more conversations…')

@@ -59,13 +59,13 @@ module Api
         def render_scim_error(status:, detail:, scim_type: nil)
           status_code = Rack::Utils.status_code(status)
           payload = {
-            schemas: [SCIM_ERROR_SCHEMA],
+            schemas: [ SCIM_ERROR_SCHEMA ],
             status: status_code.to_s,
             detail: detail
           }
           payload[:scimType] = scim_type if scim_type.present?
 
-          render json: payload, status: status, content_type: SCIM_CONTENT_TYPE
+          render(json: payload, status: status, content_type: SCIM_CONTENT_TYPE)
         end
       end
     end

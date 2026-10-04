@@ -58,11 +58,11 @@ RSpec.describe Dashboard::AuditLogsHelper, type: :helper do
       double(
         'Activity',
         object_changes: {
-          'id' => ['old_id', 'new_id'],
-          'account_id' => ['old_acc', 'new_acc'],
-          'title' => ['Old Title', 'New Title'],
-          'color' => ['#ffffff', '#000000'],
-          'inbox_id' => ['old_inbox', 'new_inbox']
+          'id' => [ 'old_id', 'new_id' ],
+          'account_id' => [ 'old_acc', 'new_acc' ],
+          'title' => [ 'Old Title', 'New Title' ],
+          'color' => [ '#ffffff', '#000000' ],
+          'inbox_id' => [ 'old_inbox', 'new_inbox' ]
         }
       )
     end

@@ -88,8 +88,10 @@ module Dashboard
           }
         }
 
-        require "net/http"
-        require "uri"
+        validation = Security::UrlValidator.validate(@custom_channel.webhook_url)
+        unless validation[:valid]
+          return render(json: { error: I18n.t("dashboard.channels.custom.insecure_webhook_url", error: validation[:error], default: "Insecure or invalid webhook URL: %{error}") }, status: :unprocessable_entity)
+        end
 
         uri = URI.parse(@custom_channel.webhook_url)
 

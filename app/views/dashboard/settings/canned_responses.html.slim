@@ -19,7 +19,7 @@
         = inline_svg_tag("plus_white.svg", class: "ui-settings-page__action-icon", aria: { hidden: true })
 
     main.ui-settings-page__content
-      = form_tag(canned_responses_settings_path, method: :get, class: "canned-responses-toolbar") do
+      = form_tag(canned_responses_path, method: :get, class: "canned-responses-toolbar") do
         label.ui-search-field
           = inline_svg_tag("search_gray.svg", class: "ui-search-field__icon", aria: { hidden: true })
           = search_field_tag :search,

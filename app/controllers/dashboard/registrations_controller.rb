@@ -100,11 +100,13 @@ module Dashboard
       account = @registered_account || resource.accounts.first
       subdomain = account&.identifier || ""
 
-      if @selected_plan_id.present? && !@selected_subscription_created
+      if account.present? && account.subscriptions.empty?
         new_subscription_url(
-          subdomain: subdomain,
-          plan_id: @selected_plan_id,
-          billing_cycle: @selected_billing_cycle
+          {
+            subdomain: subdomain,
+            plan_id: @selected_plan_id,
+            billing_cycle: @selected_billing_cycle
+          }.compact
         )
       else
         root_url(subdomain: subdomain)

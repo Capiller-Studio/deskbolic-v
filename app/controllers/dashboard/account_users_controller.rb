@@ -25,13 +25,13 @@ module Dashboard
     end
 
     def destroy
-      if @account_user.user == current_user
-        redirect_to(users_path, alert: I18n.t("dashboard.users.destroy.self_error", default: "You cannot remove yourself from the account."))
+      if @account_user.owner?
+        redirect_to(users_path, alert: I18n.t("dashboard.users.destroy.owner_error", default: "You cannot remove the account owner."))
         return
       end
 
-      if @account_user.owner?
-        redirect_to(users_path, alert: I18n.t("dashboard.users.destroy.owner_error", default: "You cannot remove the account owner."))
+      if @account_user.user == current_user
+        redirect_to(users_path, alert: I18n.t("dashboard.users.destroy.self_error", default: "You cannot remove yourself from the account."))
         return
       end
       if @account_user.destroy

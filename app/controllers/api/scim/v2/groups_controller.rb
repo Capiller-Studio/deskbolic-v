@@ -21,25 +21,25 @@ module Api
             end
 
             total_results = scope.count
-            start_index = [params[:startIndex].to_i, 1].max
-            count = params[:count].present? ? [params[:count].to_i, 1].max : 100
+            start_index = [ params[:startIndex].to_i, 1 ].max
+            count = params[:count].present? ? [ params[:count].to_i, 1 ].max : 100
 
             paginated = scope.order(:name).offset(start_index - 1).limit(count)
             resources = paginated.map { |team| serialize_scim_group(team) }
 
-            render json: {
-              schemas: [SCIM_LIST_SCHEMA],
+            render(json: {
+              schemas: [ SCIM_LIST_SCHEMA ],
               totalResults: total_results,
               startIndex: start_index,
               itemsPerPage: resources.size,
               Resources: resources
-            }, status: :ok
+            }, status: :ok)
           end
         end
 
         def show
           current_account.with_shard do
-            render json: serialize_scim_group(@team), status: :ok
+            render(json: serialize_scim_group(@team), status: :ok)
           end
         end
 
@@ -79,7 +79,7 @@ module Api
 
           response.headers["Location"] = api_scim_v2_group_url(team.id)
           current_account.with_shard do
-            render json: serialize_scim_group(team), status: :created
+            render(json: serialize_scim_group(team), status: :created)
           end
         end
 
@@ -92,7 +92,7 @@ module Api
 
           current_account.with_shard do
             @team.reload
-            render json: serialize_scim_group(@team), status: :ok
+            render(json: serialize_scim_group(@team), status: :ok)
           end
         end
 
@@ -107,7 +107,7 @@ module Api
             metadata:    { scim_token_id: current_scim_token.id, group_name: @team.name, team_id: @team.id }
           )
 
-          head :no_content
+          head(:no_content)
         end
 
         private
@@ -249,13 +249,13 @@ module Api
             user = tu.user
             {
               value: user.id,
-              display: [user.first_name, user.last_name].compact.join(" ").presence || user.email,
+              display: [ user.first_name, user.last_name ].compact.join(" ").presence || user.email,
               "$ref": api_scim_v2_user_url(user.id)
             }
           end
 
           {
-            schemas: [SCIM_GROUP_SCHEMA],
+            schemas: [ SCIM_GROUP_SCHEMA ],
             id: team.id,
             displayName: team.name,
             members: members,

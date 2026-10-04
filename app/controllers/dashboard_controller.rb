@@ -60,8 +60,8 @@ class DashboardController < ApplicationController
     end
   end
 
-  def authorize(record, query = nil, **kwargs)
-    super([ :dashboard, record ], query, **kwargs)
+  def authorize(record, query = nil, **)
+    super([ :dashboard, record ], query, **)
   end
 
   def policy(record)
@@ -77,9 +77,9 @@ class DashboardController < ApplicationController
   def ensure_subdomain_for_account
     return unless user_signed_in?
 
-    # Allow accessing apex routes without subdomain redirect
-    apex_allowed_paths = [ workspaces_path, workspace_path, profile_path ]
-    return if apex_allowed_paths.any? { |p| request.path == p || request.path.start_with?("#{p}/") }
+    # Allow accessing apex routes without subdomain redirect, supporting localized routes
+    apex_allowed_paths = [ "/workspaces", "/workspace", "/profile" ]
+    return if apex_allowed_paths.any? { |p| unlocalized_path == p || unlocalized_path.start_with?("#{p}/") }
 
     active_accounts = current_user.accounts.active
     if active_accounts.any?
@@ -101,9 +101,14 @@ class DashboardController < ApplicationController
 
   def redirect_if_no_accounts
     if user_signed_in? && current_user.accounts.active.empty?
-      allowed_paths = [ workspace_path, submitted_path(current_user.id), profile_path ]
-      redirect_to(workspace_url(subdomain: ""), allow_other_host: true) unless allowed_paths.any? { |p| request.path == p || request.path.start_with?("#{p}/") }
+      allowed_paths = [ "/workspace", "/workspaces/#{current_user.id}/submitted", "/profile" ]
+      redirect_to(workspace_url(subdomain: ""), allow_other_host: true) unless allowed_paths.any? { |p| unlocalized_path == p || unlocalized_path.start_with?("#{p}/") }
     end
+  end
+
+  def unlocalized_path
+    path = request.path.sub(/\A\/(?:#{Core::SUPPORTED_LOCALES.join('|')})(?=\/|\z)/, "")
+    path.empty? ? "/" : path
   end
 
   def enforce_active_subscription
@@ -137,6 +142,38 @@ class DashboardController < ApplicationController
     end
   end
 
+  FEATURE_NAME_MAP = {
+    "channels.custom" => "Custom Channels",
+    "channels.web_widget" => "Live Chat Channels",
+    "channels.contact_form" => "Contact Form Channels",
+    "channels.facebook" => "Facebook Channels",
+    "channels.whatsapp" => "WhatsApp Channels",
+    "channels.instagram" => "Instagram Channels",
+    "channels.email" => "Email Channels",
+    "channels.twitter" => "Twitter Channels",
+    "channels.line" => "LINE Channels",
+    "channels.telegram" => "Telegram Channels",
+    "channels.sms" => "SMS Channels",
+    "sla" => "SLA Policies",
+    "sso" => "SSO",
+    "scim" => "SCIM Directory Sync",
+    "csat" => "CSAT Surveys",
+    "custom_csat" => "CSAT Surveys",
+    "api_access" => "API Access",
+    "custom_fields" => "Custom Fields",
+    "custom_domains" => "Custom Domains",
+    "custom_roles" => "Custom Roles",
+    "identity_sources" => "Identity Sources",
+    "business_hours" => "Business Hours",
+    "automations" => "Automations",
+    "macros" => "Macros",
+    "email_templates" => "Email Templates",
+    "email_template_layouts" => "Email Template Layouts",
+    "help_center_portals" => "Help Center Portals",
+    "assignment_policies" => "Assignment Policies",
+    "audit_logs" => "Audit Logs"
+  }.freeze
+
   def user_not_authorized(exception)
     policy = exception.policy
 
@@ -144,16 +181,29 @@ class DashboardController < ApplicationController
     if policy.respond_to?(:authorization_failure_reason)
       case policy.authorization_failure_reason
       when :feature_not_enabled
-        feature_name = policy.authorization_failure_feature.to_s.sub(/_enabled$/, "").humanize.titleize
+        feature_name = format_feature_name(policy.authorization_failure_feature)
         flash[:alert] = I18n.t("dashboard.billing.feature_not_enabled", feature: feature_name, default: "The feature '%{feature}' is not available on your current plan. Please upgrade to access it.")
         return redirect_to(dashboard_billing_path)
       when :limit_reached
-        flash[:alert] = I18n.t("dashboard.billing.limit_reached", limit: policy.authorization_failure_limit.to_s.humanize.titleize, default: "You have reached your limit for '%{limit}'. Please upgrade your plan for more capacity.")
+        limit_name = format_limit_name(policy.authorization_failure_limit)
+        flash[:alert] = I18n.t("dashboard.billing.limit_reached", limit: limit_name, default: "You have reached your limit for '%{limit}'. Please upgrade your plan for more capacity.")
         return redirect_to(dashboard_billing_path)
       end
     end
 
     flash[:error] = I18n.t("dashboard.authorization.not_authorized", default: "You are not authorized to perform this action.")
     redirect_back(fallback_location: root_path)
+  end
+
+  private
+
+  def format_feature_name(feature_key)
+    raw = feature_key.to_s.sub(/_enabled$/, "")
+    FEATURE_NAME_MAP[raw] || raw.tr(".", " ").humanize.titleize.gsub(/\bSla\b/, "SLA").gsub(/\bSso\b/, "SSO").gsub(/\bCsat\b/, "CSAT").gsub(/\bApi\b/, "API")
+  end
+
+  def format_limit_name(limit_key)
+    raw = limit_key.to_s.humanize.titleize
+    raw.gsub(/\bSla\b/, "SLA").gsub(/\bSso\b/, "SSO").gsub(/\bCsat\b/, "CSAT").gsub(/\bApi\b/, "API")
   end
 end

@@ -26,7 +26,9 @@
           = link_to(teams_path, class:"card") do
             = inline_svg_tag("teams.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
             .card-desc
-              h4.f-semi-14 = t('dashboard.settings_index.teams')
+              h4.f-semi-14
+                = t('dashboard.settings_index.teams')
+                = plan_upgrade_bubble(:teams, compact: true)
               p.f-reg-12 = t('dashboard.settings_index.teams_desc')
           = link_to(users_path, class:"card") do
             = inline_svg_tag("teamates.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
@@ -43,9 +45,7 @@
           = link_to(customers_path, class:"card") do
             = inline_svg_tag("customers.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
             .card-desc
-              h4.f-semi-14
-                = t('dashboard.settings_index.customers')
-                = plan_upgrade_bubble(:identity_sources, compact: true)
+              h4.f-semi-14 = t('dashboard.settings_index.customers')
               p.f-reg-12 = t('dashboard.settings_index.customers_desc')
           = link_to(identity_sources_path, class:"card") do
             = inline_svg_tag("identity.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
@@ -83,19 +83,23 @@
           = link_to(help_center_portals_path, class:"card") do
             = inline_svg_tag("green_grid.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
             .card-desc
-              h4.f-semi-14 = t('dashboard.settings_index.all_help_centers')
+              h4.f-semi-14
+                = t('dashboard.settings_index.all_help_centers')
+                = plan_upgrade_bubble(:help_center_portals, compact: true)
               p.f-reg-12 = t('dashboard.settings_index.all_help_centers_desc')
           = link_to(new_help_center_portal_path, class:"card") do
             = inline_svg_tag("green_plus.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
             .card-desc
-              h4.f-semi-14 = t('dashboard.settings_index.new_help_center')
+              h4.f-semi-14
+                = t('dashboard.settings_index.new_help_center')
+                = plan_upgrade_bubble(:help_center_portals, compact: true)
               / p.f-reg-12 Add new help center.
           
             
         / channels
         h3 = t('dashboard.settings_index.channels')
         .cards.channels-cards
-          = link_to(channels_settings_path, class:"card") do
+          = link_to(channels_path, class:"card") do
             = inline_svg_tag("all_ch.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
             .card-desc
               h4.f-semi-14 = t('dashboard.settings_index.all')
@@ -153,7 +157,7 @@
                 = t('dashboard.settings_index.custom_fields')
                 = plan_upgrade_bubble(:custom_fields, compact: true)
               p.f-reg-12 = t('dashboard.settings_index.custom_fields_desc')
-          = link_to(canned_responses_settings_path, class:"card") do
+          = link_to(canned_responses_path, class:"card") do
             = inline_svg_tag("canned_response.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
             .card-desc
               h4.f-semi-14 = t('dashboard.settings_index.canned_responses')
@@ -184,7 +188,7 @@
             .card-desc
               h4.f-semi-14
                 = t('dashboard.settings_index.email_templates')
-                = plan_upgrade_bubble(:custom_email_templates, compact: true)
+                = plan_upgrade_bubble(:email_templates, compact: true)
               p.f-reg-12 = t('dashboard.settings_index.email_templates_desc')
           = link_to(sla_policies_path, class:"card") do
             = inline_svg_tag("sla.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
@@ -196,31 +200,37 @@
           = link_to(csat_surveys_path, class:"card") do
             = inline_svg_tag("csat.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
             .card-desc
-              h4.f-semi-14 = t('dashboard.settings_index.csat_surveys')
+              h4.f-semi-14
+                = t('dashboard.settings_index.csat_surveys')
+                = plan_upgrade_bubble(:csat, compact: true)
               p.f-reg-12 = t('dashboard.settings_index.csat_surveys_desc')
           = link_to(labels_path, class:"card") do
             = inline_svg_tag("labels.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
             .card-desc
-              h4.f-semi-14 = t('dashboard.settings_index.labels')
+              h4.f-semi-14
+                = t('dashboard.settings_index.labels')
+                = plan_upgrade_bubble(:labels, compact: true)
               p.f-reg-12 = t('dashboard.settings_index.labels_desc')
           = link_to(macros_path, class:"card") do
             = inline_svg_tag("macro.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
             .card-desc
               h4.f-semi-14
                 = t('dashboard.settings_index.macros')
-                = plan_upgrade_bubble(:macros_enabled, compact: true)
+                = plan_upgrade_bubble(:macros, compact: true)
               p.f-reg-12 = t('dashboard.settings_index.macros_desc')
           = link_to(automations_path, class:"card") do
             = inline_svg_tag("automations.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
             .card-desc
               h4.f-semi-14
                 = t('dashboard.settings_index.automations')
-                = plan_upgrade_bubble(:automations_enabled, compact: true)
+                = plan_upgrade_bubble(:automations, compact: true)
               p.f-reg-12 = t('dashboard.settings_index.automations_desc')
           = link_to(ai_agents_path, class:"card") do
             = inline_svg_tag("ai_agents.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))
             .card-desc
-              h4.f-semi-14 = t('dashboard.settings_index.ai_agents')
+              h4.f-semi-14
+                = t('dashboard.settings_index.ai_agents')
+                = plan_upgrade_bubble(:ai_agent, compact: true)
               p.f-reg-12 = t('dashboard.settings_index.ai_agents_desc')
           = link_to(settings_api_keys_path, class:"card") do
             = inline_svg_tag("api.svg", class:"card-icon", alt:t("ui.dashboard.agent.guidance.icon"))

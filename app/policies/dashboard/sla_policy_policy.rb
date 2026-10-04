@@ -3,27 +3,27 @@
 module Dashboard
   class SlaPolicyPolicy < ApplicationPolicy
     def index?
-      can?("sla_policies.read")
+      authorized?("sla_policies.read", feature: :sla)
     end
 
     def show?
-      can?("sla_policies.read")
+      authorized?("sla_policies.read", feature: :sla)
     end
 
     def create?
-      authorized?("sla_policies.manage", limit: :sla_policies)
+      authorized?("sla_policies.manage", feature: :sla, limit: :sla_policies)
     end
 
     def update?
-      can?("sla_policies.manage")
+      authorized?("sla_policies.manage", feature: :sla)
     end
 
     def destroy?
-      can?("sla_policies.manage")
+      authorized?("sla_policies.manage", feature: :sla)
     end
 
     def reorder?
-      can?("sla_policies.manage")
+      authorized?("sla_policies.manage", feature: :sla)
     end
   end
 end

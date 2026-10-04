@@ -7,11 +7,11 @@ module Auth
     def show
       query = params[:email].presence || params[:domain].presence
       if query.blank?
-        return render json: { sso_required: false, error: "missing_parameter" }, status: :unprocessable_entity
+        return render(json: { sso_required: false, error: "missing_parameter" }, status: :unprocessable_entity)
       end
 
       result = Auth::DomainLookupService.call(query)
-      render json: result, status: :ok
+      render(json: result, status: :ok)
     end
   end
 end

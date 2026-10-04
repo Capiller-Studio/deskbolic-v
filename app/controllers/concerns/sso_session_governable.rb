@@ -30,7 +30,7 @@ module SsoSessionGovernable
 
       sign_out(current_user)
       reset_session
-      redirect_to new_user_session_path, alert: I18n.t("auth.sso.session_expired", default: "Your Single Sign-On session has expired. Please sign in again.")
+      redirect_to(new_user_session_path, alert: I18n.t("auth.sso.session_expired", default: "Your Single Sign-On session has expired. Please sign in again."))
     end
   end
 end

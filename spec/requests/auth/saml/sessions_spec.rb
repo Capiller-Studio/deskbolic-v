@@ -11,8 +11,8 @@ RSpec.describe "Auth::Saml::Sessions", type: :request do
       account:                  account,
       idp_entity_id:            "http://www.okta.com/exk123",
       idp_sso_url:              "https://okta.com/app/sso",
-      idp_certificates:         [cert_pem],
-      allowed_email_domains:    ["acmecorp.com"],
+      idp_certificates:         [ cert_pem ],
+      allowed_email_domains:    [ "acmecorp.com" ],
       status:                   :active,
       jit_provisioning_enabled: true
     )
@@ -71,8 +71,8 @@ RSpec.describe "Auth::Saml::Sessions", type: :request do
           email:         "john.sso@acmecorp.com",
           first_name:    "John",
           last_name:     "SSO",
-          groups:        ["Engineering"],
-          attributes:    { "email" => ["john.sso@acmecorp.com"] },
+          groups:        [ "Engineering" ],
+          attributes:    { "email" => [ "john.sso@acmecorp.com" ] },
           error_code:    nil,
           error_message: nil
         )
@@ -107,7 +107,7 @@ RSpec.describe "Auth::Saml::Sessions", type: :request do
       end
 
       it "supports IdP-initiated login by resolving issuer entity ID" do
-        mock_saml_doc = instance_double(OneLogin::RubySaml::Response, issuers: ["http://www.okta.com/exk123"])
+        mock_saml_doc = instance_double(OneLogin::RubySaml::Response, issuers: [ "http://www.okta.com/exk123" ])
         allow(OneLogin::RubySaml::Response).to receive(:new).and_return(mock_saml_doc)
 
         post "/auth/saml/consume", params: { SAMLResponse: "dummy_idp_initiated_response" }

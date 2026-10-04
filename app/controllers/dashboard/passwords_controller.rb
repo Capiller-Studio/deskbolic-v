@@ -8,9 +8,20 @@ module Dashboard
   class PasswordsController < Devise::PasswordsController
     layout "auth"
 
+    skip_before_action :require_no_authentication, only: %i[edit update]
+    prepend_before_action :sign_out_if_resetting_password, only: %i[edit update]
+
     def redirect_to(options = {}, response_options = {})
       response_options[:allow_other_host] = true if options.is_a?(String) && options.match?(/\Ahttps?:\/\//)
       super(options, response_options)
+    end
+
+    private
+
+    def sign_out_if_resetting_password
+      return if params[:reset_password_token].blank?
+
+      sign_out(:user) if user_signed_in?
     end
 
     protected

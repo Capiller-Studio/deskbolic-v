@@ -4,9 +4,19 @@ module Dashboard
   class ConfirmationsController < Devise::ConfirmationsController
     layout "auth"
 
+    prepend_before_action :sign_out_if_confirming, only: :show
+
     def redirect_to(options = {}, response_options = {})
       response_options[:allow_other_host] = true if options.is_a?(String) && options.match?(/\Ahttps?:\/\//)
       super(options, response_options)
+    end
+
+    private
+
+    def sign_out_if_confirming
+      return if params[:confirmation_token].blank?
+
+      sign_out(:user) if user_signed_in?
     end
 
     protected

@@ -10,7 +10,7 @@
       = link_to t("auth.login.submit"), new_user_session_path, class: "auth-secondary-button"
 
     = form_with url: registration_path(resource_name), method: :post, local: true, data: { controller: "registration-wizard", action: "submit->registration-wizard#submitForm turbo:submit-end->registration-wizard#handleSubmitEnd" }, class: "auth-register-form" do |f|
-      = invisible_captcha :gift_vcode
+      = invisible_captcha :gift_vcode, :user
       = hidden_field_tag :plan_id, params[:plan_id].presence || cookies[:selected_plan_id].presence
       = hidden_field_tag :billing_cycle, params[:billing_cycle].presence || cookies[:selected_billing_cycle].presence
       = hidden_field_tag :ref, params[:ref].presence || cookies[:ref].presence

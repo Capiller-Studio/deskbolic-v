@@ -182,6 +182,28 @@ RSpec.describe 'Dashboard::Registrations', type: :request do
 
         expect(response).to have_http_status(:unprocessable_entity)
       end
+
+      it 'silently rejects spam when honeypot field is filled' do
+        expect {
+          post user_registration_path, params: {
+            user: {
+              first_name: 'Bot',
+              last_name: 'Spammer',
+              email: "bot_#{SecureRandom.hex(4)}@example.com",
+              password: 'password123',
+              gift_vcode: 'bot_payload'
+            },
+            gift_vcode: 'bot_payload',
+            account_name: 'Spam Corp',
+            country: 'US',
+            currency: 'USD',
+            shard_key: 'de',
+            account_locale: 'en'
+          }
+        }.not_to change { User.count }
+
+        expect(response).to have_http_status(:ok)
+      end
     end
   end
 end

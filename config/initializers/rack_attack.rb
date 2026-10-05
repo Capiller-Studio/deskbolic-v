@@ -3,7 +3,7 @@
 class Rack::Attack
   # Rate limits for login attempts (5 attempts per minute per email)
   throttle("logins/email", limit: 5, period: 1.minute) do |req|
-    if req.path == "/users/sign_in" && req.post?
+    if req.post? && req.path.match?(%r{\A(/[a-z]{2}(?:-[A-Za-z]{2,4})?)?/(login|users/sign_in)\z})
       # Normalize the email, using the same logic as your authentication process, to
       # protect against rate limit bypasses. Return the normalized email if present, nil otherwise.
       req.params["user"].try(:[], "email").to_s.downcase.gsub(/\s+/, "").presence
@@ -12,21 +12,14 @@ class Rack::Attack
 
   # Rate limits for login attempts by IP (20 attempts per minute per IP)
   throttle("logins/ip", limit: 20, period: 1.minute) do |req|
-    if req.path == "/users/sign_in" && req.post?
+    if req.post? && req.path.match?(%r{\A(/[a-z]{2}(?:-[A-Za-z]{2,4})?)?/(login|users/sign_in)\z})
       req.ip
     end
   end
 
-  # Rate limits for public widget submissions by IP (20 per IP per minute)
-  throttle("widget_messages/ip", limit: 20, period: 1.minute) do |req|
-    if req.path.start_with?("/api/v1/widget") && req.post?
-      req.ip
-    end
-  end
-
-  # Rate limits for public contact forms by IP (10 per IP per minute)
-  throttle("contact_forms/ip", limit: 10, period: 1.minute) do |req|
-    if req.path.start_with?("/api/v1/contact_forms") && req.post?
+  # Rate limits for registration signups by IP (5 registrations per hour per IP)
+  throttle("registrations/ip", limit: 5, period: 1.hour) do |req|
+    if req.post? && req.params["user"].present? && req.path.match?(%r{\A(/[a-z]{2}(?:-[A-Za-z]{2,4})?)?/?\z})
       req.ip
     end
   end
@@ -69,7 +62,7 @@ class Rack::Attack
 
   # Password Reset Spam Protection (prevents email bombing)
   throttle("logins/password_reset", limit: 3, period: 1.minute) do |req|
-    if req.path == "/users/password" && req.post?
+    if req.post? && req.path.match?(%r{\A(/[a-z]{2}(?:-[A-Za-z]{2,4})?)?/(password|users/password)\z})
       req.ip
     end
   end

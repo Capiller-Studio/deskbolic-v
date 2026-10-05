@@ -529,6 +529,8 @@ pt-BR:
       reopen: Reabrir
       resolve: Resolver
       search_canned_responses: Pesquisar respostas automáticas...
+      macros_tooltip: "Executar macro (⌘⇧M)"
+      search_macros: "Pesquisar macros... (⌘⇧M)"
     conversation_details:
       open: Aberta
       assignment: Atribuição
@@ -1128,17 +1130,43 @@ pt-BR:
         description: Ações de um clique para acelerar seu fluxo de trabalho.
         new_macro: Nova macro
         empty_title: Ainda não há macros
-        empty_description: Crie macros reutilizáveis para realizar ações comuns com
-          um único clique.
-        tab_personal: Minhas macros
+        empty_description: Crie macros reutilizáveis para realizar ações comuns com um único clique.
+        tab_all: Todos
+        tab_personal: Pessoal
         tab_shared: Compartilhado
+        tab_team: Equipe
+        account_wide: Conta
+        search_placeholder: Pesquisar macros por nome ou descrição...
+        filter_status: Status
+        filter_all_statuses: Todos os status
+        status_active: Ativo
+        status_inactive: Inativo
+        action: Macro
+        action_details: Ações
+        showing: "Mostrando %{from} a %{to} de %{count} macros"
+        rows_per_page: "Linhas por página"
+        pagination: "Paginação de macros"
+        previous_page: "Página anterior"
+        next_page: "Próxima página"
+        actions: Ações
         edit: Editar
         delete: Excluir
         delete_confirm: Tem certeza de que deseja excluir esta macro?
       form:
+        title: Detalhes da macro
+        back: Voltar para macros
+        name: Nome
         name_placeholder: por exemplo Fechar e enviar e-mail de feedback
+        visibility: Visibilidade
+        status: Status
+        team: Equipe
+        team_placeholder: Selecionar equipe
         description_label: Descrição (opcional)
         description_placeholder: O que essa macro faz?
+        actions_heading: Ações
+        actions_description: Defina o que acontece quando esta macro é executada.
+        actions_included: "Ações a executar:"
+        error_heading: Por favor corrija os seguintes erros
       new:
         title: Nova macro
       edit:
@@ -1150,10 +1178,18 @@ pt-BR:
       destroy:
         destroyed: Macro excluída.
       execute:
-        executed: Macro executada com sucesso.
+        executed: "Macro '%{name}' executada com sucesso."
+        partially_executed: "Macro '%{name}' executada com alguns erros."
+        failed: "Falha ao executar a macro '%{name}'."
+      confirm_run: "Executar macro '%{name}'?"
+      run_macro_named: "Executar %{name}"
+      run_macro: "⚡ Executar Macro"
+      run: "Executar"
+      no_macros_available: "Nenhuma macro ativa encontrada."
       scope:
         personal: Pessoal (somente você)
         shared: Compartilhado (todos os agentes)
+        team: Equipe (membros da equipe)
     automation_executions:
       index:
         title: Registro de execução

@@ -530,6 +530,8 @@ fr:
       reopen: Réouvrir
       resolve: Résoudre
       search_canned_responses: Rechercher des réponses standardisées...
+      macros_tooltip: "Exécuter la macro (⌘⇧M)"
+      search_macros: "Rechercher des macros... (⌘⇧M)"
     conversation_details:
       open: Ouverte
       assignment: Attribution
@@ -1133,21 +1135,47 @@ fr:
         expert: Expert
     macros:
       index:
-        title: Macro
+        title: Macros
         description: Actions en un clic pour accélérer votre flux de travail.
         new_macro: Nouvelle macro
         empty_title: Pas encore de macros
-        empty_description: Créez des macros réutilisables pour effectuer des actions
-          courantes en un seul clic.
-        tab_personal: Mes macros
+        empty_description: Créez des macros réutilisables pour effectuer des actions courantes en un seul clic.
+        tab_all: Tous
+        tab_personal: Personnel
         tab_shared: Partagé
+        tab_team: Équipe
+        account_wide: Compte
+        search_placeholder: Rechercher des macros par nom ou description...
+        filter_status: Statut
+        filter_all_statuses: Tous les statuts
+        status_active: Actif
+        status_inactive: Inactif
+        action: Macro
+        action_details: Actions
+        showing: "Affichage de %{from} à %{to} sur %{count} macros"
+        rows_per_page: "Lignes par page"
+        pagination: "Pagination des macros"
+        previous_page: "Page précédente"
+        next_page: "Page suivante"
+        actions: Actions
         edit: Modifier
         delete: Supprimer
-        delete_confirm: Êtes-vous sûr de vouloir supprimer cette macro ?
+        delete_confirm: Êtes-vous sûr de vouloir supprimer cette macro ?
       form:
+        title: Détails de la macro
+        back: Retour aux macros
+        name: Nom
         name_placeholder: par ex. Fermer et envoyer un e-mail de commentaires
+        visibility: Visibilité
+        status: Statut
+        team: Équipe
+        team_placeholder: Sélectionner une équipe
         description_label: Description (facultatif)
         description_placeholder: A quoi sert cette macro ?
+        actions_heading: Actions
+        actions_description: Définissez ce qui se passe lorsque cette macro est exécutée.
+        actions_included: "Actions à exécuter :"
+        error_heading: Veuillez corriger les erreurs suivantes
       new:
         title: Nouvelle macro
       edit:
@@ -1159,10 +1187,18 @@ fr:
       destroy:
         destroyed: Macro supprimée.
       execute:
-        executed: Macro exécutée avec succès.
+        executed: "Macro '%{name}' exécutée avec succès."
+        partially_executed: "Macro '%{name}' exécutée avec des erreurs."
+        failed: "Échec de l'exécution de la macro '%{name}'."
+      confirm_run: "Exécuter la macro '%{name}' ?"
+      run_macro_named: "Exécuter %{name}"
+      run_macro: "⚡ Exécuter la macro"
+      run: "Exécuter"
+      no_macros_available: "Aucune macro active trouvée."
       scope:
         personal: Personnel (uniquement vous)
         shared: Partagé (tous les agents)
+        team: Équipe (membres de l'équipe)
     automation_executions:
       index:
         title: Journal d'exécution

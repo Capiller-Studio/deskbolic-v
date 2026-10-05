@@ -55,5 +55,11 @@ module Dashboard
 
       current_account.labels.pluck(:title, :id)
     end
+
+    def email_template_options_for_select
+      return [] unless current_account
+
+      current_account.email_templates.pluck(:name, :id)
+    end
   end
 end

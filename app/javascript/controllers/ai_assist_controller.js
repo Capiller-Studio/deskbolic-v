@@ -70,7 +70,18 @@ export default class extends Controller {
       const data = await response.json()
       
       if (data.success) {
-        this.insertIntoEditor(`\n${data.draft}\n`)
+        const draftText = (data.draft || "").trim()
+        const currentText = (this.getCurrentText() || "").trim()
+        if (currentText.length === 0) {
+          if (this.hasLexicalOutlet) {
+            this.lexicalOutlet.clear()
+            this.lexicalOutlet.insertText(draftText)
+          } else {
+            this.insertIntoEditor(draftText)
+          }
+        } else {
+          this.insertIntoEditor(`\n${draftText}`)
+        }
       } else {
         this.insertIntoEditor(`\n${this.errorPrefixValue || "Error"}: ${data.error}\n`)
         if (response.status === 402) {

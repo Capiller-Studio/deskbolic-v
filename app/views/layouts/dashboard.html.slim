@@ -16,7 +16,8 @@ html lang=I18n.locale dir=(I18n.locale.to_s.match?(/^(ar|he|fa|ur)/i) ? "rtl" : 
     = javascript_include_tag "dashboard", "data-turbo-track": "reload", defer: true
   body data-controller="chat consumer" data-consumer-user="#{current_user&.id}" data-consumer-token="#{current_user&.connection_token}" 
     = render("layouts/dashboard/billing_warning_banner")
-    = render("layouts/dashboard/flash_message")
+    #flash-messages
+      = render("layouts/dashboard/flash_message")
     == yield
     = render("dashboard/shared/smart_search_modal")
     = render("dashboard/shared/confirmation_dialog")

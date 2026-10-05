@@ -34,7 +34,7 @@ module Dashboard
           conversation: @conversation,
           user: current_user,
           instruction: params[:instruction]
-        )
+        ).to_s.strip
 
         render(json: { success: true, draft: draft })
       rescue ::AiInsufficientBalanceError => e

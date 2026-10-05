@@ -191,8 +191,13 @@ class DashboardController < ApplicationController
       end
     end
 
-    flash[:error] = I18n.t("dashboard.authorization.not_authorized", default: "You are not authorized to perform this action.")
-    redirect_back(fallback_location: root_path)
+    respond_to do |format|
+      format.json { render json: { error: I18n.t("dashboard.authorization.not_authorized", default: "You are not authorized to perform this action.") }, status: :forbidden }
+      format.all do
+        flash[:error] = I18n.t("dashboard.authorization.not_authorized", default: "You are not authorized to perform this action.")
+        redirect_back(fallback_location: root_path)
+      end
+    end
   end
 
   private

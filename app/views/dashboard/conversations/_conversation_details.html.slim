@@ -1,3 +1,5 @@
+- @conversation = local_assigns[:conversation] || @conversation
+- @notes = local_assigns[:notes] || @notes || (current_account ? current_account.notes.where(user: current_user, resource: @conversation) : [])
 - customer = @conversation.customers.first
 - csat_response = @conversation.csat_survey_responses.last
 - recent_conversations = customer ? customer.conversations.where.not(id: @conversation.id).order(created_at: :desc).limit(5) : []
@@ -19,6 +21,13 @@ aside.details-section.conversation-inspector id="conversation-details-#{@convers
 
     section.inspector-section.inspector-labels
       = render partial: 'dashboard/conversations/labels_info', locals: { conversation: @conversation }
+
+    section.inspector-section.inspector-macros
+      button.inspector-accordion.active-accordian type="button" data-action="click->accordion#toggle" aria-expanded="true"
+        span = t('dashboard.macros.index.title', default: 'Macros')
+        = inline_svg_tag('arrow_down.svg', class: 'inspector-chevron', aria: { hidden: true })
+      .panel.inspector-panel.visible data-accordion-target="panel"
+        = render partial: 'dashboard/conversations/macros_info', locals: { conversation: @conversation }
 
     section.inspector-section.ticket-info
       button.inspector-accordion.active-accordian type="button" data-action="click->accordion#toggle" aria-expanded="true"

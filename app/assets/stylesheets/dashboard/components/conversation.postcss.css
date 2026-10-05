@@ -271,13 +271,40 @@
     margin-top: 6px;
   }
 
-  .conversation .attachment-image {
+  .conversation .msg-attachment-img {
     display: block;
     max-width: min(280px, 100%);
-    max-height: 200px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #f1f5f9;
+  }
+
+  .conversation .agent-response .msg-attachment-img {
+    align-self: flex-end;
+  }
+
+  .conversation .user-response .msg-attachment-img {
+    align-self: flex-start;
+  }
+
+  .conversation .msg-attachment-img-link {
+    display: block;
+    line-height: 0;
+    cursor: zoom-in;
+    transition: opacity 0.15s ease;
+
+    &:hover {
+      opacity: 0.92;
+    }
+  }
+
+  .conversation .attachment-image {
+    display: block;
+    width: 100%;
+    max-width: min(280px, 100%);
+    max-height: 220px;
     border-radius: 10px;
     object-fit: cover;
-    float: right;
   }
 
   .conversation .msg-attachment-audio audio {
@@ -1148,6 +1175,32 @@
       cursor: pointer;
     }
 
+    .macro-close-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      padding: 0;
+      border: none;
+      background: transparent;
+      border-radius: 6px;
+      color: #64748b;
+      cursor: pointer;
+      transition: background-color 0.15s ease, color 0.15s ease;
+
+      &:hover {
+        background-color: #f1f5f9;
+        color: #0f172a;
+      }
+
+      .macro-close-btn__icon {
+        width: 10px;
+        height: 10px;
+        fill: currentColor;
+      }
+    }
+
     .left-panel,
     .right-panel {
       width: 100%;
@@ -1208,6 +1261,332 @@
       color: #fff;
       background: #14171f;
       cursor: pointer;
+    }
+  }
+
+  .footer .macro-picker-menu {
+    position: absolute;
+    display: none;
+    left: 0;
+    bottom: calc(100% + 8px);
+    width: min(380px, calc(100cqw - 48px));
+    height: 380px;
+    overflow: hidden;
+    border: 1px solid #e5e8ef;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 16px 36px rgba(16, 19, 32, 0.16);
+    z-index: 70;
+
+    &.visible {
+      display: block;
+    }
+
+    &.is-previewing {
+      width: min(680px, calc(100cqw - 48px));
+    }
+
+    .panels {
+      display: block;
+      height: 335px;
+    }
+
+    &.is-previewing .panels {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+    }
+
+    .left-panel,
+    .right-panel {
+      width: 100%;
+      height: 335px;
+      overflow-y: auto;
+    }
+
+    .right-panel {
+      display: none;
+      padding: 16px;
+      border-left: 1px solid #edeff4;
+      background: #fafbfc;
+
+      &.visible {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+    }
+
+    .macro-picker-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      border-left: 3px solid transparent;
+      transition: background 120ms ease, border-color 120ms ease;
+
+      &:hover {
+        background: #f7f8fa;
+      }
+
+      &.macro-picker-item--active {
+        background: #eff6ff;
+        border-left-color: #3b82f6;
+      }
+    }
+
+    .macro-picker-item__icon-wrap {
+      flex: 0 0 28px;
+    }
+
+    .macro-picker-item__headings {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .macro-picker-item__title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+
+    .macro-picker-item__name {
+      margin: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: #0f172a;
+      font-weight: 600;
+    }
+
+    .macro-picker-item__actions-count {
+      margin: 2px 0 0;
+      color: #64748b;
+    }
+
+    .macro-badge-pill {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+
+    .macro-badge-pill--account {
+      background: #eff6ff;
+      color: #2563eb;
+    }
+
+    .macro-badge-pill--personal {
+      background: #faf5ff;
+      color: #7c3aed;
+    }
+
+    .macro-badge-pill--team {
+      background: #ecfdf5;
+      color: #059669;
+    }
+
+    .macro-preview-header {
+      margin-bottom: 14px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #e2e8f0;
+
+      .response-title {
+        margin: 6px 0 4px;
+        color: #0f172a;
+        font-weight: 700;
+      }
+
+      .macro-preview-desc {
+        margin: 0;
+        color: #64748b;
+        line-height: 18px;
+      }
+    }
+
+    .macro-actions-heading {
+      margin: 0 0 8px;
+      color: #475569;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .macro-actions-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .macro-action-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 8px 10px;
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+
+      .macro-action-step__number {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: #f1f5f9;
+        color: #475569;
+        font-size: 11px;
+        font-weight: 700;
+        flex-shrink: 0;
+      }
+
+      .macro-action-step__content {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        min-width: 0;
+
+        .macro-action-step__title {
+          font-size: 12.5px;
+          color: #1e293b;
+          font-weight: 600;
+        }
+
+        .macro-action-step__detail {
+          font-size: 11px;
+          color: #64748b;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
+    }
+
+    .macro-run-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 10px 16px;
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+      transition: all 120ms ease;
+
+      &:hover:not(:disabled) {
+        background: linear-gradient(135deg, #0f172a, #020617);
+        transform: translateY(-1px);
+        box-shadow: 0 6px 16px rgba(15, 23, 42, 0.2);
+      }
+
+      &:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+      }
+    }
+
+    .macro-picker-empty {
+      padding: 40px 20px;
+      text-align: center;
+
+      .macro-picker-empty__title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #334155;
+        margin: 0 0 6px;
+      }
+
+      .macro-picker-empty__desc {
+        font-size: 12px;
+        color: #64748b;
+        margin: 0;
+      }
+    }
+  }
+
+  .ui-macro-inspector-section {
+    padding: 12px 14px;
+
+    .ui-macro-quick-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .ui-macro-quick-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 8px 10px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      transition: border-color 120ms ease;
+
+      &:hover {
+        border-color: #cbd5e1;
+        background: #f1f5f9;
+      }
+    }
+
+    .ui-macro-quick-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+
+      .ui-macro-quick-title {
+        font-size: 12.5px;
+        font-weight: 600;
+        color: #1e293b;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .ui-macro-quick-meta {
+        font-size: 11px;
+        color: #64748b;
+      }
+    }
+
+    .ui-btn-macro-run {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      background: #0f172a;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      transition: background 120ms ease;
+
+      &:hover {
+        background: #1e293b;
+      }
+
+      .ui-btn-macro-run-icon {
+        width: 10px;
+        height: 10px;
+      }
     }
   }
 

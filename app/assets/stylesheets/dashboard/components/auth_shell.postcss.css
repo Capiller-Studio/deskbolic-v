@@ -48,6 +48,13 @@ body.auth-themed-body {
   gap: 24px;
 }
 
+.auth-page .auth-brand-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
 .auth-page .auth-logo {
   display: inline-flex;
   flex: 0 0 auto;
@@ -58,6 +65,33 @@ body.auth-themed-body {
   display: block;
   width: auto;
   height: 34px;
+}
+
+.auth-page .auth-early-access-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--auth-brand-soft);
+  color: var(--auth-brand-dark);
+  border: 1px solid rgba(104, 124, 255, 0.25);
+  font-family: $font-family-inter-medium;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 14px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.auth-page .auth-early-access-badge::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--auth-brand);
+  box-shadow: 0 0 0 2px rgba(104, 124, 255, 0.25);
 }
 
 .auth-page .auth-header-action {
@@ -777,6 +811,47 @@ body.auth-themed-body {
   font-family: $font-family-inter-regular;
   font-size: 14px;
   line-height: 22px;
+}
+
+.auth-page--register .auth-early-access-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  margin-bottom: 22px;
+  border-radius: 12px;
+  background: #f8faff;
+  border: 1px solid #dce4fd;
+  color: var(--auth-ink);
+}
+
+.auth-page--register .auth-early-access-notice__icon {
+  flex-shrink: 0;
+  color: var(--auth-brand);
+  margin-top: 2px;
+  display: flex;
+}
+
+.auth-page--register .auth-early-access-notice__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.auth-page--register .auth-early-access-notice__title {
+  margin: 0 0 3px;
+  font-family: $font-family-inter-semibold;
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 18px;
+  color: #1e293b;
+}
+
+.auth-page--register .auth-early-access-notice__text {
+  margin: 0;
+  font-family: $font-family-inter-regular;
+  font-size: 13px;
+  line-height: 19px;
+  color: #4b5563;
 }
 
 .auth-page--register .form-fields {

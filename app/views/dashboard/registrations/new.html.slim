@@ -5,8 +5,10 @@
 .auth-page.auth-page--register
   .form-section.auth-main#registration-wizard
     header.auth-header
-      = link_to root_path, class: "auth-logo", aria: { label: "Deskbolic" } do
-        = image_tag "logo.png", alt: "Deskbolic"
+      .auth-brand-group
+        = link_to root_path, class: "auth-logo", aria: { label: "Deskbolic" } do
+          = image_tag "logo.png", alt: "Deskbolic"
+        span.auth-early-access-badge = t("auth.registration.early_access_badge", default: "Early Access")
       = link_to t("auth.login.submit"), new_user_session_path, class: "auth-secondary-button"
 
     = form_with url: registration_path(resource_name), method: :post, local: true, data: { controller: "registration-wizard", action: "submit->registration-wizard#submitForm turbo:submit-end->registration-wizard#handleSubmitEnd" }, class: "auth-register-form" do |f|
@@ -22,6 +24,14 @@
         .set-header
           h2 = t("auth.registration.step1_title")
           p = t("auth.registration.subtitle")
+
+        .auth-early-access-notice
+          .auth-early-access-notice__icon
+            svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+          .auth-early-access-notice__content
+            h4.auth-early-access-notice__title = t("auth.registration.early_access_title", default: "Deskbolic Public Beta")
+            p.auth-early-access-notice__text = t("auth.registration.early_access_description", default: "You're getting early access as we finalize our launch. We'd love your feedback as you explore your new workspace!")
 
         .form-fields
           .name-section

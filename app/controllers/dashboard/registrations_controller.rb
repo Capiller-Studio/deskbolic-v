@@ -125,11 +125,15 @@ module Dashboard
     private
 
     def check_registration_enabled
-      if ENV.fetch("DISABLE_REGISTRATION", "true") == "true"
-        authenticate_or_request_with_http_basic("Deskbolic Private Beta") do |username, password|
-          username == "techbolic" && password == "betaaccess2026"
-        end
-      end
+      # if ENV.fetch("DISABLE_REGISTRATION", "true") == "true"
+      #   authenticate_or_request_with_http_basic("Deskbolic Private Beta") do |username, password|
+      #     username == "techbolic" && password == "betaaccess2026"
+      #   end
+      # end
+
+      return unless ENV["DISABLE_REGISTRATION"] == "true"
+
+      redirect_to new_user_session_path, alert: t("auth.registration.registration_disabled", default: "Registration is temporarily closed.")
     end
     def clear_onboarding_cookies
       cookies.delete(:ref)

@@ -322,6 +322,10 @@ export default class extends Controller {
           root.append(paragraph)
           paragraph.selectEnd()
           return
+        } else if (root.getChildrenSize() === 1 && root.getFirstChild().getTextContent().trim().length === 0) {
+          const p = root.getFirstChild()
+          p.clear()
+          selection = p.selectEnd()
         } else {
           selection = root.selectEnd()
         }

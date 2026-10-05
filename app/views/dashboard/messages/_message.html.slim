@@ -57,7 +57,8 @@
                     audio controls=true preload="metadata" src=rails_blob_path(attachment.file)
                 - elsif attachment.image? && attachment.file.attached?
                   .msg-attachment-img
-                    = image_tag(attachment.file, class: 'attachment-image')
+                    = link_to rails_blob_path(attachment.file), target: '_blank', rel: 'noopener noreferrer', class: 'msg-attachment-img-link', title: attachment.file.filename do
+                      = image_tag(attachment.file, class: 'attachment-image', loading: 'lazy', decoding: 'async', alt: attachment.file.filename)
                 - elsif attachment.file.attached?
                   a.msg-attachment-file href=rails_blob_path(attachment.file, disposition: 'attachment') target="_blank"
                     span.file-icon 📄
@@ -128,7 +129,8 @@
                   audio controls=true preload="metadata" src=rails_blob_path(attachment.file)
               - elsif attachment.image? && attachment.file.attached?
                 .msg-attachment-img
-                  = image_tag(attachment.file, class: 'attachment-image')
+                  = link_to rails_blob_path(attachment.file), target: '_blank', rel: 'noopener noreferrer', class: 'msg-attachment-img-link', title: attachment.file.filename do
+                    = image_tag(attachment.file, class: 'attachment-image', loading: 'lazy', decoding: 'async', alt: attachment.file.filename)
               - elsif attachment.file.attached?
                 a.msg-attachment-file href=rails_blob_path(attachment.file, disposition: 'attachment') target="_blank"
                   span.file-icon 📄

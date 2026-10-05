@@ -1,0 +1,43 @@
+- primary_action = Array(macro.actions).first || {}
+- action_type = (primary_action["action"] || primary_action[:action] || primary_action["type"] || primary_action[:type]).to_s
+- icon_kind = action_type.match?(/email|message|note/) ? "email" : (action_type.match?(/label/) ? "label" : (action_type.match?(/assign/) ? "agent" : "default"))
+- icon_name = { "email" => "mail.svg", "label" => "tag.svg", "agent" => "team.svg", "default" => "star_plus.svg" }.fetch(icon_kind)
+
+tr id="macro_#{macro.id}" class=(macro.inactive? ? "ui-table-row--inactive" : "")
+  td.ui-card-table__primary
+    .ui-macro-identity
+      span class="ui-macro-identity__icon ui-macro-identity__icon--#{icon_kind}" aria-hidden="true"
+        = inline_svg_tag(icon_name)
+      .ui-macro-identity__details
+        strong.ui-macro-identity__title = macro.name
+        - if macro.description.present?
+          p.ui-macro-identity__desc = truncate(macro.description, length: 70)
+  td.ui-table__muted
+    - if macro.account_wide?
+      span.ui-macro-badge.ui-macro-badge--account-wide
+        = inline_svg_tag("star_plus.svg", class: "ui-macro-badge__icon", aria: { hidden: true })
+        span = t("dashboard.macros.index.account_wide", default: "Account-wide")
+    - elsif macro.personal?
+      span.ui-macro-badge.ui-macro-badge--personal
+        = inline_svg_tag("lock.svg", class: "ui-macro-badge__icon", aria: { hidden: true })
+        span = t("dashboard.macros.index.personal", default: "Personal")
+    - elsif macro.team?
+      span.ui-macro-badge.ui-macro-badge--team
+        = inline_svg_tag("team.svg", class: "ui-macro-badge__icon", aria: { hidden: true })
+        span = macro.scopeable&.name.presence || t("forms.options.team", default: "Team")
+  td.ui-table__muted
+    span.ui-macro-actions-count
+      = t("ui.dashboard.macros.index.action_s", count: macro.actions&.length || 0)
+  td style="text-align: center;"
+    .ui-macro-toggle-wrapper style="display: flex; justify-content: center;"
+      = button_to toggle_macro_path(macro), method: :patch, class: "auto-toggle #{macro.active? ? 'active' : ''}", aria: { label: t("general.toggle", default: "Toggle status") }, title: (macro.active? ? t("general.active", default: "Active") : t("general.inactive", default: "Inactive")) do
+        - if macro.active?
+          span.auto-toggle-check aria-hidden="true" = image_tag("mark.svg", alt: "", aria: { hidden: true })
+  td.ui-card-table__actions style="text-align: right;"
+    .ui-table-actions style="justify-content: flex-end;"
+      - if policy(macro).update?
+        = link_to edit_macro_path(macro), class: "ui-icon-button", aria: { label: t("dashboard.macros.index.edit") }, title: t("dashboard.macros.index.edit") do
+          = image_tag("pencil.svg", alt: "", aria: { hidden: true })
+      - if policy(macro).destroy? && !macro.system_provided?
+        = button_to macro_path(macro), method: :delete, form: { class: "ui-label-action-form" }, class: "ui-icon-button ui-label-delete-button", data: { turbo_confirm: t("dashboard.macros.index.delete_confirm") }, aria: { label: t("dashboard.macros.index.delete") }, title: t("dashboard.macros.index.delete") do
+          = image_tag("delete.svg", alt: "", aria: { hidden: true })

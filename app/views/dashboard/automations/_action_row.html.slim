@@ -1,5 +1,7 @@
+- action = action.is_a?(Hash) ? action : (JSON.parse(action.to_s) rescue {})
+- action = {} unless action.is_a?(Hash)
 - action_name = action["action"] || action[:action] || action["type"] || action[:type]
-- action_params = action["params"] || action[:params] || {}
+- action_params = (action["params"] || action[:params]).is_a?(Hash) ? (action["params"] || action[:params]) : {}
 - action_value = action["value"] || action[:value]
 
 .autom-action-row data-action-row=""
@@ -22,6 +24,11 @@
       = select_tag "action_param_#{action_index}", options_for_select(label_options_for_select, selected_label_id), include_blank: t("forms.options.select_label", default: "Select label..."), class: "ui-select ui-control autom-label-select", data: { controller: "select", "action-param": "label_ids" }
     - when "send_message", "add_note"
       = text_area_tag "action_param_#{action_index}", action_params["content"] || action_params[:content], placeholder: t("ui.dashboard.automations.action_row.enter_message", default: "Enter message..."), rows: 4, data: { "action-param": "content" }, class: "ap-input autom-action-textarea"
+    - when "send_email_to_customer"
+      = select_tag "action_param_#{action_index}", options_for_select(email_template_options_for_select, action_params["email_template_id"] || action_params[:email_template_id]), include_blank: t("forms.options.select_email_template", default: "Select email template..."), class: "ui-select ui-control", data: { controller: "select", "action-param": "email_template_id" }
+    - when "send_email_to_team"
+      = select_tag "action_param_template_#{action_index}", options_for_select(email_template_options_for_select, action_params["email_template_id"] || action_params[:email_template_id]), include_blank: t("forms.options.select_email_template", default: "Select email template..."), class: "ui-select ui-control", data: { controller: "select", "action-param": "email_template_id" }
+      = select_tag "action_param_team_#{action_index}", options_for_select(team_options_for_select, action_params["team_id"] || action_params[:team_id]), include_blank: t("forms.options.select_team", default: "Select team..."), class: "ui-select ui-control", data: { controller: "select", "action-param": "team_id" }
     - when "snooze"
       = number_field_tag "action_param_#{action_index}", action_params["duration_hours"] || action_params[:duration_hours], placeholder: t("ui.dashboard.automations.action_row.hours", default: "Hours"), min: 1, data: { "action-param": "duration_hours" }, class: "ap-input"
     - when "set_locale"

@@ -1,0 +1,5 @@
+- type = local_assigns[:type] || :notice
+- message = local_assigns[:message]
+- if message.present?
+  div class="alert-#{flash_alert_type(type.to_s)} admin-flash-container center-wrapper" role="status" aria-live="polite"
+    .message = message

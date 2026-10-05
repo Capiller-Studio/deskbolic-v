@@ -2,7 +2,7 @@
 - method = macro.persisted? ? :patch : :post
 - actions = macro.actions.presence || [{}]
 
-= form_with(model: macro, url: url, method: method, class: "ui-settings-editor ui-settings-form ui-macro-editor", data: { controller: "automation-builder assignment-policy" }) do |f|
+= form_with(model: macro, url: url, method: method, class: "ui-settings-editor ui-settings-form ui-macro-editor", data: { controller: "automation-builder", action: "submit->automation-builder#serialize" }) do |f|
   header.ui-settings-editor__header
     = link_to macros_path, class: "ui-settings-editor__back", aria: { label: t("dashboard.macros.form.back", default: "Back to macros") } do
       = inline_svg_tag("back-arrow.svg", aria: { hidden: true })
@@ -12,10 +12,10 @@
       p = page_description
 
     .ui-settings-editor__header-actions
-      = link_to t("dashboard.teams.form.cancel"), macros_path, class: "ui-btn-secondary"
+      = link_to t("dashboard.teams.form.cancel", default: "Cancel"), macros_path, class: "ui-btn-secondary"
       = button_tag type: "submit", class: "ui-btn-primary" do
         = inline_svg_tag("mark.svg", aria: { hidden: true })
-        span = t("ui.dashboard.macros.edit.save_macro")
+        span = t("ui.dashboard.macros.edit.save_macro", default: "Save Macro")
 
   .ui-settings-editor__body
     - if macro.errors.any?
@@ -35,14 +35,32 @@
         .ui-field-group
           = f.label :name, t("dashboard.macros.form.name", default: "Name"), class: "ui-label"
           .ui-field-control.ui-field-control--plain
-            = f.text_field :name, class: "ui-input ui-control", required: true, autocomplete: "off", placeholder: t("dashboard.macros.form.name_placeholder")
+            = f.text_field :name, class: "ui-input ui-control", required: true, autocomplete: "off", placeholder: t("dashboard.macros.form.name_placeholder", default: "e.g. Close & Send Feedback")
 
         .ui-field-group
           = f.label :visibility, t("dashboard.macros.form.visibility", default: "Visibility"), class: "ui-label"
           .ui-field-control.ui-field-control--plain.ui-field-control--no-icon
             = f.select :visibility,
-              options_for_select([[t("forms.options.account_wide"), "account_wide"], [t("forms.options.personal"), "personal"], [t("forms.options.team"), "team"]], macro.visibility),
-              { include_blank: t("forms.options.select", default: "Select") },
+              options_for_select([[t("forms.options.account_wide", default: "Account-wide"), "account_wide"], [t("forms.options.personal", default: "Personal"), "personal"], [t("forms.options.team", default: "Team"), "team"]], macro.visibility),
+              {},
+              class: "ui-select ui-control",
+              data: { controller: "select", action: "change->automation-builder#visibilityChanged" }
+
+        .ui-field-group data-automation-builder-target="teamField" style=(macro.team? ? "" : "display: none;")
+          = label_tag "macro[team_id]", t("forms.options.team", default: "Team"), class: "ui-label"
+          .ui-field-control.ui-field-control--plain.ui-field-control--no-icon
+            = select_tag "macro[team_id]",
+              options_for_select(team_options_for_select, (macro.team? ? macro.scopeable_id : nil)),
+              include_blank: t("forms.options.select_team", default: "Select team..."),
+              class: "ui-select ui-control",
+              data: { controller: "select" }
+
+        .ui-field-group
+          = f.label :status, t("dashboard.automations.form.status", default: "Status"), class: "ui-label"
+          .ui-field-control.ui-field-control--plain.ui-field-control--no-icon
+            = f.select :status,
+              options_for_select([[t("general.active", default: "Active"), "active"], [t("general.inactive", default: "Inactive"), "inactive"]], macro.status),
+              {},
               class: "ui-select ui-control",
               data: { controller: "select" }
 
@@ -53,18 +71,18 @@
           .ui-macro-description-control
             = f.text_area :description,
               class: "ui-input ui-macro-description",
-              rows: 4,
+              rows: 3,
               maxlength: 500,
-              placeholder: t("dashboard.macros.form.description_placeholder"),
-              data: { "assignment-policy-target": "descriptionInput", action: "input->assignment-policy#updateDescriptionCounter" }
-            span.ui-macro-description-count data-assignment-policy-target="descriptionCounter"
+              placeholder: t("dashboard.macros.form.description_placeholder", default: "What does this macro do?"),
+              data: { "automation-builder-target": "descriptionInput", action: "input->automation-builder#updateDescriptionCounter" }
+            span.ui-macro-description-count data-automation-builder-target="descriptionCounter"
               = "#{macro.description.to_s.length} / 500"
 
     section.ui-form-card.ui-macro-actions-card aria-labelledby="macro-actions-title"
       header.ui-form-card__header.ui-form-card__header--identity.ui-macro-card-header
         span.ui-form-card__icon aria-hidden="true"
           = inline_svg_tag("star_plus.svg")
-        h2#macro-actions-title = t("dashboard.domains.index.table.actions")
+        h2#macro-actions-title = t("dashboard.domains.index.table.actions", default: "Actions")
 
       .ui-macro-actions-body data-automation-builder-target="actionsContainer"
         .ui-macro-action-headings aria-hidden="true"
@@ -78,6 +96,6 @@
 
         button.ui-macro-add-action type="button" data-action="click->automation-builder#addAction"
           = inline_svg_tag("plus_black.svg", aria: { hidden: true })
-          span = t("ui.dashboard.macros.edit.add_action").delete_prefix("+ ")
+          span = t("ui.dashboard.macros.edit.add_action", default: "+ Add Action").delete_prefix("+ ")
 
     = f.hidden_field :actions, value: (macro.actions || []).to_json, data: { "automation-builder-target": "actionsField" }

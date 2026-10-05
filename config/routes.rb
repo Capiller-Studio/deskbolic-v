@@ -287,6 +287,10 @@ Rails.application.routes.draw do
       resources :macros, except: [ :show ] do
         member do
           post :execute
+          patch :toggle
+        end
+        collection do
+          get :available
         end
       end
       resources :automation_executions, only: [ :index ]

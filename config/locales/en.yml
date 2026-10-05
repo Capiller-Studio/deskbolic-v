@@ -670,6 +670,8 @@ en:
       reopen: Reopen
       resolve: Resolve
       search_canned_responses: Search canned responses...
+      macros_tooltip: "Run Macro (⌘⇧M)"
+      search_macros: "Search macros... (⌘⇧M)"
     conversation_details:
       open: Open
       assignment: Assignment
@@ -1334,17 +1336,43 @@ en:
         description: One-click actions to speed up your workflow.
         new_macro: New Macro
         empty_title: No macros yet
-        empty_description: Create reusable macros to perform common actions with a
-          single click.
-        tab_personal: My Macros
+        empty_description: Create reusable macros to perform common actions with a single click.
+        tab_all: All
+        tab_personal: Personal
         tab_shared: Shared
+        tab_team: Team
+        account_wide: Account-wide
+        search_placeholder: Search macros by name or description...
+        filter_status: Status
+        filter_all_statuses: All Statuses
+        status_active: Active
+        status_inactive: Inactive
+        action: Macro
+        action_details: Actions
+        showing: "Showing %{from} to %{to} of %{count} macros"
+        rows_per_page: "Rows per page"
+        pagination: "Macros pagination"
+        previous_page: "Previous page"
+        next_page: "Next page"
+        actions: Actions
         edit: Edit
         delete: Delete
         delete_confirm: Are you sure you want to delete this macro?
       form:
+        title: Macro Details
+        back: Back to macros
+        name: Name
         name_placeholder: e.g. Close & Send Feedback Email
+        visibility: Visibility
+        status: Status
+        team: Team
+        team_placeholder: Select team
         description_label: Description (optional)
         description_placeholder: What does this macro do?
+        actions_heading: Actions
+        actions_description: Define what happens when this macro is executed.
+        actions_included: "Actions to run:"
+        error_heading: Please correct the following errors
       new:
         title: New Macro
       edit:
@@ -1356,10 +1384,18 @@ en:
       destroy:
         destroyed: Macro deleted.
       execute:
-        executed: Macro executed successfully.
+        executed: "Macro '%{name}' executed successfully."
+        partially_executed: "Macro '%{name}' executed with some errors."
+        failed: "Failed to execute macro '%{name}'."
+      confirm_run: "Run macro '%{name}'?"
+      run_macro_named: "Run %{name}"
+      run_macro: "⚡ Run Macro"
+      run: "Run"
+      no_macros_available: "No active macros found."
       scope:
         personal: Personal (only you)
         shared: Shared (all agents)
+        team: Team (team members)
     automation_executions:
       index:
         title: Execution Log

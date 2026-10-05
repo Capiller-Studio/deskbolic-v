@@ -538,6 +538,8 @@ de:
       reopen: Wieder öffnen
       resolve: Lösen
       search_canned_responses: Vorgefertigte Antworten durchsuchen...
+      macros_tooltip: "Makro ausführen (⌘⇧M)"
+      search_macros: "Makros suchen... (⌘⇧M)"
     conversation_details:
       open: Offen
       assignment: Zuweisung
@@ -1144,17 +1146,43 @@ de:
         description: Ein-Klick-Aktionen zur Beschleunigung Ihres Arbeitsablaufs.
         new_macro: Neues Makro
         empty_title: Noch keine Makros
-        empty_description: Erstellen Sie wiederverwendbare Makros, um häufige Aktionen
-          mit einem einzigen Klick auszuführen.
-        tab_personal: Meine Makros
+        empty_description: Erstellen Sie wiederverwendbare Makros, um häufige Aktionen mit einem einzigen Klick auszuführen.
+        tab_all: Alle
+        tab_personal: Persönlich
         tab_shared: Geteilt
+        tab_team: Team
+        account_wide: Konto
+        search_placeholder: Makros nach Name oder Beschreibung suchen...
+        filter_status: Status
+        filter_all_statuses: Alle Status
+        status_active: Aktiv
+        status_inactive: Inaktiv
+        action: Makro
+        action_details: Aktionen
+        showing: "Zeige %{from} bis %{to} von %{count} Makros"
+        rows_per_page: "Zeilen pro Seite"
+        pagination: "Makro-Seitennummerierung"
+        previous_page: "Vorherige Seite"
+        next_page: "Nächste Seite"
+        actions: Aktionen
         edit: Bearbeiten
         delete: Löschen
         delete_confirm: Möchten Sie dieses Makro wirklich löschen?
       form:
+        title: Makrodetails
+        back: Zurück zu Makros
+        name: Name
         name_placeholder: z.B. Schließen und Feedback-E-Mail senden
+        visibility: Sichtbarkeit
+        status: Status
+        team: Team
+        team_placeholder: Team auswählen
         description_label: Beschreibung (optional)
         description_placeholder: Was macht dieses Makro?
+        actions_heading: Aktionen
+        actions_description: Legen Sie fest, was beim Ausführen dieses Makros passiert.
+        actions_included: "Auszuführende Aktionen:"
+        error_heading: Bitte beheben Sie die folgenden Fehler
       new:
         title: Neues Makro
       edit:
@@ -1166,10 +1194,18 @@ de:
       destroy:
         destroyed: Makro gelöscht.
       execute:
-        executed: Makro erfolgreich ausgeführt.
+        executed: "Makro '%{name}' erfolgreich ausgeführt."
+        partially_executed: "Makro '%{name}' mit einigen Fehlern ausgeführt."
+        failed: "Fehler beim Ausführen des Makros '%{name}'."
+      confirm_run: "Makro '%{name}' ausführen?"
+      run_macro_named: "%{name} ausführen"
+      run_macro: "⚡ Makro ausführen"
+      run: "Ausführen"
+      no_macros_available: "Keine aktiven Makros gefunden."
       scope:
         personal: Persönlich (nur Sie)
         shared: Geteilt (alle Agenten)
+        team: Team (Teammitglieder)
     automation_executions:
       index:
         title: Ausführungsprotokoll

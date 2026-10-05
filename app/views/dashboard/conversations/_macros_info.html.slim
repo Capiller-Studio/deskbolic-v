@@ -1,0 +1,15 @@
+- available_macros = Macro.visible_to(current_user, current_account).executable.order(:name)
+
+.ui-macro-inspector-section
+  - if available_macros.any?
+    .ui-macro-quick-list
+      - available_macros.each do |macro|
+        .ui-macro-quick-card id="quick_macro_#{macro.id}"
+          .ui-macro-quick-info
+            strong.ui-macro-quick-title = macro.name
+            span.ui-macro-quick-meta = "#{macro.actions.size} #{'action'.pluralize(macro.actions.size)}"
+          = button_to execute_macro_path(macro, conversation_id: conversation.id), method: :post, class: "ui-btn-macro-run", data: { turbo_confirm: t("dashboard.macros.confirm_run", name: macro.name, default: "Run macro '%{name}'?") }, aria: { label: t("dashboard.macros.run_macro_named", name: macro.name, default: "Run %{name}") } do
+            = inline_svg_tag("play.svg", class: "ui-btn-macro-run-icon", aria: { hidden: true })
+            span = t("dashboard.macros.run", default: "Run")
+  - else
+    p.inspector-empty = t("dashboard.macros.no_macros_available", default: "No active macros found.")

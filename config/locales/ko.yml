@@ -514,6 +514,8 @@ ko:
       reopen: 재개설
       resolve: 해결
       search_canned_responses: 미리 준비된 답변 검색...
+      macros_tooltip: "매크로 실행 (⌘⇧M)"
+      search_macros: "매크로 검색... (⌘⇧M)"
     conversation_details:
       open: 열림
       assignment: 할당
@@ -1088,15 +1090,42 @@ ko:
         new_macro: 새 매크로
         empty_title: 아직 매크로가 없습니다.
         empty_description: 클릭 한 번으로 일반적인 작업을 수행할 수 있는 재사용 가능한 매크로를 만듭니다.
-        tab_personal: 내 매크로
+        tab_all: 전체
+        tab_personal: 개인
         tab_shared: 공유됨
+        tab_team: 팀
+        account_wide: 계정
+        search_placeholder: 이름이나 설명으로 매크로 검색...
+        filter_status: 상태
+        filter_all_statuses: 모든 상태
+        status_active: 활성
+        status_inactive: 비활성
+        action: 매크로
+        action_details: 액션
+        showing: "%{count}개 매크로 중 %{from}-%{to} 표시 중"
+        rows_per_page: "페이지당 행 수"
+        pagination: "매크로 페이지 매김"
+        previous_page: "이전 페이지"
+        next_page: "다음 페이지"
+        actions: 액션
         edit: 편집
         delete: 삭제
         delete_confirm: 이 매크로를 삭제하시겠습니까?
       form:
+        title: 매크로 세부정보
+        back: 매크로 목록으로 돌아가기
+        name: 이름
         name_placeholder: 예를 들어 닫기 및 피드백 이메일 보내기
+        visibility: 공개 범위
+        status: 상태
+        team: 팀
+        team_placeholder: 팀 선택
         description_label: 설명(선택사항)
         description_placeholder: 이 매크로는 무엇을 합니까?
+        actions_heading: 액션
+        actions_description: 이 매크로가 실행될 때 수행할 작업을 정의합니다.
+        actions_included: "실행할 작업:"
+        error_heading: 다음 오류를 수정해 주세요.
       new:
         title: 새 매크로
       edit:
@@ -1108,10 +1137,18 @@ ko:
       destroy:
         destroyed: 매크로가 삭제되었습니다.
       execute:
-        executed: 매크로가 성공적으로 실행되었습니다.
+        executed: "'%{name}' 매크로가 성공적으로 실행되었습니다."
+        partially_executed: "'%{name}' 매크로가 일부 오류와 함께 실행되었습니다."
+        failed: "'%{name}' 매크로 실행에 실패했습니다."
+      confirm_run: "'%{name}' 매크로를 실행하시겠습니까?"
+      run_macro_named: "%{name} 실행"
+      run_macro: "⚡ 매크로 실행"
+      run: "실행"
+      no_macros_available: "활성 매크로를 찾을 수 없습니다."
       scope:
         personal: 개인(본인만)
         shared: 공유됨(모든 상담원)
+        team: 팀(팀원)
     automation_executions:
       index:
         title: 실행 로그

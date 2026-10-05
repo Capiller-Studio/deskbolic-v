@@ -10,6 +10,10 @@ module Dashboard
       can?("macros.read")
     end
 
+    def available?
+      can?("macros.execute") || can?("macros.read")
+    end
+
     def create?
       authorized?("macros.manage", limit: :macros)
     end
@@ -28,8 +32,15 @@ module Dashboard
       can?("macros.manage")
     end
 
+    def toggle?
+      update?
+    end
+
     def execute?
-      can?("macros.execute")
+      return false unless can?("macros.execute")
+      return false if record.is_a?(Macro) && (!record.active? || !record.visible_to?(user))
+
+      true
     end
   end
 end

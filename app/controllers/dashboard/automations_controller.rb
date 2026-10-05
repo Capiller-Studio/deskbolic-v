@@ -148,6 +148,8 @@ module Dashboard
         search_filter.call(current_account.inboxes, "name")
       when "labels"
         search_filter.call(current_account.labels, "title")
+      when "email_templates"
+        search_filter.call(current_account.email_templates, "name")
       end
     end
 
@@ -155,7 +157,7 @@ module Dashboard
       case type
       when "agents"
         { id: record.id, name: record.name.presence || record.email }
-      when "teams", "inboxes"
+      when "teams", "inboxes", "email_templates"
         { id: record.id, name: record.name }
       when "labels"
         { id: record.id, name: record.title }

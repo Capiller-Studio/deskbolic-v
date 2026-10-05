@@ -1,0 +1,19 @@
+- if macros.empty?
+  .macro-picker-empty
+    p.macro-picker-empty__title = t("dashboard.macros.index.empty_title", default: "No macros found")
+    p.macro-picker-empty__desc = t("dashboard.macros.index.empty_description", default: "Create a macro in Settings to automate repetitive tasks.")
+- else
+  - macros.each_with_index do |macro, index|
+    .menu-link.macro-picker-item data-index=index data-id=macro.id data-name=macro.name data-description=macro.description data-visibility=macro.visibility data-actions=macro.actions.to_json data-action="click->macros#selectItem"
+      .macro-picker-item__icon-wrap
+        span ⚡
+      .headings.macro-picker-item__headings
+        .macro-picker-item__title-row
+          p.f-semi-14.macro-picker-item__name = macro.name
+          - if macro.personal?
+            span.macro-badge-pill.macro-badge-pill--personal = t("forms.options.personal", default: "Personal")
+          - elsif macro.team?
+            span.macro-badge-pill.macro-badge-pill--team = macro.scopeable&.name.presence || t("forms.options.team", default: "Team")
+          - else
+            span.macro-badge-pill.macro-badge-pill--account = t("forms.options.account_wide", default: "Shared")
+        p.f-reg-10.macro-picker-item__actions-count = t("ui.dashboard.macros.index.action_s", count: macro.actions.size)

@@ -1820,19 +1820,95 @@ input:checked + .ui-toggle-slider::before {
   }
 
   &.ui-macros-page {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow-y: auto;
+
+    .ui-settings-page__content {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      padding: 28px 32px 56px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .ui-macros-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      width: 100%;
+      flex-wrap: wrap;
+
+      .ui-tabs {
+        margin: 0;
+      }
+
+      .ui-macro-search-form {
+        margin: 0;
+
+        .ui-search-field {
+          width: 260px;
+        }
+      }
+    }
+
+    .ui-macros-panel {
+      display: flex;
+      width: 100%;
+      flex-direction: column;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      background: $white;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    }
+
+    .ui-table-wrap--macros {
+      width: 100%;
+      overflow-x: auto;
+      margin: 0;
+      border: 0;
+      border-radius: 0;
+    }
+
     .ui-table--macros {
+      width: 100%;
       min-width: 760px;
+      border-collapse: collapse;
 
-      .ui-table__macro-column {
-        width: 25%;
+      th {
+        height: 54px;
+        padding: 0 20px;
+        background: $white;
+        color: #6b7280;
+        font-family: $font-family-inter-semibold;
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 16px;
+        text-transform: uppercase;
+        white-space: nowrap;
       }
 
-      .ui-table__macro-description-column {
-        width: 65%;
+      td {
+        height: 72px;
+        padding: 0 20px;
+        color: #44464f;
+        font-family: $font-family-inter-regular;
+        font-size: 14px;
+        line-height: 20px;
+        vertical-align: middle;
       }
 
-      .ui-table__macro-actions-column {
-        width: 10%;
+      tbody tr {
+        border-top: 1px solid #f1f5f9;
+        transition: background-color 0.12s ease;
+
+        &:hover {
+          background-color: #f8fafc;
+        }
       }
     }
 
@@ -1889,13 +1965,82 @@ input:checked + .ui-toggle-slider::before {
       }
     }
 
+    .ui-macro-identity__details {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+
     .ui-macro-identity__title {
       overflow: hidden;
       color: #1b1b22;
       font-family: $font-family-inter-semibold;
+      font-size: 14px;
       font-weight: 600;
       text-overflow: ellipsis;
       white-space: nowrap;
+    }
+
+    .ui-macro-identity__desc {
+      margin: 0;
+      color: #64748b;
+      font-size: 12px;
+      line-height: 16px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .ui-macro-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11.5px;
+      font-weight: 500;
+      line-height: 16px;
+      white-space: nowrap;
+
+      .ui-macro-badge__icon {
+        width: 13px;
+        height: 13px;
+        flex-shrink: 0;
+      }
+    }
+
+    .ui-macro-badge--account-wide {
+      background: #eff6ff;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+    }
+
+    .ui-macro-badge--personal {
+      background: #faf5ff;
+      color: #6b21a8;
+      border: 1px solid #e9d5ff;
+    }
+
+    .ui-macro-badge--team {
+      background: #ecfdf5;
+      color: #047857;
+      border: 1px solid #a7f3d0;
+    }
+
+    .ui-macro-actions-count {
+      display: inline-block;
+      padding: 2px 7px;
+      background: #f1f5f9;
+      color: #475569;
+      border-radius: 5px;
+      font-size: 11px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .ui-table-row--inactive {
+      opacity: 0.6;
     }
   }
 

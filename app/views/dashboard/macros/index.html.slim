@@ -1,56 +1,58 @@
-/ = render("dashboard/shared/dashboard_container", current_page: "settings") do
 = render("dashboard/settings/settings_sidebar", current_page: "macros") do
-  .ui-settings-page.ui-labels-page.ui-macros-page
+  .ui-settings-page.ui-macros-page
     header.ui-settings-page__header
       .ui-settings-page__heading
-        h1 = t("dashboard.macros.index.title")
-        p = t("dashboard.macros.index.page_description", default: "Organize and categorize conversations with Macros.")
+        h1 = t("dashboard.macros.index.title", default: "Macros")
+        p = t("dashboard.macros.index.description", default: "One-click actions to speed up your workflow.")
 
       = link_to new_macro_path, class: "ui-settings-page__action" do
-        span = t("dashboard.macros.index.add_macro", default: "Add Macro")
+        span = t("dashboard.macros.index.new_macro", default: "New Macro")
         = inline_svg_tag("plus_white.svg", class: "ui-settings-page__action-icon", aria: { hidden: true })
 
     main.ui-settings-page__content
-      section.ui-panel.ui-labels-panel aria-labelledby="macros-table-title"
+      .ui-macros-toolbar
+        .ui-tabs.ui-responsive-tabs
+          = link_to macros_path(q: params[:q]), class: "ui-tab #{params[:visibility].blank? ? 'ui-tab--active' : ''}"
+            = t("dashboard.macros.index.tab_all", default: "All")
+          = link_to macros_path(visibility: :account_wide, q: params[:q]), class: "ui-tab #{params[:visibility] == 'account_wide' ? 'ui-tab--active' : ''}"
+            = t("dashboard.macros.index.account_wide", default: "Account-wide")
+          = link_to macros_path(visibility: :personal, q: params[:q]), class: "ui-tab #{params[:visibility] == 'personal' ? 'ui-tab--active' : ''}"
+            = t("dashboard.macros.index.tab_personal", default: "Personal")
+          = link_to macros_path(visibility: :team, q: params[:q]), class: "ui-tab #{params[:visibility] == 'team' ? 'ui-tab--active' : ''}"
+            = t("forms.options.team", default: "Team")
+
+        = form_with url: macros_path, method: :get, class: "ui-macro-search-form" do
+          = hidden_field_tag :visibility, params[:visibility] if params[:visibility].present?
+          label.ui-search-field
+            = inline_svg_tag("search_gray.svg", class: "ui-search-field__icon", aria: { hidden: true })
+            = search_field_tag :q, params[:q], placeholder: t("dashboard.canned_responses.index.search_placeholder", default: "Search..."), class: "ui-search-field__input", onchange: "this.form.requestSubmit()"
+
+      section.ui-panel.ui-macros-panel aria-labelledby="macros-table-title"
         h2#macros-table-title.ui-sr-only = t("dashboard.macros.index.title")
 
-        .ui-table-wrap.ui-table-wrap--labels
-          table.ui-table.ui-table--labels.ui-table--macros.ui-card-table
+        .ui-table-wrap.ui-table-wrap--macros
+          table.ui-table.ui-table--macros.ui-card-table
             colgroup
-              col.ui-table__macro-column
-              col.ui-table__macro-description-column
-              col.ui-table__macro-actions-column
+              col.ui-table__macro-column style="width: 38%;"
+              col style="width: 20%;"
+              col style="width: 16%;"
+              col style="width: 12%;"
+              col.ui-table__macro-actions-column style="width: 14%;"
             thead
               tr
-                th = t("dashboard.macros.index.action", default: "Action")
-                th = t("dashboard.macros.index.description_heading", default: "Description")
-                th.ui-table__actions-heading = t("dashboard.macros.index.actions", default: "Actions")
-            tbody
+                th = t("dashboard.macros.index.action", default: "Macro")
+                th = t("dashboard.macros.form.visibility", default: "Visibility")
+                th = t("dashboard.macros.form.action_details", default: "Actions")
+                th style="text-align: center;" = t("dashboard.automations.form.status", default: "Status")
+                th.ui-table__actions-heading style="text-align: right;" = t("dashboard.macros.index.actions", default: "Actions")
+            tbody#macros-table-body
               - if @macros.empty?
                 tr
-                  td.ui-table__empty colspan="3"
-                    = t("dashboard.macros.index.empty_description")
+                  td.ui-table__empty colspan="5"
+                    = t("dashboard.macros.index.empty_description", default: "No macros found.")
               - else
                 - @macros.each do |macro|
-                  - primary_action = Array(macro.actions).first || {}
-                  - action_type = (primary_action["action"] || primary_action[:action] || primary_action["type"] || primary_action[:type]).to_s
-                  - icon_kind = action_type.match?(/email|message|note/) ? "email" : (action_type.match?(/label/) ? "label" : (action_type.match?(/assign/) ? "agent" : "default"))
-                  - icon_name = { "email" => "mail.svg", "label" => "tag.svg", "agent" => "users.svg", "default" => "star_plus.svg" }.fetch(icon_kind)
-                  tr id="macro_#{macro.id}"
-                    td.ui-card-table__primary
-                      .ui-macro-identity
-                        span class="ui-macro-identity__icon ui-macro-identity__icon--#{icon_kind}" aria-hidden="true"
-                          = inline_svg_tag(icon_name)
-                        strong.ui-macro-identity__title = macro.name
-                    td.ui-table__muted.ui-card-table__description
-                      = macro.description.presence || t("ui.dashboard.macros.index.action_s", count: macro.actions&.length || 0)
-                    td.ui-card-table__actions
-                      .ui-table-actions
-                        = link_to edit_macro_path(macro), class: "ui-icon-button", aria: { label: t("dashboard.macros.index.edit") }, title: t("dashboard.macros.index.edit") do
-                          = image_tag("pencil.svg", alt: "", aria: { hidden: true })
-                        - unless macro.system_provided?
-                          = button_to macro_path(macro), method: :delete, form: { class: "ui-label-action-form" }, class: "ui-icon-button ui-label-delete-button", data: { turbo_confirm: t("dashboard.macros.index.delete_confirm") }, aria: { label: t("dashboard.macros.index.delete") }, title: t("dashboard.macros.index.delete") do
-                            = image_tag("delete.svg", alt: "", aria: { hidden: true })
+                  = render "dashboard/macros/macro_row", macro: macro
 
         - if @macros.any?
           footer.ui-pagination.ui-pagination--large.ui-labels-pagination
@@ -59,7 +61,8 @@
 
             .ui-pagination__end
               = form_with url: macros_path, method: :get, class: "ui-rows-per-page" do
-                = hidden_field_tag :scope, params[:scope]
+                = hidden_field_tag :visibility, params[:visibility] if params[:visibility].present?
+                = hidden_field_tag :q, params[:q] if params[:q].present?
                 label for="macro-rows-per-page" = t("dashboard.macros.index.rows_per_page", default: "Rows per page")
                 .ui-settings-form
                   .ui-field-control.ui-field-control--compact.ui-field-control--no-icon.ui-field-control--rows

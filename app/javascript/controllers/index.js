@@ -118,6 +118,9 @@ application.register("locale-tabs", LocaleTabsController)
 import MarkAsReadController from "./mark_as_read_controller"
 application.register("mark-as-read", MarkAsReadController)
 
+import MacrosController from "./macros_controller"
+application.register("macros", MacrosController)
+
 import MessageFormController from "./message_form_controller"
 application.register("message-form", MessageFormController)
 

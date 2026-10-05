@@ -529,6 +529,8 @@ es:
       reopen: Reabrir
       resolve: resolver
       search_canned_responses: Buscar respuestas almacenadas...
+      macros_tooltip: "Ejecutar macro (⌘⇧M)"
+      search_macros: "Buscar macros... (⌘⇧M)"
     conversation_details:
       open: Abierta
       assignment: Asignación
@@ -1129,21 +1131,47 @@ es:
         expert: Experto
     macros:
       index:
-        title: macros
+        title: Macros
         description: Acciones con un solo clic para acelerar su flujo de trabajo.
         new_macro: Nueva macro
         empty_title: Aún no hay macros
-        empty_description: Crea macros reutilizables para realizar acciones comunes
-          con un solo clic.
-        tab_personal: Mis macros
+        empty_description: Crea macros reutilizables para realizar acciones comunes con un solo clic.
+        tab_all: Todos
+        tab_personal: Personal
         tab_shared: Compartido
+        tab_team: Equipo
+        account_wide: Cuenta
+        search_placeholder: Buscar macros por nombre o descripción...
+        filter_status: Estado
+        filter_all_statuses: Todos los estados
+        status_active: Activo
+        status_inactive: Inactivo
+        action: Macro
+        action_details: Acciones
+        showing: "Mostrando %{from} a %{to} de %{count} macros"
+        rows_per_page: "Filas por página"
+        pagination: "Paginación de macros"
+        previous_page: "Página anterior"
+        next_page: "Página siguiente"
+        actions: Acciones
         edit: Editar
         delete: Eliminar
         delete_confirm: "¿Está seguro de que desea eliminar esta macro?"
       form:
+        title: Detalles de la macro
+        back: Volver a macros
+        name: Nombre
         name_placeholder: por ej. Cerrar y enviar comentarios por correo electrónico
+        visibility: Visibilidad
+        status: Estado
+        team: Equipo
+        team_placeholder: Seleccionar equipo
         description_label: Descripción (opcional)
         description_placeholder: "¿Qué hace esta macro?"
+        actions_heading: Acciones
+        actions_description: Defina lo que sucede cuando se ejecuta esta macro.
+        actions_included: "Acciones a ejecutar:"
+        error_heading: Por favor corrija los siguientes errores
       new:
         title: Nueva macro
       edit:
@@ -1155,10 +1183,18 @@ es:
       destroy:
         destroyed: Macro eliminada.
       execute:
-        executed: Macro ejecutada exitosamente.
+        executed: "Macro '%{name}' ejecutada exitosamente."
+        partially_executed: "Macro '%{name}' ejecutada con algunos errores."
+        failed: "Error al ejecutar la macro '%{name}'."
+      confirm_run: "¿Ejecutar macro '%{name}'?"
+      run_macro_named: "Ejecutar %{name}"
+      run_macro: "⚡ Ejecutar macro"
+      run: "Ejecutar"
+      no_macros_available: "No se encontraron macros activas."
       scope:
         personal: Personal (solo tú)
         shared: Compartido (todos los agentes)
+        team: Equipo (miembros del equipo)
     automation_executions:
       index:
         title: Registro de ejecución

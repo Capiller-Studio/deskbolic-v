@@ -99,7 +99,8 @@
                       = inline_svg_tag("star_plus.svg", class:"m-btn", alt:t("ui.dashboard.agent.agent_sidebar.menu"),  data: { action: "click->modal-toggler#showModal click->frame-toggler#loadModal", popup_view:"_canned_response_modal" })
                       = link_to(canned_responses_path, class: "", data: { turbo: false}) do
                         = inline_svg_tag("setting_button.svg", class:"m-btn", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-                    = image_tag("cross_btn.png", class:"m-btn", alt:t("ui.dashboard.agent.agent_sidebar.menu"), data: { action: "click->canned-responses#toggleMenu" })
+                    button.macro-close-btn type="button" data-action="click->canned-responses#toggleMenu" aria-label=t("general.close", default: "Close")
+                      = inline_svg_tag("cross.svg", class: "macro-close-btn__icon", aria: { hidden: true })
                   .panels
                     .left-panel data-canned-responses-conversation-id="#{@conversation.id}"
                       .search-container style="padding: 10px; border-bottom: 1px solid #e2e8f0;"
@@ -111,6 +112,35 @@
                         p.f-semi-18.response-title
                         p.f-reg-14.response-text
                       .canned-submit.f-semi-12 type="button" data-action="click->canned-responses#switchResponse" = t('dashboard.messages.add')
+              .response-action.macro-action-wrapper data-controller="macros" data-macros-conversation-id-value=@conversation.id data-macros-available-url-value=available_macros_path
+                .replies.macro-btn-trigger data-action="click->macros#toggleMenu" title=t("dashboard.messages.macros_tooltip", default: "Run Macro (⌘⇧M)") aria-label=t("dashboard.macros.index.title", default: "Macros")
+                  = inline_svg_tag("macro_bolt.svg", class:"action-btn")
+                .menu.save-replies.macro-picker-menu data-macros-target="menu" role="dialog" aria-label=t("dashboard.macros.index.title", default: "Macros")
+                  .menu-buttons
+                    .menu-options
+                      = link_to(new_macro_path, class: "", title: t("dashboard.macros.index.new_macro", default: "Create Macro"), target: "_blank") do
+                        = inline_svg_tag("star_plus.svg", class: "m-btn", alt: "")
+                      = link_to(macros_path, class: "", title: t("dashboard.sidebar.settings.macros", default: "Manage Macros"), target: "_blank") do
+                        = inline_svg_tag("setting_button.svg", class: "m-btn", alt: "")
+                    button.macro-close-btn type="button" data-action="click->macros#toggleMenu" aria-label=t("general.close", default: "Close")
+                      = inline_svg_tag("cross.svg", class: "macro-close-btn__icon", aria: { hidden: true })
+                  .panels
+                    .left-panel
+                      .search-container style="padding: 10px; border-bottom: 1px solid #e2e8f0;"
+                        input.f-reg-12 type="text" placeholder=t("dashboard.messages.search_macros", default: "Search macros... (⌘⇧M)") data-macros-target="searchInput" data-action="input->macros#search keydown->macros#handleKeydown" style="width: 100%; padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 6px; outline: none;"
+                      .results-container data-macros-target="resultsContainer" style="max-height: 320px; overflow-y: auto;"
+                    .right-panel data-macros-target="preview"
+                      .response-description
+                        .macro-preview-header
+                          span.macro-preview-badge data-macros-target="previewBadge"
+                          p.f-semi-18.response-title data-macros-target="previewTitle"
+                          p.f-reg-12.macro-preview-desc data-macros-target="previewDescription"
+                        .macro-preview-actions
+                          p.f-semi-12.macro-actions-heading = t("dashboard.macros.form.actions_included", default: "Actions to run:")
+                          ul.macro-actions-list data-macros-target="previewActionsList"
+                      button.macro-run-button.f-semi-12 type="button" data-macros-target="runButton" data-action="click->macros#runMacro"
+                        span data-macros-target="runButtonText" = t("dashboard.macros.run_macro", default: "⚡ Run Macro")
+                        span data-macros-target="runButtonSpinner" style="display: none;" = t("general.running", default: "Running...")
               button.response-action type="button" data-action="click->message-form#openFilePicker" title=t("dashboard.messages.attach_file")
                 = inline_svg_tag("file_attach.svg", class:"action-btn")
               button.response-action type="button" data-action="click->message-form#toggleEmojiPicker" title=t("dashboard.messages.add_emoji")

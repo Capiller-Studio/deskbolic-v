@@ -20,8 +20,17 @@ export default class extends Controller {
     "stopProcessing",
     "descriptionInput",
     "descriptionCounter",
-    "topOperatorField"
+    "topOperatorField",
+    "teamField"
   ]
+
+  visibilityChanged(event) {
+    if (!this.hasTeamFieldTarget) return
+    const isTeam = event.target.value === "team"
+    this.teamFieldTarget.style.display = isTeam ? "" : "none"
+    const teamSelect = this.teamFieldTarget.querySelector("select")
+    if (teamSelect) teamSelect.required = isTeam
+  }
 
   static values = {
     lookupsUrl: { type: String, default: "/automations/lookups" }
@@ -431,6 +440,18 @@ export default class extends Controller {
         const d = await this._fetchLookup("labels")
         const o = d.results.map(l => `<option value="${l.id}">${this._escapeHtml(l.name)}</option>`).join("")
         return `<select data-controller="select" data-action-param="label_ids" class="ui-select ui-control autom-label-select"><option value="">Select label...</option>${o}</select>`
+      }
+      case "send_email_to_customer": {
+        const d = await this._fetchLookup("email_templates")
+        const o = d.results.map(t => `<option value="${t.id}">${this._escapeHtml(t.name)}</option>`).join("")
+        return `<select data-controller="select" data-action-param="email_template_id" class="ui-select ui-control"><option value="">Select email template...</option>${o}</select>`
+      }
+      case "send_email_to_team": {
+        const [dTemplates, dTeams] = await Promise.all([this._fetchLookup("email_templates"), this._fetchLookup("teams")])
+        const oTemplates = dTemplates.results.map(t => `<option value="${t.id}">${this._escapeHtml(t.name)}</option>`).join("")
+        const oTeams = dTeams.results.map(t => `<option value="${t.id}">${this._escapeHtml(t.name)}</option>`).join("")
+        return `<select data-controller="select" data-action-param="email_template_id" class="ui-select ui-control"><option value="">Select email template...</option>${oTemplates}</select>
+                <select data-controller="select" data-action-param="team_id" class="ui-select ui-control"><option value="">Select team...</option>${oTeams}</select>`
       }
       case "set_status":
         return `<select data-controller="select" data-action-param="status" class="ui-select ui-control">

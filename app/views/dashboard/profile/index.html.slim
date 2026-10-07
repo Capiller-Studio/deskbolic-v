@@ -189,7 +189,7 @@
                   = inline_svg_tag("calendar.svg", class: "profile-icon", alt: "")
                 .profile-row-content.profile-readonly
                   span = t("dashboard.profile.index.created_at")
-                  p = @user.created_at&.strftime("%d %b %Y").presence || t("dashboard.profile.index.nil")
+                  p = account_time(@user.created_at)&.strftime("%d %b %Y").presence || t("dashboard.profile.index.nil")
 
               .profile-row
                 .profile-row-icon-cell

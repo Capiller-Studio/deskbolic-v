@@ -35,7 +35,7 @@
                   span = t("dashboard.teams.index.add_teammates")
 
               .tm-team-card-status
-                span = team.created_at.strftime("%d %b %Y")
+                span = account_time(team.created_at).strftime("%d %b %Y")
                 .tm-member-card-status class="bg-#{team_status_class(team.status)}"
                   .bullet
                   span = team.status.capitalize

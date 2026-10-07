@@ -26,4 +26,4 @@ a.search-result-card href=conversation_path(conversation) data-turbo-frame="_top
   .smart-search-result-meta
     - if conversation.inbox&.name.present?
       span.smart-search-result-inbox = conversation.inbox.name
-    span.smart-search-result-date = conversation.last_activity_at&.strftime("%d %b %Y")
+    span.smart-search-result-date = account_time(conversation.last_activity_at)&.strftime("%d %b %Y")

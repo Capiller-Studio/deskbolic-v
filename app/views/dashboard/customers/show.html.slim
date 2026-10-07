@@ -57,7 +57,7 @@
                         dd = identity.external_id
                     div
                       dt = t("dashboard.customers.fields.verified_on", default: "Added")
-                      dd = l(identity.created_at.to_date, format: :long)
+                      dd = l(account_time(identity.created_at).to_date, format: :long)
           - else
             p.tm-customer-empty-copy = t("dashboard.customers.show.no_identities", default: "No verified identities are connected to this customer.")
 

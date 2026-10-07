@@ -24,4 +24,11 @@ module ApplicationHelper
   def current_account
     Current.account
   end
+
+  def account_time(value)
+    return if value.nil?
+
+    time_zone = ActiveSupport::TimeZone[current_account&.timezone] || ActiveSupport::TimeZone["UTC"]
+    value.in_time_zone(time_zone)
+  end
 end

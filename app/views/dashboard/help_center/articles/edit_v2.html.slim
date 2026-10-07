@@ -164,7 +164,7 @@
             span.ae-meta-value = @article.author&.name.presence || "Unassigned"
           .ae-meta-row
             span.ae-meta-label Last Edit
-            span.ae-meta-value = @article.updated_at.strftime("%d %b %H:%M") rescue "—"
+            span.ae-meta-value = account_time(@article.updated_at).strftime("%d %b %H:%M") rescue "—"
           .ae-meta-row
             span.ae-meta-label Views
             span.ae-meta-value = number_with_delimiter(@article.views_count)

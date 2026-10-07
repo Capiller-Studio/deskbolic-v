@@ -82,7 +82,7 @@
                     path d="M16 3v4M8 3v4M3 10h18M8 14h3"
                   div
                     span = t("ui.dashboard.account_users.index.joined_on")
-                    strong = account_user.created_at.strftime("%d %b %Y")
+                    strong = account_time(account_user.created_at).strftime("%d %b %Y")
                 .tm-member-card-metric
                   svg viewBox="0 0 24 24" aria-hidden="true"
                     circle cx="12" cy="12" r="9"

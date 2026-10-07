@@ -71,6 +71,7 @@ module Dashboard
 
     def conversation_list_time(last_activity)
       return unless last_activity
+      last_activity = account_time(last_activity)
       return last_activity.strftime("%H:%M") if last_activity.to_date == Date.current
       return t("datetime.distance_in_words.x_days", count: 1, default: "Yesterday") if last_activity.to_date == Date.yesterday
 

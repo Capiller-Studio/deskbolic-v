@@ -3,7 +3,7 @@
 - type_label = t("dashboard.skills.types.#{skill_type}", default: skill_type.humanize)
 - description = skill.description.present? ? skill.description : t("dashboard.skills.index.no_description", default: "No description added.")
 - status_key = skill.active? ? "active" : "inactive"
-- created_date = skill.created_at.strftime("%b %-d, %Y")
+- created_date = account_time(skill.created_at).strftime("%b %-d, %Y")
 - searchable_values = [skill.name, description, type_label, skill.status].compact.join(" ").downcase
 
 article.ui-panel.ai-agent-card.sk-skill-card id="skill_#{skill.id}" class="sk-skill-card--#{skill_type} #{skill.active? ? nil : 'inactive'}" data-filterable-collection-target="item" data-searchable=searchable_values

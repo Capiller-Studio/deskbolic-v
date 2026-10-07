@@ -3,7 +3,7 @@
 - prompt = survey.prompt.presence || t("dashboard.csat_surveys.index.default_prompt")
 - template_label = survey.email_template&.name.presence || t("dashboard.csat_surveys.index.default_template")
 - status_key = survey.respond_to?(:active?) ? (survey.active? ? "active" : "inactive") : "active"
-- created_date = survey.created_at.strftime("%b %-d, %Y")
+- created_date = account_time(survey.created_at).strftime("%b %-d, %Y")
 
 article.ui-panel.ai-agent-card.csat-survey-card class="csat-survey-card--#{variant[:color]}" id="csat_survey_#{survey.id}"
   .ui-panel__header.ai-agent-card-header

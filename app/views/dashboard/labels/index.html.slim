@@ -43,7 +43,7 @@
                         code.ui-label-identity__color = label_color.upcase
                     td.ui-table__muted.ui-card-table__description = label.description.presence || "—"
                     td.ui-label-created.ui-table__muted.ui-card-table__meta
-                      time datetime=label.created_at.iso8601 = label.created_at.strftime("%b %-d, %Y %I:%M %p")
+                      time datetime=label.created_at.utc.iso8601 = account_time(label.created_at).strftime("%b %-d, %Y %I:%M %p")
                     td.ui-card-table__actions
                       .ui-table-actions
                         = link_to edit_label_path(label), data: { turbo: false }, class: "ui-icon-button", aria: { label: t("dashboard.skills.index.edit") }, title: t("dashboard.skills.index.edit") do

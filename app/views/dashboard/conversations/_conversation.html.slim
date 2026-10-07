@@ -28,6 +28,6 @@ article.conversation-list-item id=dom_id(conversation) class=(active_conversatio
           = inbox_channel_tag_label(conversation.inbox)
 
     .conversation-list-actions
-      time id="conversation-#{conversation.id}-date" datetime=last_activity&.iso8601 = display_time
+      time id="conversation-#{conversation.id}-date" datetime=last_activity&.utc&.iso8601 = display_time
       .conversation-unread data-controller="unread-badge" data-action="deskbolic:unread-counts-updated@window->unread-badge#update" data-unread-badge-id-value=conversation.id data-unread-badge-type-value="conversation" style=(unread_count.positive? ? nil : 'display: none')
         span data-unread-badge-target="count" = unread_count

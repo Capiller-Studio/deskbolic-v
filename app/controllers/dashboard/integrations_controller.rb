@@ -42,6 +42,7 @@ module Dashboard
       authorize(:integration, :create?)
       @integration = current_account.integrations.new(integration_params)
       @integration.status = :active
+      @integration.settings["subscribed_events"] ||= Integration::DEFAULT_SLACK_EVENTS if @integration.slack?
 
       # Automatically generate webhook secret if none provided
       if @integration.webhook? && @integration.webhook_secret.blank?
@@ -157,11 +158,19 @@ module Dashboard
         webhook_info = result["incoming_webhook"] || {}
         team_info = result["team"] || {}
 
+        if webhook_info["url"].blank?
+          Rails.logger.error("Slack OAuth completed without an incoming webhook URL")
+          redirect_to(integrations_path, alert: t("dashboard.settings.integrations.slack.unexpected_error"))
+          return
+        end
+
         integration = current_account.integrations.find_or_initialize_by(provider: :slack)
+        subscribed_events = integration.subscribed_events
         integration.settings = {
           "webhook_url" => webhook_info["url"],
           "channel" => webhook_info["channel"],
-          "channel_id" => webhook_info["channel_id"]
+          "channel_id" => webhook_info["channel_id"],
+          "subscribed_events" => subscribed_events
         }
         integration.credentials = {
           "access_token" => result["access_token"],
@@ -297,6 +306,8 @@ module Dashboard
 
         if settings_params[:subscribed_events].is_a?(Array)
           settings_params[:subscribed_events] = settings_params[:subscribed_events].compact_blank
+          allowed_events = params.dig(:integration, :provider) == "slack" ? Integration::SLACK_EVENTS : Integration::WEBHOOK_EVENTS
+          settings_params[:subscribed_events] &= allowed_events
         end
 
         if settings_params[:subscribed_inboxes].is_a?(Array)

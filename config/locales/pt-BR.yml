@@ -1527,7 +1527,7 @@ pt-BR:
         para adicionar mais canais.
       created: A página do Facebook foi conectada com sucesso.
       updated: Configurações da página do Facebook atualizadas.
-      destroyed: A página do Facebook foi desconectada.
+      destroyed: A página do Facebook foi excluída.
       create_failed: Falha ao conectar a página do Facebook. Por favor, tente novamente.
       callback_error: Ocorreu um erro ao conectar-se ao Facebook. Por favor, tente
         novamente.
@@ -1539,8 +1539,8 @@ pt-BR:
         description: Conecte suas páginas do Facebook para receber e responder conversas
           do Messenger.
         connect_page: Conectar página do Facebook
-        delete_confirm: Tem certeza de que deseja desconectar esta página do Facebook?
-          Isso removerá a caixa de entrada e todas as conversas relacionadas.
+        delete_confirm: Deseja excluir esta página do Facebook? A caixa de entrada e
+          todas as conversas serão excluídas permanentemente. Esta ação não pode ser desfeita.
         status_active: Conectado
         status_disconnected: Desconectado
         status_reauth: Reautorização necessária
@@ -1579,9 +1579,9 @@ pt-BR:
         inbox_settings_title: Configurações da caixa de entrada
         csat_enabled: Ativar pesquisa CSAT após conversas
         danger_title: Zona de perigo
-        danger_description: Desconectar esta página removerá a caixa de entrada e
-          deixará de receber novas mensagens. As conversas existentes serão preservadas.
-        disconnect: Desconectar página
+        danger_description: Excluir esta página removerá permanentemente sua caixa de
+          entrada e todas as conversas. Esta ação não pode ser desfeita.
+        delete: Excluir página
       form:
         back: Voltar às páginas do Facebook
         cancel: Cancelar
@@ -1596,7 +1596,7 @@ pt-BR:
         para adicionar mais canais.
       created: A conta do Instagram foi conectada com sucesso.
       updated: Configurações do canal do Instagram atualizadas.
-      destroyed: A conta do Instagram foi desconectada.
+      destroyed: A conta do Instagram foi excluída.
       create_failed: Falha ao conectar a conta do Instagram. Por favor, tente novamente.
       callback_error: Ocorreu um erro ao conectar-se ao Instagram. Por favor, tente
         novamente.
@@ -1606,8 +1606,8 @@ pt-BR:
         description: Conecte suas contas comerciais do Instagram para gerenciar DMs
           a partir do seu painel.
         connect_account: Conecte o Instagram
-        delete_confirm: Tem certeza de que deseja desconectar esta conta do Instagram?
-          Isso removerá a caixa de entrada e todas as conversas relacionadas.
+        delete_confirm: Deseja excluir esta conta do Instagram? A caixa de entrada e
+          todas as conversas serão excluídas permanentemente. Esta ação não pode ser desfeita.
         status_active: Conectado
         status_expired: O token expirou
         status_expiring: Token expirando em breve
@@ -1643,9 +1643,9 @@ pt-BR:
         inbox_settings_title: Configurações da caixa de entrada
         csat_enabled: Ativar pesquisa CSAT após conversas
         danger_title: Zona de perigo
-        danger_description: Desconectar esta conta removerá a caixa de entrada e deixará
-          de receber novos DMs. As conversas existentes serão preservadas.
-        disconnect: Desconectar conta
+        danger_description: Excluir esta conta removerá permanentemente sua caixa de
+          entrada e todas as conversas. Esta ação não pode ser desfeita.
+        delete: Excluir conta
       form:
         back: De volta ao Instagram
         cancel: Cancelar
@@ -1659,7 +1659,7 @@ pt-BR:
         para adicionar mais canais.
       created: O canal WhatsApp foi conectado com sucesso.
       updated: Configurações do canal WhatsApp atualizadas.
-      destroyed: O canal do WhatsApp foi desconectado.
+      destroyed: O canal do WhatsApp foi excluído.
       create_failed: Falha ao conectar o canal do WhatsApp. Por favor, tente novamente.
       callback_error: Ocorreu um erro ao conectar-se ao WhatsApp. Por favor, tente
         novamente.
@@ -1676,8 +1676,8 @@ pt-BR:
         description: Conecte sua API do WhatsApp Business para gerenciar conversas
           com clientes.
         connect_channel: Conectar WhatsApp
-        delete_confirm: Tem certeza de que deseja desconectar este canal do WhatsApp?
-          Isso removerá a caixa de entrada e todas as conversas relacionadas.
+        delete_confirm: Deseja excluir este canal do WhatsApp? A caixa de entrada e
+          todas as conversas serão excluídas permanentemente. Esta ação não pode ser desfeita.
         status_active: Conectado
         status_disconnected: Desconectado
         status_reauth: Reautorização necessária
@@ -1745,9 +1745,9 @@ pt-BR:
         reauth_description: O token de acesso expirou ou foi invalidado. Reconecte-se
           para restaurar as mensagens.
         danger_title: Zona de perigo
-        danger_description: Desconectar este canal removerá a caixa de entrada e deixará
-          de receber novas mensagens. As conversas existentes serão preservadas.
-        disconnect: Desconectar canal
+        danger_description: Excluir este canal removerá permanentemente sua caixa de
+          entrada e todas as conversas. Esta ação não pode ser desfeita.
+        delete: Excluir canal
         webhook:
           title: Configuração de webhook
           description: Adicione este URL de webhook e verifique o token à configuração

@@ -41,17 +41,22 @@
           - day_hours = [f.object.business_hours.build(day_of_week: day_name)] if day_hours.empty?
 
           .bh-day-row data-business-hours-target="dayRow" data-day-index=day_index
+            .bh-day-header
+              .bh-day-cell
+                = image_tag("calendar.svg", class: "bh-day-icon", alt: "")
+                span.bh-day-label = t("date.day_names")[day_index]
+              .bh-row-action
+                button.bh-link-action type="button" data-action="click->business-hours#addSlot" data-day-index=day_index
+                  | + #{t("dashboard.business_hour_groups.form.add_hours")}
+                label.ui-toggle.bh-day-toggle title=t("dashboard.business_hour_groups.form.day_enabled", day: t("date.day_names")[day_index], default: "%{day} enabled")
+                  = check_box_tag "day_enabled_#{day_index}", "1", is_enabled, data: { action: "change->business-hours#toggleDay", day_index: day_index }
+                  span.ui-toggle-slider
             .bh-time-slots data-business-hours-target="slotsContainer" data-day-index=day_index
               - slot_index = -1
               = f.fields_for :business_hours, day_hours do |bh_form|
                 - slot_index += 1
                 .bh-time-slot class=("bh-time-slot--additional" if slot_index.positive?) data-business-hours-target="slot" style="#{bh_form.object.marked_for_destruction? ? 'display: none;' : ''}"
-                  - if slot_index.zero?
-                    .bh-day-cell
-                      = image_tag("calendar.svg", class: "bh-day-icon", alt: "")
-                      span.bh-day-label = t("date.day_names")[day_index]
-                  - else
-                    .bh-day-cell aria-hidden="true"
+                  .bh-day-cell aria-hidden="true"
                   = bh_form.hidden_field :day_of_week, value: bh_form.object.day_of_week || day_name
                   .bh-time-range
                     .bh-time-field
@@ -62,17 +67,10 @@
                       = image_tag("clock.svg", class: "bh-field-icon", alt: "")
                       = bh_form.time_field :closing_time, class: "ui-input ui-input-time bh-time-input", required: !bh_form.object.marked_for_destruction?, data: { action: "input->business-hours#validateTime" }
                   .bh-row-action
-                    - if slot_index.zero?
-                      button.bh-link-action type="button" data-action="click->business-hours#addSlot" data-day-index=day_index
-                        | + #{t("dashboard.business_hour_groups.form.add_hours")}
-                      label.ui-toggle.bh-day-toggle title=t("dashboard.business_hour_groups.form.day_enabled", day: t("date.day_names")[day_index], default: "%{day} enabled")
-                        = check_box_tag "day_enabled_#{day_index}", "1", is_enabled, data: { action: "change->business-hours#toggleDay", day_index: day_index }
-                        span.ui-toggle-slider
-                    - else
-                      - if bh_form.object.persisted?
-                        = bh_form.hidden_field :_destroy, data: { business_hours_target: "destroyInput" }
-                      button.bh-remove-button type="button" data-action="click->business-hours#removeSlot" title=t("dashboard.business_hour_groups.form.remove_hours") aria-label=t("dashboard.business_hour_groups.form.remove_hours")
-                        = image_tag("delete_red.svg", alt: "", aria: { hidden: true })
+                    - if bh_form.object.persisted?
+                      = bh_form.hidden_field :_destroy, data: { business_hours_target: "destroyInput" }
+                    button.bh-remove-button type="button" data-action="click->business-hours#removeSlot" title=t("dashboard.business_hour_groups.form.remove_hours") aria-label=t("dashboard.business_hour_groups.form.remove_hours")
+                      = image_tag("delete_red.svg", alt: "", aria: { hidden: true })
 
       .bh-exception-panel
         .bh-exceptions data-business-hours-target="exceptionsContainer"

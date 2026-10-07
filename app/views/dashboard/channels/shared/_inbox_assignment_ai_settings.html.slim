@@ -1,0 +1,44 @@
+- show_auto_assign = local_assigns.fetch(:show_auto_assign, true)
+- show_collaborators = local_assigns.fetch(:show_collaborators, true)
+
+.channel-edit-inbox-assignment
+  - if show_auto_assign
+    .channel-edit-toggle-row.channel-edit-toggle-row--assignment
+      label.channel-edit-toggle
+        = inbox_f.check_box :auto_assign
+        span.channel-edit-toggle__track aria-hidden="true"
+      .channel-edit-toggle-row__copy
+        = inbox_f.label :auto_assign, t("ui.dashboard.channels.contact_form.form.auto_assign_conversations", default: "Auto-assign conversations")
+        p = t("dashboard.inboxes.collaborators_modal.auto_assign_desc", default: "Automatically route and assign incoming conversations to assigned collaborators.")
+
+  - if show_collaborators
+    = render "dashboard/channels/shared/collaborators_fields", inbox_f: inbox_f
+
+  h3.f-semi-14.channel-edit-ai-settings__title
+    = t("dashboard.inboxes.ai_features.title", default: "AI Features")
+    = plan_upgrade_bubble(:ai_copilot)
+  p.f-reg-13.text-muted.channel-edit-ai-settings__description = t("dashboard.inboxes.ai_features.description")
+
+  .channel-edit-toggle-row.channel-edit-toggle-row--ai
+    label.channel-edit-toggle
+      - if current_account.feature_enabled?(:ai_copilot) || current_account.feature_enabled?(:ai_agent)
+        - is_checked = inbox_f.object.new_record? ? true : inbox_f.object.ai_classification
+        = inbox_f.check_box :ai_classification, checked: is_checked
+        span.channel-edit-toggle__track aria-hidden="true"
+      - else
+        = check_box_tag "locked_classification", "0", false, disabled: true
+        span.channel-edit-toggle__track aria-hidden="true"
+    .channel-edit-toggle-row__copy
+      span = t("dashboard.inboxes.ai_features.classification")
+
+  .channel-edit-toggle-row.channel-edit-toggle-row--ai
+    label.channel-edit-toggle
+      - if current_account.feature_enabled?(:ai_copilot) || current_account.feature_enabled?(:ai_agent)
+        - is_checked = inbox_f.object.new_record? ? true : inbox_f.object.ai_auto_labelling
+        = inbox_f.check_box :ai_auto_labelling, checked: is_checked
+        span.channel-edit-toggle__track aria-hidden="true"
+      - else
+        = check_box_tag "locked_auto_labelling", "0", false, disabled: true
+        span.channel-edit-toggle__track aria-hidden="true"
+    .channel-edit-toggle-row__copy
+      span = t("dashboard.inboxes.ai_features.auto_labelling")

@@ -1537,7 +1537,7 @@ es:
         para agregar más canales.
       created: La página de Facebook se ha conectado correctamente.
       updated: Configuración de la página de Facebook actualizada.
-      destroyed: La página de Facebook ha sido desconectada.
+      destroyed: La página de Facebook ha sido eliminada.
       create_failed: No se pudo conectar la página de Facebook. Por favor inténtalo
         de nuevo.
       callback_error: Hubo un error al conectarse a Facebook. Por favor inténtalo
@@ -1550,8 +1550,7 @@ es:
         description: Conecte sus páginas de Facebook para recibir y responder conversaciones
           de Messenger.
         connect_page: Conectar página de Facebook
-        delete_confirm: "¿Estás seguro de que quieres desconectar esta página de Facebook?
-          Esto eliminará la bandeja de entrada y todas las conversaciones relacionadas."
+        delete_confirm: "¿Quieres eliminar esta página de Facebook? Se eliminarán permanentemente su bandeja de entrada y todas sus conversaciones. Esta acción no se puede deshacer."
         status_active: Conectado
         status_disconnected: desconectado
         status_reauth: Se necesita reautorización
@@ -1590,9 +1589,9 @@ es:
         inbox_settings_title: Configuración de la bandeja de entrada
         csat_enabled: Habilite la encuesta CSAT después de las conversaciones
         danger_title: Zona de peligro
-        danger_description: Desconectar esta página eliminará la bandeja de entrada
-          y dejará de recibir mensajes nuevos. Se conservarán las conversaciones existentes.
-        disconnect: Desconectar página
+        danger_description: Al eliminar esta página, se eliminarán permanentemente su
+          bandeja de entrada y todas sus conversaciones. Esta acción no se puede deshacer.
+        delete: Eliminar página
       form:
         back: Volver a las páginas de Facebook
         cancel: Cancelar
@@ -1607,7 +1606,7 @@ es:
         para agregar más canales.
       created: La cuenta de Instagram se ha conectado correctamente.
       updated: Configuración del canal de Instagram actualizada.
-      destroyed: La cuenta de Instagram ha sido desconectada.
+      destroyed: La cuenta de Instagram ha sido eliminada.
       create_failed: No se pudo conectar la cuenta de Instagram. Por favor inténtalo
         de nuevo.
       callback_error: Hubo un error al conectarse a Instagram. Por favor inténtalo
@@ -1618,8 +1617,8 @@ es:
         description: Conecte sus cuentas comerciales de Instagram para administrar
           mensajes directos desde su panel de control.
         connect_account: Conecta Instagram
-        delete_confirm: "¿Estás seguro de que quieres desconectar esta cuenta de Instagram?
-          Esto eliminará la bandeja de entrada y todas las conversaciones relacionadas."
+        delete_confirm: ¿Quieres eliminar esta cuenta de Instagram? Se eliminarán
+          permanentemente su bandeja de entrada y todas sus conversaciones. Esta acción no se puede deshacer.
         status_active: Conectado
         status_expired: Token caducado
         status_expiring: El token expirará pronto
@@ -1655,10 +1654,9 @@ es:
         inbox_settings_title: Configuración de la bandeja de entrada
         csat_enabled: Habilite la encuesta CSAT después de las conversaciones
         danger_title: Zona de peligro
-        danger_description: Desconectar esta cuenta eliminará la bandeja de entrada
-          y dejará de recibir nuevos mensajes directos. Se conservarán las conversaciones
-          existentes.
-        disconnect: Desconectar cuenta
+        danger_description: Al eliminar esta cuenta, se eliminarán permanentemente su
+          bandeja de entrada y todas sus conversaciones. Esta acción no se puede deshacer.
+        delete: Eliminar cuenta
       form:
         back: Volver a Instagram
         cancel: Cancelar
@@ -1672,7 +1670,7 @@ es:
         para agregar más canales.
       created: El canal de WhatsApp se ha conectado correctamente.
       updated: Configuración del canal de WhatsApp actualizada.
-      destroyed: El canal de WhatsApp ha sido desconectado.
+      destroyed: El canal de WhatsApp ha sido eliminado.
       create_failed: No se pudo conectar el canal de WhatsApp. Por favor inténtalo
         de nuevo.
       callback_error: Hubo un error al conectarse a WhatsApp. Por favor inténtalo
@@ -1690,8 +1688,8 @@ es:
         description: Conecte su API de WhatsApp Business para gestionar las conversaciones
           de los clientes.
         connect_channel: Conecta WhatsApp
-        delete_confirm: "¿Estás seguro de que quieres desconectar este canal de WhatsApp?
-          Esto eliminará la bandeja de entrada y todas las conversaciones relacionadas."
+        delete_confirm: ¿Quieres eliminar este canal de WhatsApp? Se eliminarán
+          permanentemente su bandeja de entrada y todas sus conversaciones. Esta acción no se puede deshacer.
         status_active: Conectado
         status_disconnected: desconectado
         status_reauth: Se necesita reautorización
@@ -1762,9 +1760,9 @@ es:
         reauth_description: El token de acceso ha caducado o ha sido invalidado. Vuelva
           a conectarse para restaurar los mensajes.
         danger_title: Zona de peligro
-        danger_description: Desconectar este canal eliminará la bandeja de entrada
-          y dejará de recibir mensajes nuevos. Se conservarán las conversaciones existentes.
-        disconnect: Desconectar canal
+        danger_description: Al eliminar este canal, se eliminarán permanentemente su
+          bandeja de entrada y todas sus conversaciones. Esta acción no se puede deshacer.
+        delete: Eliminar canal
         webhook:
           title: Configuración del webhook
           description: Agregue la URL de este webhook y verifique el token a la configuración
@@ -3348,6 +3346,10 @@ es:
       priority_updated: Se cambió la prioridad
       label_added: Se agregó la etiqueta %{label}
       label_removed: Se eliminó la etiqueta %{label}.
+      conversation_assigned: La conversación fue asignada
+      conversation_unassigned: La conversación fue desasignada
+      team_assigned: La conversación fue asignada al equipo
+      team_unassigned: Se eliminó la asignación del equipo
   audit_logs:
     actions: Acciones
     actor: Actor

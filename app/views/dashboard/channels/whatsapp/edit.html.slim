@@ -174,6 +174,8 @@
                       .channel-edit-select.ui-field-control.ui-field-control--no-icon
                         = inbox.collection_select :csat_survey_id, current_account.csat_surveys, :id, :name, { include_blank: t("forms.options.default_system_survey") }, { class: "ui-select ui-control", data: { controller: "select" } }
 
+                  = render "dashboard/channels/shared/inbox_assignment_ai_settings", inbox_f: inbox
+
               section.channel-edit-section.channel-edit-card
                 .channel-edit-section__heading.channel-edit-section__heading--with-description
                   .channel-edit-section__icon
@@ -197,7 +199,7 @@
                 .channel-edit-section__body
                   .channel-edit-field.channel-edit-field--select
                     .channel-edit-select.ui-field-control.ui-field-control--no-icon
-                      = select_tag "#{inbox.object_name}[sla_policy_ids][]", options_from_collection_for_select(current_account.sla_policies, :id, :name, inbox.object.sla_policy_ids.first), include_blank: t("dashboard.channels.edit.none_selected", default: "None Selected"), class: "ui-select ui-control", data: { controller: "select" }
+                      = select_tag "#{inbox.object_name}[sla_policy_ids][]", options_from_collection_for_select(current_account.sla_policies, :id, :name, inbox.object.sla_policy_ids), multiple: true, class: "ui-select ui-control", data: { controller: "select" }
 
         aside.channel-edit__aside
           = render "dashboard/channels/shared/edit_overview", platform_icon: "inbox_ed.svg", platform_name: t("dashboard.channels.edit.whatsapp", default: "WhatsApp"), overview_items: overview_items, connected: connected, status_label: status_label, meta_item: nil
@@ -207,4 +209,4 @@
             p = t("dashboard.whatsapp_channels.edit.danger_description")
             = link_to channels_whatsapp_path(id: @whatsapp_channel.id), class: "channel-edit-danger__button", data: { turbo_method: :delete, turbo_confirm: t("dashboard.whatsapp_channels.index.delete_confirm") } do
               = inline_svg_tag("delete_red.svg", aria: { hidden: true })
-              span = t("dashboard.whatsapp_channels.edit.disconnect")
+              span = t("dashboard.whatsapp_channels.edit.delete", default: "Delete Channel")

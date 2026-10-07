@@ -6,6 +6,10 @@ module Dashboard
       record.user_id == user.id
     end
 
+    def show?
+      edit?
+    end
+
     def update?
       record.user_id == user.id
     end

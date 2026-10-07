@@ -69,8 +69,8 @@
                   - changes = audit_log_changes_for(activity)
                   tr
                     td.ui-table__timestamp
-                      time datetime=activity.created_at.iso8601 = activity.created_at.strftime("%b %-d, %Y %-I:%M %p")
-                      span = "#{time_ago_in_words(activity.created_at)} #{t('dashboard.identity_sources.index.ago', default: 'ago')}"
+                      time datetime=activity.created_at.utc.iso8601 = account_time(activity.created_at).strftime("%b %-d, %Y %-I:%M %p")
+                      span = "#{time_ago_in_words(account_time(activity.created_at))} #{t('dashboard.identity_sources.index.ago', default: 'ago')}"
                     td
                       .ui-identity.ui-identity--activity
                         .ui-avatar-shell

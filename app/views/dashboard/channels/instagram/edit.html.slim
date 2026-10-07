@@ -3,7 +3,7 @@
 - instagram_username = @instagram_channel.username.present? ? "@#{@instagram_channel.username.delete_prefix('@')}" : @instagram_channel.instagram_id
 - token_message = channel_overview_token_message(@instagram_channel)
 - overview_items = [{ icon: "users.svg", label: t("dashboard.channels.edit.username", default: "Username"), value: instagram_username }]
-- overview_meta = @instagram_channel.expires_at.present? ? { icon: "timer.svg", label: t("dashboard.channels.edit.token_expires", default: "Token Expires"), value: @instagram_channel.expires_at.strftime("%b %d, %Y %H:%M") } : nil
+- overview_meta = @instagram_channel.expires_at.present? ? { icon: "timer.svg", label: t("dashboard.channels.edit.token_expires", default: "Token Expires"), value: account_time(@instagram_channel.expires_at).strftime("%b %d, %Y %H:%M") } : nil
 
 / = render("dashboard/shared/dashboard_container", current_page: "settings") do
 = render("dashboard/settings/settings_sidebar", current_page: "instagram-channels") do

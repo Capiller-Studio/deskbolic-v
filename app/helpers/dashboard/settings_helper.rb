@@ -107,13 +107,13 @@ module Dashboard
       if channel.token_expired?
         t(
           "dashboard.channels_overview.token_expired",
-          time: time_ago_in_words(channel.expires_at),
+          time: time_ago_in_words(account_time(channel.expires_at)),
           default: "Token expired %{time} ago"
         )
       else
         t(
           "dashboard.channels_overview.token_expires",
-          time: distance_of_time_in_words(Time.current, channel.expires_at),
+          time: distance_of_time_in_words(Time.current, account_time(channel.expires_at)),
           default: "Token expires in about %{time}"
         )
       end
@@ -122,7 +122,7 @@ module Dashboard
     def channel_overview_token_expiration(channel)
       return t("general.not_available", default: "Not available") unless channel.respond_to?(:expires_at) && channel.expires_at.present?
 
-      l(channel.expires_at, format: :long)
+      l(account_time(channel.expires_at), format: :long)
     end
 
     def channel_show_overview_locals(channel)
@@ -388,7 +388,7 @@ module Dashboard
         {
           icon: "clock.svg",
           label: t("dashboard.channels.edit.created", default: "Created"),
-          value: t("dashboard.channels.edit.created_ago", time: time_ago_in_words(channel.created_at), default: "About %{time} ago")
+          value: t("dashboard.channels.edit.created_ago", time: time_ago_in_words(account_time(channel.created_at)), default: "About %{time} ago")
         }
       end
     end

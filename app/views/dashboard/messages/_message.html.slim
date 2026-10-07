@@ -1,6 +1,6 @@
 - show_unread_divider = (defined?(@unread_start_message_id) && @unread_start_message_id == message.id) || (defined?(show_divider) && show_divider && message.incoming?)
 - translation_target_language = t("languages.#{I18n.locale.to_s.downcase}", default: I18n.locale.to_s)
-- message_time = message.created_at.strftime('%H:%M')
+- message_time = account_time(message.created_at).strftime('%H:%M')
 - delivery_status = message_delivery_status(message)
 
 - if show_unread_divider
@@ -38,7 +38,7 @@
             .message-status-container
               .msg-time = message_time
               - if message.edited?
-                span.msg-edited-indicator title=t('dashboard.messages.edited_at', time: message.edited_at&.strftime('%H:%M')) = " (#{t('dashboard.messages.edited')})"
+                span.msg-edited-indicator title=t('dashboard.messages.edited_at', time: account_time(message.edited_at)&.strftime('%H:%M')) = " (#{t('dashboard.messages.edited')})"
             - unless single_emoji
               .translate-text
                 button.translate-button type="button" data-action="click->translator#toggle_translate" aria-label=t('dashboard.messages.translate', language: translation_target_language)
@@ -67,7 +67,7 @@
               .message-status-container
                 .msg-time = message_time
                 - if message.edited?
-                  span.msg-edited-indicator title=t('dashboard.messages.edited_at', time: message.edited_at&.strftime('%H:%M')) = " (#{t('dashboard.messages.edited')})"
+                span.msg-edited-indicator title=t('dashboard.messages.edited_at', time: account_time(message.edited_at)&.strftime('%H:%M')) = " (#{t('dashboard.messages.edited')})"
         - if message.reactions.any?
           .message-reactions-container
             - message.reactions.group_by(&:emoji).each do |emoji, reactions_list|
@@ -141,7 +141,7 @@
               = inline_svg_tag('lock_orange.svg', class: 'lock', aria: { hidden: true })
             .msg-time = message_time
             - if message.edited?
-              span.msg-edited-indicator title=t('dashboard.messages.edited_at', time: message.edited_at&.strftime('%H:%M')) = " (#{t('dashboard.messages.edited')})"
+                  span.msg-edited-indicator title=t('dashboard.messages.edited_at', time: account_time(message.edited_at)&.strftime('%H:%M')) = " (#{t('dashboard.messages.edited')})"
             span.msg-delivery-state = "· #{delivery_status}"
       - if message.reactions.any?
         .message-reactions-container

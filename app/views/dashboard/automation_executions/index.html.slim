@@ -62,7 +62,7 @@
                 | #{t("ui.dashboard.automation_executions.index.ms", time: exec.execution_duration_ms)}
               - else
                 | —
-          td = exec.executed_at.strftime("%d %b %H:%M") if exec.executed_at
+          td = account_time(exec.executed_at).strftime("%d %b %H:%M") if exec.executed_at
 
   / Pagination
   - if defined?(pagy) && @pagy

@@ -9,4 +9,4 @@
     span = activity.translated_description
     
     span.time style="color: #999;"
-      = l(activity.created_at, format: :short)
+      = l(account_time(activity.created_at), format: :short)

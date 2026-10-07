@@ -60,7 +60,7 @@ module Dashboard
           customer_name: customer&.name || customer&.display_name,
           customer_email: customer&.email,
           inbox_name: conv.inbox&.name,
-          last_activity_at: conv.last_activity_at&.strftime("%d %b %Y"),
+          last_activity_at: helpers.account_time(conv.last_activity_at)&.strftime("%d %b %Y"),
           url: conversation_path(conv)
         }
       end
@@ -74,7 +74,7 @@ module Dashboard
           sender_type: msg.sender_type,
           conversation_id: msg.conversation_id,
           conversation_identifier: msg.conversation&.identifier,
-          created_at: msg.created_at&.strftime("%d %b %Y, %H:%M"),
+          created_at: helpers.account_time(msg.created_at)&.strftime("%d %b %Y, %H:%M"),
           url: conversation_path(msg.conversation_id, message_id: msg.id, anchor: "message_#{msg.id}")
         }
       end

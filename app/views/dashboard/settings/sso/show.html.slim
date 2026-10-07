@@ -155,10 +155,10 @@
                   - if @sso_config.certificate_expires_at.present?
                     - if @sso_config.certificate_expiring_soon?
                       span style="color: #b91c1c; font-size: 12px; font-weight: 600;"
-                        | ⚠️ #{t("dashboard.settings.sso.cert_expires_warning", date: @sso_config.certificate_expires_at.strftime('%Y-%m-%d'), default: "Certificate expires on %{date}")}
+                        | ⚠️ #{t("dashboard.settings.sso.cert_expires_warning", date: account_time(@sso_config.certificate_expires_at).strftime('%Y-%m-%d'), default: "Certificate expires on %{date}")}
                     - else
                       span style="color: #15803d; font-size: 12px;"
-                        | ✓ #{t("dashboard.settings.sso.cert_expires_ok", date: @sso_config.certificate_expires_at.strftime('%Y-%m-%d'), default: "Valid until %{date}")}
+                        | ✓ #{t("dashboard.settings.sso.cert_expires_ok", date: account_time(@sso_config.certificate_expires_at).strftime('%Y-%m-%d'), default: "Valid until %{date}")}
 
                 = f.text_area :idp_certificate_raw,
                   id: "auth_sso_configuration_idp_certificate_raw",
@@ -347,7 +347,7 @@
                     td style="padding: 12px 14px; color: #6b7280;"
                       = token.last_used_at.present? ? time_ago_in_words(token.last_used_at) + " ago" : t("general.never", default: "Never")
                     td style="padding: 12px 14px; color: #6b7280;"
-                      = token.created_at.strftime("%b %d, %Y")
+                      = account_time(token.created_at).strftime("%b %d, %Y")
                     td style="padding: 12px 14px; text-align: right;"
                       = button_to settings_scim_token_path(token), method: :delete, class: "ui-icon-button", data: { turbo_confirm: t("dashboard.settings.scim.revoke_confirm", default: "Revoke this SCIM token? Okta/Azure AD will lose sync access immediately.") }, aria: { label: t("dashboard.settings.scim.revoke", default: "Revoke") } do
                         = image_tag("delete.svg", alt: "", aria: { hidden: true })
@@ -410,4 +410,3 @@
         - else
           .ui-empty-state style="padding: 24px; text-align: center; color: #6b7280;"
             p.f-reg-13 = t("dashboard.settings.sso.no_logs", default: "No authentication audit logs recorded yet.")
-

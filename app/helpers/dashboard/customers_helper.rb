@@ -64,8 +64,8 @@ module Dashboard
         [ t("dashboard.customers.fields.date_of_birth", default: "Date of Birth"), customer.dob && l(customer.dob, format: :long) ],
         [ t("dashboard.customers.fields.identifier", default: "Identifier"), customer.identifier ],
         [ t("dashboard.customers.fields.external_id", default: "External ID"), customer.external_id ],
-        [ t("dashboard.customers.fields.created", default: "Created"), l(customer.created_at, format: :long) ],
-        [ t("dashboard.customers.fields.last_activity", default: "Last Activity"), l(customer_last_activity(customer), format: :long) ]
+        [ t("dashboard.customers.fields.created", default: "Created"), l(account_time(customer.created_at), format: :long) ],
+        [ t("dashboard.customers.fields.last_activity", default: "Last Activity"), l(account_time(customer_last_activity(customer)), format: :long) ]
       ]
     end
 

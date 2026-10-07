@@ -51,7 +51,7 @@
                 | 🕐
               .hc-overview-row-content
                 span Last Edit
-                p = @article.updated_at.strftime("%B %d, %Y %H:%M")
+                p = account_time(@article.updated_at).strftime("%B %d, %Y %H:%M")
             .hc-overview-row
               .hc-overview-row-icon-cell
                 | 👤
@@ -94,4 +94,3 @@
                 .hc-overview-row-content
                   span External URL
                   p = @article.configurations["external_url"]
-

@@ -7,4 +7,4 @@ a.search-result-card.search-result-card-message href=conversation_path(message.c
       span.smart-search-result-sender = "#{sender_icon} #{message.sender.try(:name) || message.sender.try(:display_name) || t('dashboard.search.unknown_sender')}"
     .search-result-card-preview = raw(highlighted_content)
   .smart-search-result-meta
-    span.smart-search-result-date = message.created_at&.strftime("%d %b %Y, %H:%M")
+    span.smart-search-result-date = account_time(message.created_at)&.strftime("%d %b %Y, %H:%M")

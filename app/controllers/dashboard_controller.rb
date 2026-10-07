@@ -24,7 +24,10 @@ class DashboardController < ApplicationController
 
   def set_sharding_context(&)
     if current_account
-      current_account.with_shard(&)
+      current_account.with_shard do
+        time_zone = ActiveSupport::TimeZone[current_account.timezone] || ActiveSupport::TimeZone["UTC"]
+        Time.use_zone(time_zone, &)
+      end
     else
       yield
     end

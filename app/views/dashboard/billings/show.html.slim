@@ -20,7 +20,7 @@
 
               - if @active_subscription&.cancelled_at.present?
                 .ap-strategy-badge.ap-billing-badge-danger
-                  = I18n.t("dashboard.billing.cancels_on", date: @active_subscription.current_period_end&.strftime("%b %d, %Y"), default: "Cancels on %{date}")
+                  = I18n.t("dashboard.billing.cancels_on", date: account_time(@active_subscription.current_period_end)&.strftime("%b %d, %Y"), default: "Cancels on %{date}")
               - elsif @active_subscription&.past_due?
                 .ap-strategy-badge.ap-billing-badge-danger
                   = I18n.t("dashboard.billing.past_due")
@@ -77,7 +77,7 @@
                     span.ap-billing-detail-icon.ap-billing-detail-calendar-icon
                   div
                     p.f-reg-12.ap-billing-detail-label = @active_subscription.cancelled_at.present? ? I18n.t("dashboard.billing.cancels_on_label") : I18n.t("dashboard.billing.next_charge_label")
-                    p.f-semi-16.ap-billing-detail-value = @active_subscription.current_period_end&.strftime("%B %d, %Y") || "N/A"
+                    p.f-semi-16.ap-billing-detail-value = account_time(@active_subscription.current_period_end)&.strftime("%B %d, %Y") || "N/A"
                 - if @active_subscription.trialing?
                   .ap-billing-detail-item
                     span.ap-billing-detail-icon-badge.ap-billing-detail-icon-badge-green aria-hidden="true"
@@ -180,7 +180,7 @@
                   tbody
                     - @transactions.each do |t|
                       tr.ap-billing-tr
-                        td.f-reg-14.ap-billing-td = t.created_at.strftime("%b %d, %Y")
+                        td.f-reg-14.ap-billing-td = account_time(t.created_at).strftime("%b %d, %Y")
                         td.f-reg-14.ap-billing-td
                           - desc = t.description.to_s
                           - if desc.start_with?("billing.events.") || desc.start_with?("wallet.events.")
@@ -236,10 +236,10 @@
                     tbody
                       - @ai_grants.each do |grant|
                         tr.ap-billing-tr
-                          td.f-reg-14.ap-billing-td = grant.created_at.strftime("%b %d, %Y")
+                          td.f-reg-14.ap-billing-td = account_time(grant.created_at).strftime("%b %d, %Y")
                           td.f-reg-14.ap-billing-td = grant.grant_type.titleize
                           td.f-semi-14.ap-billing-td = ActionController::Base.helpers.number_with_delimiter(grant.amount)
-                          td.f-reg-14.ap-billing-td = grant.expires_at&.strftime("%b %d, %Y") || "Never"
+                          td.f-reg-14.ap-billing-td = account_time(grant.expires_at)&.strftime("%b %d, %Y") || "Never"
                           td.ap-billing-td
                             - if grant.active?
                               span.ap-strategy-badge.ap-billing-tx-status-completed = I18n.t("dashboard.billing.status_active", default: "Active")
@@ -265,7 +265,7 @@
                     tbody
                       - @ai_transactions.each do |t|
                         tr.ap-billing-tr
-                          td.f-reg-14.ap-billing-td = t.created_at.strftime("%b %d, %Y")
+                          td.f-reg-14.ap-billing-td = account_time(t.created_at).strftime("%b %d, %Y")
                           td.f-reg-14.ap-billing-td
                             - desc = t.description.to_s
                             - if desc.start_with?("billing.events.") || desc.start_with?("wallet.events.")

@@ -79,7 +79,7 @@
                     path d="M16 3v4M8 3v4M3 10h18"
                   div
                     span = t("ui.dashboard.account_invitations.index.sent_on")
-                    strong = invitation.created_at.strftime("%d %b %Y")
+                    strong = account_time(invitation.created_at).strftime("%d %b %Y")
 
               .tm-member-card-footer
                 .tm-member-card-roles

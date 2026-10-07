@@ -43,7 +43,7 @@
     .conversation#oppp data-controller="scroll-to-bottom mark-as-read" data-mark-as-read-url-value=mark_as_read_conversation_path(@conversation) data-conversation-id=@conversation.id
       - timeline_date = @timeline_items.first&.created_at || Time.current
       .conversation-date-divider
-        span = timeline_date.strftime('%A · %d %B')
+        span = account_time(timeline_date).strftime('%A · %d %B')
       = turbo_frame_tag "messages-page-#{@pagy.next}", src: conversation_messages_path(@conversation, page: @pagy.next), loading: :lazy if defined?(@pagy) && @pagy&.next
       - @timeline_items.each do |item|
         - if item.is_a?(Message)

@@ -32,7 +32,7 @@ aside.details-section.conversation-inspector id="conversation-details-#{@convers
           strong = "##{@conversation.identifier}"
         .inspector-data-row
           span = t('dashboard.conversation_details.created')
-          strong = @conversation.created_at.strftime('%d %b %H:%M')
+          strong = account_time(@conversation.created_at).strftime('%d %b %H:%M')
         .inspector-data-row
           span = t('dashboard.conversation_details.priority')
           = form_with model: @conversation, url: conversation_path(@conversation), method: :patch do |f|
@@ -73,10 +73,10 @@ aside.details-section.conversation-inspector id="conversation-details-#{@convers
               strong class=conversation_sla_status_class(sla) = conversation_sla_status_text(sla)
             .inspector-data-row
               span = t('dashboard.conversation_details.first_target', default: 'First Response Target')
-              strong = sla.target_first_response_at&.strftime('%d %b %H:%M') || t('dashboard.conversation_details.not_applicable', default: 'N/A')
+              strong = account_time(sla.target_first_response_at)&.strftime('%d %b %H:%M') || t('dashboard.conversation_details.not_applicable', default: 'N/A')
             .inspector-data-row
               span = t('dashboard.conversation_details.resolution_target', default: 'Resolution Target')
-              strong = sla.target_resolution_at&.strftime('%d %b %H:%M') || t('dashboard.conversation_details.not_applicable', default: 'N/A')
+              strong = account_time(sla.target_resolution_at)&.strftime('%d %b %H:%M') || t('dashboard.conversation_details.not_applicable', default: 'N/A')
         - else
           p.inspector-empty = t('dashboard.conversation_details.no_sla_policy', default: 'No SLA policy applied')
 

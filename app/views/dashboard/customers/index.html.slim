@@ -64,7 +64,7 @@
                   td data-label=t("dashboard.customers.index.last_activity", default: "Last activity")
                     span.tm-customer-date = t("dashboard.customers.index.ago", time: time_ago_in_words(customer_last_activity(customer)), default: "%{time} ago")
                   td data-label=t("dashboard.customers.index.joined", default: "Joined")
-                    span.tm-customer-date = l(customer.created_at.to_date, format: :long)
+                    span.tm-customer-date = l(account_time(customer.created_at).to_date, format: :long)
                   td.tm-customers-table__actions data-label=t("dashboard.customers.index.actions", default: "Actions")
                     = link_to t("dashboard.customers.index.show", default: "Show"), customer_path(customer), class: "tm-customer-action tm-customer-action--show"
                     - if can?(:edit, customer)

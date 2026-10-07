@@ -67,13 +67,14 @@
               div
                 = inbox_f.label :sla_policy_ids, t("forms.labels.sla_policies"), class: "ww-label"
                 .channel-edit-select.ui-field-control.ui-field-control--no-icon
-                  = select_tag "#{inbox_f.object_name}[sla_policy_ids][]", options_from_collection_for_select(current_account.sla_policies, :id, :name, contact_form_channel.primary_inbox.sla_policy_ids.first), include_blank: t("dashboard.channels.edit.none_selected", default: "None Selected"), class: "ui-select ui-control", data: { controller: "select" }
+                  = select_tag "#{inbox_f.object_name}[sla_policy_ids][]", options_from_collection_for_select(current_account.sla_policies, :id, :name, inbox_f.object.sla_policy_ids), multiple: true, class: "ui-select ui-control", data: { controller: "select" }
               div
                 = inbox_f.label :csat_survey_id, t("forms.labels.csat_survey"), class: "ww-label"
                 .channel-edit-select.ui-field-control.ui-field-control--no-icon
                   = inbox_f.collection_select :csat_survey_id, @csat_surveys, :id, :name, { include_blank: t("forms.options.default_survey") }, { class: "ui-select ui-control", data: { controller: "select" } }
 
             = render "dashboard/channels/shared/collaborators_fields", inbox_f: inbox_f
+            = render "dashboard/channels/shared/inbox_assignment_ai_settings", inbox_f: inbox_f, show_auto_assign: false, show_collaborators: false
 
   / ─── Appearance & Branding ───
   .ww-section.ui-section data-contact-form-channel-target="appearanceSection"

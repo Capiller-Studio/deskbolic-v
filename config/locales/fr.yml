@@ -1540,7 +1540,7 @@ fr:
         Veuillez mettre à niveau pour ajouter plus de chaînes.
       created: La page Facebook a été connectée avec succès.
       updated: Paramètres de la page Facebook mis à jour.
-      destroyed: La page Facebook a été déconnectée.
+      destroyed: La page Facebook a été supprimée.
       create_failed: Échec de la connexion de la page Facebook. Veuillez réessayer.
       callback_error: Une erreur s'est produite lors de la connexion à Facebook. Veuillez
         réessayer.
@@ -1552,8 +1552,8 @@ fr:
         description: Connectez vos pages Facebook pour recevoir et répondre aux conversations
           Messenger.
         connect_page: Connecter la page Facebook
-        delete_confirm: Êtes-vous sûr de vouloir déconnecter cette page Facebook ?
-          Cela supprimera la boîte de réception et toutes les conversations associées.
+        delete_confirm: Voulez-vous supprimer cette page Facebook ? Sa boîte de réception
+          et toutes ses conversations seront supprimées définitivement. Cette action est irréversible.
         status_active: Connecté
         status_disconnected: Déconnecté
         status_reauth: Ré-autorisation nécessaire
@@ -1592,10 +1592,9 @@ fr:
         inbox_settings_title: Paramètres de la boîte de réception
         csat_enabled: Activer l'enquête CSAT après les conversations
         danger_title: Zone dangereuse
-        danger_description: La déconnexion de cette page supprimera la boîte de réception
-          et cessera de recevoir de nouveaux messages. Les conversations existantes
-          seront conservées.
-        disconnect: Page de déconnexion
+        danger_description: La suppression de cette page supprimera définitivement sa
+          boîte de réception et toutes ses conversations. Cette action est irréversible.
+        delete: Supprimer la page
       form:
         back: Retour aux pages Facebook
         cancel: Annuler
@@ -1610,7 +1609,7 @@ fr:
         Veuillez mettre à niveau pour ajouter plus de chaînes.
       created: Le compte Instagram a été connecté avec succès.
       updated: Paramètres de la chaîne Instagram mis à jour.
-      destroyed: Le compte Instagram a été déconnecté.
+      destroyed: Le compte Instagram a été supprimé.
       create_failed: Échec de la connexion au compte Instagram. Veuillez réessayer.
       callback_error: Une erreur s'est produite lors de la connexion à Instagram.
         Veuillez réessayer.
@@ -1620,8 +1619,8 @@ fr:
         description: Connectez vos comptes professionnels Instagram pour gérer les
           DM depuis votre tableau de bord.
         connect_account: Connectez Instagram
-        delete_confirm: Êtes-vous sûr de vouloir déconnecter ce compte Instagram ?
-          Cela supprimera la boîte de réception et toutes les conversations associées.
+        delete_confirm: Voulez-vous supprimer ce compte Instagram ? Sa boîte de réception
+          et toutes ses conversations seront supprimées définitivement. Cette action est irréversible.
         status_active: Connecté
         status_expired: Jeton expiré
         status_expiring: Le jeton expire bientôt
@@ -1657,10 +1656,9 @@ fr:
         inbox_settings_title: Paramètres de la boîte de réception
         csat_enabled: Activer l'enquête CSAT après les conversations
         danger_title: Zone dangereuse
-        danger_description: La déconnexion de ce compte supprimera la boîte de réception
-          et cessera de recevoir de nouveaux DM. Les conversations existantes seront
-          conservées.
-        disconnect: Déconnecter le compte
+        danger_description: La suppression de ce compte supprimera définitivement sa
+          boîte de réception et toutes ses conversations. Cette action est irréversible.
+        delete: Supprimer le compte
       form:
         back: Retour sur Instagram
         cancel: Annuler
@@ -1674,7 +1672,7 @@ fr:
         Veuillez mettre à niveau pour ajouter plus de chaînes.
       created: Le canal WhatsApp a été connecté avec succès.
       updated: Paramètres du canal WhatsApp mis à jour.
-      destroyed: Le canal WhatsApp a été déconnecté.
+      destroyed: Le canal WhatsApp a été supprimé.
       create_failed: Échec de la connexion au canal WhatsApp. Veuillez réessayer.
       callback_error: Une erreur s'est produite lors de la connexion à WhatsApp. Veuillez
         réessayer.
@@ -1691,8 +1689,8 @@ fr:
         description: Connectez votre API WhatsApp Business pour gérer les conversations
           clients.
         connect_channel: Connectez WhatsApp
-        delete_confirm: Êtes-vous sûr de vouloir déconnecter ce canal WhatsApp ? Cela
-          supprimera la boîte de réception et toutes les conversations associées.
+        delete_confirm: Voulez-vous supprimer ce canal WhatsApp ? Sa boîte de réception
+          et toutes ses conversations seront supprimées définitivement. Cette action est irréversible.
         status_active: Connecté
         status_disconnected: Déconnecté
         status_reauth: Ré-autorisation nécessaire
@@ -1763,10 +1761,9 @@ fr:
         reauth_description: Le jeton d'accès a expiré ou a été invalidé. Veuillez
           vous reconnecter pour restaurer la messagerie.
         danger_title: Zone dangereuse
-        danger_description: La déconnexion de cette chaîne supprimera la boîte de
-          réception et cessera de recevoir de nouveaux messages. Les conversations
-          existantes seront conservées.
-        disconnect: Déconnecter la chaîne
+        danger_description: La suppression de ce canal supprimera définitivement sa
+          boîte de réception et toutes ses conversations. Cette action est irréversible.
+        delete: Supprimer le canal
         webhook:
           title: Configuration du webhook
           description: Ajoutez cette URL de webhook et vérifiez le jeton à la configuration

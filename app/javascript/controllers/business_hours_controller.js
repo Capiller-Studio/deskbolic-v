@@ -63,7 +63,6 @@ export default class extends Controller {
     if (container) {
       if (isEnabled) {
         container.style.opacity = "1"
-        container.style.pointerEvents = "auto"
         // If they enable it but it's empty, add a default slot
         const visibleSlots = Array.from(container.querySelectorAll('[data-business-hours-target="slot"]'))
           .filter(slot => slot.style.display !== 'none')
@@ -72,7 +71,6 @@ export default class extends Controller {
         }
       } else {
         container.style.opacity = "0.5"
-        container.style.pointerEvents = "none"
         
         // Mark all existing slots for destruction
         const slots = container.querySelectorAll('[data-business-hours-target="slot"]')

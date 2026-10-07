@@ -265,7 +265,7 @@ module Dashboard
           facebook_channel: [ :name,
           primary_inbox_attributes: [
             :id, :reopen_window_seconds, :csat_survey_enabled, :auto_assign, :csat_survey_id,
-            :business_hour_group_id,
+            :business_hour_group_id, :ai_classification, :ai_auto_labelling,
             sla_policy_ids: [], user_ids: [], team_ids: []
           ] ]
         )

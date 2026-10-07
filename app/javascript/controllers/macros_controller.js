@@ -296,7 +296,7 @@ export default class extends Controller {
 
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content
 
-    fetch(`/macros/${macroId}/execute`, {
+    fetch(this.localizedPath(`/macros/${macroId}/execute`), {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -442,5 +442,10 @@ export default class extends Controller {
     const div = document.createElement("div")
     div.textContent = str
     return div.innerHTML
+  }
+
+  localizedPath(path) {
+    const locale = document.documentElement.lang
+    return locale && locale !== "en" ? `/${locale}${path}` : path
   }
 }

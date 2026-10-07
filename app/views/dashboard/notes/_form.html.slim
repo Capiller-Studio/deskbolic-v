@@ -7,7 +7,7 @@
             = f.text_area :content, autofocus: true, class: "form-control f-reg-14 text-area-field", placeholder: t("dashboard.notes.form.content_placeholder"), required: true, aria: { describedby: "note-#{note.id}-content-error" }, data: { action: "input->accordion#clearNoteValidation" }
             .invalid-feedback id="note-#{note.id}-content-error" role="alert" = t('dashboard.conversation_details.note_empty')
         .form-actions
-          = link_to(note_path(note.id), class: "btn f-semi-14 btn-delete", data: { turbo_method: :delete, turbo_confirm: t("shared.confirm_delete") })
-            = image_tag("delete_icon.png", class:"del-icon", alt:t("ui.dashboard.agent.agent_sidebar.menu"))
-          = button_tag type: "submit", class: "btn f-semi-14 btn-update" do
-            = image_tag("update_note.png", class: "edit-icon", alt: t("ui.dashboard.agent.agent_sidebar.menu"))
+          = link_to(note_path(note.id), class: "note-action-button note-action-button--delete", aria: { label: t("dashboard.notes.delete", default: "Delete note") }, data: { turbo_method: :delete, turbo_confirm: t("shared.confirm_delete") })
+            = image_tag("delete_icon.png", class: "note-action-button__icon", alt: "")
+          = button_tag type: "submit", class: "note-action-button note-action-button--save", aria: { label: t("dashboard.notes.save", default: "Save note") } do
+            = image_tag("update_note.png", class: "note-action-button__icon", alt: "")

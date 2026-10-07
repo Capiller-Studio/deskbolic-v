@@ -1545,7 +1545,7 @@ de:
         aktualisieren Sie, um weitere Kanäle hinzuzufügen.
       created: Die Facebook-Seite wurde erfolgreich verbunden.
       updated: Facebook-Seiteneinstellungen aktualisiert.
-      destroyed: Die Facebook-Seite wurde getrennt.
+      destroyed: Die Facebook-Seite wurde gelöscht.
       create_failed: Die Facebook-Seite konnte nicht verbunden werden. Bitte versuchen
         Sie es erneut.
       callback_error: Beim Herstellen der Verbindung zu Facebook ist ein Fehler aufgetreten.
@@ -1558,8 +1558,8 @@ de:
         description: Verbinden Sie Ihre Facebook-Seiten, um Messenger-Unterhaltungen
           zu empfangen und darauf zu antworten.
         connect_page: Facebook-Seite verbinden
-        delete_confirm: Sind Sie sicher, dass Sie diese Facebook-Seite trennen möchten?
-          Dadurch werden der Posteingang und alle zugehörigen Konversationen entfernt.
+        delete_confirm: Möchten Sie diese Facebook-Seite löschen? Der Posteingang und
+          alle zugehörigen Unterhaltungen werden dauerhaft gelöscht. Dieser Vorgang kann nicht rückgängig gemacht werden.
         status_active: Verbunden
         status_disconnected: Nicht verbunden
         status_reauth: Erneute Autorisierung erforderlich
@@ -1598,10 +1598,9 @@ de:
         inbox_settings_title: Posteingangseinstellungen
         csat_enabled: Aktivieren Sie die CSAT-Umfrage nach Gesprächen
         danger_title: Gefahrenzone
-        danger_description: Wenn Sie die Verbindung zu dieser Seite trennen, wird
-          der Posteingang entfernt und der Empfang neuer Nachrichten wird beendet.
-          Bestehende Konversationen bleiben erhalten.
-        disconnect: Seite trennen
+        danger_description: Wenn Sie diese Seite löschen, werden der Posteingang und
+          alle zugehörigen Unterhaltungen dauerhaft gelöscht. Dieser Vorgang kann nicht rückgängig gemacht werden.
+        delete: Seite löschen
       form:
         back: Zurück zu den Facebook-Seiten
         cancel: Abbrechen
@@ -1616,7 +1615,7 @@ de:
         aktualisieren Sie, um weitere Kanäle hinzuzufügen.
       created: Das Instagram-Konto wurde erfolgreich verbunden.
       updated: Instagram-Kanaleinstellungen aktualisiert.
-      destroyed: Instagram-Konto wurde getrennt.
+      destroyed: Instagram-Konto wurde gelöscht.
       create_failed: Verbindung zum Instagram-Konto fehlgeschlagen. Bitte versuchen
         Sie es erneut.
       callback_error: Beim Herstellen der Verbindung zu Instagram ist ein Fehler aufgetreten.
@@ -1628,9 +1627,8 @@ de:
         description: Verknüpfen Sie Ihre Instagram-Geschäftskonten, um DMs über Ihr
           Dashboard zu verwalten.
         connect_account: Verbinde Instagram
-        delete_confirm: Möchten Sie die Verbindung zu diesem Instagram-Konto wirklich
-          trennen? Dadurch werden der Posteingang und alle zugehörigen Konversationen
-          entfernt.
+        delete_confirm: Möchten Sie dieses Instagram-Konto löschen? Der Posteingang
+          und alle zugehörigen Unterhaltungen werden dauerhaft gelöscht. Dieser Vorgang kann nicht rückgängig gemacht werden.
         status_active: Verbunden
         status_expired: Token abgelaufen
         status_expiring: Token läuft bald ab
@@ -1667,10 +1665,9 @@ de:
         inbox_settings_title: Posteingangseinstellungen
         csat_enabled: Aktivieren Sie die CSAT-Umfrage nach Gesprächen
         danger_title: Gefahrenzone
-        danger_description: Wenn Sie die Verbindung zu diesem Konto trennen, wird
-          der Posteingang entfernt und Sie erhalten keine neuen Direktnachrichten
-          mehr. Bestehende Konversationen bleiben erhalten.
-        disconnect: Konto trennen
+        danger_description: Wenn Sie dieses Konto löschen, werden der Posteingang und
+          alle zugehörigen Unterhaltungen dauerhaft gelöscht. Dieser Vorgang kann nicht rückgängig gemacht werden.
+        delete: Konto löschen
       form:
         back: Zurück zu Instagram
         cancel: Abbrechen
@@ -1684,7 +1681,7 @@ de:
         aktualisieren Sie, um weitere Kanäle hinzuzufügen.
       created: Der WhatsApp-Kanal wurde erfolgreich verbunden.
       updated: WhatsApp-Kanaleinstellungen aktualisiert.
-      destroyed: Der WhatsApp-Kanal wurde getrennt.
+      destroyed: Der WhatsApp-Kanal wurde gelöscht.
       create_failed: Verbindung zum WhatsApp-Kanal fehlgeschlagen. Bitte versuchen
         Sie es erneut.
       callback_error: Beim Herstellen der Verbindung zu WhatsApp ist ein Fehler aufgetreten.
@@ -1702,8 +1699,8 @@ de:
         description: Verbinden Sie Ihre WhatsApp Business API, um Kundengespräche
           zu verwalten.
         connect_channel: WhatsApp verbinden
-        delete_confirm: Möchten Sie diesen WhatsApp-Kanal wirklich trennen? Dadurch
-          werden der Posteingang und alle zugehörigen Konversationen entfernt.
+        delete_confirm: Möchten Sie diesen WhatsApp-Kanal löschen? Der Posteingang
+          und alle zugehörigen Unterhaltungen werden dauerhaft gelöscht. Dieser Vorgang kann nicht rückgängig gemacht werden.
         status_active: Verbunden
         status_disconnected: Nicht verbunden
         status_reauth: Erneute Autorisierung erforderlich
@@ -1774,10 +1771,9 @@ de:
           Bitte stellen Sie die Verbindung wieder her, um die Nachrichtenübermittlung
           wiederherzustellen.
         danger_title: Gefahrenzone
-        danger_description: Wenn Sie die Verbindung zu diesem Kanal trennen, wird
-          der Posteingang entfernt und es werden keine neuen Nachrichten mehr empfangen.
-          Bestehende Konversationen bleiben erhalten.
-        disconnect: Kanal trennen
+        danger_description: Wenn Sie diesen Kanal löschen, werden der Posteingang und
+          alle zugehörigen Unterhaltungen dauerhaft gelöscht. Dieser Vorgang kann nicht rückgängig gemacht werden.
+        delete: Kanal löschen
         webhook:
           title: Webhook-Konfiguration
           description: Fügen Sie diese Webhook-URL und das Verifizierungstoken zur
@@ -3368,6 +3364,10 @@ de:
       priority_updated: Die Priorität wurde geändert
       label_added: Die Bezeichnung %{label} wurde hinzugefügt
       label_removed: Die Bezeichnung %{label} wurde entfernt
+      conversation_assigned: Gespräch wurde zugewiesen
+      conversation_unassigned: Gesprächszuweisung wurde aufgehoben
+      team_assigned: Gespräch wurde Team zugewiesen
+      team_unassigned: Teamzuweisung wurde aufgehoben
   audit_logs:
     actions: Aktionen
     actor: Schauspieler

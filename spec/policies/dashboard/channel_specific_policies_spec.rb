@@ -152,4 +152,22 @@ RSpec.describe 'Dashboard Channel Specific Policies' do
       end
     end
   end
+
+  describe Dashboard::MobileWidgetChannelPolicy do
+    subject { described_class.new(owner_user, channel_record) }
+
+    context 'when feature is enabled' do
+      before { allow(account).to receive(:feature_enabled?).with('channels.mobile_widget').and_return(true) }
+
+      it 'permits all CRUD and custom actions' do
+        expect(subject.index?).to be true
+        expect(subject.show?).to be true
+        expect(subject.create?).to be true
+        expect(subject.update?).to be true
+        expect(subject.destroy?).to be true
+        expect(subject.regenerate_secret?).to be true
+        expect(subject.test_push?).to be true
+      end
+    end
+  end
 end

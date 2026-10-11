@@ -1,0 +1,90 @@
+section.channel-edit-section.channel-edit-card
+  .channel-edit-section__heading.channel-edit-section__heading--with-description
+    .channel-edit-section__icon
+      = inline_svg_tag("setting.svg", aria: { hidden: true })
+    .channel-edit-section__heading-copy
+      h2 = t("dashboard.mobile_widget_channels.form.appearance_section", default: "Appearance & Theme")
+      p = t("dashboard.mobile_widget_channels.show.appearance_description", default: "Native mobile app chat theme and branding.")
+  .channel-edit-section__body
+    dl.channel-show-details
+      .channel-show-details__item
+        dt = t("dashboard.mobile_widget_channels.form.theme_color_label", default: "Primary Brand Color")
+        dd.channel-show-color
+          span style="background-color: #{channel.ui_configurations&.dig('primary_color') || '#0F766E'}" aria-hidden="true"
+          = channel.ui_configurations&.dig('primary_color') || '#0F766E'
+      .channel-show-details__item
+        dt = t("dashboard.mobile_widget_channels.form.default_locale", default: "Default Language")
+        dd = I18n.t("languages.#{channel.default_locale.to_s.downcase}", default: channel.default_locale.to_s.upcase)
+      .channel-show-details__item
+        dt = t("dashboard.mobile_widget_channels.form.attachments_label", default: "File Attachments")
+        dd = channel.attachments_enabled? ? t("general.enabled", default: "Enabled") : t("general.disabled", default: "Disabled")
+      .channel-show-details__item
+        dt = t("dashboard.mobile_widget_channels.form.identity_label", default: "Identity Verification")
+        dd = channel.secure_identity_enforced? ? t("dashboard.mobile_widget_channels.form.enforced", default: "Enforced (Signed JWT / HMAC)") : t("dashboard.mobile_widget_channels.form.optional", default: "Guest / Unsigned Allowed")
+
+section.channel-edit-section.channel-edit-card
+  .channel-edit-section__heading.channel-edit-section__heading--with-description
+    .channel-edit-section__icon
+      = inline_svg_tag("t_users.svg", aria: { hidden: true })
+    .channel-edit-section__heading-copy
+      h2 = t("dashboard.mobile_widget_channels.show.devices_section", default: "Registered Customer Devices")
+      p = t("dashboard.mobile_widget_channels.show.devices_description", default: "Mobile devices actively receiving background push notifications.")
+  .channel-edit-section__body
+    - devices = channel.customer_devices.order(last_seen_at: :desc).limit(10)
+    - if devices.any?
+      .ui-table-wrapper style="overflow-x: auto;"
+        table.ui-table style="width: 100%; text-align: left;"
+          thead
+            tr
+              th = t("dashboard.mobile_widget_channels.show.platform", default: "Platform")
+              th = t("dashboard.mobile_widget_channels.show.device_model", default: "Device Model")
+              th = t("dashboard.mobile_widget_channels.show.os_version", default: "OS Version")
+              th = t("dashboard.mobile_widget_channels.show.app_version", default: "App Version")
+              th = t("dashboard.mobile_widget_channels.show.last_seen", default: "Last Active")
+              th = t("general.status", default: "Status")
+          tbody
+            - devices.each do |dev|
+              tr
+                td
+                  span.device-platform-badge class="device-platform-badge--#{dev.platform}" = dev.platform.to_s.upcase
+                td = dev.device_model.presence || "Unknown"
+                td = dev.os_version.presence || "—"
+                td = dev.app_version.presence || "—"
+                td = dev.last_seen_at ? time_ago_in_words(dev.last_seen_at) + " ago" : "—"
+                td
+                  span.status-pill class=(dev.active? ? "status-pill--active" : "status-pill--inactive") = dev.status.humanize
+    - else
+      p.channel-show-empty = t("dashboard.mobile_widget_channels.show.no_devices", default: "No mobile devices registered yet. Devices will appear here once users open your app.")
+
+section.channel-edit-section.channel-edit-card
+  .channel-edit-section__heading
+    .channel-edit-section__icon
+      = inline_svg_tag("automation.svg", aria: { hidden: true })
+    h2 = t("dashboard.mobile_widget_channels.form.integrations_section", default: "Module Integrations")
+  .channel-edit-section__body
+    dl.channel-show-details
+      .channel-show-details__item
+        dt = t("dashboard.mobile_widget_channels.form.portal_label", default: "Help Center")
+        dd = channel.portal&.name || t("forms.options.no_help_center_linked", default: "No Help Center linked")
+      .channel-show-details__item
+        dt = t("dashboard.ai_agents.index.title", default: "AI Agent")
+        dd = channel.primary_inbox&.ai_agent&.name || t("forms.options.no_ai_agent_linked", default: "No AI Agent linked")
+      .channel-show-details__item
+        dt = t("dashboard.mobile_widget_channels.form.offline_email_channel", default: "Fallback Email Channel")
+        dd = channel.fallback_channel&.name || t("forms.options.no_email_channel_linked", default: "No fallback channel linked")
+
+section.channel-edit-section.channel-edit-card
+  .channel-edit-section__heading.channel-edit-section__heading--with-description
+    .channel-edit-section__icon
+      = inline_svg_tag("code_snipet.svg", aria: { hidden: true })
+    .channel-edit-section__heading-copy
+      h2 = t("dashboard.mobile_widget_channels.form.installation_section", default: "Flutter SDK Integration")
+      p = t("dashboard.mobile_widget_channels.show.installation_desc", default: "Initialize Deskbolic in your Flutter application's main() or splash screen.")
+  .channel-edit-section__body
+    .channel-edit-copy data-controller="clipboard"
+      label Flutter SDK Quickstart
+      .channel-edit-copy__control
+        input type="text" value="Deskbolic.initialize(appId: '#{channel.identifier}');" readonly=true data-clipboard-target="source"
+        button.channel-edit-copy__button type="button" data-action="click->clipboard#copy" data-clipboard-target="button"
+          = inline_svg_tag("copy.svg", aria: { hidden: true })
+          span = t("general.copy")

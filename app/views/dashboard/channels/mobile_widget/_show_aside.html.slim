@@ -1,0 +1,38 @@
+.channel-show-aside-card
+  .channel-show-aside-header
+    h3 = t("dashboard.mobile_widget_channels.show.sdk_credentials", default: "SDK Credentials")
+  .channel-show-aside-body
+    .channel-edit-copy data-controller="clipboard"
+      label = t("dashboard.mobile_widget_channels.form.app_id_label", default: "App ID")
+      .channel-edit-copy__control
+        input type="text" value=channel.identifier readonly=true data-clipboard-target="source"
+        button.channel-edit-copy__button type="button" data-action="click->clipboard#copy" data-clipboard-target="button"
+          = inline_svg_tag("copy.svg", aria: { hidden: true })
+          span = t("general.copy")
+
+    .channel-edit-copy data-controller="clipboard" style="margin-top: 12px;"
+      label = t("dashboard.mobile_widget_channels.form.secret_key_label", default: "API Secret Key")
+      .channel-edit-copy__control
+        input type="password" value=channel.secret readonly=true data-clipboard-target="source"
+        button.channel-edit-copy__button type="button" data-action="click->clipboard#copy" data-clipboard-target="button"
+          = inline_svg_tag("copy.svg", aria: { hidden: true })
+          span = t("general.copy")
+
+  .channel-show-aside-divider
+
+  .channel-show-aside-header
+    h3 = t("dashboard.mobile_widget_channels.show.push_status", default: "Push Notifications")
+  .channel-show-aside-body
+    .channel-show-status-row
+      span.status-label Apple APNs
+      - if channel.apns_configured?
+        span.status-badge.status-badge--success = t("general.active", default: "Configured")
+      - else
+        span.status-badge.status-badge--inactive = t("general.not_configured", default: "Not Configured")
+
+    .channel-show-status-row style="margin-top: 8px;"
+      span.status-label Google FCM
+      - if channel.fcm_configured?
+        span.status-badge.status-badge--success = t("general.active", default: "Configured")
+      - else
+        span.status-badge.status-badge--inactive = t("general.not_configured", default: "Not Configured")

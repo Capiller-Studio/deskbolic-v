@@ -1,0 +1,73 @@
+.ww-section.ui-section
+  .ww-section-header
+    .ww-section-title
+      = inline_svg_tag("code_snipet.svg", class: "ww-section-icon", alt: "Installation & Setup")
+      span.ww-section-label = t("dashboard.mobile_widget_channels.form.installation_section", default: "Flutter SDK Integration & API Credentials")
+  .ww-section-body
+    p.ww-section-desc
+      = t("dashboard.mobile_widget_channels.installation.desc", default: "Use the credentials below to integrate Deskbolic into your mobile apps.")
+
+    / ─── App ID & Secret ───
+    .ww-form-row
+      div
+        .channel-edit-copy data-controller="clipboard"
+          label.ww-label = t("dashboard.mobile_widget_channels.form.app_id_label", default: "App ID (X-Deskbolic-App-Id)")
+          .channel-edit-copy__control
+            input.ww-input type="text" value=mobile_widget_channel.identifier readonly=true data-clipboard-target="source"
+            button.channel-edit-copy__button type="button" data-action="click->clipboard#copy" data-clipboard-target="button"
+              = inline_svg_tag("copy.svg", aria: { hidden: true })
+              span = t("general.copy")
+
+      div
+        .channel-edit-copy data-controller="clipboard"
+          label.ww-label = t("dashboard.mobile_widget_channels.form.secret_key_label", default: "Channel Secret (Keep Confidential)")
+          .channel-edit-copy__control
+            input.ww-input type="password" value=mobile_widget_channel.secret readonly=true data-clipboard-target="source"
+            button.channel-edit-copy__button type="button" data-action="click->clipboard#copy" data-clipboard-target="button"
+              = inline_svg_tag("copy.svg", aria: { hidden: true })
+              span = t("general.copy")
+
+    .rotate-secret-row style="margin-top: 10px; display: flex; align-items: center; justify-content: flex-end;"
+      = button_to regenerate_secret_channels_mobile_widget_path(mobile_widget_channel), method: :post, data: { turbo_confirm: t("dashboard.mobile_widget_channels.rotate_confirm", default: "Are you sure? Rotating the secret will immediately invalidate existing JWT/HMAC identity tokens until you update your backend servers.") }, class: "ui-button ui-button--link-danger", style: "font-size: 13px; color: #DC2626; text-decoration: underline; background: none; border: none; cursor: pointer;" do
+        = inline_svg_tag("refresh.svg", style: "width: 14px; height: 14px; vertical-align: middle; margin-right: 4px;")
+        span = t("dashboard.mobile_widget_channels.rotate_secret", default: "Rotate Secret Key")
+
+    / ─── Flutter Code Snippet ───
+    .code-sample-card style="margin-top: 20px; background: #0F172A; border-radius: 8px; padding: 16px; color: #F8FAFC;"
+      .code-sample-header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;"
+        span style="font-family: monospace; font-size: 13px; color: #94A3B8;" lib/main.dart (Flutter SDK)
+        button type="button" data-controller="clipboard" data-action="click->clipboard#copy" style="background: rgba(255,255,255,0.1); border: none; color: #fff; padding: 4px 10px; border-radius: 4px; font-size: 12px; cursor: pointer;"
+          input type="hidden" value="await Deskbolic.initialize(\n  appId: '#{mobile_widget_channel.identifier}',\n);\n\n// To show chat:\nDeskbolic.openChat(context);" data-clipboard-target="source"
+          span Copy Code
+
+      pre style="margin: 0; font-family: monospace; font-size: 13px; line-height: 1.6; color: #E2E8F0; overflow-x: auto;"
+        code
+          | // 1. Add dependency to pubspec.yaml:
+          | // dependencies:
+          | //   deskbolic_flutter: ^1.0.0
+          |
+          | void main() async {
+          |   WidgetsFlutterBinding.ensureInitialized();
+          |
+          |   await Deskbolic.initialize(
+          |     appId: '#{mobile_widget_channel.identifier}',
+          |   );
+          |
+          |   runApp(const MyApp());
+          | }
+          |
+          | // 2. Identify authenticated customer (JWT from your backend):
+          | await Deskbolic.login(jwt: customerJwtToken);
+          |
+          | // 3. Open in-app chat:
+          | Deskbolic.openChat(context);
+
+    / ─── Identity Verification Docs ───
+    .identity-guide style="margin-top: 20px; padding: 16px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px;"
+      h4 style="margin: 0 0 8px; font-size: 14px; color: #0F172A;" = t("dashboard.mobile_widget_channels.identity_guide.title", default: "Backend Identity Signing Guide")
+      p style="font-size: 13px; color: #475569; margin: 0 0 12px;"
+        = t("dashboard.mobile_widget_channels.identity_guide.body", default: "Generate signed tokens on your server using this channel's secret key. Pass the signed JWT or HMAC hash to the mobile app.")
+      .code-pill style="font-family: monospace; font-size: 12px; background: #FFFFFF; padding: 10px; border: 1px solid #CBD5E1; border-radius: 6px; overflow-x: auto;"
+        | # Ruby Backend JWT Example (HS256)
+        | payload = { external_id: user.id, email: user.email, name: user.name, exp: 1.hour.from_now.to_i }
+        | token = JWT.encode(payload, '#{mobile_widget_channel.secret}', 'HS256')

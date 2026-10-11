@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_28_160000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_11_120001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -411,6 +411,55 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_28_160000) do
     t.index ["instagram_id"], name: "index_channel_instagram_on_instagram_id", unique: true
   end
 
+  create_table "channel_mobile_widget_translations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.string "header_title"
+    t.string "locale", null: false
+    t.uuid "mobile_widget_id", null: false
+    t.string "pre_chat_subtitle"
+    t.string "pre_chat_title"
+    t.string "reply_time_text"
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.string "welcome_tagline"
+    t.string "welcome_title"
+    t.index ["mobile_widget_id", "locale"], name: "index_cmwt_on_widget_and_locale", unique: true
+  end
+
+  create_table "channel_mobile_widgets", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "account_id", null: false
+    t.string "android_package_name"
+    t.integer "apns_environment", default: 1, null: false
+    t.text "apns_key"
+    t.string "apns_key_id"
+    t.string "apns_team_id"
+    t.jsonb "configurations", default: {}, null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.jsonb "data", default: {}, null: false
+    t.string "default_locale", default: "en", null: false
+    t.uuid "fallback_channel_id"
+    t.string "fallback_channel_type"
+    t.string "fcm_project_id"
+    t.text "fcm_service_account"
+    t.integer "flags", default: 0, null: false
+    t.string "identifier", null: false
+    t.string "ios_bundle_id"
+    t.string "name", null: false
+    t.uuid "portal_id"
+    t.uuid "pre_chat_form_id"
+    t.string "secret", null: false
+    t.integer "status", default: 0, null: false
+    t.jsonb "ui_configurations", default: {}, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["account_id", "created_at"], name: "index_channel_mobile_widgets_on_account_id_and_created_at"
+    t.index ["account_id", "name"], name: "index_channel_mobile_widgets_on_account_id_and_name"
+    t.index ["account_id"], name: "index_channel_mobile_widgets_on_account_id"
+    t.index ["fallback_channel_type", "fallback_channel_id"], name: "index_mobile_widgets_on_fallback_channel"
+    t.index ["identifier"], name: "index_channel_mobile_widgets_on_identifier", unique: true
+    t.index ["portal_id"], name: "index_channel_mobile_widgets_on_portal_id"
+    t.index ["pre_chat_form_id"], name: "index_channel_mobile_widgets_on_pre_chat_form_id"
+    t.index ["status"], name: "index_channel_mobile_widgets_on_status"
+  end
+
   create_table "channel_short_messages", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "account_id", null: false
     t.jsonb "configurations", default: {}, null: false
@@ -671,6 +720,36 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_28_160000) do
     t.index ["account_id", "key"], name: "index_custom_fields_on_account_id_and_key", unique: true
     t.index ["account_id", "position"], name: "index_custom_fields_on_account_id_and_position"
     t.index ["account_id"], name: "index_custom_fields_on_account_id"
+  end
+
+  create_table "customer_devices", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "account_id", null: false
+    t.string "app_version"
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.uuid "customer_id", null: false
+    t.uuid "customer_inbox_id", null: false
+    t.jsonb "data", default: {}, null: false
+    t.string "device_identifier"
+    t.string "device_model"
+    t.uuid "inbox_id", null: false
+    t.datetime "last_push_at"
+    t.datetime "last_seen_at"
+    t.string "locale"
+    t.string "os_version"
+    t.integer "platform", null: false
+    t.integer "push_provider", null: false
+    t.string "push_token", null: false
+    t.string "sdk_version"
+    t.integer "status", default: 0, null: false
+    t.string "timezone"
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["account_id", "created_at"], name: "index_customer_devices_on_account_id_and_created_at"
+    t.index ["account_id"], name: "index_customer_devices_on_account_id"
+    t.index ["customer_id", "status"], name: "index_customer_devices_on_customer_id_and_status"
+    t.index ["customer_id"], name: "index_customer_devices_on_customer_id"
+    t.index ["customer_inbox_id"], name: "index_customer_devices_on_customer_inbox_id"
+    t.index ["inbox_id", "push_token"], name: "index_customer_devices_on_inbox_id_and_push_token", unique: true
+    t.index ["inbox_id"], name: "index_customer_devices_on_inbox_id"
   end
 
   create_table "customer_inboxes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -1438,6 +1517,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_28_160000) do
   add_foreign_key "business_hours", "business_hour_groups", on_delete: :cascade
   add_foreign_key "canned_response_translations", "canned_responses", on_delete: :cascade
   add_foreign_key "channel_contact_form_translations", "channel_contact_forms", column: "contact_form_id", on_delete: :cascade
+  add_foreign_key "channel_mobile_widget_translations", "channel_mobile_widgets", column: "mobile_widget_id"
   add_foreign_key "channel_web_widget_translations", "channel_web_widgets", column: "web_widget_id"
   add_foreign_key "channel_web_widgets", "channel_contact_forms", column: "pre_chat_form_id", on_delete: :nullify
   add_foreign_key "channel_web_widgets", "help_center_portals", column: "portal_id", on_delete: :nullify

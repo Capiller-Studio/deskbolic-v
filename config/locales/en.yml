@@ -314,6 +314,7 @@ en:
         channels: Channels
         email_channels: Email Channels
         web_widget_channels: Web Widget Channels
+        mobile_widget_channels: Mobile App Channels
         contact_form_channels: Contact Form Channels
         data: Data
         custom_fields: Custom Fields
@@ -359,6 +360,8 @@ en:
       email_desc: Manage your email channels.
       web_widget: Web Widget
       web_widget_desc: Manage forwarding, domains, and customization.
+      mobile_widget: Mobile App (SDK)
+      mobile_widget_desc: Manage native iOS and Android mobile app SDK channels.
       contact_form: Contact Form
       contact_form_desc: Manage your contact form.
       facebook: Facebook
@@ -409,6 +412,7 @@ en:
       types:
         email: Email
         web_widget: Web Widget
+        mobile_widget: Mobile App (SDK)
         contact_form: Contact Form
         facebook: Facebook
         instagram: Instagram
@@ -450,6 +454,9 @@ en:
         web_widget:
           title: Web Widget
           description: Update your web widget configuration and preferences.
+        mobile_widget:
+          title: Mobile App (SDK)
+          description: Connect your native iOS and Android mobile apps via our Flutter SDK.
       status:
         active: Active
         disconnected: Disconnected
@@ -508,6 +515,8 @@ en:
         email_channels_keywords: email inbox smtp imap
         web_widget_channels: Web Widget Channels
         web_widget_channels_keywords: live chat widget embed
+        mobile_widget_channels: Mobile App Channels
+        mobile_widget_channels_keywords: mobile ios android flutter sdk in-app chat push
         contact_form_channels: Contact Form Channels
         contact_form_channels_keywords: form contact embed
         facebook_channels: Facebook Channels
@@ -1069,6 +1078,89 @@ en:
       created: Identity source was successfully created.
       updated: Identity source was successfully updated.
       deleted: Identity source was successfully deleted.
+    mobile_widget_channels:
+      created: Mobile app channel was successfully created.
+      updated: Mobile app channel was successfully updated.
+      destroyed: Mobile app channel was successfully deleted.
+      limit_reached: Mobile app channel limit reached for your account plan.
+      secret_regenerated: Secret regenerated successfully. Please update your backend servers.
+      no_devices: No active devices registered yet. Connect your mobile app first.
+      test_push_success: Test push notification sent successfully!
+      test_push_failed: Failed to send test push. Please verify your credentials and device tokens.
+      translations:
+        eg_welcome_title: e.g. Welcome!
+        eg_welcome_tagline: e.g. How can we help you?
+        eg_reply_time_text: e.g. Typically replies in a few minutes
+      index:
+        title: Mobile App Channels
+        description: Connect your native iOS and Android mobile apps via our Flutter SDK for customer support.
+        new_channel: New Mobile App Channel
+        empty_title: No mobile channels yet
+        empty_description: Create your first mobile channel to embed in-app messaging and push notifications in your apps.
+        inboxes_count:
+          one: "%{count} Inbox"
+          other: "%{count} Inboxes"
+        delete_confirm: Are you sure? This will disconnect this mobile channel and stop push notifications.
+        created_ago: Created %{time} ago
+      new:
+        title: New Mobile App Channel
+        subtitle: Create a new native mobile app integration for iOS and Android.
+      edit:
+        title: Edit Mobile App Channel
+        subtitle: Configure mobile SDK settings, identity verification, and push credentials.
+      show:
+        appearance_description: Native in-app chat appearance and themes.
+        devices_section: Registered Customer Devices
+        devices_description: Mobile devices receiving push notifications.
+        platform: Platform
+        device_model: Device Model
+        os_version: OS Version
+        app_version: App Version
+        last_seen: Last Active
+        no_devices: No mobile devices registered yet. Devices appear here once users launch your app.
+        installation_desc: Initialize Deskbolic in your Flutter application.
+      form:
+        name_label: Channel Name
+        name_placeholder: e.g. iOS & Android Mobile App
+        basic_section: Channel Details & Inbox
+        appearance_section: Appearance & Branding
+        behaviors_section: SDK Behaviors & Security
+        integrations_section: Module Integrations
+        push_section: Push Notifications (APNs & FCM)
+        push_desc: Deliver real-time push alerts to customer devices when agents reply while your app is in background.
+        push_enabled_label: Enable Push Notifications
+        preview_mode_label: Notification Preview Mode
+        preview_full: Show message text in notification
+        preview_hidden: Hide message text ("You have a new message")
+        max_attachment_label: Max Attachment Size (MB)
+        ios_bundle_id: iOS Bundle ID
+        apns_environment: APNs Environment
+        production: Production
+        sandbox: Sandbox (Development)
+        apns_key_id: APNs Key ID (10 chars)
+        apns_team_id: Apple Team ID (10 chars)
+        apns_key: APNs Auth Key (.p8 file contents)
+        android_package_name: Android Package Name
+        fcm_project_id: Detected Project ID
+        fcm_service_account: Firebase Service Account JSON
+        test_push_title: Send Test Push Notification
+        test_push_desc: Sends a test push to the most recently registered active mobile device.
+        send_test_push: Send Test Push
+        theme_color_label: Primary Theme Color
+        header_color_label: Header Text Color
+        anonymous_allowed_label: Allow Guest / Anonymous Chats
+        anonymous_desc: Allows users to chat before signing in with an account.
+        secure_identity_label: Enforce Secure Identity Verification
+        secure_identity_desc: Requires backend-signed JWT or HMAC signatures for all chats.
+        attachments_label: Allow File Attachments
+        attachments_desc: Allow sending images, photos, and files.
+        portal_label: Help Center
+        offline_email_channel: Offline Email Fallback
+        translations_desc: Localize header, welcome greeting, and reply time strings for multiple languages.
+        installation_section: Flutter SDK Quickstart
+        secret_regenerated: Shared secret successfully regenerated.
+        test_push_sent: Test push notification dispatched successfully.
+        test_push_failed: Failed to send test push notification. Check credentials and registered devices.
     web_widget_channels:
       translations:
         eg_welcome_title: e.g. Welcome!
@@ -3470,6 +3562,9 @@ en:
     "channel/web_widget":
       update: Web Widget channel was updated
       destroy: Web Widget channel was deleted
+    "channel/mobile_widget":
+      update: Mobile App channel was updated
+      destroy: Mobile App channel was deleted
     "channel/custom":
       update: Custom channel was updated
       destroy: Custom channel was deleted

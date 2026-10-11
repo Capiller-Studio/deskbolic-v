@@ -155,6 +155,12 @@ Rails.application.routes.draw do
             post :purge_cache
           end
         end
+        resources :mobile_widget do
+          member do
+            post :regenerate_secret
+            post :test_push
+          end
+        end
         resources :contact_form do
           member do
             post :purge_cache

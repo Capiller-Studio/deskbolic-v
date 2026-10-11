@@ -290,6 +290,7 @@ es:
         channels: Canales
         email_channels: Canales de correo electrónico
         web_widget_channels: Canales de widgets web
+        mobile_widget_channels: Canales de aplicaciones móviles
         contact_form_channels: Canales del formulario de contacto
         data: Datos
         custom_fields: Campos personalizados
@@ -339,6 +340,8 @@ es:
       email_desc: Gestiona tus canales de correo electrónico.
       web_widget: widget web
       web_widget_desc: Gestione el reenvío, los dominios y la personalización.
+      mobile_widget: Aplicación móvil (SDK)
+      mobile_widget_desc: Gestione canales nativos de SDK para aplicaciones iOS y Android.
       contact_form: Formulario de contacto
       contact_form_desc: Gestiona tu formulario de contacto.
       facebook: Facebook
@@ -888,6 +891,89 @@ es:
       created: La fuente de identidad se creó correctamente.
       updated: La fuente de identidad se actualizó correctamente.
       deleted: La fuente de identidad se eliminó correctamente.
+    mobile_widget_channels:
+      created: El canal de la aplicación móvil se creó correctamente.
+      updated: El canal de la aplicación móvil se actualizó correctamente.
+      destroyed: El canal de la aplicación móvil se eliminó correctamente.
+      limit_reached: Se ha alcanzado el límite de canales de aplicaciones móviles para su plan.
+      secret_regenerated: El secreto se regeneró correctamente. Por favor actualice sus servidores.
+      no_devices: No hay dispositivos activos registrados aún. Conecte su aplicación móvil primero.
+      test_push_success: ¡Notificación push de prueba enviada con éxito!
+      test_push_failed: Error al enviar la notificación push de prueba. Verifique sus credenciales y dispositivos.
+      translations:
+        eg_welcome_title: por ej. ¡Bienvenido!
+        eg_welcome_tagline: por ej. ¿Cómo podemos ayudarte?
+        eg_reply_time_text: por ej. Normalmente responde en unos minutos
+      index:
+        title: Canales de aplicaciones móviles
+        description: Conecta tus aplicaciones móviles nativas de iOS y Android mediante nuestro SDK de Flutter para atención al cliente.
+        new_channel: Nuevo canal de aplicación móvil
+        empty_title: Aún no hay canales móviles
+        empty_description: Crea tu primer canal móvil para integrar mensajería dentro de la app y notificaciones push.
+        inboxes_count:
+          one: "%{count} Bandeja de entrada"
+          other: "%{count} Bandejas de entrada"
+        delete_confirm: ¿Estás seguro? Esto desconectará este canal móvil y detendrá las notificaciones push.
+        created_ago: Creado hace %{time}
+      new:
+        title: Nuevo canal de aplicación móvil
+        subtitle: Crea una nueva integración nativa de aplicación móvil para iOS y Android.
+      edit:
+        title: Editar canal de aplicación móvil
+        subtitle: Configura los ajustes del SDK móvil, verificación de identidad y credenciales push.
+      show:
+        appearance_description: Apariencia y temas del chat nativo en la app.
+        devices_section: Dispositivos de clientes registrados
+        devices_description: Dispositivos móviles que reciben notificaciones push.
+        platform: Plataforma
+        device_model: Modelo de dispositivo
+        os_version: Versión de SO
+        app_version: Versión de la app
+        last_seen: Última actividad
+        no_devices: Aún no hay dispositivos móviles registrados. Los dispositivos aparecerán aquí una vez que los usuarios abran la app.
+        installation_desc: Inicializa Deskbolic en tu aplicación Flutter.
+      form:
+        name_label: Nombre del canal
+        name_placeholder: por ej. App móvil iOS y Android
+        basic_section: Detalles del canal y bandeja de entrada
+        appearance_section: Apariencia y personalización
+        behaviors_section: Comportamientos del SDK y seguridad
+        integrations_section: Integraciones de módulos
+        push_section: Notificaciones push (APNs y FCM)
+        push_desc: Envía alertas push en tiempo real a los dispositivos cuando los agentes responden mientras la app está en segundo plano.
+        push_enabled_label: Habilitar notificaciones push
+        preview_mode_label: Modo de vista previa de notificación
+        preview_full: Mostrar texto del mensaje en la notificación
+        preview_hidden: Ocultar texto del mensaje ("Tienes un nuevo mensaje")
+        max_attachment_label: Tamaño máximo de archivo adjunto (MB)
+        ios_bundle_id: iOS Bundle ID
+        apns_environment: Entorno APNs
+        production: Producción
+        sandbox: Sandbox (Desarrollo)
+        apns_key_id: APNs Key ID (10 caracteres)
+        apns_team_id: Apple Team ID (10 caracteres)
+        apns_key: Clave de autenticación APNs (contenido de archivo .p8)
+        android_package_name: Nombre de paquete Android
+        fcm_project_id: ID de proyecto detectado
+        fcm_service_account: JSON de cuenta de servicio de Firebase
+        test_push_title: Enviar notificación push de prueba
+        test_push_desc: Envía un push de prueba al dispositivo activo registrado más recientemente.
+        send_test_push: Enviar push de prueba
+        theme_color_label: Color de tema primario
+        header_color_label: Color del texto de encabezado
+        anonymous_allowed_label: Permitir chats anónimos o invitados
+        anonymous_desc: Permite que los usuarios chateen antes de iniciar sesión.
+        secure_identity_label: Exigir verificación de identidad segura
+        secure_identity_desc: Requiere firmas JWT o HMAC firmadas por backend para todos los chats.
+        attachments_label: Permitir archivos adjuntos
+        attachments_desc: Permitir enviar imágenes, fotos y documentos.
+        portal_label: Centro de ayuda
+        offline_email_channel: Canal de correo alternativo sin conexión
+        translations_desc: Localiza encabezados, mensajes de bienvenida y tiempo de respuesta en varios idiomas.
+        installation_section: Inicio rápido con Flutter SDK
+        secret_regenerated: Clave secreta compartida regenerada con éxito.
+        test_push_sent: Notificación push de prueba enviada con éxito.
+        test_push_failed: Error al enviar la notificación push de prueba. Verifica credenciales y dispositivos registrados.
     web_widget_channels:
       translations:
         eg_welcome_title: por ej. ¡Bienvenido!
@@ -3106,6 +3192,8 @@ es:
         email_channels_keywords: "bandeja de entrada de correo electrónico smtp imap"
         web_widget_channels: "Canales de widgets web"
         web_widget_channels_keywords: "inserción de widget de chat en vivo"
+        mobile_widget_channels: "Canales de aplicaciones móviles"
+        mobile_widget_channels_keywords: "móvil ios android flutter sdk chat en la app push"
         contact_form_channels: "Canales del formulario de contacto"
         contact_form_channels_keywords: "formulario de contacto insertar"
         facebook_channels: "Canales de Facebook"

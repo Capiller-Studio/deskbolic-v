@@ -1,0 +1,36 @@
+- locale = f.object.locale.to_s
+- active = local_assigns.fetch(:active, false)
+
+.ww-translation-card.ui-locale-panel class=(active ? nil : "cf-hidden") data-locale=locale data-locale-tabs-target="panel"
+  = f.hidden_field :locale
+  = f.hidden_field :_destroy, class: "destroy-flag"
+
+  - unless locale == I18n.default_locale.to_s
+    .ui-locale-panel__header
+      strong.translation-language-name = locale.present? ? I18n.t("languages.#{locale.downcase}", default: locale.upcase) : ""
+      button.ui-action-delete type="button" data-action="click->nested-translations#removeTranslation" title=t("general.remove_translation", default: "Remove language")
+        = inline_svg_tag("cross_clear.svg", aria: { hidden: true })
+
+  .ww-form-row
+    div
+      = f.label :header_title, t("dashboard.mobile_widget_channels.translations.header_title", default: "Header Title"), class: "ww-label"
+      = f.text_field :header_title, class: "ww-input", placeholder: "e.g. Acme Support"
+    div
+      = f.label :reply_time_text, t("dashboard.mobile_widget_channels.translations.reply_time_text", default: "Reply Time Text"), class: "ww-label"
+      = f.text_field :reply_time_text, class: "ww-input", placeholder: "e.g. Typically replies in a few minutes"
+
+  .ww-form-row
+    div
+      = f.label :welcome_title, t("dashboard.mobile_widget_channels.translations.welcome_title", default: "Welcome Title"), class: "ww-label"
+      = f.text_field :welcome_title, class: "ww-input", placeholder: "e.g. Hello there 👋"
+    div
+      = f.label :welcome_tagline, t("dashboard.mobile_widget_channels.translations.welcome_tagline", default: "Welcome Tagline"), class: "ww-label"
+      = f.text_field :welcome_tagline, class: "ww-input", placeholder: "e.g. How can our team help you today?"
+
+  .ww-form-row
+    div
+      = f.label :pre_chat_title, t("dashboard.mobile_widget_channels.translations.pre_chat_title", default: "Pre-chat Form Title"), class: "ww-label"
+      = f.text_field :pre_chat_title, class: "ww-input", placeholder: "e.g. Tell us about yourself"
+    div
+      = f.label :pre_chat_subtitle, t("dashboard.mobile_widget_channels.translations.pre_chat_subtitle", default: "Pre-chat Form Subtitle"), class: "ww-label"
+      = f.text_field :pre_chat_subtitle, class: "ww-input", placeholder: "e.g. Please fill out the form before starting chat"

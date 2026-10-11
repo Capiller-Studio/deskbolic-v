@@ -9,7 +9,8 @@ module Dashboard
       "Channel::Email" => "email",
       "Channel::ContactForm" => "contact-form",
       "Channel::Custom" => "custom-widget",
-      "Channel::WebWidget" => "web-widget"
+      "Channel::WebWidget" => "web-widget",
+      "Channel::MobileWidget" => "mobile-widget"
     }.freeze
 
     CHANNEL_TAG_LABELS = {
@@ -19,7 +20,8 @@ module Dashboard
       "email" => "Email support",
       "contact-form" => "Contact Form",
       "custom-widget" => "Custom Widget",
-      "web-widget" => "Web widget"
+      "web-widget" => "Web widget",
+      "mobile-widget" => "Mobile SDK"
     }.freeze
 
     def inbox_icon(inbox)
@@ -30,6 +32,7 @@ module Dashboard
       when "Channel::Email"        then "dashboard_channel_email.svg"
       when "Channel::ContactForm"  then "dashboard_channel_contact_form.svg"
       when "Channel::Custom"       then "dashboard_channel_custom.svg"
+      when "Channel::MobileWidget" then "mobile_widget.svg"
       else "dashboard_channel_web_widget.svg"
       end
 

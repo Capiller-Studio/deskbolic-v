@@ -283,6 +283,7 @@ ko:
         channels: 채널
         email_channels: 이메일 채널
         web_widget_channels: 웹 위젯 채널
+        mobile_widget_channels: 모바일 앱 채널
         contact_form_channels: 문의 양식 채널
         data: 데이터
         custom_fields: 사용자 정의 필드
@@ -327,6 +328,8 @@ ko:
       email_desc: 이메일 채널을 관리하세요.
       web_widget: 웹 위젯
       web_widget_desc: 전달, 도메인 및 사용자 정의를 관리합니다.
+      mobile_widget: 모바일 앱 (SDK)
+      mobile_widget_desc: iOS 및 Android 앱용 네이티브 모바일 SDK 채널을 관리합니다.
       contact_form: 문의 양식
       contact_form_desc: 연락처 양식을 관리하세요.
       facebook: Facebook
@@ -859,6 +862,89 @@ ko:
       created: ID 소스가 성공적으로 생성되었습니다.
       updated: ID 소스가 성공적으로 업데이트되었습니다.
       deleted: ID 소스가 삭제되었습니다.
+    mobile_widget_channels:
+      created: "모바일 앱 채널이 성공적으로 생성되었습니다."
+      updated: "모바일 앱 채널이 성공적으로 업데이트되었습니다."
+      destroyed: "모바일 앱 채널이 성공적으로 삭제되었습니다."
+      limit_reached: "계정 요금제의 모바일 앱 채널 한도에 도달했습니다."
+      secret_regenerated: "보안 암호가 성공적으로 재발급되었습니다. 백엔드 서버를 업데이트하세요."
+      no_devices: "아직 등록된 활성 기기가 없습니다. 먼저 모바일 앱을 연결하세요."
+      test_push_success: "테스트 푸시 알림이 성공적으로 전송되었습니다!"
+      test_push_failed: "테스트 푸시 전송에 실패했습니다. 자격 증명 및 기기 토큰을 확인하세요."
+      translations:
+        eg_welcome_title: "예: 환영합니다!"
+        eg_welcome_tagline: "예: 무엇을 도와드릴까요?"
+        eg_reply_time_text: "예: 보통 몇 분 내에 답변합니다"
+      index:
+        title: "모바일 앱 채널"
+        description: "고객 지원을 위해 Flutter SDK를 통해 네이티브 iOS 및 Android 모바일 앱을 연결하세요."
+        new_channel: "새 모바일 앱 채널"
+        empty_title: "아직 모바일 채널이 없습니다"
+        empty_description: "첫 번째 모바일 채널을 생성하여 앱 내 메시징 및 푸시 알림을 연동하세요."
+        inboxes_count:
+          one: "%{count}개 받은 편지함"
+          other: "%{count}개 받은 편지함"
+        delete_confirm: "정말 삭제하시겠습니까? 이 모바일 채널의 연결이 해제되고 푸시 알림이 중단됩니다."
+        created_ago: "%{time} 전 생성됨"
+      new:
+        title: "새 모바일 앱 채널"
+        subtitle: "iOS 및 Android용 네이티브 모바일 앱 연동을 새로 만듭니다."
+      edit:
+        title: "모바일 앱 채널 수정"
+        subtitle: "모바일 SDK 설정, 신원 확인 및 푸시 인증 정보를 구성합니다."
+      show:
+        appearance_description: "네이티브 인앱 채팅 디자인 및 테마입니다."
+        devices_section: "등록된 고객 기기"
+        devices_description: "푸시 알림을 수신하는 모바일 기기 목록입니다."
+        platform: "플랫폼"
+        device_model: "기기 모델"
+        os_version: "OS 버전"
+        app_version: "앱 버전"
+        last_seen: "최근 활동"
+        no_devices: "아직 등록된 모바일 기기가 없습니다. 사용자가 앱을 실행하면 기기가 여기에 표시됩니다."
+        installation_desc: "Flutter 애플리케이션에서 Deskbolic을 초기화합니다."
+      form:
+        name_label: "채널 이름"
+        name_placeholder: "예: iOS 및 Android 모바일 앱"
+        basic_section: "채널 세부정보 및 받은 편지함"
+        appearance_section: "디자인 및 브랜딩"
+        behaviors_section: "SDK 동작 및 보안"
+        integrations_section: "모듈 연동"
+        push_section: "푸시 알림 (APNs 및 FCM)"
+        push_desc: "앱이 백그라운드에 있을 때 상담원이 답변하면 고객 기기로 실시간 푸시 알림을 보냅니다."
+        push_enabled_label: "푸시 알림 활성화"
+        preview_mode_label: "알림 미리보기 모드"
+        preview_full: "알림에 메시지 텍스트 표시"
+        preview_hidden: "메시지 텍스트 숨기기 (\"새 메시지가 도착했습니다\")"
+        max_attachment_label: "최대 첨부 파일 크기 (MB)"
+        ios_bundle_id: "iOS 번들 ID"
+        apns_environment: "APNs 환경"
+        production: "프로덕션"
+        sandbox: "샌드박스 (개발용)"
+        apns_key_id: "APNs 키 ID (10자)"
+        apns_team_id: "Apple 팀 ID (10자)"
+        apns_key: "APNs 인증 키 (.p8 파일 내용)"
+        android_package_name: "Android 패키지 이름"
+        fcm_project_id: "감지된 프로젝트 ID"
+        fcm_service_account: "Firebase 서비스 계정 JSON"
+        test_push_title: "테스트 푸시 알림 보내기"
+        test_push_desc: "가장 최근에 등록된 활성 모바일 기기로 테스트 푸시를 전송합니다."
+        send_test_push: "테스트 푸시 전송"
+        theme_color_label: "기본 테마 색상"
+        header_color_label: "헤더 텍스트 색상"
+        anonymous_allowed_label: "게스트 / 익명 채팅 허용"
+        anonymous_desc: "사용자가 로그인하기 전에 채팅을 시작할 수 있도록 허용합니다."
+        secure_identity_label: "보안 신원 확인 적용"
+        secure_identity_desc: "모든 채팅에 대해 백엔드 서명 JWT 또는 HMAC 서명을 요구합니다."
+        attachments_label: "파일 첨부 허용"
+        attachments_desc: "이미지, 사진 및 파일 전송을 허용합니다."
+        portal_label: "도움말 센터"
+        offline_email_channel: "오프라인 이메일 대체 채널"
+        translations_desc: "여러 언어에 대한 헤더, 환영 인사말 및 응답 시간 텍스트를 현지화합니다."
+        installation_section: "Flutter SDK 빠른 시작"
+        secret_regenerated: "공유 비밀 키가 성공적으로 재생성되었습니다."
+        test_push_sent: "테스트 푸시 알림이 성공적으로 전송되었습니다."
+        test_push_failed: "테스트 푸시 알림 전송에 실패했습니다. 인증 정보와 등록된 기기를 확인하세요."
     web_widget_channels:
       translations:
         eg_welcome_title: 예를 들어 환영!
@@ -2933,6 +3019,8 @@ ko:
         email_channels_keywords: "이메일받은 편지함 smtp imap"
         web_widget_channels: "웹 위젯 채널"
         web_widget_channels_keywords: "실시간 채팅 위젯 삽입"
+        mobile_widget_channels: "모바일 앱 채널"
+        mobile_widget_channels_keywords: "모바일 ios android flutter sdk 인앱 채팅 푸시"
         contact_form_channels: "문의 양식 채널"
         contact_form_channels_keywords: "양식 연락처 삽입"
         facebook_channels: "페이스북 채널"

@@ -394,8 +394,8 @@ export default class extends Controller {
     const fixedOptions = {
       "status":              [["Active", "active"], ["Closed", "closed"], ["Snoozed", "snoozed"], ["Resolved", "resolved"]],
       "priority":            [["Low", "low"], ["Medium", "medium"], ["High", "high"], ["Urgent", "urgent"]],
-      "source":              [["Web Widget", "web_widget"], ["Email", "email"], ["API", "api"], ["Facebook", "facebook"], ["WhatsApp", "whatsapp"]],
-      "inbox.channel_type":  [["Web Widget", "Channel::WebWidget"], ["Email", "Channel::Email"], ["Facebook", "Channel::FacebookPage"], ["WhatsApp", "Channel::Whatsapp"]],
+      "source":              [["Web Widget", "web_widget"], ["Mobile Widget", "mobile_widget"], ["Email", "email"], ["API", "api"], ["Facebook", "facebook"], ["WhatsApp", "whatsapp"]],
+      "inbox.channel_type":  [["Web Widget", "Channel::WebWidget"], ["Mobile Widget", "Channel::MobileWidget"], ["Email", "Channel::Email"], ["Facebook", "Channel::FacebookPage"], ["WhatsApp", "Channel::Whatsapp"]],
       "message.sender_type": [["Customer", "Customer"], ["User", "User"]],
     }
 

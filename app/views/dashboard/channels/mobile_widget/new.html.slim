@@ -1,0 +1,22 @@
+= render("dashboard/settings/settings_sidebar", current_page: "mobile-widget-channels") do
+  .channel-edit.channel-theme-mobile-widget
+    header.channel-edit__header
+      .channel-edit__header-main
+        = link_to channels_mobile_widget_index_path, class: "channel-edit__back", aria: { label: t("dashboard.mobile_widget_channels.form.back", default: "Back to channels") } do
+          = inline_svg_tag("back_arrow.svg", aria: { hidden: true })
+        .channel-edit__heading
+          h1 = t("dashboard.mobile_widget_channels.new.title", default: "New Mobile App Channel")
+          p = t("dashboard.mobile_widget_channels.new.subtitle", default: "Create a new native SDK channel for your iOS and Android mobile apps.")
+
+      .channel-edit__header-actions
+        = link_to t("general.cancel", default: "Cancel"), channels_mobile_widget_index_path, class: "channel-edit__button channel-edit__button--secondary"
+        button.channel-edit__button.channel-edit__button--primary type="submit" form="mobile-widget-channel-form"
+          = inline_svg_tag("ai_agents/new_agent_check.svg", aria: { hidden: true })
+          span = t("general.save", default: "Save & Continue")
+
+    .channel-edit__viewport
+      .ww-page-body
+        .ww-form-layout style="display: block; max-width: 860px; margin: 0 auto;"
+          .ww-form-main
+            .ww-form-wrapper
+              = render "form", mobile_widget_channel: @mobile_widget_channel

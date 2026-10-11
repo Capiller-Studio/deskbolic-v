@@ -1,0 +1,90 @@
+.ww-section.ui-section.ui-section--open
+  .ww-section-header data-action="click->web-widget-channel#toggleSection"
+    .ww-section-title
+      = inline_svg_tag("bell.svg", class: "ww-section-icon", alt: "Push Notifications")
+      span.ww-section-label = t("dashboard.mobile_widget_channels.form.push_section", default: "Push Notifications")
+    span.ww-section-chevron
+      = inline_svg_tag("dropdown.svg", aria: { hidden: true })
+  .ww-section-body
+    p.ww-section-desc
+      = t("dashboard.mobile_widget_channels.form.push_desc", default: "Deliver real-time push notifications to customer devices when agents reply while your app is in the background.")
+
+    .ww-toggle-row
+      span.ww-toggle-label = t("dashboard.mobile_widget_channels.form.push_enabled_label", default: "Enable Push Notifications")
+      label.ww-toggle
+        = f.check_box :push_enabled
+        span.ww-toggle-slider
+
+    .ww-form-row style="margin-top: 16px;"
+      div
+        = f.label :push_preview_mode, t("dashboard.mobile_widget_channels.form.preview_mode_label", default: "Notification Preview Mode"), class: "ww-label"
+        .channel-edit-select.ui-field-control.ui-field-control--no-icon
+          = select_tag "mobile_widget_channel[configurations][push_preview_mode]", options_for_select([[t("dashboard.mobile_widget_channels.form.preview_full", default: "Show message text in notification"), "full"], [t("dashboard.mobile_widget_channels.form.preview_hidden", default: "Hide message text ('You have a new message')"), "hidden"]], mobile_widget_channel.configurations&.dig("push_preview_mode") || "full"), class: "ui-select ui-control", data: { controller: "select" }
+      div
+        = f.label :max_attachment_mb, t("dashboard.mobile_widget_channels.form.max_attachment_label", default: "Max Attachment Size (MB)"), class: "ww-label"
+        = number_field_tag "mobile_widget_channel[configurations][max_attachment_mb]", mobile_widget_channel.configurations&.dig("max_attachment_mb") || 20, class: "ww-input", min: 1, max: 50
+
+    / ─── Apple APNs (.p8 Token Auth) ───
+    .channel-credentials-card style="margin-top: 24px; padding: 20px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px;"
+      .credentials-header style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;"
+        div
+          h3 style="font-size: 15px; font-weight: 600; color: #0F172A; margin: 0;" Apple Push Notification service (APNs)
+          p style="font-size: 12px; color: #64748B; margin: 4px 0 0;" Token-based HTTP/2 authentication with your Apple Developer Key (.p8)
+        - if mobile_widget_channel.apns_configured?
+          span.status-pill.status-pill--active Configured
+        - else
+          span.status-pill.status-pill--inactive Not Configured
+
+      .ww-form-row
+        div
+          = f.label :ios_bundle_id, t("dashboard.mobile_widget_channels.form.ios_bundle_id", default: "iOS Bundle ID"), class: "ww-label"
+          = f.text_field :ios_bundle_id, class: "ww-input", placeholder: "com.example.app"
+        div
+          = f.label :apns_environment, t("dashboard.mobile_widget_channels.form.apns_environment", default: "APNs Environment"), class: "ww-label"
+          .channel-edit-select.ui-field-control.ui-field-control--no-icon
+            = f.select :apns_environment, options_for_select([[t("dashboard.mobile_widget_channels.form.production", default: "Production"), "production"], [t("dashboard.mobile_widget_channels.form.sandbox", default: "Sandbox (Development)"), "sandbox"]], mobile_widget_channel.apns_environment), {}, { class: "ui-select ui-control", data: { controller: "select" } }
+
+      .ww-form-row
+        div
+          = f.label :apns_key_id, t("dashboard.mobile_widget_channels.form.apns_key_id", default: "APNs Key ID (10 chars)"), class: "ww-label"
+          = f.text_field :apns_key_id, class: "ww-input", placeholder: "e.g. 2X9R427ADR", maxlength: 10
+        div
+          = f.label :apns_team_id, t("dashboard.mobile_widget_channels.form.apns_team_id", default: "Apple Team ID (10 chars)"), class: "ww-label"
+          = f.text_field :apns_team_id, class: "ww-input", placeholder: "e.g. DEF456GHIJ", maxlength: 10
+
+      .ww-form-row
+        div style="width: 100%;"
+          = f.label :apns_key, t("dashboard.mobile_widget_channels.form.apns_key", default: "APNs Auth Key (.p8 file contents)"), class: "ww-label"
+          = f.text_area :apns_key, class: "ww-input", rows: 4, placeholder: "-----BEGIN PRIVATE KEY-----\nMIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQg...\n-----END PRIVATE KEY-----"
+
+    / ─── Google Firebase (FCM HTTP v1) ───
+    .channel-credentials-card style="margin-top: 24px; padding: 20px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px;"
+      .credentials-header style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;"
+        div
+          h3 style="font-size: 15px; font-weight: 600; color: #0F172A; margin: 0;" Google Firebase Cloud Messaging (FCM HTTP v1)
+          p style="font-size: 12px; color: #64748B; margin: 4px 0 0;" Service Account private key JSON from Google Cloud / Firebase Console
+        - if mobile_widget_channel.fcm_configured?
+          span.status-pill.status-pill--active Configured
+        - else
+          span.status-pill.status-pill--inactive Not Configured
+
+      .ww-form-row
+        div
+          = f.label :android_package_name, t("dashboard.mobile_widget_channels.form.android_package_name", default: "Android Package Name"), class: "ww-label"
+          = f.text_field :android_package_name, class: "ww-input", placeholder: "com.example.app"
+        div
+          label.ww-label = t("dashboard.mobile_widget_channels.form.fcm_project_id", default: "Detected Project ID")
+          input.ww-input type="text" value=(mobile_widget_channel.fcm_project_id.presence || "Auto-extracted from JSON") readonly=true style="background: #F1F5F9; color: #64748B;"
+
+      .ww-form-row
+        div style="width: 100%;"
+          = f.label :fcm_service_account, t("dashboard.mobile_widget_channels.form.fcm_service_account", default: "Firebase Service Account JSON"), class: "ww-label"
+          = f.text_area :fcm_service_account, class: "ww-input", rows: 6, placeholder: "{\n  \"type\": \"service_account\",\n  \"project_id\": \"your-project-id\",\n  \"private_key\": \"-----BEGIN PRIVATE KEY-----\\n...\\n-----END PRIVATE KEY-----\\n\",\n  \"client_email\": \"firebase-adminsdk@your-project-id.iam.gserviceaccount.com\"\n}"
+
+    - if mobile_widget_channel.persisted?
+      .test-push-bar style="margin-top: 24px; display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 8px;"
+        div
+          strong style="color: #1E3A8A; font-size: 14px;" = t("dashboard.mobile_widget_channels.form.test_push_title", default: "Send Test Push Notification")
+          p style="color: #3B82F6; font-size: 12px; margin: 2px 0 0;" = t("dashboard.mobile_widget_channels.form.test_push_desc", default: "Sends a test push to the most recently registered active mobile device.")
+        = button_to test_push_channels_mobile_widget_path(mobile_widget_channel), method: :post, class: "channel-edit__button channel-edit__button--primary", style: "margin: 0; background-color: #2563EB;" do
+          span = t("dashboard.mobile_widget_channels.form.send_test_push", default: "Send Test Push")

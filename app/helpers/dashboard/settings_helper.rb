@@ -5,6 +5,7 @@ module Dashboard
     CHANNEL_TYPE_KEYS = {
       "Channel::Email" => "email",
       "Channel::WebWidget" => "web_widget",
+      "Channel::MobileWidget" => "mobile_widget",
       "Channel::ContactForm" => "contact_form",
       "Channel::FacebookPage" => "facebook",
       "Channel::Instagram" => "instagram",
@@ -15,6 +16,7 @@ module Dashboard
     CHANNEL_TYPE_LABELS = {
       "email" => "Email",
       "web_widget" => "Web Widget",
+      "mobile_widget" => "Mobile App (SDK)",
       "contact_form" => "Contact Form",
       "facebook" => "Facebook",
       "instagram" => "Instagram",
@@ -25,6 +27,7 @@ module Dashboard
     CHANNEL_TYPE_ICONS = {
       "email" => "email.svg",
       "web_widget" => "widget.svg",
+      "mobile_widget" => "mobile_widget.svg",
       "contact_form" => "contact_form.svg",
       "facebook" => "facebook.svg",
       "instagram" => "instagram.svg",
@@ -64,6 +67,8 @@ module Dashboard
         channel.username.present? ? "@#{channel.username.delete_prefix('@')}" : channel.instagram_id
       when Channel::Whatsapp
         channel.full_phone_number
+      when Channel::MobileWidget
+        channel.identifier
       when Channel::Custom
         channel.identifier
       end
@@ -186,13 +191,13 @@ module Dashboard
     end
 
     def channel_show_details_partial(channel)
-      return unless %w[email web_widget contact_form whatsapp custom].include?(channel_overview_type(channel))
+      return unless %w[email web_widget contact_form whatsapp custom mobile_widget].include?(channel_overview_type(channel))
 
       "dashboard/channels/#{channel_overview_type(channel)}/show_details"
     end
 
     def channel_show_aside_partial(channel)
-      return unless channel_overview_type(channel) == "web_widget"
+      return unless %w[web_widget mobile_widget].include?(channel_overview_type(channel))
 
       "dashboard/channels/#{channel_overview_type(channel)}/show_aside"
     end
@@ -423,6 +428,7 @@ module Dashboard
       case channel
       when Channel::Email then channels_email_index_path
       when Channel::WebWidget then channels_web_widget_index_path
+      when Channel::MobileWidget then channels_mobile_widget_index_path
       when Channel::ContactForm then channels_contact_form_index_path
       when Channel::FacebookPage then channels_facebook_index_path
       when Channel::Instagram then channels_instagram_index_path
@@ -435,6 +441,7 @@ module Dashboard
       case channel
       when Channel::Email then edit_channels_email_path(id: channel.id)
       when Channel::WebWidget then edit_channels_web_widget_path(id: channel.id)
+      when Channel::MobileWidget then edit_channels_mobile_widget_path(id: channel.id)
       when Channel::ContactForm then edit_channels_contact_form_path(id: channel.id)
       when Channel::FacebookPage then edit_channels_facebook_path(id: channel.id)
       when Channel::Instagram then edit_channels_instagram_path(id: channel.id)
@@ -447,6 +454,7 @@ module Dashboard
       case channel
       when Channel::Email then channels_email_path(id: channel.id)
       when Channel::WebWidget then channels_web_widget_path(id: channel.id)
+      when Channel::MobileWidget then channels_mobile_widget_path(id: channel.id)
       when Channel::ContactForm then channels_contact_form_path(id: channel.id)
       when Channel::FacebookPage then channels_facebook_path(id: channel.id)
       when Channel::Instagram then channels_instagram_path(id: channel.id)
@@ -459,6 +467,7 @@ module Dashboard
       case channel
       when Channel::Email then channels_email_path(id: channel.id)
       when Channel::WebWidget then channels_web_widget_path(id: channel.id)
+      when Channel::MobileWidget then channels_mobile_widget_path(id: channel.id)
       when Channel::ContactForm then channels_contact_form_path(id: channel.id)
       when Channel::FacebookPage then channels_facebook_path(id: channel.id)
       when Channel::Instagram then channels_instagram_path(id: channel.id)
@@ -471,6 +480,7 @@ module Dashboard
       policy_key = {
         "email" => :email_channel,
         "web_widget" => :web_widget_channel,
+        "mobile_widget" => :mobile_widget_channel,
         "contact_form" => :contact_form_channel,
         "facebook" => :facebook_channel,
         "instagram" => :instagram_channel,

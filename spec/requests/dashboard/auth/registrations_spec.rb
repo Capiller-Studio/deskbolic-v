@@ -19,12 +19,12 @@ RSpec.describe 'Dashboard::Registrations', type: :request do
       expect(cookies[:currency]).to eq('EUR')
     end
 
-    it 'renders registration page with early access badge and notice without HTTP basic auth' do
+    it 'renders registration page with 14-day free trial trust badge and notice without HTTP basic auth' do
       get new_user_registration_path
       expect(response).to have_http_status(:ok)
       expect(response.headers['WWW-Authenticate']).to be_nil
-      expect(response.body).to include('Early Access')
-      expect(response.body).to include('Welcome to Deskbolic Early Access')
+      expect(response.body).to include('14-Day Free Trial')
+      expect(response.body).to include('Instant Setup')
     end
 
     context 'when DISABLE_REGISTRATION is true' do

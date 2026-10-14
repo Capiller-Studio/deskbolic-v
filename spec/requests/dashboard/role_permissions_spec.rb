@@ -20,14 +20,20 @@ RSpec.describe 'Dashboard::RolePermissions', type: :request do
         'teams' => true,
         'automations' => true,
         'business_hours' => true,
-        'identity_sources' => true
+        'identity_sources' => true,
+        'sla' => true,
+        'csat' => true,
+        'email_templates' => true,
+        'assignment_policies' => true
       },
       limits: {
         'users' => 50,
         'teams' => 50,
         'automations' => 50,
         'business_hour_groups' => 50,
-        'identity_sources' => 50
+        'identity_sources' => 50,
+        'sla_policies' => 50,
+        'assignment_policies' => 50
       }
     )
   end
@@ -211,6 +217,77 @@ RSpec.describe 'Dashboard::RolePermissions', type: :request do
       get automations_path(locale: :en)
       expect(response).to redirect_to(root_path)
       expect(flash[:error]).to eq('You are not authorized to perform this action.')
+    end
+  end
+
+  describe 'Advanced Modules Granular RBAC: SLA, CSAT, Email Templates, Assignment Policies' do
+    let(:ops_manager_role) do
+      account.with_shard do
+        create(:access_role,
+          account: account,
+          name: 'Operations Manager',
+          permissions: {
+            'sla_policies' => { 'read' => true, 'manage' => true },
+            'csat_surveys' => { 'read' => true, 'manage' => true },
+            'email_templates' => { 'read' => true, 'manage' => true },
+            'assignment_policies' => { 'read' => true, 'manage' => true }
+          }
+        )
+      end
+    end
+
+    before do
+      sign_in agent_user
+    end
+
+    context 'without permissions' do
+      before do
+        agent_account_user.assign_roles([ conversations_only_role.id ])
+      end
+
+      it 'blocks access to SLA policies' do
+        get sla_policies_path(locale: :en)
+        expect(response).to redirect_to(root_path)
+        expect(flash[:error]).to eq('You are not authorized to perform this action.')
+      end
+
+      it 'blocks access to CSAT surveys' do
+        get csat_surveys_path(locale: :en)
+        expect(response).to redirect_to(root_path)
+        expect(flash[:error]).to eq('You are not authorized to perform this action.')
+      end
+
+      it 'blocks access to Email templates' do
+        get email_templates_path(locale: :en)
+        expect(response).to redirect_to(root_path)
+        expect(flash[:error]).to eq('You are not authorized to perform this action.')
+      end
+
+      it 'blocks access to Assignment policies' do
+        get assignment_policies_path(locale: :en)
+        expect(response).to redirect_to(root_path)
+        expect(flash[:error]).to eq('You are not authorized to perform this action.')
+      end
+    end
+
+    context 'with operations manager role granted' do
+      before do
+        agent_account_user.assign_roles([ ops_manager_role.id ])
+      end
+
+      it 'grants full access to SLA, CSAT, Email Templates, and Assignment Policies' do
+        get sla_policies_path(locale: :en)
+        expect(response).to have_http_status(:ok)
+
+        get csat_surveys_path(locale: :en)
+        expect(response).to have_http_status(:ok)
+
+        get email_templates_path(locale: :en)
+        expect(response).to have_http_status(:ok)
+
+        get assignment_policies_path(locale: :en)
+        expect(response).to have_http_status(:ok)
+      end
     end
   end
 end

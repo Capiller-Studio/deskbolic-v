@@ -66,7 +66,14 @@ end
 # ============================================================================
 # Shared Backend (Core)
 # ============================================================================
-# gem 'core', git: "git@github.com:deskbolic/core.git"
-gem 'core', path: "../core"
+if ENV["CORE_PATH"].present?
+  gem "core", path: ENV["CORE_PATH"]
+elsif File.directory?(File.expand_path("../core", __dir__))
+  gem "core", path: "../core"
+elsif File.directory?(File.expand_path("./core", __dir__))
+  gem "core", path: "./core"
+else
+  gem "core", git: "https://github.com/deskbolic/core.git", branch: "main"
+end
 
 # All shared functional gems are now provided by 'core'.

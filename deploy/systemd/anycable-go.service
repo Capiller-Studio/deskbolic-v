@@ -1,0 +1,13 @@
+[Unit]
+Description=AnyCable-Go High-Concurrency WebSocket Server
+After=network.target
+
+[Service]
+Type=simple
+User=deploy
+ExecStart=/usr/local/bin/anycable-go --host=0.0.0.0 --port=8080 --path=/ --rpc_host=127.0.0.1:50051 --redis_url=redis://127.0.0.1:6379/2
+Restart=always
+LimitNOFILE=10000
+
+[Install]
+WantedBy=multi-user.target

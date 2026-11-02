@@ -1,0 +1,60 @@
+{
+    admin off
+}
+
+# ─── Live Chat Widget ───────────────────────────────────────────────
+http://widget.localhost, http://{$WIDGET_DOMAIN:widget.local} {
+    encode zstd gzip
+    reverse_proxy widget:3006
+}
+
+# ─── Help Center / Knowledge Base (Helpbolic) ───────────────────────
+http://helpbolic.localhost, http://help.localhost, http://{$HELP_DOMAIN:help.local} {
+    encode zstd gzip
+    reverse_proxy helpbolic:3003
+}
+
+# ─── API Gateway ───────────────────────────────────────────────────
+http://api.localhost, http://gateway.localhost, http://{$API_DOMAIN:api.local} {
+    encode zstd gzip
+    reverse_proxy gateway:3005
+}
+
+# ─── AnyCable WebSocket Gateway ────────────────────────────────────
+http://ws.localhost, http://{$WS_DOMAIN:ws.local} {
+    reverse_proxy anycable-go:8080
+}
+
+# ─── Main Deskbolic Web Dashboard & Unified Ingress ────────────────
+http://localhost, http://127.0.0.1, http://deskbolic.localhost, http://{$APP_DOMAIN:deskbolic.local} {
+    encode zstd gzip
+
+    # Route WebSocket connections or /cable to AnyCable-Go
+    @websockets {
+        header Connection *Upgrade*
+        header Upgrade websocket
+    }
+    reverse_proxy @websockets anycable-go:8080
+
+    handle /cable* {
+        reverse_proxy anycable-go:8080
+    }
+
+    # Path-based routing fallbacks for unified single-host access
+    handle /widget* {
+        reverse_proxy widget:3006
+    }
+
+    handle /help* {
+        reverse_proxy helpbolic:3003
+    }
+
+    handle /api* {
+        reverse_proxy gateway:3005
+    }
+
+    # All other web traffic to Deskbolic Agent Dashboard
+    handle {
+        reverse_proxy deskbolic:3001
+    }
+}

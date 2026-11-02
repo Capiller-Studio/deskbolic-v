@@ -1,0 +1,15 @@
+[Unit]
+Description=Deskbolic Puma Web Server
+After=network.target
+
+[Service]
+Type=simple
+User=deploy
+WorkingDirectory=/home/deploy/apps/deskbolic
+Environment=RAILS_ENV=production
+Environment=PORT=3001
+ExecStart=/home/deploy/.rbenv/shims/bundle exec puma -b tcp://0.0.0.0:3001 -e production
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

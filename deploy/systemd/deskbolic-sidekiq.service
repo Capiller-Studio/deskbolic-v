@@ -1,0 +1,15 @@
+[Unit]
+Description=Deskbolic Sidekiq Background Processor
+After=syslog.target network.target
+
+[Service]
+Type=simple
+User=deploy
+WorkingDirectory=/home/deploy/apps/deskbolic
+Environment=RAILS_ENV=production
+Environment=DB_POOL=20
+ExecStart=/home/deploy/.rbenv/shims/bundle exec sidekiq -e production -C config/sidekiq.yml
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

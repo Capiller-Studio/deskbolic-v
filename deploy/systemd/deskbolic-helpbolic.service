@@ -1,0 +1,14 @@
+[Unit]
+Description=Deskbolic Help Center / Knowledge Base (Puma)
+After=network.target
+
+[Service]
+Type=simple
+User=deploy
+WorkingDirectory=/home/deploy/apps/helpbolic
+Environment=RAILS_ENV=production
+ExecStart=/home/deploy/.rbenv/shims/bundle exec puma -C config/puma.rb -b tcp://0.0.0.0:3003
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

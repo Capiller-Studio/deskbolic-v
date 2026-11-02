@@ -1,0 +1,75 @@
+# ============================================================================
+# Deskbolic Production Caddy Configuration
+# Based on the live Bare-Metal Hetzner AX42 Proxmox edge proxy
+# ============================================================================
+
+# -----------------------------------
+# Custom Tenant Domains (Helpbolic - On Demand TLS)
+# -----------------------------------
+{
+    on_demand_tls {
+        ask http://10.0.0.21:3003/internal/domain_check
+    }
+}
+
+https:// {
+    encode zstd gzip
+    tls {
+        on_demand
+    }
+    reverse_proxy 10.0.0.21:3003
+}
+
+# -----------------------------------
+# Main Deskbolic Domains
+# -----------------------------------
+deskbolic.com, csat.deskbolic.com {
+    encode zstd gzip
+    reverse_proxy 10.0.0.21:3000
+}
+
+widget.deskbolic.com {
+    encode zstd gzip
+    reverse_proxy 10.0.0.21:3006
+}
+
+deskbolic.app, www.deskbolic.app, *.deskbolic.app {
+    encode zstd gzip
+    tls {
+        dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+    }
+    reverse_proxy 10.0.0.20:3001
+}
+
+console.deskbolic.com {
+    encode zstd gzip
+    reverse_proxy 10.0.0.20:3002
+}
+
+partners.deskbolic.com {
+    encode zstd gzip
+    reverse_proxy 10.0.0.20:3004
+}
+
+api.deskbolic.com {
+    encode zstd gzip
+    reverse_proxy 10.0.0.20:3005
+}
+
+# -----------------------------------
+# Helpbolic Root Domains
+# -----------------------------------
+*.helpbolic.com, helpbolic.com, www.helpbolic.com {
+    encode zstd gzip
+    tls {
+        dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+    }  
+    reverse_proxy 10.0.0.21:3003
+}
+
+# -----------------------------------
+# WebSockets (AnyCable-Go)
+# -----------------------------------
+ws.deskbolic.com {
+    reverse_proxy 127.0.0.1:8080
+}

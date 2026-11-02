@@ -1,0 +1,299 @@
+services:
+  # ─── Database & Caching Infrastructure ─────────────────────────────────────
+  postgres:
+    image: postgres:17-alpine
+    container_name: deskbolic-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+      POSTGRES_DB: deskbolic_production
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/init-postgres.sh:/docker-entrypoint-initdb.d/init-postgres.sh:ro
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-postgres} -d deskbolic_production"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: deskbolic-redis
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # ─── High-Concurrency WebSocket Gateway (AnyCable-Go) ─────────────────────
+  anycable-go:
+    image: anycable/anycable-go:1.5
+    container_name: deskbolic-anycable-go
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      ANYCABLE_HOST: "0.0.0.0"
+      ANYCABLE_PORT: "8080"
+      ANYCABLE_REDIS_URL: "redis://redis:6379/2"
+      ANYCABLE_RPC_HOST: "anycable-rpc:50051"
+      ANYCABLE_METRICS_HTTP: "/metrics"
+    depends_on:
+      redis:
+        condition: service_healthy
+      anycable-rpc:
+        condition: service_started
+
+  # ─── Main Deskbolic Web Application (Agent Dashboard) ──────────────────────
+  deskbolic:
+    build:
+      context: ..
+      dockerfile: deskbolic/docker/Dockerfile.deskbolic
+    container_name: deskbolic-web
+    restart: unless-stopped
+    ports:
+      - "${PORT:-3001}:3001"
+    environment:
+      RAILS_ENV: production
+      PORT: 3001
+      RAILS_SERVE_STATIC_FILES: "true"
+      RAILS_LOG_TO_STDOUT: "true"
+      DB_HOST: postgres
+      DB_USERNAME: ${DB_USERNAME:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres}
+      REDIS_URL: redis://redis:6379/0
+      SIDEKIQ_REDIS_URL: redis://redis:6379/1
+      ANYCABLE_REDIS_URL: redis://redis:6379/2
+      ACTION_CABLE_URL: ${ACTION_CABLE_URL:-ws://localhost:8080/cable}
+      ACTIVE_STORAGE_SERVICE: ${ACTIVE_STORAGE_SERVICE:-local}
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE:-f9cdf6c8bb10c77492d4a72b9577913c594ea3b2c5ed4aea3791b4a7192931f2663d54639d1ffadf5c6b074cbe015b0dee18ad7114c13e7a5f9e0af027d7e052}
+      APP_DOMAIN: ${APP_DOMAIN:-localhost}
+      MAIN_DOMAIN: ${MAIN_DOMAIN:-localhost}
+      RUN_MIGRATIONS: "true"
+      RUN_SEEDS: ${RUN_SEEDS:-false}
+      ADMIN_DEFAULT_EMAIL: ${ADMIN_DEFAULT_EMAIL:-admin@example.com}
+      ADMIN_DEFAULT_PASSWORD: ${ADMIN_DEFAULT_PASSWORD:-ChangeMe123#}
+      ADMIN_DEFAULT_NAME: ${ADMIN_DEFAULT_NAME:-Deskbolic Admin}
+      OPENAI_ACCESS_TOKEN: ${OPENAI_ACCESS_TOKEN:-}
+    volumes:
+      - storage_data:/rails/storage
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  # ─── Live Chat Widget Application ──────────────────────────────────────────
+  widget:
+    build:
+      context: ..
+      dockerfile: deskbolic/docker/Dockerfile.widget
+    container_name: deskbolic-widget
+    restart: unless-stopped
+    ports:
+      - "3006:3006"
+    environment:
+      RAILS_ENV: production
+      PORT: 3006
+      RAILS_SERVE_STATIC_FILES: "true"
+      RAILS_LOG_TO_STDOUT: "true"
+      DB_HOST: postgres
+      DB_USERNAME: ${DB_USERNAME:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres}
+      REDIS_URL: redis://redis:6379/0
+      ANYCABLE_REDIS_URL: redis://redis:6379/2
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE:-f9cdf6c8bb10c77492d4a72b9577913c594ea3b2c5ed4aea3791b4a7192931f2663d54639d1ffadf5c6b074cbe015b0dee18ad7114c13e7a5f9e0af027d7e052}
+      RUN_MIGRATIONS: "false"
+    depends_on:
+      deskbolic:
+        condition: service_started
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  # ─── Help Center & Knowledge Base (Helpbolic) ──────────────────────────────
+  helpbolic:
+    build:
+      context: ..
+      dockerfile: deskbolic/docker/Dockerfile.helpbolic
+    container_name: deskbolic-helpbolic
+    restart: unless-stopped
+    ports:
+      - "3003:3003"
+    environment:
+      RAILS_ENV: production
+      PORT: 3003
+      RAILS_SERVE_STATIC_FILES: "true"
+      RAILS_LOG_TO_STDOUT: "true"
+      DB_HOST: postgres
+      DB_USERNAME: ${DB_USERNAME:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres}
+      REDIS_URL: redis://redis:6379/0
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE:-f9cdf6c8bb10c77492d4a72b9577913c594ea3b2c5ed4aea3791b4a7192931f2663d54639d1ffadf5c6b074cbe015b0dee18ad7114c13e7a5f9e0af027d7e052}
+      RUN_MIGRATIONS: "false"
+    depends_on:
+      deskbolic:
+        condition: service_started
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  # ─── API Gateway ───────────────────────────────────────────────────────────
+  gateway:
+    build:
+      context: ..
+      dockerfile: deskbolic/docker/Dockerfile.gateway
+    container_name: deskbolic-gateway
+    restart: unless-stopped
+    ports:
+      - "3005:3005"
+    environment:
+      RAILS_ENV: production
+      PORT: 3005
+      RAILS_LOG_TO_STDOUT: "true"
+      DB_HOST: postgres
+      DB_USERNAME: ${DB_USERNAME:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres}
+      REDIS_URL: redis://redis:6379/0
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE:-f9cdf6c8bb10c77492d4a72b9577913c594ea3b2c5ed4aea3791b4a7192931f2663d54639d1ffadf5c6b074cbe015b0dee18ad7114c13e7a5f9e0af027d7e052}
+      RUN_MIGRATIONS: "false"
+    depends_on:
+      deskbolic:
+        condition: service_started
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  # ─── Background Job Processor (Sidekiq) ────────────────────────────────────
+  worker:
+    build:
+      context: ..
+      dockerfile: deskbolic/docker/Dockerfile.deskbolic
+    container_name: deskbolic-worker
+    restart: unless-stopped
+    command: ["bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"]
+    environment:
+      RAILS_ENV: production
+      RAILS_LOG_TO_STDOUT: "true"
+      DB_HOST: postgres
+      DB_USERNAME: ${DB_USERNAME:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres}
+      REDIS_URL: redis://redis:6379/0
+      SIDEKIQ_REDIS_URL: redis://redis:6379/1
+      ANYCABLE_REDIS_URL: redis://redis:6379/2
+      ACTIVE_STORAGE_SERVICE: ${ACTIVE_STORAGE_SERVICE:-local}
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE:-f9cdf6c8bb10c77492d4a72b9577913c594ea3b2c5ed4aea3791b4a7192931f2663d54639d1ffadf5c6b074cbe015b0dee18ad7114c13e7a5f9e0af027d7e052}
+      RUN_MIGRATIONS: "false"
+      OPENAI_ACCESS_TOKEN: ${OPENAI_ACCESS_TOKEN:-}
+    volumes:
+      - storage_data:/rails/storage
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  # ─── AnyCable RPC Worker ───────────────────────────────────────────────────
+  anycable-rpc:
+    build:
+      context: ..
+      dockerfile: deskbolic/docker/Dockerfile.deskbolic
+    container_name: deskbolic-anycable-rpc
+    restart: unless-stopped
+    command: ["bundle", "exec", "anycable", "--rpc-host=0.0.0.0:50051"]
+    ports:
+      - "50051:50051"
+    environment:
+      RAILS_ENV: production
+      RAILS_LOG_TO_STDOUT: "true"
+      DB_HOST: postgres
+      DB_USERNAME: ${DB_USERNAME:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres}
+      REDIS_URL: redis://redis:6379/0
+      SIDEKIQ_REDIS_URL: redis://redis:6379/1
+      ANYCABLE_REDIS_URL: redis://redis:6379/2
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE:-f9cdf6c8bb10c77492d4a72b9577913c594ea3b2c5ed4aea3791b4a7192931f2663d54639d1ffadf5c6b074cbe015b0dee18ad7114c13e7a5f9e0af027d7e052}
+      RUN_MIGRATIONS: "false"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  # ─── Reverse Proxy (Caddy: HTTP + WebSockets on Single Port) ───────────────
+  caddy:
+    image: caddy:2-alpine
+    container_name: deskbolic-proxy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      APP_DOMAIN: ${APP_DOMAIN:-localhost}
+      WIDGET_DOMAIN: ${WIDGET_DOMAIN:-widget.localhost}
+      HELP_DOMAIN: ${HELP_DOMAIN:-helpbolic.localhost}
+      API_DOMAIN: ${API_DOMAIN:-api.localhost}
+      WS_DOMAIN: ${WS_DOMAIN:-ws.localhost}
+    volumes:
+      - ./docker/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - deskbolic
+      - widget
+      - helpbolic
+      - gateway
+      - anycable-go
+
+  # ─── Optional: Full-Text Search Engine (Elasticsearch) ─────────────────────
+  elasticsearch:
+    image: elasticsearch:8.15.0
+    container_name: deskbolic-elasticsearch
+    restart: unless-stopped
+    profiles: ["search", "all"]
+    environment:
+      discovery.type: single-node
+      xpack.security.enabled: "false"
+      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+    ports:
+      - "9200:9200"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+
+  # ─── Optional: Machine Translation Engine (LibreTranslate) ─────────────────
+  libretranslate:
+    image: libretranslate/libretranslate:latest
+    container_name: deskbolic-translate
+    restart: unless-stopped
+    profiles: ["translate", "all"]
+    ports:
+      - "5001:5000"
+
+  # ─── Optional: Local Mail Testing (Mailpit) ────────────────────────────────
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: deskbolic-mailpit
+    restart: unless-stopped
+    profiles: ["mail", "dev", "all"]
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+
+volumes:
+  postgres_data:
+  redis_data:
+  storage_data:
+  caddy_data:
+  caddy_config:
+  elasticsearch_data:

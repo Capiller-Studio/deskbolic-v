@@ -1,0 +1,16 @@
+[Unit]
+Description=Deskbolic AnyCable RPC Service
+After=syslog.target network.target
+
+[Service]
+Type=simple
+User=deploy
+WorkingDirectory=/home/deploy/apps/deskbolic
+Environment=RAILS_ENV=production
+Environment=DB_POOL=30
+Environment=ANYCABLE_RPC_HOST=0.0.0.0:50051
+ExecStart=/home/deploy/.rbenv/shims/bundle exec anycable
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

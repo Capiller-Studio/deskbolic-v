@@ -30,9 +30,9 @@ Rails.application.configure do
     config.asset_host = ENV["CDN_HOST"]
   end
 
-  # Store uploaded files on the Amazon S3 (see config/storage.yml for options).
-  # Local Docker sets ACTIVE_STORAGE_SERVICE=local. Production leaves this unset and stays on S3.
-  config.active_storage.service = ENV.fetch("ACTIVE_STORAGE_SERVICE", "amazon").to_sym
+  # Store uploaded files on Cloudflare R2 (see config/storage.yml).
+  # Set ACTIVE_STORAGE_SERVICE=local only for a laptop disk. Production leaves this unset and uses R2.
+  config.active_storage.service = ENV.fetch("ACTIVE_STORAGE_SERVICE", "cloudflare").to_sym
 
   # Mount Action Cable outside main process or domain.
   # config.action_cable.mount_path = nil

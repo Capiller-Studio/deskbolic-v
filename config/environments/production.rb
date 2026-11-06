@@ -71,7 +71,7 @@ Rails.application.configure do
   # config.action_mailer.raise_delivery_errors = false
 
   # Set host to be used by links generated in mailer templates.
-  capiller_app_domain = ENV.fetch("APP_DOMAIN", "workspace.capiller.com").sub(%r{\Ahttps?://}, "").split("/").first.to_s.split(":").first
+  capiller_app_domain = ENV.fetch("APP_DOMAIN", "rely.capiller.com").sub(%r{\Ahttps?://}, "").split("/").first.to_s.split(":").first
   config.action_mailer.default_url_options = { host: capiller_app_domain, protocol: "https" }
   config.action_dispatch.tld_length = [ capiller_app_domain.split(".").length - 1, 0 ].max
   config.action_mailer.delivery_method = :smtp

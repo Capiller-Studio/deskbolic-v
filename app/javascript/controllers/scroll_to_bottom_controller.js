@@ -50,7 +50,7 @@ export default class extends Controller {
         el.scrollIntoView({ behavior: "smooth", block: "center" })
         // Brief highlight effect
         el.style.transition = "background 0.3s ease"
-        el.style.background = "rgba(79, 70, 229, 0.08)"
+        el.style.background = "rgba(59, 130, 246, 0.08)"
         setTimeout(() => {
           el.style.background = ""
         }, 2500)

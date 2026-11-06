@@ -3,7 +3,7 @@
 module Dashboard
   module HelpCenter
     class PortalsController < DashboardController
-      PRIMARY_COLORS = [ "#2F3FD6", "#6E2DE2", "#5850EC", "#16A34A", "#059669", "#EA580C", "#DC2626", "#DB2777", "#0D9488" ].freeze
+      PRIMARY_COLORS = [ "#2F3FD6", "#6E2DE2", "#3b82f6", "#16A34A", "#059669", "#EA580C", "#DC2626", "#DB2777", "#0D9488" ].freeze
       SECONDARY_COLORS = [ "#B8C5FF", "#D8C4FB", "#C4B5FD", "#A7F3D0", "#99F6E4", "#FED7AA", "#FCA5A5", "#F9A8D4", "#A7F3F0" ].freeze
       THEME_OPTIONS = [
         [ "light", "Light", "light_theme.svg" ],
@@ -154,7 +154,7 @@ module Dashboard
 
       def prepare_form_state
         @selected_ui = @portal.ui_configurations || {}
-        @selected_primary = @selected_ui["primary_color"].presence || "#5850EC"
+        @selected_primary = @selected_ui["primary_color"].presence || "#3b82f6"
         @selected_secondary = @selected_ui["secondary_color"].presence || "#FCA5A5"
         @selected_theme = @selected_ui["theme_preference"].presence || "light"
         @selected_hero = @selected_ui["hero_style"].presence || "image"

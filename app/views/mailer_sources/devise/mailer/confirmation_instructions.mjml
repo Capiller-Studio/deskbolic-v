@@ -6,7 +6,7 @@
       <mj-text font-size="15px" color="#374151" line-height="24px" />
       <mj-section padding="0" />
       <mj-column padding="0" />
-      <mj-button background-color="#4f46e5" color="#ffffff" font-size="14px" font-weight="600" border-radius="8px" padding="16px 24px" inner-padding="12px 24px" />
+      <mj-button background-color="#3b82f6" color="#ffffff" font-size="14px" font-weight="600" border-radius="8px" padding="16px 24px" inner-padding="12px 24px" />
     </mj-attributes>
 
     <mj-preview>
@@ -35,7 +35,7 @@
 
       <mj-section background-color="#0f172a" padding="34px 40px 34px">
         <mj-column>
-          <mj-text padding="0 0 10px" font-size="12px" font-weight="700" color="#a5b4fc" letter-spacing="0.12em">WELCOME TO DESKBOLIC</mj-text>
+          <mj-text padding="0 0 10px" font-size="12px" font-weight="700" color="#a5b4fc" letter-spacing="0.12em">WELCOME TO CAPILLER RELY</mj-text>
           <mj-text padding="0 0 12px" font-size="28px" line-height="36px" font-weight="700" color="#ffffff">Confirm your email address</mj-text>
           <mj-text padding="0" font-size="15px" line-height="24px" color="#cbd5e1">You're one step away from accessing your Capiller Rely workspace. Confirm your email below to activate your account and get started.</mj-text>
         </mj-column>
@@ -50,14 +50,14 @@
 
       <mj-section background-color="#ffffff" padding="0 40px 24px">
         <mj-column background-color="#f8fafc" border="1px solid #e2e8f0" border-radius="10px" padding="18px 22px">
-          <mj-text padding="0 0 6px" font-size="11px" font-weight="700" color="#4f46e5" letter-spacing="0.08em">ACCOUNT DETAILS</mj-text>
+          <mj-text padding="0 0 6px" font-size="11px" font-weight="700" color="#3b82f6" letter-spacing="0.08em">ACCOUNT DETAILS</mj-text>
           <mj-text padding="0" font-size="14px" line-height="22px" color="#334155">Email: <strong>[[ERB= @resource.email ]]</strong></mj-text>
         </mj-column>
       </mj-section>
 
       <mj-section background-color="#ffffff" padding="0 40px 36px">
         <mj-column>
-          <mj-button align="left" href="[[ERB= confirmation_url(@resource, confirmation_token: @token, locale: I18n.locale) ]]" background-color="#4f46e5" border-radius="8px" padding="0 0 20px" inner-padding="14px 24px" font-size="15px">
+          <mj-button align="left" href="[[ERB= confirmation_url(@resource, confirmation_token: @token, locale: I18n.locale) ]]" background-color="#3b82f6" border-radius="8px" padding="0 0 20px" inner-padding="14px 24px" font-size="15px">
             Confirm my account &nbsp;&rarr;
           </mj-button>
           <mj-text padding="0" font-size="13px" line-height="21px" color="#64748b">If you didn't create this account, you can safely ignore this email. Your account won't be activated until you confirm your email address.</mj-text>

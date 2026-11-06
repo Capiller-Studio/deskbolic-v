@@ -12,7 +12,7 @@ module Api
         def show
           render(json: {
             schemas: [ "urn:ietf:params:scim:schemas:core:2.0:ServiceProviderConfig" ],
-            documentationUri: "https://docs.deskbolic.com/scim",
+            documentationUri: "https://help-rely.capiller.com/scim",
             patch: { supported: true },
             bulk: { supported: false, maxOperations: 0, maxPayloadSize: 0 },
             filter: { supported: true, maxResults: 100 },

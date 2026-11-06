@@ -248,7 +248,7 @@ module Dashboard
 
       def facebook_callback_url
         base = ENV["DESKBOLIC_URL"].presence
-        base ||= Rails.env.production? ? "https://deskbolic.app" : "#{request.protocol}#{request.host_with_port}"
+        base ||= Rails.env.production? ? "https://rely.capiller.com" : "#{request.protocol}#{request.host_with_port}"
         base = base.to_s.strip.chomp("/")
         "#{base}/channels/facebook/callback"
       end

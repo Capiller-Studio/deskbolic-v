@@ -234,7 +234,7 @@
 .ui-checkbox {
   width: 18px;
   height: 18px;
-  accent-color: var(--channel-brand, #4f46e5);
+  accent-color: var(--channel-brand, #3b82f6);
 }
 
 .ui-form-actions {
@@ -457,7 +457,7 @@
 
   &:focus {
     border-color: $secondary-purple;
-    box-shadow: 0 0 0 3px rgba(119, 141, 255, 0.12);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
   }
 }
 
@@ -484,7 +484,7 @@
 
   &:focus {
     border-color: $secondary-purple;
-    box-shadow: 0 0 0 3px rgba(119, 141, 255, 0.12);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
   }
 }
 
@@ -652,10 +652,10 @@ input:checked + .ui-toggle-slider::before {
 }
 
 .ui-tab--active {
-  color: var(--channel-brand-hover, #4338ca);
+  color: var(--channel-brand-hover, #2563eb);
 
   &::after {
-    background: var(--channel-brand-hover, #4338ca);
+    background: var(--channel-brand-hover, #2563eb);
   }
 }
 
@@ -1337,8 +1337,8 @@ input:checked + .ui-toggle-slider::before {
       }
 
       &.ui-pagination__button--active {
-        border-color: #778dff;
-        background: #778dff;
+        border-color: #3b82f6;
+        background: #3b82f6;
       }
     }
 
@@ -1517,8 +1517,8 @@ input:checked + .ui-toggle-slider::before {
       font: inherit;
 
       &:focus {
-        border-color: #778dff;
-        box-shadow: 0 0 0 3px rgba(119, 141, 255, 0.12);
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
       }
     }
   }
@@ -1559,8 +1559,8 @@ input:checked + .ui-toggle-slider::before {
     }
 
     &.ui-button--primary {
-      border-color: #778dff;
-      background: #778dff;
+      border-color: #3b82f6;
+      background: #3b82f6;
       color: $white;
 
       &:hover {
@@ -1725,8 +1725,8 @@ input:checked + .ui-toggle-slider::before {
       align-items: center;
       padding: 0 8px;
       border-radius: 8px;
-      background: rgba(119, 141, 255, 0.08);
-      color: #778dff;
+      background: rgba(59, 130, 246, 0.08);
+      color: #3b82f6;
       font-family: $font-family-inter-medium;
       font-size: 12px;
       font-weight: 500;
@@ -1927,7 +1927,7 @@ input:checked + .ui-toggle-slider::before {
       align-items: center;
       justify-content: center;
       border-radius: 10px;
-      background: rgba(119, 141, 255, 0.08);
+      background: rgba(59, 130, 246, 0.08);
 
       svg {
         display: block;
@@ -1935,7 +1935,7 @@ input:checked + .ui-toggle-slider::before {
         height: 18px;
 
         path {
-          fill: #778dff;
+          fill: #3b82f6;
           fill-opacity: 1;
         }
       }
@@ -2294,8 +2294,8 @@ input:checked + .ui-toggle-slider::before {
     }
 
     &.ui-change-badge--value {
-      background: rgba(119, 141, 255, 0.1);
-      color: #778dff;
+      background: rgba(59, 130, 246, 0.1);
+      color: #3b82f6;
     }
   }
 
@@ -2534,7 +2534,7 @@ input:checked + .ui-toggle-slider::before {
       gap: 9px;
       padding: 10px 16px;
       border-radius: 10px;
-      background: #778dff;
+      background: #3b82f6;
       color: $white;
       font-family: $font-family-inter-semibold;
       font-size: 14px;
@@ -2623,7 +2623,7 @@ input:checked + .ui-toggle-slider::before {
 
       a:not(.ui-domain-card__chevron) {
         margin-left: 6px;
-        color: #778dff;
+        color: #3b82f6;
         font-family: $font-family-inter-semibold;
         font-weight: 600;
         text-decoration: none;
@@ -2872,8 +2872,8 @@ input:checked + .ui-toggle-slider::before {
       margin-top: 22px;
       padding: 8px 14px;
       border-radius: 10px;
-      background: rgba(119, 141, 255, 0.1);
-      color: #778dff;
+      background: rgba(59, 130, 246, 0.1);
+      color: #3b82f6;
       font-family: $font-family-inter-semibold;
       font-size: 14px;
       font-weight: 600;
@@ -2888,7 +2888,7 @@ input:checked + .ui-toggle-slider::before {
       margin-top: 22px;
       padding: 0 20px;
       border-radius: 10px;
-      background: #778dff;
+      background: #3b82f6;
       color: $white;
       font-family: $font-family-inter-semibold;
       font-size: 15px;
@@ -3045,7 +3045,7 @@ input:checked + .ui-toggle-slider::before {
       line-height: 20px;
 
       &:last-child {
-        color: #778dff;
+        color: #3b82f6;
       }
     }
 
@@ -3651,7 +3651,7 @@ html[lang="ar"] .ui-settings-page .ui-panel--data {
     }
 
     .ui-btn-primary {
-      background: #778dff;
+      background: #3b82f6;
 
       &:hover {
         background: #687ef0;
@@ -3714,7 +3714,7 @@ html[lang="ar"] .ui-settings-page .ui-panel--data {
   .ui-settings-editor__submit {
     gap: 8px;
     padding: 10px 21px;
-    background: #778dff;
+    background: #3b82f6;
 
     &:hover {
       background: #687ef0;
@@ -3838,13 +3838,13 @@ html[lang="ar"] .ui-settings-page .ui-panel--data {
       }
 
       &:focus-visible {
-        outline: 3px solid rgba(119, 141, 255, 0.2);
+        outline: 3px solid rgba(59, 130, 246, 0.2);
         outline-offset: 2px;
       }
 
       &.is-selected {
-        border: 2px solid #778dff;
-        box-shadow: 0 0 0 1px rgba(119, 141, 255, 0.08);
+        border: 2px solid #3b82f6;
+        box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.08);
 
         .ui-label-color-swatch__check,
         .ui-label-color-swatch__badge {
@@ -3879,7 +3879,7 @@ html[lang="ar"] .ui-settings-page .ui-panel--data {
       justify-content: center;
       border: 2px solid $white;
       border-radius: 50%;
-      background: #778dff;
+      background: #3b82f6;
 
       svg {
         width: 8px;
@@ -3960,8 +3960,8 @@ html[lang="ar"] .ui-settings-page .ui-panel--data {
       }
 
       &:focus {
-        border-color: #778dff;
-        box-shadow: 0 0 0 3px rgba(119, 141, 255, 0.12);
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
       }
     }
 
@@ -4012,9 +4012,9 @@ html[lang="ar"] .ui-settings-page .ui-panel--data {
           height: 22px;
 
           path {
-            fill: #778dff;
+            fill: #3b82f6;
             fill-opacity: 1;
-            stroke: #778dff;
+            stroke: #3b82f6;
           }
         }
       }
@@ -4104,8 +4104,8 @@ html[lang="ar"] .ui-settings-page .ui-panel--data {
       }
 
       &:focus {
-        border-color: #778dff;
-        box-shadow: 0 0 0 3px rgba(119, 141, 255, 0.12);
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
       }
     }
 
@@ -4243,7 +4243,7 @@ html[lang="ar"] .ui-settings-page .ui-panel--data {
       }
 
       &:hover {
-        border-color: #778dff;
+        border-color: #3b82f6;
         background: #fafaff;
       }
     }
@@ -4515,7 +4515,7 @@ html[lang="ar"] .ui-settings-page .ui-panel--data {
         flex: 0 0 auto;
         padding: 8px 14px;
         border-radius: 999px;
-        box-shadow: 0 3px 10px rgba(119, 141, 255, 0.22);
+        box-shadow: 0 3px 10px rgba(59, 130, 246, 0.22);
         overflow: hidden;
         white-space: nowrap;
 
@@ -5115,8 +5115,8 @@ html[lang="ar"] .ui-settings-editor {
         box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
 
         &:focus {
-          border-color: #778dff;
-          box-shadow: 0 0 0 3px rgba(119, 141, 255, 0.12);
+          border-color: #3b82f6;
+          box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
         }
       }
     }
@@ -5185,7 +5185,7 @@ html[lang="ar"] .ui-settings-editor {
       align-items: center;
       justify-content: center;
       border-radius: 10px;
-      background: rgba(119, 141, 255, 0.1);
+      background: rgba(59, 130, 246, 0.1);
 
       svg {
         width: 24px;
@@ -5541,8 +5541,8 @@ html[lang="ar"] .ui-settings-editor {
 
       &.is-focused .choices__inner,
       &.is-open .choices__inner {
-        border-color: #778dff;
-        box-shadow: 0 0 0 3px rgba(119, 141, 255, 0.12);
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
       }
 
       .choices__list--dropdown,
@@ -5566,8 +5566,8 @@ html[lang="ar"] .ui-settings-editor {
           border-radius: 7px;
 
           &.is-highlighted {
-            background: rgba(119, 141, 255, 0.1);
-            color: #778dff;
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
           }
         }
       }
@@ -5632,7 +5632,7 @@ html[lang="ar"] .ui-settings-editor {
       line-height: 20px;
 
       &:last-child {
-        color: #778dff;
+        color: #3b82f6;
       }
     }
 
@@ -5721,9 +5721,9 @@ html[lang="ar"] .ui-settings-editor {
     gap: 20px;
     margin-top: 25px;
     padding: 17px 23px;
-    border: 1px solid rgba(119, 141, 255, 0.1);
+    border: 1px solid rgba(59, 130, 246, 0.1);
     border-radius: 12px;
-    background: rgba(119, 141, 255, 0.08);
+    background: rgba(59, 130, 246, 0.08);
 
     > svg {
       width: 32px;
@@ -5731,7 +5731,7 @@ html[lang="ar"] .ui-settings-editor {
       flex: 0 0 32px;
 
       path {
-        fill: #778dff;
+        fill: #3b82f6;
       }
     }
 
@@ -5762,7 +5762,7 @@ html[lang="ar"] .ui-settings-editor {
       gap: 6px;
       padding: 10px 16px;
       border-radius: 10px;
-      background: #778dff;
+      background: #3b82f6;
 
       &:hover {
         background: #687ef0;
@@ -5810,7 +5810,7 @@ html[lang="ar"] .ui-settings-editor {
     margin-top: 24px;
 
     .ui-btn-primary {
-      background: #778dff;
+      background: #3b82f6;
 
       &:hover {
         background: #687ef0;
@@ -5876,8 +5876,8 @@ html[lang="ar"] .ui-settings-editor {
     text-align: left;
 
     &.active {
-      background: rgba(119, 141, 255, 0.1);
-      color: #778dff;
+      background: rgba(59, 130, 246, 0.1);
+      color: #3b82f6;
     }
 
     .ui-locale-tab__code {
@@ -5888,7 +5888,7 @@ html[lang="ar"] .ui-settings-editor {
       align-items: center;
       justify-content: center;
       border-radius: 4px;
-      background: #778dff;
+      background: #3b82f6;
       color: $white;
       font-family: $font-family-inter-semibold;
       font-size: 10px;

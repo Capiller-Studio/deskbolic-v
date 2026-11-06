@@ -36,7 +36,7 @@ Rails.application.configure do
 
   # Mount Action Cable outside main process or domain.
   # config.action_cable.mount_path = nil
-  config.action_cable.url = ENV.fetch("ACTION_CABLE_URL", "wss://ws.deskbolic.com")
+  config.action_cable.url = ENV.fetch("ACTION_CABLE_URL", "wss://ws-rely.capiller.com")
   config.action_cable.allowed_request_origins = [ %r{http://*}, %r{https://*}, %r{file://*}, "file://", nil, "" ]
 
   # Assume all access to the app is happening through a SSL-terminating reverse proxy.
@@ -81,9 +81,9 @@ Rails.application.configure do
   config.action_mailer.smtp_settings = {
     user_name: Rails.application.credentials.smtp_username,
     password: Rails.application.credentials.smtp_password,
-    address: "mail.deskbolic.com",
+    address: "mail.capiller.com",
     port: 465,
-    domain: ENV.fetch("MAIN_DOMAIN", "deskbolic.com"),
+    domain: ENV.fetch("MAIN_DOMAIN", "capiller.com"),
     authentication: "plain",
     ssl: true
   }

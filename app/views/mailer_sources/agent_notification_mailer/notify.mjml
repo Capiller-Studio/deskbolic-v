@@ -6,7 +6,7 @@
       <mj-text font-size="15px" color="#374151" line-height="24px" />
       <mj-section padding="0" />
       <mj-column padding="0" />
-      <mj-button background-color="#4f46e5" color="#ffffff" font-size="14px" font-weight="600" border-radius="8px" padding="16px 24px" inner-padding="12px 24px" />
+      <mj-button background-color="#3b82f6" color="#ffffff" font-size="14px" font-weight="600" border-radius="8px" padding="16px 24px" inner-padding="12px 24px" />
     </mj-attributes>
     <mj-preview>
       [[ERB= I18n.t("notifications.events.#{@notification.event}", default: @notification.event.to_s.humanize) ]]
@@ -147,7 +147,7 @@
       <mj-raw>[[ERB- if @conversation&.last_message_preview.present? ]]</mj-raw>
       <mj-section background-color="#ffffff" padding="0 40px 24px">
         <mj-column background-color="#eef2ff" border-left="3px solid #6366f1" padding="18px 20px">
-          <mj-text padding="0 0 6px" font-size="11px" font-weight="700" color="#4f46e5" letter-spacing="0.08em">
+          <mj-text padding="0 0 6px" font-size="11px" font-weight="700" color="#3b82f6" letter-spacing="0.08em">
             LATEST MESSAGE
           </mj-text>
           <mj-text padding="0" font-size="14px" line-height="22px" color="#334155">
@@ -160,15 +160,15 @@
       <mj-section background-color="#ffffff" padding="0 40px 36px">
         <mj-column>
           <mj-raw>[[ERB- if @conversation.present? ]]</mj-raw>
-          <mj-button align="left" href="[[ERB= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') ]]/conversations/[[ERB= @conversation.id ]]" background-color="#4f46e5" border-radius="8px" padding="0 0 20px" inner-padding="14px 24px" font-size="15px">
+          <mj-button align="left" href="[[ERB= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') ]]/conversations/[[ERB= @conversation.id ]]" background-color="#3b82f6" border-radius="8px" padding="0 0 20px" inner-padding="14px 24px" font-size="15px">
             Open conversation &nbsp;&rarr;
           </mj-button>
           <mj-raw>[[ERB- elsif @notification.event.in?(%w[limit_approaching limit_reached subscription_created subscription_renewed subscription_cancelled trial_expiring payment_failed]) ]]</mj-raw>
-          <mj-button align="left" href="[[ERB= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') ]]/settings/billing" background-color="#4f46e5" border-radius="8px" padding="0 0 20px" inner-padding="14px 24px" font-size="15px">
+          <mj-button align="left" href="[[ERB= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') ]]/settings/billing" background-color="#3b82f6" border-radius="8px" padding="0 0 20px" inner-padding="14px 24px" font-size="15px">
             Manage billing & plan &nbsp;&rarr;
           </mj-button>
           <mj-raw>[[ERB- else ]]</mj-raw>
-          <mj-button align="left" href="[[ERB= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') ]]" background-color="#4f46e5" border-radius="8px" padding="0 0 20px" inner-padding="14px 24px" font-size="15px">
+          <mj-button align="left" href="[[ERB= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') ]]" background-color="#3b82f6" border-radius="8px" padding="0 0 20px" inner-padding="14px 24px" font-size="15px">
             Open workspace &nbsp;&rarr;
           </mj-button>
           <mj-raw>[[ERB- end ]]</mj-raw>

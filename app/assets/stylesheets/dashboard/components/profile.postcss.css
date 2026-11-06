@@ -72,7 +72,7 @@
   height: var(--profile-avatar-size);
   border-radius: 50%;
   cursor: pointer;
-  box-shadow: 0 12px 28px rgba(119, 141, 255, 0.22);
+  box-shadow: 0 12px 28px rgba(59, 130, 246, 0.22);
 }
 
 .profile-avatar {
@@ -270,9 +270,9 @@
 }
 
 .profile-row:focus-within {
-  border-color: rgba(119, 141, 255, 0.65);
+  border-color: rgba(59, 130, 246, 0.65);
   background: $white;
-  box-shadow: 0 0 0 3px rgba(119, 141, 255, 0.1);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
 .profile-row-icon-cell {
@@ -429,7 +429,7 @@
   overflow: hidden;
   padding: 0;
   margin: 0;
-  box-shadow: 0 12px 28px rgba(119, 141, 255, 0.22);
+  box-shadow: 0 12px 28px rgba(59, 130, 246, 0.22);
 
   &::after {
     content: "";
@@ -1212,8 +1212,8 @@
 
     .choices.is-open .choices__inner,
     .choices.is-focused .choices__inner {
-      border-color: #778dff;
-      box-shadow: 0 0 0 3px rgba(119, 141, 255, 0.12);
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
     }
 
     .choices__list--single {
@@ -1296,8 +1296,8 @@
 
     .choices.is-open > .choices__list--dropdown .choices__item--selectable.is-highlighted,
     .choices.is-open > .choices__list[aria-expanded] .choices__item--selectable.is-highlighted {
-      background: rgba(119, 141, 255, 0.1);
-      color: #778dff;
+      background: rgba(59, 130, 246, 0.1);
+      color: #3b82f6;
     }
   }
 }

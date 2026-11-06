@@ -213,7 +213,7 @@ module Auth
         end
 
         # Default redirect to account tenant dashboard
-        app_domain = ENV.fetch("APP_DOMAIN", "deskbolic.app")
+        app_domain = ENV.fetch("APP_DOMAIN", "rely.capiller.com")
         "https://#{sso_config.account.identifier}.#{app_domain}/"
       end
     end

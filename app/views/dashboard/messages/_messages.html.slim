@@ -151,7 +151,7 @@
                 = inline_svg_tag("mic.svg", class:"action-btn")
               .ai-assist data-controller="accordion ai-assist" data-ai-assist-summarize-url-value=summarize_conversation_ai_path(@conversation) data-ai-assist-draft-url-value=draft_reply_conversation_ai_path(@conversation) data-ai-assist-rewrite-url-value=rewrite_tone_conversation_ai_path(@conversation) data-ai-assist-grammar-url-value=fix_grammar_conversation_ai_path(@conversation) data-ai-assist-translate-url-value=translate_conversation_ai_path(@conversation) data-ai-assist-lexical-outlet=".note-area" data-ai-assist-generating-summary-value=t('dashboard.messages.ai_assist.generating_summary') data-ai-assist-summary-heading-value=t('dashboard.messages.ai_assist.summary_heading') data-ai-assist-drafting-reply-value=t('dashboard.messages.ai_assist.drafting_reply') data-ai-assist-error-prefix-value=t('dashboard.messages.ai_assist.error_prefix') data-ai-assist-credits-exhausted-value=t('dashboard.messages.ai_assist.credits_exhausted')
                 .paraphrase-options data-action="click->accordion#toggleMenu"
-                  = inline_svg_tag("gradient_logo.svg", class: "gpt-btn gpt-btn--desktop")
+                  = image_tag "fav_icon.png", alt: "Capiller Rely", class: "gpt-btn gpt-btn--desktop"
                   = image_tag("gradient_tab.svg", class: "gpt-btn gpt-btn--tab", alt: "")
                   = image_tag("gradient_mobile.svg", class: "gpt-btn gpt-btn--mobile", alt: "")
                   p.f-semi-12 = t('dashboard.messages.ai_assist.title', default: 'Rely AI')

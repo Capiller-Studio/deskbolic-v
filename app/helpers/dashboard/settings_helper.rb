@@ -82,7 +82,7 @@ module Dashboard
         end
       return if channel_path.nil?
 
-      widget_app_url = (ENV["WIDGET_APP_URL"].presence || "https://widget.deskbolic.com").delete_suffix("/")
+      widget_app_url = (ENV["WIDGET_APP_URL"].presence || "https://widget-rely.capiller.com").delete_suffix("/")
       version_param = channel.respond_to?(:updated_at) && channel.updated_at.present? ? "?v=#{channel.updated_at.to_i}" : ""
       %(<script src="#{widget_app_url}/#{channel_path}/#{account.id}/#{channel.id}/embed.js#{version_param}"></script>)
     end
@@ -204,7 +204,7 @@ module Dashboard
 
     def channel_show_preview_url(channel, account)
       preview_type = channel.is_a?(Channel::WebWidget) ? "w" : "f"
-      widget_app_url = (ENV["WIDGET_APP_URL"].presence || "https://widget.deskbolic.com").delete_suffix("/")
+      widget_app_url = (ENV["WIDGET_APP_URL"].presence || "https://widget-rely.capiller.com").delete_suffix("/")
       "#{widget_app_url}/#{preview_type}/#{account.id}/#{channel.id}?preview=true"
     end
 

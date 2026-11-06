@@ -65,8 +65,8 @@ module Dashboard
 
     def redirect_public_registration
       redirect_to(
-        ENV.fetch("WORKSPACE_ADMIN_URL", "https://admin-rely.capiller.com"),
-        allow_other_host: true,
+        new_user_session_path,
+        alert: t("auth.registration.registration_disabled", default: "Registration is temporarily closed."),
         status: :see_other
       )
     end

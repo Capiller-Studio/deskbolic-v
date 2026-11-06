@@ -9,7 +9,7 @@ class ApplicationMailer < ActionMailer::Base
   private
 
   def default_from_address
-    Rails.application.credentials.dig(:mailer, :from) || "no-reply@deskbolic.com"
+    Rails.application.credentials.dig(:mailer, :from) || "no-reply@capiller.com"
   end
 
   # Dedicated from address for channel-based emails (helpdesk replies, CSAT, etc.)
@@ -19,7 +19,7 @@ class ApplicationMailer < ActionMailer::Base
   end
 
   # Dynamically route emails ending in @helpbolic.com through the Capiller Rely Help SMTP relay.
-  # Other emails (e.g., noreply@deskbolic.com) will fall back to the default SMTP in production.rb
+  # Other emails (e.g., noreply@capiller.com) will fall back to the default SMTP in production.rb
   def set_delivery_options
     return unless Rails.env.production?
 

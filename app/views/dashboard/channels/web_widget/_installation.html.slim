@@ -23,7 +23,7 @@
         code
           | &#60;script
           br
-          |   src="#{ENV['WIDGET_APP_URL'] || 'https://widget.deskbolic.com'}/w/#{current_account.id}/#{web_widget_channel.id}/embed.js"
+          |   src="#{ENV['WIDGET_APP_URL'] || 'https://widget-rely.capiller.com'}/w/#{current_account.id}/#{web_widget_channel.id}/embed.js"
           br
           |   data-locale="#{I18n.locale}"&#62;
           br
@@ -43,7 +43,7 @@
           br
           |     const script = document.createElement('script');
           br
-          |     script.src = "#{ENV['WIDGET_APP_URL'] || 'https://widget.deskbolic.com'}/w/#{current_account.id}/#{web_widget_channel.id}/embed.js";
+          |     script.src = "#{ENV['WIDGET_APP_URL'] || 'https://widget-rely.capiller.com'}/w/#{current_account.id}/#{web_widget_channel.id}/embed.js";
           br
           |     script.setAttribute('data-locale', '#{I18n.locale}');
           br

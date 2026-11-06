@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe Dashboard::MetaTagsHelper, type: :helper do
   describe '#meta_title, #meta_description, #meta_keywords' do
     it 'returns fallback i18n title when content_for is not set' do
-      expect(helper.meta_title).to eq('DESKBOLIC')
+      expect(helper.meta_title).to eq('Capiller Rely')
     end
 
     it 'returns custom value when content_for is set' do

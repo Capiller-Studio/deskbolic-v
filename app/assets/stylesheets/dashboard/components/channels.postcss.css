@@ -5,8 +5,8 @@
 }
 
 .channel-theme-email {
-  --channel-brand: #4f46e5;
-  --channel-brand-hover: #4338ca;
+  --channel-brand: #3b82f6;
+  --channel-brand-hover: #2563eb;
 }
 
 .channel-theme-facebook {
@@ -46,19 +46,19 @@
   gap: 10px;
   padding: 14px 32px;
   border-radius: 12px;
-  background: var(--channel-brand, #4f46e5);
+  background: var(--channel-brand, #3b82f6);
   color: $white;
   font-family: $font-family-inter-semibold;
   font-size: 16px;
   border: none;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 16px var(--channel-brand-shadow, rgba(79, 70, 229, 0.3));
+  box-shadow: 0 4px 16px var(--channel-brand-shadow, rgba(59, 130, 246, 0.3));
 
   &:hover {
-    background: var(--channel-brand-hover, #4338ca);
+    background: var(--channel-brand-hover, #2563eb);
     transform: translateY(-1px);
-    box-shadow: 0 6px 24px var(--channel-brand-shadow-hover, rgba(79, 70, 229, 0.4));
+    box-shadow: 0 6px 24px var(--channel-brand-shadow-hover, rgba(59, 130, 246, 0.4));
   }
 
   &:active {
@@ -105,15 +105,15 @@
   background: $white;
 
   &:hover {
-    border-color: var(--channel-brand, #4f46e5);
+    border-color: var(--channel-brand, #3b82f6);
     background: #f0fdf4;
     transform: translateY(-1px);
   }
 
   &.channel-page-card--selected {
-    border-color: var(--channel-brand, #4f46e5);
+    border-color: var(--channel-brand, #3b82f6);
     background: #dcfce7;
-    box-shadow: 0 0 0 3px var(--channel-brand-shadow-light, rgba(79, 70, 229, 0.15));
+    box-shadow: 0 0 0 3px var(--channel-brand-shadow-light, rgba(59, 130, 246, 0.15));
   }
 }
 
@@ -273,12 +273,12 @@
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  background: var(--channel-brand, #4f46e5);
+  background: var(--channel-brand, #3b82f6);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: 3px;
-  box-shadow: 0 4px 15px var(--channel-brand-shadow-light, rgba(79, 70, 229, 0.2));
+  box-shadow: 0 4px 15px var(--channel-brand-shadow-light, rgba(59, 130, 246, 0.2));
 }
 
 .channel-connect-icon {
@@ -324,7 +324,7 @@
 }
 
 .channel-scope-icon {
-  color: var(--channel-brand, #4f46e5);
+  color: var(--channel-brand, #3b82f6);
   display: flex;
   align-items: center;
 }
@@ -530,7 +530,7 @@
   }
 
   &:hover {
-    color: #778dff;
+    color: #3b82f6;
   }
 }
 
@@ -542,7 +542,7 @@
 .channel-tab__input--instagram:checked ~ .channel-tabs .channel-tab--instagram,
 .channel-tab__input--whatsapp:checked ~ .channel-tabs .channel-tab--whatsapp,
 .channel-tab__input--custom:checked ~ .channel-tabs .channel-tab--custom {
-  color: #778dff;
+  color: #3b82f6;
 }
 
 .channel-tab__input--all:checked ~ .channel-tabs .channel-tab--all::after,
@@ -553,7 +553,7 @@
 .channel-tab__input--instagram:checked ~ .channel-tabs .channel-tab--instagram::after,
 .channel-tab__input--whatsapp:checked ~ .channel-tabs .channel-tab--whatsapp::after,
 .channel-tab__input--custom:checked ~ .channel-tabs .channel-tab--custom::after {
-  background: #778dff;
+  background: #3b82f6;
 }
 
 .channel-tab__input:not(.channel-tab__input--all):checked ~ .channel-grid .channel-card__type {
@@ -678,10 +678,10 @@
   flex: 0 0 auto;
   align-items: center;
   padding: 0 5px;
-  border: 1px solid rgba(119, 141, 255, 0.15);
+  border: 1px solid rgba(59, 130, 246, 0.15);
   border-radius: 5px;
-  background: rgba(119, 141, 255, 0.08);
-  color: #778dff;
+  background: rgba(59, 130, 246, 0.08);
+  color: #3b82f6;
   font-family: $font-family-inter-medium;
   font-size: 12px;
   line-height: 16px;
@@ -1099,8 +1099,8 @@ html[lang="ar"] .channel-card__menu {
   --channel-edit-accent: #1167ff;
   --channel-edit-accent-soft: #eef4ff;
   --channel-edit-accent-ring: rgba(17, 103, 255, 0.2);
-  --channel-edit-focus: #778dff;
-  --channel-edit-focus-ring: rgba(119, 141, 255, 0.12);
+  --channel-edit-focus: #3b82f6;
+  --channel-edit-focus-ring: rgba(59, 130, 246, 0.12);
   --channel-edit-icon-filter: invert(35%) sepia(97%) saturate(3713%) hue-rotate(216deg) brightness(100%) contrast(109%);
   --channel-edit-badge-border: #dbeafe;
   --channel-edit-badge-background: #eff6ff;
@@ -1132,32 +1132,32 @@ html[lang="ar"] .channel-card__menu {
 }
 
 .channel-edit.channel-theme-custom {
-  --channel-edit-accent: #778dff;
+  --channel-edit-accent: #3b82f6;
   --channel-edit-accent-soft: #f2f4ff;
-  --channel-edit-accent-ring: rgba(119, 141, 255, 0.2);
-  --channel-edit-focus: #778dff;
-  --channel-edit-focus-ring: rgba(119, 141, 255, 0.12);
+  --channel-edit-accent-ring: rgba(59, 130, 246, 0.2);
+  --channel-edit-focus: #3b82f6;
+  --channel-edit-focus-ring: rgba(59, 130, 246, 0.12);
   --channel-edit-icon-filter: brightness(0) saturate(100%) invert(60%) sepia(52%) saturate(3336%) hue-rotate(201deg) brightness(102%) contrast(101%);
-  --channel-edit-badge-border: rgba(119, 141, 255, 0.2);
-  --channel-edit-badge-background: rgba(119, 141, 255, 0.1);
-  --channel-edit-badge-color: #778dff;
+  --channel-edit-badge-border: rgba(59, 130, 246, 0.2);
+  --channel-edit-badge-background: rgba(59, 130, 246, 0.1);
+  --channel-edit-badge-color: #3b82f6;
 }
 
 .channel-edit.channel-theme-email {
-  --channel-edit-accent: #778dff;
+  --channel-edit-accent: #3b82f6;
   --channel-edit-accent-soft: #f2f4ff;
-  --channel-edit-accent-ring: rgba(119, 141, 255, 0.2);
-  --channel-edit-focus: #778dff;
-  --channel-edit-focus-ring: rgba(119, 141, 255, 0.12);
+  --channel-edit-accent-ring: rgba(59, 130, 246, 0.2);
+  --channel-edit-focus: #3b82f6;
+  --channel-edit-focus-ring: rgba(59, 130, 246, 0.12);
   --channel-edit-icon-filter: brightness(0) saturate(100%) invert(60%) sepia(52%) saturate(3336%) hue-rotate(201deg) brightness(102%) contrast(101%);
 }
 
 .channel-edit.channel-theme-web-widget {
-  --channel-edit-accent: #778dff;
+  --channel-edit-accent: #3b82f6;
   --channel-edit-accent-soft: #eef2ff;
-  --channel-edit-accent-ring: rgba(119, 141, 255, 0.2);
-  --channel-edit-focus: #778dff;
-  --channel-edit-focus-ring: rgba(119, 141, 255, 0.12);
+  --channel-edit-accent-ring: rgba(59, 130, 246, 0.2);
+  --channel-edit-focus: #3b82f6;
+  --channel-edit-focus-ring: rgba(59, 130, 246, 0.12);
 }
 
 .channel-edit.channel-theme-mobile-widget {
@@ -1169,11 +1169,11 @@ html[lang="ar"] .channel-card__menu {
 }
 
 .channel-edit.channel-theme-contact-form {
-  --channel-edit-accent: #778dff;
+  --channel-edit-accent: #3b82f6;
   --channel-edit-accent-soft: #eef2ff;
-  --channel-edit-accent-ring: rgba(119, 141, 255, 0.2);
-  --channel-edit-focus: #778dff;
-  --channel-edit-focus-ring: rgba(119, 141, 255, 0.12);
+  --channel-edit-accent-ring: rgba(59, 130, 246, 0.2);
+  --channel-edit-focus: #3b82f6;
+  --channel-edit-focus-ring: rgba(59, 130, 246, 0.12);
 }
 
 .channel-edit__header {
@@ -1295,7 +1295,7 @@ html[lang="ar"] .channel-card__menu {
 
 .channel-edit__button--primary {
   min-width: 0;
-  background: #778dff;
+  background: #3b82f6;
   color: $white;
   box-shadow: 0 1px 2px rgba(70, 91, 220, 0.18);
 
@@ -2271,7 +2271,7 @@ html[lang="ar"] .channel-card__menu {
   padding: 12px 20px;
   border: 0;
   border-radius: 9px;
-  background: #778dff;
+  background: #3b82f6;
   color: $white;
   font-family: $font-family-inter-semibold;
   font-size: 14px;
@@ -2351,7 +2351,7 @@ html[lang="ar"] .channel-card__menu {
       left: 0;
       height: 2px;
       border-radius: 999px 999px 0 0;
-      background: #778dff;
+      background: #3b82f6;
       content: "";
     }
   }
@@ -2405,7 +2405,7 @@ html[lang="ar"] .channel-card__menu {
       justify-content: center;
       border-radius: 50%;
       background: #f2f4ff;
-      color: #778dff;
+      color: #3b82f6;
       font-family: $font-family-inter-medium;
       font-size: 11px;
       line-height: 16px;
@@ -2523,7 +2523,7 @@ html[lang="ar"] .channel-card__menu {
   }
 
   dd.channel-edit-overview__value--brand {
-    color: #778dff;
+    color: #3b82f6;
   }
 }
 

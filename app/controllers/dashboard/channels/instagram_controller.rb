@@ -219,10 +219,10 @@ module Dashboard
       end
 
       def instagram_callback_url
-        # In production with DESKBOLIC_URL, use configured apex URL (matches Meta Console: https://deskbolic.app/channels/instagram/callback).
+        # In production with DESKBOLIC_URL, use configured apex URL (matches Meta Console: https://rely.capiller.com/channels/instagram/callback).
         # In local/ngrok environments, dynamically use the current request host (matches ngrok in Meta Console).
         base = ENV["DESKBOLIC_URL"].presence
-        base ||= Rails.env.production? ? "https://deskbolic.app" : "#{request.protocol}#{request.host_with_port}"
+        base ||= Rails.env.production? ? "https://rely.capiller.com" : "#{request.protocol}#{request.host_with_port}"
         base = base.to_s.strip.chomp("/")
         "#{base}/channels/instagram/callback"
       end

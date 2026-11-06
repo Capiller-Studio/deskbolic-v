@@ -271,6 +271,7 @@ GEM
       eventmachine (>= 0.12.0)
       websocket-driver (>= 0.8.0)
     ffaker (2.25.0)
+    ffi (1.17.4-aarch64-linux-gnu)
     ffi (1.17.4-arm64-darwin)
     ffi (1.17.4-x86_64-linux-gnu)
     ffi-compiler (1.4.2)
@@ -280,6 +281,9 @@ GEM
     globalid (1.4.0)
       activesupport (>= 6.1)
     google-protobuf (4.34.1)
+      bigdecimal
+      rake (~> 13.3)
+    google-protobuf (4.34.1-aarch64-linux-gnu)
       bigdecimal
       rake (~> 13.3)
     google-protobuf (4.34.1-arm64-darwin)
@@ -293,6 +297,9 @@ GEM
     groupdate (6.8.0)
       activesupport (>= 7.2)
     grpc (1.80.0)
+      google-protobuf (>= 3.25, < 5.0)
+      googleapis-common-protos-types (~> 1.0)
+    grpc (1.80.0-aarch64-linux-gnu)
       google-protobuf (>= 3.25, < 5.0)
       googleapis-common-protos-types (~> 1.0)
     grpc (1.80.0-arm64-darwin)
@@ -397,6 +404,7 @@ GEM
     money (7.0.2)
       bigdecimal
       i18n (~> 1.9)
+    mrml (1.10.0-aarch64-linux)
     mrml (1.10.0-arm64-darwin)
     mrml (1.10.0-x86_64-linux)
     msgpack (1.8.0)
@@ -416,6 +424,8 @@ GEM
     net-smtp (0.5.1)
       net-protocol
     nio4r (2.7.5)
+    nokogiri (1.19.4-aarch64-linux-gnu)
+      racc (~> 1.4)
     nokogiri (1.19.4-arm64-darwin)
       racc (~> 1.4)
     nokogiri (1.19.4-x86_64-linux-gnu)
@@ -460,6 +470,7 @@ GEM
       racc
     pdf-core (0.10.0)
     pg (1.6.3)
+    pg (1.6.3-aarch64-linux)
     pg (1.6.3-arm64-darwin)
     pg (1.6.3-x86_64-linux)
     pp (0.6.4)
@@ -725,6 +736,7 @@ GEM
     zeitwerk (2.8.2)
 
 PLATFORMS
+  aarch64-linux
   arm64-darwin
   x86_64-linux
 

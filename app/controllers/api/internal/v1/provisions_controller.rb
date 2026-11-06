@@ -116,7 +116,7 @@ module Api
             shard_key: "de",
             locale: "en",
             timezone: "UTC",
-            address: Address.create!
+            address_id: Address.create!.id
           )
           account_user = account.account_users.create!(user: user, owner: true)
           account.with_shard do

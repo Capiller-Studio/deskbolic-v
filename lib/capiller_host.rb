@@ -19,11 +19,12 @@ module CapillerHost
   end
 
   def protocol
-    Rails.env.production? ? "https" : "http"
+    secure = ENV.fetch("FORCE_SSL", Rails.env.production? ? "true" : "false") == "true"
+    secure ? "https" : "http"
   end
 
   def login_url
-    "https://#{app_domain}/login"
+    "#{protocol}://#{app_domain}/login"
   end
 
   def app_host?(host)

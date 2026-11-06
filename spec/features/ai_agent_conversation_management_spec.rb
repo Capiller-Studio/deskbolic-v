@@ -9,7 +9,7 @@ RSpec.describe 'AI Agent Conversation Management Feature', type: :feature do
   let(:plan) { create(:plan, :free) }
   let!(:subscription) { create(:subscription, account: account, plan: plan, status: :active) }
   let(:portal) { create(:help_center_portal, account: account) }
-  let(:ai_agent) { create(:ai_agent, account: account, portal: portal, name: 'Deskbolic Bot') }
+  let(:ai_agent) { create(:ai_agent, account: account, portal: portal, name: 'Capiller Rely Bot') }
   let(:inbox) { create(:inbox, account: account, ai_agent: ai_agent, name: 'Support Inbox') }
   let(:customer) { create(:customer, account: account, email: 'ahsan@example.com', name: 'Ahsan Khan') }
   let(:conversation) { create(:conversation, account: account, inbox: inbox, status: :active, ai_status: :ai_active) }

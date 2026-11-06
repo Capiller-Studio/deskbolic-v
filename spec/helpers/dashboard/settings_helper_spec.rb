@@ -6,7 +6,7 @@ RSpec.describe Dashboard::SettingsHelper, type: :helper do
   let(:account) { create(:account) }
   let(:email_channel) { create(:channel_email, account: account, email: "support-#{SecureRandom.hex(4)}@example.com") }
   let(:widget_channel) { create(:channel_web_widget, account: account, allowed_hosts: [ 'https://example.com' ]) }
-  let(:mobile_channel) { create(:channel_mobile_widget, account: account, name: "Deskbolic iOS") }
+  let(:mobile_channel) { create(:channel_mobile_widget, account: account, name: "Capiller Rely iOS") }
 
   before do
     helper.default_url_options[:locale] = I18n.default_locale

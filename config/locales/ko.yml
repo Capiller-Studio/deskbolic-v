@@ -52,7 +52,7 @@ ko:
           - 실시간 알림
           anabolic:
           - 매월 100 무료 AI 크레딧
-          - AI 코파일럿 (Boli)
+          - AI 코파일럿 (Rely AI)
           - 최대 10명 사용자, 5개 채널
           - 무제한 대화 및 메시지*
           - 모든 메시징 채널
@@ -395,7 +395,7 @@ ko:
       token_expires: 약 %{time} 후 토큰 만료
       delete_confirm: "%{name}을(를) 삭제하시겠습니까?"
       empty_title: 채널을 찾을 수 없습니다
-      empty_description: Deskbolic에서 고객 대화를 받으려면 채널을 연결하세요.
+      empty_description: Capiller Rely에서 고객 대화를 받으려면 채널을 연결하세요.
       empty_filtered_description: 아직 연결된 %{type} 채널이 없습니다.
       new_channel_modal:
         title: 새 채널 추가
@@ -454,7 +454,7 @@ ko:
         pick_datetime: 날짜 및 시간 선택
     messages:
       ai_assist:
-        title: Boli
+        title: Rely AI
         assistant_title: AI 어시스턴트
         description: AI를 사용하여 메시지를 개선하고, 답변을 작성하고, 텍스트를 변환하세요.
         summarize_thread: 대화 요약
@@ -852,12 +852,12 @@ ko:
         key_placeholder: 열쇠
         value_placeholder: 가치
         json_path_placeholder: 'JSON 경로(예: data.user.id)'
-        attribute_placeholder: 'Deskbolic 속성(예: external_id)'
+        attribute_placeholder: 'Capiller Rely 속성(예: external_id)'
         add_mapping: "+ 매핑 추가"
         details_section: 세부정보
         insert_variable: '변수 삽입:'
         response_mapping: 응답 매핑
-        response_mapping_desc: 'JSON 응답 경로(예: data.user.id)를 Deskbolic 고객 속성에 매핑합니다.'
+        response_mapping_desc: 'JSON 응답 경로(예: data.user.id)를 Capiller Rely 고객 속성에 매핑합니다.'
         source_section: 소스 세부정보
       created: ID 소스가 성공적으로 생성되었습니다.
       updated: ID 소스가 성공적으로 업데이트되었습니다.
@@ -902,7 +902,7 @@ ko:
         app_version: "앱 버전"
         last_seen: "최근 활동"
         no_devices: "아직 등록된 모바일 기기가 없습니다. 사용자가 앱을 실행하면 기기가 여기에 표시됩니다."
-        installation_desc: "Flutter 애플리케이션에서 Deskbolic을 초기화합니다."
+        installation_desc: "Flutter 애플리케이션에서 Capiller Rely을 초기화합니다."
       form:
         name_label: "채널 이름"
         name_placeholder: "예: iOS 및 Android 모바일 앱"
@@ -989,7 +989,7 @@ ko:
         position_label: 위젯 위치
         position_bottom_right: 오른쪽 하단
         position_bottom_left: 왼쪽 하단
-        hide_branding_label: Deskbolic 브랜딩 숨기기
+        hide_branding_label: Capiller Rely 브랜딩 숨기기
         portal_label: 도움말 센터 통합
         contact_form_label: 문의 양식 통합
         anonymous_allowed_label: 익명 메시지 허용
@@ -2110,7 +2110,7 @@ ko:
         edit: 채널 편집
         email_address: 이메일 주소
         email_forwarding: 이메일 전달
-        email_forwarding_description: 수신된 지원 이메일을 이 Deskbolic 주소로 전달하세요.
+        email_forwarding_description: 수신된 지원 이메일을 이 Capiller Rely 주소로 전달하세요.
         embed_code: 삽입 코드
         embedded_contact_form: 삽입된 문의 양식
         embedded_signup: Meta 삽입형 가입
@@ -2190,7 +2190,7 @@ ko:
         custom_title: "맞춤 채널 수정"
         danger_zone: "위험지대"
         developer_guide: "개발자 가이드"
-        developer_guide_hint: "상담원이 Deskbolic의 대화에 응답하면 다음 JSON 페이로드와 함께 Outbound Webhook URL에 POST 요청을 보냅니다."
+        developer_guide_hint: "상담원이 Capiller Rely의 대화에 응답하면 다음 JSON 페이로드와 함께 Outbound Webhook URL에 POST 요청을 보냅니다."
         email_danger_description: "이 채널을 연결 해제하면 받은편지함이 제거되고 새 메시지 수신이 중단됩니다. 기존 대화는 유지됩니다."
         email_description: "이메일 채널 및 전달 설정을 업데이트하세요."
         identifier: "식별자"
@@ -2205,7 +2205,7 @@ ko:
         verify_token: "토큰 확인"
         view_documentation: "전체 문서 보기"
         webhook_secret: "웹훅 비밀"
-        webhook_secret_hint: "요청이 Deskbolic에서 오는지 확인하는 데 사용됩니다."
+        webhook_secret_hint: "요청이 Capiller Rely에서 오는지 확인하는 데 사용됩니다."
         webhook_secret_warning: "웹훅의 비밀을 안전하게 유지하세요. 공개적으로 공유하지 마세요."
         webhook_settings: "웹훅 설정"
       web_widget:
@@ -2513,7 +2513,7 @@ ko:
     agent:
       form:
         survey_name_label: 설문조사 이름
-        name_placeholder: Deskbolic
+        name_placeholder: Capiller Rely
     workspace:
       email_invitation:
         title: 작업 공간에 참여
@@ -2540,11 +2540,11 @@ ko:
         company_description: 다수의 사용자에게 법인 계정을 생성하세요.
         continue: 계속
         workspace: 작업공간
-        workspace_subtitle: Deskbolic에 들어가기 위해 계정을 생성해 봅시다.
+        workspace_subtitle: Capiller Rely에 들어가기 위해 계정을 생성해 봅시다.
         send_request: 요청 보내기
         request_sent: 요청이 전송되었습니다.
         company_details: 회사 세부정보
-        company_details_subtitle: Deskbolic 웹사이트에 접속하기 위한 계정을 생성해 봅시다.
+        company_details_subtitle: Capiller Rely 웹사이트에 접속하기 위한 계정을 생성해 봅시다.
         company_name: 회사명
         company_name_placeholder: 이름
         create_new_workspace: 새 작업공간 만들기
@@ -2555,7 +2555,7 @@ ko:
           small: 1-9
           medium: 10-30
           large: 50+
-        workspace_subtitle2: Deskbolic 웹사이트에 접속하기 위한 계정을 생성해 봅시다.
+        workspace_subtitle2: Capiller Rely 웹사이트에 접속하기 위한 계정을 생성해 봅시다.
         create_workspace_button: 새 작업공간 만들기
         created_successfully: 새 WorkSpace가 성공적으로 생성되었습니다.
         go_to_dashboard: 대시보드로 이동
@@ -2574,7 +2574,7 @@ ko:
     custom_channels:
       index:
         title: 사용자 정의 웹훅 채널
-        description: 웹후크를 사용하여 사용자 정의 백엔드를 Deskbolic에 연결하세요.
+        description: 웹후크를 사용하여 사용자 정의 백엔드를 Capiller Rely에 연결하세요.
         add_new: 맞춤 채널 추가
         delete_confirm: 이 맞춤 채널을 삭제하시겠습니까? 연결된 모든 받은편지함과 메시지도 삭제됩니다.
         status_active: 활성
@@ -2591,7 +2591,7 @@ ko:
         name_label: 채널 이름
         description_label: 설명
         webhook_url_label: 아웃바운드 웹훅 URL
-        webhook_url_help: Deskbolic이 발신 메시지를 보내는 URL입니다.
+        webhook_url_help: Capiller Rely이 발신 메시지를 보내는 URL입니다.
         submit: 채널 만들기
         cancel: 취소
       edit:
@@ -2607,14 +2607,14 @@ ko:
         details_section: 채널 세부정보
         name: 이름
         description: 설명
-        outbound_section: 아웃바운드 웹훅(Deskbolic -> 사용자 정의 서버)
-        outbound_desc: 상담원이 응답할 때마다 Deskbolic은 이 URL로 POST 요청을 보냅니다.
+        outbound_section: 아웃바운드 웹훅(Capiller Rely -> 사용자 정의 서버)
+        outbound_desc: 상담원이 응답할 때마다 Capiller Rely은 이 URL로 POST 요청을 보냅니다.
         webhook_url: 웹훅 URL
         headers: 맞춤 헤더
         headers_help: '서버에 필요한 사용자 정의 인증 헤더(예: Authorization: Bearer xyz)를 추가하세요.'
         add_header: "+ 헤더 추가"
-        inbound_section: 인바운드 웹훅(커스텀 서버 -> Deskbolic)
-        inbound_desc: 귀하의 서버가 우리에게 보내는 JSON 페이로드를 Deskbolic 고객 속성에 매핑하세요.
+        inbound_section: 인바운드 웹훅(커스텀 서버 -> Capiller Rely)
+        inbound_desc: 귀하의 서버가 우리에게 보내는 JSON 페이로드를 Capiller Rely 고객 속성에 매핑하세요.
         add_mapping: "+ 매핑 추가"
         save: 구성 저장
         csat_survey: CSAT 설문조사
@@ -2625,23 +2625,23 @@ ko:
         sla_policies: SLA 정책
         header_name_placeholder: 헤더 이름
         header_value_placeholder: 헤더 값
-        deskbolic_attribute_placeholder: Deskbolic 속성
+        deskbolic_attribute_placeholder: Capiller Rely 속성
         json_path_placeholder: 'JSON 경로(예: data.user.id)'
       instructions:
         outbound_title: 아웃바운드 웹훅 수신
         webhook_secret: 귀하의 웹훅 비밀
         inbound_title: 인바운드 웹훅 보내기
         hmac_token: 귀하의 HMAC 토큰
-        outbound_desc1: 상담원이 Deskbolic 대화에 응답하면 귀하에게 POST 요청이 전송됩니다.
+        outbound_desc1: 상담원이 Capiller Rely 대화에 응답하면 귀하에게 POST 요청이 전송됩니다.
         outbound_webhook_url_bold: 아웃바운드 웹훅 URL
         outbound_desc2: 다음 JSON 페이로드를 사용합니다.
-        verify_desc1: 요청이 실제로 Deskbolic에서 왔는지 확인하기 위해 우리는 다음을 사용하여 페이로드에 서명합니다.
+        verify_desc1: 요청이 실제로 Capiller Rely에서 왔는지 확인하기 위해 우리는 다음을 사용하여 페이로드에 서명합니다.
         webhook_secret_bold: 웹훅 비밀
         verify_desc2: ". 우리는 이 서명을"
         header_text: 헤더.
-        inbound_desc1: 사용자 정의 백엔드에서 Deskbolic으로 메시지를 보내려면 다음과 같이 POST 요청을 하세요.
+        inbound_desc1: 사용자 정의 백엔드에서 Capiller Rely으로 메시지를 보내려면 다음과 같이 POST 요청을 하세요.
         inbound_desc2: HMAC 토큰을 포함하여 이 요청을 인증해야 합니다.
-        inbound_payload1: 보내는 JSON 페이로드는 원하는 대로 구성할 수 있습니다. Deskbolic은 귀하의
+        inbound_payload1: 보내는 JSON 페이로드는 원하는 대로 구성할 수 있습니다. Capiller Rely은 귀하의
         response_mapping_bold: 응답 매핑
         inbound_payload2: 고객의 식별자, 이름, 메시지 내용을 추출하는 구성입니다.
       testing:
@@ -2683,8 +2683,8 @@ ko:
       sso:
         title: 싱글 사인온 (SSO) 및 디렉터리 동기화
         description: 엔터프라이즈 SAML 2.0 또는 OIDC 인증을 구성하고, 도메인 소유권을 확인하며, 자동 사용자 프로비저닝을 관리합니다.
-        sp_endpoints_title: Deskbolic 서비스 공급자 (SP) 메타데이터
-        sp_endpoints_desc: Okta, Azure AD, Google Workspace 또는 Ping Identity에서 Deskbolic을 구성할 때 이 값을 사용하세요.
+        sp_endpoints_title: Capiller Rely 서비스 공급자 (SP) 메타데이터
+        sp_endpoints_desc: Okta, Azure AD, Google Workspace 또는 Ping Identity에서 Capiller Rely을 구성할 때 이 값을 사용하세요.
         acs_url_label: 어설션 소비자 서비스 (ACS) URL / SSO URL
         entity_id_label: SP 엔티티 ID / 대상 URI
         metadata_url_label: SP 메타데이터 XML URL
@@ -2767,7 +2767,7 @@ ko:
       integrations:
         index:
           title: 통합
-          description: 즐겨 사용하는 도구와 Deskbolic을 연결하세요.
+          description: 즐겨 사용하는 도구와 Capiller Rely을 연결하세요.
         new:
           title: "%{provider} 구성"
           description: 통합 설정을 지정하세요.
@@ -2796,11 +2796,11 @@ ko:
           exchange_failed: "Slack 토큰 교환 실패: %{error}"
           unexpected_error: Slack 인증 중에 예상치 못한 오류가 발생했습니다.
         webhooks:
-          description: 실시간 이벤트 알림을 Deskbolic에서 자체 서버 및 외부 서비스로 푸시하세요.
+          description: 실시간 이벤트 알림을 Capiller Rely에서 자체 서버 및 외부 서비스로 푸시하세요.
           configured_count: "%{count} 구성됨"
           connect: 웹훅 구성
           url_label: 웹훅 URL
-          url_hint: Deskbolic이 이벤트에 대한 POST 요청을 보내는 엔드포인트입니다.
+          url_hint: Capiller Rely이 이벤트에 대한 POST 요청을 보내는 엔드포인트입니다.
           secret_label: 웹훅 비밀
           secret_hint: 이 비밀을 사용하여 수신 요청의 HMAC 서명을 확인하세요.
           events_label: 구독한 이벤트
@@ -2811,7 +2811,7 @@ ko:
       api_keys:
         index:
           created_ago: "%{date} 전에 생성됨"
-          description: 프로그래밍 방식으로 Deskbolic 계정에 액세스하기 위한 API 키를 관리하세요.
+          description: 프로그래밍 방식으로 Capiller Rely 계정에 액세스하기 위한 API 키를 관리하세요.
           empty: 아직 API 키를 생성하지 않았습니다.
           empty_title: 아직 API 키가 없습니다.
           generate: 새 키 생성
@@ -2832,7 +2832,7 @@ ko:
         title: 팀원 초대
     portals:
       domain_assignment: 도메인 할당
-      free_subdomain: 무료 Helpbolic 하위 도메인
+      free_subdomain: 무료 Capiller Rely Help 하위 도메인
       manage_domains: 도메인 관리
       no_custom_domains: 사용 가능한 도메인이 없습니다. 헬프 센터를 만들기 전에 사용자 정의 도메인을 추가하세요.
       subdomain_hint: 헬프 센터의 고유한 이름을 선택하세요.
@@ -2948,7 +2948,7 @@ ko:
       name_label: "대리인 이름"
       tone_label: "상담원 톤"
       system_prompt_label: "사용자 정의 지침(시스템 프롬프트)"
-      system_prompt_placeholder: "예를 들어 당신은 Deskbolic에 도움이 되는 지원 봇입니다. 항상 예의를 갖추십시오."
+      system_prompt_placeholder: "예를 들어 당신은 Capiller Rely에 도움이 되는 지원 봇입니다. 항상 예의를 갖추십시오."
       system_prompt_hint: "이 프롬프트는 AI의 동작과 제약 조건을 안내합니다."
       greeting_label: "환영 메시지"
       greeting_placeholder: "안녕하세요! 오늘은 무엇을 도와드릴까요?"
@@ -3123,7 +3123,7 @@ ko:
     workspace:
       email_invitation:
         title: 작업 공간에 참여
-        description: 귀하는 Deskbolic 팀에 합류하도록 초대되었습니다
+        description: 귀하는 Capiller Rely 팀에 합류하도록 초대되었습니다
         members:
           one: "%{count} 정회원"
           other: "%{count} 활성 회원"
@@ -3181,7 +3181,7 @@ ko:
       setting_up: 계정 설정 중...
       marketing_text: 고객 지원을 효율적으로 관리하세요.
       early_access_badge: "얼리 액세스"
-      early_access_title: "Deskbolic 얼리 액세스에 오신 것을 환영합니다"
+      early_access_title: "Capiller Rely 얼리 액세스에 오신 것을 환영합니다"
       early_access_description: "공개 베타 프리뷰에 참여하셨습니다. 지속적으로 기능을 개선하고 있으며 워크스페이스를 설정하는 동안 소중한 피드백을 환영합니다."
       registration_disabled: "현재 회원가입이 일시 중단되었습니다."
     passwords:
@@ -3391,7 +3391,7 @@ ko:
       select_agent: 에이전트 선택...
       select_attribute: 속성 선택...
       select_country_code: 국가 코드 선택
-      select_deskbolic_attribute: Deskbolic 속성 선택
+      select_deskbolic_attribute: Capiller Rely 속성 선택
       select_email_channel: 이메일 채널 선택...
       select_event: 이벤트 선택...
       select_language: 언어 선택...
@@ -3456,11 +3456,11 @@ ko:
     system_mailer:
       forward_email_verification:
         almost_complete: 설정이 거의 완료되었습니다!
-        ignore_notice: 이 이메일을 무시하세요. 이는 이메일 전달 규칙이 올바르게 작동하는지 확인하기 위해 Deskbolic에서
+        ignore_notice: 이 이메일을 무시하세요. 이는 이메일 전달 규칙이 올바르게 작동하는지 확인하기 위해 Capiller Rely에서
           자동으로 생성됩니다.
   notification_settings:
     browser_push: 브라우저 푸시 알림
-    browser_push_desc: Deskbolic이 백그라운드에서 실행되는 동안에도 알림을 받으려면 푸시 알림을 활성화하세요.
+    browser_push_desc: Capiller Rely이 백그라운드에서 실행되는 동안에도 알림을 받으려면 푸시 알림을 활성화하세요.
     delivery_preferences: 알림 수신 설정
     delivery_preferences_desc: 각 이벤트에 대해 알림을 받을 방법을 선택하세요.
     description: 이메일 및 푸시 알림 기본 설정을 관리하세요.
@@ -3542,12 +3542,12 @@ ko:
       message_field: "*메시지:*\n%{message}"
       initial_message_field: "*첫 메시지:*\n%{message}"
       attachment_preview: "*(첨부 파일 / 미디어)*"
-      open_button: "Deskbolic에서 열기 ↗"
+      open_button: "Capiller Rely에서 열기 ↗"
       default_customer: "고객"
       default_channel: "채널"
       default_support: "지원"
       default_conversation_preview: "새로운 고객 대화가 시작되었습니다."
-      event_triggered: "Deskbolic 이벤트 트리거됨: %{event_name}"
+      event_triggered: "Capiller Rely 이벤트 트리거됨: %{event_name}"
   settings:
     csat:
       configuration: CSAT 구성
@@ -3581,7 +3581,7 @@ ko:
       account_invitations:
         email_invitation:
           community_icon: 커뮤니티 아이콘
-          deskbolic_logo: Deskbolic 로고
+          deskbolic_logo: Capiller Rely 로고
           email_joining_icon: 이메일 가입 아이콘
         index:
           invitation_actions: 초대 작업
@@ -3700,9 +3700,9 @@ ko:
             이름을 맞춤설정하세요. 이 ID는 작업 흐름의 봇에도 사용됩니다.
           customize_the_reply_buttons_here: 여기에서 답장 버튼을 맞춤설정하세요...
           default_language_english: 기본 언어(영어)
-          deskbolic_s_multilingual_support: Deskbolic의 다국어 지원
-          deskbolic_s_pronoun_formality: Deskbolic의 대명사 형식
-          deskbolic_s_reply_buttons: Deskbolic의 응답 버튼
+          deskbolic_s_multilingual_support: Capiller Rely의 다국어 지원
+          deskbolic_s_pronoun_formality: Capiller Rely의 대명사 형식
+          deskbolic_s_reply_buttons: Capiller Rely의 응답 버튼
           english_default: 영어(기본)
           fin_s_pronoun_formality: 핀의 대명사 형식
           fin_will_automatically_detect_and_reply_to_customer_in_the: Fin은 아래에 추가한
@@ -3861,11 +3861,11 @@ ko:
           index:
             identifier: '식별자: %{identifier}'
           instructions:
-            deskbolic_signature: Deskbolic-서명
+            deskbolic_signature: Capiller Rely-서명
             for_example_in_ruby: ". 예를 들어 Ruby에서는 다음과 같습니다."
             header_using_the_format: 형식을 사용하는 헤더
             t_timestamp_v1_signature: t={타임스탬프},v1={서명}
-            to_verify_that_the_request_actually_came_from_deskbolic_we: 요청이 실제로 Deskbolic에서
+            to_verify_that_the_request_actually_came_from_deskbolic_we: 요청이 실제로 Capiller Rely에서
               왔는지 확인하기 위해 우리는 다음을 사용하여 페이로드에 서명합니다.
             we_include_this_signature_in_the: ". 우리는 이 서명을"
             you_must_authenticate_this_request_by_signing_your_json_payload: SHA256을
@@ -3877,7 +3877,7 @@ ko:
               간략한 설명
             e_g_my_internal_dashboard: 예를 들어 내 내부 대시보드
           testing_sandbox:
-            paste_a_sample_json_payload_that_your_server_would_send: 서버가 Deskbolic으로
+            paste_a_sample_json_payload_that_your_server_would_send: 서버가 Capiller Rely으로
               보낼 샘플 JSON 페이로드를 붙여넣고 응답 매핑이 이를 어떻게 구문 분석하는지 확인하세요.
             sends_a_mock_message_created_payload_to_your_configured_webhook: 모의 <code>message.created</code>
               페이로드를 구성된 웹훅 URL로 보냅니다.
@@ -3911,7 +3911,7 @@ ko:
           installation:
             copy: "\U0001F4CB 복사"
             embed_the_deskbolic_widget_into_your_website_or_web_app: 닫는 <code>&lt;/body&gt;</code>
-              태그 바로 앞에 다음 스니펫을 배치하여 Deskbolic 위젯을 웹사이트나 웹 앱에 삽입하세요.
+              태그 바로 앞에 다음 스니펫을 배치하여 Capiller Rely 위젯을 웹사이트나 웹 앱에 삽입하세요.
             react_next_js: 반응 / Next.js
             standard_html: 표준 HTML
           preview:
@@ -4055,7 +4055,7 @@ ko:
           webhooks: 웹훅
         webhook_form:
           when_subscribed_events_occur_deskbolic_will_send_an_http_post: 구독된 이벤트가
-            발생하면 Deskbolic은 사용자에게 HTTP POST 요청을 보냅니다.
+            발생하면 Capiller Rely은 사용자에게 HTTP POST 요청을 보냅니다.
       macros:
         edit:
           add_action: "+ 액션 추가"
@@ -4073,12 +4073,12 @@ ko:
           loading_more_notifications: 더 많은 알림 로드 중...
       pages:
         community_forum:
-          deskbolic_community_forum: Deskbolic 커뮤니티 포럼
+          deskbolic_community_forum: Capiller Rely 커뮤니티 포럼
           your_account: 귀하의 계정
         help_center:
-          deskbolic_help_center: Deskbolic 도움말 센터
+          deskbolic_help_center: Capiller Rely 도움말 센터
         service_terms:
-          deskbolic_terms_and_policies: Deskbolic 약관 및 정책
+          deskbolic_terms_and_policies: Capiller Rely 약관 및 정책
       popup:
         canned_response_modal:
           create_a_new_reply: 새 답글 작성

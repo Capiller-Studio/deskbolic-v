@@ -2,7 +2,7 @@
 
 section.channel-edit-side-card.channel-edit-card
   h2 = t("dashboard.channels.edit.developer_guide", default: "Developer Guide")
-  p = t("dashboard.channels.edit.developer_guide_hint", default: "When an agent replies to a conversation in Deskbolic, we will send a POST request to your Outbound Webhook URL with the following JSON payload:")
+  p = t("dashboard.channels.edit.developer_guide_hint", default: "When an agent replies to a conversation in Capiller Rely, we will send a POST request to your Outbound Webhook URL with the following JSON payload:")
   pre.channel-edit-code-block
     code = payload
   = link_to "#webhook-settings", class: "channel-edit-side-card__button" do

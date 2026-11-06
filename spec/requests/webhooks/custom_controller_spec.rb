@@ -36,7 +36,7 @@ RSpec.describe 'Webhooks::CustomController Request Spec', type: :request do
   end
 
   describe 'Authentication & Authorization Edge Cases' do
-    it 'returns 401 Unauthorized when X-Deskbolic-Token header is completely missing' do
+    it 'returns 401 Unauthorized when X-Capiller Rely-Token header is completely missing' do
       expect {
         post endpoint_url, params: payload.to_json, headers: { 'CONTENT_TYPE' => 'application/json' }
       }.not_to change(Webhook::Incoming, :count)
@@ -44,19 +44,19 @@ RSpec.describe 'Webhooks::CustomController Request Spec', type: :request do
       expect(response).to have_http_status(:unauthorized)
     end
 
-    it 'returns 401 Unauthorized when X-Deskbolic-Token header is empty string' do
+    it 'returns 401 Unauthorized when X-Capiller Rely-Token header is empty string' do
       post endpoint_url, params: payload.to_json, headers: {
         'CONTENT_TYPE' => 'application/json',
-        'X-Deskbolic-Token' => ''
+        'X-Capiller Rely-Token' => ''
       }
 
       expect(response).to have_http_status(:unauthorized)
     end
 
-    it 'returns 401 Unauthorized when X-Deskbolic-Token header contains an invalid token' do
+    it 'returns 401 Unauthorized when X-Capiller Rely-Token header contains an invalid token' do
       post endpoint_url, params: payload.to_json, headers: {
         'CONTENT_TYPE' => 'application/json',
-        'X-Deskbolic-Token' => 'forged_fake_token_123456789'
+        'X-Capiller Rely-Token' => 'forged_fake_token_123456789'
       }
 
       expect(response).to have_http_status(:unauthorized)
@@ -65,7 +65,7 @@ RSpec.describe 'Webhooks::CustomController Request Spec', type: :request do
     it 'returns 404 Not Found when channel does not exist' do
       post "/webhooks/custom/#{account.id}/#{SecureRandom.uuid}", params: payload.to_json, headers: {
         'CONTENT_TYPE' => 'application/json',
-        'X-Deskbolic-Token' => valid_token
+        'X-Capiller Rely-Token' => valid_token
       }
 
       expect(response).to have_http_status(:not_found)
@@ -74,7 +74,7 @@ RSpec.describe 'Webhooks::CustomController Request Spec', type: :request do
     it 'returns 404 Not Found when account does not match channel account_id' do
       post "/webhooks/custom/#{other_account.id}/#{custom_channel.id}", params: payload.to_json, headers: {
         'CONTENT_TYPE' => 'application/json',
-        'X-Deskbolic-Token' => valid_token
+        'X-Capiller Rely-Token' => valid_token
       }
 
       expect(response).to have_http_status(:not_found)
@@ -88,7 +88,7 @@ RSpec.describe 'Webhooks::CustomController Request Spec', type: :request do
       expect {
         post endpoint_url, params: payload.to_json, headers: {
           'CONTENT_TYPE' => 'application/json',
-          'X-Deskbolic-Token' => valid_token
+          'X-Capiller Rely-Token' => valid_token
         }
       }.to change(Webhook::Incoming, :count).by(1)
 

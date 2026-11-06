@@ -20,7 +20,7 @@ RSpec.describe Dashboard::PlansHelper, type: :helper do
         features = helper.plan_features(anabolic_plan)
         expect(features.first).to eq('Everything in Symbolic, plus:')
         expect(features).to include('100 free AI credits/mo')
-        expect(features).to include('AI Copilot (Boli)')
+        expect(features).to include('AI Copilot (Rely AI)')
       end
 
       it 'returns marketing highlights with everything_in for hyperbolic' do

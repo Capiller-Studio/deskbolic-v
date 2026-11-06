@@ -37,6 +37,21 @@ module Api
           render(json: { success: false, error: error.record.errors.full_messages.to_sentence }, status: :unprocessable_entity)
         end
 
+        def suspend
+          return unless authorized?
+
+          account = find_workspace
+          if account.nil?
+            return render(json: { success: false, error: "Workspace not found" }, status: :not_found)
+          end
+
+          account.subscriptions.where(status: [ :active, :trialing, :past_due ]).find_each do |subscription|
+            subscription.cancel!(immediate: true)
+          end
+
+          render(json: { success: true, account_id: account.id, login_url: CapillerHost.login_url })
+        end
+
         private
 
         def authorized?
@@ -51,6 +66,17 @@ module Api
 
           render(json: { success: false, error: "Unauthorized" }, status: :unauthorized)
           false
+        end
+
+        def find_workspace
+          if params[:account_id].present?
+            return Account.find_by(id: params[:account_id])
+          end
+
+          name = params[:workspace_name].to_s.strip
+          return if name.blank?
+
+          Account.find_by(name: name)
         end
 
         def find_plan(plan_name)
@@ -90,7 +116,7 @@ module Api
             shard_key: "de",
             locale: "en",
             timezone: "UTC",
-            address: Address.create!
+            address_id: Address.create!.id
           )
           account_user = account.account_users.create!(user: user, owner: true)
           account.with_shard do

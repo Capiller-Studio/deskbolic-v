@@ -10,7 +10,7 @@
     </mj-attributes>
 
     <mj-preview>
-      Confirm your email to activate your Deskbolic account
+      Confirm your email to activate your Capiller Rely account
     </mj-preview>
 
     <mj-style>
@@ -26,7 +26,7 @@
     <mj-wrapper css-class="confirm-shell" background-color="#ffffff" padding="0">
       <mj-section background-color="#ffffff" padding="24px 40px" border-bottom="1px solid #e5e7eb">
         <mj-column width="62%" vertical-align="middle">
-          <mj-image src="[[ERB= asset_url('logo.png', host: ENV.fetch('FRONTEND_URL', 'http://localhost:3000')) ]]" href="[[ERB= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') ]]" alt="Deskbolic" width="132px" align="left" padding="0" />
+          <mj-image src="[[ERB= asset_url('logo.png', host: ENV.fetch('FRONTEND_URL', 'http://localhost:3000')) ]]" href="[[ERB= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') ]]" alt="Capiller Rely" width="132px" align="left" padding="0" />
         </mj-column>
         <mj-column width="38%" vertical-align="middle">
           <mj-text css-class="mobile-center" align="right" padding="0" font-size="11px" font-weight="700" color="#6366f1" letter-spacing="0.08em">ACCOUNT CONFIRMATION</mj-text>
@@ -37,14 +37,14 @@
         <mj-column>
           <mj-text padding="0 0 10px" font-size="12px" font-weight="700" color="#a5b4fc" letter-spacing="0.12em">WELCOME TO DESKBOLIC</mj-text>
           <mj-text padding="0 0 12px" font-size="28px" line-height="36px" font-weight="700" color="#ffffff">Confirm your email address</mj-text>
-          <mj-text padding="0" font-size="15px" line-height="24px" color="#cbd5e1">You're one step away from accessing your Deskbolic workspace. Confirm your email below to activate your account and get started.</mj-text>
+          <mj-text padding="0" font-size="15px" line-height="24px" color="#cbd5e1">You're one step away from accessing your Capiller Rely workspace. Confirm your email below to activate your account and get started.</mj-text>
         </mj-column>
       </mj-section>
 
       <mj-section background-color="#ffffff" padding="36px 40px 18px">
         <mj-column>
           <mj-text padding="0 0 14px" font-size="16px" color="#0f172a">Hi <strong>[[ERB= @resource.email ]]</strong>,</mj-text>
-          <mj-text padding="0" font-size="15px" line-height="25px" color="#475569">Thanks for signing up for Deskbolic! To finish creating your account, please confirm your email address by clicking the button below.</mj-text>
+          <mj-text padding="0" font-size="15px" line-height="25px" color="#475569">Thanks for signing up for Capiller Rely! To finish creating your account, please confirm your email address by clicking the button below.</mj-text>
         </mj-column>
       </mj-section>
 
@@ -67,14 +67,14 @@
       <mj-section background-color="#f8fafc" padding="22px 40px" border-top="1px solid #e5e7eb">
         <mj-column>
           <mj-text align="center" padding="0 0 7px" font-size="12px" line-height="19px" color="#64748b">This confirmation was sent to [[ERB= @resource.email ]]. Please do not reply to this automated message.</mj-text>
-          <mj-text align="center" padding="0" font-size="12px" line-height="19px" color="#94a3b8">&copy; [[ERB= Time.current.year ]] Deskbolic &nbsp;&bull;&nbsp; <a href="[[ERB= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') ]]" class="brand-link">Open workspace</a></mj-text>
+          <mj-text align="center" padding="0" font-size="12px" line-height="19px" color="#94a3b8">&copy; [[ERB= Time.current.year ]] Capiller Rely &nbsp;&bull;&nbsp; <a href="[[ERB= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') ]]" class="brand-link">Open workspace</a></mj-text>
         </mj-column>
       </mj-section>
     </mj-wrapper>
 
     <mj-section padding="24px 16px 32px">
       <mj-column>
-        <mj-text align="center" padding="0" font-size="11px" color="#94a3b8">Secure customer-support operations, powered by Deskbolic.</mj-text>
+        <mj-text align="center" padding="0" font-size="11px" color="#94a3b8">Secure customer-support operations, powered by Capiller Rely.</mj-text>
       </mj-column>
     </mj-section>
   </mj-body>

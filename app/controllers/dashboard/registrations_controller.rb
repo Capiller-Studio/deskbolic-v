@@ -65,7 +65,7 @@ module Dashboard
 
     def redirect_public_registration
       redirect_to(
-        ENV.fetch("WORKSPACE_ADMIN_URL", "https://workspace-admin.capiller.com"),
+        ENV.fetch("WORKSPACE_ADMIN_URL", "https://admin-rely.capiller.com"),
         allow_other_host: true,
         status: :see_other
       )

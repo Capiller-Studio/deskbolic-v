@@ -235,7 +235,7 @@ RSpec.describe 'Dashboard::Channels::Custom', type: :request do
       set_subdomain(nil) # Access apex/unscoped webhook route
     end
 
-    it 'rejects requests without X-Deskbolic-Token with 401 unauthorized' do
+    it 'rejects requests without X-Capiller Rely-Token with 401 unauthorized' do
       post "/webhooks/custom/#{account.id}/#{custom_channel.id}", params: { event: 'test' }
       expect(response).to have_http_status(:unauthorized)
     end
@@ -243,7 +243,7 @@ RSpec.describe 'Dashboard::Channels::Custom', type: :request do
     it 'rejects requests with incorrect token with 401 unauthorized' do
       post "/webhooks/custom/#{account.id}/#{custom_channel.id}",
         params: { event: 'test' },
-        headers: { 'X-Deskbolic-Token' => 'wrong_token' }
+        headers: { 'X-Capiller Rely-Token' => 'wrong_token' }
 
       expect(response).to have_http_status(:unauthorized)
     end
@@ -251,7 +251,7 @@ RSpec.describe 'Dashboard::Channels::Custom', type: :request do
     it 'returns 404 if channel does not exist' do
       post "/webhooks/custom/#{account.id}/non-existent-channel-id",
         params: { event: 'test' },
-        headers: { 'X-Deskbolic-Token' => custom_channel.hmac_token }
+        headers: { 'X-Capiller Rely-Token' => custom_channel.hmac_token }
 
       expect(response).to have_http_status(:not_found)
     end
@@ -261,8 +261,8 @@ RSpec.describe 'Dashboard::Channels::Custom', type: :request do
 
       expect {
         post "/webhooks/custom/#{account.id}/#{custom_channel.id}",
-          params: { event: 'message.received', content: 'Hello Deskbolic support' },
-          headers: { 'X-Deskbolic-Token' => custom_channel.hmac_token }
+          params: { event: 'message.received', content: 'Hello Capiller Rely support' },
+          headers: { 'X-Capiller Rely-Token' => custom_channel.hmac_token }
       }.to change { account.with_shard { Webhook::Incoming.count } }.by(1)
 
       expect(response).to have_http_status(:ok)

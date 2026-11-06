@@ -64,7 +64,7 @@
             .conversation-selection-empty.ui-empty-state
               = image_tag('dashboard_no_conversation_selected.png', alt: '')
               h2 = t('dashboard.channels_overview.empty_title', default: 'No channels found')
-              p = t('dashboard.channels_overview.empty_description', default: 'Connect a channel to start receiving customer conversations in Deskbolic.')
+              p = t('dashboard.channels_overview.empty_description', default: 'Connect a channel to start receiving customer conversations in Capiller Rely.')
               = link_to t('dashboard.channels_overview.add_channel', default: 'Add new channel'), channels_path, class: 'ui-btn-primary', data: { turbo_frame: '_top' }
           - else
             .conversation-selection-empty

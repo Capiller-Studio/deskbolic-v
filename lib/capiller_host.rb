@@ -4,7 +4,7 @@ module CapillerHost
   module_function
 
   def app_domain
-    raw = ENV.fetch("APP_DOMAIN", "workspace.capiller.com")
+    raw = ENV.fetch("APP_DOMAIN", "rely.capiller.com")
     raw.sub(%r{\Ahttps?://}, "").split("/").first.to_s.split(":").first
   end
 
@@ -12,18 +12,19 @@ module CapillerHost
     app_domain.split(".").first
   end
 
-  # Labels to the right of the leftmost host label. workspace.capiller.com => 2,
-  # so Rails does not treat "workspace" as a tenant subdomain.
+  # Labels to the right of the leftmost host label. rely.capiller.com => 2,
+  # so Rails does not treat "rely" as a tenant subdomain.
   def tld_length
     [ app_domain.split(".").length - 1, 0 ].max
   end
 
   def protocol
-    Rails.env.production? ? "https" : "http"
+    secure = ENV.fetch("FORCE_SSL", Rails.env.production? ? "true" : "false") == "true"
+    secure ? "https" : "http"
   end
 
   def login_url
-    "https://#{app_domain}/login"
+    "#{protocol}://#{app_domain}/login"
   end
 
   def app_host?(host)

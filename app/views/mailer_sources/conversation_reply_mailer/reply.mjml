@@ -33,7 +33,7 @@
     <mj-wrapper css-class="reply-shell" background-color="#ffffff" padding="0">
       <mj-section background-color="#ffffff" padding="24px 40px" border-bottom="1px solid #e5e7eb">
         <mj-column width="62%" vertical-align="middle">
-          <mj-image src="[[ERB= asset_url('logo.png', host: ENV.fetch('FRONTEND_URL', 'http://localhost:3000')) ]]" href="[[ERB= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') ]]" alt="Deskbolic" width="132px" align="left" padding="0" />
+          <mj-image src="[[ERB= asset_url('logo.png', host: ENV.fetch('FRONTEND_URL', 'http://localhost:3000')) ]]" href="[[ERB= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') ]]" alt="Capiller Rely" width="132px" align="left" padding="0" />
         </mj-column>
         <mj-column width="38%" vertical-align="middle">
           <mj-text css-class="mobile-center" align="right" padding="0" font-size="11px" font-weight="700" color="#6366f1" letter-spacing="0.08em">CONVERSATION REPLY</mj-text>
@@ -86,21 +86,21 @@
       <mj-section background-color="#ffffff" padding="0 40px 36px">
         <mj-column>
           <mj-text padding="0 0 18px" font-size="13px" line-height="21px" color="#64748b">Reply directly to this email to continue the conversation. Your response will be delivered to [[ERB= @agent_name ]] and the rest of the [[ERB= @account&.name.presence || 'support' ]] team.</mj-text>
-          <mj-text padding="0" font-size="13px" line-height="21px" color="#94a3b8">If your issue has been resolved, no further action is needed — thank you for choosing [[ERB= @account&.name.presence || 'Deskbolic' ]].</mj-text>
+          <mj-text padding="0" font-size="13px" line-height="21px" color="#94a3b8">If your issue has been resolved, no further action is needed — thank you for choosing [[ERB= @account&.name.presence || 'Capiller Rely' ]].</mj-text>
         </mj-column>
       </mj-section>
 
       <mj-section background-color="#f8fafc" padding="22px 40px" border-top="1px solid #e5e7eb">
         <mj-column>
           <mj-text align="center" padding="0 0 7px" font-size="12px" line-height="19px" color="#64748b">This email was sent to [[ERB= @conversation.customers.first&.email || @recipient&.email || @user&.email ]] regarding conversation #[[ERB= @conversation.identifier ]].</mj-text>
-          <mj-text align="center" padding="0" font-size="12px" line-height="19px" color="#94a3b8">&copy; [[ERB= Time.current.year ]] [[ERB= @account&.name.presence || 'Deskbolic' ]] &nbsp;&bull;&nbsp; <a href="[[ERB= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') ]]" class="brand-link">Open workspace</a></mj-text>
+          <mj-text align="center" padding="0" font-size="12px" line-height="19px" color="#94a3b8">&copy; [[ERB= Time.current.year ]] [[ERB= @account&.name.presence || 'Capiller Rely' ]] &nbsp;&bull;&nbsp; <a href="[[ERB= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') ]]" class="brand-link">Open workspace</a></mj-text>
         </mj-column>
       </mj-section>
     </mj-wrapper>
 
     <mj-section padding="24px 16px 32px">
       <mj-column>
-        <mj-text align="center" padding="0" font-size="11px" color="#94a3b8">Secure customer-support operations, powered by Deskbolic.</mj-text>
+        <mj-text align="center" padding="0" font-size="11px" color="#94a3b8">Secure customer-support operations, powered by Capiller Rely.</mj-text>
       </mj-column>
     </mj-section>
   </mj-body>

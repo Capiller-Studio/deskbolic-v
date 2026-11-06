@@ -31,7 +31,8 @@ Rails.application.configure do
   end
 
   # Store uploaded files on the Amazon S3 (see config/storage.yml for options).
-  config.active_storage.service = :amazon
+  # Local Docker sets ACTIVE_STORAGE_SERVICE=local. Production leaves this unset and stays on S3.
+  config.active_storage.service = ENV.fetch("ACTIVE_STORAGE_SERVICE", "amazon").to_sym
 
   # Mount Action Cable outside main process or domain.
   # config.action_cable.mount_path = nil
@@ -39,10 +40,11 @@ Rails.application.configure do
   config.action_cable.allowed_request_origins = [ %r{http://*}, %r{https://*}, %r{file://*}, "file://", nil, "" ]
 
   # Assume all access to the app is happening through a SSL-terminating reverse proxy.
-  config.assume_ssl = true
+  # Local Docker sets ASSUME_SSL=false and FORCE_SSL=false. Production sets both to true.
+  config.assume_ssl = ENV.fetch("ASSUME_SSL", "true") == "true"
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  config.force_ssl = true
+  config.force_ssl = ENV.fetch("FORCE_SSL", "true") == "true"
 
   # Skip http-to-https redirect for the default health check endpoint.
   # config.ssl_options = { redirect: { exclude: ->(request) { request.path == "/up" } } }
@@ -71,7 +73,7 @@ Rails.application.configure do
   # config.action_mailer.raise_delivery_errors = false
 
   # Set host to be used by links generated in mailer templates.
-  capiller_app_domain = ENV.fetch("APP_DOMAIN", "workspace.capiller.com").sub(%r{\Ahttps?://}, "").split("/").first.to_s.split(":").first
+  capiller_app_domain = ENV.fetch("APP_DOMAIN", "rely.capiller.com").sub(%r{\Ahttps?://}, "").split("/").first.to_s.split(":").first
   config.action_mailer.default_url_options = { host: capiller_app_domain, protocol: "https" }
   config.action_dispatch.tld_length = [ capiller_app_domain.split(".").length - 1, 0 ].max
   config.action_mailer.delivery_method = :smtp

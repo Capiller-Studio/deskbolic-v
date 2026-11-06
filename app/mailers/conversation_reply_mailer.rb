@@ -127,7 +127,7 @@ class ConversationReplyMailer < ApplicationMailer
   #   - With custom SMTP: uses channel email
   #   - Without custom SMTP: uses helpbolic system address
   def reply_from_address
-    company_name = @account&.name.presence || "Deskbolic"
+    company_name = @account&.name.presence || "Capiller Rely"
     display_name = if @agent_name.present? && @agent_name != "Agent" && @agent_name.to_s.strip.casecmp(company_name.to_s.strip) != 0
       "#{@agent_name} from #{company_name}"
     else

@@ -118,7 +118,7 @@
       .is-kv-empty class=("is-kv-empty--hidden" if response_mapping.any?)
         = image_tag("box.svg", class: "is-kv-empty-icon", alt: "", aria: { hidden: true })
         strong = t("dashboard.identity_sources.form.no_mappings_title", default: "No mappings added yet")
-        p = t("dashboard.identity_sources.form.no_mappings_desc", default: "Map JSON response paths to Deskbolic customer attributes.")
+        p = t("dashboard.identity_sources.form.no_mappings_desc", default: "Map JSON response paths to Capiller Rely customer attributes.")
 
       template data-key-value-builder-target="template"
         .is-kv-row

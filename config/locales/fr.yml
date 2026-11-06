@@ -53,7 +53,7 @@ fr:
           - Notifications en temps réel
           anabolic:
           - 100 crédits IA gratuits/mois
-          - Copilote IA (Boli)
+          - Copilote IA (Rely AI)
           - Jusqu'à 10 utilisateurs, 5 canaux
           - Conversations & messages illimités
           - Tous les canaux de messagerie
@@ -409,7 +409,7 @@ fr:
       delete_confirm: Supprimer %{name} ?
       empty_title: Aucun canal trouvé
       empty_description: Connectez un canal pour commencer à recevoir les conversations
-        des clients dans Deskbolic.
+        des clients dans Capiller Rely.
       empty_filtered_description: Vous n'avez encore connecté aucun canal %{type}.
       new_channel_modal:
         title: Ajouter un canal
@@ -468,7 +468,7 @@ fr:
         pick_datetime: Choisissez une date et une heure
     messages:
       ai_assist:
-        title: Boli
+        title: Rely AI
         assistant_title: Assistant IA
         description: Utilisez l'IA pour améliorer vos messages, rédiger des réponses
           et transformer vos textes.
@@ -883,13 +883,13 @@ fr:
         key_placeholder: Clé
         value_placeholder: Valeur
         json_path_placeholder: Chemin JSON (par exemple, data.user.id)
-        attribute_placeholder: Attribut Deskbolic (par exemple, external_id)
+        attribute_placeholder: Attribut Capiller Rely (par exemple, external_id)
         add_mapping: "+ Ajouter une cartographie"
         details_section: Détails
         insert_variable: 'Insérer une variable :'
         response_mapping: Cartographie des réponses
         response_mapping_desc: Mappez les chemins de réponse JSON (par exemple, data.user.id)
-          aux attributs client Deskbolic.
+          aux attributs client Capiller Rely.
         source_section: Détails de la source
       created: La source d'identité a été créée avec succès.
       updated: La source d'identité a été mise à jour avec succès.
@@ -934,7 +934,7 @@ fr:
         app_version: Version de l'application
         last_seen: Dernière activité
         no_devices: Aucun appareil mobile enregistré pour le moment. Les appareils apparaîtront ici dès que les utilisateurs lanceront votre application.
-        installation_desc: Initialisez Deskbolic dans votre application Flutter.
+        installation_desc: Initialisez Capiller Rely dans votre application Flutter.
       form:
         name_label: Nom du canal
         name_placeholder: par ex. App mobile iOS et Android
@@ -1025,7 +1025,7 @@ fr:
         position_label: Position des widgets
         position_bottom_right: En bas à droite
         position_bottom_left: En bas à gauche
-        hide_branding_label: Masquer la marque Deskbolic
+        hide_branding_label: Masquer la marque Capiller Rely
         portal_label: Intégration du centre d'aide
         contact_form_label: Intégration du formulaire de contact
         anonymous_allowed_label: Autoriser les messages anonymes
@@ -2248,7 +2248,7 @@ fr:
         edit: Modifier le canal
         email_address: Adresse e-mail
         email_forwarding: Transfert d’e-mails
-        email_forwarding_description: Transférez les e-mails d’assistance entrants vers cette adresse Deskbolic.
+        email_forwarding_description: Transférez les e-mails d’assistance entrants vers cette adresse Capiller Rely.
         embed_code: Code d’intégration
         embedded_contact_form: Formulaire de contact intégré
         embedded_signup: Inscription intégrée Meta
@@ -2333,7 +2333,7 @@ fr:
         custom_title: "Modifier une chaîne personnalisée"
         danger_zone: "Zone dangereuse"
         developer_guide: "Guide du développeur"
-        developer_guide_hint: "Lorsqu'un agent répond à une conversation dans Deskbolic, nous enverrons une requête POST à votre URL de Webhook sortant avec la charge utile JSON suivante :"
+        developer_guide_hint: "Lorsqu'un agent répond à une conversation dans Capiller Rely, nous enverrons une requête POST à votre URL de Webhook sortant avec la charge utile JSON suivante :"
         email_danger_description: "La déconnexion de cette chaîne supprimera la boîte de réception et cessera de recevoir de nouveaux messages. Les conversations existantes seront conservées."
         email_description: "Mettez à jour votre canal de messagerie et vos paramètres de transfert."
         identifier: "Identifiant"
@@ -2348,7 +2348,7 @@ fr:
         verify_token: "Vérifier le jeton"
         view_documentation: "Afficher la documentation complète"
         webhook_secret: "Secret du webhook"
-        webhook_secret_hint: "Utilisé pour vérifier que les demandes proviennent de Deskbolic."
+        webhook_secret_hint: "Utilisé pour vérifier que les demandes proviennent de Capiller Rely."
         webhook_secret_warning: "Gardez votre webhook secret en sécurité. Ne le partagez pas publiquement."
         webhook_settings: "Paramètres du webhook"
       web_widget:
@@ -2665,7 +2665,7 @@ fr:
     agent:
       form:
         survey_name_label: Nom de l'enquête
-        name_placeholder: Deskbolic
+        name_placeholder: Capiller Rely
     workspace:
       email_invitation:
         title: Rejoindre l'espace de travail
@@ -2694,11 +2694,11 @@ fr:
         company_description: Créez un compte d'entreprise pour de nombreux utilisateurs.
         continue: Continuer
         workspace: Espace de travail
-        workspace_subtitle: Créons un compte pour accéder à Deskbolic.
+        workspace_subtitle: Créons un compte pour accéder à Capiller Rely.
         send_request: Envoyer la demande
         request_sent: Demande envoyée
         company_details: Détails de l'entreprise
-        company_details_subtitle: Créons un compte pour accéder au site Web Deskbolic.
+        company_details_subtitle: Créons un compte pour accéder au site Web Capiller Rely.
         company_name: Nom de l'entreprise
         company_name_placeholder: Nom
         create_new_workspace: Créer un nouvel espace de travail
@@ -2709,7 +2709,7 @@ fr:
           small: 1-9
           medium: 10-30
           large: 50+
-        workspace_subtitle2: Créons un compte pour accéder au site Web Deskbolic.
+        workspace_subtitle2: Créons un compte pour accéder au site Web Capiller Rely.
         create_workspace_button: Créer un nouvel espace de travail
         created_successfully: Nouveau WorkSpace créé avec succès
         go_to_dashboard: Aller au tableau de bord
@@ -2730,7 +2730,7 @@ fr:
     custom_channels:
       index:
         title: Canaux de webhook personnalisés
-        description: Connectez vos backends personnalisés à Deskbolic à l'aide de
+        description: Connectez vos backends personnalisés à Capiller Rely à l'aide de
           webhooks.
         add_new: Ajouter une chaîne personnalisée
         delete_confirm: Êtes-vous sûr de vouloir supprimer cette chaîne personnalisée ?
@@ -2751,7 +2751,7 @@ fr:
         name_label: Nom de la chaîne
         description_label: Descriptif
         webhook_url_label: URL du webhook sortant
-        webhook_url_help: L'URL à laquelle Deskbolic enverra les messages sortants.
+        webhook_url_help: L'URL à laquelle Capiller Rely enverra les messages sortants.
         submit: Créer une chaîne
         cancel: Annuler
       edit:
@@ -2768,17 +2768,17 @@ fr:
         details_section: Détails de la chaîne
         name: Nom
         description: Descriptif
-        outbound_section: Webhook sortant (Deskbolic -> Serveur personnalisé)
-        outbound_desc: Chaque fois qu'un agent répond, Deskbolic enverra une requête
+        outbound_section: Webhook sortant (Capiller Rely -> Serveur personnalisé)
+        outbound_desc: Chaque fois qu'un agent répond, Capiller Rely enverra une requête
           POST à cette URL.
         webhook_url: URL du webhook
         headers: En-têtes personnalisés
         headers_help: 'Ajoutez tous les en-têtes d''authentification personnalisés
           (par exemple, Autorisation : Bearer xyz) requis par votre serveur.'
         add_header: "+ Ajouter un en-tête"
-        inbound_section: Webhook entrant (serveur personnalisé -> Deskbolic)
+        inbound_section: Webhook entrant (serveur personnalisé -> Capiller Rely)
         inbound_desc: Mappez la charge utile JSON que votre serveur nous envoie aux
-          attributs client de Deskbolic.
+          attributs client de Capiller Rely.
         add_mapping: "+ Ajouter une cartographie"
         save: Enregistrer la configuration
         csat_survey: Enquête CSAT
@@ -2790,28 +2790,28 @@ fr:
         sla_policies: Politiques SLA
         header_name_placeholder: Nom de l'en-tête
         header_value_placeholder: Valeur d'en-tête
-        deskbolic_attribute_placeholder: Attribut Deskbolic
+        deskbolic_attribute_placeholder: Attribut Capiller Rely
         json_path_placeholder: Chemin JSON (par exemple, data.user.id)
       instructions:
         outbound_title: Réception de webhooks sortants
         webhook_secret: Votre secret Webhook
         inbound_title: Envoi de webhooks entrants
         hmac_token: Votre jeton HMAC
-        outbound_desc1: Lorsqu'un agent répond à une conversation dans Deskbolic,
+        outbound_desc1: Lorsqu'un agent répond à une conversation dans Capiller Rely,
           nous enverrons une demande POST à votre
         outbound_webhook_url_bold: URL du webhook sortant
         outbound_desc2: 'avec la charge utile JSON suivante :'
-        verify_desc1: Pour vérifier que la demande provient bien de Deskbolic, nous
+        verify_desc1: Pour vérifier que la demande provient bien de Capiller Rely, nous
           signons la charge utile en utilisant votre
         webhook_secret_bold: Secret du webhook
         verify_desc2: ". Nous incluons cette signature dans le"
         header_text: en-tête.
         inbound_desc1: 'Pour envoyer un message depuis votre backend personnalisé
-          vers Deskbolic, effectuez une requête POST à :'
+          vers Capiller Rely, effectuez une requête POST à :'
         inbound_desc2: Vous devez authentifier cette demande en incluant votre jeton
           HMAC dans le
         inbound_payload1: La charge utile JSON que vous envoyez peut être structurée
-          comme vous le souhaitez. Deskbolic utilisera votre
+          comme vous le souhaitez. Capiller Rely utilisera votre
         response_mapping_bold: Cartographie des réponses
         inbound_payload2: configuration pour extraire l'identifiant, le nom et le
           contenu du message du client.
@@ -2854,8 +2854,8 @@ fr:
       sso:
         title: Authentification unique (SSO) & Synchronisation d'annuaire
         description: Configurez l'authentification d'entreprise SAML 2.0 ou OIDC, vérifiez la propriété du domaine et gérez le provisionnement automatisé des utilisateurs.
-        sp_endpoints_title: Métadonnées du fournisseur de services (SP) Deskbolic
-        sp_endpoints_desc: Utilisez ces valeurs lors de la configuration de Deskbolic dans Okta, Azure AD, Google Workspace ou Ping Identity.
+        sp_endpoints_title: Métadonnées du fournisseur de services (SP) Capiller Rely
+        sp_endpoints_desc: Utilisez ces valeurs lors de la configuration de Capiller Rely dans Okta, Azure AD, Google Workspace ou Ping Identity.
         acs_url_label: URL du service consommateur d'assertions (ACS) / URL SSO
         entity_id_label: ID d'entité SP / URI d'audience
         metadata_url_label: URL XML des métadonnées SP
@@ -2938,7 +2938,7 @@ fr:
       integrations:
         index:
           title: Intégrations
-          description: Connectez Deskbolic à vos outils préférés.
+          description: Connectez Capiller Rely à vos outils préférés.
         new:
           title: Configurer %{provider}
           description: Configurez vos paramètres d'intégration.
@@ -2967,11 +2967,11 @@ fr:
           exchange_failed: "Échec de l'échange du jeton Slack : %{error}"
           unexpected_error: Une erreur inattendue s'est produite lors de l'authentification Slack.
         webhooks:
-          description: Envoyez des notifications d'événements en temps réel depuis Deskbolic vers vos propres serveurs et services externes.
+          description: Envoyez des notifications d'événements en temps réel depuis Capiller Rely vers vos propres serveurs et services externes.
           configured_count: "%{count} configuré"
           connect: Configurer les webhooks
           url_label: URL du webhook
-          url_hint: Le point de terminaison auquel Deskbolic enverra les requêtes POST pour les événements.
+          url_hint: Le point de terminaison auquel Capiller Rely enverra les requêtes POST pour les événements.
           secret_label: Secret du webhook
           secret_hint: Utilisez ce secret pour vérifier la signature HMAC des demandes entrantes.
           events_label: Événements abonnés
@@ -2982,7 +2982,7 @@ fr:
       api_keys:
         index:
           created_ago: Généré il y a %{date}
-          description: Gérez les clés API pour accéder à votre compte Deskbolic par
+          description: Gérez les clés API pour accéder à votre compte Capiller Rely par
             programmation.
           empty: Vous n'avez pas encore généré de clé API.
           empty_title: Aucune clé API pour l'instant
@@ -3005,7 +3005,7 @@ fr:
         title: Inviter un coéquipier
     portals:
       domain_assignment: AFFECTATION DE DOMAINE
-      free_subdomain: Sous-domaine Helpbolic gratuit
+      free_subdomain: Sous-domaine Capiller Rely Help gratuit
       manage_domains: Gérer les domaines
       no_custom_domains: Aucun domaine disponible. Ajoutez un domaine personnalisé
         avant de créer un centre d'aide.
@@ -3130,7 +3130,7 @@ fr:
       name_label: "Nom de l'agent"
       tone_label: "Tonalité de l'agent"
       system_prompt_label: "Instructions personnalisées (invite système)"
-      system_prompt_placeholder: "par ex. Vous êtes un robot de support utile pour Deskbolic. Soyez toujours poli."
+      system_prompt_placeholder: "par ex. Vous êtes un robot de support utile pour Capiller Rely. Soyez toujours poli."
       system_prompt_hint: "Cette invite guidera le comportement et les contraintes de l’IA."
       greeting_label: "Message d’accueil"
       greeting_placeholder: "Salut ! Comment puis-je vous aider aujourd'hui ?"
@@ -3307,7 +3307,7 @@ fr:
     workspace:
       email_invitation:
         title: Rejoindre l'espace de travail
-        description: Vous avez été invité à rejoindre une équipe sur Deskbolic
+        description: Vous avez été invité à rejoindre une équipe sur Capiller Rely
         members:
           one: "%{count} Membre actif"
           other: Membres actifs %{count}
@@ -3368,7 +3368,7 @@ fr:
       setting_up: Configuration de votre compte...
       marketing_text: Gérez efficacement votre support client.
       early_access_badge: "Accès Anticipé"
-      early_access_title: "Bienvenue dans l'Accès Anticipé Deskbolic"
+      early_access_title: "Bienvenue dans l'Accès Anticipé Capiller Rely"
       early_access_description: "Vous rejoignez notre aperçu bêta public. Nous améliorons continuellement nos fonctionnalités et serions ravis de recevoir vos retours lors de la configuration de votre espace."
       registration_disabled: "Les inscriptions sont temporairement fermées."
     passwords:
@@ -3582,7 +3582,7 @@ fr:
       select_agent: Sélectionnez un agent...
       select_attribute: Sélectionnez l'attribut...
       select_country_code: Sélectionnez le code du pays
-      select_deskbolic_attribute: Sélectionnez l'attribut Deskbolic
+      select_deskbolic_attribute: Sélectionnez l'attribut Capiller Rely
       select_email_channel: Sélectionnez le canal de messagerie...
       select_event: Sélectionnez un événement...
       select_language: Sélectionnez la langue...
@@ -3648,12 +3648,12 @@ fr:
       forward_email_verification:
         almost_complete: Votre configuration est presque terminée !
         ignore_notice: Veuillez ignorer cet e-mail. Il est automatiquement généré
-          par Deskbolic pour vérifier que vos règles de transfert de courrier électronique
+          par Capiller Rely pour vérifier que vos règles de transfert de courrier électronique
           fonctionnent correctement.
   notification_settings:
     browser_push: Notifications push du navigateur
     browser_push_desc: Activez les notifications push pour recevoir des alertes même
-      lorsque Deskbolic s'exécute en arrière-plan.
+      lorsque Capiller Rely s'exécute en arrière-plan.
     delivery_preferences: Préférences de diffusion
     delivery_preferences_desc: Choisissez comment vous souhaitez être informé pour
       chaque événement.
@@ -3739,12 +3739,12 @@ fr:
       message_field: "*Message :*\n%{message}"
       initial_message_field: "*Message initial :*\n%{message}"
       attachment_preview: "*(Pièce jointe / Média)*"
-      open_button: "Ouvrir dans Deskbolic ↗"
+      open_button: "Ouvrir dans Capiller Rely ↗"
       default_customer: "Client"
       default_channel: "Canal"
       default_support: "Support"
       default_conversation_preview: "Une nouvelle conversation client a été ouverte."
-      event_triggered: "Événement Deskbolic déclenché : %{event_name}"
+      event_triggered: "Événement Capiller Rely déclenché : %{event_name}"
   settings:
     csat:
       configuration: Configuration CSAT
@@ -3781,7 +3781,7 @@ fr:
       account_invitations:
         email_invitation:
           community_icon: Icône de la communauté
-          deskbolic_logo: Logo Deskbolic
+          deskbolic_logo: Logo Capiller Rely
           email_joining_icon: Icône de connexion par e-mail
         index:
           invitation_actions: Actions de l'invitation
@@ -3905,9 +3905,9 @@ fr:
             pour les bots dans les workfloes
           customize_the_reply_buttons_here: Personnalisez les boutons de réponse ici...
           default_language_english: Langue par défaut (anglais)
-          deskbolic_s_multilingual_support: Support multilingue de Deskbolic
-          deskbolic_s_pronoun_formality: Formalité du pronom de Deskbolic
-          deskbolic_s_reply_buttons: Boutons de réponse de Deskbolic
+          deskbolic_s_multilingual_support: Support multilingue de Capiller Rely
+          deskbolic_s_pronoun_formality: Formalité du pronom de Capiller Rely
+          deskbolic_s_reply_buttons: Boutons de réponse de Capiller Rely
           english_default: Anglais (par défaut)
           fin_s_pronoun_formality: Formalité du pronom de Fin
           fin_will_automatically_detect_and_reply_to_customer_in_the: Fin détectera
@@ -4091,12 +4091,12 @@ fr:
           index:
             identifier: 'Identifiant : %{identifier}'
           instructions:
-            deskbolic_signature: Signature Deskbolic
+            deskbolic_signature: Signature Capiller Rely
             for_example_in_ruby: ". Par exemple en Ruby :"
             header_using_the_format: en-tête utilisant le format
             t_timestamp_v1_signature: t={horodatage},v1={signature}
             to_verify_that_the_request_actually_came_from_deskbolic_we: Pour vérifier
-              que la demande provient bien de Deskbolic, nous signons la charge utile
+              que la demande provient bien de Capiller Rely, nous signons la charge utile
               en utilisant votre
             we_include_this_signature_in_the: ". Nous incluons cette signature dans
               le"
@@ -4112,7 +4112,7 @@ fr:
             e_g_my_internal_dashboard: par ex. Mon tableau de bord interne
           testing_sandbox:
             paste_a_sample_json_payload_that_your_server_would_send: Collez un exemple
-              de charge utile JSON que votre serveur enverrait à Deskbolic et voyez
+              de charge utile JSON que votre serveur enverrait à Capiller Rely et voyez
               comment votre mappage de réponse l'analyse.
             sends_a_mock_message_created_payload_to_your_configured_webhook: 'Envoie
               une charge utile simulée <code>message.created</code> à votre URL de
@@ -4150,7 +4150,7 @@ fr:
           installation:
             copy: "\U0001F4CB Copie"
             embed_the_deskbolic_widget_into_your_website_or_web_app: Intégrez le widget
-              Deskbolic dans votre site Web ou votre application Web en plaçant l'extrait
+              Capiller Rely dans votre site Web ou votre application Web en plaçant l'extrait
               suivant juste avant la balise de fermeture <code>&lt;/body&gt;</code>.
             react_next_js: Réagir / Next.js
             standard_html: HTML standard
@@ -4303,7 +4303,7 @@ fr:
           webhooks: Webhooks
         webhook_form:
           when_subscribed_events_occur_deskbolic_will_send_an_http_post: Lorsque des
-            événements souscrits se produisent, Deskbolic enverra une requête HTTP
+            événements souscrits se produisent, Capiller Rely enverra une requête HTTP
             POST à votre
       macros:
         edit:
@@ -4322,12 +4322,12 @@ fr:
           loading_more_notifications: Chargement de plus de notifications...
       pages:
         community_forum:
-          deskbolic_community_forum: Forum communautaire Deskbolic
+          deskbolic_community_forum: Forum communautaire Capiller Rely
           your_account: Votre compte
         help_center:
-          deskbolic_help_center: Centre d'aide Deskbolic
+          deskbolic_help_center: Centre d'aide Capiller Rely
         service_terms:
-          deskbolic_terms_and_policies: Conditions et politiques de Deskbolic
+          deskbolic_terms_and_policies: Conditions et politiques de Capiller Rely
       popup:
         canned_response_modal:
           create_a_new_reply: Créer une nouvelle réponse

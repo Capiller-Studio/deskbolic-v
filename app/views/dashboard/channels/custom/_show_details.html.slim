@@ -43,7 +43,7 @@ section.channel-edit-section.channel-edit-card
       = inline_svg_tag("document.svg", aria: { hidden: true })
     .channel-edit-section__heading-copy
       h2 = t("dashboard.channels.edit.developer_guide", default: "Developer Guide")
-      p = t("dashboard.channels.edit.developer_guide_hint", default: "Deskbolic sends a POST request to your outbound webhook when an agent replies.")
+      p = t("dashboard.channels.edit.developer_guide_hint", default: "Capiller Rely sends a POST request to your outbound webhook when an agent replies.")
   .channel-edit-section__body
     pre.channel-edit-code-block
       code = JSON.pretty_generate(event: "message.created", channel_id: channel.identifier, message: { id: "msg_12345", content: "Hello, how can I help you today?" })

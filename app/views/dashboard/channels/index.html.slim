@@ -40,6 +40,6 @@
               = image_tag channel_overview_icon(type == "all" ? "custom" : type), alt: "", aria: { hidden: true }
             h2 = t("dashboard.channels_overview.empty_title", default: "No channels found")
             - if type == "all"
-              p = t("dashboard.channels_overview.empty_description", default: "Connect a channel to start receiving customer conversations in Deskbolic.")
+              p = t("dashboard.channels_overview.empty_description", default: "Connect a channel to start receiving customer conversations in Capiller Rely.")
             - else
               p = t("dashboard.channels_overview.empty_filtered_description", type: channel_overview_type_label(type), default: "You haven't connected any %{type} channels yet.")

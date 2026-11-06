@@ -58,7 +58,7 @@ RSpec.describe 'Dashboard::Integrations', type: :request do
         'ok' => true,
         'access_token' => 'xoxb-test-token',
         'bot_user_id' => 'U12345',
-        'team' => { 'id' => 'T123', 'name' => 'Deskbolic Workspace' },
+        'team' => { 'id' => 'T123', 'name' => 'Capiller Rely Workspace' },
         'incoming_webhook' => {
           'channel' => '#support',
           'channel_id' => 'C123',
@@ -82,7 +82,7 @@ RSpec.describe 'Dashboard::Integrations', type: :request do
       expect(integration.settings['webhook_url']).to eq('https://hooks.slack.com/services/T123/B123/XXXXX')
       expect(integration.credentials['access_token']).to eq('xoxb-test-token')
       expect(integration.credentials['bot_user_id']).to eq('U12345')
-      expect(integration.metadata['team_name']).to eq('Deskbolic Workspace')
+      expect(integration.metadata['team_name']).to eq('Capiller Rely Workspace')
       expect(integration.metadata['team_id']).to eq('T123')
     end
 
@@ -116,7 +116,7 @@ RSpec.describe 'Dashboard::Integrations', type: :request do
       expect(delivery.resource).to eq(slack_integration)
       expect(delivery.event_name).to eq('message.created')
       expect(delivery.endpoint_url).to eq(slack_integration.webhook_url)
-      expect(delivery.request_payload['source']).to eq('Deskbolic Test')
+      expect(delivery.request_payload['source']).to eq('Capiller Rely Test')
 
       expect(response).to redirect_to(integrations_path)
       follow_redirect!

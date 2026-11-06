@@ -19,7 +19,7 @@ RSpec.describe 'SSO Settings Feature', type: :feature do
       visit settings_sso_path(locale: :en)
 
       expect(page).to have_text('Single Sign-On (SSO) & Directory Sync')
-      expect(page).to have_text('Deskbolic Service Provider (SP) Metadata')
+      expect(page).to have_text('Capiller Rely Service Provider (SP) Metadata')
       expect(page).to have_text('Identity Provider (IdP) Configuration')
       expect(page).to have_text('Domain Ownership Verification (DNS TXT)')
       expect(page).to have_text('SCIM 2.0 Directory Synchronization')

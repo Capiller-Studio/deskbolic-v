@@ -5,8 +5,8 @@
 .auth-page.auth-page--register.auth-page--workspace-new
   main.form-section.auth-main
     header.auth-header
-      = link_to root_path, class: "auth-logo", aria: { label: "Deskbolic" } do
-        = image_tag "logo.png", alt: "Deskbolic"
+      = link_to root_path, class: "auth-logo", aria: { label: "Capiller Rely" } do
+        = image_tag "logo.png", alt: "Capiller Rely"
       = link_to t("dashboard.sidebar.all_workspaces"), workspaces_path, class: "auth-secondary-button", data: { turbo: false }
 
     = form_for(@account, url: workspace_path(@account), html: { class: "auth-register-form", data: { turbo: false } }) do |f|

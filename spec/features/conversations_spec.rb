@@ -19,19 +19,19 @@ RSpec.describe 'Conversations Feature', type: :feature do
   context 'when there are conversations' do
     let!(:conversation) { create(:conversation, account: account, inbox: inbox, status: :active) }
     let!(:member) { create(:conversation_member, conversation: conversation, member: customer, account: account) }
-    let!(:message) { create(:message, conversation: conversation, sender: customer, account: account, content: 'Hello Deskbolic support team!') }
+    let!(:message) { create(:message, conversation: conversation, sender: customer, account: account, content: 'Hello Capiller Rely support team!') }
 
     it 'displays conversations in the list' do
       visit conversations_path
 
       expect(page).to have_content('Alex Johnson')
-      expect(page).to have_content('Hello Deskbolic support team!')
+      expect(page).to have_content('Hello Capiller Rely support team!')
     end
 
     it 'displays conversation details and messages when viewing a conversation' do
       visit conversation_path(id: conversation.id, locale: :en)
 
-      expect(page).to have_content('Hello Deskbolic support team!')
+      expect(page).to have_content('Hello Capiller Rely support team!')
       expect(page).to have_content('Alex Johnson')
     end
   end

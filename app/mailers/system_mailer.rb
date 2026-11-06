@@ -23,7 +23,7 @@ class SystemMailer < ApplicationMailer
     @account = email_channel.account
 
     # The subject contains the unique token which ActionMailbox will extract
-    subject = "Deskbolic Forwarding Verification: [#{@email_channel.forward_email_token}]"
+    subject = "Capiller Rely Forwarding Verification: [#{@email_channel.forward_email_token}]"
 
     # Send it TO the custom email address the user wants to forward
     # It should eventually reach the system's generated forward_email address
@@ -34,21 +34,21 @@ class SystemMailer < ApplicationMailer
     @account = account
     @subscription = account.active_subscription || account.subscriptions.order(created_at: :desc).first
 
-    mail(to: @account.email, subject: I18n.t("mailers.system_mailer.subscription_reminder.subject", default: "Action Required: Your Deskbolic subscription trial is ending soon"))
+    mail(to: @account.email, subject: I18n.t("mailers.system_mailer.subscription_reminder.subject", default: "Action Required: Your Capiller Rely subscription trial is ending soon"))
   end
 
   def subscription_past_due(account)
     @account = account
     @subscription = account.subscriptions.order(created_at: :desc).first
 
-    mail(to: @account.email, subject: I18n.t("mailers.system_mailer.subscription_past_due.subject", default: "Action Required: Your Deskbolic subscription is past due"))
+    mail(to: @account.email, subject: I18n.t("mailers.system_mailer.subscription_past_due.subject", default: "Action Required: Your Capiller Rely subscription is past due"))
   end
 
   def channel_reauthorization_required(channel)
     @channel = channel
     @account = channel.account
 
-    mail(to: @account.email, subject: I18n.t("mailers.system_mailer.channel_reauthorization_required.subject", default: "Action Required: Reauthorize your Deskbolic channel")) do |format|
+    mail(to: @account.email, subject: I18n.t("mailers.system_mailer.channel_reauthorization_required.subject", default: "Action Required: Reauthorize your Capiller Rely channel")) do |format|
       format.html { render(layout: false) }
       format.text
     end

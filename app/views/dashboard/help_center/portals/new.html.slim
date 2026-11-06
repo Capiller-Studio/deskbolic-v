@@ -93,7 +93,7 @@
           .domain-options style="margin-bottom: 24px;"
             label.option-pill class=("is-selected" if preselected_domain_type == "subdomain") data-portal-domain-target="option" data-action="click->portal-domain#select"
               = radio_button_tag "help_center_portal[domain_type]", "subdomain", preselected_domain_type == "subdomain", data: { portal_domain_target: "radio" }
-              span.f-reg-14 = I18n.t("dashboard.portals.free_subdomain", default: "Free Helpbolic Subdomain")
+              span.f-reg-14 = I18n.t("dashboard.portals.free_subdomain", default: "Free Capiller Rely Help Subdomain")
               span.option-check aria-hidden="true"
             label.option-pill class=[("is-selected" if preselected_domain_type == "custom"), ("is-disabled" unless custom_domain_supported)].compact.join(' ') data-portal-domain-target="option" data-action="click->portal-domain#select"
               = radio_button_tag "help_center_portal[domain_type]", "custom", preselected_domain_type == "custom", disabled: !custom_domain_supported, data: { portal_domain_target: "radio" }

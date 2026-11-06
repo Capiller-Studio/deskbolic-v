@@ -31,7 +31,7 @@
     <mj-wrapper css-class="invite-shell" background-color="#ffffff" padding="0">
       <mj-section background-color="#ffffff" padding="24px 40px" border-bottom="1px solid #e5e7eb">
         <mj-column width="62%" vertical-align="middle">
-          <mj-image src="[[ERB= asset_url('logo.png', host: ENV.fetch('FRONTEND_URL', 'http://localhost:3000')) ]]" href="[[ERB= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') ]]" alt="Deskbolic" width="132px" align="left" padding="0" />
+          <mj-image src="[[ERB= asset_url('logo.png', host: ENV.fetch('FRONTEND_URL', 'http://localhost:3000')) ]]" href="[[ERB= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') ]]" alt="Capiller Rely" width="132px" align="left" padding="0" />
         </mj-column>
         <mj-column width="38%" vertical-align="middle">
           <mj-text css-class="mobile-center" align="right" padding="0" font-size="11px" font-weight="700" color="#6366f1" letter-spacing="0.08em">TEAM INVITATION</mj-text>
@@ -41,7 +41,7 @@
       <mj-section background-color="#0f172a" padding="34px 40px 34px">
         <mj-column>
           <mj-text padding="0 0 10px" font-size="12px" font-weight="700" color="#a5b4fc" letter-spacing="0.12em">YOU'RE INVITED &nbsp;&bull;&nbsp; [[ERB= @account.name.upcase ]]</mj-text>
-          <mj-text padding="0 0 12px" font-size="28px" line-height="36px" font-weight="700" color="#ffffff">Join your team on Deskbolic</mj-text>
+          <mj-text padding="0 0 12px" font-size="28px" line-height="36px" font-weight="700" color="#ffffff">Join your team on Capiller Rely</mj-text>
           <mj-text padding="0" font-size="15px" line-height="24px" color="#cbd5e1">[[ERB= @inviter.display_name || @inviter.email ]] has invited you to collaborate on the [[ERB= @account.name ]] workspace. Accept below to get started.</mj-text>
         </mj-column>
       </mj-section>
@@ -114,14 +114,14 @@
       <mj-section background-color="#f8fafc" padding="22px 40px" border-top="1px solid #e5e7eb">
         <mj-column>
           <mj-text align="center" padding="0 0 7px" font-size="12px" line-height="19px" color="#64748b">This invitation was sent to [[ERB= @invitation.email ]]. Please do not reply to this automated message.</mj-text>
-          <mj-text align="center" padding="0" font-size="12px" line-height="19px" color="#94a3b8">&copy; [[ERB= Time.current.year ]] Deskbolic &nbsp;&bull;&nbsp; <a href="[[ERB= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') ]]" class="brand-link">Open workspace</a></mj-text>
+          <mj-text align="center" padding="0" font-size="12px" line-height="19px" color="#94a3b8">&copy; [[ERB= Time.current.year ]] Capiller Rely &nbsp;&bull;&nbsp; <a href="[[ERB= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') ]]" class="brand-link">Open workspace</a></mj-text>
         </mj-column>
       </mj-section>
     </mj-wrapper>
 
     <mj-section padding="24px 16px 32px">
       <mj-column>
-        <mj-text align="center" padding="0" font-size="11px" color="#94a3b8">Secure customer-support operations, powered by Deskbolic.</mj-text>
+        <mj-text align="center" padding="0" font-size="11px" color="#94a3b8">Secure customer-support operations, powered by Capiller Rely.</mj-text>
       </mj-column>
     </mj-section>
   </mj-body>

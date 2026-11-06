@@ -62,7 +62,7 @@
     <mj-wrapper css-class="notification-shell" background-color="#ffffff" padding="0">
       <mj-section background-color="#ffffff" padding="24px 40px" border-bottom="1px solid #e5e7eb">
         <mj-column width="62%" vertical-align="middle">
-          <mj-image src="[[ERB= asset_url('logo.png', host: ENV.fetch('FRONTEND_URL', 'http://localhost:3000')) ]]" href="[[ERB= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') ]]" alt="Deskbolic" width="132px" align="left" padding="0" />
+          <mj-image src="[[ERB= asset_url('logo.png', host: ENV.fetch('FRONTEND_URL', 'http://localhost:3000')) ]]" href="[[ERB= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') ]]" alt="Capiller Rely" width="132px" align="left" padding="0" />
         </mj-column>
         <mj-column width="38%" vertical-align="middle">
           <mj-text css-class="mobile-center" align="right" padding="0" font-size="11px" font-weight="700" color="#6366f1" letter-spacing="0.08em">
@@ -80,7 +80,7 @@
             [[ERB= I18n.t("notifications.events.#{@notification.event}", default: @notification.event.to_s.humanize) ]]
           </mj-text>
           <mj-text padding="0" font-size="15px" line-height="24px" color="#cbd5e1">
-            There is a new update that may require your attention. Review the details and continue in Deskbolic.
+            There is a new update that may require your attention. Review the details and continue in Capiller Rely.
           </mj-text>
         </mj-column>
       </mj-section>
@@ -173,7 +173,7 @@
           </mj-button>
           <mj-raw>[[ERB- end ]]</mj-raw>
           <mj-text padding="0" font-size="13px" line-height="21px" color="#64748b">
-            Review this update in your Deskbolic workspace and take any action required to keep customer support moving.
+            Review this update in your Capiller Rely workspace and take any action required to keep customer support moving.
           </mj-text>
         </mj-column>
       </mj-section>
@@ -184,7 +184,7 @@
             This automated operational notice was sent to [[ERB= @user.email ]]. Please do not reply to this email.
           </mj-text>
           <mj-text align="center" padding="0" font-size="12px" line-height="19px" color="#94a3b8">
-            &copy; [[ERB= Time.current.year ]] Deskbolic &nbsp;&bull;&nbsp;
+            &copy; [[ERB= Time.current.year ]] Capiller Rely &nbsp;&bull;&nbsp;
             <a href="[[ERB= ENV.fetch('FRONTEND_URL', 'http://localhost:3000') ]]" class="brand-link">Open workspace</a>
           </mj-text>
         </mj-column>
@@ -194,7 +194,7 @@
     <mj-section padding="24px 16px 32px">
       <mj-column>
         <mj-text align="center" padding="0" font-size="11px" color="#94a3b8">
-          Secure customer-support operations, powered by Deskbolic.
+          Secure customer-support operations, powered by Capiller Rely.
         </mj-text>
       </mj-column>
     </mj-section>

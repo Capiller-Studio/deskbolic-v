@@ -18,7 +18,7 @@ class ApplicationMailer < ActionMailer::Base
     "support@helpbolic.com"
   end
 
-  # Dynamically route emails ending in @helpbolic.com through the Helpbolic SMTP relay.
+  # Dynamically route emails ending in @helpbolic.com through the Capiller Rely Help SMTP relay.
   # Other emails (e.g., noreply@deskbolic.com) will fall back to the default SMTP in production.rb
   def set_delivery_options
     return unless Rails.env.production?

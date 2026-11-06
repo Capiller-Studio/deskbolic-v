@@ -413,6 +413,7 @@ Rails.application.routes.draw do
     namespace :internal do
       namespace :v1 do
         post "provision", to: "provisions#create"
+        post "suspend", to: "provisions#suspend"
       end
     end
 

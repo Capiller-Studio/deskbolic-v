@@ -52,7 +52,7 @@ services:
       anycable-rpc:
         condition: service_started
 
-  # ─── Main Deskbolic Web Application (Agent Dashboard) ──────────────────────
+  # ─── Main Capiller Rely Web Application (Agent Dashboard) ──────────────────────
   deskbolic:
     build:
       context: ..
@@ -81,7 +81,7 @@ services:
       RUN_SEEDS: ${RUN_SEEDS:-false}
       ADMIN_DEFAULT_EMAIL: ${ADMIN_DEFAULT_EMAIL:-admin@example.com}
       ADMIN_DEFAULT_PASSWORD: ${ADMIN_DEFAULT_PASSWORD:-ChangeMe123#}
-      ADMIN_DEFAULT_NAME: ${ADMIN_DEFAULT_NAME:-Deskbolic Admin}
+      ADMIN_DEFAULT_NAME: ${ADMIN_DEFAULT_NAME:-Capiller Rely Admin}
       OPENAI_ACCESS_TOKEN: ${OPENAI_ACCESS_TOKEN:-}
     volumes:
       - storage_data:/rails/storage
@@ -120,7 +120,7 @@ services:
       redis:
         condition: service_healthy
 
-  # ─── Help Center & Knowledge Base (Helpbolic) ──────────────────────────────
+  # ─── Help Center & Knowledge Base (Capiller Rely Help) ──────────────────────────────
   helpbolic:
     build:
       context: ..

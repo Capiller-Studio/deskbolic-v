@@ -2,6 +2,8 @@
 
 class SubdomainConstraint
   def self.matches?(request)
-    request.subdomain.present? && request.subdomain != "www"
+    return true if CapillerHost.app_host?(request.host)
+
+    CapillerHost.tenant_subdomain?(request.subdomain)
   end
 end

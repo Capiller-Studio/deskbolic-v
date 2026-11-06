@@ -6,8 +6,8 @@
 
 module Dashboard
   class WorkspaceController < DashboardController
-    skip_before_action :enforce_active_subscription, only: %i[index new create submitted]
-    skip_around_action :set_sharding_context, only: %i[index new create submitted]
+    skip_before_action :enforce_active_subscription, only: %i[index new create submitted activate]
+    skip_around_action :set_sharding_context, only: %i[index new create submitted activate]
 
     layout "auth"
 
@@ -31,6 +31,12 @@ module Dashboard
 
     def submitted; end
 
+    def activate
+      account = current_user.accounts.active.find(params[:id])
+      session[:account_id] = account.id
+      redirect_to(root_url, status: :see_other)
+    end
+
     private
 
     def workspace_request
@@ -49,9 +55,9 @@ module Dashboard
       account = Account.new(
         name: params[:account][:name],
         email: current_user.email,
-        currency: params[:currency].presence || "USD",
+        currency: "INR",
         locale: params[:account_locale].presence || I18n.locale,
-        shard_key: params[:shard_key].presence || "de",
+        shard_key: "de",
         timezone: params[:timezone].presence || "UTC",
         data: { "company-name" => params[:company_name], "workspace-size" => params[:workspace_size] }
       )
@@ -62,7 +68,8 @@ module Dashboard
 
       account.account_users.create!(user: current_user, owner: true)
 
-      redirect_to(root_url(subdomain: account.identifier), allow_other_host: true, status: :see_other, notice: "New workspace created successfully")
+      session[:account_id] = account.id
+      redirect_to(root_url, status: :see_other, notice: "New workspace created successfully")
     end
   end
 end

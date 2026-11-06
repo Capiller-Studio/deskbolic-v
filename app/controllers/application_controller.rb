@@ -28,11 +28,24 @@ class ApplicationController < ActionController::Base
   end
 
   def default_url_options
-    if I18n.locale.to_s == I18n.default_locale.to_s
+    options = if I18n.locale.to_s == I18n.default_locale.to_s
       { locale: nil }
     else
       { locale: I18n.locale }
     end
+    options.merge(host: CapillerHost.app_domain, protocol: CapillerHost.protocol)
+  end
+
+  def url_for(options = nil)
+    if options.is_a?(Hash)
+      options = options.to_h.symbolize_keys
+      options.delete(:subdomain)
+      unless options[:only_path]
+        options[:host] = CapillerHost.app_domain
+        options[:protocol] = CapillerHost.protocol
+      end
+    end
+    super
   end
 
   private

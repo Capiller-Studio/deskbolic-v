@@ -95,6 +95,7 @@ Rails.application.routes.draw do
       get "workspace", to: "workspace#new", as: :workspace
       post "workspace", to: "workspace#create"
       get "workspaces/:id/submitted", to: "workspace#submitted", as: "submitted"
+      post "workspaces/:id/activate", to: "workspace#activate", as: :activate_workspace
     # Removed: post "facebook_page", to: "facebook_page#index"  — replaced by facebook_channels resource below
     get "terms", to: "pages#service_terms"
     get "help-center", to: "pages#help_center"
@@ -409,6 +410,12 @@ Rails.application.routes.draw do
 
   # SCIM 2.0 Directory Sync API (RFC 7643 / 7644)
   namespace :api do
+    namespace :internal do
+      namespace :v1 do
+        post "provision", to: "provisions#create"
+      end
+    end
+
     namespace :scim do
       namespace :v2 do
         # RFC 7643 Discovery Endpoints (public — no auth required)

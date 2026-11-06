@@ -8,7 +8,6 @@
       .auth-brand-group
         = link_to root_path, class: "auth-logo", aria: { label: "Deskbolic" } do
           = image_tag "logo.png", alt: "Deskbolic"
-        span.auth-early-access-badge = t("auth.registration.trial_badge", default: "14-Day Free Trial")
       = link_to t("auth.login.submit"), new_user_session_path, class: "auth-secondary-button"
 
     = form_with url: registration_path(resource_name), method: :post, local: true, data: { controller: "registration-wizard", action: "submit->registration-wizard#submitForm turbo:submit-end->registration-wizard#handleSubmitEnd" }, class: "auth-register-form" do |f|
@@ -24,15 +23,6 @@
         .set-header
           h2 = t("auth.registration.step1_title")
           p = t("auth.registration.subtitle")
-
-        .auth-early-access-notice
-          .auth-early-access-notice__icon
-            svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-              path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"
-              path d="m9 12 2 2 4-4"
-          .auth-early-access-notice__content
-            h4.auth-early-access-notice__title = t("auth.registration.trial_title", default: "14-Day Free Trial • Instant Setup")
-            p.auth-early-access-notice__text = t("auth.registration.trial_description", default: "No credit card required. Full access to omnichannel shared inboxes, Live Chat widget, WhatsApp Cloud API, and Boli AI.")
 
         .form-fields
           .name-section
@@ -100,34 +90,6 @@
             = f.text_field :account_identifier, class: "form-control", placeholder: t("auth.placeholders.workspace_identifier"), autocomplete: "off", data: { registration_wizard_target: "identifierInput", action: "input->registration-wizard#handleIdentifierInput blur->registration-wizard#validateIdentifier" }
             p style="font-size: 12px; color: #6b7280; margin-top: 4px;" = t("auth.workspace_identifier_hint")
             p.text-red-500.text-sm.mt-1.hidden data-registration-wizard-target="identifierError" style="color: #ef4444; font-size: 12px; margin-top: 4px;"
-
-          .form-wrapper style="margin-bottom: 20px;"
-            .form-label style="display: flex; align-items: center; gap: 8px;"
-              label = t("auth.datacenter")
-              div.info-bubble data-tooltip=t("auth.datacenter_info") style="cursor: help; color: #9ca3af; display: flex;"
-                svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                  circle cx="12" cy="12" r="10"
-                  line x1="12" y1="16" x2="12" y2="12"
-                  line x1="12" y1="8" x2="12.01" y2="8"
-            .radio-button-group
-              .radio-button style="width: 100%; max-width: 350px;"
-                = radio_button_tag :shard_key, "de", true, id: "shard_key_de"
-                label for="shard_key_de"
-                  .icon-wrapper
-                    svg.icon viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                      ellipse cx="12" cy="5" rx="9" ry="3"
-                      path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"
-                      path d="M3 5v14c0 1.66 4 3 9 3s9-1.34-9-3V5"
-                  .details
-                    h3 = t("auth.datacenters.europe_germany")
-                    p = t("auth.datacenters.europe_germany_desc")
-                  / svg.checkmark-icon viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
-                  /   polyline points="20,6 12,17 4,12"
-
-          .form-wrapper
-            = f.label :currency, t("auth.currency"), class: "form-label"
-            = f.select :currency, [["USD ($)", "USD"], ["EUR (€)", "EUR"], ["GBP (£)", "GBP"]], { selected: cookies[:currency].presence || cookies[:selected_currency].presence || params[:currency] }, class: "form-control", data: { controller: "select" }
-          p style="font-size: 12px; color: #565656; margin-top: -10px; margin-bottom: 15px;" = t("auth.currency_hint")
 
           .form-wrapper
             = f.label :account_locale, t("auth.default_language"), class: "form-label"

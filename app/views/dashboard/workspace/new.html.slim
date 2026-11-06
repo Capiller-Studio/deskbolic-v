@@ -7,7 +7,7 @@
     header.auth-header
       = link_to root_path, class: "auth-logo", aria: { label: "Deskbolic" } do
         = image_tag "logo.png", alt: "Deskbolic"
-      = link_to t("dashboard.sidebar.all_workspaces"), workspaces_path(subdomain: ""), class: "auth-secondary-button", data: { turbo: false }
+      = link_to t("dashboard.sidebar.all_workspaces"), workspaces_path, class: "auth-secondary-button", data: { turbo: false }
 
     = form_for(@account, url: workspace_path(@account), html: { class: "auth-register-form", data: { turbo: false } }) do |f|
       fieldset.company-section
@@ -19,32 +19,6 @@
           .form-wrapper
             = f.label :name, t("auth.workspace_name"), class: "form-label"
             = f.text_field :name, autofocus: true, class: "form-control", placeholder: t("auth.placeholders.workspace"), required: true
-
-          .form-wrapper style="margin-bottom: 20px;"
-            .form-label style="display: flex; align-items: center; gap: 8px;"
-              label = t("auth.datacenter")
-              .info-bubble data-tooltip=t("auth.datacenter_info") style="cursor: help; color: #9ca3af; display: flex;"
-                svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"
-                  circle cx="12" cy="12" r="10"
-                  line x1="12" y1="16" x2="12" y2="12"
-                  line x1="12" y1="8" x2="12.01" y2="8"
-            .radio-button-group
-              .radio-button
-                = radio_button_tag :shard_key, "de", true, id: "shard_key_de"
-                label for="shard_key_de"
-                  .icon-wrapper
-                    svg.icon viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"
-                      ellipse cx="12" cy="5" rx="9" ry="3"
-                      path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"
-                      path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"
-                  .details
-                    h3 = t("auth.datacenters.europe_germany")
-                    p = t("auth.datacenters.europe_germany_desc")
-
-          .form-wrapper
-            = f.label :currency, t("auth.currency"), class: "form-label"
-            = f.select :currency, [["USD ($)", "USD"], ["EUR (€)", "EUR"], ["GBP (£)", "GBP"]], { selected: cookies[:currency].presence || cookies[:selected_currency].presence || params[:currency] }, class: "form-control", data: { controller: "select" }
-          p style="font-size: 12px; color: #565656; margin-top: -10px; margin-bottom: 15px;" = t("auth.currency_hint")
 
           .form-wrapper
             = f.label :account_locale, t("auth.default_language"), class: "form-label"

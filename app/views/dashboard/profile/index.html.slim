@@ -60,7 +60,7 @@
           .mobile-profile-workspace-list
             - current_user.accounts.sort_by { |account| account == current_account ? 0 : 1 }.each do |account|
               - active_account = account == current_account
-              = link_to root_url(subdomain: account.identifier), class: "mobile-profile-workspace #{active_account ? 'is-active' : ''}", data: { turbo: false } do
+              = button_to activate_workspace_path(account), method: :post, class: "mobile-profile-workspace #{active_account ? 'is-active' : ''}", form: { data: { turbo: false } } do
                 .mobile-profile-workspace-avatar.avatar-fallback class=avatar_fallback_color_class(account.name)
                   = initials(account, limit: 2)
                 .mobile-profile-workspace-details
@@ -71,10 +71,10 @@
                     svg viewBox="0 0 20 20" fill="none"
                       path d="M4 10.5 8 14l8-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
 
-          = link_to workspaces_url(subdomain: ""), class: "mobile-profile-account-link", data: { turbo: false } do
+          = link_to workspaces_path, class: "mobile-profile-account-link", data: { turbo: false } do
             span = t("dashboard.sidebar.all_workspaces")
 
-          = link_to workspace_path(subdomain: ""), class: "mobile-profile-account-link", data: { turbo: false } do
+          = link_to workspace_path, class: "mobile-profile-account-link", data: { turbo: false } do
             span.mobile-profile-account-link-icon aria-hidden="true"
               = inline_svg_tag("plus_black.svg")
             span = t("auth.login.create_account", default: "Create Account")

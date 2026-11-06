@@ -48,11 +48,7 @@ class DashboardController < ApplicationController
   def current_account
     return @current_account if defined?(@current_account)
 
-    if request.subdomain.present? && request.subdomain != "www"
-      @current_account = Account.find_by(identifier: request.subdomain)
-    else
-      @current_account = nil
-    end
+    @current_account = resolve_workspace_account
   end
 
   def current_account_user
@@ -80,33 +76,57 @@ class DashboardController < ApplicationController
   def ensure_subdomain_for_account
     return unless user_signed_in?
 
-    # Allow accessing apex routes without subdomain redirect, supporting localized routes
     apex_allowed_paths = [ "/workspaces", "/workspace", "/profile" ]
     return if apex_allowed_paths.any? { |p| unlocalized_path == p || unlocalized_path.start_with?("#{p}/") }
 
     active_accounts = current_user.accounts.active
-    if active_accounts.any?
-      if request.subdomain.blank? || request.subdomain == "www"
-        if active_accounts.count == 1
-          redirect_to(root_url(subdomain: active_accounts.first.identifier), allow_other_host: true)
-        else
-          redirect_to(workspaces_url(subdomain: ""), allow_other_host: true)
-        end
-      elsif current_account.nil? || !active_accounts.exists?(id: current_account.id)
-        if active_accounts.count == 1
-          redirect_to(root_url(subdomain: active_accounts.first.identifier), allow_other_host: true, alert: I18n.t("dashboard.workspace.not_authorized", default: "You do not have access to that workspace."))
-        else
-          redirect_to(workspaces_url(subdomain: ""), allow_other_host: true, alert: I18n.t("dashboard.workspace.not_authorized", default: "You do not have access to that workspace."))
-        end
-      end
+    return if active_accounts.empty?
+
+    if current_account && active_accounts.exists?(id: current_account.id)
+      session[:account_id] = current_account.id
+      return
     end
+
+    if active_accounts.one?
+      session[:account_id] = active_accounts.first.id
+      @current_account = active_accounts.first
+      return
+    end
+
+    tried_slug = params[:workspace].presence
+    tried_slug ||= request.subdomain if CapillerHost.tenant_subdomain?(request.subdomain)
+    alert = if tried_slug.present?
+      I18n.t("dashboard.workspace.not_authorized", default: "You do not have access to that workspace.")
+    end
+    redirect_to(workspaces_url, alert: alert)
   end
 
   def redirect_if_no_accounts
     if user_signed_in? && current_user.accounts.active.empty?
       allowed_paths = [ "/workspace", "/workspaces/#{current_user.id}/submitted", "/profile" ]
-      redirect_to(workspace_url(subdomain: ""), allow_other_host: true) unless allowed_paths.any? { |p| unlocalized_path == p || unlocalized_path.start_with?("#{p}/") }
+      redirect_to(workspace_url) unless allowed_paths.any? { |p| unlocalized_path == p || unlocalized_path.start_with?("#{p}/") }
     end
+  end
+
+  def resolve_workspace_account
+    return unless user_signed_in?
+
+    accounts = current_user.accounts.active
+    if session[:account_id].present?
+      found = accounts.find_by(id: session[:account_id])
+      return found if found
+    end
+
+    slug = params[:workspace].presence
+    if slug.blank? && CapillerHost.tenant_subdomain?(request.subdomain)
+      slug = request.subdomain
+    end
+    if slug.present?
+      found = accounts.find_by(identifier: slug)
+      return found if found
+    end
+
+    accounts.one? ? accounts.first : nil
   end
 
   def unlocalized_path

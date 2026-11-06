@@ -34,32 +34,27 @@ module Dashboard
     protected
 
     def after_sign_in_path_for(resource)
-      # 1. If signing in on a specific account subdomain
-      if request.subdomain.present? && request.subdomain != "www"
-        subdomain_account = Account.find_by(identifier: request.subdomain)
-        if subdomain_account && resource.accounts.active.exists?(id: subdomain_account.id)
-          if subdomain_account.subscriptions.empty?
-            return new_subscription_url(subdomain: subdomain_account.identifier)
-          end
-
-          return root_url(subdomain: subdomain_account.identifier)
-        end
-      end
-
-      # 2. Apex domain login routing
+      account = account_for_sign_in(resource)
       active_accounts = resource.accounts.active
-      if active_accounts.empty?
-        workspace_url(subdomain: "")
-      elsif active_accounts.count == 1
+
+      if account.nil? && active_accounts.one?
         account = active_accounts.first
-        if account.subscriptions.empty?
-          new_subscription_url(subdomain: account.identifier)
-        else
-          root_url(subdomain: account.identifier)
-        end
-      else
-        workspaces_url(subdomain: "")
       end
+
+      if account
+        session[:account_id] = account.id
+        return account.subscriptions.empty? ? new_subscription_url : root_url
+      end
+
+      active_accounts.empty? ? workspace_url : workspaces_url
+    end
+
+    def account_for_sign_in(resource)
+      slug = params[:workspace].presence
+      slug ||= request.subdomain if CapillerHost.tenant_subdomain?(request.subdomain)
+      return if slug.blank?
+
+      resource.accounts.active.find_by(identifier: slug)
     end
 
     private

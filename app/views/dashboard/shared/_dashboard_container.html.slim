@@ -11,7 +11,7 @@
             /     = image_tag('ai_agent.png', alt: 'AI Agent', class: 'link-icon')
             - current_user&.accounts&.each do |account|
               li.nav-item class="#{current_account&.id == account.id ? 'dash-nav-active' : ''}"
-                = link_to root_url(subdomain: account.identifier), class: "nav-link", title: account.name, data: { turbo: false } do
+                = button_to activate_workspace_path(account), method: :post, class: "nav-link", form: { data: { turbo: false } }, title: account.name do
                   = image_tag('helpdesk_icon.svg', alt: account.name, class: 'switch-icon')
             li.nav-item
               = link_to(workspace_path, class: "nav-link") do
@@ -48,7 +48,7 @@
                 /   = inline_svg_tag("theme.svg", class:"menu-icon", alt:"menu")
                 /   p.f-semi-14 Theme
                 /   = inline_svg_tag("light_theme.svg", class:"ml-auto", alt:"menu")
-                = link_to(workspaces_url(subdomain: ""), class: "menu-link", data: { turbo: false }) do
+                = link_to(workspaces_path, class: "menu-link", data: { turbo: false }) do
                   p.f-semi-14 = t("dashboard.sidebar.all_workspaces")
                 = link_to(help_center_path, class: "menu-link") do
                   p.f-semi-14 = t("ui.dashboard.shared.dashboard_container.help_desk_help_center")

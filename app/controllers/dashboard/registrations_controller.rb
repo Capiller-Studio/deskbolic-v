@@ -7,86 +7,19 @@
 module Dashboard
   class RegistrationsController < Devise::RegistrationsController
     layout "auth"
-    invisible_captcha only: :create, honeypot: :gift_vcode, scope: :user
 
-    before_action :check_registration_enabled, only: [ :new, :create ]
+    prepend_before_action :redirect_public_registration, only: [ :new, :create ]
 
     def registered
       render("dashboard/registrations/registered")
     end
 
+    def new
+      redirect_public_registration
+    end
+
     def create
-      # The form data from the wizard will come nested under user (or account)
-      registration_params = {
-        email: params[:user][:email],
-        password: params[:user][:password],
-        first_name: params[:user][:first_name],
-        last_name: params[:user][:last_name],
-        country: params[:country],
-        account_name: params[:account_name],
-        identifier: params[:account_identifier].presence || params[:identifier].presence,
-        currency: params[:currency],
-        shard_key: params[:shard_key],
-        locale: params[:account_locale],
-        user_locale: I18n.locale,
-        invitation_token: params[:invitation_token],
-        as_affiliate: false # Modify if needed
-      }
-
-      result = Accounts::RegistrationService.call(**registration_params)
-
-      if result.success?
-        user = result.user
-        @selected_plan_id = selected_plan_id
-        @selected_billing_cycle = selected_billing_cycle
-
-        referral_code = params[:ref].presence || cookies[:ref]
-
-        if referral_code.present? && result.account.present?
-          Affiliates::Referrals::Tracker.call(account: result.account, referral_code: referral_code)
-        end
-
-        create_selected_subscription(result.account)
-
-        if user.active_for_authentication?
-          set_flash_message!(:notice, :signed_up)
-          sign_up(resource_name, user)
-          @registered_account = result.account
-
-          clear_onboarding_cookies
-
-          respond_to do |format|
-            format.html { redirect_to(after_sign_up_path_for(user), status: :see_other) }
-            format.turbo_stream { redirect_to(after_sign_up_path_for(user), status: :see_other) }
-          end
-        else
-          set_flash_message!(:notice, :"signed_up_but_#{user.inactive_message}")
-          expire_data_after_sign_in!
-          clear_onboarding_cookies
-
-          respond_to do |format|
-            format.html { redirect_to(after_inactive_sign_up_path_for(user), status: :see_other) }
-            format.turbo_stream do
-              render(turbo_stream: turbo_stream.replace(
-                "registration-wizard",
-                partial: "dashboard/registrations/registered_success"
-              ))
-            end
-          end
-        end
-      else
-        @errors = result.errors
-        # Let turbo handle the error state rendering, or we can just render the form again
-        respond_to do |format|
-          format.html do
-            flash.now[:alert] = @errors.map { |e| e[:message] }.join(", ")
-            render(:new, status: :unprocessable_entity)
-          end
-          format.turbo_stream do
-            render(turbo_stream: turbo_stream.replace("registration-form-errors", partial: "dashboard/registrations/errors", locals: { errors: @errors }))
-          end
-        end
-      end
+      redirect_public_registration
     end
 
     def redirect_to(options = {}, response_options = {})
@@ -125,15 +58,17 @@ module Dashboard
     private
 
     def check_registration_enabled
-      # if ENV.fetch("DISABLE_REGISTRATION", "true") == "true"
-      #   authenticate_or_request_with_http_basic("Deskbolic Private Beta") do |username, password|
-      #     username == "techbolic" && password == "betaaccess2026"
-      #   end
-      # end
-
       return unless ENV["DISABLE_REGISTRATION"] == "true"
 
       redirect_to new_user_session_path, alert: t("auth.registration.registration_disabled", default: "Registration is temporarily closed.")
+    end
+
+    def redirect_public_registration
+      redirect_to(
+        ENV.fetch("WORKSPACE_ADMIN_URL", "https://workspace-admin.capiller.com"),
+        allow_other_host: true,
+        status: :see_other
+      )
     end
     def clear_onboarding_cookies
       cookies.delete(:ref)

@@ -71,7 +71,9 @@ Rails.application.configure do
   # config.action_mailer.raise_delivery_errors = false
 
   # Set host to be used by links generated in mailer templates.
-  config.action_mailer.default_url_options = { host: ENV.fetch("DESKBOLIC_URL", "https://deskbolic.app") }
+  capiller_app_domain = ENV.fetch("APP_DOMAIN", "workspace.capiller.com").sub(%r{\Ahttps?://}, "").split("/").first.to_s.split(":").first
+  config.action_mailer.default_url_options = { host: capiller_app_domain, protocol: "https" }
+  config.action_dispatch.tld_length = [ capiller_app_domain.split(".").length - 1, 0 ].max
   config.action_mailer.delivery_method = :smtp
 
   config.action_mailer.smtp_settings = {
@@ -103,8 +105,7 @@ Rails.application.configure do
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 
-  config.hosts << ENV.fetch("MAIN_DOMAIN", "deskbolic.app")
-  config.hosts << ".#{ENV.fetch("MAIN_DOMAIN", "deskbolic.app")}"
+  config.hosts << capiller_app_domain
 
   config.host_authorization = {
     response_app: lambda { |_env|
